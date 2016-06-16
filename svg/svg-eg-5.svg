@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg x="0" y="0" height="700" width="700" viewport="0 0 700 700"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+
+ <linearGradient id="gradient" >
+  <stop offset="0" style="stop-color: #fa0" />
+	<stop offset=".85" style="stop-color: #af0" />
+	<stop offset="1.0" style="stop-color: #0af" />
+ </linearGradient>
+ 
+ <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="diag1" >
+ <stop offset="0" style="stop-color: #fa0" />
+	<stop offset=".5" style="stop-color: #af0" />
+	<stop offset="1.0" style="stop-color: #0af" />
+ </linearGradient>
+ 
+ <rect id="rect1" x="100" y="10" width="200" height="100"
+  style="fill: url(#diag1)" />
+	
+ <filter id="displace">
+  <feImage xlink:href="40x40-button-2.png" result="grad" />
+	
+	<feDisplacementMap
+	  scale="10.0"
+		XChannelSelector="R"
+		YChannelSelector="G"
+		in="SourceGraphic" in2="grad" result="disp" />
+	<feComposite in2="grad" in="disp" operator="in" result="ghost"/>
+	<feComposite in2="ghost" in="grad" />
+ </filter>
+
+ <rect id="graphic" x="0" y="0" height="200" width="200"  />
+ 
+ 
+ <filter id="glow">
+  <feColorMatrix type="matrix" in="SourceGraphic" result="matrix"
+    values="0 0 0  0.0  0
+            0 0 0  0.9  0
+            0 0 0  0.9  0
+            0 0 0  1.0  0"  />
+  <feGaussianBlur stdDeviation="2.5" in="matrix" result="colorBlur" />
+  <feComposite in="SourceGraphic" in2="colorBlur" operator="over" />
+ </filter>
+
+</defs>
+
+<use xlink:href="#rect1"  filter="url(#displace)"/>
+
+</svg>

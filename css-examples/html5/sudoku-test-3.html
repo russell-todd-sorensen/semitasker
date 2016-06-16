@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sudoku Test 1</title>
+
+<style type="text/css">
+	pre, #target, #x {
+        background-color: black;
+        color: white;
+        border-color: red;
+        border-width: 1px;
+        border-style: solid;
+        font-family: "Courier New", Courier, monospace;
+    }
+</style>
+
+<script type="text/javascript" src="logger.js"></script>
+
+<script type="text/javascript" >
+	//setup logging element id
+	Logger = "logger2";
+</script>
+
+<script type="text/javascript" src="sudoku-lib.js" ></script>
+<script type="text/javascript" >
+
+var myArray;
+var arr1 = new Array() 
+arr1 = [1,2,3,4];
+function defineIt(num) {
+	myArray = new Array(num);
+	if (defineIt.arguments.length > 1) {
+		myArray = defineIt.arguments[1];
+	} else {
+		myArray = arr1;
+	}
+	Log("Notice", myArray);
+}
+
+</script>
+</head>
+
+<body onLoad='Log("Notice", "Page Loaded"); setupSudoku();'>
+
+<p id="x" onMouseDown="defineIt(5); document.getElementById('x').innerHTML = myArray.toString();">Define the array.</p>
+<p id="target" onMouseOver='solveSudoku()' >Solve me</p>
+
+<pre id="logger2" onMouseOver='Log("Notice", "Mouse is over me now")'>
+</pre>
+
+<p id="target" onMouseOver='Log("Notice", boxMask)' >Hit me</p>
+
+</body>
+</html>

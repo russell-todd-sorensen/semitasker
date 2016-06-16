@@ -1,0 +1,108 @@
+@import url(main.css);
+
+.container { 
+  background-color: #930;
+  width: 208px;
+  height: 98px;
+  margin: auto;
+  overflow: hidden;
+  padding: 0px;
+}
+
+.before-tear, .box, .after-tear {
+  text-align: center;
+  display: inline-block;
+  height: 100px;
+  width: 70px;
+  margin-left: -2px;
+  margin-right: -2px;
+}
+
+.box {
+	background-color: yellow;  
+    padding: 0px; 
+}
+
+.box-inner {
+    text-align: center;
+    display:inline-block;
+    background-color:#930 ;
+    padding: 0px;
+    border: none;
+    border-radius: 15px 0px 15px 0px;
+    width: 70px;
+    margin: 0px;
+    height: 100px;
+}
+
+.before-tear, .after-tear { 
+  background-color: yellow;
+}
+
+.before-tear { 
+  border-radius: 0px 0px 30px 0px;
+
+}
+
+.after-tear { 
+  border-radius: 30px 0px 0px 0px;
+}
+
+.row {
+    width: 300px;
+    margin: auto;
+}
+
+#controls {
+    margin: auto;
+    margin-top: 5px;
+    width: 150px;
+}
+
+#goBackward, #goForward {
+    height: 25px;
+    width: 60px;
+    background-color: #930;
+    color: yellow;
+    display: inline-block;
+    border-style:outset;
+    border-width: 4px;
+    border-color: #930;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 5px;
+}
+
+#goBackward:hover, 
+#goForward:hover {
+    border-style: inset;
+}
+
+.hide {
+    display: none;
+}
+
+.heading {
+    padding-top: 40px;
+    display: none;
+    color: #930;
+    background-color: white;
+    margin: auto;
+}
+
+.stage {
+    display: block;
+    height: 150px;
+    min-height: 150px;
+    width: 500px;
+    min-width: 500px;
+    margin: auto;
+    padding-top: 20px;
+    border: 1px solid black;
+}
+
+#step1, #step2, #step3, #step4, #step5, #step0 {
+    font-weight: bold;
+    margin: auto;
+    text-align: center;
+}

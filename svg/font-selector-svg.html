@@ -1,0 +1,498 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Font Selector for HTML and SVG</title>
+ <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+ <link rel="stylesheet" type="text/css" 
+       href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<style>
+html {
+    font-family: "Hobo Std";
+
+}
+
+#logo2 {
+    font-family: "gulim"; /* constant stroke width font */
+    font-size: 50pt; 
+    fill: gold; 
+    stroke-width: 1px; 
+    stroke: black;
+}
+
+#lower::before {
+    content: "Lower: ";
+}
+
+#upper {
+    text-transform: uppercase;
+}
+
+#upper::before {
+    content: "Upper: ";
+}
+    
+.allChars {
+    width: 100%;
+}
+
+#links {
+    background-color: #603;
+    padding: 10px;
+}
+#links a:link, 
+#links a:visited {
+    color: white;
+}
+
+#change-font {
+    font-size: 20px;
+    color: #603;
+    font-weight: bold;
+}
+
+#change-font input,
+#change-font select {
+    font-size: smaller;
+    color: inherit;
+    font-weight: bold;
+}
+
+#font-count {
+    display: inline-block;
+}
+
+svg {
+    fill: #603;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.center {
+    fill: none;
+    stroke: black;
+    stroke-width: 1px;
+}
+
+.bg {
+    background-color: white;
+    fill: white; 
+    stroke: #603;
+    stroke-width: 2px;
+}
+
+#font-test text {
+    fill: white;
+    stroke: white;
+    stroke-width: 0;
+}
+
+.font-name {
+    background-color: #603;
+    fill: #603;
+}
+
+.norm {
+    color: #603;
+    fill: #603;
+    stroke: none;
+    background-color: none;
+    stroke-width: 0;
+}
+
+.outline {
+    fill: none;
+    stroke: #603;
+    stroke-width: 1px;
+    stroke-miterlimit: 1px;
+    text-rendering: geometricPrecision;
+}
+
+.reverse {
+    fill: white;
+}
+
+
+#text-distort {
+  /*  color: #603;
+    fill: #603;
+    stroke: none;
+    stroke-color: none; */
+}
+
+
+
+/* for the font-distort form */
+
+#font-distort ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 0;   
+    width: 250px;
+}
+
+#font-distort li {
+    display: block;
+    overflow: hide;
+    border: 1px solid black;
+}
+
+#font-distort label {
+    cursor: pointer;
+}
+
+#font-distort .expand {
+    width: 250;
+}
+
+.bullseye {
+    stroke: green;
+    stroke-width: 2px;
+    fill: none;
+}
+    
+</style>
+
+<!--<link rel="stylesheet" type="text/css" href="/css/box-model.css" media="all">-->
+ <script src="/js/jquery-1.7.1.js"></script>
+ <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+ <script src="/js/d3.v3.js"></script>
+ <script src="/js/log-2.js"></script>
+ <script src="/js/data.js"></script>
+ <script src="/js/form-save-restore.js"></script>
+ <!--
+ <script src="chrome://resources/js/i18n_template2.js"></script>
+ 
+ -->
+ 
+<!-- here comes the local script    -->
+<script>
+
+Data.changeFontSize = function (inputId) {
+  
+  var fontSize = parseInt($('#' + inputId).val());
+  
+  if (arguments.length == 1) {
+    $('body').css('font-size','' + fontSize + 'px');
+  } else {
+    var selector;
+    for (var i = 1; i < arguments.length; i++) {
+      selector = arguments[i];
+      $(selector).css('font-size','' + fontSize + 'px');
+    }
+  }
+  
+  var call = "Data.saveInput('" + inputId + "','Data.changeFontSize'";
+  for (var i = 1; i< arguments.length; i++) {
+    call = call + ",'" + arguments[i] + "'";
+  }
+  
+  call += ");";
+  setTimeout(call, 10);
+  return false;
+}
+var SvgTransform = {};
+
+SvgTransform.skewX = function(inputId) {
+
+	var skewAngle = parseInt($('#' + inputId).val());
+	var selector;
+  for (var i = 1; i < arguments.length; i++) {
+    selector = arguments[i];
+    $(selector).attr('transform','skewX(' + skewAngle + ')');
+		//d3.select(selector).attr('transform', 'skewX(' + skewAngle + ')');
+  }
+	var call = "Data.saveInput('" + inputId + "','SvgTransform.skewX'";
+	for (var i = 1; i< arguments.length; i++) {
+    call = call + ",'" + arguments[i] + "'";
+  }
+  
+  call += ");";
+  setTimeout(call, 10);
+  return false;
+}
+	
+SvgTransform.skewY = function(inputId) {
+
+	var skewAngle = parseInt($('#' + inputId).val());
+	var selector;
+  for (var i = 1; i < arguments.length; i++) {
+    selector = arguments[i];
+    $(selector).attr('transform','skewY(' + skewAngle + ')');
+		//d3.select(selector).attr('transform', 'skewX(' + skewAngle + ')');
+  }
+	var call = "Data.saveInput('" + inputId + "','SvgTransform.skewY'";
+	for (var i = 1; i< arguments.length; i++) {
+    call = call + ",'" + arguments[i] + "'";
+  }
+  
+  call += ");";
+  setTimeout(call, 10);
+  return false;
+}
+
+SvgTransform.SvgText = function(inputId) {
+
+	var text = $('#' + inputId).val();
+	var selector;
+  for (var i = 1; i < arguments.length; i++) {
+    selector = arguments[i];
+    $(selector).text(text);
+  }
+	var call = "Data.saveInput('" + inputId + "','SvgTransform.SvgText'";
+	for (var i = 1; i< arguments.length; i++) {
+    call = call + ",'" + arguments[i] + "'";
+  }
+  
+  call += ");";
+  setTimeout(call, 10);
+  return false;
+}
+
+SvgTransform.rotate = function(inputId) {
+
+  var rotateCx = parseInt($('#rotate-cx').val());
+  var rotateCy = parseInt($('#rotate-cy').val());
+	var rotateAngle = parseInt($('#rotate-angle').val());
+	var selector;
+  for (var i = 1; i < arguments.length; i++) {
+    selector = arguments[i];
+    $(selector).attr('transform','rotate(' + rotateAngle + ',' + rotateCx + ',' + rotateCy + ')');
+  }
+	$('.center')
+		.attr('cx', rotateCx)
+		.attr('cy', rotateCy);
+		
+	var call = "Data.saveInput('" + inputId + "','SvgTransform.rotate'";
+	for (var i = 1; i< arguments.length; i++) {
+    call = call + ",'" + arguments[i] + "'";
+  }
+  
+  call += ");";
+  setTimeout(call, 10);
+  return false;
+}
+
+SvgTransform.translateX = function(xInputId) {
+	
+	var charX;
+	var yInputId = "";
+	// get yInputId by synthesis from xInputId
+	for (var i = 0; i< xInputId.length; i++) {
+		charX = xInputId[i];
+		if (charX == 'x') {
+			yInputId += 'y';
+		}
+		else if (charX == 'X') {
+			yInputId += 'Y';
+		}
+		else {
+			yInputId += charX;
+		}
+	}
+	
+	var x = parseInt($('#' + xInputId).val());
+	var y = parseInt($('#' + yInputId).val());
+
+	var selector;
+  for (var i = 1; i < arguments.length; i++) {
+    selector = arguments[i];
+    $(selector).attr('transform','translate(' + x + ',' + y + ')');
+  }
+	
+	var call = "Data.saveInput('" + xInputId + "','SvgTransform.translateX'";
+	for (var i = 1; i< arguments.length; i++) {
+    call = call + ",'" + arguments[i] + "'";
+  }
+  
+  call += ");";
+  setTimeout(call, 10);
+  return false;
+}
+
+SvgTransform.translateY = function(yInputId) {
+	
+	var charY;
+	var xInputId = "";
+	// get yInputId by synthesis from xInputId
+	for (var i = 0; i< yInputId.length; i++) {
+		charY = yInputId[i];
+		if (charY == 'y') {
+			xInputId += 'x';
+		}
+		else if (charY == 'Y') {
+			xInputId += 'X';
+		}
+		else {
+			xInputId += charY;
+		}
+	}
+	
+	var x = parseInt($('#' + xInputId).val());
+	var y = parseInt($('#' + yInputId).val());
+
+	var selector;
+  for (var i = 1; i < arguments.length; i++) {
+    selector = arguments[i];
+    $(selector).attr('transform','translate(' + x + ',' + y + ')');
+  }
+	
+	var call = "Data.saveInput('" + yInputId + "','SvgTransform.translateY'";
+	for (var i = 1; i< arguments.length; i++) {
+    call = call + ",'" + arguments[i] + "'";
+  }
+  
+  call += ");";
+  setTimeout(call, 10);
+  return false;
+}
+	
+function toggleFormInputType (evt) {
+	var id = '#' + $(this).attr('for');
+	var parent = $(this).parent();
+	var type = $(id).attr('type');
+	switch (type) {
+	case 'text':
+	  d3.select(id).attr('type','range');
+		var maximum = d3.select(id).attr('max');
+		var minimum = d3.select(id).attr('min');
+		d3.select(id + '::before').style('content',minimum);
+		d3.select(id + '::after').style('content',maximum);
+		parent.animate({'width': 250},500,'linear');
+		break;
+	case 'range':
+		parent.animate({'width': 110},500,'linear');
+		d3.select(id + '::before').style('content','');
+		d3.select(id + '::after').style('content','');
+	  d3.select(id).attr('type','text');
+		break;
+	}
+
+}
+
+
+
+$(document).ready(function () {
+
+  Log.Hide();
+  Data.writeFontFamilySelect('#font-name');
+  Data.restoreSelectMultiple('font-name');
+	Data.restoreInput('font-size');
+	Data.restoreInput('stroke-width');
+  $('#font-count').text("Font Count: " + Data.fontFamily.length);
+	Data.restoreInput('skew-x');
+	Data.restoreInput('skew-y');
+	Data.restoreInput('trans-y');
+	Data.restoreInput('trans-x');
+	Data.restoreInput('trans-rotate');
+	Data.restoreInput('distort-text');
+	Data.restoreInput('rotate-angle');
+	Data.restoreInput('rotate-cx');
+	Data.restoreInput('rotate-cy');
+	
+	$('#font-distort .expand label').click(null,toggleFormInputType);
+});
+
+
+</script>
+</head>
+<body>
+
+<form id="change-font">
+Font Family: 
+<select name="font-name" id="font-name" onChange="Data.changeFontMultipleSVG('font-name','#mytext');" multiple="multiple" size="4">
+</select>
+Font Size: <input type="text" size="3" value="20" onChange="Data.changeFontSize('font-size', '.font','text','.norm');" id="font-size" name="font-size">
+Stroke Width: <input type="range" size="1" value="0" min="0" max="10" onChange="Data.changeStrokeWidth('stroke-width','.norm');" id="stroke-width" name="stroke-width" >
+<div id="font-count"></div>
+</form> 
+
+ <div class="allChars extra"></div>
+
+<div id="font-compare"></div>
+
+<div id="font-distort">
+<form id="distort-font">
+<ul>
+ <li>
+  <label for="distort-text">Text:</label>
+  <input id="distort-text" name="distort-text" type="text"
+         onChange="SvgTransform.SvgText('distort-text', '#text-distort');" >
+ </li>
+ <li class="expand">
+  <label for="skew-x">SkewX:</label>
+  <input id="skew-x" name="skew-x" type="range" min="-90" max="90" value="0" size="1"
+         onBlur="SvgTransform.skewX('skew-x', '#skewX');" 
+         onChange="SvgTransform.skewX('skew-x', '#skewX');">
+ </li>
+ <li class="expand">
+  <label for="skew-y">SkewY:</label>
+  <input id="skew-y" name="skew-y" type="range" min="-90" max="90" value="0" size="1"
+         onBlur="SvgTransform.skewY('skew-y', '#skewY');"
+         onChange="SvgTransform.skewY('skew-y', '#skewY');">
+ </li>
+ <li class="expand">
+  <label for="trans-x">TransX:</label>
+  <input id="trans-x" name="trans-x" type="range" min="-1000" max="1000" value="0" size="1"
+         onBlur="SvgTransform.translateX('trans-x', '#translate');"
+         onChange="SvgTransform.translateX('trans-x', '#translate');">
+ </li>
+ <li class="expand">
+  <label for="trans-y">TransY:</label>
+  <input id="trans-y" name="trans-y" type="range" min="-1000" max="1000" value="0" size="1"
+         onBlur="SvgTransform.translateY('trans-y', '#translate');"
+         onChange="SvgTransform.translateY('trans-y', '#translate');">
+ </li>
+ <li class="expand">
+  <label for="rotate-angle">Rotate:</label>
+  <input id="rotate-angle" name="rotate-angle" type="range" min="-180" max="180" value="0" size="1"
+         onBlur="SvgTransform.rotate('rotate-angle', '#rotate');"
+         onChange="SvgTransform.rotate('rotate-angle', '#rotate');">
+ </li>
+ <li class="expand">
+  <label for="rotate-cx">Cx:</label>
+  <input id="rotate-cx" name="rotate-cx" type="range" min="0" max="1000" value="100" size="1"
+         onBlur="SvgTransform.rotate('rotate-cx', '#rotate');"
+         onChange="SvgTransform.rotate('rotate-cx', '#rotate');">
+ </li>
+ <li class="expand">
+  <label for="rotate-cy">Cy:</label>
+  <input id="rotate-cy" name="rotate-cy" type="range" min="0" max="1000" value="200" size="1"
+         onBlur="SvgTransform.rotate('rotate-cy', '#rotate');"
+         onChange="SvgTransform.rotate('rotate-cy', '#rotate');">
+ </li>
+</ul>
+
+</form>
+<svg x="0" y="0" height="1000" width="1200">
+<defs>
+<path id="path-1" d="M 100 200 L 1000 200 M 100 0 L 100 200" />
+<filter id="drop-shadow" >
+  <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="3" />
+	 <feOffset dx="10" dy="10" in="blur" result="off-blur" />
+	 <feComposite in="SourceGraphic" in2="off-blur" operator="over" />
+</filter>
+</defs>
+<use xlink:href="#c2" class="bullseye" x="0" y="0" />
+<g id="translate" transform="translate(0,0)" >
+ <g id="skewX" transform="skewX(0)">
+  <g id="skewY" transform="skewY(0)">
+   <g id="rotate" transform="rotate(0)">
+    <use xlink:href="#path-1" style="stroke: gold; stroke-width: 2px;" />
+    <text x="100" y="200" id="mytext" >
+     <textPath xlink:href="#path-1" id="text-distort" class="norm" style="filter: url(#drop-shadow);">A B C D E F G</textPath>
+    </text>
+    <circle cx="100" cy="200" r="10" class="center" />
+    <circle cx="100" cy="200" r="5" class="center" />
+   </g>
+  </g>
+ </g>
+</g>
+
+</svg>
+</div>
+
+<div id="font-test"></div>
+</body>
+</html>

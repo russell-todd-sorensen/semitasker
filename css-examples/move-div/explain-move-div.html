@@ -1,0 +1,265 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Untitled Document</title>
+ <style type="text/css" >
+ #output {
+     font-family:"Courier New", Courier, monospace; 
+     color: black;
+     background-color: silver;
+     border: 1px solid black;
+     width: 100%;
+ }
+ 
+ .num {
+     color: red;
+ }
+ 
+ .num:after {
+     content: ':';
+ }
+ 
+ #sourceCode {
+     position: relative;
+     
+ }
+ 
+ .line {
+     position: relative;
+     border-color: blue;
+     border-style: none;
+     border-width: 1px;
+ }
+ 
+ .comment {
+     position: absolute;
+     right: 0;
+     bottom: 0;
+     display: none;
+     background-color: yellow;
+     border: 1px solid red;
+     width: 250px;
+ }
+ 
+ </style>
+
+ <script language="javascript" src="../js/jquery-v141.js"></script>
+ <script language="javascript">
+ 
+ var comments = new Array();
+ var commentDone = new Array();
+ 
+ var escapedString = "";
+ var log;
+ 
+ function escapeString (inString) {
+	 
+	 var outString = "";
+	 var len = inString.length;
+	 var char = 0;
+	 var line = 1;
+	 comments[0] = "NONE";
+	 comments[line] = "NONE";
+	 commentDone[line] = 0;
+	 outString = "<div class='line' id='line1'><span class='num' id='num" + line + "'>" + line + "</span>";
+
+	 for (var i = 11; i<(len-7); i++) {
+		 
+		 char = inString.charAt(i);
+		 
+		 switch (char) {
+		 case '>':
+			 outString += '&gt;';
+			 break;
+		 case '<':
+		   outString += '&lt;';
+			 break;
+		 case '&':
+		   outString += '&amp;';
+			 break;
+		 case '\r':
+		 case '\n':
+		   if (char == '\r' && inString.charAt(i+1) == '\n') { //handles diff in \r\n and \r browsers (almost)
+				 i++;
+			 }
+			 line++;
+	     comments[line] = "NONE";
+			 commentDone[line] = 0;
+		   outString += "</div>\r\n<div class='line' id='line" + line + "'><div class='comment' id='comment" + line + "'></div><span class='num' id='num" + line + "'>" + line + "</span>";
+			 break;
+		 default:
+		   outString += char;
+		 }
+	 }
+	 
+	 outString += "</div>\r\n";
+	 
+	 return outString;
+ }
+ 
+ 
+ function showComment (evt) {
+	 var line = $(this).text();
+	 if (!commentDone[parseInt(line)]) {
+	 	 $('#comment' + line)
+	 		.append(comments[parseInt(line)])
+	    .css('display','block');
+			commentDone[parseInt(line)] = 1;
+	 } else {
+		 $('#comment' + line)
+		   .css('display','block');
+	 }
+	 $('#line' + line)
+	   .css('border-style','solid');
+	 log.append('Showed comment for line ' + line + '\n');
+ }
+ 
+ function hideComment(evt) {
+	 	var line = $(this).text();
+		$('#comment' + line)
+		  .css('display','none');
+		$('#line' + line)
+	    .css('border-style','none');
+ }
+ 
+ $(document).ready(function() {
+   log = $('#log');
+   var inString = $('#input').html();
+	 escapedString = escapeString(inString);
+	 document.getElementById('output').insertAdjacentHTML('afterBegin',escapedString);
+	 $('.num')
+	   .bind('mouseover','',showComment)
+	   .bind('mouseout','',hideComment); 
+   comments[2] = "DOCTYPE string for HTML5";
+   comments[3] = "HTML element with language set to en_US (US English)";
+	 comments[4] = "HEAD element";
+	 comments[5] = "META element declaring a document character set of UTF-8";
+	 comments[6] = "TITLE element setting the document title";
+	 comments[7] = "LINK element relevance of stylesheet: attaches an external stylesheet to this document.";
+	 comments[8] = "SCRIPT element (empty) with src attribute: attaches external JavaScript library file.";
+	 comments[9] = "SCRIPT element (non-empty): inline JavaScript code.";
+	 comments[11] = "Lines 11-13: Declaration of global JavaScript variables which can be accessed in any function.";
+	 comments[12] = comments[11];
+	 comments[13] = comments[11];
+	 comments[11] += "<p> MoveId is the id of the div which captures events.</p>";
+	 comments[12] += "<p> BallId is the id of the div which moves given mousemove events.";
+	 comments[13] += "<p> OutputId is the id of the div which displays coordinates of mouse.";
+	 comments[15] = "Function signature for 'releaseCapture' which is an event callback function.";
+	 comments[16] = "Object of releaseCapture function is to unbind the 'mousemove' jQuery event.";
+	 comments[19] = "Function signature for 'capturePosition2, which is an event callback function.";
+	 comments[19] += "<p>CapturePosition2 is registered by the capturePosition callback and responds to 'mousemove' events.</p>";
+	 comments[21] = "Lines 21-22: Assigns local variables from the event object 'evt'. The event object is passed to all event callback functions.";
+	 comments[22] = comments[21];
+	 comments[24] = "Lines 24-25: jQuery text function replaces the text/html of the '#outputId' div.";
+	 comments[24] += "<p>Each function can be folded onto separate lines for improved readability.</p>";
+	 comments[25] = comments[24];
+	 comments[26] = "Lines 26-28: jQuery css function replaces current text value of the named attribute.";
+	 comments[28] = comments[27] = comments[26];
+	 comments[27] += "<p>CSS left attribute sets the ballId's position from the left side of the parent (moveId) div.</p>";
+	 comments[28] += "<p>CSS top attribute sets the ballId's position from the top side of the parent (moveId) div.</p>";
+   comments[31] = "Function signature for 'capturePosition' which responds to 'mousedown' events.";
+	 comments[33] = "Lines 33-34: Assigns local variables from the event object 'evt'. The event object is passed to all event callback functions.";
+   comments[34] = comments[33];
+	 comments[36] = "jQuery text function replaces the text/html of the '#outputId' div.";
+	 comments[37] = "jQuery bind function binds the 'mousemove' event to the capturePosition2 function.";
+	 comments[37] += "<p>Note that the capturePosition2 function must be defined before it can be referenced here.</p>";
+	 comments[40] = "A JavaScript comment.";
+	 comments[41] = "jQuery ready function, should be the last bit of code before the end of the script tag.";
+   log.append('Ready!\n');
+ });
+
+ </script>
+</head>
+
+<body>
+
+
+<div id="output">
+
+
+</div>
+
+<pre id="log"></pre>
+
+<div id="sourceCode">
+<pre id="input">
+<!--[[CDATA
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+ <meta charset="utf-8">
+ <title>Move Ball Inside Div</title>
+ <link rel="stylesheet" href="move-div.css" type="text/css">
+ <script language="javascript" src="../js/jquery-v141.js"></script>
+ <script language="javascript">
+ 
+  var moveId = '#move-me';
+  var ballId = '#ball';
+  var outputId = '#output';
+	
+  function releaseCapture(evt) {
+    $(moveId).unbind('mousemove');
+  }
+
+  function capturePosition2(evt) {
+		
+    var pageX = evt.pageX;
+    var pageY = evt.pageY;
+    
+    $(outputId)
+		  .text('CP2 pageX =' + pageX + ' pageY=' + pageY);
+    $('#ball')
+      .css('left', pageX)
+      .css('top',pageY);
+  }
+  
+  function capturePosition(evt) {
+		
+    var pageX = evt.pageX;
+    var pageY = evt.pageY;
+    
+    $(outputId).text('CP: pageX =' + pageX + ' pageY=' + pageY);
+    $(moveId).bind('mousemove','',capturePosition2);
+  }
+	
+  // This runs at after the document is 'ready'
+  $(document).ready(function() {
+
+    var height = $(moveId).height();
+    var width = $(moveId).width();
+
+    $(moveId).text('Box Height =' + height + ' Width=' + width);
+    $(moveId).bind('mousedown','',capturePosition);
+    $(moveId).bind('mouseup','',releaseCapture);
+		
+    $('body').css('background-color','#596');
+    $('.test').css('background-color', 'yellow');
+ });
+ 
+
+ </script>
+
+</head>
+
+<body>
+
+<div id="move-me"></div>
+
+<div id="output"></div>
+
+<div class="test"></div>
+
+<div id="ball"></div>
+
+</body>
+</html>
+]]-->
+</pre>
+
+
+
+</div>
+
+</body>
+</html>

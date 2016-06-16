@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1200" height="1800" viewBox="0 0 1200 1800" xml:space="preserve">
+	 
+	 
+	 <defs> 
+	 
+	 <g id="logo">
+<line fill="none" stroke="orange" stroke-miterlimit="10" x1="287.667" y1="575.668" x2="501.667" y2="360.666"/>
+<line fill="none" stroke="orange" stroke-miterlimit="10" x1="501.667" y1="360.666" x2="441.302" y2="300.233"/>
+<line fill="none" stroke="orange" stroke-miterlimit="10" x1="287.667" y1="575.668" x2="73.517" y2="360.666"/>
+<line fill="none" stroke="orange" stroke-miterlimit="10" x1="73.517" y1="360.666" x2="133.882" y2="300.233"/>
+<line fill="none" stroke="orange" stroke-miterlimit="10" x1="133.882" y1="300.233" x2="441.302" y2="300.233"/>
+<line fill="none" stroke="yellow" stroke-miterlimit="10" x1="441.922" y1="336.254" x2="430.4" y2="324.689"/>
+<line fill="none" stroke="yellow" stroke-miterlimit="10" x1="441.922" y1="336.254" x2="365" y2="336.254"/>
+<line fill="none" stroke="yellow" stroke-miterlimit="10" x1="430.469" y1="324.689" x2="144.783" y2="324.689"/>
+<line fill="none" stroke="yellow" stroke-miterlimit="10" x1="365" y1="336.254" x2="322.833" y2="462.001"/>
+<line fill="none" stroke="yellow" stroke-miterlimit="10" x1="287.667" y1="350" x2="322.833" y2="462.001"/>
+<line fill="none" stroke="yellow" stroke-miterlimit="10" x1="133.262" y1="336.254" x2="144.783" y2="324.689"/>
+<line fill="none" stroke="yellow" stroke-miterlimit="10" x1="133.262" y1="336.254" x2="210.684" y2="336.254"/>
+<line fill="none" stroke="yellow" stroke-miterlimit="10" x1="210.684" y1="336.254" x2="252.351" y2="462.002"/>
+<line fill="none" stroke="yellow" stroke-miterlimit="10" x1="287.667" y1="350" x2="252.351" y2="462.002"/>
+<line fill="none" stroke="purple" stroke-miterlimit="10" x1="459.344" y1="353.676" x2="394.667" y2="353.666"/>
+<line fill="none" stroke="purple" stroke-miterlimit="10" x1="354.375" y1="472.625" x2="466.334" y2="360.666"/>
+<line fill="none" stroke="purple" stroke-miterlimit="10" x1="394.667" y1="353.666" x2="354.375" y2="472.625"/>
+<line fill="none" stroke="purple" stroke-miterlimit="10" x1="466.334" y1="360.666" x2="459.344" y2="353.676"/>
+<line fill="none" stroke="blue" stroke-miterlimit="10" x1="287.667" y1="439.5" x2="310.882" y2="516.223"/>
+<line fill="none" stroke="blue" stroke-miterlimit="10" x1="264.302" y1="516.223" x2="287.667" y2="539.349"/>
+<line fill="none" stroke="blue" stroke-miterlimit="10" x1="287.667" y1="439.5" x2="264.302" y2="516.223"/>
+<line fill="none" stroke="blue" stroke-miterlimit="10" x1="310.882" y1="516.223" x2="287.667" y2="539.349"/>
+<line fill="none" stroke="red" stroke-miterlimit="10" x1="220.809" y1="472.625" x2="108.85" y2="360.666"/>
+<line fill="none" stroke="red" stroke-miterlimit="10" x1="115.85" y1="353.666" x2="180.517" y2="353.666"/>
+<line fill="none" stroke="red" stroke-miterlimit="10" x1="179.809" y1="353.666" x2="220.809" y2="472.625"/>
+<line fill="none" stroke="red" stroke-miterlimit="10" x1="108.85" y1="360.666" x2="115.84" y2="353.666"/>
+
+
+</g>
+
+
+<g id="logo2" >
+<path fill="#666666" stroke="silver" stroke-width="2" fill-rule="evenodd" stroke-opacity="" stroke-mitrelimit="1000" 
+
+ d="M 287.667,575.668 
+				 73.517,360.666 
+				 133.882,300.233
+				 441.302,300.233
+				 501.667,360.666
+				 Z
+				 M 287.667,539.349
+				 264.302,516.223
+				 287.667,439.5
+				 310.882,516.223
+				 Z
+				 M 220.809,472.625
+				 108.85,360.666
+				 115.85,353.666
+				 179.809,353.666
+				 Z
+				 M 354.375,472.625
+				 394.667,353.666
+				 459.344,353.676
+				 466.334,360.666
+				 Z
+				 M 252.351,462.002
+				 210.684,336.254
+				 133.262,336.254
+				 144.783,324.689
+				 430.4,324.689
+				 441.922,336.254
+				 365,336.254
+				 322.833,462.001
+				 287.667,350
+				 Z
+				 
+				 
+				 "
+				 
+				 
+				 />
+
+
+
+
+</g>
+
+<filter id="shadow" color-interpolation-filters="sRGB"> 
+<feFlood flood-color="blue" result="flood"/>
+<feComposite in="flood" in2="SourceGraphic" operator="in" result="flood-in"/>
+<feGaussianBlur in="flood-in" stdDeviation="7" result="blur"/>
+<feOffset in="blur" result="blur-offset" dx="9" dy="9"/>
+<feComposite in="SourceGraphic" in2="blur-offset" operator="over"/>
+
+
+
+</filter>
+
+
+</defs>
+
+
+
+
+<use xlink:href="#logo2" fill="silver" transform="translate(-50,-550) scale(2)" filter="url(#shadow)"/>
+
+
+
+</svg>
+

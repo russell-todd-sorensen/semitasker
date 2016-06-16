@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+
+<link rel="stylesheet" type="text/css" href="../js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css" >
+
+<style type="text/css" >
+
+body { 
+	background-color: #39C;
+}
+
+#my-tabs {
+    background-color: transparent;
+    margin: auto;
+    margin-top: 20px;  
+}
+
+#my-tabs pre {
+    background-color: silver;
+    padding: 10px;
+    border: 1px solid red;
+}
+
+#my-tabs pre.hilite {
+    background-color: yellow;
+    border: 1px dashed black;
+}
+
+.ui-widget-content {
+    background-image: url(../images/linear-white-45diag-40px.png);
+    background-size: cover;
+}
+
+</style>
+
+<script language="javascript" src="../js/jquery-1.7.1.js" type="text/javascript"></script>
+<script language="javascript" src="../js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" type="text/javascript"></script>
+
+<script language="javascript" type="text/javascript">
+
+$(document).ready(function() {
+	$('#my-tabs').tabs({
+		add: null, //{url:'#panel6',label:'jQuery',index:1 },
+		ajaxOptions: null,
+		cache: false,
+		cookie: null, // e.g. { expires: 7, path: '/', domain: 'jquery.com', secure: true }
+		collapsible: false,
+		disable: null,
+		disabled: [],
+		enable: null,
+		event: "click",
+		fx: { height: 'toggle', opacity: 'toggle', duration: 200 }, // default = null
+		idPrefix: "ui-tabs-",
+		load: null,
+		panelTemplate: "<div></div>",
+		remove: null,
+		select: null,
+		show: null,
+		spinner: "<em>Loading&#8230;</em>",
+		tabTemplate: "<li><a href='#{href}'><span>#{label}</span></a></li>"
+	});
+});
+
+</script>
+
+</head>
+<body>
+<div id="my-tabs">
+
+ <ul >
+  <li><a href="#panel1" title="Outline of Steps">Outline</a></li>
+  <li><a href="#panel2" title="Step 1: Outer Div">Outer Div</a></li>
+  <li><a href="#panel3" title="Step 2: Tabs HTML">Tabs HTML</a></li>
+ </ul>
+
+<div id="panel1">
+ <h4>Outline</h4>
+ <p>Place panel 1 content here</p>
+</div>
+
+<div id="panel2">
+ <h4>Outer Div</h4>
+ <p>Place panel 2 content here</p>
+</div>
+
+<div id="panel3">
+ <h4>Tabs HTML</h4>
+ <p>Place panel 3 content here</p>
+</div>
+
+</div>
+
+</body>
+</html>

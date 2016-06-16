@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>SVG and JavaScript Animations, Etc.</title>
+ <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+ <link rel="stylesheet" type="text/css" 
+       href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<style>
+
+#nav ul.wide-nav li {
+    width: 500px;
+    
+}
+
+</style>
+<link rel="stylesheet" href="../css/iam.css" />
+<!--<link rel="stylesheet" type="text/css" href="/css/box-model.css" media="all">-->
+ <script src="/js/jquery-1.7.1.js"></script>
+ <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+ <script src="/js/d3.v3.js"></script>
+ <script src="/js/log-2.js"></script>
+ <script src="/js/data.js"></script>
+ <script src="/js/form-save-restore.js"></script>
+ 
+ 
+ 
+<!-- here comes the local script    -->
+<script>
+
+$(document).ready(function () {
+  Log.Hide();
+	Data.writeFontFamilySelect('#font-name');
+	Data.restoreSelect('font-name');
+	Data.restoreInput('current');
+	$('#font-count').text("Font Count: " + Data.fontFamily.length);
+});
+
+
+</script>
+</head>
+<body>
+ <div id="main">
+ <h1 id="header" class="transparent" style="overflow: hidden; padding: 0;"><img src="/pages/svg/logo-distort-2.svg"></h1>
+ <div id="body">
+<!-- content from Default.aspx -->
+ <div id="nav" class="transparent">
+ <ul>
+  <li><a href="/">Home</a></li>
+ </ul>
+<h2>Storyboards</h2>
+<ul>
+ <li><a href="/HTML-Begin/IAM-110/StoryBoards/Vertical Products/">Vertical Products</a></li>
+ <li><a href="/HTML-Begin/IAM-110/StoryBoards/MySite/">MySite Website</a></li>
+ <li><a href="/tartans/all-world-tartans-home-page.html" title="World of Tartans Storyboard">World of Tartans</a></li>
+</ul>
+<h2>SVG & JS</h2>
+<ul>
+ <li class="current"><a href="/pages/learn-html/images/svg-index.html">SVG Animation</a>  <div id="arrow"></div></li>
+</ul>
+<h2>JS, D3 & jQuery</h2>
+<ul>
+ <li><a href="/HTML-Begin/IAM-110/StoryBoards/BinaryBirthdayCard/binary-birthday-card.html"
+        title="Convert ASCII to Hex or Binary">ASCII to Hex</a></li>
+ <li><a href="/css-examples/D3.JS/d3-web-documents.html" title="D3 Documents on the Web">D3 Ref</a></li>
+ <li><a href="/css-examples/D3.JS/" title="Data Driven Documents (D3) Examples">D3 Examples</a></li>
+ <li><a href="/css-examples/D3.JS/hex/hex-game-polished.html" title="Game of Hex in D3">Game of Hex</a></li>
+ <li><a href="/css-examples/D3.JS/go/go-game-4.html" title="Game of Go in D3">Game of Go</a></li>
+</ul>
+<h2>Fonts</h2>
+<ul>
+ <li><a href="/learn-html/logo-maker/logo-maker-1.html" title="SVG Logo Creator">Logo Creator!</a></li>
+ <li><a href="/learn-html/images/font-selector.html" title="Font Selector Display in HTML">HTML Fonts</a></li>
+ <li><a href="/learn-html/images/font-selector-svg.html" title="Font Selector Display in SVG (with font outlines, etc.)">SVG Fonts</a></li>
+ <li><a href="/learn-html/images/font-selector-chrome.html" title="Display in HTML (All fonts from Google Chrome)">Chrome Fonts </a></li>
+</ul>
+<h2>Colors</h2>
+<ul>
+ <li><a href="/learn-html/color-mixer/color-mixer-17.html">Color Mixer</a></li>
+</ul>
+ </div><!-- end nav -->
+<!-- end content from Default.aspx -->
+ <div id="content" class="transparent">
+<svg id="svgHeading"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+	 x="0"
+	 y="0"
+   width="2000"
+   height="120"
+	 viewBox="0 0 2000 120"
+   >
+
+<defs>
+
+<text id="myLogo" x="30" y="70" text-anchor="begin" text-rendering="optimizeLegibility">
+<!--optimizeLegibility  / geometricPrecision-->
+ SVG and JavaScript Animations
+ </text>
+</defs>
+
+<use xlink:href="#myLogo" id="logo" />
+</svg>
+
+<form id="change-font">
+Font Family: 
+<select name="font-name" id="font-name" onChange="Data.changeFont('font-name','#logo','body');">
+</select>
+Current Font:
+<input type="text" name="current" id="current" size="30" value="">
+<input id="changeFontButton" type="button" value="Change Font" 
+       onClick="Data.changeFont2('current','#logo','body');">
+<div id="font-count"></div>
+</form> 
+<div id="nav">
+<ul class="wide-nav">
+ <li><a href="filter-mania-1.html">Filter Mania</a></li>
+ <li><a href="shapes-1.svg">SVG Composite Filters</a></li>
+ <li><a href="shapes-2.svg">SVG Composite Filters 2</a></li>
+ <li><a href="animate-butterflies.html">Animate SVG Filters</a></li>
+ <li><a href="animate-text.html">Animate SVG Text</a></li>
+ <li><a href="animated-gradient.html">Animate SVG Gradient</a></li>
+ <li><a href="svg-color-analysis.html">JS Animated Color Analysis with SVG Filters</a></li>
+ <li><a href="animated-svg-color-analysis.html">Simplified version of SVG Color Analysis with JavaScript</a></li>
+ <li><a href="diffuse-lighting-3.svg">Diffuse Lighting Filters in SVG</a></li>
+ <li><a href="specular-lighting-1.svg">Specular Lighting in SVG</a></li>
+ <li><a href="feColorMatrix-3.svg">feColorMatrix Examples in SVG (desaturate, etc.)</a></li>
+ <li><a href="feDisplacementMap-2.html">feDisplacementMap: Animated SVG using JavaScript</a></li>
+ <li><a href="feDisplacementMap-exp-2.html">Super Tweaked Animations in SVG using JavaScript</a></li>
+ <li><a href="IMLogo.svg">Simple Logo using SVG</a></li>
+ <li><a href="feDisplacementMap.svg">Various SVG filters</a></li>
+ <li><a href="svg-gradients.html">Many Examples of SVG Gradients and Filters + Animation</a></li>
+ <li><a href="svg-test-3.html">Very Efficient Tartan Generation in JavaScript and SVG</a></li>
+ <li><a href="/pages/tartans/svg-example-7.html">Complete Tartan Generator using JavaScript and SVG</a></li>
+ <li><a href="marching-ants.html">Marching Ants 1: Simple SVG Animation</a></li>
+ <li><a href="marching-ants-2.html">Marching Ants 2: Simple SVG Animation</a></li>
+ <li><a href="marching-ants-3.html">Marching Ants 3: Simple SVG Animation</a></li>
+ <li><a href="marching-ants-4.html">Marching Ants 4: Simple SVG Animation</a></li>
+ <li><a href="marching-ants-5.html">Marching Ants 5: SVG Animation with Javascript</a></li>
+ <li><a href="marching-ants-deform-6.html">Marching Ants 6: SVG Animation with Free Distort Tool</a></li>
+
+ </ul>
+ </div>
+ <div id="lower" class="allChars">a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9 - + = ( ) * ^ % $ # @ ! : ? > &lt; </div>
+ <div  id="upper" class="allChars">a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9 - + = ( ) * ^ % $ # @ ! : ? > &lt; </div>
+ 
+ <div class="allChars extra"></div>
+ 
+  </div><!-- end content -->
+ </div><!-- end body-->
+ <div id="footer" class="transparent">
+
+ </div> <!-- end footer -->
+ </div><!-- end main -->
+</body>
+</html>

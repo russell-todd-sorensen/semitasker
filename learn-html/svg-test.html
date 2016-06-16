@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <title>Learn HTML</title>
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/example-library.js"></script>
+<style>
+.x {
+    font-family: Wingdings;
+    font-family: "Wingdings 2";
+    font-family: "Wingdings 3"; /* this is the one */
+    font-family: fantasy;
+    font-family: "Bookshelf Symbol 7";
+    font-family: "SketchFlow Print";
+    font-family: Stencil;
+    font-family: Parchment;
+    font-family: "Cambria Math";
+    font-family: "Segoe UI Symbol";
+    font-family: "Hobo Std";
+    font-family: Gisha;
+    font-family: "Giddyup Std";
+    font-family: "Bauhaus 93";
+    font-family: David;
+    font-family: "Kozuka Mincho Pro R";
+    font-family: "Adobe Song Std L";
+    font-family: Sylfaen;
+    font-family: Aparajita;
+    font-family: Pristina;
+    font-family: Tunga; /* nice */
+    font-family: "Poor Richard";
+    font-family: Marlett; /* windows simble is W  other symbols for lowercase */
+    font-family: Webdings;
+    font-family: "Gill Sans MT";
+    font-family: "Viner Hand ITC";
+    font-family: "Palatino Linotype";
+    font-family: "Bodoni MT Black";
+    font-family: "Tw Cen MT Condensed Extra Bold";
+    font-family: Rockwell;
+    font-family: "Rosewood Std Regular";
+    font-family: "Felix Titling";
+    font-family: "Bauhaus 93";
+    font-family: "Bell MT";
+    font-family: "Britannic Bold";
+    font-family: "Goudy Stout";
+    font-family: IrisUPC;
+    font-family: Impact;
+    font-family: "Gill Sans Ultra Bold";
+    font-family: "OCR A Extended";
+    font-family: Broadway;
+    font-family: "Agency FB";
+    font-family: Jokerman;
+    font-family: Vrinda;
+    font-family: "Engravers MT";
+    font-family: Playbill;
+    font-family: "Tekton Pro";
+    
+}
+pre {
+    font-size: 4em;
+}
+.lower {
+    text-transform: lowercase;
+}
+
+.xy {
+    
+    
+    
+}
+</style>
+
+</head>
+<body>
+
+<svg xmlns:svg="http://www.w3.org/2000/svg"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ version="1.0" 
+ x="0" 
+ y="0" 
+ width="1000" 
+ height="1200" 
+ viewBox="0 0 1000 1200">
+<defs>
+<feImage xlink:href="images/dundee-2.svg" result="dundee"></feImage>
+<feComponentTransfer in="dundee" out="dundee">
+ <feFuncB type="gamma" amplitude="1" exponent="0.2" offset="0"></feFuncB>
+ <feFuncR type="gamma" amplitude="1" exponent="0.707" offset="0"></feFuncR>
+</feComponentTransfer>
+<linearGradient id="two_hues">
+ <stop offset="0%" style="stop-color: #ffcc00;" />
+ <stop offset="100%" style="stop-color: #0099cc;" />
+</linearGradient>
+ 
+<clipPath id="textClip">
+ <text id="text1" transform="rotate(60)" style="fill: none; font-size: 48pt;">
+CLIP
+ </text>
+</clipPath>
+<rect height="100" width="300" style="fill: url(#two_hues)" id="rect1" />
+</defs>
+
+<image xlink:href="images/dundee-2.svg" height="100" width="100" id="dundee" x="300" y="200">
+ 
+<rect x="200" y="0" height="100" width="300" style="fill:url(#two_hues)"></rect>
+ 
+<g transform="translate(100, 100)">
+ <use xlink:href="#rect1" style="clip-path: url(#textClip)"></use>
+</g>
+</svg>
+
+<pre class="x">UPPER: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z </pre>
+<pre class="x lower">LOWER: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z &amp; 1 2 3 4 5 6 7 8 9 0</pre>
+
+
+</body>
+</html>

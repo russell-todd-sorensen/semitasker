@@ -1,0 +1,354 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Fractal Image Creation 14 in JavaScript</title>
+<link rel="stylesheet" href="main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+<style>
+ 
+body,html {
+  font-family:"Lucida Console", Monaco, monospace;
+  background-color: black;
+  margin:0;
+  padding:0;
+  border:0;
+}
+
+
+#main, #main2 {
+    position: relative;
+    border: 3px solid black;
+    display: inline-block;
+}
+
+#myCanvas, #myCanvas2 {
+    border: none;
+    background-clip:padding-box;
+}
+
+#box, #box2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255,0,0,.1);
+    border: 1px solid black;
+}
+
+
+
+
+#controls {
+    font-family: "Consolas Bold";
+    color: white;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#controls ul {
+    font-family: inherit;
+    list-style: none;
+    padding: 0;
+    width: 300px;
+}
+
+
+#controls input, #controls select {
+    display: inline-block;
+    font-family: "Tw Cen MT Bold";
+    font-size: 15px;
+    width: 162px;
+    margin-left: 12px;
+}
+
+#controls input[type=range] {
+    width: 130px;
+}
+
+/* this is how you change the font of select options!!! */
+#theory { /* select id */
+    font-family: "Tw Cen MT Bold";
+    font-size: 16px;
+}
+
+#mode-controls {
+    letter-spacing: 1px;
+}
+
+#controls input[type=number] {
+    width: 60px;
+}
+
+#timeout, #colorOffsetAmount, #fractalImageId {
+    
+}
+
+#controls #pixelJump input[type=number] {
+    width: 50px;
+}
+
+#controls select {
+    width: 100px;
+}
+</style>
+
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/data.js"></script>
+<script src="http://ic00408/js/form-save-restore.js"></script>
+<script src="http://ic00408/js/binary-hex-conversions.js"></script>
+<script src="http://ic00408/js/example-library.js"></script>
+<script src="http://ic00408/js/svg-transform.js"></script>
+<script src="http://ic00408/js/schedule-function.js"></script>
+<script src="http://ic00408/js/mouse-events.js"></script>
+<script src="js/fractal-image-14.js"></script>
+<script src="js/pixel-functions-14.js"></script>
+<script language="javascript">
+
+
+var myFractalImages = new Array();
+var myFractalImageId = myFractalImages.length;
+
+function profileCounters (counters) {
+	var length = counters.length;
+	var maximum = 0;
+	var minimum = 1024;
+	var counts = new Array();
+	var count;
+	
+	for (var i = 0; i<length;i++) {
+		count = counters[i];
+		if (counts[count]) {
+			counts[count]++;
+		} else {
+			counts[count] = 1;
+			if (count > maximum) {
+				maximum = count;
+			} 
+			if (count < minimum) {
+				minimum = count;
+			}
+		}
+	}
+	
+	
+	return {counts:counts,maximum:maximum,minimum:minimum};
+}
+
+var myCounters = [1,2,3,4,5,6,1,4,6,7,2,5,1,4,9];
+
+var processForm = function () {
+	var colorOffsetAmount=parseInt($('#colorOffsetAmount').val());
+	var fractalImageId=parseInt($('#fractalImageId').val());
+	var pixelJump=parseInt($('#pixelJump').val());
+	var hueFactor = parseFloat($('#hueFactor').val());
+	var minLevel = parseFloat($('#minLevel').val());
+	var maxLevel = parseFloat($('#maxLevel').val());
+	var minSat = parseFloat($('#minSat').val());
+	var maxSat = parseFloat($('#maxSat').val());
+	var minBrt = parseFloat($('#minBrt').val());
+	var maxBrt = parseFloat($('#maxBrt').val());
+	return {
+		id:parseInt($('#animationFunctionId option:selected').val()),
+		timeout:parseInt($('#timeout').val()),
+		data:{
+			objId:fractalImageId,
+			amount:colorOffsetAmount,
+			pixelJump:pixelJump,
+			hueFactor:hueFactor,
+			minLevel:minLevel,
+			maxLevel:maxLevel,
+			minSat:minSat,
+			maxSat:maxSat,
+			minBrt:minBrt,
+			maxBrt:maxBrt,
+		  hslOrHsb:$('#hslOrHsb option:selected').val()
+		}
+	};
+}
+
+var startAnimationPre = function() {
+	
+  var formData = processForm(formData);
+	
+	startAnimation(formData.id,formData.timeout,formData.data);
+}
+
+var drawImagePre = function() {
+	
+  var formData = processForm(formData);
+	myFractalImages[formData.data.objId].drawImage();
+	
+}
+
+var exampleRect = {
+	start: {
+		x: 0.4529654240128,
+		y: 0.3506321791478193
+	},
+	end: {
+		x: 0.4529653461376,
+		y: 0.3506321445512928
+	}
+};
+
+if (false) {
+var context,canvas,img;
+img = new Image();
+img.onLoad = function () {
+  canvas.setAttribute('height',img.height);
+  canvas.setAttribute('width',img.width);
+  context.drawImage(img, 0, 0, context.width, context.height);
+	
+}
+
+function getAndDrawImage (url,width,height) {
+	canvas = document.getElementById('myCanvas3');
+  canvas.setAttribute('height',height);
+  canvas.setAttribute('width',width);
+  
+  if (!canvas || !canvas.getContext) {
+    Log.Debug('doImageStuff: canvas or canvas.getContext not found');
+    return;
+  }
+   
+  context = canvas.getContext('2d');
+	img.src = url;
+}
+}
+$(document).ready(function() {
+  
+  Log.Notice('Document Ready');
+	
+  myFractalImages[myFractalImageId] = new fractalImage('myCanvas','box',500,1000);
+	//myFractalImages[myFractalImageId].rect = exampleRect;
+	//myFractalImages[myFractalImageId].rmpRect = exampleRect;
+	$(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',myFractalImages[myFractalImageId],startMove);
+	
+	// second image
+	myFractalImages[1] = new fractalImage('myCanvas2','box2',500,1000);
+	$(myFractalImages[1].mouseBox).bind('mousedown',myFractalImages[1],startMove);
+  Log.Remove();
+});
+</script>
+ 
+
+</head>
+<body>
+<div id="controls">
+<form onSubmit="return false;">
+<ul>
+<fieldset>
+<legend>Options</legend>
+<li>
+ <label for="b1">Start Here:</label>
+ <button id="b1" onClick="drawImagePre();" value="Draw Image" >Draw Image</button>
+</li>
+<li>
+ <label for="fractalImageId">ImageId:</label>
+ <input type="number" value="0" min="0" max="1" step="1" id="fractalImageId" name="fractalImageId" />
+</li>
+<li>
+ <label for="b1">Animation:</label>
+ <select id="animationFunctionId" name="animationFunctionId">
+<option value="1">1</option>
+<option value="2">2</option>
+<option value="3">3</option>
+<option value="4">4</option>
+<option value="5">5</option>
+<option value="6">6</option>
+<option value="7">7</option>
+<option value="8">8</option>
+<option value="9">9</option>
+<option value="10">10</option>
+<option value="11">BW</option>
+<option value="12">One</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+</select>
+</li>
+
+<li>
+ <label for="timeout">Timer:</label>
+ <input type="number" value="70" min="10" max="200" step="10" id="timeout" name="timeout" />
+</li>
+<li>
+ <label for="colorOffsetAmount">Step:</label>
+ <input type="number" value="1" min="-10" max="10" step="1" id="colorOffsetAmount" name="colorOffsetAmount" />
+</li>
+<li>
+ <label for="pixelJump">Jump:</label>
+ <input type="number" value="4" min="4" max="512" step="4" id="pixelJump" name="pixelJump" />
+</li>
+<li>
+ <label for="hueFactor">HueFactor:</label>
+ <input type="number" value="1.0" min=".1" max="5.0" step=".1" id="hueFactor" name="hueFactor" />
+</li>
+<li>
+ <label for="hslOrHsb">HSL or HSB:</label>
+ <select id="hslOrHsb" name="hslOrHsb">
+  <option value="hsl">HSL</option>
+  <option value="hsb">HSB</option>
+ </select>
+</li>
+<li>
+ <label for="minLevel">MinLevel:</label>
+ <input type="number" value=".5" min=".05" max="1.0" step=".05" id="minLevel" name="minLevel" />
+</li>
+<li>
+ <label for="maxLevel">MaxLevel:</label>
+ <input type="number" value=".5" min=".05" max="1.0" step=".05" id="maxLevel" name="maxLevel" />
+</li>
+<li>
+ <label for="minSat">MinSat:</label>
+ <input type="number" value=".35" min=".05" max="1.0" step=".05" id="minSat" name="minSat" />
+</li>
+<li>
+ <label for="maxSat">MaxSat:</label>
+ <input type="number" value=".85" min=".05" max="1.0" step=".05" id="maxSat" name="maxSat" />
+</li>
+<li>
+ <label for="minBrt">MinBrt:</label>
+ <input type="number" value=".35" min=".05" max="1.0" step=".05" id="minBrt" name="minBrt" />
+</li>
+<li>
+ <label for="maxBrt">MaxBrt:</label>
+ <input type="number" value=".85" min=".05" max="1.0" step=".05" id="maxBrt" name="maxBrt" />
+</li>
+<li>
+ <label for="b2">Animate</label>
+ <button id="b2" onClick="startAnimationPre()" value="Animate Image" >Animate Image</button>
+</li>
+<li>
+ <label for="b3">Stop:</label>
+ <button id="b3" onClick="stopAnimation();" value="Stop Animation" >Stop Animation</button>
+</li>
+<li>
+ <label for="b4">ReDraw:</label>
+ <button id="b4" onClick="reDrawImage();" value="ReDraw Image" >ReDraw Image</button>
+</li>
+<!--<button id="loadImage" onClick="getAndDrawImage('http://ic00408/images/desktop-background-images/mandlebrot-47.png',1000,500);" >Draw PNG</button>-->
+
+</fieldset>
+</ul>
+</form>
+</div>
+<div id="main"><canvas id="myCanvas" height="50" width="100">Your browser doesn't support canvas</canvas>
+<div id="box"></div>
+</div>
+<div id="main2"><canvas id="myCanvas2" height="0" width="0">Your browser doesn't support canvas</canvas>
+<div id="box2"></div>
+</div>
+<!--<canvas id="myCanvas3" width="1000" height="500">Your browser doesn't support canvas</canvas>-->
+</body>
+</html>

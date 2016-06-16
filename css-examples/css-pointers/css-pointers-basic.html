@@ -1,0 +1,126 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CSS Pointers</title>
+<link rel="stylesheet" href="/css/reset.css">
+
+<style >
+
+.spacer {
+    height: 100px;
+    width: 50px;
+}
+
+/* basic pointer clears margins, padding, border
+   and sets the pointer color, height and width
+   must be included as the first class for the parent
+   div:
+   <!--
+   <div class="pointer-bar my-pointer-bar"><div class="my-pointer point-left"></div></div>
+   -->
+ */
+ 
+.pointer-bar {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: #900;
+    width: 160px;
+    height: 160px;
+}
+
+.pointer {
+    border: 80px solid white;
+}
+
+
+/* user sets width and height to be size of
+   pointer base (the long side of the triangle 
+   plus the background-color. 
+ */
+ 
+.my-pointer-bar {
+    padding: 0;
+    margin: 0;
+    width: 2000px;
+    height: 160px;
+    font-size: 160px;
+    background-color:#069;
+    color: white;
+    line-height: .8em;
+}
+
+/* the users sets the border width to be half
+   the size of the pointer base, the border color
+   should match the surrounding background-color. 
+ */
+   
+.my-pointer {
+    display: inline-block;
+    border: 80px solid white;
+    margin: 0;
+    padding: 0;
+}
+
+.my-sign {
+    display: inline-block;
+    height: 160px;
+    margin-top: -160px;
+    padding: 0;
+}
+
+
+.point-right {
+    border-left-color: rgba(0,0,0,0);
+}
+
+.point-left {
+    border-right-color: rgba(0,0,0,0);
+}
+
+.point-up {
+    border-bottom-color: rgba(0,0,0,0);
+}
+
+.point-down {
+    border-top-color: rgba(0,0,0,0);
+}
+
+
+</style>
+
+</head>
+<body>
+<div class="pointer-bar my-pointer-bar"><div class="my-pointer point-left"></div>Walk This Way!</div>
+<div class="spacer"></div>
+<div class="pointer-bar"><div class="pointer point-left"></div></div>
+<div class="spacer"></div>
+<div class="pointer-bar"><div class="pointer point-right"></div></div>
+<div class="spacer"></div>
+<div class="pointer-bar"><div class="pointer point-up"></div></div>
+<div class="spacer"></div>
+<div class="pointer-bar"><div class="pointer point-down"></div></div>
+<div class="spacer"></div>
+<div class="pointer-bar"><div class="pointer point-down point-up"></div></div>
+<div class="spacer"></div>
+<div class="pointer-bar"><div class="pointer point-right point-left"></div></div>
+<div class="spacer"></div>
+<div class="pointer-bar"><div class="pointer point-down point-right"></div></div>
+<div class="spacer"></div>
+<div class="pointer-bar"><div class="pointer point-down point-left"></div></div>
+<div class="spacer"></div>
+<div class="pointer-bar"><div class="pointer point-up point-right"></div></div>
+<div class="spacer"></div>
+<div class="pointer-bar"><div class="pointer point-up point-left"></div></div>
+<div class="spacer"></div>
+
+
+<div class="pointer-bar"><div class="pointer point-left"><div class="pointer point-left"></div></div></div>
+<div class="spacer"></div>
+<div class="spacer"></div>
+<div class="pointer-bar"><div class="pointer point-left"><div class="pointer point-left"><div class="pointer point-left"></div></div></div></div>
+<div class="spacer"></div>
+
+</body>
+</html>

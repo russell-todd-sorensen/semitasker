@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+<meta charset="utf-8" >
+
+<title>Orange Green Displace filter</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" 
+      href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="/css/logo-maker-1.css">
+<link rel="stylesheet" href="/css/green-form.css" >
+
+
+<style>
+.cell {
+    display: none;
+}
+#bottom-middle-cell {
+    display: block; 
+}
+*/
+.a {
+    color: #ed1c24;
+}
+.b {
+    color: #f68b1f;
+}
+.c {
+    color: #00a651;
+}
+.d {
+    color: #00abbd;
+}
+.e {
+    color: #ffa;
+    background-color: #aaa;
+}
+
+#font-form {
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.font-form-on {
+    /*position: absolute;
+    top: 10px;
+    right: 10px;*/
+}
+
+/* override #panel  styles */
+#panel fieldset {
+    width: 400px;
+}
+
+/* for the font-distort form */
+
+#distort-font ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 0;   
+    width: 400px;
+}
+
+#distort-font li {
+
+}
+
+#distort-font label {
+    cursor: pointer;
+}
+
+#distort-font li.expand {
+    width: 400;
+}
+
+#panel input,
+#panel input[type="range"] {
+    display: inline-block;
+}
+
+#panel li.expand span {
+    display: inline-block;
+    width: 4em;
+    text-align: right;
+}
+
+</style>
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/data.js"></script>
+<script src="http://ic00408/js/form-save-restore.js"></script>
+<script src="http://ic00408/js/binary-hex-conversions.js"></script>
+<script src="http://ic00408/js/example-library.js"></script>
+<script src="http://ic00408/js/svg-transform.js"></script>
+<script src="logo-maker/js/logo-maker-1.js" ></script>
+
+<script>
+SvgTransform.adjustObjectHeightWidth = function (image) {
+	var I = new Image();
+	var node,nodeId,rectNode;
+	var xlink = 'http://www.w3.org/1999/xlink';
+	node = document.getElementById(image);
+	I.src = node.getAttributeNS(xlink,'href');
+	var height = I.height;
+	var width = I.width;
+  
+	for (var i = 0; i< arguments.length; i++) {
+		nodeId = arguments[i];
+		node = document.getElementById(nodeId);
+		node.setAttribute('height', height);
+		node.setAttribute('width',width);
+	}
+}
+
+SvgTransform.adjustObjectHeightWidth = function (filterImageId) {
+
+	var xlink = 'http://www.w3.org/1999/xlink';
+	var node = document.getElementById(filterImageId);
+	var imageSource = node.getAttributeNS(xlink,'href');
+	
+	if (this.Images[imageSource] == undefined) {
+		this.Images[imageSource] = new Image();
+		this.Images[imageSource].src = imageSource;
+		Log.Notice("defining new image src=" + imageSource);
+	
+		this.Images[imageSource].onload = function ( ) {
+			var height = SvgTransform.Images[imageSource].height;
+			var width =  SvgTransform.Images[imageSource].width;
+			var rectNode;
+			Log.Notice('image function img=' + imageSource + ' height=' + height + ' width=' + width);
+			for (var i = 1; i<arguments.length; i++) {
+				rectNode = document.getElementById(arguments[i]);
+				rectNode.setAttribute('height', height*1.2);
+				rectNode.setAttribute('width', width*1.2);
+			}
+		};
+	} else {
+			var height = this.Images[imageSource].height;
+			var width =  this.Images[imageSource].width;
+			var rectNode;
+			
+			Log.Notice('image inline img=' + imageSource + ' height=' + height + ' width=' + width);
+			for (var i = 1; i<arguments.length; i++) {
+				rectNode = document.getElementById(arguments[i]);
+				rectNode.setAttribute('height', height*1.2);
+				rectNode.setAttribute('width', width*1.2);
+			}
+	}
+}
+
+function setStartImage() {
+	  Data.restoreSelect('imageFilter');
+	  Data.restoreSelect('imageChoice');
+		SvgTransform.adjustObjectHeightWidth('image1', 'image2', 'RGRect', 'linear-displace-rect-1', 'linear-displace-rect-2');	
+
+}
+
+SvgTransform.changeFilter = function (selectId) { 
+  var filterSelector = '#' + selectId + " option::selected";
+  var filterUrl = $(filterSelector).val();
+  
+
+  var elementSelector, elementId, node;
+  for (var i = 1; i < arguments.length; i++) {
+    elementSelector = arguments[i];
+		elementId = elementSelector.substring(1);
+		node = document.getElementById(elementId);
+		node.setAttribute('filter',filterUrl);
+  }
+
+  var call = "Data.saveSelect('" + selectId + "','SvgTransform.changeFilter'";
+  for (var i = 1; i< arguments.length; i++) {
+    call = call + ",'" + arguments[i] + "'";
+  }
+  
+  call += ");";
+  setTimeout(call, 10);
+  return false;
+}
+
+$(document).ready(function () {
+	setStartImage('http://ic00408/images/Butterfly%2062.jpg');
+	Log.Hide();
+});
+
+
+</script>
+</head>
+<body>
+<div id="font-form" class="font-form-on">
+<div id="panel">
+<form id="distort-font">
+<fieldset>
+<legend>General Animation Options</legend>
+<ul>
+ <li><label for="imageFilter">Select Filter</label><select id="imageFilter"
+  onChange="SvgTransform.changeFilter('imageFilter', '#clickMe', '#image2','#graphics-1' )">
+  <option value="">No Filter</option>
+  <option value="url(#ZZ)">ZZ</option>
+  <option value="url(#X)">X</option>
+  <option value="url(#Y)">Y</option>
+  <option value="url(#X)">Z</option>
+  <option value="url(#XX)">XX</option>
+  <option value="url(#XX2)">XX2 Vertical</option>
+  <option value="url(#XX3)">XX3 Horizontal</option>
+  <option value="url(#XX4)">XX4 Convolve Radial</option>
+  <option value="url(#XX5)">XX5 Blur</option>
+  <option value="url(#XX6)">XX6 Blur Posterize</option>
+  <option value="url(#desaturate-1)">Desaturate 1</option>
+  <option value="url(#posterize-0)">Posterize 0</option>
+  <option value="url(#posterize-00)">Posterize 00</option>
+  <option value="url(#posterize-000)">Posterize 000</option>
+  <option value="url(#posterize-0000)">Posterize 0000</option>
+  <option value="url(#posterize-1)">Posterize 1</option>
+  <option value="url(#posterize-2)">Posterize 2</option>
+  <option value="url(#posterize-3)">Posterize 3</option>
+  <option value="url(#posterize-4)">Posterize 4</option>
+  <option value="url(#posterize-5)">Posterize 5</option>
+  <option value="url(#posterize-6)">Posterize 6</option>
+  <option value="url(#posterize-7)">Posterize 7</option>
+  <option value="url(#posterize-7-table)">Posterize 7 table</option>
+  <option value="url(#posterize-8)">Posterize 8</option>
+  <option value="url(#posterize-9)">Posterize 9</option>
+  <option value="url(#posterize-10)">Posterize 10</option>
+  <option value="url(#posterize-11)">Posterize 11</option>
+  <option value="url(#posterize-12)">Posterize 12</option>
+  <option value="url(#posterize-12-table)">Posterize 12 table</option>
+  <option value="url(#sharpen-1)">Sharpen 1</option>
+  <option value="url(#sharpen-2)">Sharpen 2</option>
+  <option value="url(#sharpen-3)">Sharpen 3</option>
+  <option value="url(#super-saturate)">SuperSaturate</option>
+  <option value="url(#saturate-red)">Saturate Red</option>
+  <option value="url(#saturate-green)">Saturate Green</option>
+  <option value="url(#saturate-blue)">Saturate Blue</option>
+  <option value="url(#photo-negative)">Photo Negative</option>
+  <option value="url(#DD)">DD</option>
+  <option value="url(#table-1)">Table 1</option>
+  <option value="url(#table-2)">Table 2</option>
+  <option value="url(#table-3)">Table 3</option>
+  <option value="url(#table-4)">Table 4</option>
+  <option value="url(#table-5)">Table 5</option>
+  <option value="url(#table-6)">Table 6</option>
+  <option value="url(#table-7)">Table 7</option>
+  <option value="url(#table-8)">Table 8</option>
+  <option value="url(#table-9)">Table 9</option>
+  <option value="url(#table-10)">Table 10</option>
+  <option value="url(#table-11)">Table 11 Animated 9-10</option>
+  <option value="url(#table-12)">Table 12 Animated</option>
+  <option value="url(#table-14)">Table 14 Animated Positive to Negative</option>
+  <option value="url(#table-15)">Table 15 Animated</option>
+  <option value="url(#table-16)">Table 16 Animated</option>
+  <option value="url(#table-17)">Table 17 Animated</option>
+  <option value="url(#table-18)">Table 18 Animated</option>
+  <option value="url(#linear-displace-y)">Linear Displace Vertical 1</option>
+  <option value="url(#linear-displace-y-2)">Linear Displace Vertical 2</option>
+  <option value="url(#displaceX-2)">DisplaceX 2</option>
+  
+  <option value="url(#fish-eye-1)">Fish Eye 1</option> 
+  <option value="url(#fish-eye-2)">Fish Eye 2</option>
+  </select>
+  </li>
+ <li><label for="imageChoice">Select Image</label> <select id="imageChoice" name="imageChoice" onChange="SvgTransform.changeImage('imageChoice', '#image1','#image2'); SvgTransform.adjustObjectHeightWidth('image1', 'image2', 'RGRect', 'linear-displace-rect-1', 'linear-displace-rect-2'); ">
+
+<option value="http://ic00408/images/Butterfly%206.jpg" selected="selected">Butterfly 6</option>
+<option value="http://ic00408/images/Butterfly%2017a.jpg">Butterfly 17a</option>
+<option value="http://ic00408/images/Butterfly%2028.jpg">Butterfly 28</option>
+<option value="http://ic00408/images/Butterfly%2057.jpg">Butterfly 57</option>
+<option value="http://ic00408/images/Butterfly%2062.jpg">Butterfly 62</option>
+<option value="http://ic00408/images/Butterfly%2086.jpg">Butterfly 86</option>
+<option value="http://ic00408/images/Grasshopper%201.JPG">Grasshopper 1</option>
+<option value="http://ic00408/images/Ladybug%206.jpg">Ladybug 6</option>
+<option value="http://ic00408/images/building-1.jpg">Building 1</option>
+<option value="http://ic00408/images/sphinx5.jpg">Sphinx 5</option>
+<option value="http://ic00408/images/egypt-2.jpg">Egypt 2</option>
+<option value="http://ic00408/images/EgyptianTomb.jpg">Egyptian Tomb</option>
+<option value="http://ic00408/images/stone-hut-1.jpg">Stone Hut 1</option>
+<option value="http://ic00408/images/stone-wall-1.jpg">Stone Wall 1</option>
+<option value="http://ic00408/images/stone-arch-1.jpg">Stone Arch 1</option>
+<option value="http://ic00408/images/igloo2.jpg">Igloo 2</option>
+<option value="http://ic00408/images/rotunda-statue.jpg">Rotunda Statue</option>
+<option value="http://ic00408/images/staircase-1.jpg">Spiral Staircase 1</option>
+<option value="http://ic00408/images/red-fence-1.jpg">Red Fence 1</option>
+<option value="http://ic00408/images/palace-1.jpg">Palace 1</option>
+<option value="http://ic00408/images/london-plaza-1.jpg">London Plaza 1</option>
+<option value="http://ic00408/images/glass-pyramids.jpg">Glass Pyramid</option>
+<option value="http://ic00408/images/old-man-with-hat.jpg">Old Man with Hat</option>
+<option value="http://ic00408/images/Woman-183.jpg">Woman 183</option>
+<option value="http://ic00408/images/Woman-214.jpg">Woman 214</option>
+<option value="http://ic00408/images/jelly-fish-1.jpg">Jelly Fish 1</option>
+<option value="http://ic00408/images/jelly-fish-2.jpg">Jelly Fish 2</option>
+<option value="http://ic00408/images/fishes-3.gif">Fishes3</option>
+<option value="http://ic00408/images/parrot-1.jpg">Parrot 1</option>
+<option value="http://ic00408/images/parrot-2.jpg">Parrot 2</option>
+<option value="http://ic00408/images/feathers-1.jpg">Peacock Feathers</option>
+<option value="http://ic00408/images/feathers-2.jpg">Peacock</option>
+<option value="http://ic00408/images/Butterfly%2011.jpg">Butterfly 11</option>
+<option value="http://ic00408/images/Butterfly%2017.jpg">Butterfly 17</option>
+<option value="http://ic00408/images/Butterfly%2022.jpg">Butterfly 22</option>
+<option value="http://ic00408/images/Butterfly%2036.png">Butterfly 36</option>
+<option value="http://ic00408/images/Butterfly%2069.png">Butterfly 69</option>
+<option value="http://ic00408/images/desert-1.jpg">Desert 1</option>
+<option value="http://ic00408/images/swan-1.jpg">Swan 1</option>
+
+</select>
+ </li>
+ </ul>
+ </fieldset>
+ </form>
+ </div>
+ </div>
+ <svg
+ id="iam-svg"
+ xmlns:svg="http://www.w3.org/2000/svg"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink" 
+ version="1.0" 
+ x="0" 
+ y="0"
+ width="1500"
+ height="2000"
+ viewBox="0 0 1500 2000"
+ style="cursor: pointer;">
+
+<defs>
+<linearGradient color-interpolation="sRGB" id="grad-1" spreadMethod="repeat">
+<stop stop-color="white" offset="0.0"></stop>
+<stop stop-color="brown" offset="0.5"></stop>
+<stop stop-color="yellow" offset="1.0"></stop>
+</linearGradient>
+<linearGradient id="grad-2" xlink:href="#grad-1" x1="0" y1="0" x2="100%" y2="100%"></linearGradient>
+<linearGradient id="grad-3" xlink:href="#grad-1" x1="0" y1="0" x2="0" y2="100%"></linearGradient>
+
+<mask id="grad-1-mask">
+ <use xlink:href="#grad-1" />
+</mask>
+<mask id="grad-2-mask">
+ <use xlink:href="#grad-2" />
+</mask>
+<mask id="grad-3-mask">
+ <use xlink:href="#grad-3" />
+</mask>
+
+<linearGradient id="red-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop stop-color="#FF0000" offset="0%" />
+ <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<linearGradient id="green-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop stop-color="#00FF00" offset="0%" />
+ <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<linearGradient id="blue-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop stop-color="#0000FF" offset="0%" />
+ <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<rect id="rgb-grad-rect-1" x="0" y="0" height="25" width="250" stroke="#444" stroke-width=".5" />
+
+<linearGradient id="h-linear-distort" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop stop-color="#FFFFFF" offset="0%" />
+ <stop stop-color="#000000" offset="50%" />
+ <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<linearGradient id="h-linear-distort-2" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop stop-color="#FFFFFF" offset="0%" />
+ <stop stop-color="#000000" offset="50%" >
+  <animate attributeName="offset" begin="0s" values="0%;100%;0%" dur="15s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<linearGradient 
+    id="v-linear-distort" color-interpolation="sRGB" 
+    spreadMethod="reflect"  xlink:href="h-linear-distort" 
+    gradientTransform="rotate(90)" />
+
+<rect id="linear-displace-rect-1" x="0" y="0" height="800" width="600" style="fill: url(#h-linear-distort); stroke: none;" />
+
+<rect id="linear-displace-rect-2" x="0" y="0" height="800" width="600" style="fill: url(#h-linear-distort-2); stroke: none;" />
+
+<radialGradient color-interpolation="sRGB" id="RG" spreadMethod="reflect">
+ <stop stop-color="green" offset="0%" ></stop>
+ <stop stop-color="orange" offset="0%" >
+  <animate attributeName="offset" from=".0" to=".2" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="10%" id="g-1">
+  <animate attributeName="offset" from=".1" to=".3" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="20%" id="o-1">
+  <animate attributeName="offset" from=".2" to=".4" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="30%" id="g-2">
+  <animate attributeName="offset" from=".3" to=".5" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="40%" id="o-2">
+  <animate attributeName="offset" from=".4" to=".6" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="50%" id="g-3">
+  <animate attributeName="offset" from=".5" to=".7" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="60%" id="o-3">
+  <animate attributeName="offset" from=".6" to=".8" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="70%" id="g-4">
+  <animate attributeName="offset" from=".7" to=".9" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="80%" id="o-4">
+  <animate attributeName="offset" from=".8" to="1" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="90%" id="g-5">
+  <animate attributeName="offset" from=".9" to="1" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="100%" id="o-5">
+ </stop>
+</radialGradient>
+
+<rect id="RGRect" x="0" y="0" height="800" width="600" style="fill: url(#RG); stroke: none;" />
+
+<mask id="RG-mask" >
+ <use xlink:href="#RG" x="0" y="0" height="100%" width="100%" />
+</mask>
+
+<linearGradient color-interpolation="sRGB" id="LG" spreadMethod="reflect">
+ <stop stop-color="green" offset="0%" ></stop>
+ <stop stop-color="orange" offset="0%" >
+  <animate attributeName="offset" from=".0" to=".2" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="10%" id="g-1">
+  <animate attributeName="offset" from=".1" to=".3" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="20%" id="o-1">
+  <animate attributeName="offset" from=".2" to=".4" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="30%" id="g-2">
+  <animate attributeName="offset" from=".3" to=".5" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="40%" id="o-2">
+  <animate attributeName="offset" from=".4" to=".6" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="50%" id="g-3">
+  <animate attributeName="offset" from=".5" to=".7" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="60%" id="o-3">
+  <animate attributeName="offset" from=".6" to=".8" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="70%" id="g-4">
+  <animate attributeName="offset" from=".7" to=".9" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="80%" id="o-4">
+  <animate attributeName="offset" from=".8" to="1" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="90%" id="g-5">
+  <animate attributeName="offset" from=".9" to="1" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="100%" id="o-5">
+ </stop>
+</linearGradient>
+
+<rect id="LGRect" x="0" y="0" height="800" width="600" style="fill: url(#LG); stroke: none;" />
+
+<mask id="LG-mask" >
+ <use xlink:href="#LG" x="0" y="0" height="100%" width="100%" />
+</mask>
+
+<radialGradient color-interpolation="sRGB" id="FishEye" spreadMethod="none" cx="20%" cy="20%">
+<animate attributeName="cx" values="0%;60%;80%;60%;0%" begin="0s" dur="15s" repeatCount="indefinite" />
+<animate attributeName="cy" values="30%;100%;50%;80%;30%" begin="0s" dur="15s" repeatCount="indefinite" />
+ <stop stop-color="green" offset="0%" ></stop>
+ <stop stop-color="orange" offset="30%">
+ </stop>
+  <stop stop-color="red" offset="100%" ></stop>
+</radialGradient>
+
+<rect id="FishEyeRect" x="0" y="0" height="600" width="600" style="fill: url(#FishEye); stroke: none;" />
+
+<radialGradient color-interpolation="sRGB" id="FishEye-2" spreadMethod="none" cx="20%" cy="20%">
+<animate attributeName="cx" values="0%;60%;80%;60%;0%" begin="0s" dur="15s" repeatCount="indefinite" />
+<animate attributeName="cy" values="30%;100%;50%;80%;30%" begin="0s" dur="15s" repeatCount="indefinite" />
+ <stop stop-color="red" offset="0%" ></stop>
+ <stop stop-color="orange" offset="30%">
+ </stop>
+  <stop stop-color="green" offset="100%" ></stop>
+</radialGradient>
+<rect id="FishEyeRect-2" x="0" y="0" height="600" width="600" style="fill: url(#FishEye); stroke: none;" />
+
+<filter id="X"  color-interpolation="sRGB">
+<feConvolveMatrix 
+    order="3"   
+    kernelMatrix="-1 -1 -1
+              -1  9 -1
+              -1 -1 -1"
+    edgeMode="duplicate" />
+</filter>
+
+<filter id="Y"  color-interpolation="sRGB">
+<feConvolveMatrix 
+    order="5"   
+    kernelMatrix="1  1   1  1  1
+              1 -2  -2 -2  1
+              1 -2  1  -2  1
+              1 -2  -2 -2  1
+              1  1   1  1  1"
+    edgeMode="duplicate" />
+</filter>
+
+<filter id="Z"  color-interpolation="sRGB">
+<feConvolveMatrix 
+    order="3"   
+    kernelMatrix="-1 -1 -1
+              -1  9 -1
+              -1 -1 -1"
+    edgeMode="duplicate" >
+  <animate attributeName="kernelMatrix" values="0 0 0 0 1 0 0 0 0;-1 -1 -1
+              -1  9 -1
+              -1 -1 -1"
+              begin="0s;clickMe.click" dur="12s" />
+</feConvolveMatrix>
+</filter>
+<filter id="ZZ"  color-interpolation="sRGB">
+<feConvolveMatrix 
+    order="5"   
+    kernelMatrix="1  1   1  1  1
+              1 -2  -2 -2  1
+              1 -2  1  -2  1
+              1 -2  -2 -2  1
+              1  1   1  1  1"
+    edgeMode="duplicate" >
+  <animate attributeName="kernelMatrix" values="0  0  0  0  0
+              0  0   0  0  0
+              0  0   1  0  0
+              0  0   0  0  0
+              0  0   0  0  0;
+              1  1   1  1  1
+              1 -2  -2 -2  1
+              1 -2  -.7 -2  1
+              1 -2  -2 -2  1
+              1  1   1  1  1"
+              begin="0s;clickMe.click" dur="12s" />
+</feConvolveMatrix>
+</filter>
+
+<filter id="XX"  color-interpolation="sRGB" >
+<feConvolveMatrix 
+    order="7"   
+    kernelMatrix="-1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  3  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1"
+    edgeMode="duplicate" >
+  <animate attributeName="kernelMatrix" 
+           values="0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  1  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0;
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  3  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1"
+          begin="0s;clickMe.click" 
+          dur="12s" />
+</feConvolveMatrix>
+</filter>
+
+<filter id="XX2"  color-interpolation="sRGB" >
+<feConvolveMatrix 
+    order="7"   
+    kernelMatrix="-1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2.5  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1"
+    edgeMode="duplicate" >
+
+</feConvolveMatrix>
+</filter>
+<filter id="XX3"  color-interpolation="sRGB" >
+<feConvolveMatrix 
+    order="7"   
+    kernelMatrix="-1  -1  -1  -1  -1 -1 -1
+                  -0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0
+                   2  2  2  3  2  2  2
+                   0  0  0  0  0  0  0
+               	   0  0  0  0  0  0  0
+                  -1  -1  -1  -1  -1 -1 -1"
+    edgeMode="duplicate" >
+
+</feConvolveMatrix>
+</filter>
+
+<filter id="XX4"  color-interpolation="sRGB" >
+<feConvolveMatrix 
+    order="7"   
+    kernelMatrix="1 -2 -2 -2 -2 -2  1
+                  1  1  1  1  1  1  1
+                  1  1 -1 -1 -1  1  1
+                  1  1 -1  1 -1  1  1
+                  1  1 -1 -1 -1  1  1
+                  1  1  1  1  1  1  1
+                  1 -2 -2 -2 -2 -2  1"
+    edgeMode="duplicate" >
+
+</feConvolveMatrix>
+</filter>
+
+<filter id="XX5"  color-interpolation="sRGB" >
+<feConvolveMatrix 
+    order="7"   
+    kernelMatrix="1 -0 -0 -0 -0 -0  1
+                  1  1  1 -1  1  1  1
+                  0  1 -0 -1 -0  1  0
+                  0  1 -0  1 -0  1  0
+                  0  1 -0 -1 -0  1  0
+                  1  1  1 -1  1  1  1
+                  1 -0 -0 -0 -0 -0  1"
+    edgeMode="duplicate" >
+
+</feConvolveMatrix>
+</filter>
+
+<filter id="XX6"  color-interpolation="sRGB" >
+<feConvolveMatrix 
+    order="7"   
+    kernelMatrix="1 -0 -0 -0 -0 -0  1
+                  1  1  1 -1  1  1  1
+                  0  1 -0 -1 -0  1  0
+                  0  1 -0  1 -0  1  0
+                  0  1 -0 -1 -0  1  0
+                  1  1  1 -1  1  1  1
+                  1 -0 -0 -0 -0 -0  1"
+    edgeMode="duplicate" >
+</feConvolveMatrix>
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .2 .1 .7 .6 .1 .9" />
+ <feFuncG type="discrete" tableValues="0 .1 .4 .5 .7 .5 .2" />
+ <feFuncB type="discrete" tableValues="0 .5 .2 .2 .9 .7 .1" />
+</feComponentTransfer>
+</filter>
+
+
+<filter id="displaceX"  color-interpolation="sRGB">
+ <feImage xlink:href="#RGRect" result="tile" x1=-"-10%" y1="-10%" x2="110%" y2="110%" />
+
+ <feDisplacementMap 
+  in2="tile" 
+  in="SourceGraphic"
+  scale="20"
+  xChannelSelector="R"
+	yChannelSelector="R" >
+   <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
+ </feDisplacementMap>
+</filter>
+
+<filter id="displaceX-2"  color-interpolation="sRGB">
+ <feImage xlink:href="#LGRect" result="tile" x1=-"-10%" y1="-10%" x2="110%" y2="110%" />
+
+ <feDisplacementMap 
+  in2="tile" 
+  in="SourceGraphic"
+  scale="20"
+  xChannelSelector="R"
+	yChannelSelector="R" >
+   <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
+ </feDisplacementMap>
+</filter>
+
+<filter id="fish-eye-1"  color-interpolation="sRGB">
+ <feImage xlink:href="#FishEyeRect" result="tile" x1=-"-10%" y1="-10%" x2="110%" y2="110%" />
+
+ <feDisplacementMap 
+  in2="tile" 
+  in="SourceGraphic"
+  scale="80"
+  xChannelSelector="R"
+	yChannelSelector="R" >
+ </feDisplacementMap>
+</filter>
+
+<filter id="fish-eye-2"  color-interpolation="sRGB">
+ <feImage xlink:href="#FishEyeRect-2" result="tile" x1=-"-10%" y1="-10%" x2="110%" y2="110%" />
+
+ <feDisplacementMap 
+  in2="tile" 
+  in="SourceGraphic"
+  scale="80"
+  xChannelSelector="R"
+	yChannelSelector="R" >
+ </feDisplacementMap>
+</filter>
+
+
+<filter id="linear-displace-y"  color-interpolation="sRGB">
+ <feImage xlink:href="#linear-displace-rect-1" result="tile"  x1=-"-10%" y1="-10%" x2="110%" y2="110%" />
+
+ <feDisplacementMap 
+  in2="tile" 
+  in="SourceGraphic"
+  scale="50"
+  yChannelSelector="R">
+  <animate attributeName="scale" values="0;50;100;200;100;50;0"
+   repeatCount="indefinite" 
+   begin="0"
+   dur="15s" />
+ </feDisplacementMap>
+</filter>
+
+<filter id="linear-displace-y-2" color-interpolation="sRGB">
+ <feImage xlink:href="#linear-displace-rect-2" result="tile"  x1=-"-10%" y1="-10%" x2="110%" y2="110%" />
+ <feTile in="tile" result="tile" />
+ <feDisplacementMap 
+  in2="tile" 
+  in="SourceGraphic"
+  scale="50"
+  yChannelSelector="R">
+  <animate attributeName="scale" values="0;50;100;200;100;50;0"
+   repeatCount="indefinite" 
+   begin="0"
+   dur="15s" />
+ </feDisplacementMap>
+</filter>
+
+<filter id="desaturate-1" >
+<feColorMatrix type="saturate" values="0.0" />
+</filter>
+
+<filter id="posterize-0">
+ <!--<feColorMatrix 
+     type="matrix" 
+     values="1.0  1.0  1.0  0.000  0
+             1.0  1.0  1.0  0.000  0
+             1.0  1.0  1.0  0.000  0
+             1.0  1.0  1.0  1.000  0"
+  />
+  
+ -->
+ <feColorMatrix type="saturate" values="0.0" />
+
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0  1 .125   1 .25 .375 .75 1 1 1 1" />
+ <feFuncG type="discrete" tableValues="0  0    0   0   0    0   0 0 0 1 1" />
+ <feFuncB type="discrete" tableValues="0  1 .125   1 .25 .375 .75 1 1 1 1" />
+</feComponentTransfer>
+
+</filter>
+
+<filter id="posterize-00">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation="1" >
+ <animate attributeName="stdDeviation" 
+    values="1.0;0.0;2.0;1.0" 
+    by="0.5" 
+    dur="15s" 
+    begin="0s" 
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 1 0 1 1 0 1 1 0 1 1" />
+ <feFuncG type="discrete" tableValues="0 0 0 1 0 0 0 1 0 0 1" />
+ <feFuncB type="discrete" tableValues="0 1 0 1 1 0 1 1 0 1 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-000">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation=".75" >
+ <animate attributeName="stdDeviation" 
+    values="1.0;2.0;1.0" 
+    by="0.25" 
+    dur="15s" 
+    begin="0s" 
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 1 1 0 1 1 0 1 1 0 1 1" />
+ <feFuncG type="discrete" tableValues="0 0 1 0 0 1 0 0 1 0 0 1" />
+ <feFuncB type="discrete" tableValues="0 1 1 0 1 1 0 1 1 0 1 1" />
+</feComponentTransfer>
+
+</filter>
+
+<filter id="posterize-0000">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation=".75" >
+ <animate attributeName="stdDeviation" 
+    values="1.0;2.0;1.0" 
+    by="0.25" 
+    dur="15s" 
+    begin="0s" 
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 .51  .51  .51   .29 1 0 1 1 0 1 1" />
+ <feFuncG type="discrete" tableValues="0   0  .381 .255   0  1 0 0 1 0 0 1" />
+ <feFuncB type="discrete" tableValues="0   0    0   0    .51 1 0 1 1 0 1 1" />
+</feComponentTransfer>
+
+</filter>
+
+<filter id="posterize-1">
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 .5 1" />
+ <feFuncG type="discrete" tableValues="0 1" />
+ <feFuncB type="discrete" tableValues="0" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-2">
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 .5 1" />
+ <feFuncG type="discrete" tableValues="0 .5 1" />
+ <feFuncB type="discrete" tableValues="0 .5 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-3">
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 .25 .5 .75 1" />
+ <feFuncG type="discrete" tableValues="0 .25 .5 .75 1" />
+ <feFuncB type="discrete" tableValues="0 .25 .5 .75 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-5">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="1 .75 .5 .25 0" />
+ <feFuncG type="discrete" tableValues="1 .75 .5 .25 0" />
+ <feFuncB type="discrete" tableValues="1 .75 .5 .25 0" />
+</feComponentTransfer>
+<feColorMatrix type="hueRotate" values="90" />
+</filter>
+
+<filter id="posterize-6">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues=".3 .9 .7 .6 .1" />
+ <feFuncG type="discrete" tableValues=".5 .7 .5 .7 .5" />
+ <feFuncB type="discrete" tableValues=".7 .6 .2 .9 .7" />
+</feComponentTransfer>
+<!--<feColorMatrix type="hueRotate" values="90" />-->
+</filter>
+
+<filter id="posterize-7">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .2 .1 .7 .6 .1 .9" />
+ <feFuncG type="discrete" tableValues="0 .1 .4 .5 .7 .5 .2" />
+ <feFuncB type="discrete" tableValues="0 .5 .2 .2 .9 .7 .1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-7-table">
+<feComponentTransfer result="poster">
+ <feFuncR type="table" tableValues="0 .2 .1 .7 .6 .1 .9" />
+ <feFuncG type="table" tableValues="0 .1 .4 .5 .7 .5 .2" />
+ <feFuncB type="table" tableValues="0 .5 .2 .2 .9 .7 .1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-8">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .2 .1 .7 .6 .1 .9" />
+ <feFuncG type="discrete" tableValues="0 .1 .4 .5 .7 .5 .2" />
+ <feFuncB type="discrete" tableValues="0 .5 .2 .2 .9 .7 .1" />
+</feComponentTransfer>
+<feColorMatrix type="hueRotate" values="180" />
+</filter>
+
+<filter id="posterize-9">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .2 .1 .7 1 .1 1" />
+ <feFuncG type="discrete" tableValues="0 .1 .4 .5 1 .5 1" />
+ <feFuncB type="discrete" tableValues="0 .5 .2 .2 1 .7 1" />
+</feComponentTransfer>
+<feColorMatrix type="hueRotate" values="180" />
+</filter>
+
+<filter id="posterize-10">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .1 .2 .5 .7 1 .1 1" />
+ <feFuncG type="discrete" tableValues="0 .4 .1 .3 .5 1 .5 1" />
+ <feFuncB type="discrete" tableValues="0 .7 .5 .1 .2 1 .7 1" />
+</feComponentTransfer>
+<feColorMatrix type="hueRotate" values="180" />
+</filter>
+
+<filter id="posterize-11">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .40 .01 .02 .21 .70 .06 .10 .07 1" />
+ <feFuncG type="discrete" tableValues="0 .40 .05 .01 .34 .50 .07 .50 .02 1" />
+ <feFuncB type="discrete" tableValues="0 .40 .03 .06 .15 .03 .10 .20 .01 1"/>
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-4">
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 .1 .2 .3 .4 .50 .60 .70 .80 .9 1" />
+ <feFuncG type="discrete" tableValues="0 .1 .2 .3 .4 .50 .60 .70 .80 .9 1" />
+ <feFuncB type="discrete" tableValues="0 .1 .2 .3 .4 .50 .60 .70 .80 .9 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-12">
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 1 .30 .70 .20 .1 .9" />
+ <feFuncG type="discrete" tableValues="0 1 .30 .70 .20 .1 .9" />
+ <feFuncB type="discrete" tableValues="0 1 .30 .70 .20 .1 .9" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-12-table">
+<feComponentTransfer>
+ <feFuncR type="table" tableValues="0 1 .30 .70 .20 .1 .9" />
+ <feFuncG type="table" tableValues="0 1 .30 .70 .20 .1 .9" />
+ <feFuncB type="table" tableValues="0 1 .30 .70 .20 .1 .9" />
+</feComponentTransfer>
+</filter>
+
+<filter id="photo-negative">
+<feComponentTransfer>
+ <feFuncR type="linear" slope="-1" intercept="1" />
+ <feFuncG type="linear" slope="-1" intercept="1" />
+ <feFuncB type="linear" slope="-1" intercept="1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="super-saturate">
+<feColorMatrix type="matrix" 
+ values="3 -1 -1 0 0
+         -1 3 -1 0 0
+         -1 -1 3 0 0
+         0   0 0 1 0" />
+</filter>
+
+<filter id="saturate-red">
+<feColorMatrix type="matrix" 
+ values="3 -1 -1 0 0
+        -1  2  0 0 0
+        -1  0  2 0 0
+         0  0  0 1 0" />
+</filter>
+
+<filter id="saturate-green">
+<feColorMatrix type="matrix" 
+ values="1  0  0 0 -.05
+        -1  3 -1 0  .1
+         0  0  1 0 -.05
+         0  0  0 1 0" />
+</filter>
+
+<filter id="saturate-blue">
+<feColorMatrix type="matrix" 
+ values="1 0 0 0 0
+         0 1 0 0 0
+         -1 -1 3 0 0
+         0 0 0 1 0" />
+</filter>
+
+<filter id="sharpen-1" >
+ <feGaussianBlur stdDeviation="1,2"/>
+ <feConvolveMatrix order="5"
+  kernelMatrix="1 1 1 1 1
+	              1 -2 -2 -2 1
+								1 -2 -.7 -2 1
+								1 -2 -2 -2 1
+								1 1 1 1 1" />
+</filter>
+
+<filter id="sharpen-2" >
+ <feGaussianBlur stdDeviation=".5,.5"/>
+ <feConvolveMatrix order="5"
+  kernelMatrix="1 1 1 1 1
+	              1 -2 -2 -2 1
+								1 -2 -.7 -2 1
+								1 -2 -2 -2 1
+								1 1 1 1 1" />
+</filter>
+
+<filter id="sharpen-3" >
+ <feGaussianBlur stdDeviation="3"/>
+ <feConvolveMatrix order="5"
+  kernelMatrix="1 1 1 1 1
+	              1 -2 -2 -2 1
+								1 -2 -.2 -2 1
+								1 -2 -2 -2 1
+								1 1 1 1 1" />
+</filter>
+
+<filter id="DD">
+<feComponentTransfer>
+ <feFuncA type="linear" intercept="1" slope="0" />
+ <feFuncB type="linear" tableValues="0 0 .5 1 1 0 .5 .5 0 0 0 0" />
+</feComponentTransfer>
+<feGaussianBlur stdDeviation="2" />
+<feCOlorMatrix type="matrix"
+  values="0 0 0 0 0
+          0 0 1 0 0
+          0 0 2 0 -1
+          0 0 0 1 0" />
+</filter>
+
+<filter id="table-1" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="1 0 0" />
+  <feFuncB type="table" tableValues="0" />
+  <feFuncA type="table" tableValues=".75"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-2" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="1 0 0" />
+  <feFuncG type="table" tableValues="1 .5 .5 .5" />
+  <feFuncB type="table" tableValues="0 1 0" />
+  <feFuncA type="table" tableValues=".75"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-3" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="1 0 0" />
+  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0" />
+  <feFuncB type="table" tableValues=".5 1 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-4" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="1 0 .5 0 1" />
+  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0" />
+  <feFuncB type="table" tableValues=".5 1 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-5" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="1 0 .5 0 1" />
+  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0" />
+  <feFuncB type="table" tableValues=".5 1 0 1 .5 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-6" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues=".2 .4 .6 .8 .6 .4 .2" />
+  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0 .5 0 .5" />
+  <feFuncB type="table" tableValues="1 0 .4 0 .4 0 .4 0 .4 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-7" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues=".2 .1 .2 1 .2 1 .2 1" />
+  <feFuncG type="table" tableValues=" .1 1 .1 1 .1 1 .1 1" />
+  <feFuncB type="table" tableValues=".2 .1 .2 1 .2 1 .2 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-8" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="0 .1 0 1 0 1 0 1" />
+  <feFuncG type="table" tableValues=" .1 1 .1 1 .1 1 .1 1" />
+  <feFuncB type="table" tableValues=".2 1 .2 1 .2 1 .2 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-9" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncG type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-10" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncG type="table" tableValues="0 1 0 0 1 0 1 0" />
+  <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-11" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncG type="table" tableValues="0 1 0 0 1 0 1 0" >
+    <animate attributeName="tableValues" 
+      values="1 0 1 0 0 1 0 1;.5 0 .5 0 .5 0 .5 0;1 0 1 0 0 1 0 1"
+      dur="10s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-12" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncG type="table" tableValues="0 1 0 0 1 0 1 0" >
+    <animate attributeName="tableValues" 
+      values="1 .5 1 .5 .5 1 .5 1;.5 0 .5 0 .5 0 .5 0;1 .5 1 .5 .5 1 .5 1"
+      dur="10s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-14" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="1 .75 .5 .25 0" >
+     <animate attributeName="tableValues" 
+      values="1 .75 .5 .25 0;0 .25 .5 .75 1;1 .75 .5 .25 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncR>
+  <feFuncG type="table" tableValues="1 .75 .5 .25 0" >
+    <animate attributeName="tableValues" 
+      values="1 .75 .5 .25 0;0 .25 .5 .75 1;1 .75 .5 .25 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="1 .75 .5 .25 0" >
+     <animate attributeName="tableValues" 
+      values="1 .75 .5 .25 0;0 .25 .5 .75 1;1 .75 .5 .25 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFunkB>
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-15" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="0 0 0 1 0 0 0" >
+    <animate attributeName="tableValues" 
+      values="0 0 0 1 0 0 0;1 0 0 1 0 0 1;0 0 0 1 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncR>
+  <feFuncG type="table" tableValues="0 0 0 1 0 0 0" >
+   <animate attributeName="tableValues" 
+      values="0 0 0 1 0 0 0;1 0 0 1 0 0 1;0 0 0 1 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="0 0 0 1 0 0 0" >
+    <animate attributeName="tableValues" 
+      values="0 0 0 1 0 0 0;1 0 0 1 0 0 1;0 0 0 1 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFunkB>
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-16" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="0 0 0 0 1 0 0 0 0" >
+    <animate attributeName="tableValues" 
+      values="0 0 0 0 1 0 0 0 0;1 1 0 0 1 0 0 0 1;0 0 0 0 1 0 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncR>
+  <feFuncG type="table" tableValues="0 0 0 0 1 0 0 0 0" >
+   <animate attributeName="tableValues" 
+      values="0 0 0 0 1 0 0 0 0;1 1 0 0 1 0 0 0 1;0 0 0 0 1 0 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="0 0 0 0 1 0 0 0 0" >
+    <animate attributeName="tableValues" 
+      values="0 0 0 0 1 0 0 0 0;1 1 0 0 1 0 0 0 1;0 0 0 0 1 0 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFunkB>
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-17" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues=".7 0 0 2" >
+    <animate attributeName="tableValues" 
+      values=".7 0 0 2;.9 .2 .2 3;.7 0 0 2"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncR>
+  <feFuncG type="table" tableValues=".7 0 0 2" >
+   <animate attributeName="tableValues" 
+      values=".7 0 0 2;.9 .2 .2 3;.7 0 0 2"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues=".7 0 0 2" >
+    <animate attributeName="tableValues" 
+      values=".7 0 0 2;.9 .2 .2 3;.7 0 0 2"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFunkB>
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+<filter id="table-18" >
+ <feComponentTransfer>
+  <feFuncR type="table" tableValues="0 .8 .2 .8 0" >
+    <animate attributeName="tableValues" 
+      values="0 .8 .2 .8 0;0 .9 .4 .3 .8;0 .8 .2 .8 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncR>
+  <feFuncG type="table" tableValues="0 .8 .2 .8 0" >
+   <animate attributeName="tableValues" 
+      values="0 .8 .2 .8 0;0 .9 .3 .4 .6;0 .8 .2 .8 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="0 .8 .2 .8 0" >
+    <animate attributeName="tableValues" 
+      values="0 .8 .2 .8 0;0 .9 .1 .4 .7;0 .8 .2 .8 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFunkB>
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+</filter>
+
+</defs>
+
+
+
+<g id="clickMe" transform="scale(1)">
+
+<image id="image1" xlink:href="/images/Butterfly 6.jpg" width="500" x="20" y="150" height="700"  filter="url(#displaceX)" />
+</g>
+
+<g transform="translate(600, 0)"  filter="">
+	<image id="image2" xlink:href="/images/Butterfly 6.jpg" width="500" x="20" y="150" height="700" />
+</g>
+
+<g id="graphics-2"  transform="translate(550,0)" >
+<text style="font-size: 120; fill: #abc; stroke: none;"
+ mask="#RG-mask" x="0" y="100">This is some text</text>
+<use xlink:href="#rgb-grad-rect-1" x="360" y="20" fill="url(#red-grad)" />
+<use xlink:href="#rgb-grad-rect-1" x="360" y="50" fill="url(#green-grad)"  />
+<use xlink:href="#rgb-grad-rect-1" x="360" y="80" fill="url(#blue-grad)"/>
+</g>
+
+<g id="graphics-1"  transform="translate(550,0)" filter="">
+<text style="font-size: 120; fill: #abc; stroke: none;"
+ mask="#RG-mask" x="0" y="100">This is some text</text>
+<use xlink:href="#rgb-grad-rect-1" x="100" y="20" fill="url(#red-grad)" />
+<use xlink:href="#rgb-grad-rect-1" x="100" y="50" fill="url(#green-grad)"  />
+<use xlink:href="#rgb-grad-rect-1" x="100" y="80" fill="url(#blue-grad)"/>
+</g>
+
+
+<use xlink:href="#linear-displace-rect-1" transform="translate(0,800)" />
+<use xlink:href="#FishEyeRect" transform="translate(500,800)" />
+
+</svg>
+
+
+</body>
+</html>

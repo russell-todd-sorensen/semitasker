@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sudoku Formatting Example</title>
+
+<link rel="stylesheet" href="sudoku-test.css" media="all" >
+
+<script type="text/javascript">
+
+function doit (x) {
+	x.contentEditable=true;
+	x.innerHTML.selected=true;
+}
+
+var sNumber = " ";
+var data = "";
+function grabNumber(num) {
+	sNumber = num;
+}
+
+function pasteNumber(id) {
+	//document.getElementById(id).value = sNumber;
+	document.getElementById(id).innerHTML = sNumber;
+	//document.getElementById(id).innerHTML = data;
+}
+function setData() {
+	document.forms["form1"].test1.value = "abc";
+}
+
+</script>
+</head>
+<body onload="setData();">
+
+
+
+<div class='top'>
+ <div class='boxrow'>
+  <div class='row'>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C1")'><span class='data'><span id='C1' class='input2'>2</span></span></div>
+    <div class='cell' onClick='pasteNumber("C2")'><span class='data'><span id='C2' class='input2'>8</span></span></div>
+    <div class='cell' onClick='pasteNumber("C3")'><span class='data'><span id='C3' class='input2'>6</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C4")'><span class='data'><span id='C4' class='input2'>5</span></span></div>
+    <div class='cell' onClick='pasteNumber("C5")'><span class='data'><span id='C5' class='input2'>7</span></span></div>
+    <div class='cell' onClick='pasteNumber("C6")'><span class='data'><span id='C6' class='input2'>1</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C7")'><span class='data'><span id='C7' class='input2'>9</span></span></div>
+    <div class='cell' onClick='pasteNumber("C8")'><span class='data'><span id='C8' class='input2'>4</span></span></div>
+    <div class='cell' onClick='pasteNumber("C9")'><span class='data'><span id='C9' class='input2'>3</span></span></div>
+    <div class='rightbox'> </div>
+  </div>
+  <div class='row'>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C10")'><span class='data'><span id='C10' class='input2'>3</span></span></div>
+    <div class='cell' onClick='pasteNumber("C11")'><span class='data'><span id='C11' class='input2'>9</span></span></div>
+    <div class='cell' onClick='pasteNumber("C12")'><span class='data'><span id='C12' class='input2'>7</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C13")'><span class='data'><span id='C13' class='input2'>8</span></span></div>
+    <div class='cell' onClick='pasteNumber("C14")'><span class='data'><span id='C14' class='input2'>4</span></span></div>
+    <div class='cell' onClick='pasteNumber("C15")'><span class='data'><span id='C15' class='input2'>2</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C16")'><span class='data'><span id='C16' class='input2'>6</span></span></div>
+    <div class='cell' onClick='pasteNumber("C17")'><span class='data'><span id='C17' class='input2'>5</span></span></div>
+    <div class='cell' onClick='pasteNumber("C18")'><span class='data'><span id='C18' class='input2'>1</span></span></div>
+    <div class='rightbox'> </div>
+  </div>
+  <div class='row'>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C19")'><span class='data'><span id='C19' class='input2'>5</span></span></div>
+    <div class='cell' onClick='pasteNumber("C20")'><span class='data'><span id='C20' class='input2'>4</span></span></div>
+    <div class='cell' onClick='pasteNumber("C21")'><span class='data'><span id='C21' class='input2'>1</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C22")'><span class='data'><span id='C22' class='input2'>3</span></span></div>
+    <div class='cell' onClick='pasteNumber("C23")'><span class='data'><span id='C23' class='input2'>6</span></span></div>
+    <div class='cell' onClick='pasteNumber("C24")'><span class='data'><span id='C24' class='input2'>9</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C25")'><span class='data'><span id='C25' class='input2'>2</span></span></div>
+    <div class='cell' onClick='pasteNumber("C26")'><span class='data'><span id='C26' class='input2'>8</span></span></div>
+    <div class='cell' onClick='pasteNumber("C27")'><span class='data'><span id='C27' class='input2'>7</span></span></div>
+    <div class='rightbox'> </div>
+  </div>
+ </div><!-- ? -->
+ <div class='boxrow'>
+  <div class='row'>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C28")'><span class='data'><span id='C28' class='input2'>6</span></span></div>
+    <div class='cell' onClick='pasteNumber("C29")'><span class='data'><span id='C29' class='input2'>1</span></span></div>
+    <div class='cell' onClick='pasteNumber("C30")'><span class='data'><span id='C30' class='input2'>3</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C31")'><span class='data'><span id='C31' class='input2'>2</span></span></div>
+    <div class='cell' onClick='pasteNumber("C32")'><span class='data'><span id='C32' class='input2'>5</span></span></div>
+    <div class='cell' onClick='pasteNumber("C33")'><span class='data'><span id='C33' class='input2'>8</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C34")'><span class='data'><span id='C34' class='input2'>7</span></span></div>
+    <div class='cell' onClick='pasteNumber("C35")'><span class='data'><span id='C35' class='input2'>9</span></span></div>
+    <div class='cell' onClick='pasteNumber("C36")'><span class='data'><span id='C36' class='input2'>4</span></span></div>
+    <div class='rightbox'> </div>
+  </div>
+  <div class='row'>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C37")'><span class='data'><span id='C37' class='input2'>9</span></span></div>
+    <div class='cell' onClick='pasteNumber("C38")'><span class='data'><span id='C38' class='input2'>5</span></span></div>
+    <div class='cell' onClick='pasteNumber("C39")'><span class='data'><span id='C39' class='input2'>2</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C40")'><span class='data'><span id='C40' class='input2'>4</span></span></div>
+    <div class='cell' onClick='pasteNumber("C41")'><span class='data'><span id='C41' class='input2'>3</span></span></div>
+    <div class='cell' onClick='pasteNumber("C42")'><span class='data'><span id='C42' class='input2'>7</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C43")'><span class='data'><span id='C43' class='input2'>8</span></span></div>
+    <div class='cell' onClick='pasteNumber("C44")'><span class='data'><span id='C44' class='input2'>1</span></span></div>
+    <div class='cell' onClick='pasteNumber("C45")'><span class='data'><span id='C45' class='input2'>6</span></span></div>
+    <div class='rightbox'> </div>
+  </div>
+  <div class='row'>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C46")'><span class='data'><span id='C46' class='input2'>8</span></span></div>
+    <div class='cell' onClick='pasteNumber("C47")'><span class='data'><span id='C47' class='input2'>7</span></span></div>
+    <div class='cell' onClick='pasteNumber("C48")'><span class='data'><span id='C48' class='input2'>4</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C49")'><span class='data'><span id='C49' class='input2'>9</span></span></div>
+    <div class='cell' onClick='pasteNumber("C50")'><span class='data'><span id='C50' class='input2'>1</span></span></div>
+    <div class='cell' onClick='pasteNumber("C51")'><span class='data'><span id='C51' class='input2'>6</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C52")'><span class='data'><span id='C52' class='input2'>5</span></span></div>
+    <div class='cell' onClick='pasteNumber("C53")'><span class='data'><span id='C53' class='input2'>3</span></span></div>
+    <div class='cell' onClick='pasteNumber("C54")'><span class='data'><span id='C54' class='input2'>2</span></span></div>
+    <div class='rightbox'> </div>
+  </div>
+ </div><!-- ? -->
+ <div class='boxrow'>
+  <div class='row'>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C55")'><span class='data'><span id='C55' class='input2'>1</span></span></div>
+    <div class='cell' onClick='pasteNumber("C56")'><span class='data'><span id='C56' class='input2'>6</span></span></div>
+    <div class='cell' onClick='pasteNumber("C57")'><span class='data'><span id='C57' class='input2'>9</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C58")'><span class='data'><span id='C58' class='input2'>7</span></span></div>
+    <div class='cell' onClick='pasteNumber("C59")'><span class='data'><span id='C59' class='input2'>8</span></span></div>
+    <div class='cell' onClick='pasteNumber("C60")'><span class='data'><span id='C60' class='input2'>4</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C61")'><span class='data'><span id='C61' class='input2'>3</span></span></div>
+    <div class='cell' onClick='pasteNumber("C62")'><span class='data'><span id='C62' class='input2'>2</span></span></div>
+    <div class='cell' onClick='pasteNumber("C63")'><span class='data'><span id='C63' class='input2'>5</span></span></div>
+    <div class='rightbox'> </div>
+  </div>
+  <div class='row'>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C64")'><span class='data'><span id='C64' class='input2'>7</span></span></div>
+    <div class='cell' onClick='pasteNumber("C65")'><span class='data'><span id='C65' class='input2'>3</span></span></div>
+    <div class='cell' onClick='pasteNumber("C66")'><span class='data'><span id='C66' class='input2'>8</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C67")'><span class='data'><span id='C67' class='input2'>1</span></span></div>
+    <div class='cell' onClick='pasteNumber("C68")'><span class='data'><span id='C68' class='input2'>2</span></span></div>
+    <div class='cell' onClick='pasteNumber("C69")'><span class='data'><span id='C69' class='input2'>5</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C70")'><span class='data'><span id='C70' class='input2'>4</span></span></div>
+    <div class='cell' onClick='pasteNumber("C71")'><span class='data'><span id='C71' class='input2'>6</span></span></div>
+    <div class='cell' onClick='pasteNumber("C72")'><span class='data'><span id='C72' class='input2'>9</span></span></div>
+    <div class='rightbox'> </div>
+  </div>
+  <div class='row'>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C73")'><span class='data'><span id='C73' class='input2'>4</span></span></div>
+    <div class='cell' onClick='pasteNumber("C74")'><span class='data'><span id='C74' class='input2'>2</span></span></div>
+    <div class='cell' onClick='pasteNumber("C75")'><span class='data'><span id='C75' class='input2'>5</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C76")'><span class='data'><span id='C76' class='input2'>6</span></span></div>
+    <div class='cell' onClick='pasteNumber("C77")'><span class='data'><span id='C77' class='input2'>9</span></span></div>
+    <div class='cell' onClick='pasteNumber("C78")'><span class='data'><span id='C78' class='input2'>3</span></span></div>
+    <div class='rightbox'> </div>
+    <div class='leftbox'> </div>
+    <div class='cell' onClick='pasteNumber("C79")'><span class='data'><span id='C79' class='input2'>1</span></span></div>
+    <div class='cell' onClick='pasteNumber("C80")'><span class='data'><span id='C80' class='input2'>7</span></span></div>
+    <div class='cell' onClick='pasteNumber("C81")'><span class='data'><span id='C81' class='input2'>8</span></span></div>
+    <div class='rightbox'> </div>
+  </div>
+ </div><!-- ? -->
+</div>
+
+<div class='top'>
+ <div class='boxrow'>
+   <div class="row">
+    <div class='leftbox'> </div>
+    <div class='cell'><span class='data' id="N1" onClick="grabNumber(1)">1</span></div>
+    <div class='cell'><span class='data' id="N2" onClick="grabNumber(2)">2</span></div>
+    <div class='cell'><span class='data' id="N3" onClick="grabNumber(3)">3</span></div>
+    <div class='rightbox'> </div>
+ </div>
+</div>
+
+
+
+
+
+
+
+
+
+<form action="." name="form1">
+<input type="text" name="test1" value="abc" size="30"><br>
+<input type="submit" value="Enter" id="b">
+</form>
+
+
+</body>
+</html>

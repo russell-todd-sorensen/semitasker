@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Background Gradient Testing</title>
+ <link rel="stylesheet" type="text/css" href="main.css">
+ <script language="javascript" src="../js/jquery-v141.js"></script>
+ <script language="javascript">
+ var log; // use to log info about what is happening
+ 
+ function adjustDivDimensions (childSelector, parentSelector, padding) {
+	 var jObj = $(childSelector);
+	 var outerHeight = jObj.outerHeight();
+	 var outerWidth = jObj.outerWidth();
+	 parent = $(parentSelector);
+	 log.append('outerHeight =' + outerHeight + ' innerHeight=' + innerHeight + '\n');
+	 log.append('Before: height='+ parent.height() + ' width=' + parent.width() +'\n');
+	 parent.height(2*padding+outerHeight);
+	 parent.width(2*padding+outerWidth);
+	 log.append('After: height=' + parent.height() + ' width=' + parent.width() +'\n');
+ }
+ function printDimension(id) {
+	  var height = $(id).height();
+		var width  = $(id).width();
+		var innerHeight = $(id).innerHeight();
+		var innerWidth = $(id).innerWidth();
+		log.append('id =' + id + ' height=' + height
+			+ ' width=' + width + ' innerHeight='
+			+ innerHeight + ' innerWidth=' + innerWidth
+			+ '\n');
+	 
+ }
+ function shrinkDimension(id, padding) {
+	 	var height = $(id).height();
+		var width  = $(id).width();
+		var innerHeight = $(id).innerHeight();
+		var innerWidth = $(id).innerWidth();
+		log.append('Before: id =' + id + ' height=' + height
+			+ ' width=' + width + ' innerHeight='
+			+ innerHeight + ' innerWidth=' + innerWidth
+			+ '\n');
+	  $(id).height(parseInt(height)+2*padding);
+		$(id).width(parseInt(width)+2*padding);
+	  var height = $(id).height();
+		var width  = $(id).width();
+		var innerHeight = $(id).innerHeight();
+		var innerWidth = $(id).innerWidth();
+		log.append('After: id =' + id + ' height=' + height
+			+ ' width=' + width + ' innerHeight='
+			+ innerHeight + ' innerWidth=' + innerWidth
+			+ '\n');
+ }
+   // This runs at after the document is 'ready'
+  $(document).ready(function() {
+   log = $('#log');
+	 log.append('Document Ready!\n');
+	 printDimension('#time1');
+	 shrinkDimension('#time2',2);
+ });
+ 
+ </script>
+<style>
+
+</style>
+
+</head>
+<body>
+
+<h2>Background Gradient Example </h2>
+
+<div id="container1">
+
+</div>
+
+<div id="container2">
+ <div id="slider"></div>
+ <div id="front"><div id="topGradient"></div><div id="bottomGradient"></div></div>
+</div>
+
+<div id="container3">
+ <div class="slider"></div>
+ <div class="front"><div class="topG"></div><div class="bottomG"></div></div>
+</div>
+
+<div id="container4">
+ <div class="slider"></div>
+ <div class="topG"></div>
+ <div class="bottomG"></div>
+ <div class="front"></div>
+</div>
+
+<div id="outsideButtons">
+<div id="container5">
+ <div class="slider"></div>
+ <div class="front"><span id="time1">15:00</span></div>
+ <div class="topG"></div>
+ <div class="bottomG"></div>
+</div>
+</div>
+
+<div id="outsideButtons6">
+<div id="container6">
+ <div class="slider"></div>
+ <div class="front"><span id="time2">15:00</span></div>
+ <div class="topG2"></div>
+ <div class="bottomG2"></div>
+</div>
+</div>
+
+<pre id="log">
+Logging information
+</pre>
+
+
+</body>
+</html> 

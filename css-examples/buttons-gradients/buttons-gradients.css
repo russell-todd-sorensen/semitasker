@@ -1,0 +1,45 @@
+@charset "utf-8";
+/* CSS Document */
+
+.main-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.main {
+    display: inline-block;
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+}
+.main-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+.button-west {
+    background: #f00;
+    background: linear-gradient(left, #f00, #00f);
+    width: 250px;
+    min-width: 250px;
+    min-height: 30px;
+    opacity: .5;
+}
+
+.hilite {
+    background-color:#C60;
+    color: white;
+}

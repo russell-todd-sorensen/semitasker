@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   width="32"
+   height="32"
+   id="svg2383">
+  <defs
+     id="defs2385">
+    <linearGradient
+       id="linearGradient2426">
+      <stop
+         id="stop2428"
+         style="stop-color:#800000;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="stop2430"
+         style="stop-color:#800000;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       id="linearGradient2395">
+      <stop
+         id="stop2397"
+         style="stop-color:#800000;stop-opacity:0.5103448"
+         offset="0" />
+      <stop
+         id="stop2399"
+         style="stop-color:#800000;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       x1="5.0902848"
+       y1="6.3699703"
+       x2="34.024536"
+       y2="19.944063"
+       id="linearGradient2432"
+       xlink:href="#linearGradient2426"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     id="layer2">
+    <g
+       id="g2404"
+       style="fill:url(#linearGradient2432);fill-opacity:1">
+      <path
+         d="M 2.1969094,14.611251 L 16.451905,27.488219 L 27.948525,17.58853 L 11.656288,14.401369 L 2.1969094,14.611251 z"
+         id="path2414"
+         style="fill:url(#linearGradient2432);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         d="M 2.1969094,13.306008 L 2.1969094,14.611251 L 11.656288,14.401369 L 11.656288,13.507937 L 2.1969094,13.306008 z"
+         id="path2406"
+         style="fill:url(#linearGradient2432);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         d="M 11.656288,13.507937 L 27.948525,15.518447 L 27.948525,17.58853 L 11.656288,14.401369 L 11.656288,13.507937 z"
+         id="path2416"
+         style="fill:url(#linearGradient2432);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         d="M 2.1969094,13.306008 L 16.451905,19.792014 L 27.948525,15.518447 L 11.656288,13.507937 L 2.1969094,13.306008 z"
+         id="path2408"
+         style="fill:url(#linearGradient2432);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         d="M 16.451905,19.792014 L 16.451905,27.488219 L 27.948525,17.58853 L 27.948525,15.518447 L 16.451905,19.792014 z"
+         id="path2412"
+         style="fill:url(#linearGradient2432);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1" />
+      <path
+         d="M 2.1969094,13.306008 L 16.451905,19.792014 L 16.451905,27.488219 L 2.1969094,14.611251 L 2.1969094,13.306008 z"
+         id="path2410"
+         style="fill:url(#linearGradient2432);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1" />
+    </g>
+  </g>
+</svg>

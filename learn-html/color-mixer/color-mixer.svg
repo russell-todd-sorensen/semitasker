@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg 
+    xmlns:svg="http://www.w3.org/2000/svg" 
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0" 
+    x="0" 
+    y="0" 
+    width="1500"
+    height="1200" 
+    viewBox="0 0 1500 1200">
+<script xlink:href="http://ic00408/js/jquery-1.7.1.js"></script>
+<script xlink:href="http://ic00408/js/d3.v3.js" ></script>
+<script xlink:href="http://ic00408/js/log-2.js"></script>
+<script type="javascript">
+// <![CDATA[ 
+
+var x = 100;
+
+$(document).ready(function() {
+	d3.select('#slider-1').bind('click', function(evt) {Log.Notice('hi');});
+	Log.Notice('ready');
+});
+
+// ]]>
+</script>
+<style>
+svg {
+	background-color: black;
+}
+
+.text, .label {
+	fill: #CCCCDD;
+	font-size: 15px;
+	font-weight: bold;
+	font-family: "Agency FB Bold";
+	letter-spacing: 3px;
+}
+
+#hex-controls {
+	display: none;
+}
+</style>
+<defs>
+<link rel="stylesheet" type="text/css" xlink:href="http://ic00408/css/log.css" media="all" />
+<path id="triangle-1" d="M 50 50 L 100 100 L 0 100 Z"  />
+		
+<linearGradient id="gradient-1" gradientUnits="objectBoundingBox" color-interpolation="sRGB" >
+ <stop offset="0%" stop-color="#000" stop-opacity="1.0" />
+ <stop offset="100%" stop-color="#F00" stop-opacity="1.0" />
+</linearGradient>
+
+<linearGradient id="gradient-4" gradientUnits="objectBoundingBox" color-interpolation="sRGB" >
+ <stop offset="0%" stop-color="#FF0000" stop-opacity="1.0" id="lg-4-0" />
+ <stop offset="16.67%" stop-color="#FFFF00" stop-opacity="1.0" id="lg-4-17" />
+ <stop offset="33.3%" stop-color="#00FF00" stop-opacity="1.0" id="lg-4-33" />
+ <stop offset="50%" stop-color="#00FFFF" stop-opacity="1.0" id="lg-4-50" />
+ <stop offset="66.67%" stop-color="#0000FF" stop-opacity="1.0" id="lg-4-67" />
+ <stop offset="83.3%" stop-color="#FF00FF" stop-opacity="1.0" id="lg-4-83" />
+ <stop offset="100%" stop-color="#FF0000" stop-opacity="1.0" id="lg-4-100" />
+</linearGradient>
+
+<linearGradient id="gradient-5" gradientUnits="objectBoundingBox"
+x1="50%" y1="0%" x2="50%" y2="100%" color-interpolation="sRGB">
+ <stop offset="0%" stop-color="#808080" stop-opacity="1.0" />
+ <stop offset="50%" stop-color="#808080" stop-opacity="0.5" />
+ <stop offset="100%" stop-color="#808080" stop-opacity="0.0" />
+</linearGradient>
+
+<rect id="rect-field-2" stroke="hsl(180,0%,60%)" fill="none" stroke-width="1" height="15" width="25" stroke-linejoin="bevel" />
+<rect id="rect-field-3" stroke="hsl(180,0%,60%)" fill="none" stroke-width="1" height="15" width="32" stroke-linejoin="bevel" />
+<rect id="rect-field-4" stroke="hsl(180,0%,60%)" fill="none" stroke-width="1" height="15" width="70" stroke-linejoin="bevel" />
+
+</defs>
+
+<use id="slider-1" xlink:href="#triangle-1" fill="none" stroke="#0066FF" stroke-width="2" />
+
+<g id="swatch-1-controls" transform="translate(100,200)">
+ <g id="swatch-1-hex-controls">
+	<text id="swatch-1-hex-label" x="0" y="23" class="label">HEX</text>
+	<g id="swatch-1-hex-value" transform="translate(30,0)">
+		<use xlink:href="#rect-field-2" x="13" y="10" />
+		<text id="swatch-1-hex-r" class="text" x="18" y="23" >FF</text>
+		<use xlink:href="#rect-field-2" x="51" y="10" />
+		<text id="swatch-1-hex-gr" class="text" x="56" y="23" >A0</text>
+		<use xlink:href="#rect-field-2" x="89" y="10" />
+		<text id="swatch-1-hex-b" class="text" x="92" y="23" >2B</text>
+	</g>
+ </g>
+ <g id="swatch-1-rgb-controls" transform="translate(0,25)">
+	<text id="swatch-1-rgb-label" x="0" y="23" class="label">RGB</text>
+	<g id="swatch-1-rgb-value" transform="translate(30,0)">
+		<use xlink:href="#rect-field-3" x="10" y="10" />
+		<text id="swatch-1-rgb-r" class="text" x="13" y="23" >255</text>
+		<use xlink:href="#rect-field-3" x="48" y="10" />
+		<text id="swatch-1-rgb-g" class="text" x="51" y="23" >162</text>
+		<use xlink:href="#rect-field-3" x="86" y="10" />
+		<text id="swatch-1-rgb-b" class="text" x="89" y="23" >102</text>
+	</g>
+ </g>
+ <g id="swatch-1-hsl-controls" transform="translate(0,50)">
+	<text id="swatch-1-hsl-label" x="0" y="23" class="label">HSL</text>
+	<g id="swatch-1-hsl-value" transform="translate(30,0)">
+		<use xlink:href="#rect-field-3" x="10" y="10" />
+		<text id="swatch-1-hsl-h" class="text" x="13" y="23" >300</text>
+		<use xlink:href="#rect-field-3" x="48" y="10" />
+		<text id="swatch-1-hsl-s" class="text" x="51" y="23" >75%</text>
+		<use xlink:href="#rect-field-3" x="86" y="10" />
+		<text id="swatch-1-hsl-l" class="text" x="89" y="23" >50%</text>
+	</g>
+ </g>
+ <g id="swatch-1-hex-controls" transform="translate(0,75)">
+	<text id="swatch-1-hex-label" x="0" y="23" class="label">HEX</text>
+	<g id="swatch-1-hex-value" transform="translate(30,0)">
+		<use xlink:href="#rect-field-4" x="10" y="10" />
+		<text id="swatch-1-hex-rgb" class="text" x="15" y="23" >FFA02B</text>
+	</g>
+ </g>
+</g>
+
+
+<g id="hsv-from rgb" transform="translate(300,50)">
+<rect id="hsv-from-rgb" x="0" y="0" height="256" width="360" fill="url(#gradient-4)"/>
+<rect id="hsv-screen" x="0" y="0" height="256" width="360" fill="url(#gradient-5)" />
+<circle stroke-linecap="butt"
+</g>
+
+</svg>
+

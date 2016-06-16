@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   width="1000"
+   height="1000">
+  <defs>
+	<g id="layer1">
+    <path
+       d="M 108.33333,30.833334 A 29.583334,29.166668 0 1 1 108.32669,30.215435"
+       id="path2464"
+       style="fill:#800000;fill-opacity:1" />
+  </g>
+	<text id="t1" text-anchor="middle" x="80" y="100" >Hi</text>
+	
+	<path id="p1" 
+	      d="M 80 90 L 200 110" 
+	      fill="none"
+        stroke-width="2" />
+	<path id="c1"
+			  d="M 50 30 S51 51 52 52 54 54 50 30 "
+				fill="blue"
+				stroke-width="2"
+	      />
+	</defs>
+	<style>
+	<![CDATA[
+	svg {
+	font-family: "Berlin Sans FB Bold";
+	fill: #345;
+	stroke: black;
+	stroke-width: 0px;
+	font-size: 80pt;
+	
+	}
+	--]]>
+	</style>
+
+<use xlink:href="#t1" />
+
+<g transform="translate(0, 100)">
+<use xlink:href="#t1" glyph-orientation-horizontal="60" />
+</g>
+
+<g transform="translate(0, 200)">
+<use xlink:href="#t1" glyph-orientation-horizontal="180" />
+</g>
+
+<g transform="translate(0, 300)">
+<use xlink:href="#t1" rotate="90"  />
+</g>
+<g transform="translate(200, 100)">
+<use xlink:href="#p1" />
+<text >
+ <textPath xlink:href="#p1" startOffset="0%" baseline-shift="30" >
+ Hi
+ </textPath>
+</text>
+</g>
+
+<g transform="translate(200, 200)">
+<use xlink:href="#p1" />
+<text >
+ <textPath xlink:href="#p1" startOffset="0%">
+ Hi
+ </textPath>
+</text>
+</g>
+
+<g transform="translate(300, 300)">
+<use xlink:href="#p1" 
+     stroke="green"  />
+<text>
+ <textPath xlink:href="#p1" startOffset="0%">
+ Hi
+ </textPath>
+<animateTransform attributeName="transform" type="rotate" from="0" to="360" begin="0s" dur="4s" fill="freeze" />
+</text> 
+</g>
+
+<g transform="translate(400, 400)">
+<use xlink:href="#c1" 
+     stroke="brown"  />
+<text>
+ <textPath xlink:href="#c1" textLength="100">
+ Hi
+ </textPath>
+<animateTransform attributeName="transform" type="rotate" from="0" to="360" begin="0s" dur="4s" fill="freeze" />
+</text> 
+</g>
+
+<!--
+      <xs:attribute name="font-stretch">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="normal" />
+            <xs:enumeration value="wider" />
+            <xs:enumeration value="narrower" />
+            <xs:enumeration value="ultra-condensed" />
+            <xs:enumeration value="extra-condensed" />
+            <xs:enumeration value="condensed" />
+            <xs:enumeration value="semi-condensed" />
+            <xs:enumeration value="semi-expanded" />
+            <xs:enumeration value="expanded" />
+            <xs:enumeration value="extra-expanded" />
+            <xs:enumeration value="ultra-expanded" />
+            <xs:enumeration value="inherit" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="font-style">
+        <xs:simpleType>
+          <xs:restriction base="xs:NMTOKEN">
+            <xs:enumeration value="normal" />
+            <xs:enumeration value="italic" />
+            <xs:enumeration value="oblique" />
+            <xs:enumeration value="inherit" />
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:attribute>
+-->
+</svg>

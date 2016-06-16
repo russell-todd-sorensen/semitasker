@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg>
+<svg 
+    id="svg"
+    xmlns:svg="http://www.w3.org/2000/svg" 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
+    version="1.0" 
+    x="0" 
+    y="0" 
+		height="1200" 
+		width="1200" 
+		viewBox="0 0 1200 1200">
+<defs>
+
+</defs>
+
+<!--
+<g id="euclidian-transform-xy-plane" transform="matrix(1 0 0 -1 1200 1200)">
+<line y1="0" x1="-100%" x2="100%" y2="0"  stroke="black" stroke-width="1" />
+<line x1="0" y1="-100%" y2="100%" x2="0"  stroke="black" stroke-width="1" />
+
+<g id="box-0" transform="matrix(.01 0 0 .27 300 0)">
+<rect id="r0" x="0" y="0" height="600" width="600" fill="#7f8" opacity=".5" stroke="blue" stroke-width="1" />
+<text id="t0" font-size="70" fill="yellow" x="0" y="0" transform="matrix(1 0 0 -1 5 500)" >0 Hi There</text>
+</g>
+
+<g id="box-1" transform="matrix(-.139 .263 .246 .224 342 -21.6)">
+<rect id="r1" x="0" y="0" height="600" width="600" fill="#7f8" opacity=".5" stroke="silver" stroke-width="1" />
+<text id="t1" font-size="70" fill="yellow" x="0" y="0" transform="matrix(1 0 0 -1 5 500)" >1 Hi There</text>
+</g>
+
+<g id="box-2" transform="matrix(.17 -.215 .222 .176 244.8 53.58)">
+<rect id="r2" x="0" y="0" height="600" width="600" fill="#1ab" opacity=".5" stroke="red" stroke-width="1" />
+<text id="t2" font-size="70" fill="tan" x="0" y="0" transform="matrix(1 0 0 -1 5 500)" >2 Hi There</text>
+</g>
+
+<g id="box-3" transform="matrix(.781 .034 -.032 .739 64.5 162)">
+<rect id="r3" x="0" y="0" height="600" width="600" fill="#abc" opacity=".5" stroke="black" stroke-width="1" />
+<text id="t3" font-size="70" fill="yellow" x="0" y="0" transform="matrix(1 0 0 -1 5 500)" >3 Hi There</text>
+</g>
+
+<g id="box-4" transform="matrix(.781 .034 -.032 .739 64.5 162)">
+<rect id="r4" x="0" y="0" height="600" width="600" fill="#987" opacity=".5" stroke="green" stroke-width="1" />
+<text id="t4" font-size="70" fill="yellow" x="0" y="0" transform="matrix(1 0 0 -1 5 500)" >4 Hi There</text>
+</g>
+
+<g id="box-5" transform="matrix(.781 .034 -.032 .739 64.5 162)">
+<rect id="r5" x="0" y="0" height="600" width="600" fill="#abc" opacity=".5" stroke="purple" stroke-width="1" />
+<text id="t5" font-size="70" fill="yellow" x="0" y="0" transform="matrix(1 0 0 -1 5 500)" >5 Hi There</text>
+</g>
+</g>
+-->
+<circle cx="600" cy="600" r="10" stroke="black" stroke-width="1"></circle>
+<polygon id="box-0" x="0" y="0" points="300 0, 300 0, 300 162, 300 0, 300 0" fill="#7f8" opacity=".5" stroke="blue" stroke-width="1" fill-rule="evenodd" />
+<polygon id="box-1" x="0" y="0" points="342.0 -21.6, 258.6 126, 416.4 260.4, 258.6 126" fill="#acb" opacity=".5" stroke="#569" stroke-width="10"  />
+<polyline id="box-2" x="0" y="0" points="244.8 53.58, 346.8 186.78, 217.8 292.38, 346.8 186.78" fill="yellow" opacity=".5" stroke="blue" stroke-width="10" fill-rule="evenodd" />
+<polygon id="box-3" x="0" y="0" points="64.5 162, 533.1 142.8, 553.5 586.2, 533.1 142.8" fill="green" opacity=".5" stroke="blue" stroke-width="10" fill-rule="evenodd" />
+<polygon id="box-4" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="tan" opacity=".5" stroke="blue" stroke-width="10" fill-rule="evenodd" />
+<polygon id="box-5" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="silver" opacity=".5" stroke="blue" stroke-width="10" fill-rule="evenodd" style="display: none;" />
+
+
+
+</svg>

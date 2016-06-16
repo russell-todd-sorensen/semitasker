@@ -1,0 +1,766 @@
+<!DOCTYPE HTML>
+<html><head>
+ <title>Basic Page Layout and Document Structure</title>
+</head>
+<body>
+<examples>
+<example id="Example-95">
+ <tags>
+<!-- Basic Document Structure -->
+<article>
+ <header>This is the header.</header>
+ <section id="main" role="main">
+  <nav id="side">Nav goes here.</nav>
+  <div id="content">Content goes here.</div>
+ </section>
+ <footer>This is the footer</footer>
+</article>
+
+ </tags>
+ <css>
+
+/* css for the page */
+article {
+width: 800px;
+height: 500px;
+background-color: #523;
+color: #999;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-96">
+ <tags>
+<article>
+ <header>This is the header.</header>
+ <section id="main" role="main">
+  <nav id="side">Nav goes here.</nav>
+  <div id="content">Content goes here.</div>
+ </section>
+ <footer>This is the footer</footer>
+</article>
+
+ </tags>
+ <css>
+
+article {
+width: 800px;
+height: 500px;
+background-color: #523;
+color: #999;
+}
+/* add a header/footer definition */
+header, footer {
+width: 100%;
+height: 90px;
+background-color: #999;
+color: #523;
+font-weight: bold;
+text-align: center;
+}
+ /* the main section needs a height plus
+   make it take up 100% of the width of the parent
+   element (article)
+ */
+section#main {
+height: 350px;
+width: 100%;
+}
+/* #side and #content will use inline-block so
+   they will line up horizontally in a row and so
+   we can give them block properties, like height
+   width and margin.
+ */ 
+#side, #content {
+display: inline-block;
+margin: 5px;
+margin-top: 0px;
+}
+/* use 25% of the horizontal space for the navigation
+   put a thin border as a content divider.
+ */
+#side {
+width: 25%;
+height: 100%;
+border-right: solid;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-97">
+ <tags>
+<article>
+ <header>This is the header</header>
+ <section id="main" role="main">
+  <nav id="side">
+  <!-- Add navigation here -->
+  <ul>
+   <li>Products</li>
+   <li>Services</li>
+   <li>Locations</li>
+   <li>Ordering</li>
+  </ul>
+  </nav>
+  <div id="content">Content goes here.</div>
+ </section>
+ <footer>This is the footer</footer>
+</article>
+
+ </tags>
+ <css>
+
+article {
+width: 800px;
+height: 500px;
+background-color: #523;
+color: #999;
+}
+header, footer {
+width: 100%;
+height: 90px;
+background-color: #999;
+color: #523;
+font-weight: bold;
+text-align: center;
+}
+section#main {
+height: 350px;
+width: 100%;
+}
+/* edit css for #side, #content, see below */
+#side, #content {
+display: inline-block;
+margin: 5px;
+margin-top: 0px;
+
+/* add following declaration to #side, #content
+   to get content to align correctly:
+ */
+ 
+vertical-align: top;
+}
+
+#side {
+width: 25%;
+height: 100%;
+border-right: solid;
+}
+
+/* content needs a width and height
+ * width of the side and content add to 100% OR LESS!
+ * you may need to reduce the width % in the next lesson step
+ * if content disappears.
+ */
+#content {
+width: 70%; /* you may need to adjust width down to see content */
+height: 100%;
+}
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-98">
+ <tags>
+<article>
+ <header>This is the header</header>
+ <section id="main" role="main">
+  <nav id="side">
+  <ul>
+   <li>Products</li>
+   <li>Services</li>
+   <li>Locations</li>
+   <li>Ordering</li>
+  </ul>
+  </nav>
+  <div id="content">
+  <!-- add content here -->
+  <h1>MySuperProductsAreHere</h1>
+  <div>Thanks for visiting our website. Look around
+  under Products or Services to see what we have
+  to offer. Then find a Location nearby, or Order
+  by phone or online.</div>
+  </div>
+ </section>
+ <footer>This is the footer</footer>
+</article>
+
+ </tags>
+ <css>
+
+article {
+width: 800px;
+height: 500px;
+background-color: #523;
+color: #999;
+}
+header, footer {
+width: 100%;
+height: 90px;
+background-color: #999;
+color: #523;
+font-weight: bold;
+text-align: center;
+}
+
+section#main {
+height: 350px;
+width: 100%;
+}
+#side, #content {
+display: inline-block;
+margin: 5px;
+margin-top: 0px;
+vertical-align: top;
+}
+#side {
+width: 25%;
+height: 100%;
+border-right: solid;
+}
+
+#content {
+width: 70%; /* you may need reduce width % to see content! */
+height: 100%;
+}
+
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-99">
+ <tags>
+<article>
+ <header>This is the header</header>
+ <section id="main" role="main">
+  <nav id="side">
+  <ul>
+   <li>Products</li>
+   <li>Services</li>
+   <li>Locations</li>
+   <li>Ordering</li>
+  </ul>
+  </nav>
+  <div id="content">
+  <!-- add content here -->
+  <h1>MySuperProductsAreHere</h1>
+  <div class="para">Thanks for visiting our website. Look around
+  under Products or Services to see what we have
+  to offer. Then find a Location nearby, or Order
+  by phone or online.</div>
+  </div>
+ </section>
+ <footer>This is the footer</footer>
+</article>
+
+ </tags>
+ <css>
+
+article {
+width: 800px;
+height: 500px;
+background-color: #523;
+color: #999;
+}
+header, footer {
+width: 100%;
+height: 90px;
+background-color: #999;
+color: #523;
+font-weight: bold;
+text-align: center;
+}
+section#main {
+height: 350px;
+width: 100%;
+}
+#side, #content {
+display: inline-block;
+margin: 5px;
+margin-top: 0px;
+vertical-align: top;
+}
+#side {
+width: 25%;
+height: 100%;
+border-right: solid;
+}
+#content {
+width: 70%; 
+height: 100%;
+}
+
+/* Content area heading needs a larger font size
+   and to align center
+ */
+#content h1 {
+text-align: center;
+font-size: 2em;
+}
+
+/* Enhance the first letter of each para(graph)
+   in the content area: make it larger, bold and indent 5px.
+ */
+#content .para::first-letter {
+font-size: 1.5em;
+font-weight: bold;
+margin-left: 5px;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-100">
+ <tags>
+<article>
+ <header>This is the header</header>
+ <section id="main" role="main">
+  <nav id="side">
+  <!-- add anchor links (a tags) to navigation -->
+  <ul>
+   <li><a href="#">Products</a></li>
+   <li><a href="#">Services</a></li>
+   <li><a href="#">Locations</a></li>
+   <li><a href="#">Ordering</a></li>
+  </ul>
+  </nav>
+  <div id="content">
+  
+  <h1>MySuperProductsAreHere</h1>
+  <div class="para">Thanks for visiting our website. Look around
+  under Products or Services to see what we have
+  to offer. Then find a Location nearby, or Order
+  by phone or online.</div>
+  </div>
+ </section>
+ <footer>This is the footer</footer>
+</article>
+
+ </tags>
+ <css>
+
+article {
+width: 800px;
+height: 500px;
+background-color: #523;
+color: #999;
+}
+header, footer {
+width: 100%;
+height: 90px;
+background-color: #999;
+color: #523;
+font-weight: bold;
+text-align: center;
+}
+section#main {
+height: 350px;
+width: 100%;
+}
+#side, #content {
+display: inline-block;
+margin: 5px;
+margin-top: 0px;
+vertical-align: top;
+}
+#side {
+width: 25%;
+height: 100%;
+border-right: solid;
+}
+#content {
+width: 70%; 
+height: 100%;
+}
+#content h1 {
+text-align: center;
+font-size: 2em;
+}
+#content .para::first-letter {
+font-size: 1.5em;
+font-weight: bold;
+margin-left: 5px;
+}
+
+/* Navigation links:
+   display inline-block, so we can add width
+   set width to 100% (you'll see why next), 
+   change the default color,
+   remove underline
+ */
+nav a:link {
+display: inline-block;
+width: 100%;
+color: #999;
+text-decoration: none; /* removes underline */
+}
+
+/* When hovering over links we want the colors
+   to reverse: background to text color
+ */
+nav a:hover, nav a:active {
+color: #523;
+background-color: #999;
+}
+
+/* fix up the nav ul to:
+  remove list style (dots),
+  reset margin, 
+  add padding all the way around,
+  remove padding on the right
+ */
+nav ul {
+list-style-type: none;
+margin: 0;
+padding: 15px;
+padding-right: 0;
+}
+
+/* add vertical space between links
+   bold the font
+ */
+nav li {
+line-height: 1.8em;
+font-weight: bold;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-101">
+ <tags>
+<article>
+ <header>
+  <!-- Add interesting banner using background images.
+  Span elements can't have space between them because it
+  will show up in the display.
+   -->
+  <span>M</span><span>Y</span>
+  <span> </span>
+  <span>S</span><span>U</span><span>P</span><span>E</span><span>R</span>
+  <span> </span>
+  <span>P</span><span>R</span><span>O</span><span>D</span><span>U</span><span>C</span><span>T</span><span>S</span>
+ </header>
+ <section id="main" role="main">
+  <nav id="side">
+  <!-- add anchor links (a tags) to navigation -->
+  <ul>
+   <li><a href="#">Products</a></li>
+   <li><a href="#">Services</a></li>
+   <li><a href="#">Locations</a></li>
+   <li><a href="#">Ordering</a></li>
+  </ul>
+  </nav>
+  <div id="content">
+  
+  <h1>MySuperProductsAreHere</h1>
+  <div class="para">Thanks for visiting our website. Look around
+  under Products or Services to see what we have
+  to offer. Then find a Location nearby, or Order
+  by phone or online.</div>
+  </div>
+ </section>
+ <footer>This is the footer</footer>
+</article>
+
+ </tags>
+ <css>
+
+article {
+width: 800px;
+height: 500px;
+background-color: #523;
+color: #999;
+}
+header, footer {
+width: 100%;
+height: 90px;
+background-color: #999;
+color: #523;
+font-weight: bold;
+text-align: center;
+}
+section#main {
+height: 350px;
+width: 100%;
+}
+#side, #content {
+display: inline-block;
+margin: 5px;
+margin-top: 0px;
+vertical-align: top;
+}
+#side {
+width: 25%;
+height: 100%;
+border-right: solid;
+}
+#content {
+width: 70%; 
+height: 100%;
+}
+#content h1 {
+text-align: center;
+font-size: 2em;
+}
+#content .para::first-letter {
+font-size: 1.5em;
+font-weight: bold;
+margin-left: 5px;
+}
+nav a:link {
+display: inline-block;
+width: 100%;
+color: #999;
+text-decoration: none;
+}
+nav a:hover, nav a:active {
+color: #523;
+background-color: #999;
+}
+nav ul {
+list-style-type: none;
+margin: 0;
+padding: 15px;
+padding-right: 0;
+}
+nav li {
+line-height: 1.8em;
+font-weight: bold;
+}
+
+/* use span elements to make distinctive banner:
+   use display inline-block so we can set height and width
+   set font-size to 3em, which increases size by 3 times.
+   line-height, height and width of 1em, the box around each
+    letter square and proportional to the font size,
+   use a background image which covers the span box,
+   vertical align top so all the letters stay aligned.
+ */
+header span {
+display: inline-block;
+font-size: 3em;
+line-height: 1em;
+width: 1em;
+height: 1em;
+background-image: url(images/40x40-button-2.png);
+background-size: cover;
+vertical-align: top;
+}
+
+/* vertically center heading by redefining height
+   since the height is the same as the font-size (3em)
+   we don't need to know the exact header content
+   height.
+   add padding top and bottom to vertically center banner
+
+ */
+header {
+height:3em; /* height in terms of font-size above */
+padding-top: 15px;
+padding-bottom: 15px;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+
+<example id="Example-105">
+ <tags>
+<article>
+ <header>
+  <span>M</span><span>Y</span>
+  <span> </span>
+  <span>S</span><span>U</span><span>P</span><span>E</span><span>R</span>
+  <span> </span>
+  <span>P</span><span>R</span><span>O</span><span>D</span><span>U</span><span>C</span><span>T</span><span>S</span>
+ </header>
+ <section id="main" role="main">
+  <nav id="side">
+  <ul>
+   <li><a href="#">Products</a></li>
+   <li><a href="#">Services</a></li>
+   <li><a href="#">Locations</a></li>
+   <li><a href="#">Ordering</a></li>
+  </ul>
+  </nav>
+  <div id="content">
+  
+  <h1>MySuperProductsAreHere</h1>
+  <div class="para">Thanks for visiting our website. Look around
+  under Products or Services to see what we have
+  to offer. Then find a Location nearby, or Order
+  by phone or online.</div>
+  </div>
+ </section>
+ <footer>
+  <!-- add basic contact information on the footer -->
+  <div id="contact">
+   <h2>My Super Products Inc.</h2>
+   <div class="address">1234 Wonderful Blvd.</div>
+   <div class="address">Auburn, WA 98100</div>
+   <div class="address">Phone: (206) 555-1212</div>
+   <div class="address">eMail: joe@mySuperProducts.com</div>
+  </div>
+ </footer>
+</article>
+
+ </tags>
+ <css>
+
+article {
+width: 800px;
+height: 500px;
+background-color: #523;
+color: #999;
+}
+header, footer {
+width: 100%;
+height: 90px;
+background-color: #999;
+color: #523;
+font-weight: bold;
+text-align: center;
+}
+section#main {
+height: 350px;
+width: 100%;
+}
+#side, #content {
+display: inline-block;
+margin: 5px;
+margin-top: 0px;
+vertical-align: top;
+}
+#side {
+width: 25%;
+height: 100%;
+border-right: solid;
+}
+#content {
+width: 70%; 
+height: 100%;
+}
+#content h1 {
+text-align: center;
+font-size: 2em;
+}
+#content .para::first-letter {
+font-size: 1.5em;
+font-weight: bold;
+margin-left: 5px;
+}
+nav a:link {
+display: inline-block;
+width: 100%;
+color: #999;
+text-decoration: none;
+}
+nav a:hover, nav a:active {
+color: #523;
+background-color: #999;
+}
+nav ul {
+list-style-type: none;
+margin: 0;
+padding: 15px;
+padding-right: 0;
+}
+nav li {
+line-height: 1.8em;
+font-weight: bold;
+}
+header span {
+display: inline-block;
+font-size: 3em;
+line-height: 1em;
+width: 1em;
+height: 1em;
+background-image: url(images/40x40-button-2.png);
+background-size: cover;
+vertical-align: top;
+}
+header {
+height: 3em;
+padding-top: 15px;
+padding-bottom: 15px;
+}
+
+/* redefine height for the footer
+ */
+ 
+footer {
+height: 120px;
+}
+
+/* The company name will get special formatting :
+   display inline-block so we can treat it like a box,
+   set the margin, because the defaults are bad,
+   set padding so the text has some space around it,
+   flip the text color and background color,
+   use a border radius to further enhance the company
+   name.
+*/
+footer h2 {
+display: inline-block;
+margin: 2px;
+padding: 4px;
+background-color: #523;
+color: #999;
+border-radius: 10px;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+</examples>
+
+</body></html>

@@ -1,0 +1,288 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Sliders</title>
+<link rel="stylesheet" type="text/css" href="../../css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="../../js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css" >
+<style>
+.slide {
+    display: inline-block;
+    padding: 1px;
+    background-color: #bbb;
+    border: 1px solid black;
+    font-weight: bold;
+    margin: 0px;
+    margin-left: -3px;
+}
+
+#my-form {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+#my-form .slide label {
+    text-align: center;
+    display: block;
+    margin: auto;
+}
+
+#slider1, #slider2, #slider3 {
+    margin: auto;
+    margin-top: 1em;
+    margin-bottom: .5em;
+    vertical-align: top;
+}
+
+#color {
+    display: inline-block;
+    margin-left: 100px;
+    height: 110px;
+    width: 168px;
+    border: 5px solid;
+    vertical-align: top;
+    text-align: center;
+    font-size: 2.3em;
+    font-weight: bold;
+    font-family: "Hobo Std";
+    padding-top: 60px;
+    
+}
+
+</style>
+<!-- use this stylesheet to explore the CSS Box Model and HTML Page Structure 
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/box-model.css" media="all">-->
+<script type="text/ecmascript" src="../../js/jquery-1.7.1.js"></script>
+<script language="javascript" src="../../js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" type="text/javascript"></script>
+<script type="text/javascript" src="../../js/d3.v3.js"></script>
+<script type="text/javascript" src="../../js/log-2.js"></script>
+<script type="text/javascript" src="../images/displace-exp.js"></script>
+<script src="http://ic00408/js/binary-hex-conversions.js"></script>
+<script>
+
+function noticeChange (evt) {
+  Log.Notice("something changed");
+}
+function handleFormChange(evt) {
+    
+    var tmpOptions = evt.data;
+    var id = tmpOptions["id"];
+    var y = $(id);
+    var data = y.data();
+    var options = data.slider.options;
+    var formInput = $(options.formField);
+    var currentValue = formInput.val();
+    
+    if (options.fieldType == 'float') {
+      val = parseFloat(currentValue);
+    } else {
+      val = parseInt(currentValue);
+    }
+    options.value = val;
+    Log.Notice("keyup value=" + val );
+    updateColor('#color');
+}
+
+function handleSliderMove(evt) {
+
+    var y = $(this);
+    var val = null;
+    var data = y.data();
+    var options = data.slider.options;
+    var formInput = $(options.formField);
+    var currentValue = formInput.val();
+    var value = options.value;
+    if (currentValue == value) return;
+    
+    if (options.fieldType == 'float') {
+      val = parseFloat(value);
+    } else {
+      val = parseInt(value);
+    }
+    
+    formInput.val(val);
+    Log.Notice("keyup value=" + val );
+    updateColor('#color');
+}
+
+function handleFieldChange(field) {
+
+    var formField = $('#' + field).attr('id');
+    var slider = sliders[formField];
+    var x = 1;
+    var data = $(slider.id).data()
+    var val = null;
+    var options = data.slider.options;
+    var formInput = $(options.formField);
+    var currentValue = formInput.val();
+    var value = options.value;
+    if (currentValue == value) return;
+    
+    if (options.fieldType == 'float') {
+      val = parseFloat(currentValue);
+    } else {
+      val = parseInt(currentValue);
+    }
+    
+    options.value = currentValue;
+    Log.Notice("keyup value=" + val );
+    updateColor('#color');
+    updateSliderHandle(data.slider);
+}
+
+var attributes = {
+  'background-color': 'rgb(255,255,255)',
+  'color': 'rgb(0,0,0)',
+  'border-color': 'rgb(0,0,0)',
+  'border-right-color': 'rgb(0,0,0)'
+};
+
+//var prevAttribute = 'background-color';
+var attribute = 'background-color';
+
+function updateSliderHandle(slider) {
+  var factor = 100/(slider.options.max - slider.options.min);
+  var value = slider.options.value * factor + slider.options.min;
+  $(slider.options.id + ' a').css('bottom', '' + value + '%');
+}
+function switchAttribute(evt) {
+  
+  attribute = $('#bgOrFont option:selected').val();
+  var rgbColor = attributes[attribute];
+  rgbColor = rgbColor.substring(4, rgbColor.length -1);
+  Log.Notice('rgbColor=' + rgbColor);
+  var rgbColorArray = rgbColor.split(',');
+  
+  var redSlider = sliders['red'];
+  var greenSlider = sliders['green'];
+  var blueSlider = sliders['blue'];
+  
+  var redFactor = 100/(redSlider.max - redSlider.min) ;
+  var greenFactor = 100/(greenSlider.max - greenSlider.min) ;
+  var blueFactor = 100/(blueSlider.max - blueSlider.min);
+  
+  var redValue = rgbColorArray[0] * redFactor + redSlider.min;
+  var greenValue = rgbColorArray[1] * greenFactor + greenSlider.min;
+  var blueValue = rgbColorArray[2] * blueFactor + blueSlider.min;
+
+  $(redSlider.id + ' a').css('bottom', '' + redValue + '%')
+  $(greenSlider.id + ' a').css('bottom', '' + greenValue + '%')
+  $(blueSlider.id + ' a').css('bottom', '' + blueValue + '%')
+  $(redSlider.formField).val(rgbColorArray[0]);
+  $(greenSlider.formField).val(rgbColorArray[1]);
+  $(blueSlider.formField).val(rgbColorArray[2]);
+
+  redData = $(redSlider.id).data();
+  greenData = $(greenSlider.id).data();
+  blueData = $(blueSlider.id).data();
+  redData.slider.options.value = rgbColorArray[0];
+  greenData.slider.options.value = rgbColorArray[1];
+  blueData.slider.options.value = rgbColorArray[2];
+  updateColor('#color');
+}
+
+
+function updateColor(targetId) {
+
+  var red = $("#red").val();
+  var green = $("#green").val();
+  var blue = $("#blue").val();
+  
+  attributes[attribute] = 'rgb(' + red + ',' + green + ',' + blue + ')';
+  
+  $(targetId)
+    .css(attributes)
+    .text('#' + toHex(red) + toHex(green) + toHex(blue));
+}
+
+var sliders = [];
+sliders[0] = sliders['red'] = {label: 'Red:', id: '#slider1', formField: '#red', max: 255, min: 0, value: 255, step: 1, fieldType: 'int'};
+sliders[1] = sliders['green'] = {label: 'Green:', id: '#slider2', formField: '#green', max: 255, min: 0, value: 255, step: 1, fieldType: 'int'};
+sliders[2] = sliders['blue'] = {label: 'Blue:', id: '#slider3', formField: '#blue', max: 255, min: 0, value: 255, step: 1, fieldType: 'int'};
+  
+var fieldToSliderMap = [];
+fieldToSliderMap['red'] = sliders[0];
+fieldToSliderMap['green'] = sliders[1];
+fieldToSliderMap['blue'] = sliders[2];
+
+function initSliders (sliderArray) {
+  
+  var defaultData = {
+    animate: false,
+    distance: 0,
+    max: 100,
+    min: 0,
+    orientation: "vertical",
+    range: false,
+    step: 1,
+    value: 0,
+    values: null,
+    formField: '',
+    fieldType: 'int'
+  }
+  for (var i = 0; i<sliderArray.length; i++) {
+    var sliderData = sliderArray[i];
+    var data = new Object();
+    for (var field in defaultData) {
+      data[field] = defaultData[field];
+    }
+    for (var field in sliderData) {
+      data[field] = sliderData[field];
+    }
+    $(data['id'])
+      .slider(data)
+      .bind('mouseup mousemove keyup', null, handleSliderMove);
+    //$(data['formField']).change(data, handleFormChange);
+    $(data['formField']).val(data['value']);
+  }
+}
+$(document).ready(function () {
+  
+  Log.Hide();
+  //restoreSelect('scalePage');
+  //restoreSelect('imageChoice');
+  //restoreSelect('rectChoice');
+
+  initSliders(sliders);
+  $('#bgOrFont')
+    .bind('change', {red: '#slider1',blue: '#slider2', green: 'slider3'}, switchAttribute);
+});
+
+</script>
+</head>
+
+<body>
+
+<div id="panel2">
+ <form id="my-form" name="my-form" >
+  <div class="slide">
+  <label for="red">Red:</label>
+  <div id="slider1" ></div>
+   <input type="text" name="red" id="red" value="" size="1"  onChange="handleFieldChange('red')">
+  </div>
+  <div class="slide">
+  <label for="green">Green:</label>
+  <div id="slider2" ></div> 
+  <input type="text" name="green" id="green" value="" size="1"  onChange="handleFieldChange('green')">
+  </div>
+  <div class="slide">
+  <label for="blue">Blue:</label>
+  <div id="slider3" ></div>
+  <input type="text" name="blue" id="blue" value="" size="1" onChange="handleFieldChange('blue')">
+  </div>
+  <div class="slide">
+  <label for="bgOrFont">Color What?</label>
+  <select name="bgOrFont" id="bgOrFont">
+   <option value="color">Font Color</option>
+   <option value="background-color" selected="selected">Background Color</option>
+   <option value="border-color">Border Color</option>
+   <option value="border-right-color">Border Right Color</option>
+   </select>
+  </div>
+ <div id="color"></div>
+ </form>
+</div>
+
+</body>
+</html>

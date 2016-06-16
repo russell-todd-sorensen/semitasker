@@ -1,0 +1,354 @@
+body { 
+background-color: #950;
+
+}
+
+#container1 {
+  height: 20px;
+  width: 200px;
+  border: 1px solid black;
+  padding: 0;
+  margin: auto;
+  background-color: white;
+  background-image:url(../images/image-1.jpg);
+  background-position: 0;
+  background-size: auto;
+}
+
+#container2 {
+  height: 20px;
+  width: 200px;
+  border: 0;
+  padding: 0;
+  margin: auto;
+  margin-top: 20px;
+  background-color: white;
+  background-image: url(../images/image-1.jpg);
+  background-position: 0;
+  background-size: auto;
+
+}
+
+#front {
+  height: 20px;
+  width: 200px;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+#topGradient {
+  height: 10px;
+  width: 200px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  /*background-image: url(../images/gimp/pinkish-reverse-10px.png); */
+  background-image: url(../images/top-white-10px-30pct.png);
+  background-repeat: repeat-x;
+}
+
+#bottomGradient {
+  height: 10px;
+  width: 200px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  /*background-image: url(../images/gimp/pinkish-10px.png);
+  background-repeat: repeat-x; */
+}
+
+#tg2 {
+  height: 10px;
+  width: 200px;
+  border: 0;
+  padding: 0;
+  margin: 0; /*
+  background-image: url(../images/gimp/pinkish-reverse-10px.png);
+  background-repeat: repeat-x; */
+}
+
+#bg2 {
+  height: 10px;
+  width: 200px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  /*background-image: url(../images/gimp/pinkish-10px.png);
+  background-repeat: repeat-x; */
+}
+
+
+
+#radial {
+  width: 200px;
+  height: 200px;
+  margin: auto;
+  border: 4px solid silver;
+  background-image: -webkit-gradient( linear, 0% 0% , 0% 100%,
+  	from(#fff), to(#f00)
+    ); 
+}
+
+
+#container3 {
+  position: relative;
+  height: 20px;
+  width: 200px;
+  border: 0;
+  padding: 0;
+  margin: auto;
+  margin-top: 20px;
+  background-color: white;
+  background-image: url(../images/image-1.jpg);
+  background-position: 0;
+  background-size: auto;
+
+}
+
+#container4 {
+  position: relative;
+  height: 20px;
+  width: 200px;
+  border: 0;
+  padding: 0;
+  margin: auto;
+  margin-top: 20px;
+  background-color: #222;
+  color: green;
+  overflow: visible;
+}
+
+#container5 {
+  position: relative;
+  height: 20px;
+  width: 200px;
+  border: 1px solid black;
+  padding: 0;
+  margin: 0;
+  background-color: #222;
+  color: green;
+  overflow: visible;
+  background-clip: padding-box;
+}
+
+.front {
+  position: absolute;
+  top: 0px;
+  left: 0;
+  height: 20px;
+  width: 200px;
+  border: 0;
+  padding: 0;
+  
+  background-color: transparent;
+  font-weight: bold;
+  color: white;
+}
+
+.slider { 
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  border: 0;
+  padding: 0;
+  background-color: transparent;
+}
+
+.topG, .bottomG {
+  position: absolute;
+  left: 0;
+  height: 10px;
+  max-height: 10px;
+  width: 200px;
+  max-width: 200px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+
+}
+
+.topG { 
+  background-image: url(../images/top-white-10px-25pct.png);
+  top: 0;
+  background-clip: padding-box;
+}
+
+.bottomG { 
+  /*background-image: url(../images/top-white-10px-10pct.png); */
+  top: 10px;
+  background-clip: padding-box;
+}
+
+#outsideButtons {
+  position: relative;
+  background-color: black;
+  padding: 2px;
+  margin: auto;
+  min-width: 100px;
+  width: 202px;
+  margin-top: 20px;
+  background-clip: padding-box;
+}
+
+ 
+#log {
+  border: 1px solid white;
+  font-weight: bold;
+  color: white;
+  position: absolute;
+  bottom: 15px;;
+  left: 0;
+}
+
+
+#outsideButtons6 {
+  background-color: black;
+  padding: 2px;
+  margin: auto;
+  min-width: 100px;
+  width: 202px;
+  margin-top: 20px;
+}
+
+.topG2, .bottomG2 {
+  position: absolute;
+  left: 0;
+  height: 10px;
+  max-height: 10px;
+  width: 200px;
+  max-width: 200px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+
+}
+
+.topG2 { 
+  /*background-image: url(../images/top-white-10px-25pct.png); */
+  background-color: white;
+  opacity: .18;
+  top: 0;
+  box-shadow: 0px 3px #000;
+  /*background-clip: padding-box; */
+}
+
+.bottomG2 { 
+  /*background-image: url(../images/top-white-10px-10pct.png); */
+  top: 10px;
+  background-clip: padding-box;
+}
+
+#container6 {
+  position: relative;
+  height: 20px;
+  width: 200px;
+  border: 1px solid black;
+  padding: 0;
+  margin: 0;
+  background-color: #222;
+  color: green;
+  overflow: visible;
+}
+
+#time1, #time2, #time3, #time4, #time5 {
+    font-size: 23px;
+    display: inline-block;
+    /*background-color: #456;
+    text-shadow: 3px 3px 10px #456; */
+    margin: -3px;
+    margin-left: 0px;
+    border-right: 2px solid black;
+}
+
+#time3, #time4 {
+    background-color:#900;
+    margin-left: 4px;
+}
+
+#time5 {
+    margin-left: 4px;
+}
+
+#outsideButtons7 {
+  background-color: black;
+  padding: 2px;
+  margin: auto;
+  min-width: 100px;
+  width: 202px;
+}
+
+#container7 {
+  position: relative;
+  height: 20px;
+  width: 200px;
+  border: 1px solid black;
+  padding: 0;
+  margin: 0;
+  background-color: #222;
+  color: green;
+  overflow: hidden;
+}
+
+.grad1-20 {
+  position: absolute;
+  left: 0;
+  height: 20px;
+  width: 200px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+
+}
+
+.grad1-20 {
+  background-image: url(../images/white2black-20px-25pct.png);
+  opacity: 1.0;
+  top: 0;
+  box-shadow: 0px 3px #000;
+  background-clip: padding-box; 
+}
+
+#frame7 {
+  position: relative;    
+  background-color: #aaa;
+  padding: 2px;
+  width: 210px;
+  margin: auto;
+  margin-top: 20px;
+  overflow: hidden;
+  background-image: url(../images/radial-white-40px.png);
+  background-position: -20px -20px;
+  background-repeat: no-repeat;
+}
+
+
+.light {
+  position: absolute;
+  background-image: url(../images/radial-white-40px.png);
+  /*background-image:url(../images/square-2-white-40px.png);*/
+  background-size: cover;
+  opacity: 1.0;
+  top: -50px;
+  left: -80px;
+  /* border: 1px silver solid; */
+  height: 80px;
+  width: 80px;
+}
+
+.light-diag {
+  position: absolute;
+  background-image:url(../images/square-2-white-40px.png);
+  background-size: cover;
+  opacity: 1.0;
+  top: -60px;
+  left: -80px;
+  /* border: 1px silver solid; */
+  height: 80px;
+  width: 80px;
+}

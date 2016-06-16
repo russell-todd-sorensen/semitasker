@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html><head>
+ <title>Geek Code 1</title>
+</head>
+<body>
+<examples>
+<example id="Example-195">
+ <tags>
+&lt;h1 id="x"&gt;Hi There!&lt;/h1&gt;
+ </tags>
+ <css>
+#c1 {
+fill: rgba(51,102,255,.1);
+stroke-width: 10;
+stroke: rgba(102,51,255,.6);
+stroke-dasharray: 1 16;
+stroke-linecap: round;
+stroke-dashoffset: 3;
+}
+#display {
+background-color: white;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+&lt;circle id="c1" cx="100" cy="200" r="19" &gt;
+&lt;animate attributeName="stroke-dashoffset" 
+   begin="c1.click" dur="2s" from="0" to="17"
+   repeatCount="indefinite" /&gt;
+&lt;/circle&gt;
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-196">
+ <tags>
+
+ </tags>
+ <css>
+#c1, #c2 {
+fill: rgba(51,102,255,.1);
+stroke-width: 10;
+stroke: rgba(102,51,255,.6);
+stroke-dasharray: 1 16;
+stroke-linecap: round;
+stroke-dashoffset: 3;
+}
+#display {
+background-color: white;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+&lt;circle id="c1" cx="100" cy="200" r="19" &gt;
+&lt;animate attributeName="stroke-dashoffset" 
+   begin="c1.click" dur="2s" from="0" to="17"
+   repeatCount="indefinite" /&gt;
+&lt;/circle&gt;
+&lt;circle id="c2" cx="200" cy="200" r="19" &gt;
+&lt;animate attributeName="stroke-dashoffset" 
+   begin="c1.click" dur="2s" from="0" to="17"
+   repeatCount="indefinite" /&gt;
+&lt;/circle&gt;
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-197">
+ <tags>
+
+ </tags>
+ <css>
+#result {
+fill: rgba(64,32,192,1.0);
+}
+#sat {
+fill: rgba(255,255,255,.1667);
+stroke: #555;
+}
+#brightness {
+fill: rgba(0,0,0,.25);
+}
+#hue {
+fill: rgba(51,0,255,1.0);
+}
+#display {
+background-color: white;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+&lt;circle id="hue" cx="200" cy="200" r="150" &gt;
+&lt;/circle&gt;
+&lt;circle id="sat" cx="250" cy="200" r="150" /&gt;
+&lt;circle id="brightness" cx="225" cy="250" r="150" /&gt;
+&lt;circle id="result" cx="700" cy="200" r="150" &gt;
+&lt;/circle&gt;
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-198">
+ <tags>
+
+ </tags>
+ <css>
+
+#display {
+background-color: white;
+}
+#t1 {
+font-size: 180px;
+fill: none;
+stroke: #abc;
+stroke-width: 5px;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+&lt;defs&gt;
+&lt;/defs&gt;
+&lt;text x="10" y="200" id="t1"&gt;SEAHAWKS&lt;/text&gt;
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-199">
+ <tags>
+
+ </tags>
+ <css>
+
+#display {
+background-color: white;
+}
+#t1 {
+font-size: 200px;
+stroke: rgb(0,109,216);
+stroke-width: 2px;
+font-family: "Britannic Bold";
+}
+#crunch {
+letter-spacing: -25px;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+&lt;defs&gt;
+&lt;linearGradient id="lg-1" color-interpolation-filters="sRGB" &gt;
+ &lt;stop offset="0%" stop-color="rgb(109,216,0)" /&gt;
+ &lt;stop offset="100%" stop-color="rgb(0,109,216)" /&gt;
+&lt;/linearGradient&gt;
+&lt;/defs&gt;
+&lt;text x="10" y="200" id="t1" fill="url(#lg-1)"&gt;SEAH&lt;tspan
+      id="crunch"&gt;A&lt;/tspan&gt;WkS&lt;/text&gt;
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-200">
+ <tags>
+
+ </tags>
+ <css>
+#result {
+fill: rgba(64,32,192,1.0);
+}
+#sat {
+fill: rgba(255,255,255,.1667);
+stroke: #555;
+}
+#brightness {
+fill: rgba(0,0,0,.247);
+}
+#hue {
+fill: rgba(51,0,255,1.0);
+}
+#display {
+background-color: white;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+&lt;defs&gt;
+&lt;linearGradient id="lg-1" color-interpolation-filters="sRGB" &gt;
+&lt;stop offset="0%" stop-color="white" stop-opacity="0%" /&gt;
+&lt;stop offset="100%" stop-color="white" stop-opacity="100%" /&gt;
+&lt;/linearGradient&gt;
+&lt;/defs&gt;
+&lt;circle id="hue" cx="200" cy="200" r="150" &gt;
+&lt;/circle&gt;
+&lt;circle id="sat" cx="250" cy="200" r="150" /&gt;
+&lt;circle id="brightness" cx="225" cy="250" r="150" /&gt;
+&lt;circle id="result" cx="700" cy="200" r="150" &gt;
+&lt;/circle&gt;
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-201">
+ <tags>
+
+ </tags>
+ <css>
+#result {
+fill: rgba(64,32,192,1.0);
+}
+#sat {
+fill: rgba(255,255,255,.1667);
+stroke: #555;
+}
+#brightness {
+fill: rgba(0,0,0,.247);
+}
+#hue {
+fill: rgba(51,0,255,1.0);
+}
+#display {
+background-color: white;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+&lt;defs&gt;
+&lt;linearGradient id="lg-1" color-interpolation-filters="sRGB" &gt;
+&lt;stop offset="0%" stop-color="white" stop-opacity="0%" /&gt;
+&lt;stop offset="100%" stop-color="white" stop-opacity="100%" /&gt;
+&lt;/linearGradient&gt;
+&lt;linearGradient id="lg-2" color-interpolation-filters="sRGB" &gt;
+&lt;stop offset="0%" stop-color="black" stop-opacity="0%" /&gt;
+&lt;stop offset="100%" stop-color="black" stop-opacity="100%" /&gt;
+&lt;/linearGradient&gt;
+&lt;rect height="5" width="255" stroke="none" id="r1" /&gt;
+&lt;/defs&gt;
+&lt;use xlink:href="#r1" x="100" y="50" fill="url(#lg-1)" /&gt;
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-205">
+ <tags>
+
+ </tags>
+ <css>
+#result {
+fill: rgba(64,32,192,1.0);
+}
+#sat {
+fill: rgba(255,255,255,.1667);
+stroke: #555;
+}
+#brightness {
+fill: rgba(0,0,0,.247);
+}
+#hue {
+fill: rgba(51,0,255,1.0);
+}
+#display {
+background-color: #666;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+&lt;defs&gt;
+&lt;linearGradient id="lg-1" color-interpolation-filters="sRGB" &gt;
+&lt;stop offset="0%" stop-color="white" stop-opacity="0%" /&gt;
+&lt;stop offset="100%" stop-color="white" stop-opacity="100%" /&gt;
+&lt;/linearGradient&gt;
+&lt;linearGradient id="lg-2" color-interpolation-filters="sRGB" &gt;
+&lt;stop offset="0%" stop-color="black" stop-opacity="0%" /&gt;
+&lt;stop offset="100%" stop-color="black" stop-opacity="100%" /&gt;
+&lt;/linearGradient&gt;
+&lt;linearGradient id="lg-3" color-interpolation-filtes="sRGB" &gt;
+&lt;stop offset="0%" stop-color="rgb(64,32,192)" stop-opacity="100%"/&gt;
+&lt;stop offset="100%" stop-color="black" stop-opacity="100%" /&gt;
+&lt;/linearGradient&gt;
+&lt;rect height="15" width="255" stroke="none" id="r1" /&gt;
+&lt;/defs&gt;
+&lt;use xlink:href="#r1" x="100" y="10" fill="rgb(51,0,255)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="10" fill="rgba(255,255,255,.167)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="10" fill="rgba(0,0,0,.247)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="30" fill="rgb(51,0,255)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="50" fill="rgb(51,0,255)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="50" fill="rgba(255,255,255,.247)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="50" fill="url(#lg-1)" /&gt;
+&lt;g transform="translate(300,0)" &gt;
+&lt;use xlink:href="#r1" x="100" y="10" fill="rgb(51,0,255)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="10" fill="rgba(255,255,255,.167)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="10" fill="rgba(0,0,0,.247)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="30" fill="rgb(51,0,255)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="50" fill="rgb(51,0,255)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="50" fill="url(#lg-1)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="70" fill="rgb(51,0,255)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="70" fill="rgba(255,255,255,.247)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="70" fill="url(#lg-2)" /&gt;
+&lt;/g&gt;
+&lt;use xlink:href="#r1" x="100" y="70" fill="rgb(51,0,255)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="70" fill="rgba(255,255,255,.167)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="70" fill="rgba(0,0,0,.247)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="70" fill="url(#lg-2)" /&gt;
+&lt;use xlink:href="#r1" x="100" y="90" fill="url(#lg-3)" /&gt;
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-206">
+ <tags>
+
+ </tags>
+ <css>
+#c1 {
+fill: rgba(204,51,204,.6);
+stroke-width: 10;
+stroke: rgba(102,51,255,.7);
+stroke-dasharray: 1 16;
+stroke-linecap: butt;
+stroke-dashoffset: 3;
+stroke-opacity: .5;
+}
+#display {
+background-color: silver;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+&lt;g transform="scale(2)"&gt;
+&lt;ellipse id="c1" cx="200" cy="150" rx="60" ry="30"
+ 
+ &gt;
+&lt;animate attributeName="stroke-dashoffset" 
+   begin="c1.click" dur="7s" values="0;80;40;15;25;0"
+   repeatCount="indefinite" /&gt;
+&lt;animate attributeType="CSS" attributeName="stroke-dasharray"
+   begin="c1.click" dur="11s" values="1 16;5 5;16 3;1 16"
+   repeatCount="indefinite" /&gt;
+&lt;animate attributeType="CSS" attributeName="stroke-width"
+   begin="c1.click" dur="13s" values="10;250;200;175;50;20;10"
+   repeatCount="indefinite" /&gt;
+&lt;/ellipse&gt;
+&lt;/g&gt;
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-current">
+ <tags>
+&lt;a href="myImages.zip"&gt; Click here to download: myImages.zip&lt;/a&gt;
+&lt;table id="myTable"&gt;
+ 
+&lt;tbody&gt;&lt;tr&gt;&lt;th&gt;Date&lt;/th&gt;&lt;th&gt;Time
+&lt;/th&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Jan-21-1902&lt;/td&gt;&lt;td&gt;15:42
+&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;Sep-05-2005&lt;/td&gt;&lt;td&gt;03:28
+&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;
+&lt;label for="image"&gt;Browse to your Desktop and open myImages:&lt;/label&gt;&lt;br&gt;
+&lt;input type="file" size="100" id="image" onchange="changeBackground(this,'#myTable th')"&gt;
+</tags>
+ <css>
+#display a:link {
+color: white;
+}
+#myTable {
+border-spacing: 0;
+border-collapse: collapse;
+margin: auto;
+}
+#myTable td, #myTable th {
+border: solid 1px;
+padding: 5px;
+}
+#myTable th {
+text-align: center;
+color: silver;
+background-color: white;
+background-image: url(images/white2black-20px-25pct.png);
+background-size: contain;
+}
+#myTable td {
+color: #abc;
+}
+</css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+
+</examples>
+
+</body></html>

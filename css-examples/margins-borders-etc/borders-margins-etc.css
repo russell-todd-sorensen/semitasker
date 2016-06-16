@@ -1,0 +1,58 @@
+.column-container { 
+  display: block;
+  background-color: blue;
+  color: white;
+  overflow: hidden;
+  width: 1000px;
+  min-width: 1000px;
+  border-color: green;
+  border-width: 12px;
+  border-style: dashed;
+  margin: 10px;
+
+}
+
+.Acol { 
+  display: inline-block;
+  width: 150px;
+  min-width: 150px;
+  min-height: 700px;
+  overflow:hidden;
+  background-color: black;
+  border-color: yellow;
+  border-width: 5px;
+  border-style: solid;
+  margin: 25px;
+  margin-top: 10px;
+  vertical-align: top;
+
+}
+
+.Bcol { 
+  display: inline-block;
+  background-color: red;
+  width: 450px;
+  min-height: 700px;
+  overflow: inherit;
+  border-color: white;
+  border-width: 5px;
+  border-style: solid;
+  margin: 10px;
+  vertical-align: top;
+
+}
+
+.Ccol { 
+  display: inline-block;
+  width: 150px;
+  min-height: 700px;
+  background-color: black;
+  overflow: inherit;
+  border-color: yellow;
+  border-width: 5px;
+  border-style: solid;
+  margin: 25px;
+  vertical-align: top;
+
+}
+

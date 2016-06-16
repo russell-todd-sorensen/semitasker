@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en_US" lang="en_US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>feConvolve Filter: Edge Detect &amp; Posterize</title>
+
+</head>
+<body>
+
+ <svg
+ id="iam-svg"
+ xmlns:svg="http://www.w3.org/2000/svg"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink" 
+ version="1.0" 
+ x="0" 
+ y="0"
+ width="1500"
+ height="2000"
+ viewBox="0 0 1500 2000"
+ style="cursor: pointer;">
+
+<defs>
+<linearGradient color-interpolation="sRGB" id="grad-1" spreadMethod="repeat">
+<stop stop-color="white" offset="0.0"></stop>
+<stop stop-color="brown" offset="0.5"></stop>
+<stop stop-color="yellow" offset="1.0"></stop>
+</linearGradient>
+<linearGradient id="grad-2" xlink:href="#grad-1" x1="0" y1="0" x2="100%" y2="100%"></linearGradient>
+<linearGradient id="grad-3" xlink:href="#grad-1" x1="0" y1="0" x2="0" y2="100%"></linearGradient>
+
+<radialGradient color-interpolation="sRGB" id="RG" spreadMethod="reflect">
+ <stop stop-color="orange" offset="0%" >
+ 
+ </stop>
+ <stop stop-color="green" offset="10%" id="g-1">
+ 
+ </stop>
+ <stop stop-color="orange" offset="20%" id="o-1">
+ 
+ </stop>
+ <stop stop-color="green" offset="30%" id="g-2">
+ 
+ </stop>
+ <stop stop-color="orange" offset="40%" id="o-2">
+ 
+ </stop>
+ <stop stop-color="green" offset="50%" id="g-3">
+ 
+ </stop>
+ <stop stop-color="orange" offset="60%" id="o-3">
+ 
+ </stop>
+ <stop stop-color="green" offset="70%" id="g-4">
+ 
+ </stop>
+ <stop stop-color="orange" offset="80%" id="o-4">
+ 
+ </stop>
+ <stop stop-color="green" offset="90%" id="g-5">
+ 
+ </stop>
+ <stop stop-color="orange" offset="100%" id="o-5">
+ 
+ </stop>
+</radialGradient>
+
+<filter id="X"  color-interpolation="sRGB">
+<feConvolveMatrix 
+    order="3"   
+    kernelMatrix="-1 -1 -1
+              -1  9 -1
+              -1 -1 -1"
+    edgeMode="duplicate" />
+</filter>
+
+<filter id="Y"  color-interpolation="sRGB">
+<feConvolveMatrix 
+    order="5"   
+    kernelMatrix="1  1   1  1  1
+              1 -2  -2 -2  1
+              1 -2  1  -2  1
+              1 -2  -2 -2  1
+              1  1   1  1  1"
+    edgeMode="duplicate" />
+</filter>
+
+<filter id="Z"  color-interpolation="sRGB">
+<feConvolveMatrix 
+    order="3"   
+    kernelMatrix="-1 -1 -1
+              -1  9 -1
+              -1 -1 -1"
+    edgeMode="duplicate" >
+  <animate attributeName="kernelMatrix" values="0 0 0 0 1 0 0 0 0;-1 -1 -1
+              -1  9 -1
+              -1 -1 -1"
+              begin="0s;clickMe.click" dur="12s" />
+</feConvolveMatrix>
+</filter>
+<filter id="ZZ"  color-interpolation="sRGB">
+<feConvolveMatrix 
+    order="5"   
+    kernelMatrix="1  1   1  1  1
+              1 -2  -2 -2  1
+              1 -2  1  -2  1
+              1 -2  -2 -2  1
+              1  1   1  1  1"
+    edgeMode="duplicate" >
+  <animate attributeName="kernelMatrix" values="0  0  0  0  0
+              0  0   0  0  0
+              0  0   1  0  0
+              0  0   0  0  0
+              0  0   0  0  0;
+              1  1   1  1  1
+              1 -2  -2 -2  1
+              1 -2  -.7 -2  1
+              1 -2  -2 -2  1
+              1  1   1  1  1"
+              begin="0s;clickMe.click" dur="12s" />
+</feConvolveMatrix>
+</filter>
+
+<filter id="XX"  color-interpolation="sRGB" >
+<feConvolveMatrix 
+    order="7"   
+    kernelMatrix="-1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  3  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1"
+    edgeMode="duplicate" >
+  <animate attributeName="kernelMatrix" 
+           values="0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  1  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0;
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  3  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1"
+          begin="0s;clickMe.click" 
+          dur="12s" />
+</feConvolveMatrix>
+</filter>
+
+</defs>
+
+<g id="clickMe" transform="scale(.75)">
+
+<image xlink:href="/images/Butterfly 6.jpg" width="500" x="20" y="20" height="700"  filter="url(#X)" />
+<image xlink:href="/images/Butterfly 6.jpg" width="500" x="540" y="20" height="700"  filter="url(#Y)" />
+<image xlink:href="/images/Butterfly 6.jpg" width="500" x="1060" y="20" height="700"  filter="url(#XX)" />
+
+<g transform="translate(0,720)"  filter="url(#ZZ)" >
+<image xlink:href="/images/Butterfly 6.jpg" width="500" x="20" y="20" height="700"  filter="url(#X)" />
+	<image xlink:href="/images/Butterfly 6.jpg" width="500" x="540" y="20" height="700"  filter="url(#Y)" />
+  <image xlink:href="/images/Butterfly 6.jpg" width="500" x="1060" y="20" height="700"  filter="url(#XX)" />
+
+</g>
+
+</g>
+</svg>
+
+</body>
+</html>

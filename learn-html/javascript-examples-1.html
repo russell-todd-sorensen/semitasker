@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html><head>
+ <title>Javascript Examples</title>
+</head>
+<body>
+<examples>
+<example id="Example-183">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+var display = document.getElementById('display');
+display.textContent = 'This is some text';
+display.contentEditable = true;
+// now add some text directly to the display below!
+// When you type into here again, the new text goes away.
+display.innerHTML = '<b>Wow it works!</b>';
+display.style.backgroundColor = 'tan';
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-184">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+var d = document.getElementById('display');
+d.innerHTML = '';
+var myHTML = '';
+for (var i = 0; i&lt;10; i++) {
+ myHTML = d.innerHTML + '<br>number ' + i ;
+ d.innerHTML = myHTML;
+}
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-185">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+var d = document.getElementById('display');
+d.innerHTML = '';
+var myHTML = '';
+var colors = ['red','green','blue']
+for (var i in colors) {
+ myHTML = d.innerHTML + '<br>color= ' + colors[i] ;
+ d.innerHTML = myHTML;
+}
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-186">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+var d = document.getElementById('display');
+d.innerHTML = '';
+var myHTML = '';
+var colors = ['red','green','blue'];
+for (var i in colors) {
+ myHTML = d.innerHTML 
+   + '<h2 style="color:' 
+   + colors[i] 
+   + '">color= '
+   + colors[i] ;
+ d.innerHTML = myHTML;
+}
+
+ 
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+
+<example id="Example-187">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+var d = document.getElementById('display');
+d.innerHTML = '<h2 id="h-2">Some Heading</h2>';
+var myHTML = '';
+var colors = ['red','green','blue'];
+var h = document.getElementById('h-2');
+// notice that h is the h2 element you just created!
+for (var i in colors) {
+ myHTML = h.innerHTML 
+   + ' <span style="color:' + colors[i] + '"> color= '
+   + colors[i]
+   + '</span>' ;
+ h.innerHTML = myHTML;
+}
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-188">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+var d = document.getElementById('display');
+var myHTML = '';
+d.innerHTML = '';
+for ( var i = 9; i &gt;= 0; i-- ) {
+    myHTML = d.innerHTML + '<br>10 * ' + i + ' = ' + (10 * i);
+    d.innerHTML = myHTML;
+}
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-189">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+var d = document.getElementById('display');
+var myHTML = '';
+d.innerHTML = '';
+var count = 10;
+// instead of for loop, use a while loop
+while (count &gt; 0) {
+    count--;
+    myHTML = d.innerHTML + '<br>10 * ' + count + ' = ' + (10 * count);
+    d.innerHTML = myHTML;
+}
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-190">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+var d = document.getElementById('display');
+var myHTML = '';
+d.innerHTML = '<input type="text" id="num" onchange="doIt(\'num\')">';
+function doIt (id) {
+    
+    var value = $('#' + id).val();
+    Log.Notice('id=' + id + ' value=' + value);
+    myHTML = d.innerHTML + "<br>" + value;
+    d.innerHTML = myHTML;
+}
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-191">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+var d = document.getElementById('display');
+var myHTML = '';
+d.innerHTML = '';
+var myDate = new Date();
+d.innerHTML = myDate + '<br>';
+myHTML = d.innerHTML + myDate.toUTCString() + '<br>';
+d.innerHTML = myHTML;
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-192">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+var d = document.getElementById('display');
+var myHTML = '';
+d.innerHTML = '';
+function runClock() {
+   var today = new Date();
+   var hour = today.getHours();
+   var minutes = today.getMinutes();
+   var seconds = today.getSeconds();
+   if (hour &lt; 10) {
+      hour = '0' + hour;
+   }
+   if (minutes &lt; 10) {
+      minutes = '0' + minutes;
+   }
+   if (seconds &lt; 10) {
+      seconds = '0' + seconds;
+   }
+   d.innerHTML = '' + hour + ':' + minutes + ':' + seconds;
+   setTimeout('runClock()',950);
+}
+runClock();
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-193">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+<![CDATA[
+var d = document.getElementById('display');
+var myHTML = '';
+d.innerHTML = '<input id="item" onchange="addItems(\'item\')">';
+var myArray = new Array();
+function addItems(id) {
+   var value = $('#' + id).val();
+   myArray[myArray.length] = value;
+   displayItems();
+}
+function displayItems() {
+   for (var i = 0; i < myarray.length; i++) {
+     d.innerhtml="d.innerHTML" +="" '\n<br>' + myArray[i];
+   }
+}
+// notice that as you add each item, all items are added to
+// the bottom of the list.
+// for extra credit fix this 'feature' by changing displayItems
+// to only add the last item in the array to d.innerHTML.
+
+displayItems();
+]]>
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+</examples>
+</body>
+</html>

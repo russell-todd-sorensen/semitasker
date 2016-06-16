@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+<meta charset="utf-8" />
+
+<title>HSB to RGB and HSL</title>
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+<style>
+body {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+table tr td {
+    text-align: right;
+}
+#form-div {
+    padding: 6px;
+    float: right;
+    clear: left;
+    width: 300px;
+    background-color: #666;
+    color: white;
+}
+#form-div ul {
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+#form-div li {
+    list-style: none;
+}
+</style>
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+
+<script src="http://ic00408/js/binary-hex-conversions.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script>
+
+var rgb2hsl = function (r, g, b) {
+	
+	var hBuckets = 10;
+	var buckets = 1000;
+	var r1 = r;
+	var g1 = g;
+	var b1 = b;
+	var min = Math.min(r /= 255, g /= 255, b /= 255),
+	    max = Math.max(r, g, b),
+		  d = max - min, h, s, l = (max + min) / 2;
+	if (d) {
+		s = l < .5 ? d / (max + min) : d / (2 - max - min);
+		if (r == max) h = (g - b) / d + (g < b ? 6 : 0); else if (g == max) h = (b - r) / d + 2; else h = (r - g) / d + 4;
+		h = Math.round(h*60*hBuckets)/hBuckets;
+	} else {
+		h = Math.round(r1/255*360*hBuckets)/hBuckets;
+		s = l > 0 && l < 1 ? 0 : max;
+	}
+	// now round s and l to correct value
+	s = Math.round(s * buckets)/buckets;
+	l = Math.round(l * buckets)/buckets;
+	sat = Math.round(((max-min)/max) * buckets)/buckets;
+	brt = Math.round((max) * buckets)/buckets;
+	
+  return {h:h,s:s,l:l,d:d,max:max,min:min,r:r1,g:g1,b:b1,x:0,y:0,brt:brt,sat:sat};
+}
+
+
+////////////////////////  HSB to RGB //////////////////////////		
+
+var hsb2rgb = function (hue, sat, brt) {
+	while (hue < 0) {
+		hue += 360;
+	}
+	var buckets = 2;
+	var red = 0, green = 0, blue = 0;
+	hue %= 360;
+  var rgbHue = hueToRgbComponents(hue);
+	
+	red = (rgbHue.red * sat + 255 * (1-sat)) * brt;
+	green = (rgbHue.green * sat + 255 * (1-sat)) * brt;
+	blue = (rgbHue.blue * sat + 255 * (1-sat)) * brt;
+	
+	red = Math.round(red*buckets)/buckets;
+	green = Math.round(green*buckets)/buckets;
+	blue = Math.round(blue*buckets)/buckets;
+	return {r:red,g:green,b:blue,h:hue,sat:sat,brt:brt};
+}
+
+function hueToRgbComponents(hue) {
+	var norm = 255/60; /// 4.25
+	var red, green, blue;
+ 	
+	if (hue >= 0 && hue < 60) {
+		red = 255; blue = 0; green = hue * norm;
+	} else 
+	if (hue >= 60 && hue < 120) {
+		green = 255; blue = 0; red = (120 - hue) * norm;
+	} else
+	if (hue >= 120 && hue < 180) {
+		green = 255; red = 0; blue = (hue - 120) * norm;
+	} else
+	if (hue >= 180 && hue < 240) {
+		blue = 255; red = 0; green = (240 - hue) * norm;
+	} else
+	if (hue >= 240 && hue < 300) {
+		blue = 255; green = 0; red = (hue - 240) * norm;
+	} else
+	if (hue >= 300 && hue <= 360) {
+		red = 255; green = 0; blue = (360 - hue) * norm;
+	} else {
+		red = NaN; green = NaN; blue = NaN;
+	}
+	
+	return {red:red,green:green,blue:blue};
+	
+}
+
+function printTable (rStep, gStep, bStep) {
+	
+	var table = "<table cellspacing='0' cellpadding='3' border='1'>\n"
+      + " <tr><th>Hex</th><th>R</th><th>G</th><th>B</th><th>Hue</th><th>Sat1</th><th>Level</th>"
+			+ "<th>Sat2</th><th>Brite</th></tr>\n";
+
+	var tr = "";
+	var rgb,hex;
+	for (var r=255; r>=0; r=r-rStep) {
+		for (var g=255; g>=0; g=g-gStep) {
+			for (var b=255; b>=0; b=b-bStep) {
+				rgb = rgb2hsl(r,g,b);
+				if (rgb.h >= 300 && rgb.h < 360) {
+					rgb2 = hsb2rgb(rgb.h, rgb.sat, rgb.brt);
+	        hex = "" + toHex(r) + toHex(g) + toHex(b);
+					tr = "<tr>"
+	         + "<td>" + hex + "</td>" 
+				   + "<td>" + r + "(" + rgb2.r+ ")" + "</td>" 
+				   + "<td>" + g + "(" + rgb2.g+ ")" + "</td>"
+				   + "<td>" + b + "(" + rgb2.b+ ")" + "</td>"
+				   + "<td>" + rgb.h + "</td>"
+				   + "<td>" + rgb.s + "</td>"
+				   + "<td>" + rgb.l + "</td>"
+				   + "<td>" + rgb.sat + "</td>"
+				   + "<td>" + rgb.brt + "</td>"
+					 + "</tr>";
+					table += tr;
+				}
+			}
+		}
+	}
+	
+	table += "</table>\n";
+	
+	d3.select('#rgb-table').html(table);
+}
+function printTableUp (rStep, gStep, bStep) {
+	
+	var table = "<table cellspacing='0' cellpadding='3' border='1'>\n"
+      + " <tr><th>Hex</th><th>R</th><th>G</th><th>B</th><th>Hue</th><th>Sat1</th><th>Level</th>"
+			+ "<th>Sat2</th><th>Brite</th></tr>\n";
+
+	var tr = "";
+	var rgb,hex;
+	for (var r=0; r<255; r=r+rStep) {
+		for (var g=0; g<255; g=g+gStep) {
+			for (var b=0; b<255; b=b+bStep) {
+				rgb = rgb2hsl(r,g,b);
+				if (rgb.h >= 300 && rgb.h < 360) {
+					rgb2 = hsb2rgb(rgb.h, rgb.sat, rgb.brt);
+	        hex = "" + toHex(r) + toHex(g) + toHex(b);
+					tr = "<tr>"
+	         + "<td>" + hex + "</td>" 
+				   + "<td>" + r + "(" + rgb2.r+ ")" + "</td>" 
+				   + "<td>" + g + "(" + rgb2.g+ ")" + "</td>"
+				   + "<td>" + b + "(" + rgb2.b+ ")" + "</td>"
+				   + "<td>" + rgb.h + "</td>"
+				   + "<td>" + rgb.s + "</td>"
+				   + "<td>" + rgb.l + "</td>"
+				   + "<td>" + rgb.sat + "</td>"
+				   + "<td>" + rgb.brt + "</td>"
+					 + "</tr>";
+					table += tr;
+				}
+			}
+		}
+	}
+	
+	table += "</table>\n";
+	
+	d3.select('#rgb-table').html(table);
+}
+
+function compareHSBConversion (r, g, b) {
+	
+	var table = "<table cellspacing='0' cellpadding='3' border='1'>\n"
+      + " <tr><th>Hex</th><th>R</th><th>G</th><th>B</th><th>Hue</th><th>Sat1</th><th>Level</th>"
+			+ "<th>Sat2</th><th>Brite</th></tr>\n";
+
+	var tr = "";
+	var rgb, hex;
+	rgb = rgb2hsl(r,g,b);
+				
+	rgb2 = hsb2rgb(rgb.h, rgb.sat, rgb.brt);
+	hex = "" + toHex(r) + toHex(g) + toHex(b);
+	tr = "<tr>"
+	 + "<td>" + hex + "</td>" 
+	 + "<td>" + r + "(" + rgb2.r+ ")" + "</td>" 
+	 + "<td>" + g + "(" + rgb2.g+ ")" + "</td>"
+	 + "<td>" + b + "(" + rgb2.b+ ")" + "</td>"
+	 + "<td>" + rgb.h + "</td>"
+	 + "<td>" + rgb.s + "</td>"
+	 + "<td>" + rgb.l + "</td>"
+	 + "<td>" + rgb.sat + "</td>"
+	 + "<td>" + rgb.brt + "</td>"
+	 + "</tr>";
+	table += tr;
+	table += "</table>\n";
+	
+	d3.select('#rgb-table').html(table);
+}
+
+
+function updateRgbConversion(formName) {
+
+	var form = document.forms[formName];
+	var r =  parseInt(form["r"].value);
+	var g =  parseInt(form["g"].value);
+	var b =  parseInt(form["b"].value);
+	Log.Notice("r=" + r + ",g=" + g + ",b=" + b);
+	compareHSBConversion(r, g, b);
+}
+
+$(document).ready(function (evt) {
+	printTableUp(64,64,32);
+});
+
+
+
+</script>
+
+
+
+</head>
+<body>
+<div id="form-div">
+<form id="myForm" name="myForm" >
+<fieldset>
+<legend>Check HSB Conversion</legend>
+<ul>
+ <li>
+  <label for="r">Red: </label>
+  <input type="range" min="0" max="255" step="1"
+   name="r" id="r" value="0" onChange="updateRgbConversion('myForm')" />
+ </li>
+  <li>
+  <label for="g">Green: </label>
+  <input type="range" min="0" max="255" step="1"
+   name="g" id="g" value="0" onChange="updateRgbConversion('myForm')" />
+ </li>
+  <li>
+  <label for="b">Blue: </label>
+  <input type="range" min="0" max="255" step="1"
+   name="b" id="b" value="0" onChange="updateRgbConversion('myForm')" />
+ </li>
+</ul>
+</fieldset>
+</form>
+</div>
+<div id="rgb-table"></div>
+</body>
+</html>

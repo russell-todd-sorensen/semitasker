@@ -1,0 +1,256 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>d3.js Example 5</title>
+<link rel="stylesheet" type="text/css" href="main.css">
+<style>
+
+pre {
+ 	background-color: silver;
+    border: 1px solid black;   
+}
+
+.symbolContainer {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.symbols {
+    position: relative;
+    background-color: silver;
+    color: white;
+}
+
+.tick {
+    color: black;
+    height: 1px;
+    width: 15px;
+    padding: 20px;
+}
+.minor {
+    color: black;
+    height: 1px;
+    width: 5px;
+    padding: 5px;
+}
+
+</style>
+
+<script language="javascript" src="d3.v3.js"></script>
+<script language="javascript" src="../js/jquery-1.7.1.js"></script>
+<script language="javascript" src="../js/log.js"></script>
+<script language="javascript" >
+
+var version = d3.version;
+
+$(document).ready(function () {
+
+  Log.Notice('d3.js version=' + version + '\n');
+
+  Log.Notice('Finished ready()\n');
+  
+  svg = d3.select(document.body)
+  	.append("svg")
+	.style("position", "absolute")
+	.style("top", '250px')
+	.style("left", '250px')
+	.attr('id','svgBox1');
+	
+	var svgOriginalPosition = new Array();
+	var svgSymbols = new Array();
+	var svgTags = new Array();
+	
+	var top = 100;
+	var docBody = d3.select(document.body);
+	
+	var myContainer = docBody.append("div")
+		.attr("class","symbolContainer")
+		.attr("id","container1");
+		
+	var myDiv = myContainer.append("div")
+		.attr("class","symbols")
+		.attr("id","symbols1");
+		
+	var i = 0;
+	
+	d3.svg.symbolTypes.forEach( function (type) {
+		
+		Log.Notice('type =' + type);
+		
+		svgSymbols["symbols" + i] = d3.svg.symbol().type(type).size(1200);
+		
+		svgTags["svg" + i] = myDiv.append("svg")
+			.style("position", "absolute")
+			.style("top", top + "px")
+			.style("right", '50px')
+			.attr("id","svg" + i);
+			
+		svgTags["svg" + i].append("path")
+			.attr('x',100)
+			.attr('y',100)
+			.style('fill','#9' + i + (9-i))
+			.style("opacity", 1)
+			.attr('stroke','#f' + i + (10-i))
+			.attr('d', svgSymbols["symbols" + i]);
+			
+		svgOriginalPosition["svg" + i] = top + "px";
+		
+		top += 100;
+		i++;
+		
+	});
+	
+	
+	var values = [15,25,30,20,18,10,40,5,3];
+	var pie1 = d3.layout.pie();
+	pie1
+		.startAngle(Math.PI/2)
+		.endAngle(2*Math.PI +Math.PI/2);
+	var arcs1 = pie1(values);
+	Log.Notice('arcs1=' + arcs1);
+	
+	var colors = d3.scale.category20b();
+	Log.Notice('colors=' + colors);
+	var arcs = new Array();
+	var i = 0;
+	for (j in arcs1) {
+		Log.Notice('obj=' + arcs1[j]);
+		Log.Notice('obj.startAngle=' + arcs1[j].startAngle);
+		arcs[i] = d3.svg.arc();
+   		arcs[i].innerRadius(0);
+   		arcs[i].outerRadius(200);
+   		arcs[i].startAngle(arcs1[j].startAngle);
+   		arcs[i].endAngle(arcs1[j].endAngle);
+
+   		var arcPath = arcs[i]();
+   		Log.Notice('arcPath[' + i + ']=' + arcPath);
+   
+   		// add arc to svg:
+   		svg.append("path")
+    		.attr('x',650)
+			.attr('y',650)
+			.style("fill",colors(j))
+    		.attr('stroke',colors(j))
+			.attr('stroke-miterlimit',10)
+			.attr('d',arcPath);
+			
+		i++;
+	}
+	
+	var force1 = d3.layout.force();
+	
+	force1.nodes(d3.selectAll("#svgBox1 path"));
+	
+	Log.Notice("force1.size=" + force1.size());
+	Log.Notice("force1.links=" + force1.links());
+	Log.Notice("force1.linkDistance=" + force1.linkDistance());
+	Log.Notice("force1.friction=" + force1.friction());
+	Log.Notice("force1.charge=" + force1.charge());
+	Log.Notice("force1.gravity=" + force1.gravity());
+	Log.Notice("force1.theta=" + force1.theta());
+	Log.Notice("force1.alpha=" + force1.alpha(1));
+	Log.Notice("force1.nodes=" + force1.nodes());
+	force1.alpha(100);
+	force1.start();	
+	
+//	var zoom1 = d3.behavior.zoom();
+	
+//	Log.Notice('zoom1.scale=', + zoom1.scale(5));
+	
+	var clip1 = d3.geo.albersUsa();
+	
+	Log.Notice('clip1.scale()=' + clip1.scale());
+	
+
+	var path1 = d3.geo.path();
+	
+	//Log.Notice('path1.context=' + path1.context(d3.svg.line()));
+	Log.Notice('path1.context=' + path1.context(d3.select("#svgBox1 path")));
+	
+	Log.Notice('path1.area=' + path1.area(d3.svg.line()));
+	Log.Notice('path1.bounds=' + path1.bounds(d3.svg.line()));
+	Log.Notice('path1.pointRadius=' + path1.pointRadius());
+	Log.Notice('path1.centroid=' + path1.centroid(d3.svg.line()));
+
+	var points1 = [[1,1],[1,101],[101,101],[101,1]];
+	var poly1 = d3.geom.polygon(points1);
+	
+	Log.Notice('poly1.area()=' + poly1.area());
+	Log.Notice('poly1.centroid()=' + poly1.centroid());
+	
+	var points2 = [[5,5],[5,100],[100,100],[100,5]];
+	var poly2 =  d3.geom.polygon(points2);
+	
+	Log.Notice('poly2.area()=' + poly2.area());
+	Log.Notice('poly2.centroid()=' + poly2.centroid());
+
+	
+	Log.Notice('poly1.clip(poly2)=' + poly1.clip(poly2) );
+	var clip2 = poly2.clip(poly1);
+	Log.Notice('poly2.clip(poly1)=clip2=' + clip2 );
+	
+	var voronoi1 = d3.geom.voronoi(clip2);
+	Log.Notice('voronoi1 (triangles)=' + voronoi1);
+	var voronoi2 = d3.geom.voronoi(); // note lack of data
+	Log.Notice('voronoi2.links(clip2)=' + voronoi2.links(clip2));
+	var links = voronoi2.links(clip2)
+	for (obj in links ) {
+		Log.Notice('links[obj].source=' + links[obj].source + ' links[obj].target=' + links[obj].target);
+	}
+	
+	
+	var obj = {'x':{'a':1,'b':2},'y':{'u':4,'v':7}}
+	var hier = d3.layout.hierarchy();
+	
+	var nodes2 =  hier(d3.selectAll('div svg'));
+	Log.Notice('nodes2=' + nodes2);
+	
+	
+	var tree1 = d3.layout.tree();
+	var treeOfDiv = tree1(d3.select('div#tree'))
+	Log.Notice('treeOfDiv=' +treeOfDiv );
+	Log.Notice('tree1.size()=' + tree1.size());
+	
+	
+	var treemap1 = d3.layout.treemap();
+	var treemap2 = treemap1(d3.select('div#symbols1'));
+	Log.Notice('treemap2.size=' + treemap1.size());
+
+	var diag1 = d3.svg.diagonal();
+	
+	Log.Notice('diag1=' + diag1(obj,0));
+	
+	
+});
+
+
+
+</script>
+</head>
+<body>
+
+
+
+<div id="tree">
+ <div class="first">
+   <div class="second">
+   A
+   </div>
+      <div class="second">
+   B
+   </div>
+  </div>
+  <div class="first">
+   <div class="second">
+   C
+   </div>
+      <div class="second">
+   D
+   </div>
+  </div>
+</div>
+
+</body>
+</html>

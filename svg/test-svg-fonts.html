@@ -1,0 +1,1555 @@
+<!DOCTYPE HTML>
+<html><head>
+<meta charset="utf-8">
+<title>Font Selector for HTML and SVG</title>
+ <link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+ <link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<style>
+html {
+    font-family: "Hobo Std";
+    font-size: 16px;
+}
+
+body {
+    font-size: .625em;
+}
+
+body * {
+    font-size: 1.6em;
+}
+
+
+
+#logo2 {
+    font-family: "gulim"; /* constant stroke width font */
+    font-size: 50pt; 
+    fill: gold; 
+    stroke-width: 1px; 
+    stroke: black;
+}
+
+#lower::before {
+    content: "Lower: ";
+}
+
+#upper {
+    text-transform: uppercase;
+}
+
+#upper::before {
+    content: "Upper: ";
+}
+    
+.allChars {
+    width: 100%;
+}
+
+#links {
+    background-color: #603;
+    padding: 10px;
+}
+#links a:link, 
+#links a:visited {
+    color: white;
+}
+
+#change-font {
+    font-size: 20px;
+    color: #603;
+    font-weight: bold;
+}
+
+#change-font input, #change-font select {
+    font-size: smaller;
+    color: inherit;
+    font-weight: bold;
+}
+
+#font-count {
+    display: inline-block;
+}
+
+#font-compare: {
+    border: 1px solid black;
+ 
+}
+.font, text {
+    border: 1px solid;
+    font-size: 20px;
+    padding: 5px;
+    color: #603;
+    fill: #603;
+    margin-bottom: 2px;
+}
+
+
+.font span {
+    color: white;
+    fill: white;
+    stroke: #603;
+    stroke-width: 1px;
+    background-color: #603;
+    padding: 3px;
+}
+
+.font::before {
+    display: block;
+    content: 'Lower: a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ?';
+}
+.font::after {
+    display: block;
+    content: 'Upper: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " \' | ~ ';
+}
+
+#logo {
+    font-family: 'HoboStd';
+    font-size: 50pt; 
+    fill: #603; 
+    stroke-width: 0px; 
+    stroke: black;
+    
+}
+line {
+    stroke: #603;
+    stroke-width: 2px;
+}
+</style>
+
+<!--<link rel="stylesheet" type="text/css" href="http://ic00408/css/box-model.css" media="all">-->
+ <script src="http://ic00408/js/jquery-1.7.1.js"></script>
+ <script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+ <script src="http://ic00408/js/d3.v3.js"></script>
+ <script src="http://ic00408/js/log-2.js"></script>
+ <script src="/js/data.js"></script>
+ <script src="/js/form-save-restore.js"></script>
+ 
+<!-- here comes the local script    -->
+<script>
+
+$(document).ready(function () {
+
+  Log.Hide();
+  Data.writeFontFamilySelect('#font-name');
+  Data.restoreSelectMultiple('font-name');
+	Data.restoreInput('font-size');
+  $('#font-count').text("Font Count: " + Data.fontFamily.length);
+});
+
+
+</script>
+</head>
+<body>
+
+ <svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" x="0" y="0" width="2000" height="42000" viewBox="0 0 2000 42000">
+
+<g x="100" y="250" id="font-compare"><line x1="30" y1="-5" x2="100" y2="-5"></line>
+<text x="30" y="0" style="font-family: 'Agency FB Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Agency FB Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="115" x2="100" y2="115"></line>
+<text x="30" y="120" style="font-family: 'Agency FB';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Agency FB</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="235" x2="100" y2="235"></line>
+<text x="30" y="240" style="font-family: 'Aharoni Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Aharoni Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="355" x2="100" y2="355"></line>
+<text x="30" y="360" style="font-family: 'Algerian';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Algerian</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="475" x2="100" y2="475"></line>
+<text x="30" y="480" style="font-family: 'Andalus';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Andalus</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="595" x2="100" y2="595"></line>
+<text x="30" y="600" style="font-family: 'Aparajita';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Aparajita</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="715" x2="100" y2="715"></line>
+<text x="30" y="720" style="font-family: 'Aparajita Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Aparajita Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="835" x2="100" y2="835"></line>
+<text x="30" y="840" style="font-family: 'Aparajita Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Aparajita Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="955" x2="100" y2="955"></line>
+<text x="30" y="960" style="font-family: 'Aparajita Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Aparajita Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="1075" x2="100" y2="1075"></line>
+<text x="30" y="1080" style="font-family: 'Arial Rounded MT Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Arial Rounded MT Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="1195" x2="100" y2="1195"></line>
+<text x="30" y="1200" style="font-family: 'Arial';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Arial</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="1315" x2="100" y2="1315"></line>
+<text x="30" y="1320" style="font-family: 'Arial Narrow';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Arial Narrow</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="1435" x2="100" y2="1435"></line>
+<text x="30" y="1440" style="font-family: 'Arial Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Arial Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="1555" x2="100" y2="1555"></line>
+<text x="30" y="1560" style="font-family: 'Arial Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Arial Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="1675" x2="100" y2="1675"></line>
+<text x="30" y="1680" style="font-family: 'Arial Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Arial Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="1795" x2="100" y2="1795"></line>
+<text x="30" y="1800" style="font-family: 'Bauhaus 93';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bauhaus 93</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="1915" x2="100" y2="1915"></line>
+<text x="30" y="1920" style="font-family: 'Berlin Sans FB';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Berlin Sans FB</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="2035" x2="100" y2="2035"></line>
+<text x="30" y="2040" style="font-family: 'Berlin Sans FB Demi Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Berlin Sans FB Demi Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="2155" x2="100" y2="2155"></line>
+<text x="30" y="2160" style="font-family: 'Berlin Sans FB Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Berlin Sans FB Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="2275" x2="100" y2="2275"></line>
+<text x="30" y="2280" style="font-family: 'Bernard MT Condensed';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bernard MT Condensed</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="2395" x2="100" y2="2395"></line>
+<text x="30" y="2400" style="font-family: 'Birch Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Birch Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="2515" x2="100" y2="2515"></line>
+<text x="30" y="2520" style="font-family: 'Bitstream Vera Sans Mono';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bitstream Vera Sans Mono</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="2635" x2="100" y2="2635"></line>
+<text x="30" y="2640" style="font-family: 'Bitstream Vera Sans Mono Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bitstream Vera Sans Mono Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="2755" x2="100" y2="2755"></line>
+<text x="30" y="2760" style="font-family: 'Blackadder ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Blackadder ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="2875" x2="100" y2="2875"></line>
+<text x="30" y="2880" style="font-family: 'Blackoak Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Blackoak Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="2995" x2="100" y2="2995"></line>
+<text x="30" y="3000" style="font-family: 'Bodoni MT Condensed';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bodoni MT Condensed</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="3115" x2="100" y2="3115"></line>
+<text x="30" y="3120" style="font-family: 'Bodoni MT Condensed Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bodoni MT Condensed Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="3235" x2="100" y2="3235"></line>
+<text x="30" y="3240" style="font-family: 'Bodoni MT Condensed Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bodoni MT Condensed Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="3355" x2="100" y2="3355"></line>
+<text x="30" y="3360" style="font-family: 'Bodoni MT Condensed Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bodoni MT Condensed Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="3475" x2="100" y2="3475"></line>
+<text x="30" y="3480" style="font-family: 'Bodoni MT';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bodoni MT</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="3595" x2="100" y2="3595"></line>
+<text x="30" y="3600" style="font-family: 'Bodoni MT Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bodoni MT Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="3715" x2="100" y2="3715"></line>
+<text x="30" y="3720" style="font-family: 'Bodoni MT Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bodoni MT Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="3835" x2="100" y2="3835"></line>
+<text x="30" y="3840" style="font-family: 'Bodoni MT Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bodoni MT Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="3955" x2="100" y2="3955"></line>
+<text x="30" y="3960" style="font-family: 'Bodoni MT Black';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bodoni MT Black</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="4075" x2="100" y2="4075"></line>
+<text x="30" y="4080" style="font-family: 'Bodoni MT Black Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bodoni MT Black Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="4195" x2="100" y2="4195"></line>
+<text x="30" y="4200" style="font-family: 'Book Antiqua';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Book Antiqua</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="4315" x2="100" y2="4315"></line>
+<text x="30" y="4320" style="font-family: 'Book Antiqua Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Book Antiqua Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="4435" x2="100" y2="4435"></line>
+<text x="30" y="4440" style="font-family: 'Book Antiqua Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Book Antiqua Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="4555" x2="100" y2="4555"></line>
+<text x="30" y="4560" style="font-family: 'Book Antiqua Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Book Antiqua Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="4675" x2="100" y2="4675"></line>
+<text x="30" y="4680" style="font-family: 'Bookman Old Style';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bookman Old Style</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="4795" x2="100" y2="4795"></line>
+<text x="30" y="4800" style="font-family: 'Bookman Old Style Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bookman Old Style Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="4915" x2="100" y2="4915"></line>
+<text x="30" y="4920" style="font-family: 'Bookman Old Style Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bookman Old Style Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="5035" x2="100" y2="5035"></line>
+<text x="30" y="5040" style="font-family: 'Bookman Old Style Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bookman Old Style Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="5155" x2="100" y2="5155"></line>
+<text x="30" y="5160" style="font-family: 'Bookshelf Symbol 7';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bookshelf Symbol 7</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="5275" x2="100" y2="5275"></line>
+<text x="30" y="5280" style="font-family: 'Bradley Hand ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Bradley Hand ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="5395" x2="100" y2="5395"></line>
+<text x="30" y="5400" style="font-family: 'Britannic Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Britannic Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="5515" x2="100" y2="5515"></line>
+<text x="30" y="5520" style="font-family: 'Broadway';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Broadway</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="5635" x2="100" y2="5635"></line>
+<text x="30" y="5640" style="font-family: 'Browallia New';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Browallia New</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="5755" x2="100" y2="5755"></line>
+<text x="30" y="5760" style="font-family: 'Browallia New Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Browallia New Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="5875" x2="100" y2="5875"></line>
+<text x="30" y="5880" style="font-family: 'Browallia New Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Browallia New Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="5995" x2="100" y2="5995"></line>
+<text x="30" y="6000" style="font-family: 'Browallia New Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Browallia New Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="6115" x2="100" y2="6115"></line>
+<text x="30" y="6120" style="font-family: 'Brush Script MT Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Brush Script MT Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="6235" x2="100" y2="6235"></line>
+<text x="30" y="6240" style="font-family: 'Brush Script Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Brush Script Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="6355" x2="100" y2="6355"></line>
+<text x="30" y="6360" style="font-family: 'Buxton Sketch';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Buxton Sketch</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="6475" x2="100" y2="6475"></line>
+<text x="30" y="6480" style="font-family: 'Calibri';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Calibri</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="6595" x2="100" y2="6595"></line>
+<text x="30" y="6600" style="font-family: 'Calibri Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Calibri Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="6715" x2="100" y2="6715"></line>
+<text x="30" y="6720" style="font-family: 'Calibri Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Calibri Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="6835" x2="100" y2="6835"></line>
+<text x="30" y="6840" style="font-family: 'Calibri Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Calibri Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="6955" x2="100" y2="6955"></line>
+<text x="30" y="6960" style="font-family: 'Californian FB';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Californian FB</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="7075" x2="100" y2="7075"></line>
+<text x="30" y="7080" style="font-family: 'Californian FB Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Californian FB Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="7195" x2="100" y2="7195"></line>
+<text x="30" y="7200" style="font-family: 'Calisto MT';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Calisto MT</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="7315" x2="100" y2="7315"></line>
+<text x="30" y="7320" style="font-family: 'Calisto MT Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Calisto MT Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="7435" x2="100" y2="7435"></line>
+<text x="30" y="7440" style="font-family: 'Calisto MT Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Calisto MT Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="7555" x2="100" y2="7555"></line>
+<text x="30" y="7560" style="font-family: 'Calisto MT Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Calisto MT Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="7675" x2="100" y2="7675"></line>
+<text x="30" y="7680" style="font-family: 'Cambria';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Cambria</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="7795" x2="100" y2="7795"></line>
+<text x="30" y="7800" style="font-family: 'Cambria Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Cambria Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="7915" x2="100" y2="7915"></line>
+<text x="30" y="7920" style="font-family: 'Cambria Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Cambria Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="8035" x2="100" y2="8035"></line>
+<text x="30" y="8040" style="font-family: 'Cambria Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Cambria Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="8155" x2="100" y2="8155"></line>
+<text x="30" y="8160" style="font-family: 'Cambria Math';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Cambria Math</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="8275" x2="100" y2="8275"></line>
+<text x="30" y="8280" style="font-family: 'Candara';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Candara</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="8395" x2="100" y2="8395"></line>
+<text x="30" y="8400" style="font-family: 'Candara Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Candara Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="8515" x2="100" y2="8515"></line>
+<text x="30" y="8520" style="font-family: 'Candara Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Candara Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="8635" x2="100" y2="8635"></line>
+<text x="30" y="8640" style="font-family: 'Candara Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Candara Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="8755" x2="100" y2="8755"></line>
+<text x="30" y="8760" style="font-family: 'Adobe Caslon Pro';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Adobe Caslon Pro</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="8875" x2="100" y2="8875"></line>
+<text x="30" y="8880" style="font-family: 'Adobe Caslon Pro Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Adobe Caslon Pro Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="8995" x2="100" y2="8995"></line>
+<text x="30" y="9000" style="font-family: 'Castellar';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Castellar</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="9115" x2="100" y2="9115"></line>
+<text x="30" y="9120" style="font-family: 'Centaur';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Centaur</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="9235" x2="100" y2="9235"></line>
+<text x="30" y="9240" style="font-family: 'Century';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Century</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="9355" x2="100" y2="9355"></line>
+<text x="30" y="9360" style="font-family: 'Century Gothic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Century Gothic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="9475" x2="100" y2="9475"></line>
+<text x="30" y="9480" style="font-family: 'Century Gothic Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Century Gothic Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="9595" x2="100" y2="9595"></line>
+<text x="30" y="9600" style="font-family: 'Century Gothic Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Century Gothic Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="9715" x2="100" y2="9715"></line>
+<text x="30" y="9720" style="font-family: 'Century Gothic Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Century Gothic Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="9835" x2="100" y2="9835"></line>
+<text x="30" y="9840" style="font-family: 'Century Schoolbook';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Century Schoolbook</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="9955" x2="100" y2="9955"></line>
+<text x="30" y="9960" style="font-family: 'Century Schoolbook Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Century Schoolbook Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="10075" x2="100" y2="10075"></line>
+<text x="30" y="10080" style="font-family: 'Century Schoolbook Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Century Schoolbook Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="10195" x2="100" y2="10195"></line>
+<text x="30" y="10200" style="font-family: 'Century Schoolbook Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Century Schoolbook Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="10315" x2="100" y2="10315"></line>
+<text x="30" y="10320" style="font-family: 'Chaparral Pro';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Chaparral Pro</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="10435" x2="100" y2="10435"></line>
+<text x="30" y="10440" style="font-family: 'Charlemagne Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Charlemagne Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="10555" x2="100" y2="10555"></line>
+<text x="30" y="10560" style="font-family: 'Chiller';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Chiller</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="10675" x2="100" y2="10675"></line>
+<text x="30" y="10680" style="font-family: 'Colonna MT';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Colonna MT</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="10795" x2="100" y2="10795"></line>
+<text x="30" y="10800" style="font-family: 'Comic Sans MS';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Comic Sans MS</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="10915" x2="100" y2="10915"></line>
+<text x="30" y="10920" style="font-family: 'Comic Sans MS Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Comic Sans MS Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="11035" x2="100" y2="11035"></line>
+<text x="30" y="11040" style="font-family: 'Consolas';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Consolas</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="11155" x2="100" y2="11155"></line>
+<text x="30" y="11160" style="font-family: 'Consolas Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Consolas Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="11275" x2="100" y2="11275"></line>
+<text x="30" y="11280" style="font-family: 'Consolas Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Consolas Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="11395" x2="100" y2="11395"></line>
+<text x="30" y="11400" style="font-family: 'Consolas Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Consolas Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="11515" x2="100" y2="11515"></line>
+<text x="30" y="11520" style="font-family: 'Constantia';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Constantia</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="11635" x2="100" y2="11635"></line>
+<text x="30" y="11640" style="font-family: 'Constantia Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Constantia Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="11755" x2="100" y2="11755"></line>
+<text x="30" y="11760" style="font-family: 'Constantia Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Constantia Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="11875" x2="100" y2="11875"></line>
+<text x="30" y="11880" style="font-family: 'Constantia Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Constantia Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="11995" x2="100" y2="11995"></line>
+<text x="30" y="12000" style="font-family: 'Cooper Black';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Cooper Black</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="12115" x2="100" y2="12115"></line>
+<text x="30" y="12120" style="font-family: 'Copperplate Gothic Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Copperplate Gothic Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="12235" x2="100" y2="12235"></line>
+<text x="30" y="12240" style="font-family: 'Copperplate Gothic Light';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Copperplate Gothic Light</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="12355" x2="100" y2="12355"></line>
+<text x="30" y="12360" style="font-family: 'Corbel';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Corbel</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="12475" x2="100" y2="12475"></line>
+<text x="30" y="12480" style="font-family: 'Corbel Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Corbel Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="12595" x2="100" y2="12595"></line>
+<text x="30" y="12600" style="font-family: 'Corbel Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Corbel Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="12715" x2="100" y2="12715"></line>
+<text x="30" y="12720" style="font-family: 'Corbel Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Corbel Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="12835" x2="100" y2="12835"></line>
+<text x="30" y="12840" style="font-family: 'Cordia New';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Cordia New</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="12955" x2="100" y2="12955"></line>
+<text x="30" y="12960" style="font-family: 'Cordia New Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Cordia New Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="13075" x2="100" y2="13075"></line>
+<text x="30" y="13080" style="font-family: 'Cordia New Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Cordia New Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="13195" x2="100" y2="13195"></line>
+<text x="30" y="13200" style="font-family: 'Cordia New Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Cordia New Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="13315" x2="100" y2="13315"></line>
+<text x="30" y="13320" style="font-family: 'Monotype Corsiva';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Monotype Corsiva</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="13435" x2="100" y2="13435"></line>
+<text x="30" y="13440" style="font-family: 'Courier New';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Courier New</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="13555" x2="100" y2="13555"></line>
+<text x="30" y="13560" style="font-family: 'Courier New Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Courier New Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="13675" x2="100" y2="13675"></line>
+<text x="30" y="13680" style="font-family: 'Courier New Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Courier New Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="13795" x2="100" y2="13795"></line>
+<text x="30" y="13800" style="font-family: 'Courier New Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Courier New Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="13915" x2="100" y2="13915"></line>
+<text x="30" y="13920" style="font-family: 'Curlz MT';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Curlz MT</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="14035" x2="100" y2="14035"></line>
+<text x="30" y="14040" style="font-family: 'Ebrima';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Ebrima</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="14155" x2="100" y2="14155"></line>
+<text x="30" y="14160" style="font-family: 'Ebrima Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Ebrima Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="14275" x2="100" y2="14275"></line>
+<text x="30" y="14280" style="font-family: 'Edwardian Script ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Edwardian Script ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="14395" x2="100" y2="14395"></line>
+<text x="30" y="14400" style="font-family: 'Elephant';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Elephant</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="14515" x2="100" y2="14515"></line>
+<text x="30" y="14520" style="font-family: 'Elephant Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Elephant Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="14635" x2="100" y2="14635"></line>
+<text x="30" y="14640" style="font-family: 'Engravers MT';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Engravers MT</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="14755" x2="100" y2="14755"></line>
+<text x="30" y="14760" style="font-family: 'Eras Bold ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Eras Bold ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="14875" x2="100" y2="14875"></line>
+<text x="30" y="14880" style="font-family: 'Eras Demi ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Eras Demi ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="14995" x2="100" y2="14995"></line>
+<text x="30" y="15000" style="font-family: 'Eras Light ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Eras Light ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="15115" x2="100" y2="15115"></line>
+<text x="30" y="15120" style="font-family: 'Eras Medium ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Eras Medium ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="15235" x2="100" y2="15235"></line>
+<text x="30" y="15240" style="font-family: 'Estrangelo Edessa';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Estrangelo Edessa</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="15355" x2="100" y2="15355"></line>
+<text x="30" y="15360" style="font-family: 'Euphemia';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Euphemia</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="15475" x2="100" y2="15475"></line>
+<text x="30" y="15480" style="font-family: 'Felix Titling';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Felix Titling</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="15595" x2="100" y2="15595"></line>
+<text x="30" y="15600" style="font-family: 'Footlight MT Light';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Footlight MT Light</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="15715" x2="100" y2="15715"></line>
+<text x="30" y="15720" style="font-family: 'Forte';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Forte</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="15835" x2="100" y2="15835"></line>
+<text x="30" y="15840" style="font-family: 'Franklin Gothic Book';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Franklin Gothic Book</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="15955" x2="100" y2="15955"></line>
+<text x="30" y="15960" style="font-family: 'Franklin Gothic Demi';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Franklin Gothic Demi</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="16075" x2="100" y2="16075"></line>
+<text x="30" y="16080" style="font-family: 'Franklin Gothic Demi Cond';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Franklin Gothic Demi Cond</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="16195" x2="100" y2="16195"></line>
+<text x="30" y="16200" style="font-family: 'Franklin Gothic Heavy';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Franklin Gothic Heavy</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="16315" x2="100" y2="16315"></line>
+<text x="30" y="16320" style="font-family: 'Franklin Gothic Medium';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Franklin Gothic Medium</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="16435" x2="100" y2="16435"></line>
+<text x="30" y="16440" style="font-family: 'Franklin Gothic Medium Cond';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Franklin Gothic Medium Cond</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="16555" x2="100" y2="16555"></line>
+<text x="30" y="16560" style="font-family: 'FreesiaUPC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">FreesiaUPC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="16675" x2="100" y2="16675"></line>
+<text x="30" y="16680" style="font-family: 'FreesiaUPC Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">FreesiaUPC Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="16795" x2="100" y2="16795"></line>
+<text x="30" y="16800" style="font-family: 'FreesiaUPC Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">FreesiaUPC Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="16915" x2="100" y2="16915"></line>
+<text x="30" y="16920" style="font-family: 'FreesiaUPC Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">FreesiaUPC Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="17035" x2="100" y2="17035"></line>
+<text x="30" y="17040" style="font-family: 'Gabriola';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gabriola</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="17155" x2="100" y2="17155"></line>
+<text x="30" y="17160" style="font-family: 'Garamond';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Garamond</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="17275" x2="100" y2="17275"></line>
+<text x="30" y="17280" style="font-family: 'Garamond Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Garamond Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="17395" x2="100" y2="17395"></line>
+<text x="30" y="17400" style="font-family: 'Adobe Garamond Pro';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Adobe Garamond Pro</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="17515" x2="100" y2="17515"></line>
+<text x="30" y="17520" style="font-family: 'Adobe Garamond Pro Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Adobe Garamond Pro Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="17635" x2="100" y2="17635"></line>
+<text x="30" y="17640" style="font-family: 'Gautami';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gautami</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="17755" x2="100" y2="17755"></line>
+<text x="30" y="17760" style="font-family: 'Gautami Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gautami Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="17875" x2="100" y2="17875"></line>
+<text x="30" y="17880" style="font-family: 'Georgia';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Georgia</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="17995" x2="100" y2="17995"></line>
+<text x="30" y="18000" style="font-family: 'Georgia Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Georgia Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="18115" x2="100" y2="18115"></line>
+<text x="30" y="18120" style="font-family: 'Georgia Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Georgia Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="18235" x2="100" y2="18235"></line>
+<text x="30" y="18240" style="font-family: 'Georgia Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Georgia Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="18355" x2="100" y2="18355"></line>
+<text x="30" y="18360" style="font-family: 'Giddyup Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Giddyup Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="18475" x2="100" y2="18475"></line>
+<text x="30" y="18480" style="font-family: 'Gigi';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gigi</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="18595" x2="100" y2="18595"></line>
+<text x="30" y="18600" style="font-family: 'Gill Sans MT';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gill Sans MT</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="18715" x2="100" y2="18715"></line>
+<text x="30" y="18720" style="font-family: 'Gill Sans MT Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gill Sans MT Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="18835" x2="100" y2="18835"></line>
+<text x="30" y="18840" style="font-family: 'Gill Sans Ultra Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gill Sans Ultra Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="18955" x2="100" y2="18955"></line>
+<text x="30" y="18960" style="font-family: 'Gill Sans MT Ext Condensed Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gill Sans MT Ext Condensed Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="19075" x2="100" y2="19075"></line>
+<text x="30" y="19080" style="font-family: 'Gill Sans Ultra Bold Condensed';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gill Sans Ultra Bold Condensed</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="19195" x2="100" y2="19195"></line>
+<text x="30" y="19200" style="font-family: 'Gloucester MT Extra Condensed';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gloucester MT Extra Condensed</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="19315" x2="100" y2="19315"></line>
+<text x="30" y="19320" style="font-family: 'Gisha';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gisha</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="19435" x2="100" y2="19435"></line>
+<text x="30" y="19440" style="font-family: 'Gisha Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Gisha Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="19555" x2="100" y2="19555"></line>
+<text x="30" y="19560" style="font-family: 'Goudy Old Style';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Goudy Old Style</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="19675" x2="100" y2="19675"></line>
+<text x="30" y="19680" style="font-family: 'Goudy Old Style Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Goudy Old Style Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="19795" x2="100" y2="19795"></line>
+<text x="30" y="19800" style="font-family: 'Goudy Stout';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Goudy Stout</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="19915" x2="100" y2="19915"></line>
+<text x="30" y="19920" style="font-family: 'Haettenschweiler';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Haettenschweiler</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="20035" x2="100" y2="20035"></line>
+<text x="30" y="20040" style="font-family: 'Harlow Solid Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Harlow Solid Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="20155" x2="100" y2="20155"></line>
+<text x="30" y="20160" style="font-family: 'Harrington';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Harrington</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="20275" x2="100" y2="20275"></line>
+<text x="30" y="20280" style="font-family: 'High Tower Text';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">High Tower Text</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="20395" x2="100" y2="20395"></line>
+<text x="30" y="20400" style="font-family: 'High Tower Text Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">High Tower Text Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="20515" x2="100" y2="20515"></line>
+<text x="30" y="20520" style="font-family: 'Hobo Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Hobo Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="20635" x2="100" y2="20635"></line>
+<text x="30" y="20640" style="font-family: 'Impact';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Impact</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="20755" x2="100" y2="20755"></line>
+<text x="30" y="20760" style="font-family: 'Imprint MT Shadow';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Imprint MT Shadow</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="20875" x2="100" y2="20875"></line>
+<text x="30" y="20880" style="font-family: 'Informal Roman';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Informal Roman</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="20995" x2="100" y2="20995"></line>
+<text x="30" y="21000" style="font-family: 'JasmineUPC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">JasmineUPC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="21115" x2="100" y2="21115"></line>
+<text x="30" y="21120" style="font-family: 'JasmineUPC Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">JasmineUPC Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="21235" x2="100" y2="21235"></line>
+<text x="30" y="21240" style="font-family: 'JasmineUPC Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">JasmineUPC Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="21355" x2="100" y2="21355"></line>
+<text x="30" y="21360" style="font-family: 'JasmineUPC Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">JasmineUPC Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="21475" x2="100" y2="21475"></line>
+<text x="30" y="21480" style="font-family: 'Jokerman';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Jokerman</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="21595" x2="100" y2="21595"></line>
+<text x="30" y="21600" style="font-family: 'Juice ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Juice ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="21715" x2="100" y2="21715"></line>
+<text x="30" y="21720" style="font-family: 'Kalinga';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Kalinga</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="21835" x2="100" y2="21835"></line>
+<text x="30" y="21840" style="font-family: 'Kalinga Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Kalinga Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="21955" x2="100" y2="21955"></line>
+<text x="30" y="21960" style="font-family: 'Kartika';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Kartika</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="22075" x2="100" y2="22075"></line>
+<text x="30" y="22080" style="font-family: 'Kartika Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Kartika Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="22195" x2="100" y2="22195"></line>
+<text x="30" y="22200" style="font-family: 'Khmer UI';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Khmer UI</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="22315" x2="100" y2="22315"></line>
+<text x="30" y="22320" style="font-family: 'Khmer UI Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Khmer UI Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="22435" x2="100" y2="22435"></line>
+<text x="30" y="22440" style="font-family: 'Kristen ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Kristen ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="22555" x2="100" y2="22555"></line>
+<text x="30" y="22560" style="font-family: 'Kunstler Script';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Kunstler Script</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="22675" x2="100" y2="22675"></line>
+<text x="30" y="22680" style="font-family: 'Lao UI';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lao UI</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="22795" x2="100" y2="22795"></line>
+<text x="30" y="22800" style="font-family: 'Lao UI Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lao UI Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="22915" x2="100" y2="22915"></line>
+<text x="30" y="22920" style="font-family: 'Latha';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Latha</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="23035" x2="100" y2="23035"></line>
+<text x="30" y="23040" style="font-family: 'Latha Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Latha Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="23155" x2="100" y2="23155"></line>
+<text x="30" y="23160" style="font-family: 'Leelawadee';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Leelawadee</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="23275" x2="100" y2="23275"></line>
+<text x="30" y="23280" style="font-family: 'Leelawadee Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Leelawadee Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="23395" x2="100" y2="23395"></line>
+<text x="30" y="23400" style="font-family: 'Letter Gothic Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Letter Gothic Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="23515" x2="100" y2="23515"></line>
+<text x="30" y="23520" style="font-family: 'Levenim MT';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Levenim MT</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="23635" x2="100" y2="23635"></line>
+<text x="30" y="23640" style="font-family: 'Levenim MT Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Levenim MT Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="23755" x2="100" y2="23755"></line>
+<text x="30" y="23760" style="font-family: 'Lithos Pro Regular';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lithos Pro Regular</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="23875" x2="100" y2="23875"></line>
+<text x="30" y="23880" style="font-family: 'LilyUPC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">LilyUPC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="23995" x2="100" y2="23995"></line>
+<text x="30" y="24000" style="font-family: 'LilyUPC Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">LilyUPC Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="24115" x2="100" y2="24115"></line>
+<text x="30" y="24120" style="font-family: 'LilyUPC Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">LilyUPC Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="24235" x2="100" y2="24235"></line>
+<text x="30" y="24240" style="font-family: 'LilyUPC Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">LilyUPC Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="24355" x2="100" y2="24355"></line>
+<text x="30" y="24360" style="font-family: 'Lucida Bright';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Bright</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="24475" x2="100" y2="24475"></line>
+<text x="30" y="24480" style="font-family: 'Lucida Bright Demibold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Bright Demibold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="24595" x2="100" y2="24595"></line>
+<text x="30" y="24600" style="font-family: 'Lucida Bright Demibold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Bright Demibold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="24715" x2="100" y2="24715"></line>
+<text x="30" y="24720" style="font-family: 'Lucida Bright Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Bright Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="24835" x2="100" y2="24835"></line>
+<text x="30" y="24840" style="font-family: 'Lucida Calligraphy Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Calligraphy Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="24955" x2="100" y2="24955"></line>
+<text x="30" y="24960" style="font-family: 'Lucida Console';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Console</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="25075" x2="100" y2="25075"></line>
+<text x="30" y="25080" style="font-family: 'Lucida Fax';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Fax</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="25195" x2="100" y2="25195"></line>
+<text x="30" y="25200" style="font-family: 'Lucida Fax Demibold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Fax Demibold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="25315" x2="100" y2="25315"></line>
+<text x="30" y="25320" style="font-family: 'Lucida Fax Demibold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Fax Demibold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="25435" x2="100" y2="25435"></line>
+<text x="30" y="25440" style="font-family: 'Lucida Fax Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Fax Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="25555" x2="100" y2="25555"></line>
+<text x="30" y="25560" style="font-family: 'Lucida Handwriting Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Handwriting Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="25675" x2="100" y2="25675"></line>
+<text x="30" y="25680" style="font-family: 'Lucida Sans';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Sans</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="25795" x2="100" y2="25795"></line>
+<text x="30" y="25800" style="font-family: 'Lucida Sans Demibold Roman';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Sans Demibold Roman</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="25915" x2="100" y2="25915"></line>
+<text x="30" y="25920" style="font-family: 'Lucida Sans Demibold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Sans Demibold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="26035" x2="100" y2="26035"></line>
+<text x="30" y="26040" style="font-family: 'Lucida Sans Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Sans Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="26155" x2="100" y2="26155"></line>
+<text x="30" y="26160" style="font-family: 'Lucida Sans Typewriter';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Sans Typewriter</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="26275" x2="100" y2="26275"></line>
+<text x="30" y="26280" style="font-family: 'Lucida Sans Typewriter Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Sans Typewriter Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="26395" x2="100" y2="26395"></line>
+<text x="30" y="26400" style="font-family: 'Lucida Sans Typewriter Oblique';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Sans Typewriter Oblique</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="26515" x2="100" y2="26515"></line>
+<text x="30" y="26520" style="font-family: 'Lucida Sans Unicode';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Lucida Sans Unicode</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="26635" x2="100" y2="26635"></line>
+<text x="30" y="26640" style="font-family: 'Magneto Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Magneto Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="26755" x2="100" y2="26755"></line>
+<text x="30" y="26760" style="font-family: 'Maiandra GD';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Maiandra GD</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="26875" x2="100" y2="26875"></line>
+<text x="30" y="26880" style="font-family: 'Mangal';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Mangal</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="26995" x2="100" y2="26995"></line>
+<text x="30" y="27000" style="font-family: 'Mangal Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Mangal Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="27115" x2="100" y2="27115"></line>
+<text x="30" y="27120" style="font-family: 'Matura MT Script Capitals';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Matura MT Script Capitals</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="27235" x2="100" y2="27235"></line>
+<text x="30" y="27240" style="font-family: 'Meiryo UI';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Meiryo UI</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="27355" x2="100" y2="27355"></line>
+<text x="30" y="27360" style="font-family: 'Meiryo UI Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Meiryo UI Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="27475" x2="100" y2="27475"></line>
+<text x="30" y="27480" style="font-family: 'Meiryo UI Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Meiryo UI Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="27595" x2="100" y2="27595"></line>
+<text x="30" y="27600" style="font-family: 'Meiryo UI Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Meiryo UI Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="27715" x2="100" y2="27715"></line>
+<text x="30" y="27720" style="font-family: 'Mesquite Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Mesquite Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="27835" x2="100" y2="27835"></line>
+<text x="30" y="27840" style="font-family: 'Microsoft New Tai Lue';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Microsoft New Tai Lue</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="27955" x2="100" y2="27955"></line>
+<text x="30" y="27960" style="font-family: 'Microsoft New Tai Lue Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Microsoft New Tai Lue Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="28075" x2="100" y2="28075"></line>
+<text x="30" y="28080" style="font-family: 'Microsoft PhagsPa';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Microsoft PhagsPa</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="28195" x2="100" y2="28195"></line>
+<text x="30" y="28200" style="font-family: 'Microsoft PhagsPa Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Microsoft PhagsPa Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="28315" x2="100" y2="28315"></line>
+<text x="30" y="28320" style="font-family: 'Microsoft Sans Serif';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Microsoft Sans Serif</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="28435" x2="100" y2="28435"></line>
+<text x="30" y="28440" style="font-family: 'Microsoft Tai Le';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Microsoft Tai Le</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="28555" x2="100" y2="28555"></line>
+<text x="30" y="28560" style="font-family: 'Microsoft Tai Le Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Microsoft Tai Le Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="28675" x2="100" y2="28675"></line>
+<text x="30" y="28680" style="font-family: 'Microsoft Yi Baiti';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Microsoft Yi Baiti</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="28795" x2="100" y2="28795"></line>
+<text x="30" y="28800" style="font-family: 'Miriam';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Miriam</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="28915" x2="100" y2="28915"></line>
+<text x="30" y="28920" style="font-family: 'Miriam Fixed';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Miriam Fixed</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="29035" x2="100" y2="29035"></line>
+<text x="30" y="29040" style="font-family: 'Mistral';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Mistral</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="29155" x2="100" y2="29155"></line>
+<text x="30" y="29160" style="font-family: 'Modern No. 20';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Modern No. 20</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="29275" x2="100" y2="29275"></line>
+<text x="30" y="29280" style="font-family: 'MoolBoran';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">MoolBoran</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="29395" x2="100" y2="29395"></line>
+<text x="30" y="29400" style="font-family: 'MS Outlook';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">MS Outlook</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="29515" x2="100" y2="29515"></line>
+<text x="30" y="29520" style="font-family: 'MS Reference Sans Serif';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">MS Reference Sans Serif</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="29635" x2="100" y2="29635"></line>
+<text x="30" y="29640" style="font-family: 'MS Reference Specialty';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">MS Reference Specialty</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="29755" x2="100" y2="29755"></line>
+<text x="30" y="29760" style="font-family: 'MS PGothic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">MS PGothic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="29875" x2="100" y2="29875"></line>
+<text x="30" y="29880" style="font-family: 'MS UI Gothic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">MS UI Gothic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="29995" x2="100" y2="29995"></line>
+<text x="30" y="30000" style="font-family: 'MS Gothic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">MS Gothic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="30115" x2="100" y2="30115"></line>
+<text x="30" y="30120" style="font-family: 'MT Extra';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">MT Extra</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="30235" x2="100" y2="30235"></line>
+<text x="30" y="30240" style="font-family: 'MV Boli';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">MV Boli</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="30355" x2="100" y2="30355"></line>
+<text x="30" y="30360" style="font-family: 'Myriad Pro';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Myriad Pro</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="30475" x2="100" y2="30475"></line>
+<text x="30" y="30480" style="font-family: 'Myriad Pro Cond';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Myriad Pro Cond</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="30595" x2="100" y2="30595"></line>
+<text x="30" y="30600" style="font-family: 'Myriad Web Pro';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Myriad Web Pro</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="30715" x2="100" y2="30715"></line>
+<text x="30" y="30720" style="font-family: 'Myriad Web Pro Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Myriad Web Pro Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="30835" x2="100" y2="30835"></line>
+<text x="30" y="30840" style="font-family: 'Myriad Web Pro Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Myriad Web Pro Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="30955" x2="100" y2="30955"></line>
+<text x="30" y="30960" style="font-family: 'Niagara Engraved';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Niagara Engraved</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="31075" x2="100" y2="31075"></line>
+<text x="30" y="31080" style="font-family: 'Niagara Solid';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Niagara Solid</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="31195" x2="100" y2="31195"></line>
+<text x="30" y="31200" style="font-family: 'Narkisim';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Narkisim</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="31315" x2="100" y2="31315"></line>
+<text x="30" y="31320" style="font-family: 'Nueva Std Cond';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Nueva Std Cond</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="31435" x2="100" y2="31435"></line>
+<text x="30" y="31440" style="font-family: 'Nyala';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Nyala</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="31555" x2="100" y2="31555"></line>
+<text x="30" y="31560" style="font-family: 'OCR A Extended';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">OCR A Extended</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="31675" x2="100" y2="31675"></line>
+<text x="30" y="31680" style="font-family: 'OCR A Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">OCR A Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="31795" x2="100" y2="31795"></line>
+<text x="30" y="31800" style="font-family: 'Onyz';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Onyz</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="31915" x2="100" y2="31915"></line>
+<text x="30" y="31920" style="font-family: 'Orator Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Orator Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="32035" x2="100" y2="32035"></line>
+<text x="30" y="32040" style="font-family: 'Papyrus';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Papyrus</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="32155" x2="100" y2="32155"></line>
+<text x="30" y="32160" style="font-family: 'Parchment';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Parchment</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="32275" x2="100" y2="32275"></line>
+<text x="30" y="32280" style="font-family: 'Perpetua Titling MT';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Perpetua Titling MT</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="32395" x2="100" y2="32395"></line>
+<text x="30" y="32400" style="font-family: 'Perpetua Titling MT Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Perpetua Titling MT Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="32515" x2="100" y2="32515"></line>
+<text x="30" y="32520" style="font-family: 'Playbill';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Playbill</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="32635" x2="100" y2="32635"></line>
+<text x="30" y="32640" style="font-family: 'Poor Richard';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Poor Richard</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="32755" x2="100" y2="32755"></line>
+<text x="30" y="32760" style="font-family: 'Poplar Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Poplar Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="32875" x2="100" y2="32875"></line>
+<text x="30" y="32880" style="font-family: 'Prestige Elite Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Prestige Elite Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="32995" x2="100" y2="32995"></line>
+<text x="30" y="33000" style="font-family: 'Pristina';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Pristina</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="33115" x2="100" y2="33115"></line>
+<text x="30" y="33120" style="font-family: 'Raavi';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Raavi</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="33235" x2="100" y2="33235"></line>
+<text x="30" y="33240" style="font-family: 'Rage Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Rage Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="33355" x2="100" y2="33355"></line>
+<text x="30" y="33360" style="font-family: 'Ravie';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Ravie</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="33475" x2="100" y2="33475"></line>
+<text x="30" y="33480" style="font-family: 'Rockwell';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Rockwell</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="33595" x2="100" y2="33595"></line>
+<text x="30" y="33600" style="font-family: 'Rockwell Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Rockwell Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="33715" x2="100" y2="33715"></line>
+<text x="30" y="33720" style="font-family: 'Rockwell Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Rockwell Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="33835" x2="100" y2="33835"></line>
+<text x="30" y="33840" style="font-family: 'Rockwell Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Rockwell Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="33955" x2="100" y2="33955"></line>
+<text x="30" y="33960" style="font-family: 'Rockwell Condensed';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Rockwell Condensed</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="34075" x2="100" y2="34075"></line>
+<text x="30" y="34080" style="font-family: 'Rockwell Condensed Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Rockwell Condensed Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="34195" x2="100" y2="34195"></line>
+<text x="30" y="34200" style="font-family: 'Rockwell Extra Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Rockwell Extra Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="34315" x2="100" y2="34315"></line>
+<text x="30" y="34320" style="font-family: 'Rod';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Rod</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="34435" x2="100" y2="34435"></line>
+<text x="30" y="34440" style="font-family: 'Rosewood Std Regular';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Rosewood Std Regular</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="34555" x2="100" y2="34555"></line>
+<text x="30" y="34560" style="font-family: 'Sakkal Majalla';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Sakkal Majalla</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="34675" x2="100" y2="34675"></line>
+<text x="30" y="34680" style="font-family: 'Sakkal Majalla Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Sakkal Majalla Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="34795" x2="100" y2="34795"></line>
+<text x="30" y="34800" style="font-family: 'Script MT Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Script MT Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="34915" x2="100" y2="34915"></line>
+<text x="30" y="34920" style="font-family: 'Segoe Marker';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe Marker</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="35035" x2="100" y2="35035"></line>
+<text x="30" y="35040" style="font-family: 'Segoe Print';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe Print</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="35155" x2="100" y2="35155"></line>
+<text x="30" y="35160" style="font-family: 'Segoe Print Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe Print Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="35275" x2="100" y2="35275"></line>
+<text x="30" y="35280" style="font-family: 'Segoe Script';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe Script</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="35395" x2="100" y2="35395"></line>
+<text x="30" y="35400" style="font-family: 'Segoe Script Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe Script Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="35515" x2="100" y2="35515"></line>
+<text x="30" y="35520" style="font-family: 'Segoe UI Light';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe UI Light</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="35635" x2="100" y2="35635"></line>
+<text x="30" y="35640" style="font-family: 'Segoe UI';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe UI</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="35755" x2="100" y2="35755"></line>
+<text x="30" y="35760" style="font-family: 'Segoe UI Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe UI Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="35875" x2="100" y2="35875"></line>
+<text x="30" y="35880" style="font-family: 'Segoe UI Semibold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe UI Semibold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="35995" x2="100" y2="35995"></line>
+<text x="30" y="36000" style="font-family: 'Segoe UI Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe UI Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="36115" x2="100" y2="36115"></line>
+<text x="30" y="36120" style="font-family: 'Segoe UI Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe UI Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="36235" x2="100" y2="36235"></line>
+<text x="30" y="36240" style="font-family: 'Segoe UI Symbol';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Segoe UI Symbol</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="36355" x2="100" y2="36355"></line>
+<text x="30" y="36360" style="font-family: 'Showcard Gothic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Showcard Gothic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="36475" x2="100" y2="36475"></line>
+<text x="30" y="36480" style="font-family: 'Shruti';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Shruti</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="36595" x2="100" y2="36595"></line>
+<text x="30" y="36600" style="font-family: 'Shruti Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Shruti Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="36715" x2="100" y2="36715"></line>
+<text x="30" y="36720" style="font-family: 'SketchFlow Print';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">SketchFlow Print</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="36835" x2="100" y2="36835"></line>
+<text x="30" y="36840" style="font-family: 'Snap ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Snap ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="36955" x2="100" y2="36955"></line>
+<text x="30" y="36960" style="font-family: 'Stencil';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Stencil</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="37075" x2="100" y2="37075"></line>
+<text x="30" y="37080" style="font-family: 'Stencil Std';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Stencil Std</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="37195" x2="100" y2="37195"></line>
+<text x="30" y="37200" style="font-family: 'Sylfaen';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Sylfaen</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="37315" x2="100" y2="37315"></line>
+<text x="30" y="37320" style="font-family: 'Symbol';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Symbol</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="37435" x2="100" y2="37435"></line>
+<text x="30" y="37440" style="font-family: 'Tahoma';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tahoma</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="37555" x2="100" y2="37555"></line>
+<text x="30" y="37560" style="font-family: 'Tahoma Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tahoma Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="37675" x2="100" y2="37675"></line>
+<text x="30" y="37680" style="font-family: 'Tekton Pro';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tekton Pro</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="37795" x2="100" y2="37795"></line>
+<text x="30" y="37800" style="font-family: 'Tekton Pro Ext';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tekton Pro Ext</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="37915" x2="100" y2="37915"></line>
+<text x="30" y="37920" style="font-family: 'Tekton Pro Cond';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tekton Pro Cond</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="38035" x2="100" y2="38035"></line>
+<text x="30" y="38040" style="font-family: 'Tempus Sans ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tempus Sans ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="38155" x2="100" y2="38155"></line>
+<text x="30" y="38160" style="font-family: 'Trajan Pro';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Trajan Pro</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="38275" x2="100" y2="38275"></line>
+<text x="30" y="38280" style="font-family: 'Trebuchet MS';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Trebuchet MS</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="38395" x2="100" y2="38395"></line>
+<text x="30" y="38400" style="font-family: 'Trebuchet MS Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Trebuchet MS Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="38515" x2="100" y2="38515"></line>
+<text x="30" y="38520" style="font-family: 'Trebuchet MS Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Trebuchet MS Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="38635" x2="100" y2="38635"></line>
+<text x="30" y="38640" style="font-family: 'Trebuchet MS Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Trebuchet MS Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="38755" x2="100" y2="38755"></line>
+<text x="30" y="38760" style="font-family: 'Tunga';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tunga</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="38875" x2="100" y2="38875"></line>
+<text x="30" y="38880" style="font-family: 'Tunga Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tunga Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="38995" x2="100" y2="38995"></line>
+<text x="30" y="39000" style="font-family: 'Tw Cen MT';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tw Cen MT</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="39115" x2="100" y2="39115"></line>
+<text x="30" y="39120" style="font-family: 'Tw Cen MT Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tw Cen MT Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="39235" x2="100" y2="39235"></line>
+<text x="30" y="39240" style="font-family: 'Tw Cen MT Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tw Cen MT Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="39355" x2="100" y2="39355"></line>
+<text x="30" y="39360" style="font-family: 'Tw Cen MT Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tw Cen MT Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="39475" x2="100" y2="39475"></line>
+<text x="30" y="39480" style="font-family: 'Tw Cen MT Condensed';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tw Cen MT Condensed</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="39595" x2="100" y2="39595"></line>
+<text x="30" y="39600" style="font-family: 'Tw Cen MT Condensed Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tw Cen MT Condensed Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="39715" x2="100" y2="39715"></line>
+<text x="30" y="39720" style="font-family: 'Tw Cen MT Condensed Extra Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Tw Cen MT Condensed Extra Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="39835" x2="100" y2="39835"></line>
+<text x="30" y="39840" style="font-family: 'Utsaah';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Utsaah</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="39955" x2="100" y2="39955"></line>
+<text x="30" y="39960" style="font-family: 'Utsaah Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Utsaah Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="40075" x2="100" y2="40075"></line>
+<text x="30" y="40080" style="font-family: 'Utsaah Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Utsaah Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="40195" x2="100" y2="40195"></line>
+<text x="30" y="40200" style="font-family: 'Utsaah Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Utsaah Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="40315" x2="100" y2="40315"></line>
+<text x="30" y="40320" style="font-family: 'Vani';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Vani</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="40435" x2="100" y2="40435"></line>
+<text x="30" y="40440" style="font-family: 'Vani Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Vani Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="40555" x2="100" y2="40555"></line>
+<text x="30" y="40560" style="font-family: 'Verdana';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Verdana</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="40675" x2="100" y2="40675"></line>
+<text x="30" y="40680" style="font-family: 'Verdana Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Verdana Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="40795" x2="100" y2="40795"></line>
+<text x="30" y="40800" style="font-family: 'Verdana Bold Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Verdana Bold Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="40915" x2="100" y2="40915"></line>
+<text x="30" y="40920" style="font-family: 'Verdana Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Verdana Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="41035" x2="100" y2="41035"></line>
+<text x="30" y="41040" style="font-family: 'Viner Hand ITC';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Viner Hand ITC</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="41155" x2="100" y2="41155"></line>
+<text x="30" y="41160" style="font-family: 'Vivaldi Italic';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Vivaldi Italic</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="41275" x2="100" y2="41275"></line>
+<text x="30" y="41280" style="font-family: 'Vladimir Script';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Vladimir Script</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="41395" x2="100" y2="41395"></line>
+<text x="30" y="41400" style="font-family: 'Vrinda';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Vrinda</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="41515" x2="100" y2="41515"></line>
+<text x="30" y="41520" style="font-family: 'Vrinda Bold';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Vrinda Bold</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="41635" x2="100" y2="41635"></line>
+<text x="30" y="41640" style="font-family: 'Webdings';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Webdings</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="41755" x2="100" y2="41755"></line>
+<text x="30" y="41760" style="font-family: 'Wide Latin';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Wide Latin</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="41875" x2="100" y2="41875"></line>
+<text x="30" y="41880" style="font-family: 'Wingdings';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Wingdings</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="41995" x2="100" y2="41995"></line>
+<text x="30" y="42000" style="font-family: 'Wingdings 2';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Wingdings 2</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+<line x1="30" y1="42115" x2="100" y2="42115"></line>
+<text x="30" y="42120" style="font-family: 'Wingdings 3';">A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " ' | ~ 
+<tspan x="30" dy="40">Wingdings 3</tspan>
+<tspan x="30" dy="40">a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ? </tspan></text>
+</g>
+</svg>
+</body></html>

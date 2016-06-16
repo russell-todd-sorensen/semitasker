@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+	 x="0"
+	 y="0"
+   width="1000"
+   height="100"
+	 viewBox="0 0 1000 100"
+   >
+
+<defs>
+
+<text id="myLogo" x="30" y="70" text-anchor="begin" text-rendering="optimizeLegibility">
+ Advanced SVG and JavaScript
+ </text>
+</defs>
+
+
+<use xlink:href="#myLogo" id="logo" />
+</svg>

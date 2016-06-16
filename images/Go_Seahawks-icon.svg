@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!--Scalable Vector Graphic-->
+<svg version="1.1" 
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:ev="http://www.w3.org/2001/xml-events"     
+     baseProfile="full"
+		 onload="init()"
+		 id="svg1">
+<style>
+#t1 {
+    font-family: 'Hobo Std';
+		font-size: 12px;
+		fill: url(#g1);
+		stroke-width: .1px;
+		stroke: black;
+}
+#r1 {
+    fill: #abc;
+    stroke: none;
+}
+</style>
+
+<defs>
+<linearGradient id="g1" color-interpolation="sRGB">
+ <stop offset="0%" stop-color="#ff0000" />
+ <stop offset="16.7%" stop-color="#ffff00" />
+ <stop offset="34%" stop-color="#00ff00" />
+ <stop offset="50%" stop-color="#00ffff" />
+ <stop offset="67%" stop-color="#0000ff" />
+ <stop offset="83%" stop-color="#ff00ff" />
+ <stop offset="100%" stop-color="#ff0000" />
+</linearGradient>
+<radialGradient id="g3" color-interpolation="sRGB" fx="50%" fy="100%" spreadMethod="reflect">
+ <animate id="rga1" attributeName="fx" values="50%;0%;25%;50%;100%;50%" dur="150s" begin="0s" repeatCount="indefinite" />
+ <animate id="rga1" attributeName="fx" values="100%;110%;70%;50%;10%;50%;75%;100%" dur="230s" begin="0s" repeatCount="indefinite" />
+ <stop offset="0%" stop-color="#ff0000" />
+ <stop offset="16.7%" stop-color="#ffff00" />
+ <stop offset="34%" stop-color="#00ff00" />
+ <stop offset="50%" stop-color="#00ffff" />
+ <stop offset="67%" stop-color="#0000ff" />
+ <stop offset="83%" stop-color="#ff00ff" />
+ <stop offset="100%" stop-color="#ff0000" />
+</radialGradient>
+
+<rect id="fr1" x="0" y="0" height="20" width="60" fill="url(#g3)" filter="url(#f1)" />
+
+<linearGradient id="g2" color-interpolation="sRGB">
+ <stop offset="0%" stop-color="#808080" />
+ <stop offset="100%" stop-color="#000000" />
+</linearGradient>
+
+<filter id="f1">
+ <feColorMatrix type="hueRotate" values="0" >
+  <animate id="anim1" attributeName="values" values="0;90;180;270;0" begin="0s" dur="41s" repeatCount="indefinite" />
+ </feColorMatrix>
+</filter>
+
+<filter id="f2" >
+ <feImage xlink:href="#fr1" result="image" />
+ <feComposite operator="atop" in2="SourceGraphic" in="image" />
+</filter>
+</defs>
+
+<g  transform="translate(0,0) scale(15)" filter="url(#f1)">
+<rect id="r1" x="0" y="0"  />
+<text id="t1" x="2" y="13" text-anchor="left" filter="url(#f2)">XXX</text>
+</g>
+
+<script type="javascript" >
+<![CDATA[
+function init() {
+    var textObj = document.getElementById('t1');
+		var urlList = document.URL.split('/');
+		var fileName = urlList[urlList.length-1]
+		var fileList = fileName.split('-');
+		var fileType = fileList[0];
+		textObj.firstChild.nodeValue = fileType;
+		var svgObj = document.getElementById('svg1');
+		svgObj.style.fill = '#000';
+		var anim = document.getElementById('anim1');
+		anim.setAttributeNS('','begin', '' + parseInt(Math.random()*10) + 's');
+		var rectObj = document.getElementById('r1');
+		var textBB = textObj.getBBox();
+		var textWidth = textBB.width;
+		var textHeight = textBB.height;
+		
+		rectObj.setAttributeNS('','width', textWidth * 1.2);
+		rectObj.setAttributeNS('','height',textHeight * 1.0);
+		
+		var rectObj2 = document.getElementById('fr1');
+		rectObj2.setAttributeNS('','width', textWidth * 1.4);
+		rectObj2.setAttributeNS('','height',textHeight * 1.4);
+}
+]]>
+</script>
+</svg>

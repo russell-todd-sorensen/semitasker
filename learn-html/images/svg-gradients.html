@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>SVG Gradients</title>
+
+<link rel="stylesheet" type="text/css" href="../../css/log.css" media="all">
+
+<style>
+#notes, #image-select {
+    margin-left: 15px;
+    font-weight: bold;
+}
+
+ 
+#panel fieldset {
+border: solid 3px darkolivegreen;
+margin: 15px;
+font: 1.4em "Helvetica Neue";
+background-color: #d3d3d3;
+width: 550px;
+}
+ 
+#panel select {
+font: 1em "Helvetica Neue";
+color: darkolivegreen;
+}
+ 
+#panel legend {
+color: darkolivegreen;
+font-weight: bold;
+font-variant: small-caps;
+background-color: #bbb;
+padding: 2px 6px;
+ 
+}
+ 
+#panel label {
+display: inline-block;
+width: 150px;
+}
+#panel ul {
+list-style: none;
+margin-left: -25px;
+}
+#panel ul li {
+margin-bottom: 5px;
+}
+.input-button {
+float: right;
+color: darkolivegreen;
+font-weight: bold;
+border: 3px solid;
+cursor: pointer;
+}
+ 
+#panel .input-text {
+/* keeps form from moving during mouseover */
+border: solid 1px #d3d3d3;
+}
+ 
+#panel .input-text:hover {
+background-color: #cff;
+border: solid #060 1px;
+color: #000;
+}
+ 
+#panel .input-text:focus {
+background-color: #fff;
+color: #000;
+border: solid #060 1px;
+}
+ 
+#panel select#state {
+border: solid #d3d3d3 1px;
+background-color: #fff;
+padding: 2px;
+margin-right: 5px;
+}
+ 
+#panel select#state:focus {
+color: #333;
+background-color: #cff;
+border: solid #060 1px;
+ 
+}
+</style>
+
+<script type="text/ecmascript" src="../../js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="../../js/d3.v3.js"></script>
+<script type="text/javascript" src="../../js/log-2.js"></script>
+<script type="text/javascript" src="displace-exp.js"></script>
+<script>
+var doc, svg;
+
+$(document).ready(function () {
+	
+  doc = d3.select(document.body);
+  Log.Hide();
+  svg = doc.select('svg');
+
+});
+
+</script>
+</head>
+<body>
+<div id="notes">
+<b>Scale: <select id="scalePage" name="scalePage" onChange="adjustScale(this,'scalePage', 'main');">
+ <option value="4" selected="selected">4x</option>
+ <option value="2">2x</option>
+ <option value="1">1x</option>
+ <option value="8">8x</option>
+</select> 
+</b>
+</div>
+<svg x="0" 
+		 y="0" 
+		 height="3000" 
+		 width="1300" 
+		 viewport="0 0 325 225"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+		 >
+<defs>
+
+ 
+<linearGradient id="two_hues">
+ <stop offset="0%" style="stop-color: #ffcc00;" />
+ <stop offset="100%" style="stop-color: #0099cc;" />
+</linearGradient>
+ 
+ <!-- black to white gradient  -->
+<linearGradient id="btw-1" color-interpolation="sRGB" >
+ <stop offset="0%" stop-color="#000" stop-opacity="0.0" />
+ <stop offset="30%" stop-color="#000" stop-opacity="0.8" />
+ <stop offset="80%" stop-color="#000" stop-opacity="0.2" />
+ <stop offset="100%" stop-color="#000" stop-opacity="1" />
+</linearGradient>
+
+<!-- white to black (reverse direction of base gradient -->
+<linearGradient id="btw-2" xlink:href="#btw-1" x1="100%" y1="0%" x2="0" y2="0%" />
+<!-- black to white at diagonal -->
+<linearGradient id="btw-3" xlink:href="#btw-1" x1="0" y1="0" x2="100%" y2="100%" />
+<linearGradient id="btw-4" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="#000" stop-opacity="0.0" />
+ <stop offset="5%" stop-color="#000" stop-opacity="0.8" />
+ <stop offset="10%" stop-color="#000" stop-opacity="0" />
+</linearGradient>
+
+<!-- bubbly -->
+<linearGradient id="btw-8" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop offset="0%" stop-color="transparent" stop-opacity="0.0" />
+ <stop offset="5%" stop-color="transparent" stop-opacity="0.8" />
+ <stop offset="6%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="10%" stop-color="transparent" stop-opacity="0.8" />
+ <stop offset="15%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="25%" stop-color="transparent" stop-opacity="0.8" />
+</linearGradient>
+
+<linearGradient id="btw-20" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="5%" stop-color="transparent" stop-opacity="0.0" />
+ <stop offset="10%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="15%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="20%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="25%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="30%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="35%" stop-color="transparent" stop-opacity="0.0" />
+ <stop offset="40%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="45%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="50%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="55%" stop-color="transparent" stop-opacity="0.0" />
+ <stop offset="60%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="65%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="70%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="75%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="80%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="85%" stop-color="transparent" stop-opacity="0.0" />
+ <stop offset="90%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="95%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="100%" stop-color="transparent" stop-opacity="1.0" />
+ 
+</linearGradient>
+
+<linearGradient id="btw-5" xlink:href="#btw-4" x1="0" y1="0" x2="100%" y2="100%" />
+<linearGradient id="btw-9" xlink:href="#btw-8" x1="0" y1="0" x2="100%" y2="100%" />
+<linearGradient id="btw-21" xlink:href="#btw-20" x1="0" y1="0" x2="100%" y2="100%" />
+
+
+
+
+<radialGradient id="radial-grad-1" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop offset="0" stop-color="#000000" stop-opacity="0.1" />
+ <stop offset="50%" stop-color="#000000" stop-opacity=".85" />
+ <stop offset="100%" stop-color="#000000" stop-opacity="0.3" />
+</radialGradient>
+
+<radialGradient xlink:href="#radial-grad-1" fx="20%" fy="40%" id="radial-grad-2" color-interpolation="sRGB" /> 
+
+<radialGradient id="radial-grad-30" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop offset="0" stop-color="#000000" stop-opacity="00" />
+ <stop offset="5%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="10%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="15%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="20%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="25%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="30%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="35%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="40%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="45%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="50%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="55%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="60%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="65%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="70%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="75%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="80%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="85%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="90%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="95%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+</radialGradient>
+
+<radialGradient xlink:href="#radial-grad-30" fx="0%" fy="0%" id="radial-grad-31" color-interpolation="sRGB" /> 
+<radialGradient xlink:href="#radial-grad-30" fx="10%" fy="10%" id="radial-grad-32" color-interpolation="sRGB" /> 
+<radialGradient xlink:href="#radial-grad-30" fx="75%" fy="75%" id="radial-grad-33" color-interpolation="sRGB" /> 
+<radialGradient id="radial-grad-34" xlink:href="#radial-grad-30" fx="50%" fy="25%" color-interpolation="sRGB" /> 
+<radialGradient id="radial-grad-35" xlink:href="#radial-grad-30"  cx="0%" cy="0%"  color-interpolation="sRGB" /> 
+
+<circle id="circle-grad-1" cx="20" cy="20" r="20" style="fill: url(#radial-grad-1); stroke: none;" />
+<rect id="rect1" height="100" width="100" />
+<rect id="rect2" height="210" width="300" />
+<rect id="rect3" height="210" width="300" style="fill: url(#btw-3);" />
+<rect id="rect4" height="21" width="30" style="fill: url(#btw-3);" />
+<rect id="rect4-wipe-x" height="21" width="30" style="fill: url(#btw-3);" />
+<rect id="rect5" height="21" width="30" style="fill: url(#btw-1);" />
+<rect id="rect9" height="21" width="30" style="fill: url(#btw-9); stroke: none;" />
+<rect id="rect10" height="21" width="30" style="fill: url(#btw-5); stroke: none;" />
+<rect id="rect22" height="21" width="30" style="fill: url(#btw-21); stroke: none;" />
+
+<!-- radial gradients -->
+<rect id="rect6" class="test6" height="40" width="40" style="fill: url(#radial-grad-1); stroke: none;" />
+<rect id="rect7" height="42" width="60" style="fill: url(#radial-grad-1); stroke: none;" />
+<rect id="rect8" class="test6" height="40" width="40" style="fill: url(#radial-grad-2); stroke: none;" />
+
+<rect id="rect30" height="40" width="40" style="fill: url(#radial-grad-30); stroke: none;" />
+<rect id="rect31" height="40" width="40" style="fill: url(#radial-grad-31); stroke: none;" />
+<rect id="rect32" height="40" width="40" style="fill: url(#radial-grad-32); stroke: none;" />
+<rect id="rect33" height="40" width="40" style="fill: url(#radial-grad-33); stroke: none;" />
+<rect id="rect34" height="40" width="40" style="fill: url(#radial-grad-34); stroke: none;" />
+<rect id="rect35" height="40" width="40" style="fill: url(#radial-grad-35); stroke: none;" />
+
+<g id="rect40" x="0" y="0" height="40" width="40">
+ <path d="M  0 20 L 20  0" style="stroke: url(#radial-grad-30); stroke-width: 2;" />
+ <path d="M  0 40 L 40  0" style="stroke: url(#radial-grad-30); stroke-width: 2;" />
+ <path d="M 20 40 L 40 20" style="stroke: url(#radial-grad-30); stroke-width: 2;" />
+</g>
+<g id="rect41" x="0" y="0" height="40" width="40">
+ <ellipse cx="15" cy="25" rx="10" ry="20" style="stroke: url(#radial-grad-31); stroke-width: 5; fill: none;" />
+</g>
+<g id="rect42" x="0" y="0" height="50" width="30" >
+ <ellipse cx="15" cy="25" rx="10" ry="20" style="stroke: url(#radial-grad-33); stroke-width: 5; fill: none;" />
+</g>
+<g id="rect43" x="0" y="0">
+ <text x="0" y="0" style="stroke: url(#radial-grad-33) ; font-size: 80pt; fill: orange;">I.A.M.</text>
+</g>
+
+<radialGradient id="radial-grad-50" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0" stop-color="#000000" stop-opacity="00" />
+ <stop offset="5%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="10%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="15%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="20%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="25%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="30%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="35%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+</radialGradient>
+
+<rect id="rect50" height="40" width="40" style="fill: url(#radial-grad-50); stroke: none;" />
+
+<filter id="filterTile51" color-interpolation-filters="sRGB"
+   x="0" y="0" width="100%" height="100%">
+   <feImage xlink:href="#rect50" result="tile" height="40" width="40" id="feImage-to-tile-51" />
+   <feTile in="tile" result="tile" />
+</filter>
+
+<rect id="rect51" height="80" width="80" style="filter: url(#filterTile51); stroke: none;" />
+
+<radialGradient id="radial-grad-52" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0" stop-color="#000000" stop-opacity="00" />
+ <stop offset="5%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="20%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="35%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+</radialGradient>
+
+<rect id="rect52" height="40" width="40" style="fill: url(#radial-grad-52); stroke: none;" />
+
+<filter id="filterTile53.1" color-interpolation-filters="sRGB"
+   x="0" y="0" width="100%" height="100%">
+   <feImage xlink:href="#rect52" result="tile" height="40" width="40" id="feImage-to-tile-53" />
+   <feTile in="tile" result="tile" />
+</filter>
+
+<filter id="filterTile53" color-interpolation-filters="sRGB"
+   x="0" y="0" width="100%" height="100%">
+   <feImage xlink:href="#rect50" result="tile" height="50%" width="50%" x="0" y="0" />
+   <feImage xlink:href="#rect35" result="tile2" height="50%" width="50%" x="40" y="0" />
+   <feImage xlink:href="#rect30" result="tile3" height="50%" width="50%" x="0" y="40" />
+   <feImage xlink:href="#rect52" result="tile4" height="50%" width="50%" x="40" y="40" />
+   
+   <feTile in="tile" result="tile" />
+   <feTile in="tile2" result="tile2" />
+   <feTile in="tile3" result="tile3" />
+   <feTile in="tile4" result="tile4" />
+   <feComposite in="tile" in2="tile2" operator="arithmetic" result="top-row"
+    k1="0" k2="1" k3="1" k4="0" />
+   <feComposite in="tile3" in2="tile4" operator="arithmetic" result="bottom-row"
+    k1="0" k2="1" k3="1" k4="0" />
+   <feComposite in="top-row" in2="bottom-row" operator="arithmetic" result="super-tile"
+    k1="0" k2="1" k3="1" k4="0" />
+    
+   <feTile in="super-tile" result="super-tile" />
+</filter>
+
+<rect id="rect53" height="160" width="160" style="filter: url(#filterTile53); stroke: none;" />
+
+<g id="tile20" >
+ <use xlink:href="#rect8" x="0" y="0" />
+ <use xlink:href="#rect8" x="0" y="0"  transform="matrix( -1 0 0 -1  80  80)" />
+ <use xlink:href="#rect8" x="0" y="0"  transform="matrix(  1 0 0 -1   0  80)" />
+ <use xlink:href="#rect8" x="0" y="0"  transform="matrix( -1 0 0  1  80   0)" />
+</g>
+
+<filter id="turbulence-0" color-interpolation-filters="sRGB">
+ <feImage xlink:href="#rect53" height="80" width="80" x="0" y="0" result="tile" />
+ <feTile in="tile" result="tile" />
+ 	<feColorMatrix type="matrix" 
+	    values="0 0 0 0       0
+	            0 0 0 0       0
+					    0 0 0 0       0
+					    1 1 1 .8       0"
+	    in="tile" result="tile-matrix" />
+   <feDisplacementMap id="displace-map-wipe-x"
+ 		scale=".1"
+		xChannelSelector="R"
+		yChannelSelector="B"
+		in2="SourceGraphic" in="tile-matrix"
+		result="displaceAlpha" >
+    <animate attributeName="scale" attributeType="XML" from="0" to="300" dur="20s"
+      additive="replace"  fill="freeze" id="anim1" begin="5s" repeatCount="1" /> 
+    <animate attributeName="scale" attributeType="XML" from="300" to="10" dur="20s"
+      additive="replace"  fill="freeze" begin="anim1.end"  id="anim2" /> 
+     </feDisplacementMap>
+    
+  <feComposite in="displaceAlpha" in2="SourceGraphic" operator="arithmetic"
+	   k1="0" k2=".2" k3="1" k4="0"  result="r1" >
+ 
+    <animate attributeName="k3" attributeType="XML" from="1" to=".5" dur="2s"
+      additive="replace"  fill="freeze" id="anim3" begin="0s" repeatCount="1" /> 
+      
+    <animate attributeName="k2" attributeType="XML" from=".2" to="1" dur="3s"
+      additive="replace"  fill="freeze" id="anim4" begin="anim3.end" repeatCount="1" /> 
+
+  </feComposite>   
+  <feComposite in="r1" in2="SourceGraphic" operator="in"
+	   k1="0" k2="1" k3="1" k4="0"  result="r2" />
+   
+ <!-- <feBlend in="r2" in2="SourceGraphic" mode="screen" />-->
+</filter>
+
+<filter id="turbulence-1" color-interpolation-filters="sRGB"
+   x="0" y="0" width="100%" height="100%">
+ <feTurbulence numOctaves="1" baseFrequency=".5" height="40" width="40" x="0" y="0"
+  seed="5000" stitchTiles="nostitch" result="tile" type="fractalNoise" />
+</filter>
+
+<filter id="turbulence-2" color-interpolation-filters="sRGB"
+   x="0" y="0" width="100%" height="100%">
+ <feTurbulence numOctaves="1" baseFrequency=".5" height="40" width="40" x="0" y="0"
+  seed="5000" stitchTiles="stitch" result="tile" type="fractalNoise" />
+ <feTile in="tile" result="tile" />
+</filter>
+
+<rect id="rect60" height="40" width="40" style="filter: url(#turbulence-1); stroke: none;" />
+<rect id="rect61" height="200" width="300" style="filter: url(#turbulence-2); stroke: none;" />
+<rect id="rect62" height="200" width="300" style="filter: url(#turbulence-0); stroke: none;" />
+
+<g id="tile21">
+ <use xlink:href="#rect60" x="0" y="0" />
+ <use xlink:href="#rect60" x="0" y="0"  transform="matrix( -1 0 0 -1  80  80)" />
+ <use xlink:href="#rect60" x="0" y="0"  transform="matrix(  1 0 0 -1   0  80)" />
+ <use xlink:href="#rect60" x="0" y="0"  transform="matrix( -1 0 0  1  80   0)" />
+</g>
+
+<filter id="tile22" color-interpolation-filters="sRGB"
+   x="0" y="0" width="100%" height="100%">
+   <feImage xlink:href="#tile21" height="80" width="80" result="tile" />
+   <feTile in="tile" out="tile" />
+</filter>
+
+<filter id="wipeX"  color-interpolation-filters="sRGB"
+   x="0" y="0" width="100%" height="100%">
+<feImage xlink:href="#rect4-wipe-x" result="tile" height="2" width="3" id="feImage-wipe-x"  />
+  <!--<feTurbulence numOctaves="1" baseFrequency=".5" height="40" width="40" x="30" y="30"
+  seed="5000" stitchTiles="stitch" result="tile" type="fractalNoise" />-->
+	 
+ <feTile in="tile" result="tile" />
+ <feColorMatrix type="matrix" 
+	    values="1.0  1.0  1.0  0.000  0
+	            1.0  1.0  1.0  0.000  0
+					    1.0  1.0  1.0  0.000  0
+					    1.0  1.0  1.0  1.000  0"
+	    in="SourceGraphic" result="desaturate" />
+      
+ <feDisplacementMap id="displace-map-wipe-x"
+ 		scale="10"
+		xChannelSelector="R"
+		yChannelSelector="B"
+		in2="SourceGraphic" in="tile"  transform="rotate(60)"
+		result="displaceAlpha" />
+    
+	<feColorMatrix type="matrix" 
+	    values="0 0 0 0       0
+	            0 0 0 0       0
+					    0 0 0 0       0
+					    0 0 0 1.0000  0"
+	    in="tile" result="tile" />
+			
+	 <feDiffuseLighting in="displaceAlpha"  id="diffuse-light-wipe-x"
+	    lighting-color="#ffc"
+			surfaceScale="2"
+			diffuseConstant=".75"
+			result="diffuseLight" >
+			<fePointLight x="0" y="0" z="50" id="point-light-wipe-x" />
+	 </feDiffuseLighting>
+			
+	<feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
+	  result="diffuseOutput" />
+		
+	<feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
+ <!--  <feComposite in="SourceGraphic" in2="tile" operator="arithmetic"
+	  k1="0" k2="0" k3="1" k4="0" /> -->
+</filter>
+</defs>
+
+<g transform="scale(4)" id="main">
+
+<g id="row-1" transform="translate(0,0)" >
+
+<rect x="5" y="20" height="40" width="40" style="stroke: orange; stroke-width: 1; fill: none;" />
+<use xlink:href="#circle-grad-1" x="5" y="20" id="click-me"/>
+
+<rect x="60" y="20" height="40" width="40" style="stroke: orange; stroke-width: 1; fill: none;" />
+<use xlink:href="#rect40" x="60" y="20" />
+
+<rect x="120" y="20" height="50" width="30" style="stroke: orange; stroke-width: 1; fill: none;" />
+<circle cx="135" cy="45" r="1" style="stroke: orange; stroke-width: 1; fill: none;" />
+<use xlink:href="#rect41" x="120" y="20" />
+
+<rect x="180" y="20" height="50" width="30" style="stroke: orange; stroke-width: 1; fill: none;" />
+<circle cx="195" cy="45" r="1" style="stroke: orange; stroke-width: 1; fill: none;" />
+<use xlink:href="#rect42" x="180" y="20" />
+
+</g>
+
+<g id="row-2" transform="translate(0, 60)" >
+<use xlink:href="#rect43" x="5" y="100" />
+
+</g>
+<g id="row-3" transform="translate(0, 180) scale(1.5)" >
+
+<use xlink:href="#rect4" x="5" y="20" />
+<rect x="5" y="20" height="21" width="30" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#rect5" x="45" y="20" />
+<rect x="45" y="20" height="21" width="30" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#rect9" x="85" y="20" />
+<rect x="85" y="20" height="21" width="30" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#rect10" x="125" y="20" />
+<rect x="125" y="20" height="21" width="30" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#rect22" x="165" y="20" />
+<rect x="165" y="20" height="21" width="30" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+</g>
+
+<g id="row-3" transform="translate(0, 240) scale(1)" >
+
+<use xlink:href="#rect6" x="5" y="20" />
+<rect x="5" y="20" height="40" width="40" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#rect7" x="55" y="20" />
+<rect x="55" y="20" height="42" width="60" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#rect8" x="125" y="20" />
+<rect x="125" y="20" height="40" width="40" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+</g>
+<g id="row-4" transform="translate(0, 300) scale(1)" >
+
+<use xlink:href="#rect30" x="5" y="20" />
+<rect x="5" y="20" height="40" width="40" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#rect33" x="55" y="20" />
+<rect x="55" y="20" height="40" width="40" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#rect34" x="105" y="20" />
+<rect x="105" y="20" height="40" width="40" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#rect35" x="155" y="20" />
+<rect x="155" y="20" height="40" width="40" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+
+<use xlink:href="#rect31" x="225" y="20" />
+<rect x="225" y="20" height="40" width="40" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#rect32" x="275" y="20" />
+<rect x="275" y="20" height="40" width="40" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+</g>
+
+<g id="row-5" transform="translate(0, 360) scale(1)" >
+
+<use xlink:href="#rect50" x="5" y="20" />
+<rect x="5" y="20" height="80" width="80" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#rect51" x="105" y="20" />
+<rect x="105" y="20" height="80" width="80" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+</g>
+<g id="row-6" transform="translate(0, 460) scale(1)" >
+
+<use xlink:href="#rect52" x="5" y="20" />
+<rect x="5" y="20" height="80" width="80" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#tile20" x="105" y="20"/>
+<rect x="105" y="20" height="80" width="80" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<use xlink:href="#tile21" x="205" y="20"/>
+<rect x="205" y="20" height="80" width="80" style="stroke: orange; stroke-width: 1; fill: none;" />
+
+<rect x="5" y="105" height="200" width="300" style="stroke: orange; stroke-width: 1; fill: none;" />
+<!--<use xlink:href="#rect62" x="5" y="105" />-->
+<image xlink:href="../../images/Butterfly%206.jpg" style="filter: url(#turbulence-0);" height="210" width="300" transform="translate(5,105)" />
+</g>
+<!--
+
+-->
+
+</svg>
+
+</body>
+</html>

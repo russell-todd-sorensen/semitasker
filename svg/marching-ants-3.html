@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html><head>
+ <title>Marching Ants: Simple SVG Animation</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/example-library.js"></script>
+<style>
+svg {
+background-color: /*fuchsia;*/ #aaa;
+}
+
+</style>
+
+</head>
+<body>
+<!--
+  stroke-linecap  = butt, round, square, inherit
+  stroke-linejoin = miter, round, bevel, inherit
+  stroke-miterlimit = some limit
+  stroke-opacity = 0.0-1.0
+
+
+-->
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="1.0" x="0" y="0" width="900"
+   height="320" viewBox="0 0 900 320">
+   <defs>
+   <radialGradient id="radial-grad-50" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#afa" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#afa" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#afa" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="#afa" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="#afa" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#afa" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#afa" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#afa" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="#afa" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-51" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="#faf" stop-opacity="0"></stop>
+</radialGradient>
+
+ <!-- black to white gradient  -->
+<linearGradient id="btw-1" color-interpolation="sRGB" >
+ <stop offset="0%" stop-color="#000" stop-opacity="0.0" />
+ <stop offset="30%" stop-color="#000" stop-opacity="0.8" />
+ <stop offset="80%" stop-color="#000" stop-opacity="0.2" />
+ <stop offset="100%" stop-color="#000" stop-opacity="1" />
+</linearGradient>
+
+<!-- white to black (reverse direction of base gradient -->
+<linearGradient id="btw-2" xlink:href="#btw-1" x1="100%" y1="0%" x2="0" y2="0%" />
+<!-- black to white at diagonal -->
+<linearGradient id="btw-3" xlink:href="#btw-1" x1="0" y1="0" x2="100%" y2="100%" />
+<linearGradient id="btw-4" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="#000" stop-opacity="0.0" />
+ <stop offset="5%" stop-color="#000" stop-opacity="0.8" />
+ <stop offset="10%" stop-color="#000" stop-opacity="0" />
+</linearGradient>
+
+</defs>
+<g transform="translate(0,0)" >
+<g transform="translate(30,30)">
+ <circle cx="130" cy="130" r="50" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#btw-1); stroke-opacity: .5"> <!-- was #faf -->
+   <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+    from="20" to="100" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="3s" dur="10s"
+    from="10" to="100" repeatCount="indefinite" />
+ </circle>
+ <circle cx="100" cy="100" r="50" fill="none"
+   stroke-width="10" 
+   style="stroke-dasharray: 20; stroke: url(#btw-2);"><!-- was #afa -->
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="-40" dur="2s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="10s" dur="10s"
+   from="10" to="100" repeatCount="indefinite" />
+ </circle>
+ </g>
+ <rect x="10" y="10" height="300" width="270" fill="none"
+  stroke-linecap="round"
+  stroke-dashoffset="0"
+  stroke-width="0"
+  stroke-dasharray="0"
+  style="stroke: url(#radial-grad-50);" >
+   <animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="120" dur="20s" repeatCount="indefinite" />
+   <animate attributeName="stroke-dasharray" begin="0s" dur="20s"
+    from="0" to="120" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="0s" dur="20s"
+   from="0" to="60" repeatCount="indefinite" />
+ </rect>
+</g>
+</g>
+
+<g transform="translate(300,0)" >
+<g transform="translate(30,30)">
+ <circle cx="130" cy="130" r="50" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#radial-grad-51); stroke-opacity: .5"> <!-- was #faf -->
+   <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="5s" dur="10s"
+   from="10" to="200" repeatCount="indefinite" />
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+   from="20" to="100" repeatCount="indefinite" />
+   
+ </circle>
+ <circle cx="100" cy="100" r="50" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-50);"><!-- was #afa -->
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="40" dur="2s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="10s" dur="10s"
+   from="10" to="100" repeatCount="indefinite" />
+ </circle>
+ </g>
+ <rect x="10" y="10" height="300" width="270" fill="none" stroke-linecap="round"  stroke-linejoin="round"
+  style="stroke-dasharray: 30 30; stroke-width: 10; stroke: #ffa;" stroke-dashoffset="15">
+   <animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="-60" dur="3s" repeatCount="indefinite" />
+ </rect>
+</g>
+</g>
+<g transform="translate(600,0)" >
+<g transform="translate(30,30)">
+ <circle cx="130" cy="130" r="50" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#radial-grad-51); stroke-opacity: .5"> <!-- was #faf -->
+   <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="5s" dur="10s"
+   from="10" to="200" repeatCount="indefinite" />
+
+   
+ </circle>
+ <circle cx="100" cy="100" r="50" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-50);"><!-- was #afa -->
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="40" dur="2s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="10s" dur="10s"
+   from="10" to="100" repeatCount="indefinite" /> 
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+   from="1" to="200" repeatCount="indefinite" />
+ </circle>
+ </g>
+ <rect x="10" y="10" height="300" width="270" fill="none" stroke-linecap="round"  stroke-linejoin="round"
+  style="stroke-dasharray: 30 30; stroke-width: 10; stroke: #ffa;" stroke-dashoffset="15">
+   <animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="60" dur="3s" repeatCount="indefinite" />
+ </rect>
+ </g>
+ </g>
+ <!--<line x1="10" y1="200" x2="250" y2="200" style="stroke-dasharray: 30 30; stroke-width: 10; stroke: #ffa;" stroke-dashoffset="15" /> -->
+</svg>
+<!-- here comes the script    -->
+<script>
+
+$(document).ready(function() {
+	Log.Hide();
+});
+
+</script>
+</body></html>

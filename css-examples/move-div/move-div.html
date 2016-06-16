@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Move Div</title>
+ <link rel="stylesheet" href="move-div.css" type="text/css">
+ <script language="javascript" src="../js/jquery-v141.js"></script>
+ <script language="javascript">
+  var moveId = '#move-me';
+  var clicks = 0;
+
+  var colors = new Array(16);
+  colors[0] = '#936';
+  colors[1] = '#d19';
+  colors[2] = '#266';
+  colors[3] = '#724';
+  colors[4] = '#502';
+  colors[5] = '#506';
+  colors[6] = '#980';
+  colors[7] = '#a0b';
+  colors[8] = '#9af';
+  colors[9] = '#396';
+  colors[10] = '#f3f';
+  colors[12] = '#289';
+  colors[13] = '#3f0';
+  colors[14] = '#a02';
+  colors[15] = '#506';
+  colors[11] = '#980';
+
+  function releaseCapture(evt) {
+    $(moveId).unbind('mousemove');
+    //$(moveId).unbind('mousemove',capturePosition2);
+  }
+
+  function capturePosition2(evt) {
+    var pageX = evt.pageX;
+    var pageY = evt.pageY;
+    clicks++;
+    var color = clicks % 16;
+    
+    $('#output').text('CP2 (' + clicks + '): pageX =' + pageX + ' pageY=' + pageY + ' color = '+ color);
+    $('#ball')
+      .height(4*(clicks % 16))
+      .width(4*(clicks % 16))
+      .css('left', pageX)
+      .css('top',pageY)
+      .css('background-color',colors[color]);
+  }
+  
+  function capturePosition(evt) {
+    var pageX = evt.pageX;
+    var pageY = evt.pageY;
+    
+    $('#output').text('CP: pageX =' + pageX + ' pageY=' + pageY);
+    $(moveId).bind('mousemove','',capturePosition2);
+  }
+  // This runs at after the document is 'ready'
+  $(document).ready(function() {
+
+    var height = $(moveId).height();
+    var width = $(moveId).width();
+    var textWidth = $(moveId).innerWidth();
+    
+    $(moveId).text(height + 'x' + width + ' (innerWidth =' + innerWidth + ')');
+    var title = $(moveId).contents();
+    $(moveId).bind('mousedown','',capturePosition);
+    $(moveId).bind('mouseup','',releaseCapture);
+    $('body').css('background-color','#596');
+    $('.test').css('background-color', 'yellow');
+ });
+ 
+
+ </script>
+
+</head>
+
+<body>
+
+<div id="move-me"></div>
+
+
+<div id="output"></div>
+
+<div class="test"></div>
+
+<div id="ball"></div>
+
+</body>
+</html>

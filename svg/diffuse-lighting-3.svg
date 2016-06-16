@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+	 x="0"
+	 y="0"
+   width="1000"
+   height="1200"
+	 viewBox="0 0 1000 1200"
+   >
+<style>
+text {
+fill: none;
+stroke: white;
+font-family: sans-serif;
+letter-spacing: 1px;
+}
+</style>
+<defs>
+
+ <path id="curve" d="M 0 0 Q 5 20 10 10 T 20 20" 
+  style="stroke: black; stroke-width: 4px; fill: none;" />
+	
+ <circle id="green-light" cx="50" cy="50" r="50" style="fill: #060;" />
+ 
+ <filter id="Luminance"> 
+	<feColorMatrix type="luminanceToAlpha" result="a" /> 
+	<feComposite in="SourceGraphic" in2="a" operator="in" /> 
+ </filter> 
+
+ <filter id="curve-tile">
+  <feImage xlink:href="#curve" result="tile" width="20" height="20" />
+	<feTile in="tile" result="tile" />
+	<!-- exactly luminanceToAlpha -->
+	<feColorMatrix type="matrix" 
+	 values="0 0 0  0.2125  0
+	         0 0 0  0.7154  0
+					 0 0 0  0.0721  0
+					 0 0 0  1.0000  0"
+	 in="tile" result="alphaTile" />
+	 
+  <feComposite in="alphaTile" in2="SourceGraphic" operator="in" />
+ </filter>
+ 
+ <filter id="diff-light" color-interpolation-filters="sRGB"
+   x="0" y="0" width="100%" height="100%" >
+	 
+	 <feImage xlink:href="#curve" result="tile" width="20" height="20" />
+	 <feTile in="tile" result="tile" />
+	 
+	 <!-- <feColorMatrix type="luminanceToAlpha" in="tile" result="alphaTile" />-->
+	 
+	 <!-- Use this transform instead of liminanceToAlpha, which doesn't work! -->
+	 <feColorMatrix type="matrix" 
+	    values="0 0 0  0.2125  0
+	            0 0 0  0.7154  0
+					    0 0 0  0.0721  0
+					    0 0 0  1.0000  0"
+	    in="tile" result="alphaTile" />
+			
+	 <feDiffuseLighting in="alphaTile"
+	    lighting-color="#ffc"
+			surfaceScale="1"
+			diffuseConstant=".75"
+			result="diffuseLight" >
+			<fePointLight x="0" y="50" z="50" />
+	 </feDiffuseLighting>
+			
+	<feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
+	  result="diffuseOutput" />
+		
+	<feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
+ </filter>
+ 
+ <filter id="diff-light-2" color-interpolation-filters="sRGB"
+   x="0" y="0" width="100%" height="100%" >
+	 
+	 <feImage xlink:href="#gradient-rect" result="tile" width="30" height="20" />
+	 <feTile in="tile" result="tile" />
+	 
+	 <!-- Use this transform instead of liminanceToAlpha, which doesn't work! -->
+	 <feColorMatrix type="matrix" 
+	    values="0 0 0  0.2125  0
+	            0 0 0  0.7154  0
+					    0 0 0  0.0721  0
+					    0 0 0  1.0000  0"
+	    in="tile" result="alphaTile" />
+			
+	 <feDiffuseLighting in="alphaTile"
+	    lighting-color="#ffc"
+			surfaceScale="10"
+			diffuseConstant=".75"
+			result="diffuseLight" >
+			<fePointLight x="0" y="50" z="50" />
+	 </feDiffuseLighting>
+			
+	<feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
+	  result="diffuseOutput" />
+		
+	<feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
+ </filter>
+
+
+ <linearGradient id="grad-1" color-interpolation="sRGB"  x1="0" y1="0" x2="0" y2="100%" >
+ 	<stop stop-color="#CC3366" stop-opacity=".95" offset="0%" />
+ 	<stop stop-color="#00FFFF" stop-opacity="0.0" offset="50%" />
+	<stop stop-color="#000066" stop-opacity=".35" offset="75%" />
+	<stop stop-color="#FF00FF" stop-opacity="0.45" offset="100%" />
+ </linearGradient>
+ 
+ <rect id="gradient-rect" x="0" y="0" height="200" width="300" style="fill: url(#grad-1);" />
+ 
+ <filter id="gradient-1">
+  
+  
+ </filter>
+ 
+ 
+</defs>
+
+<g id="empty-rect">
+ <rect id="rect0" x="10" y="10"  height="100" width="300" style="fill: #969" />
+ <text x="300" y="100" text-anchor="end">
+ Rect. Fill: #969
+ </text>
+</g>
+  
+<g id="empty-rect-2" transform="translate(310,0)">
+ <rect id="rect1" x="10" y="10" height="100" width="300"
+       style="filter: url(#diff-light); fill: #969" />
+ <text x="300" y="100" text-anchor="end">
+ Rect. filter: url(#diff-light)
+ </text>
+</g>
+
+
+<g id="plain-image" >
+ <image xlink:href="image-2.jpg"
+	     height="300" width="300" x="10" y="150" />
+	<text x="300" y="385" text-anchor="end">
+ Plain Image
+ </text>
+</g>
+
+<g id="filtered-image" transform="translate(310,0)" >
+ <image xlink:href="image-2.jpg" style="filter: url(#diff-light-2);"
+	     height="300" width="300" x="10" y="150" />
+ <text x="300" y="385" text-anchor="end" >
+ Filtered Image filter: url(#diff-light)
+ </text>
+</g>
+	
+	
+<g id="row-3" transform="translate(0,300)" >	
+<g id="plain-image" >
+ <image xlink:href="image-5.jpg"
+	     height="300" width="300" x="10" y="150" />
+	<text x="300" y="385" text-anchor="end">
+ Plain Image
+ </text>
+</g>
+
+<g id="filtered-image" transform="translate(310,0)" >
+ <image xlink:href="image-5.jpg" style="filter: url(#diff-light);"
+	     height="300" width="300" x="10" y="150" />
+ <text x="300" y="385" text-anchor="end" >
+ Filtered Image filter: url(#diff-light)
+ </text>
+</g>
+</g><!-- end row 3 -->
+
+<g id="row-4" transform="translate(0,700)" >	
+
+<g id="light-1" transform="scale(2)">
+<use xlink:href="#green-light" style="filter: url(#curve-tile);" x="75" y="50"/>
+<text x="40" y="170" style="stroke: black; fill: #aaa;" shape-rendering="crispEdges">Filter: url(#curve-tile)</text>
+</g>
+
+<g id="gradient" transform="translate(200,0)">
+  <use xlink:href="#gradient-rect"  x="300" y="100" height="100" width="300" />
+</g>
+
+<use xlink:href="#gradient" style="filter: url(#diff-light-2)" transform="translate(350,0)" />
+</g><!-- end row 4 -->
+
+<text x="0" y="30" font-size="120" font-family="cooper black" style="text-path: url(#path-1);"
+ fill="url(#grad-3)" stroke="black" text-anchor="end" opacity="1.0">
+ <textPath xlink:href="#path-1" startOffset="1.6602%" >
+  <animate attributeName="startOffset" from="1%" to="100%" dur="20s" fill="freeze" id="move" />
+
+  InterActive Media!
+  <animate attributeName="font-size" from="120" to="120" begin="0s" dur="6s" fill="freeze" id="fs1" />
+  <!--<animate attributeName="font-size" from="100" to="40" begin="fs1.end" dur="3s" fill="freeze" id="fs2"></animate>
+  <animate attributeName="font-size" from="40" to="120" begin="fs2.end" dur="9s" fill="freeze"></animate>-->
+  <animate attributeName="y" from="-50" to="0" dur="3s" fill="freeze" id="y" begin="0s" />
+  <animate attributeName="opacity" from="1.0" to="0.0" dur="5s" begin="move.end" fill="freeze" />
+  <animateTransform attributeName="transform" type="skewX" from="0.1" to="-1.0" dur="2s" begin="move.end" />
+ </textPath>
+</text>
+</svg>

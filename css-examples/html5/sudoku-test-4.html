@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sudoku Test 4</title>
+
+<link rel="stylesheet" href="sudoku-test.css" media="all" type="text/css" >
+
+</style>
+
+<script type="text/javascript" src="logger.js"></script>
+
+<script type="text/javascript" >
+	//setup logging element id
+	Logger = "logger2";
+</script>
+
+<script type="text/javascript" src="sudoku-lib2.js" ></script>
+<script type="text/javascript" >
+
+var myArray;
+var arr1 = new Array() 
+arr1 = [1,2,3,4];
+function defineIt(num) {
+	myArray = new Array(num);
+	if (defineIt.arguments.length > 1) {
+		myArray = defineIt.arguments[1];
+	} else {
+		myArray = arr1;
+	}
+	Log("Notice", myArray);
+}
+
+// code to change sudoku numbers on click
+var sNumber = " ";
+
+function grabNumber(num) {
+	sNumber = num;
+}
+
+function pasteNumber(id) {
+	document.getElementById(id).innerHTML = sNumber;
+}
+
+</script>
+</head>
+
+<body onLoad='Log("Notice", "Page Loaded");'>
+
+<div id="t">c</div>
+
+<div class='top'>
+ <div class='boxrow'>
+   <div class="row">
+    <div class='leftbox'> </div>
+    <div class='cell'><span class='data' id="N1" onClick="grabNumber(1)">1</span></div>
+    <div class='cell'><span class='data' id="N2" onClick="grabNumber(2)">2</span></div>
+    <div class='cell'><span class='data' id="N3" onClick="grabNumber(3)">3</span></div>
+    <div class='cell'><span class='data' id="N4" onClick="grabNumber(4)">4</span></div>
+    <div class='cell'><span class='data' id="N5" onClick="grabNumber(5)">5</span></div>
+    <div class='cell'><span class='data' id="N6" onClick="grabNumber(6)">6</span></div>
+    <div class='cell'><span class='data' id="N7" onClick="grabNumber(7)">7</span></div>
+    <div class='cell'><span class='data' id="N8" onClick="grabNumber(8)">8</span></div>
+    <div class='cell'><span class='data' id="N9" onClick="grabNumber(9)">9</span></div>
+    <div class='rightbox'> </div>
+ </div>
+</div>
+
+<p id="x" onMouseDown="defineIt(5); document.getElementById('x').innerHTML = myArray.toString();">Define the array.</p>
+<p id="target" onMouseOver='solveSudoku(boxCols, boxRows, boxMapString);' >Solve me</p>
+
+<pre id="logger2" onMouseOver='Log("Notice", "Mouse is over me now")'>
+</pre>
+
+<p id="target" onMouseOver='Log("Notice", boxMask)' >Hit me</p>
+
+</body>
+</html>

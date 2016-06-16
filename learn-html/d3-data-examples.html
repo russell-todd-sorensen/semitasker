@@ -1,0 +1,608 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <title>jQuery/D3 Data Examples 2</title>
+</head>
+<body>
+<examples>
+<example id="Example-27">
+ <tags>
+<div id="x"></div>
+ </tags>
+ <css>
+#x {
+background-color: white;
+height: 100px;
+width: 200px;
+color: red;
+}
+
+ </css>
+ <js>
+$('#x')
+   .css('border','dotted 15px green')
+   .html("This is some content")
+   .bind("click", function () {Log.Notice("hi ho hum");})
+;
+
+ </js>
+ <comment></comment>
+</example>
+
+<example id="Example-29">
+ <tags>
+<div id="y">Some Words to Enlarge</div>
+ </tags>
+ <css>
+#y {
+color: transparent;
+height: 100px;
+width: 1000px;
+margin: auto;
+font-size: 20px;
+text-align: center;
+vertical-align: middle;
+text-shadow: 2px 2px 10px black;
+}
+ </css>
+ <js>
+$('#y')
+  .click(function () {
+     $(this)
+       .animate({'color': 'darkgreen', 'font-size': '80px'}, 2000, 'linear', null);
+   });
+// click on the fuzzy words to enlarge, then
+// click on the 'Refresh' button above to reset
+
+ </js>
+ <comment></comment>
+</example>
+<example id="Example-53">
+ <tags>
+<!-- Similar to last example, with added code and CSS -->
+<div id="y">Some Words to Enlarge</div>
+ </tags>
+ <css>
+#y {
+color: transparent;
+height: 100px;
+width: 2000px;
+margin: auto;
+margin-left: -500px; /* adjust left margin */
+font-size: 20px;
+text-align: center;
+vertical-align: middle;
+text-shadow: 0px 0px 10px black; /* adjust text shadow */
+}
+
+ </css>
+ <js>
+$('#y')
+  .click(function () {
+    $(this)
+      .animate({'color': 'darkorange', 'font-size': '150px'}, 2000, 'linear', null)
+      // animate left margin to simulate motiom of text to right
+      .animate({'margin-left': '1500px'}, 2000, 'linear', null)
+    // reset the display automatically at end of animation sequence
+    setTimeout("updateDisplay('js');", 4200);
+  });
+// type  
+
+ </js>
+ <comment></comment>
+</example>
+<example id="Example-30">
+ <tags>
+ <!-- similar example, but using d3 -->
+<div id="y">Some Words to Enlarge</div>
+ </tags>
+ <css>
+
+#y {
+color: transparent;
+width: 1000px;
+font-size: 20px;
+text-align: center;
+vertical-align: top;
+overflow: hidden;
+text-shadow: 0px 0px 10px black;
+letter-spacing: 1px;
+}
+ </css>
+ <js>
+
+d3body = d3.select(document.body);
+d3body.select('#display #y')
+  .on('click', function (d, i) {
+     d3.select(this)
+       .transition()
+       .duration(4000)
+       .style({ // with d3, you can animate text-shadow
+         'text-shadow': '2px 2px 80px black',
+         'font-size': '180px',
+         'letter-spacing': '50px',
+         'width': '3000px',
+         'margin-left': '-600px'
+       })
+  });
+// click on the fuzzy words to enlarge, then
+// click on the 'Refresh' button above to reset
+
+ </js>
+ <comment></comment>
+</example>
+
+<example id="Example-33">
+ <tags>
+<div id="graph">
+ <div id="blue" class="bar"></div>
+ <div id="green" class="bar"></div>
+ <div id="red" class="bar"></div>
+</div>
+
+ </tags>
+ <css>
+
+#graph {
+background-color: white;
+height: 300px;
+width: 800px;
+position: relative;
+}
+.bar {
+height: 10px;
+width: 40px;
+border: 1px solid black;
+position: absolute;
+bottom: 0px;
+}
+#blue {
+background-color: blue;
+left: 0px;
+}
+#green {
+background-color: green;
+left: 150px;
+}
+#red {
+background-color: red;
+left: 300px;
+}
+
+ </css>
+ <js>
+// no javascript yet
+
+ </js>
+ <comment></comment>
+</example>
+<example id="Example-37">
+ <tags>
+<div id="graph">
+ <div id="blue" class="bar"></div>
+ <div id="green" class="bar"></div>
+ <div id="red" class="bar"></div>
+</div>
+
+ </tags>
+ <css>
+
+#graph {
+background-color: white;
+height: 300px;
+width: 800px;
+position: relative;
+}
+.bar {
+/* change the height to zero */
+height: 0px;
+width: 40px;
+border: 1px solid black;
+position: absolute;
+bottom: 0px;
+color: white;
+}
+#blue {
+/* remove the background-color */
+left: 5px;
+}
+#green {
+/* remove the background-color */
+left: 155px;
+}
+#red {
+/* remove the background-color */
+left: 305px;
+}
+
+ </css>
+ <js>
+// add the script below to animate graph
+// data to use in the script
+var myData = [
+ {id: 'blue',
+  height: '150px',
+  product: 'hogs'
+ },
+ {id: 'green',
+  height: '200px',
+  product: 'goats'},
+ {id: 'red',
+  height: '285px',
+  product: 'cows'}
+];
+var d3body = d3.select(document.body);
+d3body.selectAll('#graph div')
+  .data(myData)
+  .transition()
+  .delay( function (d, i) {return 600 * i})
+  .ease('linear')
+  .duration(1000)
+  .style('height', function(d,i) {return d.height;})
+  .style('background-color', function(d,i) {return d.id;})
+  .text(function (d,i) {return d.product;});
+  
+
+ </js>
+ <comment></comment>
+</example>
+<example id="Example-39">
+ <tags>
+<div id="graph">
+ <div id="blue" class="bar"></div>
+ <div id="green" class="bar"></div>
+ <div id="red" class="bar"></div>
+</div>
+
+ </tags>
+ <css>
+
+#graph {
+background-color: white;
+height: 300px;
+width: 800px;
+position: relative;
+}
+.bar {
+height: 0px;
+width: 40px;
+border: 1px solid black;
+position: absolute;
+bottom: 0px;
+color: white;
+}
+#blue {
+left: 5px;
+}
+#green {
+left: 155px;
+}
+#red {
+left: 305px;
+}
+
+ </css>
+ <js>
+// add another property 'x' to each object in myData
+// the 'x' will set the left position property for the div
+var myData = [
+ {id: 'blue',
+  height: '150px',
+  product: 'hogs',  // notice the comma
+  x: '5px'          // new property 'x'
+ },
+ {id: 'green',
+  height: '200px',
+  product: 'goats', // notice the comma
+  x: '155px'        // new property 'x' 
+},
+ {id: 'red',
+  height: '285px',
+  product: 'cows',  // notice the comma
+  x: '305px'     // new property 'x'
+  }
+];
+var d3body = d3.select(document.body);
+d3body.selectAll('#graph div')
+  .data(myData)
+  .transition()
+  .delay( function (d, i) {return 600 * i})
+  .ease('linear')
+  .duration(1000)
+  .style('height', function(d,i) {return d.height;})
+  .style('background-color', function(d,i) {return d.id;})
+  .text(function (d,i) {return d.product;});
+  
+
+ </js>
+ <comment></comment>
+</example>
+<example id="Example-41">
+ <tags>
+<div id="graph">
+ <div id="blue" class="bar"></div>
+ <div id="green" class="bar"></div>
+ <div id="red" class="bar"></div>
+</div>
+
+ </tags>
+ <css>
+
+#graph {
+background-color: white;
+height: 300px;
+width: 800px;
+position: relative;
+}
+.bar {
+height: 0px;
+width: 40px;
+border: 1px solid black;
+position: absolute;
+bottom: 0px;
+color: white;
+/* set the left attribute for each bar to 0px */
+left: 0px;
+}
+/* remove the individual selectors #blue-#red */
+ </css>
+ <js>
+
+var myData = [     
+ {color: 'blue', // change id to color 
+  height: '150px',
+  product: 'hogs',
+  x: '5px'
+  },              
+ {color: 'green', // change id to color 
+  height: '200px',
+  product: 'goats',
+  x: '155px'
+  },              
+ {color: 'red', // change id to color 
+  height: '285px',
+  product: 'cows',
+  x: '305px'
+  }
+];
+
+var d3body = d3.select(document.body);
+d3body.selectAll('#graph div')
+  .data(myData)
+  .transition()
+  .delay( function (d, i) {return 600 * i})
+  .ease('linear')
+  .duration(1000)
+  .style('height', function(d,i) {return d.height;})
+  // change d.id to d.color below             -------v
+  .style('background-color', function(d,i) {return d.color;})
+  // animate the left attribute starting from 0px
+  .style('left', function(d,i) {return d.x;})
+  .text(function (d,i) {return d.product;});
+  
+
+ </js>
+ <comment></comment>
+</example>
+<example id="Example-51">
+ <tags>
+ <!-- remove the inner divs, we will add them with d3 -->
+<div id="graph"><!-- inner divs removed --></div>
+ </tags>
+ <css>
+
+#graph {
+background-color: white;
+height: 300px;
+width: 800px;
+position: relative;
+}
+
+ </css>
+ <js>
+
+var myData = [
+ {color: 'blue',
+  height: '150px',
+  product: 'hogs',
+  x: '5px'
+  },
+ {color: 'green',
+  height: '200px',
+  product: 'goats',
+  x: '155px'
+  },
+ {color: 'red',
+  height: '285px',
+  product: 'cows',
+  x: '305px'
+  }
+];
+
+// create a 'style object' to use below
+var myStyle = {
+ 'height': '0px',
+ 'border': '1px solid black',
+ 'position': 'absolute',
+ 'bottom': 0,
+ 'color': 'white',
+ 'left': '0px'
+};
+
+var d3body = d3.select(document.body);
+var graph = d3body.select('#graph');
+// select all the divs (they don't exist yet!) and add them,
+// the data(myData) line adds one div for each object in myData
+graph.selectAll('div')
+  .data(myData) 
+  .enter()
+  .append('div')
+    .attr('id', function(d,i) {return "bar-" + i;})
+    .style(myStyle); // start with a default style
+
+// select the newly created divs and animate them
+d3body.selectAll('#graph div')
+  .data(myData)
+  .transition()
+  .delay( function (d, i) {return 600 * i})
+  .ease('linear')
+  .duration(1000)
+  .style('height', function(d,i) {return d.height;})
+  .style('background-color', function(d,i) {return d.color;})
+  .style('left', function(d,i) {return d.x;})
+  .text(function (d,i) {return d.product;});
+ 
+ </js>
+ <comment></comment>
+</example>
+<example id="Example-52">
+ <tags>
+<div id="graph"></div>
+ </tags>
+ <css>
+
+#graph {
+background-color: white;
+height: 300px;
+width: 800px;
+position: relative;
+}
+
+ </css>
+ <js>
+
+var myData = [     
+ {color: 'blue',
+  height: '150px',
+  product: 'hogs',
+  x: '5px'
+  },               // notice the comma
+ {color: 'green',
+  height: '200px',
+  product: 'goats',
+  x: '155px'
+  },               // notice the comma
+ {color: 'red',
+  height: '115px',
+  product: 'cows',
+  x: '305px'
+  }
+        // add a new object, starting with a comma
+  ,     // yes you need the comma!
+ {color: 'tan',
+  height: '150px',
+  product: 'chickens',
+  x: '455px'
+}      // last object doesn't need a comma
+
+ // when you finish adding the new object, refresh
+ // and notice the new bar in the graph for chickens.
+];
+var myStyle = {
+ 'height': '0px',
+ 'border': '1px solid black',
+ 'position': 'absolute',
+ 'bottom': 0,
+ 'color': 'white',
+ 'left': '0px'
+};
+var d3body = d3.select(document.body);
+var graph = d3body.select('#graph');
+graph.selectAll('div')
+  .data(myData)
+  .enter()
+  .append('div')
+    .attr('id', function(d,i) {return "bar-" + i;})
+    .style(myStyle);
+d3body.selectAll('#graph div')
+  .data(myData)
+  .transition()
+  .delay( function (d, i) {return 600 * i})
+  .ease('linear')
+  .duration(1000)
+  .style('height', function(d,i) {return d.height;})
+  .style('background-color', function(d,i) {return d.color;})
+  .style('left', function(d,i) {return d.x;})
+  .text(function (d,i) {return d.product;});
+  
+
+ </js>
+ <comment></comment>
+</example>
+<example id="Example-58">
+ <tags>
+<div id="graph">
+</div>
+
+ </tags>
+ <css>
+#graph {
+background-color: white;
+height: 300px;
+width: 800px;
+position: relative;
+}
+
+ </css>
+ <js>
+var myData = [
+  {color: 'blue',
+   height: '150px',
+   product: 'hogs',
+   x: '5px'
+  },
+  {color: 'green',
+   height: '200px',
+   product: 'goats',
+   x: '155px'
+  },
+  {color: 'red',
+   height: '285px',
+   product: 'cows',
+   x: '305px'
+},
+  {color: 'tan',
+   height: '150px',
+   product: 'chickens',
+   x: '455px'
+ }
+];
+var d3body = d3.select(document.body);
+var graph = d3body.select('#graph');
+var myStyle = {
+ 'height': '0px',
+ 'border': '1px solid black',
+ 'position': 'absolute',
+ 'bottom': '0px',
+ 'color': 'white',
+ 'left': '0px' 
+};
+graph.selectAll('div')
+  .data(myData)
+  .enter()
+  .append('div')
+    .attr('id', function(d,i) {return 'bar-' + i})
+    .style(myStyle);
+graph.selectAll('div')
+ .data(myData)
+ .transition()
+ // add starting transition to move bar into position
+ .each('start', function (d,i) {
+    d3.select(this)
+      .style('left', d.x);
+ })
+ .delay( function (d,i) {return 600 * i })
+ .ease('linear')
+ .duration(1000)
+ .style('height', function (d,i) {return d.height;})
+ .style('background-color', function(d,i) {return d.color;})
+ // comment out the style animation below, it isn't needed anymore
+ //.style('left', function(d,i) { return d.x;})
+ .text(function (d,i) {return d.product;});
+
+ </js>
+ <comment></comment>
+</example>
+</examples>
+
+</body></html>

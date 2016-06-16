@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Sliders</title>
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css" >
+<style>
+.slide {
+    display: inline-block;
+    padding: 1px;
+    background-color: #bbb;
+    border: 1px solid black;
+    font-weight: bold;
+    margin: 0px;
+    margin-left: -3px;
+}
+
+#my-form {
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+#my-form .slide label {
+    text-align: center;
+    display: block;
+    margin: auto;
+}
+
+#slider1, #slider2, #slider3, #slider4 {
+    margin: auto;
+    margin-top: 1em;
+    margin-bottom: .5em;
+    vertical-align: top;
+}
+
+#color, #color2, #color3 {
+    display: inline-block;
+    margin-left: 100px;
+    height: 165px;
+    width: 168px;
+    border: 5px solid;
+    vertical-align: top;
+    text-align: center;
+    font-size: 2.3em;
+    font-weight: bold;
+    font-family: "Hobo Std";
+    padding-top: 5px;
+    
+}
+
+</style>
+<!-- use this stylesheet to explore the CSS Box Model and HTML Page Structure 
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/box-model.css" media="all">-->
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="color-sliders-5.js"></script>
+<script>
+// color categories 
+var colorCategory = [];
+
+colorCategory["html"] = {
+	'background-color': 'rgba(255,255,255,1)',
+  'color': 'rgba(0,0,0,1)',
+  'border-color': 'rgba(0,0,0,1)'
+};
+
+colorCategory["svg"] = {
+	'fill': 'rgba(255,255,255,1)',
+	'stroke': 'rgba(0,0,0,1)',
+};
+
+colorCategory["svg-gradient"] = {
+	'stop-color': 'rgba(255,255,255,1)'
+};
+
+colorCategory["svg-flood-filter"] = {
+	'flood-color': 'rgba(0,0,0,1)'
+};
+
+var attributes = {
+  'background-color': 'rgba(255,255,255,1)',
+	'fill': 'rgba(255,255,255,1)',
+	'stroke': 'rgba(0,0,0,1)',
+  'color': 'rgba(0,0,0,1)',
+  'border-color': 'rgba(0,0,0,1)',
+  'border-right-color': 'rgba(0,0,0,1)'
+};
+
+var targetAttributes = [];
+
+var targets = ['color','color2','color3'];
+for (var i = 0; i < targets.length; i++) {
+	targetName = targets[i]
+	targetAttributes[targetName] = {};
+	for (attr in attributes) {
+		targetAttributes[targetName][attr] = attributes[attr];
+	}
+}
+
+var attribute = 'background-color';
+
+targetArray[0] = {targetId: 'color', sliders: {red: 'slider1', green: 'slider2', blue: 'slider3', alpha: 'slider4'}}
+targetArray[1] = {targetId: 'color2', sliders: {red: 'slider1', green: 'slider2', blue: 'slider3', alpha: 'slider4'}}
+targetArray[2] = {targetId: 'color3', sliders: {red: 'slider1', green: 'slider2', blue: 'slider3', alpha: 'slider4'}}
+
+var target = targetArray[0].targetId;
+
+$(document).ready(function () {
+  
+  Log.Hide();
+  Log.Notice('target=' + target);
+  initSliders(sliders);
+	
+  $('#bgOrFont')
+    .bind('change', targetArray[0] , switchAttribute);
+	$('#color').bind('click','color',changeTarget);
+	$('#color2').bind('click','color2',changeTarget);
+	$('#color3').bind('click','color3',changeTarget);
+
+});
+
+</script>
+</head>
+
+<body>
+
+<div id="panel2">
+ <form id="my-form" name="my-form" >
+  <div class="slide">
+  <label for="red">Red:</label>
+  <div id="slider1" ></div>
+   <input type="text" name="red" id="red" value="" size="1" >
+  </div>
+  <div class="slide">
+  <label for="green">Green:</label>
+  <div id="slider2" ></div> 
+  <input type="text" name="green" id="green" value="" size="1" >
+  </div>
+  <div class="slide">
+  <label for="blue">Blue:</label>
+  <div id="slider3" ></div>
+  <input type="text" name="blue" id="blue" value="" size="1">
+  </div>
+  <div class="slide">
+  <label for="alpha">Alpha:</label>
+  <div id="slider4" ></div>
+  <input type="text" name="alpha" id="alpha" value="1.000" size="1" >
+  </div>
+  <div class="slide">
+  <label for="bgOrFont">Color What?</label>
+  <select name="bgOrFont" id="bgOrFont">
+   <option value="color">Font Color</option>
+   <option value="background-color" selected="selected">Background Color</option>
+   <option value="border-color">Border Color</option>
+   <option value="border-right-color">Border Right Color</option>
+   </select>
+  </div>
+ <div id="color"></div>
+ <div id="color2"></div>
+ <div id="color3"></div>
+ </form>
+</div>
+
+</body>
+</html>

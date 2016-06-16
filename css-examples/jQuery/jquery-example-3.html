@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+
+<meta charset="utf-8">
+
+<title>jQuery UI Draggable/Droppable</title>
+
+<link rel="stylesheet" type="text/css" href="main.css">
+<link rel="stylesheet" type="text/css" href="../js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css" >
+
+<style type="text/css" >
+#slider1, #my-tabs {
+    margin: auto;
+    margin-top: 20px;
+}
+#drop1 {
+    background-color: tan;
+    border: 1px solid black;
+    height: 100px;
+    width: 100px;
+}
+#drop1 #d1 {
+    background-color: blue;
+}
+#drop1 #d2 {
+    background-color: yellow;
+}
+
+</style>
+
+<script language="javascript" src="../js/jquery-1.7.1.js" type="text/javascript"></script>
+<script language="javascript" src="../js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" type="text/javascript"></script>
+<script language="javascript" src="log.js" type="text/javascript"></script>
+<script language="javascript" src="headline.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript">
+$(document).ready(function(e) {
+    
+
+	$('#my-tabs').tabs({
+		fx: { height: 'toggle', opacity: 'toggle', duration: 200 }
+	});
+	
+    $('#drag1').draggable({
+		addClasses: true,
+		appendTo: "parent",
+		axis: false,
+		connectToSortable: false,
+		containment: false,
+		cursor: "auto",
+		cursorAt: false,
+		grid: false,
+		handle: false,
+		helper: "original",
+		iframeFix: false,
+		opacity: false,
+		refreshPositions: false,
+		revert: false,
+		revertDuration: 500,
+		scope: "default",
+		scroll: true,
+		scrollSensitivity: 20,
+		scrollSpeed: 20,
+		snap: false,
+		snapMode: "both",
+		snapTolerance: 20,
+		stack: false,
+		zIndex: false
+	});
+    $('#drop1').droppable({
+		accept: '*',
+		activeClass: false,
+		addClasses: true,
+		greedy: false,
+		hoverClass: false,
+		scope: 'default',
+		tolerance: 'intersect'
+	});
+	
+	$('#slider2').slider({
+		animate: true,
+		distance: 0,
+		max: 100,
+		min: 0,
+		orientation: "horizontal",
+		range: false,
+		step: 1,
+		value: 0,
+		values: null
+	});
+	$('#slider3').slider({
+		animate: true,
+		distance: 0,
+		max: 100,
+		min: 0,
+		orientation: "horizontal",
+		range: true,
+		step: 25,
+		value: 50,
+		values: {0:0,1:25,2:50,3:75,4:100}
+	});
+	$('#slider4').slider({
+		animate: true,
+		distance: 0,
+		max: 1000,
+		min: 0,
+		orientation: "horizontal",
+		range: true,
+		step: 1,
+		value: 500,
+		values: null
+	});
+	
+});
+
+</script>
+</head>
+
+<body>
+
+<h1 id="title">UI Sliders</h1>
+
+<div id="my-tabs">
+
+<ul>
+ <li><a href="#panel1">Draggable 1</a></li>
+ <li><a href="#panel2">Slider 2</a></li>
+ <li><a href="#panel3">Slider 3</a></li>
+ <li><a href="#panel4">Slider 4</a></li>
+</ul>
+
+<div id="panel1">
+ <h4>Draggable</h4>
+ <div id="drag1">
+ 
+  <div id="d1">a</div>
+  <div id="d2">b</div>
+  <div id="d3">c</div>
+  <div id="d4">d</div>
+
+ </div>
+ 
+ <div id="drop1">
+ Drop Here
+ </div>
+ 
+</div>
+
+<div id="panel2">
+ <form name="my-form" >
+  Value: <input type="text" name="slider2" id="s2" value="" size="3">
+  <div id="slider2"></div>
+ </form>
+</div>
+
+<div id="panel3">
+ <form name="my-form2" >
+  Value: <input type="text" name="slider3" id="s3" value="" size="3">
+  <div id="slider3"></div>
+ </form>
+</div>
+
+<div id="panel4">
+ <form name="my-form3" >
+  Value: <input type="text" name="slider4" id="s4" value="" size="3">
+  <div id="slider4"></div>
+ </form>
+</div>
+
+</div> <!-- end my-tabs -->
+<!--<a href="jQuery-examples.html" title="jQuery-examples.html">jQuery Examples List</a>-->
+</body>
+</html>

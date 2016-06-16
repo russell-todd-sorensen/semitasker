@@ -1,0 +1,224 @@
+/* CSS Document */
+
+body {
+    background-color: #444;
+    background-image: url(images/aberdeen-small-2.svg);
+    background-position: top 0px left 0px;
+}
+
+#main {
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: "Tw Cen MT Bold", sans-serif;
+    color: #d2691e;
+    color: #E6B026; /* yellowish */
+    color: #E6265C;  /* pinkish */
+    color: #B026E6; /* reddish */
+    color: #8F1135; /* darker reddish !! */ 
+    color: #8F6B11; /* yellowish/brown !! */
+    color: #6B118F; /* dark purplish */
+    color: #118F6B; /* blue greenish */
+    color: #358F11; /* greenish */
+    color: #4E3D12; /* dark yellowish/brown */
+    color: #4E1223;  /* dark dark reddish !!! */
+    color: #3D124E; /* dark dark purplish */
+    color: #124E3D; /* dark dark blue greenish */
+    color: #234E12;/* dark dark greenish */
+    color: #12234e; /* dark dark blueish !! */
+    color: #4E1223;/* dark dark reddish */
+}
+
+.color-base {
+    color: hsl(43,62.5%,19%);
+}
+.color-sc-1 {
+    color: hsl(223,62.5%,19%);
+}
+.color-sc-2 {
+    color: hsl(163,62.5%,19%);
+}
+.color-sc-3 {
+    color: hsl(343,62.5%,19%);
+}
+.color-sc-3 {
+    color: hsl(103,62.5%,19%);
+}
+
+.transparent {  
+    background-color: rgba(255,255,255,.8);
+}
+
+.transparent2 {  
+    background-color: rgba(255,255,255,.4);
+}
+
+#header {
+    padding: 10px;
+    padding-bottom: 0px;
+    font-size: 7em;
+    font-weight: bold;
+    text-align: center;
+    line-height: .5em;
+    width: 1050px;
+    margin: auto;
+    margin-top: 15px;
+    color: #4E1223;  /* dark dark reddish !!! */
+    text-shadow: 8px 8px 8px #124e3d; /* dark dark blue greenish */
+}
+
+#body {
+    margin: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    min-width: 1100px;
+}
+
+#nav {
+    display: inline-block;
+    width: 250px;
+    min-height: 800px;
+    vertical-align: top;
+}
+
+#nav h2 {
+    padding-left: 10px;
+}
+
+#nav ul {
+    list-style: none;
+    list-style-position: inside;
+}
+
+#nav ul li {
+    color: white;
+    width: 100%;
+    background-color: #4E3D12; /* dark yellowish/brown */ /* was #d2691e */
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-left: -25px;
+    padding: 5px;
+}
+#nav a:link, a:visited {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    width: 95%;
+}
+
+#nav a:hover, #nav a:active {
+    color: #124e3d;
+    text-shadow: 0px 0px 10px white ; 
+}
+
+#nav li:hover, #nav li:active {
+    box-shadow: 2px 2px 2px #124e3d;
+}
+
+
+#content {
+   display: inline-block;
+   margin-left: 10px;
+   width: 710px;
+   min-height: 800px;
+   vertical-align: top;
+   padding: 10px;
+   font-weight: bold;
+}
+
+#tool-links {
+    text-align: center;
+}
+
+
+#content a:link {
+    text-decoration: none;
+}
+
+
+
+#content h2, #svgHeading {
+    font-size: 2.5em;
+    color: #124e3d;
+    text-align: center;
+    line-height: .9em;
+    padding-bottom: 10px;
+    fill:  #124e3d;
+}
+
+#content #tool-links h2 {
+    font-size: 1.7em;
+}
+
+#content p::first-letter {
+    font-weight: bold;
+    font-size: 2em;
+    color: #124e3d;
+}
+
+#content p::first-line {
+    margin-left: 10px;
+    line-height: 1.3em;
+}
+
+#footer {
+    font-size: 3em;
+    line-height: 1em;
+    font-weight: bold;
+    padding: 10px;
+    margin: 5px;
+    min-width: 850px;
+    text-align: center;
+    color: skyblue;
+    text-shadow: 0px 0px 15px purple;
+}
+
+
+#arrow {
+    display: inline-block;
+    height: 1px;
+    width: 1px;
+    border: 10px solid rgba(255, 255, 255, 0);
+    border-left-color: #124e3d;
+    vertical-align: bottom;
+}
+
+#nav ul li.current {
+    text-align: right;
+    color: #124e3d;
+    text-shadow: 0px 0px 5px white;
+
+}
+
+/* hide asp.net junk */
+div.page {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+}
+div.page > h1, div.page > div {
+    display: none;
+}
+
+div#main {
+    display: block;
+}
+
+form#aspnetForm {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+#date {
+  background-color: silver;
+  display: inline-block;
+  padding: 10px;
+  margin: auto;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.orange, .blue {
+  padding: 5px;
+}

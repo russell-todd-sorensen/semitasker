@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+<meta charset="utf-8" >
+<title>Untitled Document</title>
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="http://ic00408/css/green-form.css" >
+<style>
+
+
+
+</style>
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/data.js"></script>
+<script src="http://ic00408/js/form-save-restore.js"></script>
+<script src="http://ic00408/js/binary-hex-conversions.js"></script>
+<script src="http://ic00408/js/example-library.js"></script>
+<script src="http://ic00408/js/svg-transform.js"></script>
+
+<script>
+// <![CDATA[ 
+
+var x = 100;
+var body;
+var svg; 
+var div;
+$(document).ready(function() {
+	Log.Notice('ready'); 
+	body = d3.select(document.body);
+	svg = body.select('svg');
+	if (true) {
+	svg
+		.selectAll('#slider-2')
+		.data([{x:0,y:0,id:'slider-2'}])
+		.on('click', function(d,i) {
+			Log.Notice('hi');
+	  })
+		.on('mousedown.dragstart', function (d,i) {
+			var e = d3.event;
+			var obj = d3.select(this);
+			d.x = parseFloat(obj.attr('x'));
+			d.y = parseFloat(obj.attr('y'));
+			Log.Notice('dragstart x=' + d.x + ' y=' + d.y);
+		})
+		.on('mousedown.drag', function (d,i) {
+			var e = d3.event;
+			dx = e.x - d.x;
+			dy = e.y - d.y;
+			Log.Notice('move drag dx=' + dx + ' dy=' + dy );
+			d3.select(this)
+			 .attr('x', parseFloat(d.x + dx))
+			 .attr('y', parseFloat(d.y + dy));
+		})
+	
+	}
+ 
+});
+
+// ]]>
+
+</script>
+
+</head>
+<body>
+
+<svg 
+    xmlns:svg="http://www.w3.org/2000/svg" 
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0" 
+    x="0" 
+    y="0" 
+    width="1500"
+    height="1200" 
+    viewBox="0 0 1500 1200"
+    style="pointer-events: all;">
+<defs>
+
+<path id="triangle-1" d="M 50 50 L 100 100 L 0 100 Z"  />
+
+</defs>
+
+
+<use id="slider-2" x="0" y="0" xlink:href="#triangle-1" fill="yellow" stroke="#0066FF" stroke-width="6" />
+
+
+
+</svg>
+</body>
+</html>

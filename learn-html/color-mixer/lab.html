@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+<meta charset="utf-8" >
+
+<title>L A B to RGB</title>
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="http://ic00408/css/green-form.css" >
+
+<style>
+
+#hsl-1 {
+    height: 100px;
+    width: 350px;
+    border-color: #444;
+    border-width: 2px;
+    border-style: solid;
+    background-color: #aaa;
+    color: white;
+    margin: 15px;
+}
+#hsl-1 span {
+    font-weight: bold;
+    font-size: 2.5em;
+    text-align: center;
+    margin: auto;
+    display: block;
+    line-height: 2.5em;
+}
+
+form {
+    margin: 15px;
+    width: 350px;
+}
+
+form ul {
+    padding: 0;
+    margin: 0;
+}
+
+form li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+form label {
+    display: inline-block;
+    width: 100px;
+}
+
+</style>
+
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/data.js"></script>
+<script src="http://ic00408/js/form-save-restore.js"></script>
+<script src="http://ic00408/js/binary-hex-conversions.js"></script>
+<script src="http://ic00408/js/example-library.js"></script>
+<script src="http://ic00408/js/svg-transform.js"></script>
+<script src="js/color-mixer-8.js" ></script>
+
+<script>
+
+function d3_lab(l, a, b) {
+	return new d3_Lab(l, a, b);
+}
+function d3_Lab(l, a, b) {
+	this.l = l;
+	this.a = a;
+	this.b = b;
+}
+
+var d3_lab_K = 18;
+var d3_lab_X = .95047, d3_lab_Y = 1, d3_lab_Z = 1.08883;
+ 
+function lab2rgb(l, a, b) {
+	var y = (l + 16) / 116, x = y + a / 500, z = y - b / 200;
+	x = d3_lab_xyz(x) * d3_lab_X;
+	y = d3_lab_xyz(y) * d3_lab_Y;
+	z = d3_lab_xyz(z) * d3_lab_Z;
+	return d3.rgb(d3_xyz_rgb(3.2404542 * x - 1.5371385 * y - .4985314 * z), d3_xyz_rgb(-.969266 * x + 1.8760108 * y + .041556 * z), d3_xyz_rgb(.0556434 * x - .2040259 * y + 1.0572252 * z));
+}
+function d3_lab_hcl(l, a, b) {
+	return l > 0 ? d3_hcl(Math.atan2(b, a) * d3_degrees, Math.sqrt(a * a + b * b), l) : d3_hcl(NaN, NaN, l);
+}
+function d3_lab_xyz(x) {
+	return x > .206893034 ? x * x * x : (x - 4 / 29) / 7.787037;
+}
+function d3_xyz_lab(x) {
+	return x > .008856 ? Math.pow(x, 1 / 3) : 7.787037 * x + 4 / 29;
+}
+function d3_xyz_rgb(r) {
+	return Math.round(255 * (r <= .00304 ? 12.92 * r : 1.055 * Math.pow(r, 1 / 2.4) - .055));
+}
+
+function rgb2lab(r, g, b) {
+	r = d3_rgb_xyz(r);
+	g = d3_rgb_xyz(g);
+	b = d3_rgb_xyz(b);
+	var x = d3_xyz_lab((.4124564 * r + .3575761 * g + .1804375 * b) / d3_lab_X), y = d3_xyz_lab((.2126729 * r + .7151522 * g + .072175 * b) / d3_lab_Y), z = d3_xyz_lab((.0193339 * r + .119192 * g + .9503041 * b) / d3_lab_Z);
+	return d3_lab(116 * y - 16, 500 * (x - y), 200 * (y - z));
+}
+
+function d3_rgb_xyz(r) {
+	return (r /= 255) <= .04045 ? r / 12.92 : Math.pow((r + .055) / 1.055, 2.4);
+}
+	
+function updateHSV ( evt ) {
+	
+	var hue = parseFloat($('#hue').val());
+	var saturation =  parseFloat($('#saturation').val());
+	var value =  parseFloat($('#value').val());
+	
+	var rgb = hsl2rgb(hue,saturation,value);
+	Log.Notice('hue=' + hue + ' sat=' + saturation + ' val=' + value + ' rgb=' + rgb);
+	$('#hsl-1')
+		.css({"background-color": rgb})
+		.html("<span>" + rgb + "</span>");
+	
+	$('#hue-number').html(hue);
+	$('#saturation-number').html(saturation);
+	$('#value-number').html(value);
+	
+}
+
+
+function updateLAB ( evt ) {
+	
+	var hue = parseFloat($('#hue').val());
+	var saturation =  parseFloat($('#saturation').val());
+	var value =  parseFloat($('#value').val());
+	
+	var rgb = hsl2rgb(hue,saturation,value);
+	Log.Notice('hue=' + hue + ' sat=' + saturation + ' val=' + value + ' rgb=' + rgb);
+	$('#hsl-1')
+		.css({"background-color": rgb})
+		.html("<span>" + rgb + "</span>");
+	
+	$('#hue-number').html(hue);
+	$('#saturation-number').html(saturation);
+	$('#value-number').html(value);
+	
+}
+
+
+$(document).ready(function (evt) {
+		
+		//$("#hsl-1")
+		//	.css({"background-color": hsl2rgb(180,.5,.5)})
+		//	.html("<span>" + hsl2rgb(180,.5,.5) + "</span>");
+		
+		//updateHSV(null);
+		
+});
+	
+	
+	
+</script>
+
+
+</head>
+<body>
+
+<div id="hsl-1"></div>
+<form>
+<fieldset>
+<legend>Hue, Saturation & Value to RGB</legend>
+<ul>
+ <li>
+  <label for="hue">Hue:</label> 
+  <input id="hue" type="range" min="0" max="360" value="180" step="1" name="hue" onChange="updateHSV();">
+  <span id="hue-number" class="input-value"></span>
+ </li>
+ <li>
+  <label for="saturation">Saturation:</label> 
+  <input id="saturation" type="range" min="0.0" max="1.0" value="1.0" step="0.01" name="saturation" onChange="updateHSV();">
+  <span id="saturation-number" class="input-value"></span>
+ </li>
+ <li>
+  <label for="value">Value:</label> 
+  <input id="value" type="range" min="0.0" max="1.0" value=".5" step="0.01" name="value" onChange="updateHSV();">
+  <span id="value-number" class="input-value"></span>
+ </li>
+</ul>
+</fieldset>
+</form>
+</body>
+</html>

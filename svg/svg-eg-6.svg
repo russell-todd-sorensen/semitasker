@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg x="0" y="0" height="700" width="700" viewport="0 0 700 700"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+
+ <linearGradient x1="0%" y1="100%" x2="100%" y2="0%" id="diag1" >
+ <stop offset="0" style="stop-color: #fa0" />
+	<stop offset=".5" style="stop-color: #af0" />
+	<stop offset="1.0" style="stop-color: #0af" />
+ </linearGradient>
+ 
+ <rect id="rect1" x="100" y="10" width="200" height="100"
+  style="fill: url(#diag1)" />
+	
+ <filter id="displace">
+  <feImage xlink:href="40x40-button-2.png" result="grad" />
+	
+	<feDisplacementMap
+	  scale="10.0"
+		XChannelSelector="R"
+		YChannelSelector="G"
+		in="SourceGraphic" in2="grad" result="disp" />
+	<feComposite in2="grad" in="disp" operator="in" result="ghost"/>
+	<feComposite in2="ghost" in="grad" />
+ </filter>
+
+ <rect id="graphic" x="0" y="0" height="200" width="200"  />
+ 
+ <filter id="glow">
+  <feColorMatrix type="matrix" in="SourceGraphic" result="matrix"
+    values="0 0 0  0.0  0
+            0 0 0  0.9  0
+            0 0 0  0.9  0
+            0 0 0  1.0  0"  />
+  <feGaussianBlur stdDeviation="2.5" in="matrix" result="colorBlur" />
+  <feComposite in="SourceGraphic" in2="colorBlur" operator="over" />
+ </filter>
+
+<!-- new stuff here -->
+
+<filter id="circle1" x="0" y="0" width="100%" height="100%">
+ <feImage xlink:href="circle-3.svg" result="circle" height="10" width="10"/>
+ <feTile in="circle" result="circle-tile" />
+ <feComposite in2="SourceGraphic" in="circle-tile"  operation="atop" />
+</filter>
+
+<text x="100" y="200" id="text1"
+      style="font-size: 48pt;
+	 			 font-family: 'Lucida Sans Unicode', 'Lucida Grande', sans-serif;
+				"
+      stroke="black">
+ Some Text Goes Here
+</text>
+
+<rect id="rect2" x="30" y="150" height="500" width="500" />
+
+<path d="M 100 200 L 100 300 L 200 300 L 200 100 Z" stroke="black" stroke-width="1" id="path1" />
+
+</defs>
+
+<use xlink:href="#rect1"  filter="url(#displace) "/>
+
+<!--<use xlink:href="#rect2"  x="0" y="0" fill="none" style="filter: url(#circle1)"/> -->
+
+<use xlink:href="#path1" x="0" y="0" fill="#333" style="filter: url(#circle1); clip-path: url(#path1)" />
+
+</svg>

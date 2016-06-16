@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+	 xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   width="1200"
+   height="1200"
+   id="svg2454"
+	 viewBox="0 0 1200 1200"
+	 >
+	<style>
+	text {
+	font-size: 15pt;
+	fill: #40a;
+	}
+	</style>
+  <defs>
+	<circle id="circle-1" cx="0" cy="0" r="1"  />
+	<circle id="circle-2" cx="100" cy="100" r="100" style="fill: blue;"/>
+  <ellipse id="ellipse-1" cx="0" cy="0" rx="1" ry=".5" />
+  <ellipse id="ellipse-2" cx="100" cy="50" rx="100" ry="50" />
+	<rect id="square-1" x="0" y="0" height="1" width="1"  />
+	<rect id="square-2" x="0" y="0" height="100" width="100"  />
+	
+	<!-- triangles -->
+	<path id="triangle-1" d="M .5 0 L 1 1 L 0 1 Z"  />
+	<path id="triangle-2" d="M 100 0 L 200 200 L 0 200 Z"/>
+	
+	<path id="triangle-3" d="M 0 0 L 1 0 L 0 1 Z" />
+	<path id="triangle-4" d="M 0 0 L 100 0 L 0 100 Z" />
+
+  <filter id="f1-in"> <!-- works -->
+	 <feImage xlink:href="#circle-2" result="circle" />
+	 <feComposite in2="circle" in="SourceGraphic" operator="in" />
+	</filter>	
+	
+	<filter id="f1-out"> <!-- works -->
+	 <feImage xlink:href="#circle-2" result="circle" />
+	 <feComposite in2="circle" in="SourceGraphic" operator="out" />
+	</filter>
+	
+	<filter id="f1-atop"> <!-- works -->
+	 <feImage xlink:href="#circle-2" result="circle" />
+	 <feComposite in2="circle" in="SourceGraphic" operator="atop" />
+	</filter>
+	
+	<filter id="f1-over"> <!-- works -->
+	 <feImage xlink:href="#circle-2" result="circle" />
+	 <feComposite in2="circle" in="SourceGraphic" operator="over" />
+	</filter>
+
+	<filter id="f1-xor"> <!-- works -->
+	 <feImage xlink:href="#circle-2" result="circle" />
+	 <feComposite in2="circle" in="SourceGraphic" operator="xor" />
+	</filter>
+
+ 	<filter id="f1-arithmetic-k1"> <!-- works -->
+	 <feImage xlink:href="#circle-2" result="circle" />
+	 <feComposite in2="circle" in="SourceGraphic" operator="arithmetic"
+	 k1=".5" k2="0" k3="0" k4="0"
+	  />
+	</filter>
+ 
+  <filter id="f1-arithmetic-k2"> <!-- works -->
+	 <feImage xlink:href="#circle-2" result="circle" />
+	 <feComposite in2="circle" in="SourceGraphic" operator="arithmetic"
+	 k1="0" k2=".5" k3="0" k4="0"
+	  />
+	</filter>
+	
+  <filter id="f1-arithmetic-k3"> <!-- works -->
+	 <feImage xlink:href="#circle-2" result="circle" />
+	 <feComposite in2="circle" in="SourceGraphic" operator="arithmetic"
+	 k1="0" k2="0" k3="0.5" k4="0"
+	  />
+	</filter>
+
+  <filter id="f1-arithmetic-k4"> <!-- works -->
+	 <feImage xlink:href="#circle-2" result="circle" />
+	 <feComposite in2="circle" in="SourceGraphic" operator="arithmetic"
+	 k1="0" k2="0" k3="0" k4="1"
+	  />
+	</filter>
+
+  <filter id="f1-arithmetic-k5"> <!-- works -->
+	 <feImage xlink:href="#circle-2" result="circle" />
+	 <feComposite in2="circle" in="SourceGraphic" operator="arithmetic"
+	 k1="0" k2="0.5" k3="0.5" k4="0"
+	  />
+	</filter>
+
+  <!-- flood filters -->
+	<filter id="flood-1">
+	 <feFlood flood-color="#993333" flood-opacity="1.0" result="flood" />
+	 <feComposite in="flood" in2="SourceGraphic" operator="in" result="flood-in"/> 
+	 <feOffset dx="4" dy="4" in="SourceGraphic" result="offset" />
+	 <feGaussianBlur stdDeviation="2.0" result="offset-blur" />
+	 <feComposite in2="offset-blur" in="flood-in" operator="over" />
+	</filter>
+
+  <!-- feImage filters -->
+	
+	<filter id="image-2">
+	 <feImage xlink:href="image-2.jpg" result="image"  />
+   <feComposite in="image" in2="SourceGraphic" operator="in"  result="cut-image" />
+	 <!-- make offset drop shadow based upon blurred image -->
+	 <feGaussianBlur in="cut-image" result="blur" stdDeviation="3" />
+	 <feOffset dx="5" dy="5" in="blur" result="off-blur" />
+	 <feComposite in="cut-image" in2="off-blur" operator="over" />
+	</filter>
+
+
+	<filter id="image-1">
+	 <feImage xlink:href="image-5.jpg" result="image" />
+	 <feComposite in="image" in2="SourceGraphic" operator="in"  result="cut-image" />
+	</filter>
+	
+	
+	
+ </defs>
+	<!-- The following work 
+	
+	<use id="c3" xlink:href="#circle-2" style="fill: green;"  transform="translate(20,20)" />
+	<use id="c4" xlink:href="#circle-1" style="fill: red;"  transform="translate(200,200) scale(100) " />
+	
+	
+	 -->
+
+  <!-- testing -->
+<g id="row-1" transform="translate(0,10)" >
+	<use xlink:href="#triangle-2" style="fill: yellow; stroke: black;" transform="translate(100,0)" />
+  <text x="155" y="110" >Triangle, in</text>
+
+  <use xlink:href="#circle-2" transform="translate(300,0)" />
+  <text x="355" y="110" style="fill: white;" >Circle, in2</text>
+	
+</g>
+
+	
+<g id="row-2" transform="translate(0, 200)">	
+
+	<use xlink:href="#triangle-2" style="fill: yellow; stroke: black; filter: url(#f1-over);" transform="translate(100,100)" />
+  <text x="175" y="200" >f1-over</text>
+	
+  <use xlink:href="#triangle-2" style="fill: yellow; stroke: black; filter: url(#f1-in);" transform="translate(300,100)" />
+  <text x="375" y="200" >f1-in</text>
+	
+  <use xlink:href="#triangle-2" style="fill: yellow; stroke: black; filter: url(#f1-out);" transform="translate(500,100)" />
+  <text x="575" y="200" >f1-out</text>
+	
+	<use xlink:href="#triangle-2" style="fill: yellow; stroke: black; filter: url(#f1-atop);" transform="translate(700,100)" />
+  <text x="775" y="200" >f1-atop</text>
+	
+	<use xlink:href="#triangle-2" style="fill: yellow; stroke: black; filter: url(#f1-xor);" transform="translate(900,100)" />
+  <text x="975" y="200" >f1-xor</text>
+
+</g>
+
+<g id="row-3" transform="translate(0, 440)">
+
+	<use xlink:href="#triangle-2" style="fill: yellow; stroke: black; filter: url(#f1-arithmetic-k1);" transform="translate(100,100)" />
+  <text x="130" y="200" >f1-arithmetic-k1 <tspan dx="-100" dy="15">k1 = .5 </tspan></text>
+	
+	<use xlink:href="#triangle-2" style="fill: yellow; stroke: black; filter: url(#f1-arithmetic-k2);" transform="translate(300,100)" />
+  <text x="330" y="200" >f1-arithmetic-k2 <tspan dx="-100" dy="15">k2 = .5 </tspan></text>
+	
+	<use xlink:href="#triangle-2" style="fill: yellow; stroke: black; filter: url(#f1-arithmetic-k3);" transform="translate(500,100)" />
+  <text x="530" y="200" >f1-arithmetic-k3 <tspan dx="-100" dy="15">k3 = .5 </tspan></text>
+	
+	<use xlink:href="#triangle-2" style="fill: yellow; stroke: black; filter: url(#f1-arithmetic-k4);" transform="translate(700,100)" />
+  <text x="730" y="200" >f1-arithmetic-k4 <tspan dx="-100" dy="15">k4 = 1 </tspan></text>
+	
+	<use xlink:href="#triangle-2" style="fill: yellow; stroke: black; filter: url(#f1-arithmetic-k5);" transform="translate(900,100)" />
+  <text x="930" y="200" >f1-arithmetic-k5 <tspan dx="-120" dy="15">k2=.5, k3=.5 </tspan></text>
+
+</g>
+	
+<g id="row-4" transform="translate(0, 660)">
+
+  <use xlink:href="#ellipse-2" transform="translate(100,100)" style="filter: url(#flood-1); fill: green;" />
+  <text x="150" y="230" >feFlood+feOffset<tspan dx="-220" dy="15">SG gives shape and drop shadow color </tspan> </text>
+	
+	<use xlink:href="#ellipse-2" transform="translate(500,100)" style="filter: url(#image-2); fill: green;" />
+  <text x="560" y="230" >feImage
+	  <tspan dx="-120" dy="15">Cut image out with shape</tspan>
+		<tspan dx="-240" dy="25">Drop Shadow created from image</tspan>
+ </text>
+ 
+ <g transform="translate(400,0)" style="filter: url(#image-1);" >
+  <use xlink:href="#circle-2" transform="translate(500,100)" style=" fill: green;" />
+   <text x="560" y="330" >feImage
+	   <tspan dx="-120" dy="15">Cut image out with shape.</tspan>
+		 <tspan dx="-240" dy="25">Text also filled with image.</tspan>
+   </text>
+ </g>
+ 
+</g>
+	
+	
+	
+</svg>

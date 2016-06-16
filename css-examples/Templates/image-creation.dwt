@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<!-- TemplateBeginEditable name="doctitle" -->
+<title>Image Creation in JavaScript</title>
+<!-- TemplateEndEditable -->
+<link rel="stylesheet" href="main.css" type="text/css">
+<script language="javascript" src="../js/jquery-v141.js"></script>
+<script language="javascript">
+ 
+ 
+ 
+ 
+// This runs at after the document is 'ready'
+$(document).ready(function() {
+		
+		
+});
+</script>
+ 
+<style>
+ 
+ 
+</style>
+<!-- TemplateBeginEditable name="head" -->
+<!-- TemplateEndEditable -->
+</head>
+
+<body>
+</body>
+</html>

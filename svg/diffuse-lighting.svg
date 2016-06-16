@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+	 x="0"
+	 y="0"
+   width="1000"
+   height="1200"
+	 viewBox="0 0 1000 1200"
+   >
+<style>
+text {
+fill: none;
+stroke: white;
+font-family: sans-serif;
+letter-spacing: 1px;
+}
+</style>
+<defs>
+
+ <path id="curve" d="M 0 0 Q 5 20 10 10 T 20 20" 
+  style="stroke: black; stroke-width: 4px; fill: none;" />
+	
+ <circle id="green-light" cx="50" cy="50" r="50" style="fill: #060;" />
+ 
+ <filter id="Luminance"> 
+	<feColorMatrix type="luminanceToAlpha" result="a" /> 
+	<feComposite in="SourceGraphic" in2="a" operator="in" /> 
+ </filter> 
+
+ <filter id="curve-tile">
+  <feImage xlink:href="#curve" result="tile" width="20" height="20" />
+	<feTile in="tile" result="tile" />
+	<feColorMatrix type="matrix" 
+	 values="0 0 0  0.250  0
+	         0 0 0  0.707  0
+					 0 0 0  0.707  0
+					 0 0 0  1.000  0"
+	 in="tile" result="alphaTile" />
+	 
+  <feComposite in="alphaTile" in2="SourceGraphic" operator="in" />
+ </filter>
+ 
+ <filter id="diff-light" color-interpolation-filters="sRGB"
+   x="0" y="0" width="100%" height="100%" >
+	 
+	 <feImage xlink:href="#curve" result="tile" width="20" height="20" />
+	 <feTile in="tile" result="tile" />
+	 
+	 <!-- <feColorMatrix type="luminanceToAlpha" in="tile" result="alphaTile" />-->
+	 
+	 <!-- Use this transform instead of liminanceToAlpha, which doesn't work! -->
+	 <feColorMatrix type="matrix" 
+	    values="0 0 0  0.250  0
+	            0 0 0  0.707  0
+					    0 0 0  0.707  0
+					    0 0 0  1.000  0"
+	    in="tile" result="alphaTile" />
+			
+	 <feDiffuseLighting in="alphaTile"
+	    lighting-color="#ffc"
+			surfaceScale="1"
+			diffuseConstant=".75"
+			result="diffuseLight" >
+			<fePointLight x="0" y="50" z="50" />
+	 </feDiffuseLighting>
+			
+	<feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
+	  result="diffuseOutput" />
+		
+	<feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
+ </filter>
+
+</defs>
+
+<g id="empty-rect">
+ <rect id="rect0" x="10" y="10"  height="100" width="300" style="fill: #969" />
+ <text x="300" y="100" text-anchor="end">
+ Rect. Fill: #969
+ </text>
+</g>
+  
+<g id="empty-rect-2" transform="translate(310,0)">
+ <rect id="rect1" x="10" y="10" height="100" width="300"
+       style="filter: url(#diff-light); fill: #969" />
+ <text x="300" y="100" text-anchor="end">
+ Rect. filter: url(#diff-light)
+ </text>
+</g>
+
+
+<g id="plain-image" >
+ <image xlink:href="image-2.jpg"
+	     height="300" width="300" x="10" y="150" />
+	<text x="300" y="385" text-anchor="end">
+ Plain Image
+ </text>
+</g>
+
+<g id="filtered-image" transform="translate(310,0)" >
+ <image xlink:href="image-2.jpg" style="filter: url(#diff-light);"
+	     height="300" width="300" x="10" y="150" />
+ <text x="300" y="385" text-anchor="end" >
+ Filtered Image filter: url(#diff-light)
+ </text>
+</g>
+	
+	
+<g id="row-3" transform="translate(0,300)" >	
+<g id="plain-image" >
+ <image xlink:href="image-5.jpg"
+	     height="300" width="300" x="10" y="150" />
+	<text x="300" y="385" text-anchor="end">
+ Plain Image
+ </text>
+</g>
+
+<g id="filtered-image" transform="translate(310,0)" >
+ <image xlink:href="image-5.jpg" style="filter: url(#diff-light);"
+	     height="300" width="300" x="10" y="150" />
+ <text x="300" y="385" text-anchor="end" >
+ Filtered Image filter: url(#diff-light)
+ </text>
+</g>
+</g><!-- end row 3 -->
+
+<g id="row-3" transform="translate(0,700)" >	
+
+<!--
+<ellipse id="ellipse-1" cx="150" cy="50" rx="150" ry="75"
+       style="filter: url(#curve-tile); fill: #969" />
+-->
+<g id="light-1"  transform="scale(2)" >
+<use xlink:href="#green-light" style="filter: url(#curve-tile);" x="75" y="50"/>
+<text x="40" y="170" style="stroke: black; fill: #aaa;" shape-rendering="crispEdges">Filter: url(#curve-tile)</text>
+</g>
+</g>
+
+
+</svg>

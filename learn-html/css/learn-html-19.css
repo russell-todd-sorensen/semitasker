@@ -1,0 +1,405 @@
+/* CSS Document */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+body {
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: .9em;
+    padding-left: 10px;
+    background-color: #444;
+}
+
+th {
+    text-align: right;
+    text-transform: capitalize;
+}
+.hide {
+    display: none;
+}
+
+#big-screen-container {
+    position: relative;
+}
+
+#input-container {
+    display: inline-block;
+    padding: 10px;
+    padding-top: 30px;
+    padding-bottom: 0;
+    background-color: rgba(200,200,200,.85);
+    border: 3px solid black;
+    margin-bottom: 20px;
+}
+
+#input-html-container,
+#input-css-container,
+#input-js-container,
+#input-svg-container,
+#builder-html-container,
+#builder-css-container,
+#builder-js-container,
+#builder-svg-container {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    height: 150px;
+    padding: 5px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+    background-color: rgba(200,200,200,.85);
+    border: 3px solid black;
+}
+
+#input-html,
+#input-css,
+#input-js,
+#input-svg {
+    width: 464px;
+    padding: 0px;
+    margin: 0;
+    background-color: rgba(200,200,200,.85);
+    overflow-y: scroll;
+    white-space: pre;
+    font-family: "Bitstream Vera Sans Mono", "Lucida Console", Monaco, monospace;
+    font-size: smaller;
+    letter-spacing: 1px;
+    height: 150px;
+}
+
+#input-html span,
+#input-css span,
+#input-js span,
+#input-svg span {
+    color:#009;
+    font-weight: bold;
+}
+
+#input-html::before,
+#input-css::before,
+#input-js::before,
+#input-svg::before,
+#builder-html::before,
+#builder-css::before,
+#builder-js::before,
+#builder-svg::before {
+    position: absolute;
+    color: white;
+    font-weight: bold;
+    left: 0;
+    top: -25px;
+}
+
+#input-html::before {
+    content: "HTML:";
+}
+
+#input-css::before {
+    content: "CSS:";
+}
+
+#input-js::before {
+    content: "JavaScript:";
+}
+
+#input-svg::before {
+    content: "SVG:";
+}
+
+#input-html-toggle-button,
+#input-css-toggle-button,
+#input-js-toggle-button,
+#input-svg-toggle-button,
+#builder-html-toggle-button,
+#builder-css-toggle-button,
+#builder-js-toggle-button,
+#builder-svg-toggle-button {
+    position: absolute;
+    color: white;
+    background-color: #800000;
+    font-weight: bold;
+    right: -3px;
+    top: -24px;
+    height: 20px;
+    width: 66px;
+    padding: 1px;
+    cursor: pointer;
+    display: ;
+    border: 2px solid black;
+    border-bottom: none;
+    border-radius: 5px 5px 0 0;
+}
+
+.wingding {
+    font-family: Wingdings;
+}
+
+#widgets::before {
+    content: "Type the following:";
+    color: white;
+    font-weight: bold;
+    position: absolute;
+    left: 5px;
+    top: 0;
+}
+
+#display {
+    position: relative;
+    width: 990px;
+    min-height: 250px;
+    background-color: white;
+    margin: inherit;
+    margin-bottom: 20px;
+    padding: 10px;
+    border: inherit;
+    border: dashed 1px #800000;
+}
+
+#builder-container {
+    display: inline-block;
+    padding: 10px;
+    padding-top: 30px;
+    background-color: #369;
+    margin-bottom: 20px;
+}
+
+#builder-container p {
+    line-height: .75em;
+    margin: 0;
+    margin-top: 5px;
+    text-align: left;
+    color: inherit;
+    background-color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    font-family: inherit;
+    letter-spacing: inherit;
+}
+
+#builder-container p::before,
+#builder-container p::after {
+    display: none;
+    content: "";
+}
+
+#builder-html-container,
+#builder-css-container,
+#builder-js-container,
+#builder-svg-container {
+    /* styles which might differ from #input-X-container */
+}
+
+#builder-html,
+#builder-css,
+#builder-js,
+#builder-svg {
+    width: 466px;
+    margin: 0;
+    padding: 0;
+    min-height: 20px;
+    height: 150px;
+    background-color: silver;
+    overflow-y: scroll;
+    white-space: pre;
+    font-family: "Bitstream Vera Sans Mono", "Lucida Console", Monaco, monospace;
+    font-size: smaller;
+    letter-spacing: 1px;
+}
+
+#builder-html::before {
+    content: "Type HTML In Here:";
+}
+
+#builder-css::before {
+    content: "Type CSS In Here:";
+}
+
+#builder-js::before {
+    content: "Type JavaScript In Here:";
+}
+
+#builder-svg::before {
+    content: "Type SVG In Here:";
+}
+
+#input-html-div-tag,
+#input-css-style-tag,
+#input-js-script-tag,
+#input-svg-tag,
+#builder-html-div-tag,
+#builder-css-style-tag,
+#builder-js-script-tag,
+#builder-svg-tag {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+#input-html-div-tag-bottom,
+#input-css-style-tag-bottom,
+#input-js-script-tag-bottom,
+#input-svg-tag-bottom,
+#builder-html-div-tag-bottom,
+#builder-css-style-tag-bottom,
+#builder-js-script-tag-bottom,
+#builder-svg-tag-bottom {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+}
+
+#instructions {
+    color: white
+}
+
+#example-bar {
+    padding-top: 10px;
+    padding-left: 10px;
+}
+
+#example-bar .selected {
+    border: 3px solid rgba(200, 200, 200, .75);
+    border-bottom: 3px solid black;
+    padding: 7px;
+}
+
+.example-button {
+    display: inline-block;
+    padding: 10px;
+    margin: 5px;
+    margin-bottom: 0px;
+    background-color: #800000;
+    color: white;
+    cursor: pointer;
+}
+
+#examples-from-external {
+    display: none;
+}
+
+#copy-bar {
+    display: block;
+}
+
+#copy-bar .selected {
+    border: 3px solid rgba(200, 200, 200, .75);
+    padding: 7px;
+    padding-top: 12px;
+    border-bottom: 3px solid #369;
+}
+
+#copy-data,
+#create-document,
+#create-lesson,
+#refresh,
+#preview {
+    width: 90px;
+    height: 40px;
+    color: white;
+    background-color: #800000;
+    display: inline-block;
+    text-align: center;
+    vertical-align: bottom;
+    padding-top: 5px;
+    cursor: pointer;
+}
+
+#create-document,
+#create-lesson {
+    margin-left: 5px;
+}
+
+#refresh,
+#preview {
+    height: 30px;
+    padding-top: 15px;
+}
+
+#saved-copies {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    border: 0
+}
+
+.saved-copy {
+    height: 20px;
+    padding: 10px;
+    padding-top: 15px;
+    margin-left: 5px;
+    color: white;
+    background-color: #800000;
+    display: inline-block;
+    text-align: center;
+    cursor: pointer;
+}
+
+#top-controls {
+    color: white;
+    font-weight: bold;
+    background-color: #800000;
+    margin-left: -10px;
+    padding: 5px;
+    padding-left: 10px;
+}
+
+#lessons,
+#options-bar {
+   display: inline-block;
+}
+
+#options-bar {
+    float: right;
+}
+
+
+#select-lesson {
+    display: inline-block;
+}
+
+/* following is used for testing out fonts */
+.f {
+		background-color: tan;
+		font-weight: bold;
+}
+.f::after {
+		content: "a b c d e f g h i j k l q s v w z ? A B C D E F G H I J K L M N O P Q R S T U V W X Y Z - 1 2 3 4 5 6 7 8 9 0 $ ! @ * % . , \" \' \\ : ; # ";
+		display: inline-block;
+		width: 120%;
+		background-color: white;
+		color: brown;
+		font-size: 2em;
+		padding: 5px;
+}
+
+.ft {
+    background-color: tan;
+	  font-weight: bold;
+    border: 1px solid red;
+    margin-bottom: 5px;
+    width: 120%;
+}
+
+.ft::before {
+		content: "lower: a b c d e f g h i j k l m n o p q r s t u v w x y z ? - 1 2 3 4 5 6 7 8 9 0 $ ! @ * % . , \" \' \\ : ; #";
+		display: inline-block;
+		width: 98%;
+		background-color: white;
+		color: brown;
+		font-size: 2em;
+		padding: 5px;
+}
+
+.ft::after {
+		content: "upper: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
+		display: inline-block;
+		width: 98%;
+		background-color: white;
+		color: brown;
+		font-size: 2em;
+		padding: 5px;
+}

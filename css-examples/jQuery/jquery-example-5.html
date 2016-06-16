@@ -1,0 +1,343 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+
+<meta charset="utf-8">
+
+<title>Maximum Easing</title>
+
+<link rel="stylesheet" type="text/css" href="main.css">
+<link rel="stylesheet" type="text/css" href="../js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css" >
+
+<style type="text/css" >
+body { 
+	background-color: #39C;
+}
+
+/********** CUSTOMIZE TABS **************/
+
+#my-tabs {
+    background-color: transparent;
+    margin: auto;
+    margin-top: 20px;  
+}
+
+#my-tabs pre {
+    background-color: silver;
+    padding: 10px;
+    border: 1px solid red;
+}
+
+#my-tabs pre.hilite {
+    background-color: yellow;
+    border: 1px dashed black;
+}
+
+/**** CUSTOMIZE PANEL BACKGROUND IMAGE **/
+
+.ui-widget-content {
+    background-image: url(../images/linear-white-45diag-40px.png);
+    background-size: cover;
+}
+
+/*********** EASING STYLES ***********/
+
+.easeContainer {
+    position: relative;
+    margin-top: 100px;
+    margin-right: 100px;
+    display: inline-block;
+    border: 1px solid white;
+    background-image: url(../images/linear-white-45diag-40px.png);
+    background-size: cover;
+}
+
+#box {
+    height: 200px;
+    width: 200px;
+}
+
+.formContainer {
+	height: 200px;
+    width: 450px;
+}
+
+#ease1 {
+    position: absolute;
+    line-height: 15px;
+    background-color:#60C;
+    color: white;
+    border: 1px solid black;
+    height: 50px;
+    max-height: 50px;
+    width: 50px;
+    max-width: 50px;
+ 	bottom: 0px;
+    left: 0px;
+    text-align: center;
+    border-radius: 25px 25px 25px 25px;
+}
+
+#myform {
+    position: absolute;
+    left: 15px;
+    bottom: 84px;
+}
+
+</style>
+
+<script language="javascript" src="../js/jquery-1.7.1.js" type="text/javascript"></script>
+<script language="javascript" src="../js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" type="text/javascript"></script>
+<script language="javascript" src="log.js" type="text/javascript"></script>
+<script language="javascript" src="headline.js" type="text/javascript"></script>
+
+<script language="javascript" type="text/javascript">
+var easingOptions = new Array();
+
+easingOptions = {
+0:'swing',
+1:'easeInQuad',
+2:'easeOutQuad',
+3:'easeInOutQuad',
+4:'easeInCubic',
+5:'easeOutCubic',
+6:'easeInOutCubic',
+7:'easeInQuart',
+8:'easeOutQuart',
+9:'easeInOutQuart',
+10:'easeInQuint',
+11:'easeOutQuint',
+12:'easeInOutQuint',
+13:'easeInSine',
+14:'easeOutSine',
+15:'easeInOutSine',
+16:'easeInExpo',
+17:'easeOutExpo',
+18:'easeInOutExpo',
+19:'easeInCirc',
+20:'easeOutCirc',
+21:'easeInOurCirc',
+22:'easeInElastic',
+23:'easeOutElastic',
+24:'easeInBack',
+25:'easeOutBack',
+26:'easeInOutBack',
+27:'easeInBounce',
+28:'easeOutBounce',
+29:'easeInOutBounce',
+30:'linear'
+};
+
+
+function easeMove ( evt ) {
+	
+	var X = 'linear';
+	var Y = 'linear';
+	var G = 'convex';
+	var Xspecial = true;
+	var Yspecial = true;
+	
+	if (evt.data) {
+		if (evt.data.X) {
+			X = evt.data.X;
+			if ( !(X === 'linear' || X === 'swing') ) {
+				Xspecial = false;
+			}
+		}
+		if (evt.data.Y) {
+			Y = evt.data.Y;
+			if ( !(Y === 'linear' || Y === 'swing') ) {
+				Yspecial = false;
+			}
+		}
+		if (evt.data.G) {
+			G = evt.data.G;
+		}
+	}
+	
+	// get size of box
+	var box = $('#box');
+	var height = box.height();
+	var width = box.width();
+	var ball = $('#ease1');
+	var ballDiameter = ball.height() + 2;
+	
+	var halfHeight = (height - ballDiameter)/2;
+	var halfWidth  = (width - ballDiameter)/2;
+	
+	var home = [0,0];
+	var point1 = [0, halfHeight];
+	var point2 = [halfWidth, height-ballDiameter]
+	var point3 = [width-ballDiameter, halfHeight]
+	var point4 = [halfWidth, 0]
+	var point5 = point1;
+	var point6 = home;
+	
+	var easeType = [];
+	
+	switch (G) {
+	case 'convex':
+		easeType[0] = !Yspecial ? 'easeIn' + Y : Y;
+		easeType[1] = !Xspecial ? 'easeOut' + X : X;
+		easeType[2] = !Yspecial ? 'easeOut' + Y : Y;
+		easeType[3] = !Xspecial ? 'easeIn' + X : X;
+		break;
+	case 'concave':
+		easeType[0] = !Yspecial ? 'easeOut' + Y : Y;
+		easeType[1] = !Xspecial ? 'easeIn' + X : X;
+		easeType[2] = !Yspecial ? 'easeIn' + Y : Y;
+		easeType[3] = !Xspecial ? 'easeOut' + X : X;
+		break;
+	case 'wavy':
+		easeType[0] = !Yspecial ? 'easeInOut' + Y : Y;
+		easeType[1] = !Xspecial ? 'easeInOut' + X : X;
+		easeType[2] = !Xspecial ? 'easeInOut' + X : X;
+		easeType[3] = !Yspecial ? 'easeInOut' + Y : Y;
+		break;
+	case 'loop':
+		easeType[0] = !Yspecial ? 'easeIn' + Y : Y;
+		easeType[1] = !Xspecial ? 'easeOut' + X : X;
+		easeType[2] = !Yspecial ? 'easeOut' + Y : Y;
+		easeType[3] = !Xspecial ? 'easeIn' + X : X;
+		point1 = [halfWidth, halfHeight];
+		point2 = [width-ballDiameter, height-ballDiameter];
+		point3 = point1;
+		point4 = [width-ballDiameter, 0];
+		point5 = point3;
+		point6 = [0, height-ballDiameter];
+		point7 = point5;
+		point8 = home;
+		
+		Log.Notice('easeMove: X=' + X + ' Y=' + Y + ' Geometry=' + G );
+	
+		Log.Notice('easeMove: height=' + height + ' width=' + width + ' ballDiameter=' + ballDiameter);
+		Log.Notice('point1='+point1);
+		Log.Notice('point2='+point2);
+		Log.Notice('point3='+point3);
+		Log.Notice('point4='+point4);
+		Log.Notice('point5='+point5);
+		Log.Notice('point6='+point6);
+		Log.Notice('point7='+point6);
+		Log.Notice('home='+point6);
+
+		// Do special movement here:
+		ball
+			.animate({left:point1[0],bottom:point1[1]},{specialEasing:{left: easeType[0],bottom: easeType[1]}, duration:2000},null, null)
+			.animate({left:point2[0],bottom:point2[1]},{specialEasing:{left: easeType[2],bottom: easeType[3]}, duration:2000}, null, null)
+			.animate({left:point3[0],bottom:point3[1]},{specialEasing:{left: easeType[1],bottom: easeType[0]}, duration:2000}, null, null)
+			.animate({left: point4[0],bottom:point4[1]},{specialEasing:{left: easeType[3],bottom: easeType[2]}, duration:2000}, null, null)
+			.animate({left: point5[0],bottom:point5[1]},{specialEasing:{left: easeType[0],bottom: easeType[1]}, duration:2000}, null, null)
+			.animate({left: point6[0],bottom:point6[1]},{specialEasing:{left: easeType[2],bottom: easeType[3]}, duration:2000}, null, null)
+			.animate({left: point7[0],bottom:point7[1]},{specialEasing:{left: easeType[1],bottom: easeType[0]}, duration:2000}, null, null)
+			.animate({left: home[0],bottom:home[1]},{specialEasing:{left: easeType[3],bottom: easeType[2]}, duration:2000}, null, null);
+		return;
+	}
+	
+	Log.Notice('easeMove: X=' + X + ' Y=' + Y + ' Geometry=' + G );
+	
+	Log.Notice('easeMove: height=' + height + ' width=' + width + ' ballDiameter=' + ballDiameter);
+	Log.Notice('point1='+point1);
+	Log.Notice('point2='+point2);
+	Log.Notice('point3='+point3);
+	Log.Notice('point4='+point4);
+	Log.Notice('point5='+point5);
+	Log.Notice('point6='+point6);
+
+    ball
+	    .animate({left:point1[0],bottom:point1[1]},800,'easeInQuad',null)
+		.animate({left:point2[0],bottom:point2[1]},{specialEasing:{left: easeType[0],bottom: easeType[1]}, duration:2000},null, null)
+		.animate({left:point3[0],bottom:point3[1]},{specialEasing:{left: easeType[2],bottom: easeType[3]}, duration:2000}, null, null)
+		.animate({left:point4[0],bottom:point4[1]},{specialEasing:{left: easeType[0],bottom: easeType[1]}, duration:2000}, null, null)
+		.animate({left: point5[0],bottom:point5[1]},{specialEasing:{left: easeType[2],bottom: easeType[3]}, duration:2000}, null, null)
+		.animate({left:home[0],bottom:home[1]},800,'easeInQuad',null);
+}
+
+function formEvent ( obj ) {
+	var X = $('#myform #easeTypeX').attr('value');
+	var Y = $('#myform #easeTypeY').attr('value');
+	var G = $('#myform #easeGeometry').attr('value');
+	
+	easeMove({'data': {'X': X,'Y':Y,'G':G}});
+}
+
+$(document).ready(function(e) {
+	$('#ease1').bind('click',null, formEvent);
+    $('select').bind('change',null, formEvent);
+	
+	$('#box').resizable({
+		alsoResize: false,
+		animate: false,
+		animateDuration: "slow",
+		animateEasing: "easeInBounce",
+		aspectRatio: false,
+		autoHide: false,
+		containment: false,
+		ghost: false,
+		grid: false,
+		handles: "e,s,se",
+		helper: false,
+		maxHeight: null,
+		maxWidth: null,
+		minHeight: 200,
+		minWidth: 200,
+		zIndex: 1000
+	});
+});
+
+</script>
+</head>
+
+<body>
+<h1 id="title">Example 5: Maximum Easing</h1>
+ <!-- move box around in container along circular path...NOT -->
+<div class="easeContainer" id="box">
+ <div id="ease1"><br>Click</div>
+
+</div>
+
+<div class="easeContainer formContainer">
+ <div id="myform">
+  <form name="moveForm" id="moveForm">
+   X:<select name="easeTypeX" id="easeTypeX">
+    <option value="Sine" selected="selected">Full Circle</option>
+    <option value="linear">Linear</option>
+    <option value="swing">Swing</option>
+    <option value="Bounce">Bounce</option>
+    <option value="Elastic">Elastic</option>
+    <option value="Back">Back</option>
+    <option value="Quad">Quad</option>
+    <option value="Cubic">Cubic</option>
+    <option value="Quart">Quart</option>
+    <option value="Quint">Quint</option>
+    <option value="Sine">Sine</option>
+    <option value="Expo">Expo</option>
+    <option value="Circ">Circ</option>
+   </select>
+   Y:<select name="easeTypeY" id="easeTypeY">
+    <option value="Sine" selected="selected">Full Circle</option>
+    <option value="linear">Linear</option>
+    <option value="swing">Swing</option>
+    <option value="Bounce">Bounce</option>
+    <option value="Elastic">Elastic</option>
+    <option value="Back">Back</option>
+    <option value="Quad">Quad</option>
+    <option value="Cubic">Cubic</option>
+    <option value="Quart">Quart</option>
+    <option value="Quint">Quint</option>
+    <option value="Sine">Sine</option>
+    <option value="Expo">Expo</option>
+    <option value="Circ">Circ</option>
+   </select>
+   Geometry:<select name="easeGeometry" id="easeGeometry">
+    <option value="convex" selected="selected">Convex</option>
+    <option value="concave">Concave</option>
+    <option value="wavy">Wavy</option>
+    <option value="loop">Loop</option>
+   </select>
+  </form>
+ </div>
+</div>
+
+
+</body>
+</html>

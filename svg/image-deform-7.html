@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html><head>
+ <title>Marching Ants: Simple SVG Animation</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="logo-maker/css/logo-maker-1.css">
+<link rel="stylesheet" href="/css/green-form.css" >
+<style>
+body {
+    font-family: "SketchFlow Print";
+}
+
+svg, h4 {
+    background-color: /*fuchsia;*/ #aaa;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+h4 {
+    padding: 5px;
+    top: 0;
+    left: 10px;
+    background-color: rgba(211,211,211,.7);
+}
+
+.a {
+    color: #ed1c24;
+}
+.b {
+    color: #f68b1f;
+}
+.c {
+    color: #00a651;
+}
+.d {
+    color: #00abbd;
+}
+.e {
+    color: #ffa;
+    background-color: #aaa;
+}
+
+#font-form {
+    display: visible;
+        
+}
+
+.font-form-on {
+    position: absolute;
+    top: 10px;
+    right: 0px;
+}
+
+
+
+/* for the font-distort form */
+#distort-font  fieldset {
+    font-family: inherit;
+    width: 290px;
+}
+
+#distort-font ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 0;   
+    width: 290px;
+}
+
+#distort-font li {
+
+}
+
+#distort-font label {
+    cursor: pointer;
+    font-family: inherit;
+}
+
+#distort-font li.expand {
+    width: 290;
+}
+
+/* override #panel  styles */
+
+#distort-font input,
+#panel input[type="range"] {
+    display: inline-block;
+}
+
+#distort-font label {
+    width: 90px;
+}
+
+#distort-font select {
+    font-family: inherit;
+}
+
+#distort-font select option {
+    font-family: inherit;
+}
+
+#distort-font li.expand span {
+    display: inline-block;
+    width: 2em;
+    text-align: right;
+}
+</style>
+<!-- move before box-model.css to hide
+<link rel="stylesheet" href="/css/box-model.css">
+
+-->
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="logo-maker/js/logo-maker-1.js" ></script>
+
+<script>
+
+// toggleFormInputType overrides same function in svg-transform.js 
+
+function toggleFormInputType (evt) {
+	var id = '#' + $(this).attr('for');
+	var parent = $(this).parent();
+	var type = $(id).attr('type');
+	switch (type) {
+	case 'text':
+	  d3.select(id).attr('type','range');
+		var maximum = d3.select(id).attr('max');
+		var minimum = d3.select(id).attr('min');
+		d3.select(id + '::before').style('content',minimum);
+		d3.select(id + '::after').style('content',maximum);
+		parent.animate({'width': 400},500,'linear');
+		break;
+	case 'range':
+		parent.animate({'width': 400},500,'linear');
+		d3.select(id + '::before').style('content','');
+		d3.select(id + '::after').style('content','');
+	  d3.select(id).attr('type','text');
+		break;
+	}
+
+}
+
+function setStartImage() {
+	Data.restoreSelect('imageChoice');
+    SvgTransform.adjustImage('imageX','image-ellipse');
+}
+
+
+
+$(document).ready(function () {
+	$('.cell').bind('click', null, enlargeCell);
+	$('#distort-font .expand label')
+		.click(null,toggleFormInputType);
+		
+	setStartImage('/images/Butterfly%2062.jpg');
+});
+
+
+</script>
+</head>
+<body>
+<!--
+  stroke-linecap  = butt, round, square, inherit
+  stroke-linejoin = miter, round, bevel, inherit
+  stroke-miterlimit = some limit
+  stroke-opacity = 0.0-1.0
+
+
+-->
+
+<svg 
+    xmlns:svg="http://www.w3.org/2000/svg" 
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0" 
+    x="0" 
+    y="0" 
+    width="1500"
+    height="1200" 
+    viewBox="0 0 1500 1200">
+   <defs>
+   <radialGradient id="radial-grad-50" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="red" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="red" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="red" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="green" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="green" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="green" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="blue" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="blue" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="blue" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-51" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="#faf" stop-opacity="0"></stop>
+</radialGradient>
+   <radialGradient id="radial-grad-52" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="red" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="red" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="red" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="green" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="blue" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="blue" stop-opacity="1"></stop>
+ <stop offset="75%" stop-color="yellow" stop-opacity="0"></stop>
+ <stop offset="85%" stop-color="yellow" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="blue" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-53" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#fff" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#fff" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#fff" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="#faa" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="#faa" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#faa" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#aaf" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#aaf" stop-opacity="1"></stop>
+ <stop offset="75%" stop-color="#aaf" stop-opacity="0"></stop>
+ <stop offset="85%" stop-color="#ffa" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="#ffa" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-54" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#ed1c24" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#ed1c24" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#f68b1f" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="#f68b1f" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="#00a651" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#00a651" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#00abbd" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#00abbd" stop-opacity="1"></stop>
+ <stop offset="75%" stop-color="#f68b1f" stop-opacity="0"></stop>
+ <stop offset="85%" stop-color="#ed1c24" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="#00abbd" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-55" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#547b80" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#547b80" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#67ada9" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#67ada9" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#e18256	" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#e18256" stop-opacity="1"></stop>
+ <stop offset="75%" stop-color="#cae2aa" stop-opacity="0"></stop>
+ <stop offset="85%" stop-color="#cae2aa" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="#e18256" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-bright" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#f15a22" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#f15a22" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#fcee22" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="#fcee22" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="#b2d235" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#b2d235" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#ab4a9c" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#ab4a9c" stop-opacity="1"></stop>
+ <stop offset="75%" stop-color="#ed1164" stop-opacity="0"></stop>
+ <stop offset="85%" stop-color="#ed1164" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="b2d235" stop-opacity="0"></stop>
+</radialGradient>
+
+<radialGradient id="radial-grad-3" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="#FFF" stop-opacity="0.0" />
+ <stop offset="5%" stop-color="rgb(255,51,204)" stop-opacity="0.5" />
+ <stop offset="10%" stop-color="rgb(0,204,255)" stop-opacity="1" />
+</radialGradient>
+<radialGradient id="radial-grad-4" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="#FFA" stop-opacity="0.3" />
+ <stop offset="5%" stop-color="#AFF" stop-opacity="0.8" />
+ <stop offset="10%" stop-color="#FAF" stop-opacity="0.0" />
+ <stop offset="30%" stop-color="#FFA" stop-opacity="0.3" />
+ <stop offset="35%" stop-color="#AFF" stop-opacity="0.8" />
+ <stop offset="40%" stop-color="#FAF" stop-opacity="0.2" />
+ <stop offset="80%" stop-color="#FFA" stop-opacity="0.3" />
+ <stop offset="85%" stop-color="#AFF" stop-opacity="0.8" />
+ <stop offset="90%" stop-color="#FAF" stop-opacity="0.2" />
+ <stop offset="100%" stop-color="#FAF" stop-opacity="1.0" />
+</radialGradient>
+
+<radialGradient id="radial-grad-5" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="#CBA" stop-opacity="0.3" />
+ <stop offset="5%" stop-color="#05F" stop-opacity="0.8" />
+ <stop offset="10%" stop-color="#379" stop-opacity="0.0" />
+ <stop offset="30%" stop-color="#ABC" stop-opacity="0.3" />
+ <stop offset="35%" stop-color="#999" stop-opacity="0.8" />
+ <stop offset="40%" stop-color="#345" stop-opacity="0.2" />
+ <stop offset="80%" stop-color="#678" stop-opacity="0.3" />
+ <stop offset="85%" stop-color="#FB2" stop-opacity="0.8" />
+ <stop offset="90%" stop-color="#C0A" stop-opacity="0.2" />
+ <stop offset="100%" stop-color="#31F" stop-opacity="1.0" />
+</radialGradient>
+  <!-- black to white gradient  -->
+<linearGradient id="btw-1" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="#456" stop-opacity="0.0" />
+ <stop offset="30%" stop-color="#abc" stop-opacity="0.8" />
+ <stop offset="80%" stop-color="#123" stop-opacity="0.2" />
+ <stop offset="100%" stop-color="#faa" stop-opacity="1" />
+</linearGradient>
+
+<!-- white to black (reverse direction of base gradient -->
+<linearGradient id="btw-2" xlink:href="#btw-1" x1="100%" y1="0%" x2="0" y2="0%" />
+<!-- black to white at diagonal -->
+<linearGradient id="btw-3" xlink:href="#btw-1" x1="0" y1="0" x2="100%" y2="100%" />
+<linearGradient id="btw-4" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="#FFA" stop-opacity="0.3" />
+ <stop offset="5%" stop-color="#AFF" stop-opacity="0.8" />
+ <stop offset="10%" stop-color="#FAF" stop-opacity="0.0" />
+  <stop offset="30%" stop-color="#FFA" stop-opacity="0.3" />
+ <stop offset="35%" stop-color="#AFF" stop-opacity="0.8" />
+ <stop offset="40%" stop-color="#FAF" stop-opacity="0.2" />
+ <stop offset="80%" stop-color="#FFA" stop-opacity="0.3" />
+ <stop offset="85%" stop-color="#AFF" stop-opacity="0.8" />
+ <stop offset="90%" stop-color="#FAF" stop-opacity="0.2" />
+  <stop offset="100%" stop-color="#FAF" stop-opacity="1.0" />
+
+</linearGradient>
+
+
+<image 
+   id="imageFilter" 
+   xlink:href="../images/Butterfly%206.jpg" 
+   />
+ <filter id="image-filter-1" color-interpolation-filters="sRGB"
+     x="0" y="0" width="100%" height="100%">
+   <feImage id="imageX" xlink:href="../images/Butterfly%2062.jpg"
+    result="tile"/>
+   <feTile in="tile" result="tile" />
+   <!--<feTile in="tile" result="tile" />-->
+   <feComposite in2="SourceGraphic" in="tile" operator="arithmetic" result="super-tile"
+   k1="0" k2="1" k3="1" k4="0" /> <!--
+    
+   <feTile in="super-tile" result="super-tile" /> -->
+</filter>
+</defs>
+
+<g id="translate" transform="translate(0,0)" >
+ <g id="skewX" transform="skewX(0)">
+  <g id="skewY" transform="skewY(0)">
+   <g id="rotate" transform="rotate(0)">
+<!-- start of cells -->
+
+<g transform="translate(0,0)" id="middle-left-cell" class="cell">
+<g>
+
+ <ellipse cx="384" cy="256" rx="384" ry="256" fill="none"
+   id="image-ellipse"
+   stroke-dashoffset="0"
+   stroke-width="800" 
+   stroke-dasharray="20"
+   stroke="url(#radial-grad-bright)"
+   filter="url(#image-filter-1)"
+   style="fill: none; stroke-opacity: 1">
+  <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+  <animate attributeName="stroke-width" begin="5s" dur="40s"
+   from="1" to="1500" repeatCount="indefinite" />
+   
+ </ellipse>
+ </g>
+
+ </g>
+
+<!-- end of cells -->
+    </g><!-- end rotate -->
+   </g><!-- end skewY -->
+  </g><!-- end skewX -->
+ </g><!-- end translate -->
+
+</svg>
+<!-- here comes the script    -->
+<script>
+
+$(document).ready(function() {
+	Log.Hide();
+});
+
+</script>
+
+<h4>Click On <span class="e">Border</span> or <span class="a">C</span><span class="a">o</span><span class="b">l</span><span class="c">o</span><span class="d">r</span><span class="a">e</span><span class="b">d</span>
+<span class="c">G</span><span class="d">r</span><span class="a">a</span><span class="b">d</span><span class="c">i</span><span class="d">e</span><span class="a">n</span><span class="b">t</span>
+  to Expand Animation</h4>
+  
+<div id="font-form" class="font-form-on">
+<div id="panel">
+<form id="distort-font">
+<fieldset>
+<legend>General Animation Options</legend>
+<ul>
+ <li><label for="imageChoice">Image:</label> <select id="imageChoice" name="imageChoice"
+ onChange="SvgTransform.changeImage('imageChoice', '#imageX', '#imageFilter'); SvgTransform.adjustImage('imageX','image-ellipse');">
+
+<option value="/images/Butterfly%206.jpg">Butterfly 6</option>
+<option value="/images/Butterfly%2017a.jpg">Butterfly 17a</option>
+<option value="/images/Butterfly%2028.jpg">Butterfly 28</option>
+<option value="/images/Butterfly%2057.jpg">Butterfly 57</option>
+<option value="/images/Butterfly%2062.jpg" selected="selected">Butterfly 62</option>
+<option value="/images/Butterfly%2086.jpg">Butterfly 86</option>
+<option value="/images/Grasshopper%201.JPG">Grasshopper 1</option>
+<option value="/images/Ladybug%206.jpg">Ladybug 6</option>
+<option value="/images/building-1.jpg">Building 1</option>
+<option value="/images/sphinx5.jpg">Sphinx 5</option>
+<option value="/images/egypt-2.jpg">Egypt 2</option>
+<option value="/images/EgyptianTomb.jpg">Egyptian Tomb</option>
+<option value="/images/stone-hut-1.jpg">Stone Hut 1</option>
+<option value="/images/stone-wall-1.jpg">Stone Wall 1</option>
+<option value="/images/stone-arch-1.jpg">Stone Arch 1</option>
+<option value="/images/igloo2.jpg">Igloo 2</option>
+<option value="/images/rotunda-statue.jpg">Rotunda Statue</option>
+<option value="/images/staircase-1.jpg">Spiral Staircase 1</option>
+<option value="/images/red-fence-1.jpg">Red Fence 1</option>
+<option value="/images/palace-1.jpg">Palace 1</option>
+<option value="/images/london-plaza-1.jpg">London Plaza 1</option>
+<option value="/images/glass-pyramids.jpg">Glass Pyramid</option>
+<option value="/images/old-man-with-hat.jpg">Old Man with Hat</option>
+<option value="/images/Woman-183.jpg">Woman 183</option>
+<option value="/images/Woman-214.jpg">Woman 214</option>
+<option value="/images/jelly-fish-1.jpg">Jelly Fish 1</option>
+<option value="/images/jelly-fish-2.jpg">Jelly Fish 2</option>
+<option value="/images/fishes-3.gif">Fishes3</option>
+<option value="/images/parrot-1.jpg">Parrot 1</option>
+<option value="/images/parrot-2.jpg">Parrot 2</option>
+<option value="/images/feathers-1.jpg">Peacock Feathers</option>
+<option value="/images/feathers-2.jpg">Peacock</option>
+<option value="/images/Butterfly%2011.jpg">Butterfly 11</option>
+<option value="/images/Butterfly%2017.jpg">Butterfly 17</option>
+<option value="/images/Butterfly%2022.jpg">Butterfly 22</option>
+<option value="/images/Butterfly%2036.png">Butterfly 36</option>
+<option value="/images/Butterfly%2069.png">Butterfly 69</option>
+<option value="/images/desert-1.jpg">Desert 1</option>
+<option value="/images/swan-1.jpg">Swan 1</option>
+<option value="/images/wildmanlogo-1.svg">Wildman Logo 1</option>
+<option value="/images/wildmanlogo-2.svg">Wildman Logo 2</option>
+
+</select>
+ </li>
+ <li> 
+ <label for="gradientChoice">Fill:</label> <select id="gradientChoice" name="gradientChoice" onChange="SvgTransform.changeFill('gradientChoice', '#image-ellipse', 'stroke');" >
+ <option value="url(#radial-grad-bright)">Radial Gradient Bright</option>
+ <option value="#abc">#ABC</option>
+ <option value="#444">#444</option>
+ <option value="#111">#111</option>
+ <option value="url(#radial-grad-50)">Radial Gradient 50</option>
+ <option value="url(#radial-grad-51)">Radial Gradient 51</option>
+ <option value="url(#radial-grad-52)">Radial Gradient 52</option>
+ <option value="url(#radial-grad-53)">Radial Gradient 53</option>
+ <option value="url(#radial-grad-54)">Radial Gradient 54</option>
+ <option value="url(#radial-grad-55)">Radial Gradient 55</option>
+ <option value="url(#radial-grad-3)">Radial Gradient 3</option>
+ <option value="url(#radial-grad-4)">Radial Gradient 4</option>
+ <option value="url(#radial-grad-5)">Radial Gradient 5</option>
+ <option value="url(#btw-1)">Linear Gradient btw-1</option>
+ <option value="url(#btw-2)">Linear Gradient btw-2</option>
+ <option value="url(#btw-3)">Linear Gradient btw-3</option>
+ <option value="url(#btw-4)">Linear Gradient btw-4</option>
+ 
+</select>
+ </li>
+ <li class="expand">
+  <label for="skew-x">SkewX:</label>
+  <input id="skew-x" name="skew-x" type="range" min="-90" max="90" value="0" size="1"
+         onBlur="SvgTransform.skewX('skew-x', '#skewX');SvgTransform.SvgText('skew-x','#skew-x-value');" 
+         onChange="SvgTransform.skewX('skew-x', '#skewX');SvgTransform.SvgText('skew-x','#skew-x-value');">
+  <span id="skew-x-value"></span>
+ </li>
+ <li class="expand">
+  <label for="skew-y">SkewY:</label>
+  <input id="skew-y" name="skew-y" type="range" min="-90" max="90" value="0" size="1"
+         onBlur="SvgTransform.skewY('skew-y', '#skewY');SvgTransform.SvgText('skew-y','#skew-y-value');"
+         onChange="SvgTransform.skewY('skew-y', '#skewY');SvgTransform.SvgText('skew-y','#skew-y-value');">
+  <span id="skew-y-value"></span>
+ </li>
+ <li class="expand">
+  <label for="trans-x">TransX:</label>
+  <input id="trans-x" name="trans-x" type="range" min="-1000" max="1000" value="0" size="1"
+         onBlur="SvgTransform.translateX('trans-x', '#translate');SvgTransform.SvgText('trans-x','#trans-x-value');"
+         onChange="SvgTransform.translateX('trans-x', '#translate');SvgTransform.SvgText('trans-x','#trans-x-value');">
+  <span id="trans-x-value"></span>
+ </li>
+ <li class="expand">
+  <label for="trans-y">TransY:</label>
+  <input id="trans-y" name="trans-y" type="range" min="-1000" max="1000" value="0" size="1"
+         onBlur="SvgTransform.translateY('trans-y', '#translate');SvgTransform.SvgText('trans-y','#trans-y-value');"
+         onChange="SvgTransform.translateY('trans-y', '#translate');SvgTransform.SvgText('trans-y','#trans-y-value');">
+  <span id="trans-y-value"></span>
+ </li>
+ <li class="expand">
+  <label for="rotate-angle">Rotate:</label>
+  <input id="rotate-angle" name="rotate-angle" type="range" min="-180" max="180" value="0" size="1"
+         onBlur="SvgTransform.rotate('rotate-angle', '#rotate');SvgTransform.SvgText('rotate-angle','#rotate-angle-value');"
+         onChange="SvgTransform.rotate('rotate-angle', '#rotate');SvgTransform.SvgText('rotate-angle','#rotate-angle-value');">
+  <span id="rotate-angle-value"></span>
+ </li>
+ <li class="expand">
+  <label for="rotate-cx">Cx:</label>
+  <input id="rotate-cx" name="rotate-cx" type="range" min="0" max="1000" value="100" size="1"
+         onBlur="SvgTransform.rotate('rotate-cx', '#rotate');SvgTransform.SvgText('rotate-cx','#rotate-cx-value');"
+         onChange="SvgTransform.rotate('rotate-cx', '#rotate');SvgTransform.SvgText('rotate-cx','#rotate-cx-value');">
+  <span id="rotate-cx-value"></span>
+ </li>
+ <li class="expand">
+  <label for="rotate-cy">Cy:</label>
+  <input id="rotate-cy" name="rotate-cy" type="range" min="0" max="1000" value="200" size="1"
+         onBlur="SvgTransform.rotate('rotate-cy', '#rotate');SvgTransform.SvgText('rotate-cy','#rotate-cy-value');"
+         onChange="SvgTransform.rotate('rotate-cy', '#rotate');SvgTransform.SvgText('rotate-cy','#rotate-cy-value');">
+  <span id="rotate-cy-value"></span>
+ </li>
+ </ul>
+</fieldset>
+</form>
+</div><!-- end panel div -->
+</div><!-- end font-form div -->
+</body>
+
+
+</html>

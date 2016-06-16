@@ -1,0 +1,170 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>d3 data examples</title>
+<link rel="stylesheet" type="text/css" href="main.css">
+<style>
+
+pre {
+ 	background-color: silver;
+    border: 1px solid black;   
+}
+
+.symbolContainer {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.symbols {
+    position: relative;
+    background-color: silver;
+    color: white;
+}
+
+.tick {
+    color: black;
+    height: 1px;
+    width: 15px;
+    padding: 20px;
+}
+.minor {
+    color: black;
+    height: 1px;
+    width: 5px;
+    padding: 5px;
+}
+.axis {
+    padding-top: 450px;
+}
+.axis path, 
+.axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 11px;
+    fill: #C09;
+}
+
+</style>
+
+<script language="javascript" src="d3.v3.js"></script>
+<script language="javascript" src="../js/jquery-1.7.1.js"></script>
+<script language="javascript" src="../js/log.js"></script>
+<script language="javascript" >
+
+var version = d3.version;
+var color = d3.scale.category10();
+
+var dataset = {
+	nodes: [
+	{name: "Adam"},
+	{name: "Bod"},
+	{name: "Carrie"},	
+	{name: "Donovan"},	
+	{name: "Edward"},	
+	{name: "Felicity"},	
+	{name: "George"},	
+	{name: "Hannah"},	
+	{name: "Iris"},	
+	{name: "Jerry"}
+	],
+	
+	edges: [
+	{source: 0, target: 1},
+	{source: 0, target: 2},
+	{source: 0, target: 3},
+	{source: 0, target: 4},
+	{source: 1, target: 5},
+	{source: 2, target: 5},
+	{source: 3, target: 4},
+	{source: 5, target: 8},
+	{source: 5, target: 9},
+	{source: 6, target: 7},
+	{source: 7, target: 8},
+	{source: 8, target: 9}
+	]
+};
+
+function startD3() {
+	
+  var svg = d3.select(document.body)
+  	.append("svg")
+		.style("position", "absolute")
+		.style("top", '100px')
+		.style("left", '50px')
+		.attr('id','svgBox1');
+	
+	var force = d3.layout.force()
+		.nodes(dataset.nodes)
+		.links(dataset.edges)
+		.size([700,700])
+		.linkDistance([100])
+		.friction([.99])
+		.gravity([.7])
+		.charge([-2000])
+		.theta([1])
+		.alpha([.5])
+		.start();
+		
+	var edges = svg.selectAll("line")
+		.data(dataset.edges)
+		.enter()
+		.append("line")
+		.style("stroke", "#ccc")
+		.style("stroke-width", 1);
+		
+	var nodes = svg.selectAll("circle")
+		.data(dataset.nodes)
+		.enter()
+		.append("circle")
+		.attr("r", 30)
+		.style("fill", function (d, i) {
+			return color(i);
+		})
+		.call(force.drag);
+		
+	force.on("tick", function() {
+		edges
+			.attr("x1", function (d) { return d.source.x;})
+			.attr("y1", function (d) { return d.source.y;})
+			.attr("x2", function (d) { return d.target.x;})
+			.attr("y2", function (d) { return d.target.y;});
+		nodes
+			.attr("cx", function (d) { return d.x; })
+			.attr("cy", function (d) { return d.y; });
+	});
+}
+
+$(document).ready(function () {
+
+  Log.Notice('d3.js version=' + version);
+	d3.json("data4.json", function(e,d) {
+		Log.Notice("running d3.json");
+		if (e) {
+			// do nothing
+			Log.Notice("error: status=" + e.status  + " description=" + e.statusText);
+		} else {
+			Log.Notice("d3.json: got d=" + d);
+			dataset = d;
+		}
+		startD3();
+	});
+});
+
+</script>
+
+</head>
+<body>
+
+<h1>D3 Data Examples</h1>
+
+
+
+</body>
+</html>

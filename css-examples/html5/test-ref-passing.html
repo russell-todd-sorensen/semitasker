@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Experiment with Reference passing</title>
+<link rel="stylesheet" href="sudoku-test-6.css" media="all" type="text/css" >
+
+</style>
+
+<script type="text/javascript" src="logger.js"></script>
+
+<script type="text/javascript" >
+	//setup logging element id
+	Logger = "logger2";
+</script>
+
+<script language="javascript" >
+
+	var myArray = new Array(5);
+	
+	myArray[0] = [0, 0, 0];
+	myArray[1] = [1, 2, 3];
+	myArray[2] = [4, 3, 2];
+	
+	// copy is a reference to myArray[0]!
+	var copy = myArray[0];
+	
+	myArray[0][1] = 9;
+	copy[2] = 3;
+	
+	function Puzzle(puzzleData) {
+		var args = arguments;
+		this.boxCols = 3;
+		this.boxRows = 3;
+		this.boxMapString = "";
+		if (args.length > 1) {
+			this.boxCols = args[1];
+			this.boxRows = args[2];
+			if (args.length == 4) {
+				boxMapString = args[3];
+			}
+		}
+		this.puzzleDimension = this.boxCols * this.boxRows;
+		this.activeCells = this.puzzleDimension * this.puzzleDimension;
+		this.puzzle = new Array(this.activeCells+3);
+
+		this.boxMap = new Array(0);
+	}
+	
+</script>
+
+</head>
+
+<body onLoad="myPuzzle= new Puzzle('E0000P',1,1);Log('Notice','myPuzzle.puzzle.length = ' + myPuzzle.puzzle.length)">
+<div class="spacer"></div>
+<pre id="logger2" onMouseOver='Log("Notice", "Mouse is over me now")'>
+</pre>
+
+</body>
+</html>

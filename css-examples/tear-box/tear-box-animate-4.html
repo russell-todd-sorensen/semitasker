@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Tear Box: Howto</title>
+ <link rel="stylesheet" type="text/css" href="tear-box-animate-4.css">
+ <script language="javascript" src="jquery-v141.js"></script>
+ <script language="javascript">
+ var log; // use to log info about what is happening
+ var stepPosition = 0;
+ var fadeSpeed = 2000;
+
+ // functions to calculate overall dimentions of tear box
+ 
+ function setTearBoxHeight () {
+		var tearBoxHeight = $('#tear-box-size-controls').css('height');
+		$('.container').css('height',tearBoxHeight);
+ }
+ 
+ function setTearBoxWidth () { 
+	 	var tearBoxWidth = $('#tear-box-size-controls').css('width');
+		$('.container').css('width', tearBoxWidth);
+ }
+ 
+ function resetAnimation () {
+	 
+	 stepPosition = 0;
+	 var idValue;
+	 
+	 $('.container').fadeOut('fast');
+	 $('.container2').fadeOut('fast');
+	 $('.box-inner').fadeOut('fast');
+	 $('.box').fadeOut('fast');
+	 $('.before-tear').fadeOut('fast');
+	 $('.after-tear').fadeOut('fast');
+
+	 for (var i=1; i<6; i++) {
+		 idValue = "#step" + i;
+		 $(idValue).css('display', 'none');
+	 }
+	 $('#step0').css('display','block');
+	 $('#bgcolor').attr('value','#930');
+	 $('#fgcolor').attr('value','yellow');
+	 // new stuff to adjust dimensions
+	 setTearBoxHeight();
+	 setTearBoxWidth();
+ }
+ 
+ function swapHeading (from, to) {
+ 		var fromId = "#step" + from;
+		var toId = "#step" + to;
+		
+		$(fromId).css('display','none');
+		$(toId).css('display', 'block');
+ }
+ 
+ function changeForegroundColor(to) {
+	 $('.container').css('background-color', to);
+	 $('.heading').css('color', to);
+	 $('.box-inner').css('background-color', to);
+	 $('#goBackward').css('background-color', to);
+	 $('#goForward').css('background-color', to);
+	 $('#goBackward').css('border-color', to);
+	 $('#goForward').css('border-color', to);
+
+ }
+ 
+ function changeBackgroundColor(to) {
+	 $('.before-tear').css('background-color', to);
+	 $('.box').css('background-color', to);
+	 $('.heading').css('background-color', to);
+	 $('.after-tear').css('background-color', to);
+	 $('#goBackward').css('color', to);
+	 $('#goForward').css('color', to);
+ }
+ 
+ function stepForward () {
+	 
+	 var from = stepPosition;
+	 var to = stepPosition + 1;
+	 
+	 stepPosition++;
+	 swapHeading(from, to);
+	 
+	 switch (stepPosition) {
+		 case 1:
+		 $('.container').fadeIn(fadeSpeed);
+		 break;
+		 case 2:
+		 $('.before-tear').fadeIn(fadeSpeed);
+		 break;
+		 case 3:
+		 $('.box').fadeIn(fadeSpeed);
+		 break;
+		 case 4:
+		 $('.after-tear').fadeIn(fadeSpeed);
+		 break;
+		 case 5:
+		 $('.box-inner').fadeIn(fadeSpeed);
+		 break;
+		 default:
+		 resetAnimation();
+	 }
+ }
+
+ function stepBackward () {
+	 
+   var from = stepPosition;
+	 var to = stepPosition - 1;
+	 
+	 swapHeading(from, to);
+	 
+	 switch (stepPosition) {
+		 case 1:
+		 $('.container').fadeOut(fadeSpeed);
+		 break;
+		 case 2:
+		 $('.before-tear').fadeOut(fadeSpeed);
+		 break;
+		 case 3:
+		 $('.box').fadeOut(fadeSpeed);
+		 break;
+		 case 4:
+		 $('.after-tear').fadeOut(fadeSpeed);
+		 break;
+		 case 5:
+		 $('.box-inner').fadeOut(fadeSpeed);
+		 break;
+		 default:
+		 resetAnimation();
+		 return;
+	 }
+	 stepPosition--;
+ }
+ 
+  // ARRAY USED IN REDIMENSIONING TEAR BOX ELEMENTS
+ var xyStart = new Array();
+ var cornerBeforeStart = new Array();
+ var cornerAfterStart = new Array();
+ xyStart["x"] = 0;
+ xyStart["y"] = 0;
+ //only x is used
+ cornerBeforeStart["x"] = 0;
+ cornerBeforeStart["y"] = 0;
+ //only y is used
+ cornerAfterStart["x"] = 0;
+ cornerAfterStart["y"] = 0;
+
+ function resize(evt) {
+	 
+	 // get starting position
+	 var mouseX = xyStart["x"];
+	 var mouseY = xyStart["y"];
+	 
+	 // get current position
+	 var newMouseX = evt.pageX;
+	 var newMouseY = evt.pageY;
+	 
+	 // set new starting position to current
+	 xyStart["x"] = newMouseX;
+	 xyStart["y"] = newMouseY;
+	 
+   var diffX = Math.ceil(newMouseX - mouseX);
+	 var diffY = Math.ceil(newMouseY - mouseY);
+	 
+   resizeBoxControl(diffX, diffY);
+	 resizeTearBoxSizeControls(diffX, diffY);
+ }
+ 
+ function resizeOutsideCorner(evt) {
+	 
+	 // get starting position
+	 var mouseX = cornerBeforeStart["x"];
+	 var mouseY = cornerAfterStart["y"];
+	 
+	 // get current position
+	 var newMouseX = evt.pageX;
+	 var newMouseY = evt.pageY;
+	 
+	 // set new starting position to current
+	 cornerBeforeStart["x"] = newMouseX;
+	 cornerAfterStart["y"] = newMouseY;
+	 
+   var diffX = Math.ceil(newMouseX - mouseX);
+	 var diffY = Math.ceil(newMouseY - mouseY);
+	 var controlId;
+	 
+	 if ( $(this).attr('id') == 'handle-before' ) {
+		 
+		 controlId = '#before-control';
+		 log.append('resize before control diffX =' + diffX + '\n');
+		 resizeBoxCorner(controlId, diffX);
+	 } else if ( $(this).attr('id') == 'handle-after') {
+		 
+		 controlId = '#after-control';
+		 log.append('resize after control diffY =' + diffY + '\n');
+		 resizeBoxCorner(controlId, diffY);
+	 } else {
+		 
+		 log.append('something wrong with id=' + $(this).attr('id')) ;
+		 return
+	 }
+ }
+
+ 
+ function resizeBoxControl(diffX, diffY) {
+	 
+   var boxControl = $('#box-control');
+	 boxControl.width(boxControl.width()+diffX);
+	 boxControl.height(boxControl.height()+diffY);
+ }
+ 
+ function resizeTearBoxSizeControls(diffX, diffY) {
+	
+	 tearBoxControls = $('#tear-box-size-controls');
+	 tearBoxControls
+	   .width(tearBoxControls.width() + diffX)
+		 .height(tearBoxControls.height() + diffY);
+ }
+ 
+ function repositionBoxControl(cornerId) {
+	 var boxControl = $('#box-control');
+	 if (cornerId == '#before-control') {
+		 newBottom = $(cornerId).height();
+		 newLeft = $(cornerId).width();
+		 boxControl.css('bottom',newBottom);
+		 boxControl.css('left',newLeft);
+	 } else if (cornerId == '#after-control') {
+		 // nothing to do for this case
+	 } else {
+		 // this is an error, ignore
+	 }
+	 
+ }
+ 
+ function resizeBoxCorner(id, diffXY) {
+	 
+	 var borderProperty;
+	 var lineId;
+	 var newBoxDimension = parseInt($(id).width()) + parseInt(diffXY);
+	 
+	 if (id == '#before-control') {
+		 borderProperty = 'border-bottom-right-radius';
+		 lineId = '#vertical-line';
+		 $(lineId)
+		   .css('left',parseInt(newBoxDimension) + 2)
+			 //.css('bottom',parseInt(newBoxDimension) - 101)
+			 .css('padding-top',parseInt(newBoxDimension) + 10);
+	 } else if (id = '#after-control') {
+		 borderProperty = 'border-top-left-radius';
+		 lineId = '#horizontal-line';
+		 $(lineId)
+		   .css('top', parseInt(newBoxDimension) + 2)
+			 .css('padding-left',parseInt(newBoxDimension) + 10);
+	 } else {
+		 log.append('Unknown corner id=' + id + '\n');
+		 return
+	 }
+
+	 $(id)
+	  .width(newBoxDimension)
+	 	.height(newBoxDimension)
+		.css(borderProperty,newBoxDimension);
+		repositionBoxControl(id);
+		resizeTearBoxSizeControls(diffXY, diffXY);
+ }
+ 
+ function resizeBoxCorners(diffXY) {
+	 
+   resizeBoxCorner('#before-control',diffXY);
+	 resizeBoxCorner('#after-control',diffXY);
+	 //resizeTearBoxSizeControls(2*diffXY,2*diffXY);
+ }
+ 
+ function finishResizeBox (evt) {
+	 var mouseX = evt.pageX;
+	 var mouseY = evt.pageY;
+	 xyStart["x"] = mouseX;
+	 xyStart["y"] = mouseY;
+
+   // The following doesn't work in IE and isn't needed in Firefox!
+	 document.getElementById('box-control').releaseCapture();
+
+   $('#box-control')
+	   .unbind('mouseup',finishResizeBox)
+	   .unbind('mousemove',resize);
+ }
+ 
+ function startResizeBox (evt) {
+	 
+	 var mouseX = evt.pageX;
+	 var mouseY = evt.pageY;
+	 
+	 xyStart["x"] = mouseX;
+	 xyStart["y"] = mouseY;
+	 
+	 $('#box-control')
+	 .bind('mousemove','',resize)
+	 .bind('mouseup','',finishResizeBox);
+	 document.getElementById('box-control').setCapture(1);
+ }
+ 
+
+ 
+ function reDimensionTearBox () {
+	 
+	 var newWidth = $('#tear-box-size-controls').css('width');
+	 var newHeight = $('#tear-box-size-controls').css('height');
+	 
+	 // outer container
+	 $('.container')
+	   .css('width',newWidth)
+	   .css('height',newHeight);
+	 
+	 // .before-tear box
+	 var origBeforeTearWidth = $('#before-control').width();
+	 var newBeforeTearWidth = 1 + Math.floor(origBeforeTearWidth);
+
+	 $('.before-tear')
+	 	.css('height',newHeight)
+		.css('width',newBeforeTearWidth)
+		.css('border-bottom-right-radius', origBeforeTearWidth);
+	 
+	 // box and box-inner
+	 var newBoxWidth = $('#box-control').width();
+	 $('.box')
+	   .height(newHeight)
+		 .width(newBoxWidth);
+	 $('.box-inner')
+	   .height(newHeight)
+		 .width(newBoxWidth);
+	 
+	 // after-tear box
+	 var origAfterTearWidth = $('#after-control').width();
+	 var newAfterTearWidth =  Math.floor(origAfterTearWidth) + 1;
+	 $('.after-tear')
+	 	.height(newHeight)
+	 	.width(newAfterTearWidth)
+	 	.css('border-top-left-radius',origAfterTearWidth);
+		log.append('New height=' + newHeight + ' New width=' + newWidth + '\n');
+ }
+	
+ 	function reDimensionInnerCorners ( diffR ) {
+		id = '.box-inner';
+		var origCornerRadius = $(id).css('border-top-left-radius');
+		var newCornerRadius = origCornerRadius.substr(0,origCornerRadius.length - 2);
+		newCornerRadius = Math.floor(diffR) + Math.floor(newCornerRadius);
+		$(id)
+			.css('border-top-left-radius', newCornerRadius)
+			.css('border-bottom-right-radius', newCornerRadius);
+	}
+  
+	function finishResizeOutsideCorner (evt) {
+		
+	  var mouseX = evt.pageX;
+	  var mouseY = evt.pageY;
+	 
+	  cornerBeforeStart["x"] = mouseX;
+	  cornerAfterStart["y"] = mouseY;
+	
+		$(this)
+		  .unbind('mousemove', resizeOutsideCorner)
+			.unbind('mouseup', finishResizeOutsideCorner);
+			this.releaseCapture();
+	}
+	
+	function startResizeCorner (evt) {
+		
+	  var mouseX = evt.pageX;
+	  var mouseY = evt.pageY;
+	 
+	  cornerBeforeStart["x"] = mouseX;
+	  cornerAfterStart["y"] = mouseY;
+	
+	  log.append('startResizeCorner x =' + cornerBeforeStart["x"] + 'y=' + cornerAfterStart["y"] + '\n');
+		//log.append('startResizeCorner $(this).attr(id)=' + $(this).attr('id') + '\n');
+		$(this)
+		  .bind('mousemove', resizeOutsideCorner)
+			.bind('mouseup', finishResizeOutsideCorner);
+		this.setCapture(1);
+	}
+	
+	function changeHtml(newHtml) {
+		$('#box-text').html(newHtml);
+	}
+	
+	function getSourceCode() {
+		// grab HTML and CSS applying to children of stage
+		var sourceContainer = $('#source');
+		var html = $('.stage').html();
+		log.append(html);
+		sourceContainer.append(html);
+		var containerCss = document.getElementById('tear-box-size-controls').style;
+		log.append(toString(containerCss));
+	}
+	
+	function stripDimension ( cssValue ) {
+		var length = cssValue.length;
+		var result = "";
+		var char, code;
+		var char0 = "0".charCodeAt(0);
+		var char9 = "9".charCodeAt(0);
+		
+		for (var i = 0; i<length;i++) {
+	  	char = cssValue.charAt(i);
+			code = char.charCodeAt(0);
+			
+			if (code >= char0 && code <= char9) {
+				result = result + char;
+			}
+		}
+		return result;
+	}
+	
+	function changeTextColor( color ) {
+		$('#box-text').css('color', color);
+	}
+	
+	function updateForm () {
+		$('#cw').val($('.container').width());
+		$('#ch').val($('.container').height());
+		$('#lor').val(stripDimension($('.before-tear').css('border-bottom-right-radius')));
+		$('#lir').val(stripDimension($('.box-inner').css('border-top-left-radius')));
+		$('#cbw').val($('.box-inner').width());
+		$('#rir').val(stripDimension($('.box-inner').css('border-bottom-right-radius')));
+		$('#ror').val(stripDimension($('.after-tear').css('border-top-left-radius')));
+		$('#bgc').val($('.container').css('background-color'));
+		$('#pagec').val($('.box').css('background-color'));
+		$('#textc').val($('#box-text').css('color'));
+		$('#content').val($('#box-text').html());
+	}
+  // This runs at after the document is 'ready'
+  $(document).ready(function() {
+	 resetAnimation()
+	 $('#box-control').bind('mousedown',startResizeBox);
+	 $('#handle-before').bind('mousedown',startResizeCorner);
+	 $('#handle-after').bind('mousedown',startResizeCorner);
+   log = $('#log');
+	 log.append('Document Ready!\n');
+ });
+ 
+
+ </script>
+</head>
+<body>
+
+<h2 class="heading" id="step0">Tear Box: Beyond Rounded Corners in CSS3</h2>
+<h2 class="heading" id="step1">Parent Div Container</h2>
+<h2 class="heading" id="step2">Left Mask With Rounded SE Corner</h2>
+<h2 class="heading" id="step3">Middle Mask With Square Corners</h2>
+<h2 class="heading" id="step4">Right Mask with Rounded NW Corner</h2>
+<h2 class="heading" id="step5">Inner Middle Box With Rounded NW &amp; SE Corners </h2>
+
+<div class="stage">
+ <div class="container">
+  <div class="before-tear"></div>
+  <div class="box"><div class="box-inner"><div id="box-text"></div></div></div>
+  <div class="after-tear"></div>
+ </div>
+</div>
+<div id="controls">
+ <div id="goBackward" onClick="stepBackward();">&lt; Back</div>
+ <div id="goForward" onClick="stepForward();">Fwd &gt;</div>
+</div>
+<div id="form">
+ <form id="tweak" name="tweak">
+  <div class="input">BG Color: <input id="bgcolor" name="bgcolor" value="" size="15"onChange="changeBackgroundColor(this.value);" ></div>
+  <div class="input">FG Color: <input id="fgcolor" name="fgcolor" value="" size="15" onChange="changeForegroundColor(this.value);"></div>
+<!--  <div class="input">+- Box X: <input id="boxX" name="boxX" value="" size="15" onChange="resizeBoxControl(this.value,0);resizeTearBoxSizeControls(this.value,0)"></div>
+  <div class="input">+- Box Y: <input id="boxY" name="boxY" value="" size="15" onChange="resizeBoxControl(0,this.value);resizeTearBoxSizeControls(0,this.value)"></div>
+--><div class="input">+- Box Inner Corners: <input id="boxInnerCorner" name="boxInnerCorner" value="" size="15" onChange="reDimensionInnerCorners(this.value);"></div>
+  <div class="input">Text Color: <input id="boxTextColor" name="boxTextColor" value="" size="15" onChange="changeTextColor(this.value);"></div>
+<!--  <div class="input">+- Box Outer Corners: <input id="boxCorner" name="boxCorner" value="" size="15" onChange="resizeBoxCorners(this.value);"></div>
+-->  <div class="input">Box HTML: <textarea id="boxHtml" name="boxHtml" cols="40" rows="10" onChange="changeHtml(this.value);"></textarea></div>
+  <div class="input"><input id="reDim" name="reDim" type="button" value="Redimension Tear Box"  onClick="reDimensionTearBox();"></div>
+ </form>
+</div>
+
+<div id="tear-box-size-controls">
+  <div id="before-control"></div>
+  <div id="box-control" ></div>
+  <div id="after-control"></div>
+  <div id='vertical-line'><div id='handle-before'></div></div>
+  <div id='horizontal-line'><div id='handle-after'></div></div>
+
+</div>
+
+<div class="sourceCode">
+<pre id="source"></pre>
+<form id="sourceForm" name="sourceForm">
+  <!--<textarea name="source" id="source" cols="40" rows="50"></textarea>-->
+ <ul id="variables">
+  <li><span>Container Width:</span><input id="cw" name="cw" type="text" value="" size="5">px</li>
+  <li><span>Container Height:</span>  <input id="ch" name="ch" type="text" value="" size="5">px</li>
+  <li><span>Left Outer Radius:</span> <input id="lor" name="lor" type="text" value="" size="5">px</li>
+  <li><span>Left Inner Radius:</span> <input id="lir" name="lir" type="text" value="" size="5">px</li>
+  <li><span>Center Box Width:</span>  <input id="cbw" name="cbw" type="text" value="" size="5"></li>
+  <li><span>Right Inner Radius:</span><input id="rir" name="rir" type="text" value="" size="5"></li>
+  <li><span>Right Outer Radius:</span><input id="ror" name="ror" type="text" value="" size="5"></li>
+  <li><span>Background Color:</span>  <input id="bgc" name="bgc" type="text" value="" size="10"></li>
+  <li><span>Page Color</span>:<input id="pagec" name="pagec" type="text" value="" size="10"></li>
+  <li><span>Text Color:</span><input id="textc" name="textc" type="text" value="" size="10"></li>
+  <li><span>HTML:</span><input id="content" name="content" type="text" value="" size="30"></li>
+  <li><span></span><input id="" name="" type="text" value="" size="10"></li>
+  <li><input id="grabSource" name="grabSource" type="button" value="Grab Source Code"  onClick="updateForm();"></li>
+  <li><input id="submit1" name="submit1" type="submit" value="Submit" ></li>
+ </ul>
+</form>
+</div>
+
+<xmp id='log'>
+</xmp>
+
+<!--<div class='vertical-line'><div class='handle'></div></div>-->
+</body>
+</html> 
+

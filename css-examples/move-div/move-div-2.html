@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Move Ball Inside Div</title>
+ <link rel="stylesheet" href="move-div.css" type="text/css">
+ <script language="javascript" src="../js/jquery-v141.js"></script>
+ <script language="javascript">
+ 
+  var moveId = '#move-me';
+  var ballId = '#ball';
+  var outputId = '#output';
+	
+  function releaseCapture(evt) {
+    $(moveId).unbind('mousemove');
+  }
+
+  function capturePosition2(evt) {
+		
+    var pageX = evt.pageX;
+    var pageY = evt.pageY;
+    
+    $(outputId)
+		  .text('CP2 pageX =' + pageX + ' pageY=' + pageY);
+    $('#ball')
+      .css('left', pageX)
+      .css('top',pageY);
+  }
+  
+  function capturePosition(evt) {
+		
+    var pageX = evt.pageX;
+    var pageY = evt.pageY;
+    
+    $(outputId).text('CP: pageX =' + pageX + ' pageY=' + pageY);
+    $(moveId).bind('mousemove','',capturePosition2);
+  }
+	
+  // This runs at after the document is 'ready'
+  $(document).ready(function() {
+
+    var height = $(moveId).height();
+    var width = $(moveId).width();
+
+    $(moveId).text('Box Height =' + height + ' Width=' + width);
+    $(moveId).bind('mousedown','',capturePosition);
+    $(moveId).bind('mouseup','',releaseCapture);
+		
+    $('body').css('background-color','#596');
+    $('.test').css('background-color', 'yellow');
+ });
+ 
+
+ </script>
+
+</head>
+
+<body>
+
+<div id="move-me"></div>
+
+<div id="output"></div>
+
+<div class="test"></div>
+
+<div id="ball"></div>
+
+<a href="explain-move-div.html">Explain Mouse Move Example</a>
+</body>
+</html>

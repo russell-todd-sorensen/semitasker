@@ -1,0 +1,229 @@
+@charset "utf-8";
+/* CSS Document */
+
+.main-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.main {
+    display: inline-block;
+    background-image:url(IMLogo.svg);
+    background-size: cover;
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+    overflow: hidden;
+    position: relative;
+}
+.main-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+    z-index: 10;
+}
+
+.image-1 {
+    height: 700px;
+    width:  800px;
+    z-index: 100;
+    border-color: blue;
+    border-width: 2px;
+    border-style: double;
+    
+    
+}
+  
+.second-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+
+.second {
+    display: inline-block;
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+    position: relative;
+}
+.second-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+.image-2 {
+    height: 350px;
+    border-color: blue;
+    border-width: 5px;
+    border-style: double;
+    position: absolute;
+    left: 100px;
+    top: 150px;
+}
+.p22 {
+    position: relative;
+    font-size: 2em;
+    color: #0CC;
+}  
+
+.p222 {
+    position: absolute;
+    font-size: 2em;
+    color:#CF3;
+}  
+.p-bottom {
+	position: absolute;
+    font-size: 2em;
+    color:#9966CC;
+    bottom: 10px;
+}
+.third-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+.third {
+    display: inline-block;
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+    position: relative;
+}
+.third-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+.image-3 {
+    height: 200px;
+    border-color: blue;
+    border-width: 5px;
+    border-style: double;
+    position: absolute;
+    left: 20px;
+    top: 50px;
+}
+.p3 {
+    font-size: 2em;
+}
+.p33 {
+    position: relative;
+    font-size: 2em;
+    color: #0CC;
+}
+  
+.fourth-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+.fourth {
+    display: inline-block;
+    background-image:url(IMLogo.svg);
+    background-clip: padding-box;
+    background-repeat: space;
+    padding: 20px;
+    min-width: 660px;
+    width: 660px;
+    min-height: 660px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+    position: relative;
+}
+.fourth-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+.image-4 {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+}
+  
+  
+.fifth-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+
+.fifth {
+    display: inline-block;
+    background-image:url(IMLogo.svg);
+    background-repeat:repeat-x;
+    background-position:bottom;
+    background-clip: padding-box;
+    padding: 20px;
+    min-width: 660px;
+    width: 660px;
+    min-height: 660px;
+    border-color: red;
+    border-style: dotted;
+    border-width: 5px;
+}
+
+.fifth-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+.hilite {
+    background-color:#C60;
+    color: white;
+}

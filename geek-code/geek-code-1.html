@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+
+<title>Geek Code 1</title>
+
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" type="text/css" href="css/geek-code-1.css" media="all">
+<style type="text/css">
+/* place any page unique styles here */
+
+</style>
+
+<script src="http://ic00408/js/d3.v3.js" type="application/javascript" language="javascript"></script>
+<script type="text/javascript" src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/example-library.js"></script>
+<script src="js/geek-code-1.js"></script>
+
+<script>
+
+$(document).ready(function() {
+
+  Log.Notice("jQuery Ready!");
+  enableResizableElements();
+  finalizeHtml();
+  buildSavedCopiesBar();
+  createOptionCheckboxes();
+  toggleOptionGroup('javascript');  // turn off javascript
+  toggleOptionGroup('SVG'); // turn off svg
+  
+  Log.Hide();
+  var widgetMinHeight = 10;
+  var widgetMinWidth = 56;
+  $('#input-html-toggle-button')
+    .unbind("click")
+    .bind("click", {id:"input-html",height:widgetMinHeight,width:widgetMinWidth}, closeWidget);
+  $('#input-css-toggle-button')
+    .unbind("click")
+    .bind("click", {id:"input-css",height:widgetMinHeight,width:widgetMinWidth}, closeWidget);
+  $('#input-js-toggle-button')
+    .unbind("click")
+    .bind("click", {id:"input-js",height:widgetMinHeight,width:widgetMinWidth}, closeWidget);
+  $('#input-svg-toggle-button')
+    .unbind("click")
+    .bind("click", {id:"input-svg",height:widgetMinHeight,width:widgetMinWidth}, closeWidget);
+      
+  $('#builder-html-toggle-button')
+    .unbind("click")
+    .bind("click", {id:"builder-html",height:widgetMinHeight,width:widgetMinWidth}, closeWidget);
+  $('#builder-css-toggle-button')
+    .unbind("click")
+    .bind("click", {id:"builder-css",height:widgetMinHeight,width:widgetMinWidth}, closeWidget);
+  $('#builder-js-toggle-button')
+    .unbind("click")
+    .bind("click", {id:"builder-js",height:widgetMinHeight,width:widgetMinWidth}, closeWidget);
+  $('#builder-svg-toggle-button')
+    .unbind("click")
+    .bind("click", {id:"builder-svg",height:widgetMinHeight,width:widgetMinWidth}, closeWidget);
+
+  // allow users to paste into input boxes
+  enablePaste();
+});
+
+</script>
+</head>
+<body>
+
+<div id="top-controls">
+  <div id="lessons">Select a Lesson:
+   <form id="select-lesson">
+    <select id="lesson">
+     <option value="test-examples">TEST Examples</option>
+     <option value="geek-examples-2">Geek Examples 2</option>
+     <option value="geek-examples-3">Geek Code "One Box"</option>
+     <option value="mandelbrot-examples-in-svg">Mandelbrot Examples</option>
+    </select>
+    <input type="button" value="Load Examples" 
+           onClick="loadExamples('#lesson');">
+   </form>
+  </div><!-- end lessons div -->
+
+ <div id="options-bar">
+  <form id="select-options">
+  </form>
+ </div>
+ 
+</div><!-- end top controls -->
+
+<div id="example-bar"></div><!-- end example bar -->
+
+<div id="big-screen-container">
+<div id="input-container">
+ 
+ <div id="input-html-container">
+  <div id="input-html"></div>
+  
+  <div id="input-html-toggle-button"><span class="wingding">0</span>Close</div>
+  <div id="input-html-div-tag">&lt;div id="display"&gt;</div>
+  <div id="input-html-div-tag-bottom">&lt;/div&gt;</div>
+ </div>
+ 
+ <div id="input-css-container">
+  <div id="input-css"></div>
+  <div id="input-css-toggle-button"><span class="wingding">0</span>Close</div>
+  <div id="input-css-style-tag">&lt;style&gt;</div>
+  <div id="input-css-style-tag-bottom">&lt;/style&gt;</div>
+ </div>
+ 
+ <div id="input-js-container">
+  <div id="input-js"></div>
+  <div id="input-js-toggle-button"><span class="wingding">0</span>Close</div>
+  <div id="input-js-script-tag">&lt;script&gt;</div>
+  <div id="input-js-script-tag-bottom">&lt;/script&gt;</div>
+ </div>
+ 
+ <div id="input-svg-container">
+  <div id="input-svg"></div>
+  <div id="input-svg-toggle-button"><span class="wingding">0</span>Close</div>
+  
+  <div id="input-svg-tag">&lt;svg&gt;</div>
+  <div id="input-svg-tag-bottom">&lt;/svg&gt;</div>
+ </div>
+ 
+</div><!-- end input container -->
+
+<div id="copy-bar">
+ <div id="preview" onClick="previewExample();">Preview</div>
+ <div id="refresh" onClick="updateDisplay('js');">Refresh</div>
+ <div id="copy-data" onClick="MyStorage.addExample()">Save To Storage!</div>
+</div><!-- end copy bar -->
+
+<div id="builder-container">
+ <div id="builder-html-container"><div id="builder-html"
+    onKeyUp="updateDisplay('html');" ></div>
+  <div id="builder-html-toggle-button"><span class="wingding">0</span>Close</div>
+  <div id="builder-html-div-tag">&lt;div id="display"&gt;</div>
+  <div id="builder-html-div-tag-bottom">&lt;/div&gt;</div>
+ </div>
+ 
+ <div id="builder-css-container"><div id="builder-css"
+    onKeyUp="updateDisplay('css');" ></div>
+  <div id="builder-css-toggle-button"><span class="wingding">0</span>Close</div>
+  <div id="builder-css-style-tag">&lt;style&gt;</div>
+  <div id="builder-css-style-tag-bottom">&lt;/style&gt;</div>
+ </div>
+  
+ <div id="builder-js-container"><div id="builder-js"
+    onKeyUp="updateDisplay('js');" ></div>
+  <div id="builder-js-toggle-button"><span class="wingding">0</span>Close</div>
+  <div id="builder-js-script-tag">&lt;script&gt;</div>
+  <div id="builder-js-script-tag-bottom">&lt;/script&gt;</div>
+ </div>
+ 
+ <div id="builder-svg-container"><div id="builder-svg"
+    onKeyUp="updateDisplay('svg');" ></div>
+  <div id="builder-svg-toggle-button"><span class="wingding">0</span>Close</div>
+  <div id="builder-svg-tag">&lt;svg&gt;</div>
+  <div id="builder-svg-tag-bottom">&lt;/svg&gt;</div>
+ </div>
+
+</div><!-- end builder container -->
+</div><!-- end big-screen-container -->
+
+<div id="display"></div><!-- end display -->
+
+<!-- use this to paste in examples -->
+<div id="examples-from-external"></div>
+
+</body>
+</html>

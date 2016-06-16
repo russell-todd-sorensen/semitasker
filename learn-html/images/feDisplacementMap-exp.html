@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>feDisplacementMap</title>
+
+<link rel="stylesheet" type="text/css" href="../../css/log.css" media="all">
+
+<style>
+
+html, body, svg {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+#notes, #image-select {
+    margin-left: 15px;
+    font-weight: bold;
+}
+
+#notes, #panel, #instructions {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#instructions ul li {
+    font-size: 30px;
+    font-weight: bold;
+}
+ 
+#panel fieldset {
+border: solid 3px darkolivegreen;
+margin: 15px;
+font: 1.4em "Helvetica Neue";
+background-color: #d3d3d3;
+width: 550px;
+}
+ 
+#panel select {
+font: 1em "Helvetica Neue";
+color: darkolivegreen;
+}
+ 
+#panel legend {
+color: darkolivegreen;
+font-weight: bold;
+font-variant: small-caps;
+background-color: #bbb;
+padding: 2px 6px;
+ 
+}
+ 
+#panel label {
+display: inline-block;
+width: 150px;
+}
+#panel ul {
+list-style: none;
+margin-left: -25px;
+}
+#panel ul li {
+margin-bottom: 5px;
+}
+.input-button {
+float: right;
+color: darkolivegreen;
+font-weight: bold;
+border: 3px solid;
+cursor: pointer;
+}
+ 
+#panel .input-text {
+/* keeps form from moving during mouseover */
+border: solid 1px #d3d3d3;
+}
+ 
+#panel .input-text:hover {
+background-color: #cff;
+border: solid #060 1px;
+color: #000;
+}
+ 
+#panel .input-text:focus {
+background-color: #fff;
+color: #000;
+border: solid #060 1px;
+}
+ 
+#panel select#state {
+border: solid #d3d3d3 1px;
+background-color: #fff;
+padding: 2px;
+margin-right: 5px;
+}
+ 
+#panel select#state:focus {
+color: #333;
+background-color: #cff;
+border: solid #060 1px;
+ 
+}
+</style>
+
+<script type="text/ecmascript" src="../../js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="../../js/d3.v3.js"></script>
+<script type="text/javascript" src="../../js/log-2.js"></script>
+<script type="text/javascript" src="displace-exp.js"></script>
+<script>
+
+
+var svg;
+var config4;
+
+var mainConfig = {
+	  filterId: '#wipeX',
+		feImageId: '#feImage-wipe-x',
+		heightTo: 40,
+		heightBack: 40,
+		widthTo: 40,
+		widthBack: 40,
+		
+		feRectId: '#rect40', //#rect4-wipe-x',
+		rectHeightTo: 40,
+		rectWidthTo: 40,
+		rectHeightBack: 40,
+		rectWidthBack: 40,
+		
+		feDisplacementMapId: '#displace-map-wipe-x',
+		scaleTo: 600,
+		
+		feDiffuseLightingId: '#diffuse-light-wipe-x',
+		colorTo: '#663',
+		surfaceScaleTo: 4,
+		diffuseConstantTo: 5,
+		
+		fePointLightId: '#point-light-wipe-x',
+		xTo: 900,
+		yTo: 800,
+		zTo: 2,
+		
+		durationTo: 5000, // 20000
+		durationBack: 5000, // 10000
+		
+		delayTo: 0,
+		delayBack: 0, // 3000
+		
+		easeTo: 'linear',
+		easeBack: 'linear'
+	
+};
+
+
+function setupForm (filterId) {
+	
+	//if (filterId) {
+		//mainConfig.filterId = filterId;
+	//}
+  
+	//var feImageId = svg.select(filterId + ' feImage').attr('id');
+	//var feRectId = svg.select(feImageId).attr('xlink:href');
+	
+	//mainConfig.feImageId = feImageId;
+	//mainConfig.feRectId = feRectId;
+	
+	mainConfig.colorBack = $(mainConfig.feDiffuseLightingId)
+		.attr('lighting-color');
+	$('#colorBack').val(mainConfig.colorBack);
+	$('#colorTo').val(mainConfig.colorTo);
+	
+	mainConfig.heightBack = $(mainConfig.feImageId)
+		.attr('height');
+	mainConfig.widthBack = $(mainConfig.feImageId)
+		.attr('width');
+		
+	$('#heightBack').val(mainConfig.heightBack);	
+	$('#heightTo').val(mainConfig.heightTo);
+
+	$('#widthBack').val(mainConfig.widthBack);
+	$('#widthTo').val(mainConfig.widthTo);
+	
+	$('#feImageId').val(mainConfig.feImageId);
+	
+	mainConfig.feRectId = $(mainConfig.feImageId)
+		.attr('xlink:href');
+	
+	$('#feRectId').val(mainConfig.feRectId);
+	
+	mainConfig.rectHeightBack = $(mainConfig.feRectId)
+		.attr('height');
+	mainConfig.rectWidthBack = $(mainConfig.feRectId)
+		.attr('width');
+
+	$('#rectHeightBack').val(mainConfig.rectHeightBack);	
+	$('#rectHeightTo').val(mainConfig.rectHeightTo);
+
+	$('#rectWidthBack').val(mainConfig.rectWidthBack);
+	$('#rectWidthTo').val(mainConfig.rectWidthTo);
+	
+	mainConfig.scaleBack = $(mainConfig.feDisplacementMapId)
+		.attr('scale');
+	$('#scaleBack').val(mainConfig.scaleBack);
+	$('#scaleTo').val(mainConfig.scaleTo);
+
+	mainConfig.surfaceScaleBack = d3.select(mainConfig.feDiffuseLightingId)
+		.attr('surfaceScale');
+	$('#surfaceScaleBack').val(mainConfig.surfaceScaleBack);
+		$('#surfaceScaleTo').val(mainConfig.surfaceScaleTo);
+		
+	mainConfig.diffuseConstantBack = d3.select(mainConfig.feDiffuseLightingId)
+		.attr('diffuseConstant');
+	$('#diffuseConstantBack').val(mainConfig.diffuseConstantBack);
+	$('#diffuseConstantTo').val(mainConfig.diffuseConstantTo);
+
+	mainConfig.xBack = $(mainConfig.fePointLightId)
+		.attr('x');
+	mainConfig.yBack = $(mainConfig.fePointLightId)
+		.attr('y');
+	mainConfig.zBack = $(mainConfig.fePointLightId)
+		.attr('z');
+	
+	$('#xBack').val(mainConfig.xBack);
+	$('#yBack').val(mainConfig.yBack);	
+	$('#zBack').val(mainConfig.zBack);
+	$('#xTo').val(mainConfig.xTo);
+	$('#yTo').val(mainConfig.yTo);	
+	$('#zTo').val(mainConfig.zTo);
+
+	$('#durationTo').val(mainConfig.durationTo);
+	$('#durationBack').val(mainConfig.durationBack);
+	
+	$('#delayTo').val(mainConfig.delayTo);
+	$('#delayBack').val(mainConfig.delayBack);
+
+	$('#easeTo').val(mainConfig.easeTo);
+	$('#easeBack').val(mainConfig.easeBack);
+
+}
+
+function updateRect(filterImageId) {
+	var feImageId = $(filterImageId).val();
+	Log.Notice("updating filterImageId=" + feImageId);
+	var feImage = svg.select(filterImageId);
+	var filterRectId = $('#feRectId').val();
+		Log.Notice("new filterRectId=" + filterRectId);
+	var feImageNode = document.getElementById(feImageId.substr(1));
+	var attributes = feImageNode.attributes;
+	var attrNodeName, name, value, success;
+	success = false;
+	for (attrNodeName in attributes) {
+		name = attributes[attrNodeName].name;
+		if (name === 'xlink:href') {
+			value = attributes[name].value;
+			attributes[name].value = filterRectId;
+			Log.Notice('updated attribute ' + name + ' to =' + filterRectId);
+			success = true;
+			break;
+		}
+	}
+	
+	if (success) {
+		// no trouble adjusting rect height and width
+		svg.select(filterRectId)
+			.attr('height', svg.select(value).attr('height'))
+			.attr('width', svg.select(value).attr('width'));
+	}
+
+	//mainConfig.feRectId = filterRectId;
+	
+}
+
+function buildTileOptions () {
+	
+	
+	
+	
+}
+
+$(document).ready(function () {
+	
+  doc = d3.select(document.body);
+  Log.Hide();
+  svg = doc.select('svg');
+	setupForm('#wipeX');
+	
+	
+});
+
+</script>
+</head>
+<body>
+
+<svg x="0" 
+		 y="0" 
+		 height="850" 
+		 width="1210" 
+		 viewport="0 0 325 225"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+		 >
+<defs>
+
+ 
+<linearGradient id="two_hues">
+ <stop offset="0%" style="stop-color: #ffcc00;" />
+ <stop offset="100%" style="stop-color: #0099cc;" />
+</linearGradient>
+ 
+ <!-- black to white gradient  -->
+<linearGradient id="btw-1" color-interpolation="sRGB" >
+ <stop offset="0%" stop-color="#000" stop-opacity="0.0" />
+ <stop offset="30%" stop-color="#000" stop-opacity="0.8" />
+ <stop offset="80%" stop-color="#000" stop-opacity="0.2" />
+ <stop offset="100%" stop-color="#000" stop-opacity="1" />
+</linearGradient>
+
+<!-- white to black (reverse direction of base gradient -->
+<linearGradient id="btw-2" xlink:href="#btw-1" x1="100%" y1="0%" x2="0" y2="0%" />
+
+<!-- black to white at diagonal -->
+<linearGradient id="btw-3" xlink:href="#btw-1" x1="0" y1="0" x2="100%" y2="100%" />
+
+<radialGradient id="radial-grad-1" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop offset="0" stop-color="#000000" stop-opacity="0.1" />
+ <stop offset="50%" stop-color="#000000" stop-opacity=".85" />
+ <stop offset="100%" stop-color="#000000" stop-opacity="0.3" />
+</radialGradient>
+
+<radialGradient xlink:href="#radial-grad-1" fx="20%" fy="40%" id="radial-grad-2" color-interpolation="sRGB" /> 
+
+<radialGradient id="radial-grad-30" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop offset="0" stop-color="#000000" stop-opacity="00" />
+ <stop offset="5%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="10%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="15%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="20%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="25%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="30%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="35%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="40%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="45%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="50%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="55%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="60%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="65%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="70%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="75%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="80%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="85%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="90%" stop-color="#000000" stop-opacity="0" />
+ <stop offset="95%" stop-color="#000000" stop-opacity="1" />
+ <stop offset="100%" stop-color="#000000" stop-opacity="0" />
+</radialGradient>
+
+<radialGradient xlink:href="#radial-grad-30" fx="0" fy="0" id="radial-grad-31" color-interpolation="sRGB" /> 
+<radialGradient xlink:href="#radial-grad-30" fx="10%" fy="10%" id="radial-grad-32" color-interpolation="sRGB" /> 
+<radialGradient xlink:href="#radial-grad-30" fx="75%" fy="75%" id="radial-grad-33" color-interpolation="sRGB" /> 
+
+
+<linearGradient id="btw-4" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="#000" stop-opacity="0.0" />
+ <stop offset="5%" stop-color="#000" stop-opacity="0.8" />
+ <stop offset="10%" stop-color="#000" stop-opacity="0" />
+</linearGradient>
+
+<!-- bubbly -->
+<linearGradient id="btw-8" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop offset="0%" stop-color="transparent" stop-opacity="0.0" />
+ <stop offset="5%" stop-color="transparent" stop-opacity="0.8" />
+ <stop offset="6%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="10%" stop-color="transparent" stop-opacity="0.8" />
+ <stop offset="15%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="25%" stop-color="transparent" stop-opacity="0.8" />
+</linearGradient>
+
+<linearGradient id="btw-20" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="5%" stop-color="transparent" stop-opacity="0.0" />
+ <stop offset="10%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="15%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="20%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="25%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="30%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="35%" stop-color="transparent" stop-opacity="0.0" />
+ <stop offset="40%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="45%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="50%" stop-color="transparent" stop-opacity="1.0" />
+  <stop offset="55%" stop-color="transparent" stop-opacity="0.0" />
+ <stop offset="60%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="65%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="70%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="75%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="80%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="85%" stop-color="transparent" stop-opacity="0.0" />
+ <stop offset="90%" stop-color="transparent" stop-opacity="1.0" />
+ <stop offset="95%" stop-color="transparent" stop-opacity="0" />
+ <stop offset="100%" stop-color="transparent" stop-opacity="1.0" />
+ 
+</linearGradient>
+
+<linearGradient xlink:href="#btw-4" id="btw-5" x1="0" y1="0" x2="100%" y2="100%" />
+<linearGradient xlink:href="#btw-8" id="btw-9" x1="0" y1="0" x2="100%" y2="100%" />
+<linearGradient xlink:href="#btw-20" id="btw-21" x1="0" y1="0" x2="100%" y2="100%" />
+
+<rect id="rect1" height="100" width="100" />
+<rect id="rect2" height="210" width="300" />
+<rect id="rect3" height="210" width="300" style="fill: url(#btw-3);" />
+<rect id="rect4" height="21" width="30" style="fill: url(#btw-3);" />
+<rect id="rect4-wipe-x" height="20" width="29" style="fill: url(#btw-3); stroke-width: 0;" />
+<rect id="rect5" height="21" width="30" style="fill: url(#btw-1);" />
+
+<circle id="circle-grad-1" cx="20" cy="20" r="20" style="fill: url(#radial-grad-1); stroke: none;" />
+<rect id="rect6" class="test6" height="40" width="40" style="fill: url(#radial-grad-1); stroke: none;" />
+<rect id="rect7" height="210" width="300" style="fill: url(#radial-grad-1); stroke: none;" />
+<rect id="rect8" class="test6" height="40" width="40" style="fill: url(#radial-grad-2); stroke: none;" />
+
+<rect id="rect10" height="40" width="40" style="fill: url(#btw-5); stroke: none;" />
+<rect id="rect9" height="40" width="40" style="fill: url(#btw-9); stroke: none;" />
+<rect id="rect22" height="40" width="40" style="fill: url(#btw-21); stroke: none;" />
+
+<rect id="rect30" height="40" width="40" style="fill: url(#radial-grad-30); stroke: none;" />
+<rect id="rect31" height="40" width="40" style="fill: url(#radial-grad-31); stroke: none;" />
+<rect id="rect32" height="40" width="40" style="fill: url(#radial-grad-32); stroke: none;" />
+<rect id="rect33" height="40" width="40" style="fill: url(#radial-grad-33); stroke: none;" />
+
+<g id="rect40" x="0" y="0" height="40" width="40">
+ <path d="M  0 20 L 20  0" style="stroke: url(#radial-grad-30); stroke-width: 2;" />
+ <path d="M  0 40 L 40  0" style="stroke: url(#radial-grad-30); stroke-width: 2;" />
+ <path d="M 20 40 L 40 20" style="stroke: url(#radial-grad-30); stroke-width: 2;" />
+</g>
+
+<g id="rect41" x="0" y="0" height="40" width="40">
+ <ellipse cx="20" cy="20" rx="10" ry="20" style="stroke: url(#radial-grad-31); stroke-width: 5; fill: none;" />
+</g>
+<g id="rect42" x="0" y="0" height="50" width="30" >
+ <ellipse cx="10" cy="20" rx="10" ry="20" style="stroke: url(#radial-grad-31); stroke-width: 5; fill: none;" />
+</g>
+
+<g id="rect43" x="0" y="0" height="10" width="10">
+ <text x="0" y="200" style="stroke: url(#radial-grad-31) ; font-size: 160pt; fill: none;">I.A.M.</text>
+</g>
+
+<filter id="wipeX"  color-interpolation-filters="sRGB"
+   x="0" y="0" width="100%" height="100%">
+ <feImage xlink:href="#rect4-wipe-x" result="tile" height="2" width="3" id="feImage-wipe-x"  />
+ <!-- <feTurbulence numOctaves="1" baseFrequency=".5" height="40" width="40" x="30" y="30"
+  seed="5000" stitchTiles="stitch" result="tile" type="fractalNoise" style="stroke-width: 0" />-->
+	 
+ <feTile in="tile" result="tile" />
+ <feColorMatrix type="matrix" 
+	    values="1.0  1.0  1.0  0.000  0
+	            1.0  1.0  1.0  0.000  0
+					    1.0  1.0  1.0  0.000  0
+					    1.0  1.0  1.0  1.000  0"
+	    in="SourceGraphic" result="desaturate" />
+      
+ <feDisplacementMap id="displace-map-wipe-x"
+ 		scale="10"
+		xChannelSelector="R"
+		yChannelSelector="B"
+		in2="SourceGraphic" in="tile"  transform="rotate(60)"
+		result="displaceAlpha" />
+    
+	<feColorMatrix type="matrix" 
+	    values="0 0 0 0       0
+	            0 0 0 0       0
+					    0 0 0 0       0
+					    0 0 0 1.0000  0"
+	    in="tile" result="tile" />
+			
+	 <feDiffuseLighting in="displaceAlpha"  id="diffuse-light-wipe-x"
+	    lighting-color="#ffc"
+			surfaceScale="2"
+			diffuseConstant=".75"
+			result="diffuseLight" >
+			<fePointLight x="0" y="0" z="50" id="point-light-wipe-x" />
+	 </feDiffuseLighting>
+			
+	<feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
+	  result="diffuseOutput" />
+		
+	<feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
+ <!--  <feComposite in="SourceGraphic" in2="tile" operator="arithmetic"
+	  k1="0" k2="0" k3="1" k4="0" /> -->
+</filter>
+</defs>
+
+<g transform="scale(4)" id="main">
+
+<g id="row-4" transform="translate(-18,-18)" >
+ <!-- original image -->
+ <image xlink:href="../../images/building-1.jpg" height="210" width="300" x="20" y="20" style="filter: url(#wipeX);" id="imageX" />
+ <use xlink:href="#rect2" x="20" y="20" style="stroke: black; fill: none;" />
+
+</g>
+<!--
+<use xlink:href="#circle-grad-1" x="200" y="1200" id="click-me"/>
+<use xlink:href="#rect40" x="100" y="200" />
+<use xlink:href="#rect41" x="120" y="200" />
+<use xlink:href="#rect42" x="150" y="170" />
+<use xlink:href="#rect43" x="170" y="170" />
+-->
+</g>
+
+</svg>
+<div id="image-select">
+<form action="javascript:doAnimation()" id="panel">
+<fieldset>
+<legend>General Animation Options</legend>
+<ul>
+ <li><label for="imageChoice">Select Image</label> <select id="imageChoice" name="imageChoice" onChange="changeImage('imageChoice', 'imageX');">
+<fielset id="generalFields">
+<option value="building-1.jpg" selected="selected">Building 1</option>
+<option value="sphinx5.jpg">Sphinx 5</option>
+<option value="egypt-2.jpg">Egypt 2</option>
+<option value="EgyptianTomb.jpg">Egyptian Tomb</option>
+<option value="stone-hut-1.jpg">Stone Hut 1</option>
+<option value="stone-wall-1.jpg">Stone Wall 1</option>
+<option value="stone-arch-1.jpg">Stone Arch 1</option>
+<option value="igloo2.jpg">Igloo 2</option>
+<option value="rotunda-statue.jpg">Rotunda Statue</option>
+<option value="staircase-1.jpg">Spiral Staircase 1</option>
+<option value="red-fence-1.jpg">Red Fence 1</option>
+<option value="palace-1.jpg">Palace 1</option>
+<option value="london-plaza-1.jpg">London Plaza 1</option>
+<option value="glass-pyramids.jpg">Glass Pyramid</option>
+</select>
+ </li>
+ <li>
+<label for="durationTo">Duration</label> 
+	To:   <input id="durationTo" name="durationTo" value="" type="text" size="4">
+  Back: <input id="durationBack" name="durationBack" value="" type="text" size="4">
+ </li>
+ <li>
+<label for="delayTo">delay</label>
+ To: <input id="delayTo" name="delayTo" value="" type="text" size="4">
+ Back: <input id="delayBack" name="delayBack" value="" type="text" size="4">
+ </li>
+ <li>
+<label for="easeTo">ease</label> 
+ To: <input id="easeTo" name="easeTo" value="" type="text" size="4">
+ Back: <input id="easeBack" name="easeBack" value="" type="text" size="4">
+ </li>
+ <li>
+ <label for="scalePage">Scale</label>
+ <select id="scalePage" name="scalePage" onChange="adjustScale('scalePage', 'main');">
+  <option value="4" selected="selected">4x</option>
+  <option value="2">2x</option>
+  <option value="1">1x</option>
+  <option value="8">8x</option>
+ </select> 
+ </li>
+</ul>
+</fieldset>
+
+<fieldset id="tileizeFields">
+<legend>Tileize Options</legend>
+<ul>
+ <li>
+<label for="feImageId">feImageId</label>
+ <input id="feImageId" name="feImageId" value="" type="text" size="4">
+ </li>
+ <li>
+  <ul>
+   <li><label for="heightTo">Height</label> 
+   To: <input id="heightTo" name="heightTo" value="" type="text" size="4">
+   Back: <input id="heightBack" name="heightBack" value="" type="text" size="4">
+   </li>
+   <li><label for="widthTo">Width</label>
+   To: <input id="widthTo" name="widthTo" value="" type="text" size="4">
+   Back: <input id="widthBack" name="widthBack" value="" type="text" size="4">
+   </li>
+  </ul> 
+ </li>
+ <li> 
+<label for="feRectId">RectId</label>
+ <input id="feRectId" name="feRectId" value="" type="text" size="4" onChange="updateRect('#feImageId');">
+ </li>
+ <li>
+  <ul>
+   <li>
+    <label for="rectHeightTo">Height</label>
+    To: <input id="rectHeightTo" name="rectHeightTo" value="" type="text" size="4">
+    Back: <input id="rectHeightBack" name="rectHeightBack" value="" type="text" size="4">
+   </li>
+   <li><label for="">Width</label>
+    To: <input id="rectWidthTo" name="rectWidthTo" value="" type="text" size="4">
+    Back: <input id="rectWidthBack" name="rectWidthBack" value="" type="text" size="4">
+   </li>
+  </ul>
+ </li>
+</ul>
+</fieldset>
+
+<fieldset id="displacementFields">
+<legend>Displacement Map Options</legend>
+<ul>
+ <li>
+ <label for="scaleTo">Scale</label> 
+ To: <input id="scaleTo" name="scaleTo" value="600" type="text" size="1">
+ Back: <input id="scaleBack" name="scaleBack" value="10" type="text" size="1" >
+ </li>
+</ul>
+</fieldset>
+<fieldset id="lightingFields">
+<legend>Diffuse Lighting Options</legend>
+<ul>
+ <li>
+ <label for="colorTo">Color</label>
+ To: <input id="colorTo" name="colorTo" value="#288" type="text" size="4">
+ Back: <input id="colorBack" name="colorBack" value="#ffc" type="text" size="4" >
+ </li>
+ <li>
+ <label for="surfaceScaleTo">Surface Scale</label>
+ To: <input id="surfaceScaleTo" name="surfaceScaleTo" value="" type="text" size="4">
+ Back: <input id="surfaceScaleBack" name="surfaceScaleBack" value="" type="text" size="4">
+ </li>
+ <li>
+ <label for="diffuseConstantTo">Diffuse Constant</label>
+ To: <input id="diffuseConstantTo" name="diffuseConstantTo" value="" type="text" size="4">
+ Back: <input id="diffuseConstantBack" name="diffuseConstantBack" value="" type="text" size="4">
+ </li>
+ <li>
+ <label for="">Lighting Coords</label>
+ <ul>
+  <li>
+   <label for="xTo">X Coords</label>
+ To: <input id="xTo" name="xTo" value="0" type="text" size="4" >
+ Back: <input id="xBack" name="xBack" value="0" type="text" size="4" >
+  </li>
+  <li>
+   <label for="yTo">Y Coords</label>
+ To: <input id="yTo" name="yTo" value="0" type="text" size="4" >
+ Back: <input id="yBack" name="yBack" value="0" type="text" size="4" >
+  </li>
+  <li>
+  <label for="zTo">Z Coords</label>
+ To: <input id="zTo" name="zTo" value="0" type="text" size="4" >
+ Back: <input id="zBack" name="zBack" value="0" type="number" step="5" size="1">
+  </li>
+ </ul>
+ </li>
+</ul>
+</fieldset>
+
+
+
+
+</fieldset>
+</form>
+ <div id="instructions">
+ <form id="panel">
+ <fieldset>
+  <legend>Instructions</legend>
+ <ul>
+  <li>Select Options, Then Click Animation Type:</li>
+  <li>
+   <input type="button" onClick="doAnimation('wipe');" value="Wipe" >
+   <input type="button" onClick="doAnimation('tileize');" value="Tileize" >
+   <input type="button" onClick="doAnimation('melt');" value="Melt" >
+   <input type="button" onClick="doAnimation('all');" value="Animate All" >
+   
+   
+  
+   
+  
+  </li>
+ </ul>
+ </fieldset>
+ </form>
+ </div>
+</div>
+
+
+
+</body>
+</html>

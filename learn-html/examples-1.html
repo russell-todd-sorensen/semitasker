@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<head lang="en_US">
+<title>Learn HTML Examples 1</title>
+<meta charset="utf-8">
+<style>
+
+css, tags {
+    white-space: pre;
+}
+
+css {
+    color: #F6F
+}
+
+tags {
+    color: #06F;
+}
+
+comment {
+    font-style: italic;
+}
+
+example {
+    display: block;
+    width: 400px;
+    border: solid black 1px;
+    background-color: #333;
+    color: white;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+</style>
+</head>
+<body>
+<examples>
+
+<example id="example-1">
+ <css>
+#a {
+color: #800000;
+background-color: white;
+widtH: 300px;
+height: 100px;
+margiN: auTO;
+border: dotted green 15px;
+text-align: center;
+font-size: 3.2em;
+line-height: 2em;
+}
+ </css>
+ <tags>
+<div id="a">Hello, World!</div>
+ </tags>
+ <comment>
+  Note that some css properties and property values
+  have mixed upper and lower case letters.
+ </comment>
+</example>
+
+<example id="example-2">
+ <css>
+#b {
+color: blue;
+background-color: white;
+border: solid;
+}
+ </css>
+ <tags>
+<div id="b">
+ Something simple for example two.
+</div>
+ </tags>
+</example>
+
+<example id="example-3">
+ <css>
+#x1 {
+color: tan;
+background-color: #333;
+border: dashed 5px;
+width: 350px;
+height: 75px;
+margin: auto;
+font-weight: bold;
+font-size: 3em;
+line-height: 1.65;
+text-align: center;
+text-transform: capitalize;
+}
+ </css>
+ <tags>
+<div id="x1">cSS box model</div>
+ </tags>
+</example>
+
+<example id="example-4">
+ <css>
+#top-nav {
+background-color: #333;
+width: 50%;
+margin: auto;
+font-weight: bold;
+text-align: center;
+text-transform: capitalize;
+}
+#top-nav li {
+background-color: tan;
+color: #333;
+display: inline-block;
+width: 95px;
+margin: 10px;
+}
+ </css>
+ <tags>
+<ul id="top-nav">
+ <li>button 1</li>
+ <li>buttom 2</li>
+ <li>button 3</li>
+</ul>
+ </tags>
+</example>
+
+<example id="example-5">
+ <css>
+#f {
+color: #444;
+background-color: white;
+border: solid;
+padding: 10px;
+width: 500px;
+margin: auto;
+text-align: center;
+font-weight: bold;
+border-radius: 10px;
+box-shadow: 3px 3px 10px black;
+}
+ </css>
+ <tags>
+<div id="f">
+ What if you want round coners and box shadow?
+</div>
+ </tags>
+</example>
+
+<example id="example-6">
+ <tags>
+<div id="main">
+ <div id="A" class="col">A</div>
+ <div id="B" class="col">B</div>
+ <div id="C" class="col">C</div>
+</div>
+ </tags>
+ <css>
+#main {
+background-color: white;
+height: 250px;
+width: 400px;
+margin: auto;
+text-align: center;
+}
+#A, #B, #C {
+border: solid green 3px;
+margin: 5px;
+padding: 10px;
+font-size: 40px;
+display: inline-block;
+max-width: 40px;
+}
+ </css>
+ <comment></comment>
+</example>
+<example id="example-7">
+ <tags>
+<div id="main">
+ <div id="A" class="col">A</div>
+ <div id="B" class="col">B</div>
+ <div id="C" class="col">C</div>
+</div> 
+ </tags>
+ <css>
+#main {
+background-color: white;
+height: 250px;
+width: 400px;
+margin: auto;
+text-align: center;
+/* add a border */
+border: double yellow 15px;
+}
+/* simplify the selector */
+.col { /* Used to be #A, #B, #C */
+border: solid green 3px;
+margin: 5px;
+padding: 10px;
+font-size: 40px;
+display: inline-block;
+max-width: 40px;
+vertical-align: top;
+}
+/* Individualize the boxes */
+#A {
+background-color: red;
+color: blue;
+height: 200px;
+
+}
+#B {
+background-color: white;
+color: red;
+height: 100px;
+
+}
+#C {
+background-color: blue;
+color: white;
+} </css>
+ <comment></comment>
+</example>
+
+<example id="example-8">
+ <tags>
+<div id="nav">
+ <a href="#">Home</a>
+ <a href="#">Products</a>
+ <a href="#">Contact</a>
+ <a href="#">Schedule</a>
+</div>
+ </tags>
+ <css>
+#nav {
+width: 352px;
+display: run-in;
+background-color: silver;
+margin: auto;
+}
+#nav a {
+display: inline-block;
+color: silver;
+background-color: rgba(125,50,125,.85);
+width: 65px;
+padding: 10px;
+text-align: center;
+font-weight: bold;
+text-decoration: none;
+}
+#nav a:hover {
+text-decoration: underline;
+}
+ </css>
+ <comment></comment>
+</example>
+
+<example id="example-9">
+ <tags>
+<div class="button-outer">
+ <div class="button-inner">Click Me!</div>
+</div>
+ </tags>
+ <css>
+.button-outer {
+color: rgba(125, 125,125,.95);
+background-color: rgba(255,255,255,1);
+border: 15px solid;
+display: inline-block;
+border-color: rgba(0,0,0,.4);
+border-bottom-color: rgba(0,0,0,.5);
+border-top-color: rgba(0,0,0,.3);
+border-radius: 10px;
+margin: 20px;
+margin-left: 100px;
+}
+.button-inner {
+padding: 5px;
+font-weight: bold;
+}
+.button-inner:hover {
+text-decoration: underline;
+cursor: pointer;
+} 
+ </css>
+ <comment></comment>
+
+</example>
+
+<example id="example-10">
+ <tags>
+<div id="buttons">
+ <div class="button-outer">
+  <div class="button-inner">Click Me!</div>
+ </div>
+ <div class="button-outer">
+  <div class="button-inner">Click Thee!</div>
+ </div>
+</div>
+ </tags>
+ <css>
+#buttons {
+background-color: #444;
+width: 55%;
+margin: auto;
+padding: 15px;
+}
+.button-outer {
+color: rgba(125,125,125,.95);
+background-color: rgba(255,255,255,1);
+border: 15px solid;
+display: inline-block;
+border-color: rgba(0,0,0,.4);
+border-bottom-color: rgba(0,0,0,.5);
+border-top-color: rgba(0,0,0,.3);
+border-radius: 10px;
+margin: 20px;
+margin-left: 100px;
+}
+.button-inner {
+padding: 5px;
+font-weight: bold;
+box-shadow: 5px 5px 20px rgba(0,0,0,.35),
+    -5px -5px 20px rgba(255,255,255,.95);
+}
+.button-inner:hover {
+text-decoration: underline;
+cursor: pointer;
+}
+ </css>
+ <comment></comment>
+</example>
+
+<example id="example-11">
+ <tags>
+<div class="button-outer">
+ <div class="button-inner"></div>
+</div> 
+ </tags>
+ <css>
+.button-inner {
+height: 60px;
+width: 60px;
+border: 100px dotted;
+color: #666;
+margin: -30px
+}
+.button-outer {
+background-color: tan;
+width: 201px;
+margin: auto;
+border: 1px solid tan;
+border-radius: 100px;
+overflow: hidden;
+}
+ 
+ </css>
+ <comment></comment>
+
+
+</example>
+
+</examples>
+
+</body>
+</html>

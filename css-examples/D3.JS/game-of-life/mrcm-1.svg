@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg>
+<svg 
+    xmlns:svg="http://www.w3.org/2000/svg" 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
+    version="1.0" 
+    x="0" 
+    y="0" 
+    width="500" 
+    height="500" 
+    viewBox="0 0 500 500">
+<defs>
+<g id="original">
+ <rect id="r1" x="0" y="0" height="100" width="200" fill="tan" />
+ <text x="0" y="80" font-size="80" fill="black" stroke="none">LOVE</text>
+</g>
+
+<filter id="mrcm-1" height="100%" width="100%" >
+ <!----><feImage xlink:href="#original" result="image-1" x="0%" y="0%" height="50%" width="50%" />
+ <feImage xlink:href="#original" result="image-2" x="0%" y="50%" height="50%" width="50%" />
+ <feImage xlink:href="#original" result="image-3" x="50%" y="50%" height="50%" width="50%" />
+
+<feMerge>
+ <feMergeNode in="image-3" />
+ <feMergeNode in="image-1" />
+ <feMergeNode in="image-2" />
+</feMerge>
+
+</filter>
+
+<filter id="mrcm-2" height="100%" width="100%" >
+
+<feMerge result="SG1">
+ <feMergeNode in="SourceGraphic" transform="matrix( .5 0 0 .5  0  0)" />
+ <feMergeNode in="SourceGraphic" transform="matrix( .5 0 0 -.5 0 40)"/>
+ <feMergeNode in="SourceGraphic" transform="matrix( -.5 0 0 .5 40 0)"/>
+</feMerge>
+
+</filter>
+
+<filter id="mrcm-3"  >
+<feMerge result="SG1"  width="50%" height="50%" x="0%" y="0%"  >
+ <feMergeNode in="SourceGraphic" />
+</feMerge>
+<feMerge result="SG2"  width="50%" height="50%" x="0%" y="50%"  >
+ <feMergeNode in="SourceGraphic" />
+</feMerge>
+<feMerge result="SG3"  width="50%" height="50%" x="50%" y="50%"  >
+ <feMergeNode in="SourceGraphic" />
+</feMerge>
+
+<feMerge result="SG4">
+ <feMergeNode in="SG1" />
+ <!--<feMergeNode in="SG2" />-->
+ <feMergeNode in="SG3" />
+</feMerge>
+</filter>
+
+<filter id="mrcm-4"  >
+<feTile in="SourceGraphic" result="SG1"  width="50%" height="50%" x="0%" y="0%"  />
+
+<feTile in="SourceGraphic" result="SG2"  width="50%" height="50%" x="0%" y="50%" />
+
+<feTile in="SourceGraphic" result="SG3"  width="50%" height="50%" x="50%" y="50%" />
+
+<feMerge result="SG4">
+ <feMergeNode in="SG1" />
+ <!--<feMergeNode in="SG2" />-->
+ <feMergeNode in="SG3" />
+</feMerge>
+</filter>
+
+</defs>
+
+
+
+
+
+<g x="0" y="0" transform="translate(0,0)" filter="url(#mrcm-4)">
+
+ <rect id="r2" x="10" y="10" height="90%" width="90%" fill="tan" stroke="black" stroke-width="5" />
+ <text x="10" y="80" font-size="80" fill="black" stroke="none">LOVE</text>
+</g>
+
+
+
+<polygon points="0 400, 400 400, 400 0, 0 0" fill="yellow" opacity=".5" fill-rule="evenodd" /> 
+</svg>

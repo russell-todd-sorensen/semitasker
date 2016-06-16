@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<link rel="stylesheet" type="text/css" href="main.css">
+<style>
+pre {
+ 	background-color: silver;
+    border: 1px solid black;   
+}
+
+.symbolContainer {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.symbols {
+    position: relative;
+    background-color: silver;
+    color: white;
+}
+
+
+</style>
+
+<script language="javascript" src="d3.v3.js"></script>
+<script language="javascript" src="../js/jquery-1.7.1.js"></script>
+<script language="javascript" src="../js/log.js"></script>
+<script language="javascript" >
+
+var version = d3.version;
+
+$(document).ready(function () {
+
+  Log.Notice('d3.js version=' + version + '\n');
+
+  Log.Notice('Finished ready()\n');
+  
+  svg = d3.select(document.body)
+  	.append("svg")
+	.style("position", "absolute")
+	.style("top", '450px')
+	.style("left", '200px')
+	.attr('id','svgBox2');
+	
+  svg.append("rect")
+  	.attr("x",400)
+	.attr("y",120)
+	.attr("height",100)
+	.attr("width",222)
+	.style("fill",'#640');
+	
+	
+	var svgOriginalPosition = new Array();
+	var svgSymbols = new Array();
+	var svgTags = new Array();
+	
+	var top = 100;
+	var docBody = d3.select(document.body);
+	
+	var myContainer = docBody.append("div")
+		.attr("class","symbolContainer")
+		.attr("id","container1");
+		
+	var myDiv = myContainer.append("div")
+		.attr("class","symbols")
+		.attr("id","symbols1");
+		
+	var i = 0;
+	
+	d3.svg.symbolTypes.forEach( function (type) {
+		
+		Log.Notice('type =' + type);
+		
+		svgSymbols["symbols" + i] = d3.svg.symbol().type(type).size(1200);
+		
+		svgTags["svg" + i] = myDiv.append("svg")
+			.style("position", "absolute")
+			.style("top", top + "px")
+			.style("right", '50px')
+			.attr("id","svg" + i);
+		svgTags["svg" + i].append("path")
+			.attr('x',100)
+			.attr('y',100)
+			.style('fill','#9' + i + (9-i))
+			.style("opacity", 1)
+			.attr('stroke','#f' + i + (10-i))
+			.attr('d', svgSymbols["symbols" + i]);
+		svgOriginalPosition["svg" + i] = top + "px";
+		top += 100;
+		i++;
+		
+	});
+	
+	for (x in svgTags) {
+		Log.Notice('svgTags['+ x + ']=' + svgTags[x]);
+	}
+	//d3.transition.prototype.duration(10000);
+	//d3.transition.prototype.delay(5000);
+
+	// select all svg elements on page
+	var selection1 = d3.selectAll("svg");
+	var myTransTag = d3.transition(selection1);
+	var trans2 = myTransTag.transition();
+	//var selection = d3.selectAll("svg");
+	//trans2.selectAll(selection);
+	//trans2.select();
+	trans2.duration(4000);
+	trans2.delay(2000);
+	trans2.style("opacity", 0,1);
+	trans2.style("top", "100px", 1);
+	trans2.ease("out-in");
+	//d3.ease("in-out");
+	Log.Notice('trans2=' + trans2);
+	
+	//trans2.style("opacity", 1,1);
+	//trans2.ease("in");
+	//var trans3 = myTransTag.transition();
+	//trans3.duration(4000);
+	//trans3.delay(6000);
+	//trans3.style("opacity", 1,1);
+	//trans3.style("top", "100px", 1);
+	//trans3.ease("in");
+	
+	var i = 0;
+	var transTags = new Array();
+	var myTransitions = new Array();
+	
+	svgOriginalPosition["svgBox1"] = "300px";
+	svgOriginalPosition["svgBox2"] = "450px";
+	
+	for (var x in svgOriginalPosition) {
+		Log.Notice('svgOriginalPosition[' + x + ']=' + svgOriginalPosition[x]);
+		var select = d3.select("#"+x);
+		transTags["tag" + i] = d3.transition(select);
+		myTransitions["transition" + i] = transTags["tag" + i].transition();
+		myTransitions["transition" + i]
+			.duration(4000 )
+			.delay(6000 + i*200)
+			.style("opacity",1,1)
+			.style("top", svgOriginalPosition[x], 1)
+			.style("right",svgOriginalPosition[x],1)
+			// choose in/out/in-out/linear/
+			//quad/cubic/sin/exp/elastic/back/bounce
+			.ease("elastic");
+		i++;
+	}
+	
+});
+
+</script>
+</head>
+<body>
+
+<svg width="100%" id="svgBox1" height="100%" style="position:absolute; left:100px;top:700px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<rect id="rec" x="200" y="100" width="300" height="100" style="fill:#046">
+</rect>
+</svg> 
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Font Selector for HTML and SVG</title>
+ <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+ <link rel="stylesheet" type="text/css" 
+       href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<style>
+html {
+    font-family: "Hobo Std";
+    font-size: 16px;
+}
+
+body {
+    font-size: .625em;
+}
+
+body * * * * {
+    font-size: 1.6em;
+}
+
+#logo {
+    font-family: 'HoboStd';
+    font-size: 50pt; 
+    fill: #603; 
+    stroke-width: 0px; 
+    stroke: black;
+    
+}
+
+#logo2 {
+    font-family: "gulim"; /* constant stroke width font */
+    font-size: 50pt; 
+    fill: gold; 
+    stroke-width: 1px; 
+    stroke: black;
+}
+
+#lower::before {
+    content: "Lower: ";
+}
+
+#upper {
+    text-transform: uppercase;
+}
+
+#upper::before {
+    content: "Upper: ";
+}
+    
+.allChars {
+    width: 100%;
+}
+
+#links {
+    background-color: #603;
+    padding: 10px;
+}
+#links a:link, 
+#links a:visited {
+    color: white;
+}
+
+#change-font {
+    font-size: 20px;
+    color: #603;
+    font-weight: bold;
+}
+
+#change-font input, #change-font select {
+    font-size: smaller;
+    color: inherit;
+    font-weight: bold;
+}
+
+#font-count {
+    display: inline-block;
+}
+
+#font-compare: {
+    border: 1px solid black;
+ 
+}
+.font {
+    border: 1px solid;
+    font-size: 20px;
+    padding: 5px;
+    color: #603;
+    margin-bottom: 2px;
+}
+
+.font span {
+    color: white;
+    background-color: #603;
+    padding: 3px;
+}
+
+.font::before {
+    display: block;
+    content: 'Lower: a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ?';
+}
+.font::after {
+    display: block;
+    content: 'Upper: A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; " \' | ~ ';
+}
+
+</style>
+
+<!--<link rel="stylesheet" type="text/css" href="/css/box-model.css" media="all">-->
+ <script src="/js/jquery-1.7.1.js"></script>
+ <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+ <script src="/js/d3.v3.js"></script>
+ <script src="/js/log-2.js"></script>
+ <script src="/js/data.js"></script>
+ <script src="/js/form-save-restore.js"></script>
+ 
+<!-- here comes the local script    -->
+<script>
+
+$(document).ready(function () {
+
+  Log.Hide();
+  Data.writeFontFamilySelect('#font-name');
+  Data.restoreSelectMultiple('font-name');
+	Data.restoreInput('font-size');
+  $('#font-count').text("Font Count: " + Data.fontFamily.length);
+});
+
+
+</script>
+</head>
+<body>
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   x="0"
+   y="0"
+   width="2000"
+   height="120"
+   viewBox="0 0 2000 120"
+   >
+
+<defs>
+
+<text id="myLogo" x="30" y="70" text-anchor="begin" text-rendering="optimizeLegibility">
+<!--optimizeLegibility  / geometricPrecision-->
+ Font Browse and Compare
+ </text>
+</defs>
+
+
+<use xlink:href="#myLogo" id="logo" />
+</svg>
+<form id="change-font">
+Font Family: 
+<select name="font-name" id="font-name" onChange="Data.changeFontMultiple('font-name');" multiple="multiple" size="4">
+</select>
+Font Size: <input type="text" size="3" value="20" onChange="Data.changeFontSize('font-size', '.font');" id="font-size" name="font-size">
+<div id="font-count"></div>
+</form> 
+
+ <div id="lower" class="allChars">a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9 - + = ( ) * ^ % $ # @ ! : ? > &lt; </div>
+ <div  id="upper" class="allChars">a b c d e f g h i j k l m n o p q r s t u v w x y z 0 1 2 3 4 5 6 7 8 9 - + = ( ) * ^ % $ # @ ! : ? > &lt; </div>
+ 
+ <div class="allChars extra"></div>
+ 
+ <div id="font-compare"></div>
+</body>
+</html>

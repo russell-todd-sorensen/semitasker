@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+<meta charset="utf-8" >
+<title>Color Mixer 17</title>
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="/css/green-form.css" >
+
+<style>
+
+svg {
+    background-color: #000;
+}
+
+html, body {
+    background-color: #000;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-family: "Consolas Bold";
+    font-family: "Agency FB Bold";
+    font-family: "Tw Cen MT";
+    font-weight: bold;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+#slider-box-1 {
+    position: relative;
+    display: none;
+}
+
+.text, .label, .label-2, #mode-controls {
+    fill: #CCCCDD;
+    font-size: 15px;
+    letter-spacing: 1.00px;
+    font-family: "Agency FB";
+    font-family: "Tw Cen MT";
+}
+
+.label:hover {
+    fill: #E0C64A;
+}
+
+#no-show {
+    display: block;
+}
+
+.control-line {
+    stroke: #444;
+    stroke-width: 1;
+}
+
+#form {
+    /*font-family: "Consolas Bold"; */
+    font-family: "Tw Cen MT";
+    color: white;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#form ul {
+    font-family: inherit;
+    list-style: none;
+    padding: 0;
+}
+
+
+#form input {
+    font-family: "Tw Cen MT";
+    font-size: 15px;
+    width: 162px;
+    margin-left: 12px;
+}
+
+#form input[type=range] {
+    width: 130px;
+}
+
+/* this is how you change the font of select options!!! */
+#theory { /* select id */
+    font-family: "Tw Cen MT";
+    font-size: 16px;
+}
+
+#mode-controls {
+    letter-spacing: 1px;
+}
+
+</style>
+<!--<link rel="stylesheet" href="/css/box-model.css" >-->
+
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="js/color-mixer-17.js" ></script>
+<script>
+// <![CDATA[
+var swatchIndex;
+var swatchCount = 6;
+
+// create main swatch with special sliders 
+
+swatchIndex = appCounters.swatchIndex++;
+
+var mainSwatch = new Swatch("#SWATCH-MAIN", swatchIndex);
+swatches[swatches.length] = mainSwatch;
+
+for (var i = 1; i < swatchCount ; i++) {
+	swatchIndex = appCounters.swatchIndex++;
+	swatches[swatches.length] = new Swatch(generateSwatchName(swatchIndex), swatchIndex);
+}
+
+function finalFixup () {
+	generateTC();
+	
+	d3.select('#fcos-saturation').on('scroll', function(evt) {
+		var evtCopy = evt;
+		Log.Notice('mousewheel over fcos-saturation');
+		return false;
+	});
+}
+
+$(document).ready(function(e) {
+
+  writeSvg('#app-0');
+	$('#gradient-4, #gradient-5, #gradient-7, #gradient-8')
+		.attr('x1','50%')
+		.attr('y1','0%')
+		.attr('x2','50%')
+		.attr('y2','100%');
+
+	swatches[0]
+	  .swatchSelectors[swatches[0].swatchSelectors.length] = 
+		  "#hsl-swatch-current";
+	swatches[0]
+	  .swatchSelectors[swatches[0].swatchSelectors.length] = 
+		  "#hsb-swatch-current";
+
+	swatches[0].mode = 'hsl';
+  sliders[3].displayWidth = 360;
+	sliders[3].callParent = [hslMainSwatchUpdate];
+	sliders[4].orientation = 'vertical';
+	sliders[4].maxY = 31;
+	sliders[4].minY = -224;
+	sliders[4].skewY = 5;
+	sliders[4].callParent = [hslMainSwatchUpdate];
+	sliders[5].orientation = 'vertical';
+	sliders[5].maxY = 31;
+	sliders[5].minY = -224;
+	sliders[5].skewY = 5;
+	sliders[5].callParent = [hslMainSwatchUpdate];
+	
+	
+  sliders[6].displayWidth = 360;
+	sliders[6].callParent = [hsbMainSwatchUpdate];
+	sliders[7].orientation = 'vertical';
+	sliders[7].maxY = 31;
+	sliders[7].minY = -224;
+	sliders[7].skewY = 5;
+	sliders[7].callParent = [hsbMainSwatchUpdate];	
+	
+	sliders[8].orientation = 'vertical';
+	sliders[8].maxY = 31;
+	sliders[8].minY = -224;
+	sliders[8].skewY = 5;
+	sliders[8].callParent = [hsbMainSwatchUpdate];
+	
+	
+	Data.restoreInput('baseColor');
+	Data.restoreInput('angle');
+	Data.restoreSelect('theory');
+	Data.changeText('angle','#angle-display');
+	Data.restoreInput('mode');
+
+	setTimeout(finalFixup,400);
+	Log.Hide();
+	
+	window.onscroll = function() {
+    var evt = event;
+		var target = evt.target;
+		evt.cancelBubble=true;
+		evt.preventDefault=true;
+		Log.Notice("scrolling target=" + evt.target.nodeName);
+		return false;
+	}
+
+});
+
+
+
+// ]]>
+</script>
+
+</head>
+<body>
+<div id="form">
+<form onSubmit="return false;">
+<ul>
+<fieldset>
+<legend>Options</legend><li>
+<label for="baseColor">Color</label>:
+<input id="baseColor" name="baseColor" type="input"
+       value="#808080"  
+       onChange="changeColorTheory('baseColor');generateTC();"
+       onBlur="changeColorTheory('baseColor');generateTC();">
+</li>
+<li><label for="theory">Theory</label>:
+<select id="theory" name="theory"
+        onChange="changeColorTheory('theory');generateTC();">
+ <option value="compliment" selected="selected">Compliment</option>
+ <option value="split-compliment">Split Compliment</option>
+ <option value="split-compliment-2">Split Compliment 2</option>
+ <option value="analogous">Analogous</option>
+ <option value="analogous-2">Analogous 2</option>
+ <option value="monochrom-1">Monochromatic 1</option>
+ <option value="monochrom-2">Mono2 HSL Sat</option>
+ <option value="monochrom-3">Mono3 HSL Darker</option>
+ <option value="monochrom-4">Mono4 HSL Briter</option>
+ <option value="monochrom-5">Mono5 HSB Sat</option>
+ <option value="monochrom-6">Mono6 HSB Briteness</option>
+ </select>
+</li>
+<li>
+<label for="angle">Angle</label>:
+<input id="angle" name="angle" type="range"
+       value="60" min="0" max="90"  
+       onChange="changeColorTheory('angle');Data.changeText('angle','#angle-display');generateTC();"
+       onBlur="changeColorTheory('angle');Data.changeText('angle','#angle-display');generateTC();">
+<span id="angle-display">60</span><span>&deg;</span>
+</li>
+</fieldset>
+</ul>
+<input type="hidden" name="mode" id="mode" value="hsb" />
+</form>
+</div>
+<div id="app-0">
+<svg>
+<defs>
+
+<g id="lollypop-1">
+ <circle cx="10" cy="20" r="10" />
+ <line x1="10" y1="10" x2="10" y2="0" />
+</g>
+
+<g id="lollypop-2">
+ <circle cx="5" cy="10" r="5" />
+ <line x1="5" y1="5" x2="5" y2="0" />
+</g>
+
+<g id="lollypop-3">
+ <line x1="0" y1="10" x2="5" y2="10" />
+ <circle cx="10" cy="10" r="5" />
+ <line x1="15" y1="10" x2="20" y2="10" />
+</g>
+
+<g id="lollypop-4">
+ <line x1="0" y1="10" x2="5" y2="10" />
+ <circle cx="10" cy="10" r="5" />
+ <!--<line x1="15" y1="10" x2="20" y2="10" />-->
+</g>
+
+<g id="lollypop-5">
+ <line x1="5" y1="5" x2="5" y2="0" />
+ <circle cx="5" cy="10" r="5" />
+ <line x1="5" y1="15" x2="5" y2="20" />
+</g>
+
+<!-- gradient-hsl-1 remains fixed at all times -->
+<linearGradient id="gradient-hsl-1" gradientUnits="objectBoundingBox" color-interpolation="sRGB" >
+ <stop offset="0%" stop-color="#FF0000" stop-opacity="1.0" id="hsl-lg-4-0" />
+ <stop offset="16.67%" stop-color="#FFFF00" stop-opacity="1.0" id="hsl-lg-4-17" />
+ <stop offset="33.3%" stop-color="#00FF00" stop-opacity="1.0" id="hsl-lg-4-33" />
+ <stop offset="50%" stop-color="#00FFFF" stop-opacity="1.0" id="hsl-lg-4-50" />
+ <stop offset="66.67%" stop-color="#0000FF" stop-opacity="1.0" id="hsl-lg-4-67" />
+ <stop offset="83.3%" stop-color="#FF00FF" stop-opacity="1.0" id="hsl-lg-4-83" />
+ <stop offset="100%" stop-color="#FF0000" stop-opacity="1.0" id="hsl-lg-4-100" />
+</linearGradient>
+
+<linearGradient id="gradient-hsl-2" gradientUnits="objectBoundingBox" color-interpolation="sRGB" >
+ <stop offset="0%" stop-color="#FF0000" stop-opacity="1.0" id="hsl-lg-2-0" />
+ <stop offset="16.67%" stop-color="#FFFF00" stop-opacity="1.0" id="hsl-lg-2-17" />
+ <stop offset="33.3%" stop-color="#00FF00" stop-opacity="1.0" id="hsl-lg-2-33" />
+ <stop offset="50%" stop-color="#00FFFF" stop-opacity="1.0" id="hsl-lg-2-50" />
+ <stop offset="66.67%" stop-color="#0000FF" stop-opacity="1.0" id="hsl-lg-2-67" />
+ <stop offset="83.3%" stop-color="#FF00FF" stop-opacity="1.0" id="hsl-lg-2-83" />
+ <stop offset="100%" stop-color="#FF0000" stop-opacity="1.0" id="hsl-lg-2-100" />
+</linearGradient>
+
+<linearGradient id="gradient-main-hsl" gradientUnits="objectBoundingBox"
+x1="50%" y1="0%" x2="50%" y2="100%" color-interpolation="sRGB">
+ <stop id="stop-1" offset="0%" stop-color="#000000" stop-opacity="1.0" />
+ <stop id="stop-2" offset="0%" stop-color="#808080" stop-opacity="1.0" />
+ <stop id="stop-3" offset="100%" stop-color="#000000" stop-opacity="0.0" />
+</linearGradient>
+
+</defs>
+
+
+<g id="hsl-from-rgb" transform="translate(530,20)">
+ <rect id="hsl-from-rgb" x="0" y="0" height="256" width="360" fill="url(#gradient-hsl-1)"/>
+ <rect id="hsl-screen" x="0" y="0" height="256" width="360" fill="url(#gradient-main-hsl)" />
+ <rect id="hsl-swatch-current" x="-234" y="0" height="135" width="189"
+       fill="hsl(180,0%, 50%)" stroke="none" />
+ <g id="SWATCH-MAIN-hsl-sliders" style="display: block;" transform="translate(0,220)">
+ 
+  <!-- Hue Control South of Main Swatch -->
+  <rect  x="0" y="56" height="5" width="360" fill="url(#gradient-3)" stroke="none" id="r-3" />
+  <use  id="slider-3" class="pointer" x="175" y="36" minX="0" maxX="360"
+	      xlink:href="#lollypop-5" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1"/>
+	
+	<!-- Value/Level Control East side of Main Swatch -->
+ <rect x="378" y="-220" height="256" width="5"
+      fill="url(#gradient-4)" stroke="none" id="r-4"/>
+ <use id="slider-4" class="pointer" x="383" y="-101" minX="0" maxX="255"
+      xlink:href="#lollypop-4" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1" />
+  <!-- Saturation Control West Side of Main Swatch -->
+  <rect x="-25"  y="-220" height="256" width="5"
+	      fill="url(#gradient-5)" stroke="none" id="r-5"/>
+  <use id="slider-5" class="pointer" x="-20" y="-229" minX="0" maxX="255"
+	     xlink:href="#lollypop-3" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1" />
+ </g>
+</g>
+
+
+<g id="hsb-from-rgb" transform="translate(530,20)">
+<!-- <rect id="hsb-brt-mode" x="-50" y="-30" height="335" width="465"
+       fill="hsl(0,0%,20%)" stroke="white" stroke-width="1"/>
+ <rect id="hsb-sat-mode" x="-50" y="-30" height="335" width="465"
+       fill="hsl(0,0%,20%)" stroke="white" stroke-width="1" />-->
+ <rect id="hsb-hue" x="0" y="0" height="256" width="360"
+       fill="rgb(32,0,255)"/>
+ <rect id="hsb-sat" x="0" y="0" height="256" width="360"
+       fill="rgba(255,255,255,.2)" stroke="black" stroke-width="1" />
+ <rect id="hsb-brt" x="0" y="0" height="256" width="360"
+       fill="rgba(0,0,0,.1)" stroke="black" stroke-width="1"  />
+ <rect id="hsb-swatch-current" x="-234" y="0" height="135" width="189"
+       fill="hsl(180,0%, 50%)" stroke="none" />
+ 
+ <g id="SWATCH-MAIN-hsb-sliders" style="display: block;" transform="translate(0,220)">
+ 
+  <!-- Hue Control South of Main Swatch -->
+  <rect x="0" y="56" height="5" width="360" fill="url(#gradient-6)" stroke="none" id="r-6" /><!-- rainbow gradient -->
+  <rect x="0" y="56" height="5" width="360" fill="none" stroke="none" id="r-6-sat" /><!-- fill with sat setting -->
+  <rect x="0" y="56" height="5" width="360" fill="none" stroke="none" id="r-6-brt" /><!-- fill with brt setting -->
+  <use id="slider-6" class="pointer" x="175" y="36" minX="0"  maxX="360" 
+	     xlink:href="#lollypop-5" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1"/>
+	
+	<!-- Saturation Control West side of Main Swatch -->
+  <rect x="-25" y="-220" height="256" width="5" fill="none" stroke="none" id="r-7-hue"/><!-- fill with base hue -->
+  <rect x="-25" y="-220" height="256" width="5" fill="url(#gradient-7)" stroke="none" id="r-7"/>
+  <rect x="-25" y="-220" height="256" width="5" fill="none" stroke="none" id="r-7-brt"/><!-- fill with brt setting -->
+  <use  id="slider-7" class="pointer" x="-20" y="-229" minX="0" maxX="255" 
+       xlink:href="#lollypop-3" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1" />
+  <!-- Brightness Control East Side of Main Swatch -->
+	<rect x="378"  y="-220" height="256" width="5" fill="none" stroke="none" id="r-8-hue"/><!-- fill with base hue -->
+	<rect x="378"  y="-220" height="256" width="5" fill="none" stroke="none" id="r-8-sat"/><!-- fill with sat setting -->
+  <rect x="378"  y="-220" height="256" width="5" fill="url(#gradient-8)" stroke="none" id="r-8"/>
+  <use id="slider-8" class="pointer" x="383" y="-101" minX="0" maxX="255" 
+	     xlink:href="#lollypop-4" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1" />
+ </g>
+</g>
+
+
+<g transform="translate(249,42) scale(1.2)" >
+<text x="-15" y="117" id="mode-controls">MODE</text>
+<use xlink:href="#rect-field-5" x="40" y="105" id="mode-toggle-hsl"
+     onClick="toggleMainSwatchMode('mode','hsl');" style="cursor:pointer;" /> 
+<text id="mode-hsl-text" x="43" y="117.5" class="field"
+      onClick="toggleMainSwatchMode('mode','hsl');" style="cursor:pointer;"  >HSL Mode</text>
+
+<use xlink:href="#rect-field-5" x="124" y="105" id="mode-toggle-hsb"
+     onClick="toggleMainSwatchMode('mode','hsb');" style="cursor:pointer;" />
+<text id="mode-hsb-text" x="125" y="117.5" class="field"
+      onClick="toggleMainSwatchMode('mode','hsb');" style="cursor:pointer;"  >HSB Mode</text>
+
+<use xlink:href="#swatch-3-controls"  x="0" y="0" />
+</g>
+<!-- fix this another day --x="200" y="30" transform="scale(1.2)"
+<g id="fine-control-overlay" transform="translate(510,20)" style="display:block">
+ <rect id="fcos-saturation" x="0" y="0" height="256" width="60" fill="none" stroke="#888" stroke-width=".5" />
+</g>
+-->
+</svg>
+</div>
+
+</body>
+</html>

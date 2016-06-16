@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<link rel="stylesheet" type="text/css" href="main.css">
+<style>
+pre {
+ 	background-color: silver;
+    border: 1px solid black;   
+}
+
+.symbolContainer {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.symbols {
+    position: relative;
+    background-color: silver;
+    color: white;
+}
+
+
+</style>
+
+<script language="javascript" src="d3.v3.js"></script>
+<script language="javascript" src="../js/jquery-1.7.1.js"></script>
+<script language="javascript" src="../js/log.js"></script>
+<script language="javascript" >
+
+var version = d3.version;
+
+$(document).ready(function () {
+
+  Log.Notice('d3.js version=' + version + '\n');
+ 	
+  var x = d3.geo.albersUsa([0,0]);
+  Log.Notice('Finished d3.geo.albers: --' + x + '--\n');
+  
+  Log.Notice('Finished ready()\n');
+  
+  svg = d3.select(document.body)
+  	.append("svg")
+	.style("position", "absolute")
+	.style("top", '200px')
+	.style("left", '200px');
+	
+  svg.append("rect")
+  	.attr("x",400)
+	.attr("y",120)
+	.attr("height",100)
+	.attr("width",222)
+	.style("fill",'#640')
+	.attr('onClick', 'd3.behavior.zoom()');
+
+  var poly = d3.geom.polygon([[33,24], [26.5,35.5], [13.5,35.5], [7,24], [13.5,12.5], [26.5,12.5]]);
+  var area = poly.area();
+  Log.Notice('poly=' + poly);
+  Log.Notice('poly.area()=' + area);
+  
+  var voronoi = d3.geom.voronoi(poly);
+  //Log.Notice('voronoi=' + voronoi);
+  
+  var circle = d3.geo.circle();
+  circle.origin([100,200]);
+  circle.angle(0,.360);
+  
+  var text = "this is some text 'wow <xyz>"
+  var quotedText = d3.requote(text);
+ 
+  Log.Notice('quotedText="' + quotedText + '"');
+  
+  var symbol = d3.svg.symbol();
+  
+  var zip = d3.zip(poly);
+  Log.Notice('zip(' + poly + ')=' + zip);
+  var zip2 = d3.zip(1,2,'a',9,'b');
+  Log.Notice("zip(1,2,'a',9,'b')=" + zip2);
+  var zip3 = d3.zip('abc123def');
+  Log.Notice('zip("abc123def")=' + zip3);
+  
+  var array1 = [1,2,5,7,9];
+  var array2 = [3,4,6,8,10];
+  var array3 = d3.merge(array1,array2);
+  Log.Notice('array1=' + array1 + ' array2=' + array2 + ' d3.merge(array1,array2)=' + array3);
+
+  var set1 = d3.set(array1);
+  var set2 = d3.set(array2);
+  
+  Log.Notice('set1.values()=' + set1.values());
+  
+  set1.remove(5);
+  set1.remove(100);
+  Log.Notice('set1.values()=' + set1.values());
+
+  set1.forEach(function(value) {
+	  Log.Notice(' removing value=' + value);
+	  set1.remove(value);
+  });
+  
+   Log.Notice('set1.values()=' + set1.values());
+   
+   set1.add(6);
+   set1.add(4);
+   set1.add('a');
+   
+   Log.Notice('set1.values()=' + set1.values());
+   
+
+   var arc = d3.svg.arc();
+   arc.innerRadius(100);
+   arc.outerRadius(200);
+   arc.startAngle(0);
+   arc.endAngle(Math.PI*.8);
+
+   centroid = arc.centroid();
+   arc1 = arc();
+   Log.Notice('centroid=' + centroid);
+   Log.Notice('arc1=' + arc1);
+   
+   // add arc to svg:
+   svg.append("path")
+    .attr('x',650)
+	.attr('y',650)
+	.style("fill",'#640')
+    .attr('stroke','#231F20')
+	.attr('stroke-miterlimit',10)
+	.attr('d',arc1); 
+	
+	
+   // this looks interesting:
+   var pie1 = d3.layout.pie();
+   pie1.sort([100,300,400,200]);
+   var value = pie1.value();
+   pie1.startAngle(0);
+   pie1.endAngle(2*Math.PI);
+    
+   Log.Notice('pie1.value()=' + value );
+   //Log.Notice('prototype=' + pie.prototype);
+
+   
+   // svg chord
+   chord1 = d3.svg.chord(100,50);
+   chord1.startAngle(Math.PI/3);
+   chord1.endAngle(Math.PI*3/2);
+   chord1.radius(75);
+   
+   Log.Notice('chord1(13,777)=' + chord1(13,777) );
+   Log.Notice('chord1(0,0)=' + chord1(0,0) )
+   svg.append("path")
+    .attr('x',850)
+	.attr('y',50)
+	.style("fill",'#966')
+    .attr('stroke','#231F20')
+	.attr('stroke-miterlimit',10)
+	.attr('d',chord1(0,0)); 
+	
+   symbol1 = d3.svg.symbol();
+   symbol1.type('diamond');
+   symbol1.size(900);
+   
+   svg.append("path")
+    	.attr('x',850)
+		.attr('y',50)
+		.style("fill",'#946')
+        .attr('stroke','#231F20')
+		.attr('d',symbol1());
+	
+	symbol2 = d3.svg.symbol()
+		.type("triangle-down")
+		.size(1200);
+	svg2 = d3.select(document.body)
+  		.append("svg")
+		.style("position", "absolute")
+		.style("top", '115px')
+		.style("left", '515px');
+	svg2.append("path")
+    	.attr('x',850)
+		.attr('y',50)
+		.style("fill",'#369')
+		.style("opacity", ".5")
+        .attr('stroke','#fff')
+		.attr('d',symbol2());
+		
+	var svgSymbols = new Array();
+	var i = 0;
+	var top = 100;
+	var docBody = d3.select(document.body);
+	
+	var myContainer = docBody.append("div")
+		.attr("class","symbolContainer")
+		.attr("id","container1");
+		
+	var myDiv = myContainer.append("div")
+		.attr("class","symbols")
+		.attr("id","symbols1");
+		
+	d3.svg.symbolTypes.forEach( function (type) {
+		
+		Log.Notice('type =' + type);
+		
+		svgSymbols["symbols" + i] = d3.svg.symbol().type(type).size(1200);
+		var tmpSvg = myDiv.append("svg")
+			.style("position", "absolute")
+			.style("top", top + "px")
+			.style("right", '50px');
+		tmpSvg.append("path")
+			.attr('x',100)
+			.attr('y',100)
+			.style('fill','#9' + i + (9-i))
+			.style("opacity", "." + (3+i))
+			.attr('stroke','#f' + i + (10-i))
+			.attr('d', svgSymbols["symbols" + i]);
+		
+		top += 100;
+		i++;
+	});
+});
+
+</script>
+</head>
+<body>
+
+<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<rect id="rec" x="200" y="100" width="300" height="100" style="fill:#046" onMouseDown="d3.behavior.zoom(5)">
+	  
+</rect>
+</svg> 
+
+<div id="dragit">something to drag</div>
+</body>
+</html>

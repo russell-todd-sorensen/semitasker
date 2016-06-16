@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+<meta charset="utf-8" >
+<title>HSL RGB Conversion Checker</title>
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+<style>
+
+svg {
+    background-color: #FFF;
+}
+
+html, body {
+    background-color: #000;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-family: "Consolas Bold";
+    font-family: "Agency FB Bold";
+    font-family: "Tw Cen MT Bold";
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+#slider-box-1 {
+    position: relative;
+    display: none;
+}
+
+.text, .label, .label-2 {
+    fill: #CCCCDD;
+    font-size: 15px;
+    font-weight: bold;
+   /*  font-family: "Consolas Bold";*/
+    letter-spacing: 3px;
+    font-family: "Agency FB Bold";
+}
+
+.label:hover {
+    fill: #E0C64A;
+}
+
+#no-show {
+    display: block;
+}
+
+.control-line {
+    stroke: #444;
+    stroke-width: 1;
+}
+
+#bg {
+    font-family: inherit;
+    color: white;
+}
+
+#bg ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+form, fieldset, label, select, option {
+    font-family: inherit;
+}
+
+#calculations {
+    background-color: white;
+}
+
+#calculations div {
+    color: #808080;
+}
+
+#p1, #lines line {
+    /*fill: #808080; 
+    stroke: #808080;*/
+    stroke-width: .1px;
+}
+
+#points circle {
+    opacity: 1.0;
+}
+
+#f1 {
+    background-color: rgb(128,128,128);
+    padding: 10px;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+
+.input-button {
+    color: #666;
+    float: right;
+    font-weight: bold;
+    border: 3px solid;
+    cursor: pointer;
+}
+
+.mismatch {
+    stroke-width: 1px;
+    stroke: #333;
+}
+
+</style>
+<!--<link rel="stylesheet" href="http://ic00408/css/box-model.css" >-->
+
+
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/data.js"></script>
+<script src="http://ic00408/js/form-save-restore.js"></script>
+<script src="http://ic00408/js/binary-hex-conversions.js"></script>
+<script src="http://ic00408/js/example-library.js"></script>
+<script src="http://ic00408/js/svg-transform.js"></script>
+<script src="js/color-mixer-15.js" ></script>
+<script>
+// <![CDATA[ 
+
+var points = [];
+var pointIndex = 0;
+var lineIndex = 1;
+var animateIndex = 0;
+var lineTimeoutId ;
+var pointTimeoutId;
+var mismatch = 0;
+var circleLabelsEnabled = false;
+
+function PointGraph () {
+    var classAdd = "";
+    this.animateIndex = 0;
+    this.drawLine = function () {
+	    var pMinusOne = lineIndex-1;
+	    if (lineIndex >= points.length) {
+		    Log.Notice('points.length=' + points.length + ' lineIndex = ' + lineIndex);
+		    return false;
+	    }
+      var p1 = points[pMinusOne];
+	    var p2 = points[lineIndex];
+	    d3.select('#lines')
+	      .append('line')
+	      .attr({
+		    'x1':p1.x,
+	      'y1':p1.y,
+		    'x2':p2.x,
+		    'y2':p2.y,
+		    'stroke':'rgb(' + p1.r + ',' + p1.g +',' + p1.b +')'
+				}
+				);
+	      lineIndex++;
+	      //lineTimeoutId = setTimeout(myGraph.drawLine,10);
+				return true;
+		};
+    this.drawPoint = function () {
+	    if (pointIndex >= points.length) {
+		    Log.Notice('points.length=' + points.length + ' pointIndex = ' + pointIndex);
+		    return false;
+	    }
+			
+	    var p1 = points[this.pointIndex];
+			var hsl2 = d3.hsl(p1.h,p1.s,p1.l);
+			var rgb2 = hsl2.rgb();
+			if (rgb2.r != p1.r || rgb2.g != p1.g || rgb2.b != p1.b) {
+				mismatch++;
+				classAdd = " mismatch";
+				Log.Notice("r: " + p1.r + " " + rgb2.r + ", g: " + p1.g + " " + rgb2.g + ", b: " + p1.b + " " + rgb2.b );
+			} else {
+				classAdd = "";
+			}
+	    d3.select('#points')
+	      .append('circle')
+	      .attr({
+					'class':'h-' + p1.h + classAdd,
+		      'cx':p1.x,
+	        'cy':p1.y,
+		      'r':5,
+		      'fill':'rgb(' + p1.r + ',' + p1.g +',' + p1.b +')'})
+		     .transition()
+		     .ease('linear')
+		     .duration(1000)
+		     .attr('r',2.5);
+	    pointIndex++;
+	    //pointTimeoutId = setTimeout(myGraph.drawPoint,10);
+			return true;
+    };
+	  this.animateColors = function() {
+    	if (this.animateIndex > 360) {
+				return false;
+			}
+
+			var hClass = ".h-" + this.animateIndex;
+			var selection = d3.selectAll('#points ' + hClass);
+			
+			while (selection[0].length == 0 && this.animateIndex <= 360) {
+				this.animateIndex = this.animateIndex+1;
+				hClass = ".h-" + this.animateIndex;
+				selection = d3.selectAll('#points ' + hClass);
+			}
+			
+			if (selection[0].length) {
+				
+				Log.Notice('animateColors animateIndex=' + this.animateIndex + 'selection.length=' + selection[0].length);
+				selection
+					.transition()
+					.duration(hiliteConfig.duration)
+					.ease('linear')
+					.delay(function(i) {return i*10})
+					.attr(hiliteConfig.endAttrs)
+					.style(hiliteConfig.endStyles)
+					.each('end', function(d,i) {
+						Log.Notice('in end for i=' + i);
+						d3.select(this)
+							.transition()
+							.duration(hiliteConfig.duration)
+							.ease('linear')
+							.delay(function(i) {return i*10})
+							.style(hiliteConfig.startStyles)
+							.attr(hiliteConfig.startAttrs);
+					 });
+				
+			} else {
+				Log.Notice('No selection at animateIndex=' + this.animateIndex);
+				return false;
+			}
+			
+			this.animateIndex = this.animateIndex+1;
+
+			return true;
+		};
+}
+
+function scheduleFunction(funcRef, timeout, rescheduleOnSuccessP, passEventP) {
+
+  var evt = null;
+	
+	if (arguments.length > 1) {
+		if (timeout <= 0 ) {
+			timeout = 10; //milliseconds
+		}
+	}
+	else {
+		var timeout = 10; //ms
+	}
+	
+	if (arguments.length < 3) {
+		var rescheduleOnSuccessP = false;
+	}
+	
+  if (arguments.length > 3) {
+		if (passEventP) {
+			var evt = event;
+		} 
+	} 
+	else {
+    var passEventP = false;
+	}
+  
+	var result = funcRef(evt);
+	
+	if (rescheduleOnSuccessP && result) {
+		setTimeout(scheduleFunction, timeout, 
+		           funcRef, timeout, 
+							 rescheduleOnSuccessP, 
+							 passEventP);
+	}
+}
+
+var myGraph = new PointGraph();
+
+var rgb2hsl = function (r, g, b) {
+	var hBuckets = 50;
+	var buckets = 500;
+	var r1 = r;
+	var g1 = g;
+	var b1 = b;
+	var min = Math.min(r /= 255, g /= 255, b /= 255),
+	    max = Math.max(r, g, b),
+		  d = max - min, h, s, l = (max + min) / 2;
+	if (d) {
+		s = l < .5 ? d / (max + min) : d / (2 - max - min);
+		if (r == max) h = (g - b) / d + (g < b ? 6 : 0); else if (g == max) h = (b - r) / d + 2; else h = (r - g) / d + 4;
+		h = Math.round(h*60*hBuckets)/hBuckets;
+	} else {
+		h = Math.round(r1/255*360*hBuckets)/hBuckets;
+		s = l > 0 && l < 1 ? 0 : max;
+	}
+	// now round s and l to correct value
+	var buckets = 500
+	s = Math.round(s * buckets)/buckets;
+	l = Math.round(l * buckets)/buckets;
+	
+  return {h:h,s:s,l:l,d:d,max:max,min:min,r:r1,g:g1,b:b1,x:0,y:0};
+}
+
+var Config = {
+	formId: 'bg',
+	xOffset: 40,
+	yOffset: 420,
+	yExpand: 400,
+	rStart: 0,
+	gStart: 0,
+	bStart: 0,
+	rEnd: 255,
+	gEnd:255,
+	bEnd: 255,
+	rStep: 25,
+	gStep: 25,
+	bStep: 25
+}
+
+function generatePoints(r1,g1,b1) {
+  //points[points.length] = {x:Config.xOffset,y:Config.yOffset,r:r1,g:g1,b:b1};
+	points[points.length] = {};
+	for (var r=Config.rStart;r<=Config.rEnd;r=r+Config.rStep) {
+		for (var g=Config.gStart;g<=Config.gEnd;g=g+Config.gStep) {
+			for (var b=Config.bStart; b<=Config.bEnd;b=b+Config.bStep) {
+				var data = rgb2hsl(r,g,b);
+				data.y = Math.round(Config.yOffset - (data.d * Config.yExpand));
+				data.x = Config.xOffset + (r + g + b);
+				points[points.length] = data;
+			}
+		}
+	}
+}
+
+function generatePoints2(r1,g1,b1) {
+  points[points.length] = {x:Config.xOffset,y:Config.yOffset,r:r1,g:g1,b:b1};
+	var maxPoints = Config.maxPoints;
+
+	for (var i = 255; i> 5; i--) {
+		if (255%i == 0) {
+			var step = i;
+			for (var r=Config.rStart;r<=Config.rEnd;r=r+step) {
+				for (var g=Config.gStart;g<=Config.gEnd;g=g+step) {
+					for (var b=Config.bStart; b<=Config.bEnd;b=b+step) {
+						var data = rgb2hsl(r,g,b);
+						data.y = Math.round(Config.yOffset - (data.d * Config.yExpand));
+						data.x = Config.xOffset + (r + g + b);
+						points[points.length] = data;
+					}
+				}
+			}
+		}
+		if (points.length >= maxPoints) {
+			break;
+		}
+	}
+}
+
+var backgroundColor = "rgb(255, 255, 255)";
+
+function adjustBackgroundColor(id) {
+	var r = document.forms[Config.formId]["backgroundColor"].value;
+	backgroundColor = 'rgb(' + r + ',' + r + ',' + r + ')';
+	Log.Notice('backgroundColor=' + backgroundColor);
+	document.getElementById(id).setAttributeNS(null,'fill',backgroundColor);
+}
+
+function adjustViewBox(id) {
+	form = document.forms[Config.formId];
+	var x =  parseInt(form["x"].value);
+	var y = parseInt(form["y"].value);
+	var h = parseInt(form["h"].value);
+	var w = parseInt(form["w"].value);
+	var viewBox = "" + x + " " + y + " " + w + " " + h;
+	
+	document.getElementById(id).setAttributeNS(null,'viewBox', viewBox);
+}
+
+function toggleVisibility(selector) {
+	
+	var obj = event.target;
+	
+	if (obj.checked) {
+	  d3.selectAll(selector).style('display','block');
+	} else {
+		d3.selectAll(selector).style('display','none');
+	}
+}
+
+function doAnimation () {
+	generatePoints(Config.rStart,Config.gStart,Config.bStart); 
+	scheduleFunction(myGraph.drawLine,2,true,true);
+	scheduleFunction(myGraph.drawPoint,2,true,true);
+}
+
+
+var startAttrs = {
+	r:2.5,
+	'stroke-width':0
+};
+
+var endAttrs = {
+	r:'10',
+	stroke: '#333',
+	'stroke-width': '1'
+
+};
+
+var startStyles = {
+	opacity: 0.0
+};
+
+var endStyles = {
+	opacity: 1.0
+	
+}
+
+var hClass = '.h-240'
+
+var hiliteConfig = {
+	duration: 1000,
+	startAttrs: startAttrs,
+	endAttrs: endAttrs,
+	startStyles: startStyles,
+	endStyles: endStyles,
+	easing: 'linear'
+}
+
+function doAllColors() {
+	
+	if (animateIndex > 360) {
+				return false;
+	}
+
+	d3.selectAll('#points circle')
+		.style('opacity',0);
+
+	var hClass = ".h-" + animateIndex;
+	var selection = d3.selectAll('#points ' + hClass);
+
+	if (selection[0].length) {
+		
+	  Log.Notice('animateColors animateIndex=' + animateIndex + 'selection.length=' + selection[0].length);
+	  selection
+		.transition()
+		.duration(hiliteConfig.duration)
+		.ease('linear')
+		.delay(function(i) {return i*10})
+		.attr(hiliteConfig.endAttrs)
+		.style(hiliteConfig.endStyles)
+		.each('end', function(d,i) {
+			Log.Notice('in end for i=' + i);
+			d3.select(this)
+				.transition()
+				.duration(hiliteConfig.duration)
+				.ease('linear')
+				.delay(function(i) {return i*10})
+				.style(hiliteConfig.startStyles)
+				.attr(hiliteConfig.startAttrs);
+		});
+	} 
+	else {
+		Log.Notice('No selection at animateIndex=' + animateIndex);
+	}
+			
+	animateIndex = animateIndex+1;
+
+	return true;
+}
+
+function enableCircleLabels() {
+  if (!circleLabelsEnabled) {
+	d3.selectAll('#points circle')
+	  .data(points)
+		.on("mouseover", function(d,i) {
+			 var p = points[i];
+			 var pointInfo = "pt[" + i + "]= (" + p.x + "," + p.y + ")"
+			 var rgbColor = "rgb(" + p.r + "," + p.g + "," + p.b + ")";
+			 var hslColor = "hsl(" + p.h + "," + p.s + "," + p.l + ")"
+			 var info = pointInfo + " " + rgbColor + " " + hslColor ;
+			 Log.Notice(info);
+			 d3.select('#svg')
+			 .append("text")
+			 	.attr("id", "text-" + i)
+				.attr("x", 725)
+				.attr("y", 25)
+				.attr('text-anchor','middle')
+				.attr("fill", rgbColor)
+				.text(info);
+		})
+		.on("mouseout",function(d,i) {
+			  d3.select("#text-" + i)
+					.remove();
+		});
+		circleLabelsEnabled = true;
+	}
+}
+
+function redoAnimation(timeout) {
+	animateIndex = 0;
+	enableCircleLabels();
+	if (arguments.length == 1) {
+		timeout = parseInt(timeout);
+		if (timeout <=0) {
+			timeout = 50
+		}
+	}
+	scheduleFunction(myGraph.animateColors,timeout,true,true)
+}
+$(document).ready(function(e) {
+
+	Log.Hide();
+ //scheduleFunction(myGraph.animateColors,50,true,true)
+
+});
+
+// ]]>
+</script>
+
+</head>
+<body>
+
+<div id="app-0">
+<svg  id="svg" x="0" y="0" height="2000" width="2000" viewBox="0 0 2000 2000">
+<defs></defs>
+<rect id="svg-background" x="0" y="0" height="2000" width="2000" fill="rgb(128,128,128)" />
+<rect id="info" x="510" y="10" fill="#aaa" height="20" width="430" />
+<g transform="scale(1.75)" >
+ <g id="lines" ></g>
+ <g id="points"></g>
+</g>
+</svg>
+</div>
+
+<div id="f1">
+<form id="bg">
+<fieldset>
+<legend>General Animation Options</legend>
+<ul id="panel">
+ <li><label for="showpoints">Show:</label>
+  Points
+  <input type="checkbox" name="showpoints" id="showpoints" checked="checked" onChange="toggleVisibility('#points')" />
+  Lines 
+  <input type="checkbox" name="showlines" id="showlines" checked="checked" onChange="toggleVisibility('#lines')" />
+ </li>
+ <li>
+  <label for="rSpacing">Red Spacing:</label>
+  <input id="rSpacing" name="rSpacing" type="range" min="1" max="25" step="5"
+         onChange="adjustScale('rSpacing')">
+  </li>
+ <li>
+ <label for="backgroundColor">Background:</label> 
+ <input id="backgroundColor" name="backgroundColor" type="range"
+       min="0" max="255" step="1" width="255" onChange="adjustBackgroundColor('svg-background');" >
+ </li>
+ <li>
+ <label for="x">Origin-X:</label> 
+ <input id="x" name="x" type="range"
+       min="0" max="1500" step="1" width="255" value="0" onChange="adjustViewBox('svg');" >
+ </li>
+ <li>
+ <label for="y">Origin-Y:</label> 
+ <input id="y" name="y" type="range"
+       min="0" max="850" step="1" width="255" value="0" onChange="adjustViewBox('svg');" >
+ </li>
+ <li>
+ <label for="w">View Width:</label> 
+ <input id="w" name="w" type="range"
+       min="0" max="1500" step="1" width="255" value="1000" onChange="adjustViewBox('svg');" >
+ </li>
+ <li>
+ <label for="h">View Height:</label> 
+ <input id="h" name="h" type="range"
+       min="0" max="850" step="1" width="255" value="1000" onChange="adjustViewBox('svg');" >
+ </li>
+ <li>
+  <input class="input-button" type="button" value="Start Animation" onClick="doAnimation();" />
+ </li>
+</ul>
+</fieldset>
+</form>
+</div>
+</body>
+</html>

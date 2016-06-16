@@ -1,0 +1,180 @@
+@charset "utf-8";
+/* CSS Document */
+
+.main-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.main {
+    display: inline-block;
+    background-image:url(IMLogo.svg);
+    background-size: cover;
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+}
+.main-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+.center {
+    display: block;
+    width: 400px;
+    min-width: 400px;
+    min-height: 40px;
+    margin: auto; 
+    background-color: purple;
+}
+  
+.second-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+
+.second {
+    display: inline-block;
+    background-image:url(IMLogo.svg);
+    background-size:contain;
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+}
+.second-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+  
+.third-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+.third {
+    display: inline-block;
+    background-image:url(IMLogo.svg);
+    background-repeat:repeat-y;
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+}
+.third-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+  
+.fourth-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+.fourth {
+    display: inline-block;
+    background-image:url(IMLogo.svg);
+    background-clip: padding-box;
+    background-repeat: space;
+    padding: 20px;
+    min-width: 660px;
+    width: 660px;
+    min-height: 660px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+}
+.fourth-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+  
+  
+  
+.fifth-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+
+.fifth {
+    display: inline-block;
+    background-image:url(IMLogo.svg);
+    background-repeat:repeat-x;
+    background-position:bottom;
+    background-clip: padding-box;
+    padding: 20px;
+    min-width: 660px;
+    width: 660px;
+    min-height: 660px;
+    border-color: red;
+    border-style: dotted;
+    border-width: 5px;
+}
+
+.fifth-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+.hilite {
+    background-color:#C60;
+    color: white;
+}

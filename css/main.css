@@ -1,0 +1,72 @@
+@import url(http://ic00408/HTML-Begin/css/reset.css);
+
+body {
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 1.2em;
+}
+
+.code {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 1.25em;
+    color: #0CF;
+    background-color: black;
+    width: 700px;
+    border-radius: 10px 10px 10px 10px;
+    border: 1px solid silver;
+    padding: 10px; 
+    margin-left: 22px;
+}
+
+.orange {
+    color: #F90;
+    background-color: black;
+    font-family: "Courier New", Courier, monospace;
+}
+
+.blue {
+    color: #0CF;;
+    background-color: black;
+    font-family: "Courier New", Courier, monospace;
+}
+
+h1 {
+    font-size: 2em;
+    font-weight: bold;
+    margin: 5px;
+}
+
+h2 {
+    font-size: 1.6em;
+    font-weight: bold;
+}
+
+h3 {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #900;
+}
+
+ul, ol {
+    margin: 5px;
+}
+
+/* li is a direct child of ol! */
+ol > li {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px 10px 10px 10px;
+    border: 4px solid tan;
+}
+
+ul {
+    list-style: circle;
+}
+
+p {
+    margin: 5px;
+    margin-bottom: 10px;
+}
+
+ol li {
+    background-color: silver;
+}
