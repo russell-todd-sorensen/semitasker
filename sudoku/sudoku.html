@@ -1,0 +1,333 @@
+<html><head>
+
+
+<meta charset="utf-8">
+<title>Sudoku Puzzle</title>
+
+<link rel="stylesheet" href="sudoku.css" media="all" type="text/css">
+
+
+
+<script type="text/javascript" src="logger2.js"></script>
+
+<script type="text/javascript">
+	//setup logging element id
+	Logger = "logger2";
+</script>
+
+<script type="text/javascript" src="sudoku-lib-8.js"></script>
+<script type="text/javascript" src="sudoku-puzzle-controls.js"></script>
+
+<script type="text/javascript">
+    puzzleString = "E200500000300002600000300087603200090002030800070006502160004000008100009000003008P" ;
+    boxCols = 3 ;
+    boxRows = 3 ;
+    boxMapString = "EP" ;
+</script>
+
+</head><body onload='Log("Notice", "Page Loaded")'>
+<div id="puzzle">
+ <div class="leftPhone"></div>
+ <div class="Screen">
+ <div id="zoom">
+ <div id="t"><div class="top">
+ <div class="boxrow">
+  <div class="row">
+    <div class="leftbox"> </div>
+    <div class="cell box1 bold">2</div>
+    <div class="cell box1" id="C2" onclick='pasteNumber("C2")'>&nbsp;&nbsp;</div>
+    <div class="cell box1" id="C3" onclick='pasteNumber("C3")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box2 bold">5</div>
+    <div class="cell box2" id="C5" onclick='pasteNumber("C5")'>&nbsp;&nbsp;</div>
+    <div class="cell box2" id="C6" onclick='pasteNumber("C6")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box3" id="C7" onclick='pasteNumber("C7")'>&nbsp;&nbsp;</div>
+    <div class="cell box3" id="C8" onclick='pasteNumber("C8")'>&nbsp;&nbsp;</div>
+    <div class="cell box3" id="C9" onclick='pasteNumber("C9")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+  </div>
+  <div class="row">
+    <div class="leftbox"> </div>
+    <div class="cell box1 bold">3</div>
+    <div class="cell box1" id="C11" onclick='pasteNumber("C11")'>&nbsp;&nbsp;</div>
+    <div class="cell box1" id="C12" onclick='pasteNumber("C12")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box2" id="C13" onclick='pasteNumber("C13")'>&nbsp;&nbsp;</div>
+    <div class="cell box2" id="C14" onclick='pasteNumber("C14")'>&nbsp;&nbsp;</div>
+    <div class="cell box2 bold">2</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box3 bold">6</div>
+    <div class="cell box3" id="C17" onclick='pasteNumber("C17")'>&nbsp;&nbsp;</div>
+    <div class="cell box3" id="C18" onclick='pasteNumber("C18")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+  </div>
+  <div class="row">
+    <div class="leftbox"> </div>
+    <div class="cell box1" id="C19" onclick='pasteNumber("C19")'>&nbsp;&nbsp;</div>
+    <div class="cell box1" id="C20" onclick='pasteNumber("C20")'>&nbsp;&nbsp;</div>
+    <div class="cell box1" id="C21" onclick='pasteNumber("C21")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box2 bold">3</div>
+    <div class="cell box2" id="C23" onclick='pasteNumber("C23")'>&nbsp;&nbsp;</div>
+    <div class="cell box2" id="C24" onclick='pasteNumber("C24")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box3" id="C25" onclick='pasteNumber("C25")'>&nbsp;&nbsp;</div>
+    <div class="cell box3 bold">8</div>
+    <div class="cell box3 bold">7</div>
+    <div class="rightbox"> </div>
+  </div>
+ </div>
+ <div class="boxrow">
+  <div class="row">
+    <div class="leftbox"> </div>
+    <div class="cell box4 bold">6</div>
+    <div class="cell box4" id="C29" onclick='pasteNumber("C29")'>&nbsp;&nbsp;</div>
+    <div class="cell box4 bold">3</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box5 bold">2</div>
+    <div class="cell box5" id="C32" onclick='pasteNumber("C32")'>&nbsp;&nbsp;</div>
+    <div class="cell box5" id="C33" onclick='pasteNumber("C33")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box6" id="C34" onclick='pasteNumber("C34")'>&nbsp;&nbsp;</div>
+    <div class="cell box6 bold">9</div>
+    <div class="cell box6" id="C36" onclick='pasteNumber("C36")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+  </div>
+  <div class="row">
+    <div class="leftbox"> </div>
+    <div class="cell box4" id="C37" onclick='pasteNumber("C37")'>&nbsp;&nbsp;</div>
+    <div class="cell box4" id="C38" onclick='pasteNumber("C38")'>&nbsp;&nbsp;</div>
+    <div class="cell box4 bold">2</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box5" id="C40" onclick='pasteNumber("C40")'>&nbsp;&nbsp;</div>
+    <div class="cell box5 bold">3</div>
+    <div class="cell box5" id="C42" onclick='pasteNumber("C42")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box6 bold">8</div>
+    <div class="cell box6" id="C44" onclick='pasteNumber("C44")'>&nbsp;&nbsp;</div>
+    <div class="cell box6" id="C45" onclick='pasteNumber("C45")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+  </div>
+  <div class="row">
+    <div class="leftbox"> </div>
+    <div class="cell box4" id="C46" onclick='pasteNumber("C46")'>&nbsp;&nbsp;</div>
+    <div class="cell box4 bold">7</div>
+    <div class="cell box4" id="C48" onclick='pasteNumber("C48")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box5" id="C49" onclick='pasteNumber("C49")'>&nbsp;&nbsp;</div>
+    <div class="cell box5" id="C50" onclick='pasteNumber("C50")'>&nbsp;&nbsp;</div>
+    <div class="cell box5 bold">6</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box6 bold">5</div>
+    <div class="cell box6" id="C53" onclick='pasteNumber("C53")'>&nbsp;&nbsp;</div>
+    <div class="cell box6 bold">2</div>
+    <div class="rightbox"> </div>
+  </div>
+ </div>
+ <div class="boxrow">
+  <div class="row">
+    <div class="leftbox"> </div>
+    <div class="cell box7 bold">1</div>
+    <div class="cell box7 bold">6</div>
+    <div class="cell box7" id="C57" onclick='pasteNumber("C57")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box8" id="C58" onclick='pasteNumber("C58")'>&nbsp;&nbsp;</div>
+    <div class="cell box8" id="C59" onclick='pasteNumber("C59")'>&nbsp;&nbsp;</div>
+    <div class="cell box8 bold">4</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box9" id="C61" onclick='pasteNumber("C61")'>&nbsp;&nbsp;</div>
+    <div class="cell box9" id="C62" onclick='pasteNumber("C62")'>&nbsp;&nbsp;</div>
+    <div class="cell box9" id="C63" onclick='pasteNumber("C63")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+  </div>
+  <div class="row">
+    <div class="leftbox"> </div>
+    <div class="cell box7" id="C64" onclick='pasteNumber("C64")'>&nbsp;&nbsp;</div>
+    <div class="cell box7" id="C65" onclick='pasteNumber("C65")'>&nbsp;&nbsp;</div>
+    <div class="cell box7 bold">8</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box8 bold">1</div>
+    <div class="cell box8" id="C68" onclick='pasteNumber("C68")'>&nbsp;&nbsp;</div>
+    <div class="cell box8" id="C69" onclick='pasteNumber("C69")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box9" id="C70" onclick='pasteNumber("C70")'>&nbsp;&nbsp;</div>
+    <div class="cell box9" id="C71" onclick='pasteNumber("C71")'>&nbsp;&nbsp;</div>
+    <div class="cell box9 bold">9</div>
+    <div class="rightbox"> </div>
+  </div>
+  <div class="row">
+    <div class="leftbox"> </div>
+    <div class="cell box7" id="C73" onclick='pasteNumber("C73")'>&nbsp;&nbsp;</div>
+    <div class="cell box7" id="C74" onclick='pasteNumber("C74")'>&nbsp;&nbsp;</div>
+    <div class="cell box7" id="C75" onclick='pasteNumber("C75")'>&nbsp;&nbsp;</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box8" id="C76" onclick='pasteNumber("C76")'>&nbsp;&nbsp;</div>
+    <div class="cell box8" id="C77" onclick='pasteNumber("C77")'>&nbsp;&nbsp;</div>
+    <div class="cell box8 bold">3</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell box9" id="C79" onclick='pasteNumber("C79")'>&nbsp;&nbsp;</div>
+    <div class="cell box9" id="C80" onclick='pasteNumber("C80")'>&nbsp;&nbsp;</div>
+    <div class="cell box9 bold">8</div>
+    <div class="rightbox"> </div>
+  </div>
+ </div>
+</div>
+</div>
+ <div style="visibility: visible; display: block;" id="t3">
+  <div class="top">
+   <div class="boxrow">
+    <div class="row">
+      <div id="Bkw" class="cell curves bold" onclick="goBackOneStep()">&lt;</div>
+      <div class="rightbox"> </div>
+    </div>
+    <div class="row">
+      <div id="Fwd" class="cell curves bold" onclick="goFwdOneStep()">&gt;</div>
+      <div class="rightbox"> </div>
+    </div>
+   </div>
+   <div class="boxrow">
+    <div class="row">
+      <div id="Play" class="cell curves bold" onclick="myPlayer = new replayAll(500);myPlayer.rewind();">P</div>
+      <div class="rightbox"> </div>
+    </div>
+    <div class="row">
+      <div id="X" class="cell curves bold" onclick="startOver()">X</div>
+      <div class="rightbox"> </div>
+    </div>
+   </div>
+  </div>
+ </div>
+
+ <div id="t2"><div class="top">
+ <div class="boxrow">
+  <div class="row">
+    <div class="leftbox"> </div>
+    <div class="cell curves bold" onclick="grabNumber(this)">1</div>
+    <div class="cell curves bold" onclick="grabNumber(this)">2</div>
+    <div class="cell curves bold" onclick="grabNumber(this)">3</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell curves bold" onclick="grabNumber(this)">4</div>
+    <div class="cell curves bold" onclick="grabNumber(this)">5</div>
+    <div class="cell curves bold" onclick="grabNumber(this)">6</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell curves bold" onclick="grabNumber(this)">7</div>
+    <div class="cell curves bold" onclick="grabNumber(this)">8</div>
+    <div class="cell curves bold" onclick="grabNumber(this)">9</div>
+    <div class="rightbox"> </div>
+    <div class="leftbox"> </div>
+    <div class="cell curves bold" onclick="grabNumber(this)">&nbsp;&nbsp;</div>
+  </div>
+ </div>
+</div>
+</div>
+ </div>
+ </div> <!-- ended zoom -->
+ <div class="rightPhone"></div>
+</div>
+<div class="spacer"></div>
+<pre id="logger2">
+[2013-05-07T07:46:18.753] Notice "Page Loaded"
+[2013-05-07T07:46:23.053] Notice "Running setupSudoku()..."
+[2013-05-07T07:46:23.054] Notice "cellValue(1) = 1"
+[2013-05-07T07:46:23.054] Notice "cellValue(4) = 4"
+[2013-05-07T07:46:23.054] Notice "cellValue(10) = 2"
+[2013-05-07T07:46:23.054] Notice "cellValue(15) = 1"
+[2013-05-07T07:46:23.054] Notice "cellValue(16) = 5"
+[2013-05-07T07:46:23.055] Notice "cellValue(22) = 2"
+[2013-05-07T07:46:23.055] Notice "cellValue(26) = 7"
+[2013-05-07T07:46:23.055] Notice "cellValue(27) = 6"
+[2013-05-07T07:46:23.055] Notice "cellValue(28) = 5"
+[2013-05-07T07:46:23.055] Notice "cellValue(30) = 2"
+[2013-05-07T07:46:23.056] Notice "cellValue(31) = 1"
+[2013-05-07T07:46:23.056] Notice "cellValue(35) = 8"
+[2013-05-07T07:46:23.056] Notice "cellValue(39) = 1"
+[2013-05-07T07:46:23.056] Notice "cellValue(41) = 2"
+[2013-05-07T07:46:23.057] Notice "cellValue(43) = 7"
+[2013-05-07T07:46:23.057] Notice "cellValue(47) = 6"
+[2013-05-07T07:46:23.057] Notice "cellValue(51) = 5"
+[2013-05-07T07:46:23.058] Notice "cellValue(52) = 4"
+[2013-05-07T07:46:23.058] Notice "cellValue(54) = 1"
+[2013-05-07T07:46:23.058] Notice "cellValue(55) = 0"
+[2013-05-07T07:46:23.058] Notice "cellValue(56) = 5"
+[2013-05-07T07:46:23.059] Notice "cellValue(60) = 3"
+[2013-05-07T07:46:23.059] Notice "cellValue(66) = 7"
+[2013-05-07T07:46:23.059] Notice "cellValue(67) = 0"
+[2013-05-07T07:46:23.060] Notice "cellValue(72) = 8"
+[2013-05-07T07:46:23.060] Notice "cellValue(78) = 2"
+[2013-05-07T07:46:23.060] Notice "cellValue(81) = 7"
+[2013-05-07T07:46:23.061] Notice "Start puzzle = E,2,0,0,5,0,0,0,0,0,3,0,0,0,0,2,6,0,0,0,0,0,3,0,0,0,8,7,6,0,3,2,0,0,0,9,0,0,0,2,0,3,0,8,0,0,0,7,0,0,0,6,5,0,2,1,6,0,0,0,4,0,0,0,0,0,8,1,0,0,0,0,9,0,0,0,0,0,3,0,0,8,P,0"
+[2013-05-07T07:46:23.061] Notice "cellBox[1] = 1"
+[2013-05-07T07:46:23.062] Notice "cellBox[28] = 4"
+[2013-05-07T07:46:23.062] Notice "cellBox[55] = 7"
+[2013-05-07T07:46:23.063] Notice "cellBox[1] = 1"
+[2013-05-07T07:46:23.064] Notice "cellBox[28] = 4"
+[2013-05-07T07:46:23.064] Notice "cellBox[55] = 7"
+[2013-05-07T07:46:23.065] SOLUTION "#0 Count = 0
+<xmp>.
+ -[&lt;2&gt;&lt;0&gt;&lt;0&gt;][&lt;5&gt;&lt;0&gt;&lt;0&gt;][&lt;0&gt;&lt;0&gt;&lt;0&gt;]-
+ -[&lt;3&gt;&lt;0&gt;&lt;0&gt;][&lt;0&gt;&lt;0&gt;&lt;2&gt;][&lt;6&gt;&lt;0&gt;&lt;0&gt;]-
+ -[&lt;0&gt;&lt;0&gt;&lt;0&gt;][&lt;3&gt;&lt;0&gt;&lt;0&gt;][&lt;0&gt;&lt;8&gt;&lt;7&gt;]-
+.
+.
+ -[&lt;6&gt;&lt;0&gt;&lt;3&gt;][&lt;2&gt;&lt;0&gt;&lt;0&gt;][&lt;0&gt;&lt;9&gt;&lt;0&gt;]-
+ -[&lt;0&gt;&lt;0&gt;&lt;2&gt;][&lt;0&gt;&lt;3&gt;&lt;0&gt;][&lt;8&gt;&lt;0&gt;&lt;0&gt;]-
+ -[&lt;0&gt;&lt;7&gt;&lt;0&gt;][&lt;0&gt;&lt;0&gt;&lt;6&gt;][&lt;5&gt;&lt;0&gt;&lt;2&gt;]-
+.
+.
+ -[&lt;1&gt;&lt;6&gt;&lt;0&gt;][&lt;0&gt;&lt;0&gt;&lt;4&gt;][&lt;0&gt;&lt;0&gt;&lt;0&gt;]-
+ -[&lt;0&gt;&lt;0&gt;&lt;8&gt;][&lt;1&gt;&lt;0&gt;&lt;0&gt;][&lt;0&gt;&lt;0&gt;&lt;9&gt;]-
+ -[&lt;0&gt;&lt;0&gt;&lt;0&gt;][&lt;0&gt;&lt;0&gt;&lt;3&gt;][&lt;0&gt;&lt;0&gt;&lt;8&gt;]-
+.
+</xmp>"
+[2013-05-07T07:46:26.119] Notice "Starting solveSudoku..."
+[2013-05-07T07:46:26.119] Notice "cellBox[1] = 1"
+[2013-05-07T07:46:26.119] Notice "cellBox[28] = 4"
+[2013-05-07T07:46:26.120] Notice "cellBox[55] = 7"
+[2013-05-07T07:46:26.310] Notice "E,2,8,6,5,7,1,9,4,3,3,9,7,8,4,2,6,5,1,5,4,1,3,6,9,2,8,7,6,1,3,2,5,8,7,9,4,9,5,2,4,3,7,8,1,6,8,7,4,9,1,6,5,3,2,1,6,9,7,8,4,3,2,5,7,3,8,1,2,5,4,6,9,4,2,5,6,9,3,1,7,8,P,0"
+[2013-05-07T07:46:26.311] Notice "cellBox[1] = 1"
+[2013-05-07T07:46:26.311] Notice "cellBox[28] = 4"
+[2013-05-07T07:46:26.311] Notice "cellBox[55] = 7"
+[2013-05-07T07:46:26.311] SOLUTION "#1 Count = 60314
+<xmp>.
+ -[&lt;2&gt;&lt;8&gt;&lt;6&gt;][&lt;5&gt;&lt;7&gt;&lt;1&gt;][&lt;9&gt;&lt;4&gt;&lt;3&gt;]-
+ -[&lt;3&gt;&lt;9&gt;&lt;7&gt;][&lt;8&gt;&lt;4&gt;&lt;2&gt;][&lt;6&gt;&lt;5&gt;&lt;1&gt;]-
+ -[&lt;5&gt;&lt;4&gt;&lt;1&gt;][&lt;3&gt;&lt;6&gt;&lt;9&gt;][&lt;2&gt;&lt;8&gt;&lt;7&gt;]-
+.
+.
+ -[&lt;6&gt;&lt;1&gt;&lt;3&gt;][&lt;2&gt;&lt;5&gt;&lt;8&gt;][&lt;7&gt;&lt;9&gt;&lt;4&gt;]-
+ -[&lt;9&gt;&lt;5&gt;&lt;2&gt;][&lt;4&gt;&lt;3&gt;&lt;7&gt;][&lt;8&gt;&lt;1&gt;&lt;6&gt;]-
+ -[&lt;8&gt;&lt;7&gt;&lt;4&gt;][&lt;9&gt;&lt;1&gt;&lt;6&gt;][&lt;5&gt;&lt;3&gt;&lt;2&gt;]-
+.
+.
+ -[&lt;1&gt;&lt;6&gt;&lt;9&gt;][&lt;7&gt;&lt;8&gt;&lt;4&gt;][&lt;3&gt;&lt;2&gt;&lt;5&gt;]-
+ -[&lt;7&gt;&lt;3&gt;&lt;8&gt;][&lt;1&gt;&lt;2&gt;&lt;5&gt;][&lt;4&gt;&lt;6&gt;&lt;9&gt;]-
+ -[&lt;4&gt;&lt;2&gt;&lt;5&gt;][&lt;6&gt;&lt;9&gt;&lt;3&gt;][&lt;1&gt;&lt;7&gt;&lt;8&gt;]-
+.
+</xmp>"
+[2013-05-07T07:46:26.363] Notice "End count = 78711 End puzzle = E,2,0,0,5,0,0,0,0,0,3,0,0,0,0,2,6,0,0,0,0,0,3,0,0,0,8,7,6,0,3,2,0,0,0,9,0,0,0,2,0,3,0,8,0,0,0,7,0,0,0,6,5,0,2,1,6,0,0,0,4,0,0,0,0,0,8,1,0,0,0,0,9,0,0,0,0,0,3,0,0,8,P,0"</pre>
+
+
+<p id="target" onclick='Log("Notice", "boxMapString = " + boxMapString)'>Show BoxMapString (click here)</p>
+
+</body></html>
