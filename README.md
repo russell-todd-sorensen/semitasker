@@ -1,2 +1,0 @@
-# semitasker
-SemiTasker Website Repository
