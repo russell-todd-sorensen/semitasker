@@ -495,8 +495,8 @@ addToPixels[17] = function (data) {
       rgb = {r:0,g:0,b:0}; // black;
     } else {
       hue = ((Math.round(counter*hueFactor+fractal.animationIndex))%3600)/10;
-      sat = 1.000 - ((counter+100+fractal.animationIndex)%200)*.005 ;;
-      lev = 1.000 - ((counter+fractal.animationIndex)%200)*.005 ;
+      sat = 1.000 - ((counter+100+fractal.animationIndex)%200)*.005;
+      lev = 1.000 - ((counter+fractal.animationIndex)%200)*.005;
       if (lev < .05) {
         lev = .05;
       } 

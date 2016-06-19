@@ -26,7 +26,9 @@ function logEndMove(evt) {
 
 //////////////////// THIS IS THE FRACTAL IMAGE OBJECT  /////////////////////////////////////////////
 
-var fractalImage = function(canvasId,boxId,height,width) {
+var colorCanvas;
+
+var fractalImage = function(canvasId,boxId,height,width,startUpData) {
   this.id = canvasId;
   this.boxId = boxId;
   this.name = canvasId;
@@ -213,6 +215,13 @@ var fractalImage = function(canvasId,boxId,height,width) {
   this.animationModulus = 360*100;
   this.animationIndex = 0;
   
+	if (arguments.length == 5) {
+		// start somewhere besides beginning
+		var prop;
+		for (var propIndex in startUpData) {
+			this[prop] = startUpData[prop];
+		}
+	}
   this.calculateHeightAndWidth(this.factor);
   this.callStartMove = [logStartMove,captureMouseUp,setupRect];
   this.callDragMove = [drawBox, logDragMove];
