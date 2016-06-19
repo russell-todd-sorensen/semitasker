@@ -1,4 +1,8 @@
-// JavaScript Document
+// Fractal Image Library
+
+var myFractalImages = new Array();
+var myFractalImageId = myFractalImages.length;
+var colorCanvas;
 
 function logStartMove(evt) {
   Log.Notice('logStartMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY) 
@@ -26,8 +30,6 @@ function logEndMove(evt) {
 
 //////////////////// THIS IS THE FRACTAL IMAGE OBJECT  /////////////////////////////////////////////
 
-var colorCanvas;
-
 var fractalImage = function(canvasId,boxId,height,width,startUpData) {
   this.id = canvasId;
   this.boxId = boxId;
@@ -38,11 +40,11 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
   this.factor = 1.0;
   this.rect = {
     start: {
-      x: -2.0,
+      x: -2.3,
       y: -1.5
     },
     end: {
-      x: 2.0,
+      x: 1.7,
       y: 1.5
     }
   };
@@ -96,11 +98,14 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
   this.context = null;
   this.imageData = null;
   this.pixels = null;
+	this.colors = new Array();
   this.counterMax = 255;
-  this.finiteMeasure = 5.0;
+  this.finiteMeasure = 256.0;
   this.counters = [];
   this.profile = {};
-    
+	this.scale = 5;
+  this.pixelImageHeight = 768;
+	this.pixelImageWidth = 150;
   this.clearProfile = function () {
     this.profile = {
       counts: [],
@@ -109,8 +114,82 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
       infinite: 0
     };
   };
-  
-  this.drawImage = function () {
+	this.animationRow = 0;
+	this.rowPolygons = null;
+  this.scaleCounter = function (value) {
+		if (value < 10) {
+			return value * 5;
+		} else if (value < 50) {
+			return 50 + value;
+		} else {
+			return 100;
+		}
+	};
+	this.calculatePolygonRows = function( ) {
+		var rowArray;
+		var counterLast = null;
+		var counter,value;
+		var counterIndexStart;
+		this.rowPolygons = new Array();
+		for (var row = 0;row<this.height;row++) {
+			rowArray = new Array();
+			counterIndexStart = 4*row*this.width;
+			for (var col = 0;col<this.width;col++) {
+				counter = this.counters[counterIndexStart + 4*col];
+				if (col == 0 || col == this.width-1) {
+					rowArray[rowArray.length] = [col,counter];
+				} else if (counter != counterLast) {
+					rowArray[rowArray.length] = [col,counter];
+				}
+				counterLast = counter;
+			}
+			this.rowPolygons[row] = rowArray;
+		}
+	};
+  this.initColorArray = function () {
+		this.colorCanvas = document.getElementById(this.colorCanvasId);
+    this.colorCanvas.setAttribute('height',this.pixelImageHeight);
+    this.colorCanvas.setAttribute('width',this.pixelImageWidth);
+   
+    if (!this.colorCanvas || !this.colorCanvas.getContext) {
+      Log.Debug('initColorArray: canvas or canvas.getContext not found');
+      return;
+    }
+   
+    this.colorCanvasContext = this.colorCanvas.getContext('2d');
+   
+    if (!this.colorCanvasContext || !this.colorCanvasContext.putImageData) {
+      Log.Debug('initColorArray: context or context.putImageData not found');
+      return;
+    }
+   
+    if (!this.colorCanvasContext.createImageData) {
+      Log.Debug('initColorArray: context.createImage exists');
+      this.colorCanvasImageData = this.colorCanvasContext.createImageData(
+					this.pixelImageHeight, this.pixelImageWidth);
+    } else if (this.colorCanvasContext.getImageData) {
+      this.colorCanvasImageData = this.colorCanvasContext.getImageData(
+					0, 0, this.pixelImageWidth, this.pixelImageHeight);
+      Log.Notice('initColorArray: context.getImageData exists length=' 
+          + this.colorCanvasImageData.data.length);
+    } else {
+      Log.Debug('initColorArray: using default image creation method');
+      this.colorCanvasImageData = {
+				'width': this.pixelImageWidth, 
+				'height': this.pixelImageHeight, 
+				'data':new Array(this.pixelImageWidth*this.pixelImageHeight*4)
+			};
+    }
+   
+    this.colorCanvasPixels = this.colorCanvasImageData.data;
+
+    for (var i=0, n=this.colorCanvasPixels.length; i<n; i++) {
+      this.colorCanvasPixels[i] = 255;
+    }
+
+	};
+	
+  this.drawImage = function (data) {
    
     this.canvas = document.getElementById(this.id);
     this.canvas.setAttribute('height',this.height);
@@ -137,7 +216,11 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
           + this.imageData.data.length);
     } else {
       Log.Debug('doImageStuff: using default image creation method');
-      this.imageData = {'width': this.width, 'height': this.height, 'data':new Array(this.width*this.height*4)};
+      this.imageData = {
+				  'width': this.width,
+			    'height': this.height, 
+					'data':new Array(this.width*this.height*4)
+			};
     }
    
     this.pixels = this.imageData.data;
@@ -156,58 +239,87 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
     var index = 0;
     var currentIndex;
     //var numbers = d3.select('#numbers');
-
-    for (var x = this.rect.start.x, col = 0; col<this.width 
-           && x < this.rect.end.x ; x+=Math.abs((this.rect.end.x-this.rect.start.x)/this.width), col++) {
-      for (var y = this.rect.start.y, row=this.height-1;row >= 0 
-             && y < this.rect.end.y; y+=Math.abs((this.rect.end.y-this.rect.start.y)/this.height), row-- ) {
-         counter = 0;
-         finite = true;
-         newX = x;
-         newY = y;
-         tmpX = x;
-         tmpY = y;
-         cY = y;
-         cX = x;
-         
-         while (counter < this.counterMax && finite) {
-        
-           newY = cY +  2 * tmpX * tmpY;
-           newX = cX + (-1 * tmpY * tmpY) + tmpX * tmpX;
-           tmpX = newX;
-           tmpY = newY;
-           if (Math.abs(tmpX*tmpY) > this.finiteMeasure) {
-             finite = false;
-           }
-           counter++;
-         }
-         counter--;
-         // profile counters
-         if (this.profile.counts[counter]) {
-           this.profile.counts[counter]++;
-         }
-         else {
-           this.profile.counts[counter] = 1;
-           if (counter > this.profile.maximum) {
-             this.profile.maximum = counter;
-           }
-           if (counter < this.profile.minimum) {
-             this.profile.minimum = counter;
-           }
-         }
-         
-         value = Math.abs(255-8*counter)%255;
-       
-         currentIndex = 4*(this.width*row + col);
-         this.counters[currentIndex] = counter;
-         this.pixels[currentIndex++] = (128+value)%255; 
-         this.pixels[currentIndex++] =(128+value)%255;
-         this.pixels[currentIndex++] = Math.abs(value%8*counter);
-         this.pixels[currentIndex] = 255
-         index++;
-       }
-     }
-     this.context.putImageData(this.imageData, 0, 0);
+		//pixelColors[data.pixelColorsId](data);
+    for (var x = this.rect.start.x, col = 0;
+		     col<this.width && x < this.rect.end.x;
+				 x+=Math.abs((this.rect.end.x-this.rect.start.x)/this.width), col++)
+	  {
+      for (var y = this.rect.start.y, row=this.height-1;
+			     row >= 0 && y < this.rect.end.y;
+					 y+=Math.abs((this.rect.end.y-this.rect.start.y)/this.height), row-- )
+		 {
+			 counter = 0;
+			 finite = true;
+			 newX = x;
+			 newY = y;
+			 tmpX = x;
+			 tmpY = y;
+			 cY = y;
+			 cX = x;
+			 
+			 while (counter <= this.counterMax && finite) {
+			
+				 newY = cY +  2 * tmpX * tmpY;
+				 newX = cX + (-1 * tmpY * tmpY) + tmpX * tmpX;
+				 tmpX = newX;
+				 tmpY = newY;
+				 //if (Math.abs(tmpX*tmpY) > this.finiteMeasure) {
+				 if (tmpX*tmpX + tmpY*tmpY > this.finiteMeasure) {
+					 finite = false;
+				 }
+				 counter++;
+				}
+			  counter--;
+			  // profile counters
+			  if (this.profile.counts[counter]) {
+				  this.profile.counts[counter]++;
+			  }
+			  else {
+				  this.profile.counts[counter] = 1;
+				  if (counter > this.profile.maximum) {
+					  this.profile.maximum = counter;
+				  }
+				  if (counter < this.profile.minimum) {
+					  this.profile.minimum = counter;
+				  }
+			  }
+			 
+			  value = Math.abs(255-8*counter)%255;
+		 
+			  currentIndex = 4*(this.width*row + col);
+			  this.counters[currentIndex] = counter;
+			  this.pixels[currentIndex++] = (128+value)%255; 
+			  this.pixels[currentIndex++] =(128+value)%255;
+			  this.pixels[currentIndex++] = Math.abs(value%8*counter);
+				
+				//this.pixels[currentIndex++] = this.colors[counter].r;
+			  //this.pixels[currentIndex++] = this.colors[counter].g;
+				//this.pixels[currentIndex++] = this.colors[counter].b;
+			  this.pixels[currentIndex] = 255
+			  index++;
+		  }
+	  }
+		
+		// Finish profile
+		this.profile.total = 0;
+		this.profile.percents = new Array();
+		for (var i = 0; i < this.counterMax; i++) {
+			if (this.profile.counts[i]) {
+				this.profile.total = this.profile.total + this.profile.counts[i];
+			} else {
+				this.profile.counts[i] = 0;
+			}
+		}
+		// calculate percentages
+		var value;
+		for (var i = 0; i < this.profile.counts.length; i++) {
+			Log.Notice('profile.counts i=' + i);
+			value = Math.round(100*this.scale*this.profile.counts[i]/this.profile.total);
+			this.profile.percents[i] = (value < 100 ? value : 100)
+		}
+		
+	  this.context.putImageData(this.imageData, 0, 0);
+		this.calculatePolygonRows();
    };
   
   this.continueAnimation = false;
@@ -217,8 +329,7 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
   
 	if (arguments.length == 5) {
 		// start somewhere besides beginning
-		var prop;
-		for (var propIndex in startUpData) {
+		for (var prop in startUpData) {
 			this[prop] = startUpData[prop];
 		}
 	}
@@ -228,6 +339,32 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
   this.callEndMove = [logEndMove,unbindMouseUp,calculateRect];
   return this;
 };
+
+var profileCounters = function (counters) {
+	var length = counters.length;
+	var maximum = 0;
+	var minimum = 1024;
+	var counts = new Array();
+	var count;
+	
+	for (var i = 0; i<length;i++) {
+		count = counters[i];
+		if (counts[count]) {
+			counts[count]++;
+		} else {
+			counts[count] = 1;
+			if (count > maximum) {
+				maximum = count;
+			} 
+			if (count < minimum) {
+				minimum = count;
+			}
+		}
+	}
+	
+	
+	return {counts:counts,maximum:maximum,minimum:minimum};
+}
 
 var setupRect = function(evt) {
   var obj = evt.data;
@@ -257,7 +394,12 @@ var drawBox = function(evt) {
     obj.minX = obj.dragCurrent.x;
     obj.maxX = obj.dragStart.x;
   }
-  var msg = 'drawBox top=' + (obj.minY-obj.offsetTop) + ' left = ' + (obj.minX-obj.offsetLeft) + ' height=' + (obj.maxY-obj.minY) + ' width=' + (obj.maxX-obj.minX);
+	
+  var msg = 'drawBox top=' + (obj.minY-obj.offsetTop) 
+		+ ' left = ' + (obj.minX-obj.offsetLeft) 
+		+ ' height=' + (obj.maxY-obj.minY) 
+		+ ' width=' + (obj.maxX-obj.minX);
+		
   Log.Warning(msg);
   
   $('#' + obj.boxId).css({
@@ -281,14 +423,23 @@ var calculateRect = function (evt)  {
   var dxNew = (obj.maxX-obj.minX)/width*dxCurrent;
   var dyNew = (obj.maxY-obj.minY)/height*dyCurrent;
   
-  var rectMinX = obj.rect.start.x + (obj.minX-obj.offsetLeft)*(obj.rect.end.x-obj.rect.start.x)/width;
-  //var rectMinY = -(rect.start.y - ((obj.minY-obj.offsetTop)-height)*(rect.end.y-rect.start.y)/height) ;
-  var rectMinY = (obj.rect.start.y + (height-(obj.maxY-obj.offsetTop))*(obj.rect.end.y-obj.rect.start.y)/height) ;
-  var rectMaxX = obj.rect.end.x - (width-obj.maxX-obj.offsetLeft)*(obj.rect.end.x-obj.rect.start.x)/width;
-  var rectMaxY = obj.rect.end.y - (obj.minY-obj.offsetTop)*(obj.rect.end.y-obj.rect.start.y)/height;
-  Log.Debug('calculateRect \nwidth=' + width + '\nheight=' + height + '\nminX =' + obj.minX 
-    + '\nminY=' + obj.minY + '\nmaxX=' + obj.maxX + '\nmaxY=' + obj.maxY 
-    +  '\nrectMinX=' + rectMinX + '\nrectMinY=' + rectMinY + '\nrectMaxX=' + rectMaxX + '\nrectMaxY=' + rectMaxY);
+  var rectMinX = obj.rect.start.x 
+	   + (obj.minX-obj.offsetLeft)*(obj.rect.end.x-obj.rect.start.x)/width;
+
+  var rectMinY = (obj.rect.start.y 
+	   + (height-(obj.maxY-obj.offsetTop))*(obj.rect.end.y-obj.rect.start.y)/height) ;
+  var rectMaxX = obj.rect.end.x 
+	   - (width-obj.maxX-obj.offsetLeft)*(obj.rect.end.x-obj.rect.start.x)/width;
+  var rectMaxY = obj.rect.end.y 
+	   - (obj.minY-obj.offsetTop)*(obj.rect.end.y-obj.rect.start.y)/height;
+	
+  Log.Debug('calculateRect \nwidth=' + width 
+	  + '\nheight=' + height + '\nminX =' + obj.minX 
+    + '\nminY=' + obj.minY + '\nmaxX=' + obj.maxX 
+		+ '\nmaxY=' + obj.maxY 
+    + '\nrectMinX=' + rectMinX + '\nrectMinY=' + rectMinY 
+		+ '\nrectMaxX=' + rectMaxX + '\nrectMaxY=' + rectMaxY);
+		
   Log.Debug('calculateRect dxNew=' + dxNew + ' dyNew=' + dyNew);
   
   var rectTmp = obj.rectTmp;
@@ -297,6 +448,56 @@ var calculateRect = function (evt)  {
   rectTmp.start.y = rectMinY;
   rectTmp.end.x = rectMaxX;
   rectTmp.end.y = rectMaxY;
+}
+
+var processForm = function () {
+	var colorOffsetAmount=parseInt($('#colorOffsetAmount').val());
+	var fractalImageId=parseInt($('#fractalImageId').val());
+	var pixelJump=parseInt($('#pixelJump').val());
+	var pixelColorsId=parseInt($('#pixelColorsId').val());
+	var scaleCounterId=parseInt($('#scaleCounterId').val());
+	var hueFactor = parseFloat($('#hueFactor').val());
+	var rampFactor = parseInt($('#rampFactor').val());
+	var minLevel = parseFloat($('#minLevel').val());
+	var maxLevel = parseFloat($('#maxLevel').val());
+	var minSat = parseFloat($('#minSat').val());
+	var maxSat = parseFloat($('#maxSat').val());
+	var minBrt = parseFloat($('#minBrt').val());
+	var maxBrt = parseFloat($('#maxBrt').val());
+	return {
+		id:parseInt($('#animationFunctionId option:selected').val()),
+		timeout:parseInt($('#timeout').val()),
+		data:{
+			objId:fractalImageId,
+			amount:colorOffsetAmount,
+			pixelJump:pixelJump,
+			pixelColorsId:pixelColorsId,
+			scaleCounterId:scaleCounterId,
+			hueFactor:hueFactor,
+			rampFactor:rampFactor,
+			minLevel:minLevel,
+			maxLevel:maxLevel,
+			minSat:minSat,
+			maxSat:maxSat,
+			minBrt:minBrt,
+			maxBrt:maxBrt,
+		  hslOrHsb:$('#hslOrHsb option:selected').val()
+		}
+	};
+}
+
+var startAnimationPre = function() {
+	
+  var formData = processForm(formData);
+	
+	startAnimation(formData.id,formData.timeout,formData.data);
+}
+
+var drawImagePre = function() {
+	
+  var formData = processForm(formData);
+	myFractalImages[formData.data.objId].drawImage(formData.data);
+	
 }
 
 var startAnimation = function (animationFunctionId,timeout, data) {
@@ -327,7 +528,7 @@ var reDrawImage = function () {
   fractal.rect.end.x = fractal.rectTmp.end.x;
   fractal.rect.end.y = fractal.rectTmp.end.y;
   fractal.calculateHeightAndWidth(newFactor);
-  fractal.drawImage();
+  fractal.drawImage(data);
   return fractal.continueAnimation;
 };
 
@@ -348,8 +549,10 @@ var hsl2rgb = function (h, s, l) {
   function vv(h) {
     return Math.round(v(h) * 255);
   }
-
-  return d3.rgb(vv(h + 120), vv(h), vv(h - 120));
+  var d3rgb = d3.rgb(vv(h + 120), vv(h), vv(h - 120));
+	d3rgb.rgb = 'rgb(' + d3rgb.r + ',' + d3rgb.g + ',' + d3rgb.b + ')';
+	d3rgb.hex = '#' + toHex(d3rgb.r) + toHex(d3rgb.g) + toHex(d3rgb.b);
+  return d3rgb;
 }
 
 var hsb2rgb = function (hue, sat, brt) {
@@ -368,7 +571,10 @@ var hsb2rgb = function (hue, sat, brt) {
   red = Math.round(Math.round(red*buckets)/buckets);
   green = Math.round(Math.round(green*buckets)/buckets);
   blue = Math.round(Math.round(blue*buckets)/buckets);
-  return {r:red,g:green,b:blue,h:hue,sat:sat,brt:brt};
+  return {r:red,g:green,b:blue,h:hue,sat:sat,brt:brt,
+		rgb:'rgb(' + red + ',' + green + ',' + blue + ')',
+		hex:'#' + toHex(red) + toHex(green) + toHex(blue)
+	};
 }
 
 function hueToRgbComponents(hue) {
