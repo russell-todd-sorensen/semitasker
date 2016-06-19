@@ -1,5 +1,6 @@
 // JavaScript Document
 
+
 var canvasData = {
 	name: 'myCanvas',
 };
@@ -52,6 +53,27 @@ var fractalImage = function(canvasId,boxId,height,width) {
 	this.callStartMove = [logStartMove,captureMouseUp,setupRect];
 	this.callDragMove = [drawBox, logDragMove];
 	this.callEndMove = [logEndMove,unbindMouseUp,calculateRect];
+	this.rect = {
+		start: {
+			x: -2.0,
+			y: -1.5
+		},
+		end: {
+			x: 2.0,
+			y: 1.5
+		}
+	};
+  this.rectTmp = {
+		start: {
+			x:-1.0,
+			y:-1.0
+		},
+		end:{
+			x:1.0,
+			y:1.0
+		}
+	};
+
 	return this;
 };
 
@@ -62,8 +84,7 @@ var setupRect = function(evt) {
 	obj.width = evt.currentTarget.width;
 	obj.offsetLeft = evt.pageX - evt.offsetX;
 	obj.offsetTop = evt.pageY - evt.offsetY;
-	//obj.offsetTop = evt.currentTarget.clientTop;
-	//obj.offsetLeft = evt.currentTarget.clientLeft;
+
 }
 
 var drawBox = function(evt) {
@@ -118,95 +139,12 @@ var calculateRect = function (evt)  {
 	  +  '\nrectMinX=' + rectMinX + '\nrectMinY=' + rectMinY + '\nrectMaxX=' + rectMaxX + '\nrectMaxY=' + rectMaxY);
 	Log.Debug('calculateRect dxNew=' + dxNew + ' dyNew=' + dyNew);
 	
-	rect.start.x = rectMinX;
-	rect.start.y = rectMinY;
-	rect.end.x = rectMaxX;
-	rect.end.y = rectMaxY;
+	//var rectTmp = obj.rectTmp;
+	
+	rectTmp.start.x = rectMinX;
+	rectTmp.start.y = rectMinY;
+	rectTmp.end.x = rectMaxX;
+	rectTmp.end.y = rectMaxY;
 }
 
-function startMove (evt) {
 
-   var obj =  evt.data;
-   obj.dragStart.x = evt.clientX;
-   obj.dragStart.y = evt.clientY;
-
-   $(obj.mouseBox)
-     .bind('mousemove',obj,dragMove)
-     .bind('mouseup',obj,endMove);
-
-  for (var i = 0; i< evt.data.callStartMove.length; i++) {
-    evt.data.callStartMove[i](evt);
-  }
-}
-
-function dragMove (evt) {
-
-  var obj =  evt.data;
-  obj.dragCurrent.x = evt.clientX;
-  obj.dragCurrent.y = evt.clientY; 
-
-  //var dx = obj.dragCurrent.x - obj.dragStart.x;
-  //var dy = obj.dragCurrent.y  - obj.dragStart.y;
-	
-  //if (dx <= 0) {
-   // dx = -dx;
-  //}
-   
-  //if (dy <= 0) {
-   // dy = -dy;
-  //}
- 
-  for (var i = 0; i< evt.data.callDragMove.length; i++) {
-    evt.data.callDragMove[i](evt);
-  }
-}
-
-function endMove (evt) {
-	
-  $(evt.data.mouseBox)
-    .unbind('mousemove')
-    .unbind('mouseup');
-  dragMove(evt);
-  for (var i = 0; i< evt.data.callEndMove.length; i++) {
-    evt.data.callEndMove[i](evt);
-  }
-}
-
-//////############### SCHEDULE FUNCTION ###############///////////////
-
-function scheduleFunction(funcRef, timeout, rescheduleOnSuccessP, passArgsP, args) {
-
-	if (arguments.length > 1) {
-		if (timeout <= 0 ) {
-			timeout = 10; //milliseconds
-		}
-	}
-	else {
-		var timeout = 10; //ms
-	}
-	
-	if (arguments.length < 3) {
-		var rescheduleOnSuccessP = false;
-	}
-	
-  if (arguments.length > 3) {
-		if (passArgsP) {
-			var funcArgs = args;
-		} else {
-			var funcArgs = {};
-		}
-	} 
-	else {
-    var passArgsP = false;
-		var funcArgs = {};
-	}
-  
-	var result = funcRef(funcArgs);
-	
-	if (rescheduleOnSuccessP && result) {
-		setTimeout(scheduleFunction, timeout, 
-		           funcRef, timeout, 
-							 rescheduleOnSuccessP, 
-							 passArgsP, funcArgs);
-	}
-}
