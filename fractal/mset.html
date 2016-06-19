@@ -2,7 +2,7 @@
 <html lang="en_US">
 <head>
 <meta charset="utf-8">
-<title>Fractal Image Creation 11 in JavaScript</title>
+<title>Fractal Image Creation 12 in JavaScript</title>
 <link rel="stylesheet" href="main.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 <link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
@@ -37,7 +37,7 @@ body,html {
     border: 1px solid black;
 }
 
-#timeout, #colorOffsetAmount, #fractalImageId {
+#timeout, #colorOffsetAmount, #fractalImageId, #pixelJump {
     width: 30px;
 }
 </style>
@@ -91,12 +91,14 @@ var myCounters = [1,2,3,4,5,6,1,4,6,7,2,5,1,4,9];
 var processForm = function () {
 	var colorOffsetAmount=parseInt($('#colorOffsetAmount').val());
 	var fractalImageId=parseInt($('#fractalImageId').val());
+	var pixelJump=parseInt($('#pixelJump').val());
 	return {
 		id:parseInt($('#animationFunctionId option:selected').val()),
 		timeout:parseInt($('#timeout').val()),
 		data:{
 			objId:fractalImageId,
-			amount:colorOffsetAmount
+			amount:colorOffsetAmount,
+			pixelJump:pixelJump
 		}
 	};
 }
@@ -164,9 +166,14 @@ Animation: <select id="animationFunctionId" name="animationFunctionId">
 <option value="12">One</option>
 <option value="13">13</option>
 <option value="14">14</option>
+<option value="15">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
 </select>
 Timer: <input type="number" value="70" min="10" max="100" step="10" id="timeout" name="timeout" />
 Step: <input type="number" value="1" min="-10" max="10" step="1" id="colorOffsetAmount" name="colorOffsetAmount" />
+Jump: <input type="number" value="0" min="0" max="256" step="4" id="pixelJump" name="pixelJump" />
 <button id="b2" onClick="startAnimationPre()" value="Animate Image" >Animate Image</button>
 <button id="b3" onClick="stopAnimation({objId:0,amount:1});" value="Stop Animation" >Stop Animation</button>
 <button id="b4" onClick="reDrawImage({objId:0,amount:1});" value="ReDraw Image" >ReDraw Image</button>
