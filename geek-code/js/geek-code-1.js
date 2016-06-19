@@ -14,13 +14,13 @@ var newXHR3;
 // headers used in creating a new document 
 var headers = [
 '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >',
-'<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">',
-'<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">',
-'<script src="http://ic00408/js/jquery-1.7.1.js"></script>',
-'<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>',
-'<script src="http://ic00408/js/d3.v3.js"></script>',
-'<script src="http://ic00408/js/log-2.js"></script>',
-'<script src="http://ic00408/js/example-library.js"></script>'
+'<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">',
+'<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">',
+'<script src="/js/jquery-1.7.1.js"></script>',
+'<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>',
+'<script src="/js/d3.v3.js"></script>',
+'<script src="/js/log-2.js"></script>',
+'<script src="/js/example-library.js"></script>'
 ];
 
 MyStorage = {
@@ -427,7 +427,7 @@ function loadExamples(inputId, escapedP) {
   examples = [];
   var exampleBar = d3.select('#example-bar');
   exampleBar.html("");
-  var urlBase = "http://ic00408/pages/geek-code/"
+  var urlBase = "/geek-code/"
   //var urlBase = "./";
   var exampleFilename = $(inputId).val();
   var url = urlBase + exampleFilename + ".html";
