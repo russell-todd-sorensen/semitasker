@@ -1,0 +1,83 @@
+<html><head>
+<title>ns_localsqltimestamp - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_localsqltimestamp.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_localsqltimestamp.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_localsqltimestamp(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_localsqltimestamp - Return a SQL timestamp containing the local time
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_localsqltimestamp.html"> ns_localsqltimestamp </a></b> </a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+ This command returns a timestamp value that encodes the local time in ANSI SQL format (YYYY-MM-DD hh24:mm:ss).
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_localsqltimestamp.html"> ns_localsqltimestamp </a></b> </a><dd>
+
+
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_localsqltimestamp
+   2004-06-22 23:00:27
+</pre></td></tr></table></p>
+
+ This command is equivalent to the following:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_fmttime ns_time &quot;%Y-%m-%d %H:%M:%S&quot;
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % clock format ns_time -format &quot;%Y-%m-%d %H:%M:%S&quot;
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key82"> ns_localtime </a>
+</body></html>
+

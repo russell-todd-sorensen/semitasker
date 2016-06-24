@@ -1,0 +1,304 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>SVG Gradients</title>
+
+<link rel="stylesheet" type="text/css" href="../../css/log.css" media="all">
+
+<style>
+#notes, #image-select {
+    margin-left: 15px;
+    font-weight: bold;
+}
+#notes, #panel, #instructions {
+    display: inline-block;
+}
+
+#instructions ul li {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#panel fieldset {
+border: solid 3px darkolivegreen;
+margin: 5px;
+font: 1.4em "Helvetica Neue";
+background-color: #d3d3d3;
+width: 550px;
+}
+ 
+#panel select {
+font: 1em "Helvetica Neue";
+color: darkolivegreen;
+}
+ 
+#panel legend {
+color: darkolivegreen;
+font-weight: bold;
+font-variant: small-caps;
+background-color: #bbb;
+padding: 2px 6px;
+ 
+}
+ 
+#panel label {
+display: inline-block;
+width: 150px;
+}
+#panel ul {
+list-style: none;
+margin-left: -25px;
+padding-top: 0px;
+padding-bottom: 0px;
+}
+#panel ul li {
+margin-bottom: 5px;
+}
+.input-button {
+float: right;
+color: darkolivegreen;
+font-weight: bold;
+border: 3px solid;
+cursor: pointer;
+}
+ 
+#panel .input-text {
+/* keeps form from moving during mouseover */
+border: solid 1px #d3d3d3;
+}
+ 
+#panel .input-text:hover {
+background-color: #cff;
+border: solid #060 1px;
+color: #000;
+}
+ 
+#panel .input-text:focus {
+background-color: #fff;
+color: #000;
+border: solid #060 1px;
+}
+ 
+#panel select#state {
+border: solid #d3d3d3 1px;
+background-color: #fff;
+padding: 2px;
+margin-right: 5px;
+}
+ 
+#panel select#state:focus {
+color: #333;
+background-color: #cff;
+border: solid #060 1px;
+ 
+}
+
+form#panel {
+    display: none;
+}
+</style>
+
+<script type="text/ecmascript" src="../../js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="../../js/d3.v3.js"></script>
+<script type="text/javascript" src="../../js/log-2.js"></script>
+<script type="text/javascript" src="displace-exp.js"></script>
+<script>
+
+
+$(document).ready(function () {
+	
+  doc = d3.select(document.body);
+  Log.Hide();
+  svg = doc.select('svg');
+	restoreSelect('scalePage');
+	restoreSelect('imageChoice');
+	restoreSelect('rectChoice');
+});
+
+</script>
+</head>
+
+<body>
+<form action="javascript:doAnimation()" id="panel">
+<fieldset>
+<legend>Animation Options</legend>
+<ul>
+ <li><label for="imageChoice">Select Image</label> <select id="imageChoice" name="imageChoice" onChange="changeImage('imageChoice', 'imageX');">
+
+<option value="Butterfly%206.jpg" selected="selected">Butterfly 6</option>
+<option value="Butterfly%2017a.jpg">Butterfly 17a</option>
+<option value="Butterfly%2028.jpg">Butterfly 28</option>
+<option value="Butterfly%2057.jpg">Butterfly 57</option>
+<option value="Butterfly%2062.jpg">Butterfly 62</option>
+<option value="Butterfly%2086.jpg">Butterfly 86</option>
+<option value="Grasshopper%201.JPG">Grasshopper 1</option>
+<option value="Ladybug%206.jpg">Ladybug 6</option>
+<option value="building-1.jpg">Building 1</option>
+<option value="sphinx5.jpg">Sphinx 5</option>
+<option value="egypt-2.jpg">Egypt 2</option>
+<option value="EgyptianTomb.jpg">Egyptian Tomb</option>
+<option value="stone-hut-1.jpg">Stone Hut 1</option>
+<option value="stone-wall-1.jpg">Stone Wall 1</option>
+<option value="stone-arch-1.jpg">Stone Arch 1</option>
+<option value="igloo2.jpg">Igloo 2</option>
+<option value="rotunda-statue.jpg">Rotunda Statue</option>
+<option value="staircase-1.jpg">Spiral Staircase 1</option>
+<option value="red-fence-1.jpg">Red Fence 1</option>
+<option value="palace-1.jpg">Palace 1</option>
+<option value="london-plaza-1.jpg">London Plaza 1</option>
+<option value="glass-pyramids.jpg">Glass Pyramid</option>
+<option value="old-man-with-hat.jpg">Old Man with Hat</option>
+<option value="Woman-183.jpg">Woman 183</option>
+<option value="Woman-214.jpg">Woman 214</option>
+</select>
+ </li>
+ <li><label for="rectChoice">Select Gradient</label>
+ <select id="rectChoice" name="rectChoice" onChange="changeRect('rectChoice', 'feImage0');">
+  <option value="#rect53" selected="selected">Rect 53</option>
+  <option value="#tile20">Tile 20</option>
+  <option value="#rect52">Rect 52</option>
+  <option value="#rect51">Rect 51</option>
+  <option value="#rect50">Rect 50</option>
+  <option value="#rect62">Rect 43</option>
+  <option value="#rect42">Rect 42</option>
+  <option value="#rect41">Rect 41</option>
+  <option value="#rect40">Rect 40</option>
+  <option value="#rect35">Rect 35</option>
+  <option value="#rect34">Rect 34</option>
+  <option value="#rect33">Rect 33</option>
+  <option value="#rect32">Rect 32</option>
+  <option value="#rect31">Rect 31</option>
+  <option value="#rect30">Rect 30</option>
+  <option value="#rect8">Rect 8</option>
+  <option value="#rect7">Rect 7</option>
+  <option value="#rect6">Rect 6</option>
+  <option value="#rect22">Rect 22</option>
+  <option value="#rect10">Rect 10</option>
+  <option value="#rect9">Rect 9</option>
+  <option value="#rect5">Rect 5</option>
+  <option value="#rect4">Rect 4</option>
+  <option value="#rect3">Rect 3</option>
+  <option value="#rect2">Rect 2</option>
+  <option value="#rect1">Rect 1</option>
+  <option value="#rect205">Rect 205</option>
+  <option value="#rect209">Rect 209</option>
+  <option value="#rect220">Rect 220</option>
+  <option value="#rect210">Rect 210</option>
+  <option value="#rect205-2">Rect 205-2</option>
+  <option value="#rect209-2">Rect 209-2</option>
+  <option value="#rect220-2">Rect 220-2</option>
+  <option value="#rect210-2">Rect 210-2</option>
+  <option value="#rect205-3">Rect 205-3</option>
+  <option value="#rect209-3">Rect 209-3</option>
+  <option value="#rect220-3">Rect 220-3</option>
+  <option value="#rect210-3">Rect 210-3</option>
+  <option value="#rect300">Rect 300</option>
+  <option value="#rect301">Rect 301</option>
+  <option value="#rect302">Rect 302</option>
+  <option value="#rect303">Rect 303</option>
+  <option value="#rect304">Rect 304</option>
+  <option value="#rect305">Rect 305</option>
+  <option value="#rect306">Rect 306</option>
+ </select>
+ </li>
+ <li>
+  <label for="scalePage">Scale</label>
+  <select id="scalePage" name="scalePage" onChange="adjustScale('scalePage', 'main');">
+ <option value="4" selected="selected">4x</option>
+ <option value="2">2x</option>
+ <option value="1">1x</option>
+ <option value="8">8x</option>
+</select> 
+  </li>
+ </ul>
+ </fieldset>
+
+ </form>
+ 
+ <div id="instructions">
+ <form id="panel">
+ <fieldset>
+  <legend>Instructions</legend>
+ <ul>
+  <li>Select Image and Tiled Gradient.</li>
+  <li>Refresh Page to Start Animation.</li>
+ </ul>
+ </fieldset>
+ </form>
+ </div>
+<svg x="0" 
+		 y="0" 
+		 height="6400" 
+		 width="2600" 
+		 viewport="0 0 325 225"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+		 >
+<defs>
+
+<radialGradient id="radial-grad-50" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0" stop-color="#AABBCC" stop-opacity="1" />
+ <stop offset=".10" stop-color="#FF00FF" stop-opacity=".1" >
+   <animate attributeName="offset" attributeType="XML" from="0" to="1.0" dur="4s"
+     fill="freeze" id="grad-50-anim-1" begin="1s" repeatCount="indefinite" />
+   <animate attributeName="offset" attributeType="XML" from="1.0" to="0" dur="4s"
+     fill="freeze" id="grad-50-anim-1" begin="5s" repeatCount="indefinite" />
+ </stop>
+ <stop offset=".35" stop-color="#3300AA" stop-opacity="1" >
+  <animate attributeName="offset" attributeType="XML" from="1" to="0" dur="7s"
+     fill="freeze" id="grad-50-anim-2" begin="1s" repeatCount="indefinite" />
+  <animate attributeName="offset" attributeType="XML" from="0" to="1" dur="7s"
+     fill="freeze" id="grad-50-anim-2" begin="8s" repeatCount="indefinite" />
+ </stop>
+ <stop offset="1.0" stop-color="#FF0000" stop-opacity=".1" />
+ 
+</radialGradient>
+
+<radialGradient id="radial-grad-55" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop offset="0" stop-color="#000000" stop-opacity="0" />
+ <stop offset="0.05" stop-color="#000000" stop-opacity="1" >
+   <animate attributeName="offset" attributeType="XML" from="0" to="1.5" dur="8s"
+     fill="freeze" id="grad-50-anim-1" begin="1s" repeatCount="indefinite" />
+   <animate attributeName="stop-opacity" attributeType="XML" from="1.5" to=".01" dur="8s"
+     fill="freeze" id="grad-50-anim-1" begin="1s" repeatCount="indefinite" />
+ </stop>
+ <stop offset="1.0" stop-color="#000000" stop-opacity="1" />
+ 
+</radialGradient>
+
+<radialGradient id="radial-grad-60" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop offset="0" stop-color="#000000" stop-opacity="0" />
+ <stop offset="0.05" stop-color="#000000" stop-opacity="1" >
+   <animate attributeName="offset" attributeType="XML" from=".05" to=".95" dur="20s"
+     fill="freeze" id="grad-50-anim-5" begin="1s" repeatCount="indefinite" accumulate="none" additive="replace"  />
+ </stop>
+ <stop offset=".1" stop-color="#000000" stop-opacity="0" >
+  <animate attributeName="offset" attributeType="XML" from=".1" to="1" dur="20s"
+     fill="freeze" id="grad-50-anim-6" begin="1s" repeatCount="indefinite" />
+ </stop>
+ <stop offset="1" stop-color="#000000" stop-opacity="1" >
+</radialGradient>
+
+<radialGradient id="radial-grad-65" color-interpolation="sRGB" spreadMethod="pad" >
+ <stop offset="0" stop-color="#FFFFFF" stop-opacity="1" />
+ <stop offset="0.05" stop-color="#FFFFFF" stop-opacity="0" >
+   <animate attributeName="offset" attributeType="XML" from=".8" to=".82" dur="8s"
+     fill="freeze" id="grad-50-anim-5" begin="1s" repeatCount="indefinite" />
+   <animate attributeName="stop-opacity" attributeType="XML" from=".9" to=".9" dur="8s"
+     fill="freeze" id="grad-50-anim-6" begin="1s" repeatCount="indefinite" />
+ </stop>
+ <stop offset="1.0" stop-color="#FFFFFF" stop-opacity="0" />
+ 
+</radialGradient>
+
+</defs>
+
+<rect id="myRect" height="300" width="500" x="10" y="10" style="fill: green; stroke: orange; stroke-width: 3px;" />
+<rect id="myRect" height="300" width="500" x="10" y="10" style="fill: url(#radial-grad-55); stroke: orange; stroke-width: 3px;" />
+<rect id="myRect" height="300" width="500" x="520" y="10" style="fill: url(#radial-grad-60); stroke: orange; stroke-width: 3px;" />
+
+</svg>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Image Positioning Example</title>
+ <link rel="stylesheet" type="text/css" href="image-positioning.css">
+</head>
+<body>
+<h1>Image Positioning Example</h1>
+
+<div class="main-container">
+ <div class="main">
+ 	<img class="image-1" src="image-1.jpg" height="383" width="550">
+    <p class="p-bottom">This image has no positioning set. Remove relative
+    positioning form the main div and see what happens to this text.
+    ..........................................
+    Also, notice that the image height and width are set in the stylesheet,
+    which overrides the settings in the document.
+    </p>
+    
+ </div>
+ <div class="main-css">
+ <pre>
+.main-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.main {
+    display: inline-block;
+    background-image:url(IMLogo.svg);
+    background-size: cover;
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+    overflow: hidden;
+    <span class="hilite">position: relative;</span>
+}
+.main-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+    z-index: 10;
+}
+.image-1 {
+    <span class="hilite">height: 700px;
+    width:  800px;</span>
+    z-index: 100;
+    border-color: blue;
+    border-width: 2px;
+    border-style: double;  
+}
+<span class="hilite">.p-bottom {
+    position: absolute;
+    font-size: 2em;
+    color:#9966CC;
+    bottom: 10px;
+}</span>
+ </pre>
+ </div>
+</div>
+
+<div class="second-container">
+ <div class="second">
+    <img class="image-2" src="image-2.jpg">
+    <p class="p22">This is some text after the image, positioned relative.
+     I'll keep writing for a while to see what happens to the text. Does
+     it go around the image or what? Goes over the image.
+    </p>
+    <p class="p222">.This is some text after the image, positioned absolute.
+     I'll keep writing for a while to see what happens to the text. Does
+     it go around the image or what? Goes over the image....
+    </p>
+    <p class="p-bottom">Switch the above two paragraphs to see what happens.</p>
+ </div>
+ <div class="second-css">
+ <pre>
+.second {
+    display: inline-block;
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+    <span class="hilite">position: relative;</span>
+}
+.second-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+.image-2 {
+    height: 350px;
+    border-color: blue;
+    border-width: 5px;
+    border-style: double;
+    <span class="hilite">position: absolute;
+    left: 100px;
+    top: 150px;</span>
+}
+<span class="hilite">
+.p22 {
+    position: relative;
+    font-size: 2em;
+    color: #0CC;
+}  
+
+.p222 {
+    position: absolute;
+    font-size: 2em;
+    color:#CF3;
+}
+.p-bottom {
+    position: absolute;
+    font-size: 2em;
+    color:#9966CC;
+    bottom: 10px;
+}</span>
+ </pre>
+ </div>
+</div>
+
+<div class="third-container">
+ <div class="third"><img class="image-3" src="image-3.bmp" >
+ 
+  <p class="p3">This is some text after the image, with no positioning.
+    I'll keep writing for a while to see what
+    happens to the text. Does it go around the image or what? Goes under the image.
+    &nbsp;&nbsp; This paragraph has no positioning.</p>
+   
+   <p class="p33">This is some text after the image, positioned relative.
+    I'll keep writing for a while to see what
+    happens to the text. Does it go around the image or what? Goes over the image.
+   </p>
+  
+   <p class="p-bottom">Note that the image is positioned absolute, and given
+    offsets from the top and from the left.
+    Also, the image container must be positioned relative! This paragraph is positioned
+    absolute, with offsets from the bottom.
+   </p>
+  </div>
+ <div class="third-css">
+ <pre>
+.third-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+.third {
+    display: inline-block;
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+    <span class="hilite">position: relative;</span>
+}
+.third-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+.image-3 {
+    height: 200px;
+    border-color: blue;
+    border-width: 5px;
+    border-style: double;
+    <span class="hilite">position: absolute;
+    left: 20px;
+    top: 50px;</span>
+}
+<span class="hilite">
+.p3 {
+    font-size: 2em;
+}
+.p33 {
+    position: relative;
+    font-size: 2em;
+    color: #0CC;
+}
+.p-bottom {
+    position: absolute;
+    font-size: 2em;
+    color:#9966CC;
+    bottom: 10px;
+}</span>
+ </pre>
+ </div>
+</div>
+
+
+<div class="fourth-container">
+ <div class="fourth"><img class="image-4" src="image-4.jpg" height="563" width="371"></div>
+ <div class="fourth-css">
+ <pre>
+
+ </pre>
+ </div>
+</div>
+
+<div class="fifth-container">
+ <div class="fifth"><img class="image-5" src="image-5.jpg" height="340" width="350"></div>
+ <div class="fifth-css">
+ <pre>
+
+ </pre>
+ </div>
+</div>
+
+
+</body>
+</html>

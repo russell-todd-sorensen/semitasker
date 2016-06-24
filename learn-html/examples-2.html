@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<head lang="en_US">
+<title>Learn HTML Examples 1</title>
+<meta charset="utf-8">
+<style>
+
+css, tags {
+    white-space: pre;
+}
+
+css {
+    color: #F6F
+}
+
+tags {
+    color: #06F;
+}
+
+comment {
+    font-style: italic;
+}
+
+example {
+    display: block;
+    width: 400px;
+    border: solid black 1px;
+    background-color: #333;
+    color: white;
+    margin-bottom: 5px;
+    padding: 10px;
+}
+
+</style>
+</head>
+<body>
+<examples>
+
+<example id="example-1">
+ <css>
+#a {
+widtH: 300px;
+height: 100px;
+margiN: auTO;
+color: #800000;
+background-color: white;
+border: dotted green 15px;
+text-align: center;
+font-size: 3.2em;
+line-height: 2em;
+}
+ </css>
+ <tags>
+<div id="a">Hello, World!</div>
+ </tags>
+ <comment>
+  Note that some css properties and property values
+  have mixed upper and lower case letters.
+ </comment>
+</example>
+
+<example id="example-2">
+ <css>
+#a {
+color: blue;
+background-color: white;
+border: solid;
+}
+ </css>
+ <tags>
+<div id="a">
+ Something simple for example two.
+</div>
+ </tags>
+</example>
+
+<example id="example-3">
+ <css>
+#x1 {
+border: dashed 5px;
+color: tan;
+background-color: #333;
+width: 350px;
+height: 75px;
+font-weight: bold;
+font-size: 3em;
+text-align: center;
+text-transform: capitalize;
+margin: auto;
+}
+ </css>
+ <tags>
+<div id="x1">cSS box model</div>
+ </tags>
+</example>
+
+<example id="example-4">
+ <css>
+#top-nav {
+background-color: #333;
+width: 50%;
+font-weight: bold;
+text-align: center;
+text-transform: capitalize;
+margin: auto;
+}
+#top-nav li {
+display: inline-block;
+background-color: tan;
+color: #333;
+width: 95px;margin: 10px;
+}
+ </css>
+ <tags>
+<ul id="top-nav">
+ <li>Button 1</li>
+ <li>Buttom 2</li>
+ <li>Button 3</li>
+</ul>
+ </tags>
+</example>
+
+<example id="example-5">
+ <css>
+#top-nav {
+background-color: #333;
+width: 50%;
+font-weight: bold;
+text-align: center;
+text-transform: capitalize;
+margin: auto;
+}
+#top-nav li {
+display: inline-block;
+background-color: tan;
+color: #333;
+width: 95px;margin: 10px;
+}
+#top-nav a:link, #top-nav a:visited {
+color: inherit;
+text-decoration: none;
+}
+ </css>
+ <tags>
+<ul id="top-nav">
+ <li><a href="#top">Button 1</a></li>
+ <li><a href="#middle">Button 2</a></li>
+ <li><a href="#bottom">Buttom 3</a></li>
+</ul>
+ </tags>
+ <comment>
+  Try adding the id attribute to the ul tag <b>after</b>
+  you finish typing the rest of the code.
+ </comment>
+</example>
+
+<example id="example-6">
+ <css>
+.corners {
+border-radius: 15px 15px 15px 15px;
+}
+#header {
+width: 800px;
+height: 75px;
+background-color: silver;
+font-size: 3em;
+text-align: center;
+margin: auto;
+line-height: 1.6;
+font-weight bold;
+}
+#nav {
+width: 700px;
+background-color: silver;
+font-size: 1.5em;
+text-transform: capitalize;
+font-weight: bold;
+text-align: center;
+margin: auto;
+margin-top: 15px;
+}
+#nav li {
+display: inline-block;
+text-align: center;
+width: 150px;
+margin: auto;
+}
+#main {
+position: relative;
+background-color: #369;
+height: 900px;
+}
+#side-bar {
+position: absolute;
+top: 15px;
+width: 150px;
+height: 800px;
+background-color: white;
+}
+#content {
+position: absolute;
+top: 75px;
+left: 75px;
+height: 600px;
+width: 600px;
+background-color: silver;
+}
+ </css>
+ <tags>
+<div id="header" class="corners">Website Name Here</div>
+<ul id="nav" class="corners">
+ <li>Home</li>
+ <li>About</li>
+ <li>Products</li>
+</ul>
+<div id="main">
+ <div id="side-bar"></div>
+ <div id="content"></div>
+</div>
+ </tags>
+ <comment>
+ 
+ </comment>
+
+</examples>
+
+
+
+</body>
+</html>

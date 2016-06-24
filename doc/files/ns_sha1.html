@@ -1,0 +1,72 @@
+<html><head>
+<title>ns_sha1 - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_sha1.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_sha1.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_sha1(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_sha1 - Returns a 40-character, hex-encoded string containing the SHA1 hash of the first argument
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_sha1.html"> ns_sha1 </a></b> <i class='arg'>string</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+A cryptographic hash (sometimes called digest) is a kind of signature for a text or a data file.
+SHA1 generates an almost-unique 160-bit signature for a text.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_sha1.html"> ns_sha1 </a></b> <i class='arg'>string</i></a><dd>
+
+
+<br><br>
+<i class='arg'>string</i>
+String from which hash should be produced
+
+</dl>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+oss2:nscp 2&gt; ns_sha1 test   
+A94A8FE5CCB19BA61C4C0873D391E987982FBBD3
+
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key584"> ns_crypt, </a>, <a href="../index.html#key583"> ns_rand </a>, <a href="../index.html#key581"> ns_uudecode, </a>, <a href="../index.html#key579"> ns_uuencode, </a>
+</body></html>
+

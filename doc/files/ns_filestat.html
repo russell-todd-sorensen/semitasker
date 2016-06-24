@@ -1,0 +1,75 @@
+<html><head>
+<title>ns_filestat - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_filestat.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_filestat.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_filestat(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_filestat - Returns information about a file
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_filestat.html"> ns_filestat </a></b> <i class='arg'>FileName</i> ?<i class='arg'>VarName</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+Invokes  the  stat  kernel  call  on  name,  and uses the variable given by varName to hold information
+returned from the kernel call.  VarName is treated as an array variable, and the following elements  of
+that  variable are set: atime, ctime, dev, gid, ino, mode, mtime, nlink, size, type, uid.  Each element
+except type is a decimal string with the value of the corresponding field from the stat  return  struc-
+ture;  see the manual entry for stat for details on the meanings of the values.  The type element gives
+the type of the file in the same form returned by the command file type.  This command returns 1 if system
+call was successful and array varianle is set or 0 in case of any error or file not found.
+
+<p>
+If TCL VFS was compiled this command is similar to Tcl file stat command. In case of no TCL VFS, this
+command uses direct system call stat and is much faster.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_filestat.html"> ns_filestat </a></b> <i class='arg'>FileName</i> ?<i class='arg'>VarName</i>?</a><dd>
+
+
+If VarName is not specified, then ns_filestat behaves similar to file exists, just returns
+1 if file exisst, 0 if not accesable
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+   if { [ns_filestat /tmp/info.txt stat] } {
+     ns_log notice $stat(size)
+   }
+
+</pre></td></tr></table></p>
+
+
+</body></html>
+

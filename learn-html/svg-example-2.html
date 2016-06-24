@@ -1,0 +1,523 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <title>SVG Example 2</title>
+</head>
+<body>
+<examples>
+<example id="Example-73">
+ <tags>
+
+
+ </tags>
+ <css>
+
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+<rect id="y" x="0" y="0" height="100" width="100" opacity=".2" />
+</graphics>
+ <comment></comment>
+</example>
+<example id="Example-75">
+ <tags>
+
+
+ </tags>
+ <css>
+
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+<rect id="y" x="0" y="0" height="100" width="100" opacity=".2">
+<!-- add animation of height -->
+<animate attributeName="height" from="100" to="300" dur="5s" />
+</rect>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-76">
+ <tags>
+
+
+ </tags>
+ <css>
+
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+<rect id="y" x="0" y="0" height="100" width="100" opacity=".2">
+<animate attributeName="height" from="100" to="300" dur="5s" />
+<!-- add animation of opacity -->
+<animate attributeName="opacity" from=".2" to=".8" dur="3s" begin="2s" />
+</rect>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-77">
+ <tags>
+
+
+ </tags>
+ <css>
+
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+<rect id="y" x="0" y="0" height="100" width="100" opacity=".2">
+<!-- freeze the final image height (notice fill="freeze") -->
+<animate attributeName="height" from="100" to="300" dur="5s" fill="freeze" />
+<animate attributeName="opacity" from=".2" to=".8" dur="3s" begin="2s" />
+</rect>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-current">
+ <tags>
+
+
+ </tags>
+ <css>
+
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+<rect id="y" x="0" y="0" height="100" width="100" opacity=".2">
+<animate attributeName="height" from="100" to="300" dur="5s" fill="freeze"/>
+<!-- freeze the final image opacity (notice fill="freeze") -->
+<animate attributeName="opacity" from=".2" to=".8" dur="3s" begin="2s" fill="freeze"/>
+</rect>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-78">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+<rect id="y" x="0" y="0" height="100" width="100" opacity=".2">
+<animate attributeName="height" from="100" to="300" dur="5s" fill="freeze" />
+<animate attributeName="opacity" from=".2" to=".8" dur="3s" begin="2s" fill="freeze" />
+<!-- animate the color of the rect using animateColor -->
+<animateColor attributeName="fill" from="black" to="green" dur="3s" fill="freeze" />
+</rect>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-80">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+<rect id="y" x="0" y="0" height="100" width="100" opacity=".2">
+<animate attributeName="height" from="100" to="300" dur="5s" fill="freeze" />
+<animate attributeName="opacity" from=".2" to=".8" dur="3s" begin="2s" fill="freeze" />
+<!-- add an id attribute id="ac1" -->
+<animateColor id="ac1" attributeName="fill" from="black" to="green" dur="3s" fill="freeze" />
+<!-- chain the beginning of one animation to the end of another one  using begin="ac1.end" -->
+<animateColor attributeName="fill" from="green" to="#339" dur="3s" begin="ac1.end" fill="freeze" />
+</rect>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-81">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+<rect id="y" x="0" y="0" height="100" width="100" opacity=".2">
+<animate attributeName="height" from="100" to="300" dur="5s" fill="freeze" />
+<animate attributeName="opacity" from=".2" to=".8" dur="3s" begin="2s" fill="freeze" />
+<animatecolor id="ac1" attributeName="fill" from="black" to="green" dur="3s" fill="freeze" />
+<animatecolor id="ac2" attributeName="fill" from="green" to="#339" dur="3s" begin="ac1.end" fill="freeze" />
+</rect>
+<rect id="t" x="150" y="0" height="0" width="0" opacity=".4">
+<animate attributeName="height" from="0" to="100" dur="2s" begin="ac2.end" fill="freeze" />
+<animate attributeName="width" from="0" to="20" dur="2s" begin="ac2.end" fill="freeze" />
+</rect>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-82">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+<rect id="y" x="0" y="0" height="100" width="100" opacity=".2">
+<animate attributeName="height" from="100" to="300" dur="5s" fill="freeze" />
+<animate attributeName="opacity" from=".2" to=".8" dur="3s" begin="2s" fill="freeze" />
+<animatecolor id="ac1" attributeName="fill" from="black" to="green" dur="3s" fill="freeze" />
+<animatecolor id="ac2" attributeName="fill" from="green" to="#339" dur="3s" begin="ac1.end" fill="freeze" />
+</rect>
+<rect id="t" x="150" y="0" height="0" width="0" opacity=".4">
+<animate attributeName="height" from="0" to="100" dur="2s" begin="ac2.end" fill="freeze" />
+<animate attributeName="width" from="0" to="20" dur="5s" begin="ac2.end" fill="freeze" />
+<animateMotion id="path1" path="M 0 0 L 20 80 L 100 300 L 400 200 Z" dur="5s" begin="ac2.end" />
+<animateMotion id="path2" path="M 0 0 L 153 334
+C153 334 151 334 151 334
+C151 339 153 344 156 344
+C164 344 171 339 171 334
+C171 322 164 314 156 314
+C142 314 131 322 131 334
+C131 350 142 364 156 364
+C175 364 191 350 191 334
+C191 311 175 294 156 294
+C131 294 111 311 111 334
+C111 361 131 384 156 384
+C186 384 211 361 211 334
+C211 300 186 274 156 274" begin="path1.end" dur="5s" /> 
+</rect>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-83">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+<rect id="y" x="0" y="0" height="100" width="100" opacity=".2">
+<animate attributeName="height" from="100" to="300" dur="5s" fill="freeze" />
+<animate attributeName="opacity" from=".2" to=".8" dur="3s" begin="2s" fill="freeze" />
+<animatecolor id="ac1" attributeName="fill" from="black" to="green" dur="3s" fill="freeze" />
+<animatecolor id="ac2" attributeName="fill" from="green" to="#339" dur="3s" begin="ac1.end" fill="freeze" />
+</rect>
+<rect id="t" x="150" y="0" height="0" width="0" opacity=".4">
+<animate attributeName="height" from="0" to="100" dur="2s" begin="ac2.end" fill="freeze" />
+<animate attributeName="width" from="0" to="20" dur="5s" begin="ac2.end" fill="freeze" />
+<animateMotion id="path1" path="M 0 0 L 20 80 L 100 300 L 400 200 Z" dur="5s" begin="ac2.end" />
+<animateMotion id="path2" path="M 0 0 L 153 334 C153 334 -350 200 200 10" begin="path1.end" dur="5s" /> 
+</rect>
+<path d="M 0 0 L 20 80 L 100 300 L 400 200 Z" fill="none" stroke="red" transform="translate(150,0)" />
+<path x="150" y="0" d="M 0 0 L 153 334 C153 334 -350 200 200 10" fill="none" stroke="orange" transform="translate(150,0)" />
+
+</graphics>
+ <comment></comment>
+</example>
+<example id="Example-84">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+<rect id="y" x="0" y="0" height="100" width="100" opacity=".2">
+<animate attributeName="height" from="100" to="300" dur="5s" fill="freeze" />
+<animate attributeName="opacity" from=".2" to=".8" dur="3s" begin="2s" fill="freeze" />
+<animatecolor id="ac1" attributeName="fill" from="black" to="green" dur="3s" fill="freeze" />
+<animatecolor id="ac2" attributeName="fill" from="green" to="#339" dur="3s" begin="ac1.end" fill="freeze" />
+</rect>
+<g transform="translate(150,0)">
+<rect id="t" x="0" y="0" height="0" width="0" opacity=".4">
+<animate attributeName="height" from="0" to="100" dur="2s" begin="ac2.end" fill="freeze" />
+<animate attributeName="width" from="0" to="20" dur="5s" begin="ac2.end" fill="freeze" />
+<animateMotion id="path1" path="M 0 0 L 20 80 L 100 300 L 400 200 Z" dur="5s" begin="ac2.end" />
+<animateMotion id="path2" path="M 0 0 L 153 334 S-650 0 400 100 S280 200 100 400" begin="path1.end" dur="8s" /> 
+</rect>
+<path d="M 0 0 L 20 80 L 100 300 L 400 200 Z" fill="none" stroke="red" />
+<path d="M 0 0 L 153 334 S-650 0 400 100 S280 200 100 400" fill="none" stroke="orange" />
+</g>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-85">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+<g transform="translate(150,80)">
+<text x="-8" y="30" font-size="30" fill="orange" stroke="black" text-anchor="begin">
+Hi There
+<animate attributeName="font-size" from="30" to="100" dur="3s" begin="y.end" fill="freeze" />
+<animate attributeName="y" from="-50" to="0" dur="3s" fill="freeze" id="y">
+<animateMotion path="M 0 0 L 153 334 S-650 0 400 100 S280 200 100 400" dur="30s" begin="y.end" />
+</text>
+<path d="M 0 0 L 153 334 S-650 0 400 100 S280 200 100 400" fill="none" stroke="orange" /> 
+</g>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-86">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+<g transform="translate(150,80)">
+<text x="-8" y="30" font-size="30" font-family="cooper black" fill="orange" stroke="black" text-anchor="begin" opacity="1.0">
+Hi There
+<animate attributeName="font-size" from="30" to="100" dur="3s" begin="y.end" fill="freeze" />
+<animate attributeName="y" from="-50" to="0" dur="3s" fill="freeze" id="y" />
+<animateMotion id="m" path="M 0 0 C 200 100 20 80 153 334 S-650 0 400 100 S280 200 100 400" dur="30s" begin="y.end" />
+<animate attributeName="opacity" from="1.0" to="0.0" dur="5s" begin="m.end" fill="freeze" />
+</text>
+<path d="M 0 0 C 200 100 20 80 153 334 S-650 0 400 100 S280 200 100 400" fill="none" stroke="orange" /> 
+</g>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-87">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+<defs>
+<linearGradient x="0" y="0" id="grad-1">
+<stop stop-color="white" offset="0.0" />
+<stop stop-color="brown" offset="0.5" />
+<stop stop-color="yellow" offset="1.0" />
+</linearGradient>
+</defs>
+<g transform="translate(150,80)">
+<text x="-8" y="30" font-size="30" font-family="cooper black" fill="url(#grad-1)" stroke="black" text-anchor="begin" opacity="1.0">
+Hi There
+<animate attributeName="font-size" from="30" to="100" dur="3s" begin="y.end" fill="freeze" />
+<animate attributeName="y" from="-50" to="0" dur="3s" fill="freeze" id="y" />
+<animateMotion id="m" path="M 0 0 C 200 100 20 80 153 334 S-650 0 400 100 S280 200 100 400" dur="30s" begin="y.end" />
+<animate attributeName="opacity" from="1.0" to="0.0" dur="5s" begin="m.end" fill="freeze" />
+</text>
+<path d="M 0 0 C 200 100 20 80 153 334 S-650 0 400 100 S280 200 100 400" fill="none" stroke="orange" /> 
+</g>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-88">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+<defs>
+<linearGradient color-interpolation="sRGB" id="grad-1">
+<stop stop-color="white" offset="0.0" />
+<stop stop-color="brown" offset="0.5" />
+<stop stop-color="yellow" offset="1.0" />
+</linearGradient>
+<linearGradient id="grad-2" xlink:href="#grad-1" x1="0" y1="0" x2="100%" y2="100%" />
+</defs>
+<g transform="translate(150,80)">
+<text x="-8" y="30" font-size="30" font-family="cooper black" fill="url(#grad-2)" stroke="black" text-anchor="begin" opacity="1.0">
+Hi There
+<animate attributeName="font-size" from="30" to="100" dur="3s" begin="y.end" fill="freeze" />
+<animate attributeName="y" from="-50" to="0" dur="3s" fill="freeze" id="y" />
+<animateMotion id="m" path="M 0 0 C 200 100 20 80 153 334 S-650 0 250 100 S280 200 0 400" dur="16s" begin="y.end" />
+<animate attributeName="opacity" from="1.0" to="0.0" dur="5s" begin="m.end" fill="freeze" />
+</text>
+<path d="M 0 0 C 200 100 20 80 153 334 S-650 0 250 100 S280 200 0 400" fill="none" stroke="orange" />  
+</g>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-89">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+<defs>
+<linearGradient color-interpolation="sRGB" id="grad-1" spreadmethod="repeat">
+<stop stop-color="white" offset="0.0" />
+<stop stop-color="brown" offset="0.25" />
+<stop stop-color="yellow" offset=".5" />
+<stop stop-color="white" offset="0.75" />
+<stop stop-color="brown" offset="0.85" />
+<stop stop-color="yellow" offset="1.0" />
+</linearGradient>
+<linearGradient id="grad-2" xlink:href="#grad-1" x1="0" y1="0" x2="100%" y2="100%" />
+<linearGradient id="grad-3" xlink:href="#grad-1" x1="0" y1="0" x2="0" y2="100%" />
+<path id="path-1" d="M 0 0 C 200 100 20 80 153 334 S-650 0 250 100 S280 200 0 400" fill="none" stroke="orange" /> 
+</defs>
+<g transform="translate(150,80)">
+<text x="-8" y="30" font-size="80" font-family="cooper black" fill="url(#grad-3)" stroke="black" text-anchor="begin" opacity="1.0">
+Hi There
+<animate attributeName="font-size" from="80" to="40" additive="sum" begin="0s" dur="5s" fill="freeze" />
+<animate attributeName="y" from="-50" to="0" dur="3s" fill="freeze" id="y" />
+<animateMotion id="m" path="M 0 0 C 200 100 20 80 153 334 S-650 0 250 100 S280 200 0 400" dur="16s" begin="y.end" fill="freeze" />
+<animate attributeName="opacity" from="1.0" to="0.0" dur="5s" begin="m.end" fill="freeze" />
+</text>
+<path d="M 0 0 C 200 100 20 80 153 334 S-650 0 250 100 S280 200 0 400" fill="none" stroke="orange" />  
+</g>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-90">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+<defs>
+<linearGradient color-interpolation="sRGB" id="grad-1" spreadmethod="repeat">
+<stop stop-color="white" offset="0.0" />
+<stop stop-color="brown" offset="0.5" />
+<stop stop-color="yellow" offset="1.0" />
+</linearGradient>
+<linearGradient id="grad-2" xlink:href="#grad-1" x1="0" y1="0" x2="100%" y2="100%" />
+<linearGradient id="grad-3" xlink:href="#grad-1" x1="0" y1="0" x2="0" y2="100%" />
+<path id="path-1" d="M 0 0 C 200 100 20 80 153 334 S-650 0 250 100 S280 200 0 400" fill="none" stroke="orange" /> 
+</defs>
+<g transform="translate(150,80)">
+<text x="0" y="30" font-size="20" font-family="cooper black" fill="url(#grad-3)" stroke="black" text-anchor="begin" opacity="1.0">
+Hi There
+<animate attributeName="font-size" from="20" to="100" begin="0s" dur="6.5s" fill="freeze" id="fs1" />
+<animate attributeName="font-size" from="100" to="40" begin="fs1.end" dur="3s" fill="freeze" id="fs2" />
+<animate attributeName="font-size" from="40" to="120" begin="fs2.end" dur="9s" fill="freeze" />
+<animate attributeName="y" from="-50" to="0" dur="3s" fill="freeze" id="y" begin="0s" />
+<animateMotion id="m" path="M 0 0 C 200 100 20 80 153 334 S-650 0 250 100 S280 200 0 400" dur="16s" begin="y.end" fill="freeze" />
+<animate attributeName="opacity" from="1.0" to="0.0" dur="5s" begin="m.end" fill="freeze" />
+</text>
+<path d="M 0 0 C 200 100 20 80 153 334 S-650 0 250 100 S280 200 0 400" fill="none" stroke="orange" />  
+</g>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-91">
+ <tags>
+
+ </tags>
+ <css>
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+<defs>
+<linearGradient color-interpolation="sRGB" id="grad-1" spreadmethod="repeat">
+<stop stop-color="white" offset="0.0" />
+<stop stop-color="brown" offset="0.5" />
+<stop stop-color="yellow" offset="1.0" />
+</linearGradient>
+<linearGradient id="grad-2" xlink:href="#grad-1" x1="0" y1="0" x2="100%" y2="100%" />
+<linearGradient id="grad-3" xlink:href="#grad-1" x1="0" y1="0" x2="0" y2="100%" />
+<path id="path-1" d="M 0 0 C 200 100 20 80 153 334 S-650 0 250 100 S280 200 0 400" fill="none" stroke="orange" /> 
+</defs>
+
+<g transform="translate(250,80)">
+<text x="0" y="30" font-size="20" font-family="cooper black"
+      fill="url(#grad-3)" stroke="black" text-anchor="end" opacity="1.0">
+<textpath xlink:href="#path-1" startoffset="1.6602%" >
+ <animate attributeName="startOffset" from="1%" to="100%" dur="20s" fill="freeze" id="move" />
+ Hi There
+ <animate attributeName="font-size" from="20" to="100" begin="0s" dur="6s" fill="freeze" id="fs1" />
+ <animate attributeName="font-size" from="100" to="40" begin="fs1.end" dur="3s" fill="freeze" id="fs2" />
+ <animate attributeName="font-size" from="40" to="120" begin="fs2.end" dur="9s" fill="freeze" />
+ <animate attributeName="y" from="-50" to="0" dur="3s" fill="freeze" id="y" begin="0s" />
+ <animate attributeName="opacity" from="1.0" to="0.0" dur="5s" begin="move.end" fill="freeze" />
+ <animateTransform attributeName="transform" type="skewX" from="0.1" to="-1.0" dur="2s" begin="move.end" />
+</textpath>
+</text>
+
+<use xlink:href="#path-1" />  
+
+</g>
+
+ </graphics>
+ <comment></comment>
+</example>
+</examples>
+
+</body>
+</html>

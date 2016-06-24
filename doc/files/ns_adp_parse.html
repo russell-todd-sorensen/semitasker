@@ -1,0 +1,102 @@
+<html><head>
+<title>ns_adp_parse - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_adp_parse.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_adp_parse.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_adp_parse(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_adp_parse - Parse an ADP file or string and return its output
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_adp_parse.html"> ns_adp_parse </a></b> ?<i class='arg'>-file file</i>? ?<i class='arg'>-tcl</i>? ?<i class='arg'>-safe</i>? ?<i class='arg'>-savedresult varName</i>? ?<i class='arg'>-cwd path</i>? ?args ...?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This function processes the specified ADP file or string and returns
+the result as a string. Processing a second ADP from inside an ADP
+is normally best done with ns_adp_include as that command
+resolves relative pathnames passed to it.  Also note that
+ns_adp_parse will ignore any directives to turn on streaming.
+Tcl_Eval is used to evaluate the Tcl commands in the ADP.
+
+<p>
+Although the &lt;% ... %&gt; syntax is allowed in the string,
+if you have this embedded in an ADP, you have to be careful in
+constructing the string that you do not prematurely terminate an
+enclosing script.
+
+<p>
+The -file file option can be used to parse ADP contained in
+the given file.  This use is similar to that of ns_adp_include
+except the result is returned by the command instead of automatically
+being appended to the output stream.
+
+<p>
+-tcl flags can be passed to tell that given file is .tcl file which should 
+be appropriately wrapped and parsed.
+
+<p>
+The -global and -local options are deprecated and ignored. All calls
+are now local to the current ADP call frame.
+
+<p>
+Additional arguments are passed to the ADP execution and can be
+accessed via the ns_adp_argc, ns_adp_argv, and
+ns_adp_bind_args commands.
+
+<p>
+You can pass optional arguments to the ADP.  The arguments can be accessed within the
+ADP using the ns_adp_argc, ns_adp_argv and ns_adp_bind_args commands.
+
+<p>
+If this call is a nested ADP evaluation (where one ADP calls another), an error will
+be thrown if the depth exceeds 256, the maximum number of nested ADP evaluations.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_adp_parse.html"> ns_adp_parse </a></b> ?<i class='arg'>-file file</i>? ?<i class='arg'>-tcl</i>? ?<i class='arg'>-safe</i>? ?<i class='arg'>-savedresult varName</i>? ?<i class='arg'>-cwd path</i>? ?args ...?</a><dd>
+
+
+</dl>
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_adp_parse {&lt;% return [[expr 2 + 2]] %&gt;}
+   4
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_adp_parse -file
+</pre></td></tr></table></p>
+
+</body></html>
+

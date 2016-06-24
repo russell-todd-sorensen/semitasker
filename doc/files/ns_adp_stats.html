@@ -1,0 +1,136 @@
+<html><head>
+<title>ns_adp_stats - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_adp_stats.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_adp_stats.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_adp_stats(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_adp_stats - Return statistics about cached ADP pages
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_adp_stats.html"> ns_adp_stats </a></b> </a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'>dev</b> </a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'>ino</b> </a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'>mtime</b> </a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'>refcnt</b> </a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'>evals</b> </a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'>size</b> </a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'>blocks</b> </a></td></tr>
+<tr valign=top ><td ><a href="#9"><b class='cmd'>scripts</b> </a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+ Returns statistics about ADP pages that have been cached.  The result is a list of lists, where
+ each sublist contains 2 items: File, Statistics.  File is the complete path in the file system to
+ a cached adp file, Statistics is a list containing statistics about that cached file in a
+ format similar to Tcl's array get format.  Currently, the keys in Statistics are:
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_adp_stats.html"> ns_adp_stats </a></b> </a><dd>
+
+
+
+
+<dt><a name="2"><b class='cmd'>dev</b> </a><dd>
+
+
+ Drive number of the disk containing the file.
+
+<br><br>
+<dt><a name="3"><b class='cmd'>ino</b> </a><dd>
+
+
+ Number of the information node (the inode) for the file.  The inode describes
+ the file date and time stamps, permissions, and content on UNIX file systems.
+
+<br><br>
+<dt><a name="4"><b class='cmd'>mtime</b> </a><dd>
+
+
+ Time the file was last modified,
+
+<br><br>
+<dt><a name="5"><b class='cmd'>refcnt</b> </a><dd>
+
+
+ Reference Count, the adp will be removed from the cache if this reaches zero.
+
+<br><br>
+<dt><a name="6"><b class='cmd'>evals</b> </a><dd>
+
+
+ Number of times this adp has been evaluated.
+
+<br><br>
+<dt><a name="7"><b class='cmd'>size</b> </a><dd>
+
+
+ Size of the file in bytes.
+
+<br><br>
+<dt><a name="8"><b class='cmd'>blocks</b> </a><dd>
+
+
+ Total number of blocks in the adp file, including html blocks and script blocks.
+
+<br><br>
+<dt><a name="9"><b class='cmd'>scripts</b> </a><dd>
+
+
+ Number of script blocks in the adp file.
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % foreach {file stats} &lt;strong&gt;ns_adp_stats&lt;/strong&gt; {
+         append output &quot;\nFILE: ${file}\n&quot;
+         foreach {key value} $stats {
+             append output &quot;    ${key} ==&gt; ${value}\n&quot;
+         }
+     }
+     set output
+</pre></td></tr></table></p>
+
+ See stats.tcl in the standard NaviServer distribution for a more complicated example.
+
+<p>
+NOTES
+
+ On the Windows platform, adp filenames are used as Hash table keys instead of dev and ino,
+ so dev and ino will always be reported as 0 when running NaviServer on Windows.
+
+
+
+</body></html>
+

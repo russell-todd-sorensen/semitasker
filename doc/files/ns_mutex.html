@@ -1,0 +1,140 @@
+<html><head>
+<title>ns_mutex - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_mutex.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_mutex.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_mutex(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_mutex - Operate on mutexes
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>option</i> ?<i class='arg'>arg arg ...</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>create</i> ?<i class='arg'>name</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>destroy</i> <i class='arg'>object</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>lock</i> <i class='arg'>object</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>trylock</i> <i class='arg'>object</i></a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>unlock</i> <i class='arg'>object</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command provides a mechanism to manipulate mutexes.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+
+<dl>
+
+
+ <dt><a name="1"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>option</i> ?<i class='arg'>arg arg ...</i>?</a><dd>
+
+
+
+</dl>
+
+<dl>
+
+
+<dt><a name="2"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>create</i> ?<i class='arg'>name</i>?</a><dd>
+
+
+Initializes a new mutual exclusion (mutex) lock and returns a handle to it. 
+If name is provided the mutex name will be set to this value.
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>destroy</i> <i class='arg'>object</i></a><dd>
+
+
+Destroys the mutex and frees any resources it was using.
+
+NOTE: The mutex must be unlocked, or else the behavior is undefined and will likely 
+crash the server.  Before using this, you should probably look at 
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>lock</i> <i class='arg'>object</i></a><dd>
+
+
+ns_mutex lock acquires the specified mutual exclusion lock. The mutexid argument is
+the mutex ID returned by ns_mutex create when the mutex was created.
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>trylock</i> <i class='arg'>object</i></a><dd>
+
+
+ns_mutex trylock tries to acquire the specified mutual exclusion lock. The mutexid argument is
+the mutex ID returned by ns_mutex create when the mutex was created. If the mutex is locked
+successfully, return value of 0 is returned. non-zero return value indicates that the mutex is
+already locked by someone else
+
+<br><br>
+<dt><a name="6"><b class='cmd'><a href="ns_mutex.html"> ns_mutex </a></b> <i class='arg'>unlock</i> <i class='arg'>object</i></a><dd>
+
+
+ns_mutex unlock unlocks the specified mutual exclusion lock. The mutexid argument is
+the mutex ID returned by ns_mutex create when the mutex was created.
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+At startup (for example, in your init.tcl procedure), open a shared file and create a lock for it:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+ns_share Shared
+set Shared(file) [open myfile.data]
+set Shared(lock) [ns_mutex create]
+detach $Shared(file)
+
+</pre></td></tr></table></p>
+
+Later (for example, in a request procedure), access the data file:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+ns_share Shared
+ns_mutex lock $Shared(lock)
+catch {
+... access $Shared(file) ...
+}
+ns_mutex unlock $Shared(lock)
+
+</pre></td></tr></table></p>
+
+Note: The &quot;catch&quot; is important so the lock isn't held if Tcl unwinds due to an error accessing the file.
+
+At shutdown (for example, in your shutdown procedure registered with ns_atshutdown),
+close the file and destroy the lock:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+ns_share Shared
+close $Shared(file)
+ns_mutex destroy $Shared(lock)
+
+</pre></td></tr></table></p>
+
+</body></html>
+

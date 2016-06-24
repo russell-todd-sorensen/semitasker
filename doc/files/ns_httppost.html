@@ -1,0 +1,81 @@
+<html><head>
+<title>ns_httppost - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_httppost.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_httppost.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_httppost(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_httppost - Open an HTTP connection and posts data to the server
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_httppost.html"> ns_httppost </a></b> <i class='arg'>url</i> ?<i class='arg'>?rqset?</i>? ?<i class='arg'>qsset</i>? ?<i class='arg'>type</i>? ?<i class='arg'>timeout</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+ns_httppost is a wrapper around ns_httpopen to send data using HTTP POST method.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_httppost.html"> ns_httppost </a></b> <i class='arg'>url</i> ?<i class='arg'>?rqset?</i>? ?<i class='arg'>qsset</i>? ?<i class='arg'>type</i>? ?<i class='arg'>timeout</i>?</a><dd>
+
+
+<br><br>
+<i class='arg'>url</i>
+Url where to send data
+
+<br><br>
+<i class='arg'>rqset</i>
+This is ns_set with headers, if none specified, default minimum number of HTTP
+headers will be provided
+
+<br><br>
+<i class='arg'>qsset</i>
+This is ns_set with form data, key values pair which will be formatted into
+query format as if browser sends it
+
+<br><br>
+<i class='arg'>type</i>
+Content type, default is application/x-www-form-urlencoded which submitted form format
+
+<br><br>
+<i class='arg'>timeout</i>
+Timeout for opening the connection (the default is 30 seconds) or retrieving data.
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+set form [ns_set new]
+ns_set put $data Name John
+ns_set put $data Action Add
+set page [ns_httppost http://www.aolserver.com] &quot;&quot; $data
+</pre></td></tr></table></p>
+
+</body></html>
+

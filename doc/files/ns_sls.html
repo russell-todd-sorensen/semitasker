@@ -1,0 +1,140 @@
+
+
+<html><head>
+<title>ns_sls - NaviServer Built-In Commands </title>
+<link rel="stylesheet" href="../.././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/mann/ns_sls.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_sls.n
+   -->
+
+<body>
+<hr> [
+  <a href="../.././toc.html">Table Of Contents</a>
+| <a href="../.././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_sls(n) 4.99.2  &quot;NaviServer Built-In Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_sls - Socket local storage for connections
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'>ns_sls set</b> <i class='arg'>key</i> <i class='arg'>value</i></a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'>ns_sls get</b> <i class='arg'>key</i> ?<i class='arg'>default</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'>ns_sls unset</b> <i class='arg'>key</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'>ns_sls array</b> </a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+The underlying TCP socket used by a NaviServer connection may be kept open and
+reused for further connections, e.g. during HTTP keep-alive . The <b class='cmd'><a href="ns_sls.html"> ns_sls </a></b>
+commands associate data with the socket, which will be available to future
+connections on that socket. The data is freed automatically when the socket
+closes.
+
+<p>
+The data is saved as a string, both for thread safety and to allow easy
+sharing with C code using the <b class='cmd'><a href="../../index.html#key593"> Ns_SlsGetKeyed </a></b> and <b class='cmd'><a href="../../index.html#key594"> Ns_SlsSetKeyed </a></b>
+API.
+
+<p>
+Per-socket data is often used by socket drivers and protocol
+drivers. It may be tempting to save HTTP session data here, but beware:
+intermediate HTTP proxies may send multiple, unrelated requests using a single
+TCP socket. You may be looking for <b class='cmd'>Ns_Cls</b> -- connection local storage.
+
+<p>
+All the <b class='cmd'><a href="ns_sls.html"> ns_sls </a></b> commands require an active connection.
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+<dl>
+
+
+<dt><a name="1"><b class='cmd'>ns_sls set</b> <i class='arg'>key</i> <i class='arg'>value</i></a><dd>
+
+
+Set the string value of an sls key. Any old value will be freed. The new value
+will be freed automatically when the socket is closed.
+
+
+<br><br>
+<dt><a name="2"><b class='cmd'>ns_sls get</b> <i class='arg'>key</i> ?<i class='arg'>default</i>?</a><dd>
+
+
+Get the current string value of an sls key. If the key does not exist and no
+default was given an error is raised, otherwise the default is returned.
+
+
+<br><br>
+<dt><a name="3"><b class='cmd'>ns_sls unset</b> <i class='arg'>key</i></a><dd>
+
+
+Free the data associated with the given key. A key which doesn't exist is
+ignored.
+
+
+<br><br>
+<dt><a name="4"><b class='cmd'>ns_sls array</b> </a><dd>
+
+
+Return a list of sls keys and values in array-get format.
+
+
+</dl>
+
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+Log the number of connections handled by a single TCP socket:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+    set n [<b class='cmd'>ns_sls get</b> connections 0]
+    incr n
+    ns_sls set connections $n
+
+    if {$n &gt; 1} {
+        ns_log notice connections: $n
+    }
+</pre></td></tr></table></p>
+
+
+Log all the keys and data stored for the socket of the currently active
+connection:
+
+<p>
+(NB: Does not include C module data set via the <b class='cmd'><a href="../../index.html#key597"> Ns_SlsSet </a></b> API)
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+    foreach {k v} [<b class='cmd'>ns_sls array</b>] {
+        ns_log notice sls: $k: $v
+    }
+</pre></td></tr></table></p>
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+Ns_Cls, <a href="ns_sls.html"> Ns_Sls </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../../index.html#key14"> data </a>, <a href="../../index.html#key13"> ns_sls </a>, <a href="../../index.html#key15"> sls </a>, <a href="../../index.html#key12"> storage </a>
+</body></html>

@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>JavaScript Test Document</title>
+<style type="text/css">
+p {
+    border-width: 1 px;
+    border-color: #336699;
+}
+</style>
+<script type="text/javascript">
+
+	function runMe(s) {
+		var i = 0;
+		while(i < 5) {
+			document.getElementById("mypara").innerHTML += i + s + "<br>";
+			i++;
+			
+		}
+	}
+	function moveMe() {
+		var i = 0;
+		while(i < 5) {
+			document.getElementById("mypara").style.paddingLeft += 1;
+			i++;
+		}
+	}
+
+</script>
+</head>
+
+<body onLoad="runMe(this)">
+<p id="mypara" onMouseOver="moveMe()" ></p>
+</body>
+</html>

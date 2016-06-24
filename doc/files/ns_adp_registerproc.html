@@ -1,0 +1,224 @@
+<html><head>
+<title>ns_adp_registerproc - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_adp_registerproc.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_adp_registerproc.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_adp_registerproc(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_adp_registerproc - Register a procedure for a method/URL combination
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_register_proc.html"> ns_register_proc </a></b> ?<i class='arg'>-noinherit</i>? <i class='arg'>method</i> <i class='arg'>URL</i> <i class='arg'>myproc</i> ?<i class='arg'>args</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+ns_register_proc  registers  the procname to handle
+the  specified  method/URL  combination.  When  the
+server  gets  a matching request, it calls procname
+with the connection id and any arguments  specified
+here.
+
+<p>
+If  -noinherit is specified, the requested URL must
+match the specified URL exactly.  For  example,  if
+the   URL   specified   with   ns_register_proc  is
+/foo/bar, procname will not be  called  unless  the
+requested URL is exactly /foo/bar.
+
+<p>
+If  -noinherit  is not specified, the requested URL
+can match the specified URL or any  URL  below  it.
+For  example,  if  the URL specified with ns_register_proc
+is /foo/bar, procname will be  called  for
+/foo/bar,  /foo/bar/hmm,  and  any  other URL below
+/foo/bar, provided there  is  not  already  another
+procedure  registered  for that exact URL or for an
+URL with a closer match.
+
+<p>
+Note that you must use a glob-style matching  character
+if  you want inheritance for file names. For
+example,   if   you   want   /foo/bar   to    match
+/foo/bar.html,   you   must  use:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+                     ns_register_proc /foo/bar*
+</pre></td></tr></table></p>
+
+You can  register  two  procedures  for  any  given
+method/URL  combination by calling ns_register_proc
+once with the -noinherit flag set and once  without
+it.  Only  one of the procedures will be called for
+any given request, depending on whether the URL was
+an exact match or not. For example:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ns_register_proc -noinherit GET /foo/bar Aproc
+ns_register_proc GET /foo/bar Bproc
+ns_register_proc GET /foo/bar/hmm Cproc
+</pre></td></tr></table></p>
+
+Aproc  will  be  called  when  the requested URL is
+exactly /foo/bar. Bproc will  be  called  when  the
+requested  URL is below /foo/bar, provided there is
+not already  another  procedure  registered  to  be
+called  for  that  exact  URL  or for an URL with a
+closer match. Cproc (not Bproc) will be called when
+the   requested   URL   is   equal   to   or  below
+/foo/bar/hmm.  Syntax for the registered  procedure
+The conn (connection) argument is optional for procedures
+registered by ns_register_proc if the  procedure  has
+0 or 1 arguments (not including conn).
+The following examples show the variations that can
+be used in this case:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ns_register_proc GET /noargs noargs
+ns_register_proc GET /context context fnord
+ns_register_proc GET /conncontext conncontext greeblev
+
+proc noargs { } {
+    ns_returnnotice 200 &quot;noargs&quot;
+} ;# noargs
+
+proc context { context } {
+    ns_returnnotice 200 &quot;context is $context&quot;
+} ;# context
+
+proc conncontext { conn context } {
+    ns_returnnotice 200 &quot;conncontext is $context&quot;
+} ;# conncontext
+</pre></td></tr></table></p>
+
+The conn (connection) argument is required for procedures
+registered by ns_register_proc if the  procedure
+has  2  or  more  arguments  (not including
+conn). The conn argument will be  filled  automatically
+with  the  connection information. The first
+argument following conn will always take the  value
+supplied  by  ns_register_proc, if there is one, or
+an empty value. All other arguments must  supply  a
+default  value.  The  following  examples  show the
+variations that can be used in this case:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ns_register_proc GET /twoargs twoargs fnord
+ns_register_proc GET /threeargs threeargs fnord fjord
+
+ns_register_proc -noinherit GET /foo/bar Aproc
+ns_register_proc GET /foo/bar Bproc
+ns_register_proc GET /foo/bar/hmm Cproc
+</pre></td></tr></table></p>
+
+Aproc  will  be  called  when  the requested URL is
+exactly /foo/bar. Bproc will  be  called  when  the
+requested  URL is below /foo/bar, provided there is
+not already  another  procedure  registered  to  be
+called  for  that  exact  URL  or for an URL with a
+closer match. Cproc (not Bproc) will be called when
+the   requested   URL   is   equal   to   or  below
+/foo/bar/hmm.  Syntax for the registered  procedure
+The conn (connection) argument is optional for procedures
+registered by ns_register_proc if the  procedure
+has  0 or 1 arguments (not including conn).
+The following examples show the variations that can
+be used in this case:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ns_register_proc GET /noargs noargs
+ns_register_proc GET /context context fnord
+ns_register_proc GET /conncontext conncontext greeble
+
+proc noargs { } {
+    ns_returnnotice 200 &quot;noargs&quot;
+} ;# noargs
+
+proc context { context } {
+    ns_returnnotice 200 &quot;context is $context&quot;
+} ;# context
+
+proc conncontext { conn context } {
+    ns_returnnotice 200 &quot;conncontext is $context&quot;
+} ;# conncontext
+</pre></td></tr></table></p>
+
+The conn (connection) argument is required for procedures
+registered by ns_register_proc if the  procedure  has  2
+or  more  arguments  (not including
+conn). The conn argument will be  filled  automatically
+with  the  connection information. The first
+argument following conn will always take the  value
+supplied  by  ns_register_proc, if there is one, or
+an empty value. All other arguments must  supply  a
+default  value.  The  following  examples  show the
+variations that can be used in this case:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ns_register_proc GET /twoargs twoargs fnord
+ns_register_proc GET /threeargs threeargs fnord fjord
+
+proc twoargs { conn context { greeble bork } } {
+    # Do stuff...
+}
+
+proc threeargs { conn context {greeble bork } { hoover quark } {
+    # Do stuff...
+}
+</pre></td></tr></table></p>
+
+When a GET of /twoargs is requested, the conn argument
+will  be  filled  automatically,  the context
+argument will be assigned &quot;fnord&quot; and  the  greeble
+argument will be assigned the default value &quot;bork&quot;.
+
+When a GET of /threeargs  is  requested,  the  conn
+argument  will be filled automatically, the context
+argument will be assigned &quot;fnord&quot; and  the  greeble
+argument  will  be assigned &quot;fjord&quot;, and the hoover
+argument  will  be  assigned  the   default   value
+&quot;quark&quot;.
+
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_register_proc.html"> ns_register_proc </a></b> ?<i class='arg'>-noinherit</i>? <i class='arg'>method</i> <i class='arg'>URL</i> <i class='arg'>myproc</i> ?<i class='arg'>args</i>?</a><dd>
+
+
+
+</dl>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key526"> nsd </a>
+</body></html>
+

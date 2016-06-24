@@ -1,0 +1,255 @@
+
+
+<html><head>
+<title>ns_return - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href="../.././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/mann/ns_return.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_return.n
+   -->
+
+<body>
+<hr> [
+  <a href="../.././toc.html">Table Of Contents</a>
+| <a href="../.././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_return(n) 4.99.2  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_return - Construct and send a response
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_return.html"> ns_return </a></b> ?<strong>-binary</strong>? <i class='arg'>status</i> <i class='arg'>mimetype</i> <i class='arg'>body</i></a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'>ns_respond</b> ?<strong>-status status</strong>? ?<strong>-type mimetype</strong>? ?<strong>-length length</strong>? ?<strong>-headers setid</strong>? ?<strong>-string body</strong>? ?<strong>-binary body</strong>? ?<strong>-file filepath</strong>? ?<strong>-fileid channel</strong>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'>ns_returnfile</b> <i class='arg'>status</i> <i class='arg'>mimetype</i> <i class='arg'>filepath</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'>ns_returnfp</b> <i class='arg'>status</i> <i class='arg'>mimetype</i> <i class='arg'>channel</i> <i class='arg'>length</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'>ns_headers</b> <i class='arg'>status</i> ?<i class='arg'>mimetype</i>? ?<i class='arg'>length</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'>ns_write</b> <i class='arg'>data</i> ?<i class='arg'>data ...</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'>ns_connsendfp</b> <i class='arg'>channel</i> <i class='arg'>length</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+These commands are used to construct a response and send it to the requesting
+client.
+
+<p>
+<b class='cmd'><a href="ns_return.html"> ns_return </a></b>, <b class='cmd'>ns_respond</b>, <b class='cmd'>ns_returnfile</b> and
+<b class='cmd'>ns_returnfp</b> return complete responses with body content, while
+<b class='cmd'>ns_headers</b>, <b class='cmd'>nw_write</b> and <b class='cmd'>ns_connsendfp</b> are used to build
+up a response in stages.
+
+<p>
+Unless otherwise noted, these commands return <em>true</em> if the command
+failed and <em>false</em> otherwise. All of them can raise an error if their
+arguments are incorrect.
+
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_return.html"> ns_return </a></b> ?<strong>-binary</strong>? <i class='arg'>status</i> <i class='arg'>mimetype</i> <i class='arg'>body</i></a><dd>
+
+
+Return a complete response to the client consisting of the given <i class='arg'>body</i>
+and a set of automatically constructed headers. <i class='arg'>status</i> is an integer
+HTTP status code. <i class='arg'>mimetype</i> is the mime-type of the body.
+
+<br><br>
+If the <strong>-binary</strong> option is given then the Tcl <i class='arg'>body</i> object
+will be converted to a byte-array and no <em>encoding</em> conversion will take
+place. Otherwise, the <em>encoding</em> in effect for the current connection
+will be used to encode the <i class='arg'>body</i>
+
+<br><br>
+After the command completes the connection is returned to the driver thread
+to be closed or monitored for keep-alive and the calling connection thread
+continues to execure code.
+
+
+
+<br><br>
+<dt><a name="2"><b class='cmd'>ns_respond</b> ?<strong>-status status</strong>? ?<strong>-type mimetype</strong>? ?<strong>-length length</strong>? ?<strong>-headers setid</strong>? ?<strong>-string body</strong>? ?<strong>-binary body</strong>? ?<strong>-file filepath</strong>? ?<strong>-fileid channel</strong>?</a><dd>
+
+
+Return a complete response to the client using exactly one of <strong>-string</strong>,
+<strong>-binary</strong>, <strong>-file</strong> or <strong>-fileid</strong> as the body.
+
+<br><br>
+After the command completes the connection is returned to the driver thread
+to be closed or monitored for keep-alive and the calling connection thread
+continues to execure code.
+
+<br><br>
+<dl>
+
+<dt><strong>-status</strong> <i class='arg'>status</i><dd>
+The HTTP status code. Default <em>200</em>.
+
+<br><br>
+<dt><strong>-type</strong> <i class='arg'>mimetype</i><dd>
+The mime-type of the response body. Default <em>*/*</em>.
+
+<br><br>
+<dt><strong>-headers</strong> <i class='arg'>setid</i><dd>
+A set of headers which will replace any pending headers for the response.
+
+<br><br>
+<dt><strong>-string</strong> <i class='arg'>body</i><dd>
+The Tcl string to send as the response body. The body may be encoded into
+an apprpriate character set if required by the client and server settings.
+
+<br><br>
+<dt><strong>-binary</strong> <i class='arg'>body</i><dd>
+The byte-array representation of the given Tcl object will be used as the
+reponse body. No character set conversion will be done.
+
+<br><br>
+<dt><strong>-file</strong> <i class='arg'>filepath</i><dd>
+The file identified by the given <i class='arg'>pathname</i> will be sent as the response
+body. No character set conversion will be done.
+
+<br><br>
+<dt><strong>-fileid</strong> <i class='arg'>channel</i><dd>
+<i class='arg'>length</i> bytes of the given channel will be used as the response body.
+No character set conversion will be done.
+
+<br><br>
+<dt><strong>-length</strong> <i class='arg'>length</i><dd>
+Specifies the number of bytes to send from the channel.
+
+</dl>
+
+
+
+<dt><a name="3"><b class='cmd'>ns_returnfile</b> <i class='arg'>status</i> <i class='arg'>mimetype</i> <i class='arg'>filepath</i></a><dd>
+
+
+Return the given file as the response body. Headers are automatically
+constructed using <i class='arg'>status</i>, <i class='arg'>mimetype</i> and any pending headers.
+
+<br><br>
+After the command completes the connection is returned to the driver thread
+to be closed or monitored for keep-alive and the calling connection thread
+continues to execure code.
+
+
+
+<br><br>
+<dt><a name="4"><b class='cmd'>ns_returnfp</b> <i class='arg'>status</i> <i class='arg'>mimetype</i> <i class='arg'>channel</i> <i class='arg'>length</i></a><dd>
+
+
+Return <i class='arg'>length</i> bytes from <i class='arg'>channel</i> as the response body. The current
+offset of the channel is the beginning of the body, and the offset will be left
+at <i class='arg'>length</i> bytes.
+
+<br><br>
+After the command completes the connection is returned to the driver thread
+to be closed or monitored for keep-alive and the calling connection thread
+continues to execure code.
+
+
+
+<br><br>
+<dt><a name="5"><b class='cmd'>ns_headers</b> <i class='arg'>status</i> ?<i class='arg'>mimetype</i>? ?<i class='arg'>length</i>?</a><dd>
+
+
+Construct a set of response headers using the given <i class='arg'>status</i>, <i class='arg'>mimetype</i>,
+<i class='arg'>length</i>, and any pending headers set by e.g. <b class='cmd'>ns_setcookie</b> or manually
+via <b class='cmd'>ns_conn outputheaders</b>.
+
+<br><br>
+The headers are queued but not sent. No further headers may be set. The
+headers will be written to the client when data is written, e.g. by
+<b class='cmd'>ns_write</b> or <b class='cmd'>ns_connsendfp</b>. If no data is written, the headers
+will be flushed to the client when the connection is closed.
+
+<br><br>
+<b class='cmd'>ns_headers</b> returns 0 (zero).
+
+
+
+<br><br>
+<dt><a name="6"><b class='cmd'>ns_write</b> <i class='arg'>data</i> ?<i class='arg'>data ...</i>?</a><dd>
+
+
+Write <i class='arg'>data</i> directly to the client. No headers are sent.
+
+<br><br>
+The data may be encoded according to the client and server settings. It is safe
+to pass binary data to this command if encoding has been dissabled using
+the <b class='cmd'>ns_conn write_encoded</b> command.
+
+<br><br>
+<b class='cmd'>ns_write</b> will send data more efficiently if you pass it multiple arguments
+rather than concatenating them yourself.
+
+<br><br>
+<b class='cmd'>ns_write</b> returns <em>true</em> if all the data was written successfully and
+<em>false</em> otherwise.
+
+<br><br>
+After the command completes the connection remains open and available in
+the calling connection thread.
+
+
+
+<br><br>
+<dt><a name="7"><b class='cmd'>ns_connsendfp</b> <i class='arg'>channel</i> <i class='arg'>length</i></a><dd>
+
+
+Send <i class='arg'>length</i> bytes from <i class='arg'>channel</i> directly to the client. No headers
+are sent, no character encoding is done.
+
+<br><br>
+An error is raised if <i class='arg'>length</i> bytes could not be sent or if the
+<i class='arg'>channel</i> is invalid.
+
+<br><br>
+After the command completes the connection remains open and available in
+the calling connection thread.
+
+</dl>
+
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+A traditional greeting:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ns_register_proc GET /hello {
+    ns_return 200 text/plain &quot;Hello World!&quot;
+}
+</pre></td></tr></table></p>
+
+
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../ns_adp_puts.html"> ns_adp_puts </a>, <a href="../ns_guesstype.html"> ns_guesstype </a>, ns_register_fastpath, <a href="ns_returnerror.html"> ns_returnerror </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../../index.html#key113"> charset </a>, <a href="../../index.html#key114"> response </a>, <a href="../../index.html#key112"> return </a>, <a href="../../index.html#key111"> status </a>
+</body></html>

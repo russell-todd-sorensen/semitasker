@@ -1,0 +1,44 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+ <link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+ <link rel="stylesheet" type="text/css" 
+       href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<style>
+</style>
+
+<!--<link rel="stylesheet" type="text/css" href="http://ic00408/css/box-model.css" media="all">-->
+ <script src="http://ic00408/js/jquery-1.7.1.js"></script>
+ <script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+ <script src="http://ic00408/js/d3.v3.js"></script>
+ <script src="http://ic00408/js/log-2.js"></script>
+ <script src="/js/data.js"></script>
+ <script src="/js/form-save-restore.js"></script>
+ 
+<!-- here comes the local script    -->
+<script>
+
+$(document).ready(function () {
+
+  Log.Hide();
+  $('#x option::selected').each(function(i,e) {e.removeAttr('selected');});
+});
+
+
+</script>
+</head>
+
+<body>
+
+<select id="x" multiple="multiple" name="x">
+ <option value="a">A</option>
+ <option value="b">B</option>
+ <option value="c" selected="selected">C</option>
+ <option value="d">D</option>
+ <option value="e" selected="selected">E</option>
+ <option value="f">F</option>
+</select>
+</body>
+</html>

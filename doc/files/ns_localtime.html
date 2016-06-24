@@ -1,0 +1,97 @@
+<html><head>
+<title>ns_localtime - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_localtime.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_localtime.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_localtime(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_localtime - Return current time in local timezone
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_localtime.html"> ns_localtime </a></b> <i class='arg'>seconds</i></a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_localtime.html"> ns_localtime </a></b> </a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command returns a nine-element Tcl list representing the current time in the
+system's current timezone.  The structure of the list corresponds to the Unix struct tm time structure:
+
+<dl>
+<dt><a name="1"><b class='cmd'><a href="ns_localtime.html"> ns_localtime </a></b> <i class='arg'>seconds</i></a><dd>
+
+<dt><dd> minutes (0-59)
+<br><br>
+<dt><dd> hours (0-23)
+<br><br>
+<dt><dd> dayofmonth (1-31)
+<br><br>
+<dt><dd> monthofyear (0-11)
+<br><br>
+<dt><dd> year (year-1900)
+<br><br>
+<dt><dd> dayofweek (0-6, Sunday=0)
+<br><br>
+<dt><dd> dayofyear (0-365)
+<br><br>
+<dt><dd> isdst (&gt;0 if Daylight Savings Time is in effect)
+
+</dl>
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+
+<dl>
+
+
+<dt><a name="2"><b class='cmd'><a href="ns_localtime.html"> ns_localtime </a></b> </a><dd>
+
+
+
+</dl>
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_localtime
+   33 33 22 11 5 104 5 162 1
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key90"> ns_fmttime </a>, <a href="../index.html#key85"> ns_gmtime </a>, <a href="../index.html#key84"> ns_httptime </a>, <a href="../index.html#key81"> ns_parsehttptime </a>, <a href="../index.html#key80"> ns_parsetime </a>, <a href="../index.html#key83"> ns_time </a>
+</body></html>
+

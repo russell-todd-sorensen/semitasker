@@ -1,0 +1,126 @@
+<html><head>
+<title>ns_writer - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_writer.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_writer.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_writer(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_writer - Manage files with writer thread
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#configuration">CONFIGURATION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_writer.html"> ns_writer </a></b> <i class='arg'>list</i></a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_writer.html"> ns_writer </a></b> <i class='arg'>submit</i> <i class='arg'>data</i></a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_writer.html"> ns_writer </a></b> <i class='arg'>submitfile</i> ?<i class='arg'>-headers</i>? ?<i class='arg'>-offset offset</i>? ?<i class='arg'>-size size</i>? <i class='arg'>file</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+This command allows to submit data or file to be returned to the client connection using writer
+thread instead of current connection thread. Writer thread processes multiple sockets using async socket
+operations which consumes less resources than returning multiple files to the slow clients in separate thread.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_writer.html"> ns_writer </a></b> <i class='arg'>list</i></a><dd>
+
+
+<br><br>
+Returns list of all currently submitted files
+
+<br><br>
+<dt><a name="2"><b class='cmd'><a href="ns_writer.html"> ns_writer </a></b> <i class='arg'>submit</i> <i class='arg'>data</i></a><dd>
+
+
+<br><br>
+Submit arbitrary data to be returned via writer, data can be binary
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_writer.html"> ns_writer </a></b> <i class='arg'>submitfile</i> ?<i class='arg'>-headers</i>? ?<i class='arg'>-offset offset</i>? ?<i class='arg'>-size size</i>? <i class='arg'>file</i></a><dd>
+
+
+<br><br>
+Submits file to be returned, optionally the following arguments can be used:
+
+<br><br>
+<i class='arg'>-headers</i>
+Tells the writer to provide required HTTP headers, like content size, type and status.
+
+<br><br>
+<i class='arg'>-offset</i>
+If specified, file will be returned starting with this offset
+
+<br><br>
+<i class='arg'>-size</i>
+If not specified, the whole file will be retuned, otherwise only given part. Can be combined with -offset
+to return chunks of file
+
+</dl>
+
+<h2><a name="configuration">CONFIGURATION</a></h2>
+<p>
+        
+<p>
+<em>Basic configuration options:</em>
+        
+<dl>
+<dt>ns_section &quot;ns/server/default/module/nssock&quot;<dd>
+<dt>ns_param writerthreads 1<dd>
+<dt>ns_param writersize [expr 1024*1024]<dd> 
+</dl>
+
+<p>
+writerthreads parameter specified how many writer threads will be used, multiple threads
+will be rotated to spread the load across all threads
+
+<p>
+writersize specifies minimal size of the file to be considered for writer thread, this parameter
+is used by connection thread when returning file and if size exceeds configured value, file will be 
+returned via writer thread and connection thread will be released to handle other requests.
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+ns_writer submitfile /tmp/biglist.txt
+
+</pre></td></tr></table></p>
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key0"> NaviServer </a>
+</body></html>
+
+

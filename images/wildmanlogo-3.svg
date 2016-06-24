@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="1200px" height="1800px" viewBox="0 0 1200 1800" enable-background="new 0 0 1200 1800" xml:space="preserve">
+<filter  id="shadow" color-interpolation-filters="sRGB">
+	<feFlood  flood-color="blue" result="flood"></feFlood>
+	<feComposite  operator="in" in="flood" in2="SourceGraphic" result="flood-in"></feComposite>
+	<feGaussianBlur  stdDeviation="7" in="flood-in" result="blur"></feGaussianBlur>
+	<feOffset  dx="9" in="blur" dy="9" result="blur-offset"></feOffset>
+	<feComposite  operator="over" in="SourceGraphic" in2="blur-offset"></feComposite>
+</filter>
+<g transform="translate(-50,-550) scale(2)" filter="url(#shadow)">
+	<g>
+		<path fill="#666666" stroke="#C0C0C0" stroke-width="2" d="M525.334,601.336l-428.3-430.004l120.73-120.866h614.839
+			l120.73,120.866L525.334,601.336z M525.334,528.698l-46.73-46.252L525.334,329l46.43,153.446L525.334,528.698z M391.618,395.25
+			L167.7,171.332l14-14h127.918L391.618,395.25z M658.75,395.25l80.584-237.918l129.354,0.02l13.98,13.98L658.75,395.25z
+			 M454.702,374.004l-83.334-251.496H216.524l23.042-23.13H810.8l23.044,23.13H680l-84.334,251.494L525.334,150L454.702,374.004z"/>
+	</g>
+</g>
+<rect x="135.5" y="757.5" fill="#0079C1" stroke="#000000" stroke-miterlimit="10" width="228" height="153"/>
+<text transform="matrix(1 0 0 1 161.5 815.5)" font-family="'MyriadPro-Regular'" font-size="12">300 C  (coated) </text>
+<rect x="422.5" y="757.5" fill="#0079C1" width="247" height="162"/>
+<text transform="matrix(1 0 0 1 464.5 813.5)" font-family="'MyriadPro-Regular'" font-size="12">300 M (matte)</text>
+<rect x="135.5" y="972.5" fill="#0079C1" width="228" height="139"/>
+<rect x="438.5" y="967.5" fill="#0072BC" width="231" height="144"/>
+<text transform="matrix(1 0 0 1 484.5 1001.5)" font-family="'MyriadPro-Regular'" font-size="12">300 EC (euro color)</text>
+<text transform="matrix(1 0 0 1 177.5 1011.5)" font-family="'MyriadPro-Regular'" font-size="12">300 PC  (process color)</text>
+<rect x="135.5" y="1170.5" fill="#0085CB" width="228" height="142"/>
+<text transform="matrix(1 0 0 1 197.5 1218.5)" font-family="'MyriadPro-Regular'" font-size="12">300 U (uncoated)</text>
+<rect x="438.5" y="1170.5" fill="#0085CB" width="231" height="142"/>
+<text transform="matrix(1 0 0 1 480.5 1207.5)" font-family="'MyriadPro-Regular'" font-size="12">300 UP (cmyk up)</text>
+<rect x="777.5" y="1161.5" fill="#401004" stroke="#000000" stroke-miterlimit="10" width="199" height="130"/>
+</svg>

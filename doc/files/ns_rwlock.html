@@ -1,0 +1,131 @@
+<html><head>
+<title>ns_rwlock - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_rwlock.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_rwlock.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_rwlock(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_rwlock - Create, destroy, and manipulate read/write locks
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#notes">NOTES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>create</i></a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>destroy</i> <i class='arg'>rwlockid</i></a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>readlock</i> <i class='arg'>rwlockid</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>readunlock</i> <i class='arg'>rwlockid</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>writelock</i> <i class='arg'>rwlockid</i></a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>writeunlock</i> <i class='arg'>rwlockid</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+ns_rwlock create initializes a read/write lock and returns an ID for it.
+
+<p>
+ns_rwlock destroy frees the resources associated with the specified read/write
+lock. The rwlockid argument is the read/write lock ID returned by ns_rwlock
+create when the lock was created.
+
+<p>
+ns_rwlock readlock acquires a read lock. Any number of read locks can be pending.
+If there's a write lock active, the read lock acquisition blocks until the write lock is released.
+
+<p>
+ns_rwlock readunlock releases a read lock.
+
+<p>
+ns_rwlock writelock acquires a write lock. Only one write lock can be in effect.
+If there are pending read locks active, the write lock acquisition blocks until
+all of the read locks drain. If a subsequent read lock acquisition attempt is made,
+the write lock has priority.
+
+<p>
+ns_rwlock writeunlock releases a write lock
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>create</i></a><dd>
+
+
+<dt><a name="2"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>destroy</i> <i class='arg'>rwlockid</i></a><dd>
+
+
+<dt><a name="3"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>readlock</i> <i class='arg'>rwlockid</i></a><dd>
+
+
+<dt><a name="4"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>readunlock</i> <i class='arg'>rwlockid</i></a><dd>
+
+
+<dt><a name="5"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>writelock</i> <i class='arg'>rwlockid</i></a><dd>
+
+
+<dt><a name="6"><b class='cmd'><a href="ns_rwlock.html"> ns_rwlock </a></b> <i class='arg'>writeunlock</i> <i class='arg'>rwlockid</i></a><dd>
+ 
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+Put some examples here to illustrate command usage.
+</pre></td></tr></table></p>
+
+<h2><a name="notes">NOTES</a></h2>
+<p>
+About Read/Write Locks
+
+<p>
+Read/write locks are a serialization mechanism for using data structures
+where multiple reads can happen simultaneously, but where writes must
+happen singly. For example, suppose you have a hash table that is
+heavily used but doesn't change very often. You'd like to have multiple
+threads be able to read from the table without blocking on each other,
+but when you need to update the table, you can do so safely without
+having to worry about other threads reading incorrect data.
+
+<p>
+The principal feature of read/write locks is the mechanism of which locks
+have priority and which locks must wait. Any number of read locks can be
+pending. If there's a write lock active, the read lock acquisition blocks
+until the write lock is released. Also, only one write lock can be in effect.
+If there are pending read locks active, the write lock acquisition blocks until
+all of the read locks drain. If a subsequent read lock acquisition attempt is
+made while a write lock is waiting to acquire, the write lock has priority.
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key0"> NaviServer </a>
+</body></html>
+
+

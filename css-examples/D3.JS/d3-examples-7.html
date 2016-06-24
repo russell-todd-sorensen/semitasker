@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>d3.js Example 5</title>
+<link rel="stylesheet" type="text/css" href="main.css">
+<style>
+
+pre {
+ 	background-color: silver;
+    border: 1px solid black;   
+}
+
+.symbolContainer {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.symbols {
+    position: relative;
+    background-color: silver;
+    color: white;
+}
+
+.tick {
+    color: black;
+    height: 1px;
+    width: 15px;
+    padding: 20px;
+}
+.minor {
+    color: black;
+    height: 1px;
+    width: 5px;
+    padding: 5px;
+}
+
+</style>
+
+<script language="javascript" src="d3.v3.js"></script>
+<script language="javascript" src="../js/jquery-1.7.1.js"></script>
+<script language="javascript" src="../js/log.js"></script>
+<script language="javascript" >
+
+var version = d3.version;
+
+$(document).ready(function () {
+
+  Log.Notice('d3.js version=' + version + '\n');
+
+  Log.Notice('Finished ready()\n');
+  
+  svg = d3.select(document.body)
+  	.append("svg")
+		.style("position", "absolute")
+		.style("top", '50px')
+		.style("left", '200px')
+		.attr('id','svgBox1');
+	
+  svg.append("rect")
+  	.attr("x",0)
+		.attr("y",0)
+		.attr("id","rect1")
+		.attr("height",500)
+		.attr("width",800)
+		.style("fill",'#369');
+	
+  svg2 = d3.select(document.body)
+  	.append("svg")
+		.style("position", "absolute")
+		.style("top", '550px')
+		.style("left", '200px')
+		.attr('id','svgBox2');
+	
+  svg2.append("rect")
+  	.attr("x",0)
+		.attr("y",0)
+		.attr("id","rect1")
+		.attr("height",1)
+		.attr("width",800)
+		.style("fill",'#369');
+
+	var svgOriginalPosition = new Array();
+	var svgSymbols = new Array();
+	var svgTags = new Array();
+	
+	var top = 100;
+	var docBody = d3.select(document.body);
+	
+	var myContainer = docBody.append("div")
+		.attr("class","symbolContainer")
+		.attr("id","container1");
+		
+	var myDiv = myContainer.append("div")
+		.attr("class","symbols")
+		.attr("id","symbols1");
+		
+	var i = 0;
+	
+	d3.svg.symbolTypes.forEach( function (type) {
+		
+		Log.Notice('type =' + type);
+		
+		svgSymbols["symbols" + i] = d3.svg.symbol().type(type).size(1200);
+		
+		svgTags["svg" + i] = myDiv.append("svg")
+			.style("position", "absolute")
+			.style("top", top + "px")
+			.style("right", '50px')
+			.attr("id","svg" + i);
+			
+		svgTags["svg" + i].append("path")
+			.attr('x',100)
+			.attr('y',100)
+			.style('fill','#9' + i + (9-i))
+			.style("opacity", 1)
+			.attr('stroke','#f' + i + (10-i))
+			.attr('d', svgSymbols["symbols" + i]);
+			
+		svgOriginalPosition["svg" + i] = top + "px";
+		
+		top += 100;
+		i++;
+		
+	});
+	
+	
+	var axis1 = d3.svg.axis();
+	axis1.orient("left");
+	Log.Notice('axis1.orient()=' + axis1.orient());
+	axis1.ticks(7);
+	axis1.scale = d3.scale.linear();
+	//axis1.tickValues([0,100,200,300,400,500]);
+	axis1.tickValues([500,400,300,200,100,0]);
+	axis1.tickSize(5,5,5);
+	axis1.tickSubdivide(3);
+	axis1.tickPadding(10);
+	
+	axis1(d3.select("#svgBox1"));
+	
+	
+	var axis2 = d3.svg.axis();
+	axis2.orient("bottom");
+	Log.Notice('axis2.orient()=' + axis2.orient());
+	axis2.ticks(7);
+	axis2.scale = d3.scale.linear();
+	axis2.tickValues([0,100,200,300,400,500,600,700,800]);
+	axis2.tickSize(5,10,5);
+	axis2.tickSubdivide(3);
+	axis2.tickPadding(5);
+	//axis2.tickFormat(d3.scale.linear());
+	axis2.tickFormat(null);
+	axis2(d3.select("#svgBox2"));
+
+	var force1 = d3.layout.force();
+	
+	force1.nodes(d3.selectAll("div svg"));
+	Log.Notice("force1.nodes=" + force1.nodes());
+	Log.Notice("force1.size=" + force1.size());
+	Log.Notice("force1.links=" + force1.links());
+	Log.Notice("force1.linkDistance=" + force1.linkDistance());
+	Log.Notice("force1.friction=" + force1.friction());
+	Log.Notice("force1.charge=" + force1.charge());
+	Log.Notice("force1.gravity=" + force1.gravity());
+	Log.Notice("force1.theta=" + force1.theta());
+	force1.alpha(100);
+	force1.start();
+
+});
+
+</script>
+</head>
+<body>
+<!--
+<svg width="100%" id="svgBox1" height="100%" style="position:absolute; left:100px;top:700px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<rect id="rec" x="200" y="100" width="300" height="100" style="fill:#046">
+</rect>
+</svg> 
+-->
+
+
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+<html><head>
+<title>ns_log - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_log.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_log.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_log(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_log - Send messages to the server log
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_log.html"> ns_log </a></b> <i class='arg'>severity</i> <i class='arg'>string</i> ?<i class='arg'>string ...</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command sends a messages to the server log with severity and the one or more string args
+concatenated together with a single whitespace separating each arg.
+
+<p>
+
+Note that this only queues messages for the log and does not actually guarantee that
+the message is immediately written to the log.  The server can be instructed to queue
+ messages in the cache via ns_logctl hold.
+
+<p>
+Log messages are written to the server log which is the file that is returned from ns_info log.
+
+The following are the acceptable severity levels:
+
+<ul>
+
+<li> notice - Something interesting occurred.
+
+<br><br>
+<li> warning - Something  that  could  mean  something  bad occurred.
+
+<br><br>
+<li> error - Something bad occurred.
+
+<br><br>
+<li> fatal -  Something extremely bad occurred. The server will generally shut down after logging the message.
+
+<br><br>
+<li> bug  - Something occurred that implies that there is a bug in the code.
+
+<br><br>
+<li> debug - If the server is in Debug  mode,  the  message  is printed. 
+         Debug  mode  is specified in the [ns/parameters] section of the
+         configuration file. Otherwise, the  message is not printed.
+
+<br><br>
+<li> dev - Development messages, controlled by logdev parameter in config file
+
+</ul>
+
+<p>
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+ <dt><a name="1"><b class='cmd'><a href="ns_log.html"> ns_log </a></b> <i class='arg'>severity</i> <i class='arg'>string</i> ?<i class='arg'>string ...</i>?</a><dd>
+
+
+
+</dl>
+
+EXAMPLES
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   # note that the log message is one single arg
+   % ns_log notice &quot;this is a test&quot;
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   # note that each word is a separate arg to ns_log
+   % ns_log error this is an example error log string
+</pre></td></tr></table></p>
+
+
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key88"> ns_info log </a>, <a href="../index.html#key86"> ns_logctl </a>, <a href="../index.html#key100"> ns_logroll </a>
+</body></html>
+

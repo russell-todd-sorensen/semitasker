@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>SVG Color Analysis</title>
+
+<link rel="stylesheet" type="text/css" href="../../css/log.css" media="all">
+
+<style>
+#notes, #image-select {
+    margin-left: 15px;
+    font-weight: bold;
+}
+#notes, #panel {
+    display: inline-block;
+}
+
+ 
+#panel fieldset {
+border: solid 3px darkolivegreen;
+margin: 5px;
+font: 1.4em "Helvetica Neue";
+background-color: #d3d3d3;
+width: 550px;
+}
+ 
+#panel select {
+font: 1em "Helvetica Neue";
+color: darkolivegreen;
+}
+ 
+#panel legend {
+color: darkolivegreen;
+font-weight: bold;
+font-variant: small-caps;
+background-color: #bbb;
+padding: 2px 6px;
+ 
+}
+ 
+#panel label {
+display: inline-block;
+width: 150px;
+}
+#panel ul {
+list-style: none;
+margin-left: -25px;
+padding-top: 0px;
+padding-bottom: 0px;
+}
+#panel ul li {
+margin-bottom: 5px;
+}
+.input-button {
+float: right;
+color: darkolivegreen;
+font-weight: bold;
+border: 3px solid;
+cursor: pointer;
+}
+ 
+#panel .input-text {
+/* keeps form from moving during mouseover */
+border: solid 1px #d3d3d3;
+}
+ 
+#panel .input-text:hover {
+background-color: #cff;
+border: solid #060 1px;
+color: #000;
+}
+ 
+#panel .input-text:focus {
+background-color: #fff;
+color: #000;
+border: solid #060 1px;
+}
+ 
+#panel select#state {
+border: solid #d3d3d3 1px;
+background-color: #fff;
+padding: 2px;
+margin-right: 5px;
+}
+ 
+#panel select#state:focus {
+color: #333;
+background-color: #cff;
+border: solid #060 1px;
+ 
+}
+</style>
+
+<script type="text/ecmascript" src="../../js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="../../js/d3.v3.js"></script>
+<script type="text/javascript" src="../../js/log-2.js"></script>
+<script type="text/javascript" src="displace-exp.js"></script>
+<script>
+
+$(document).ready(function () {
+	
+  doc = d3.select(document.body);
+  Log.Hide();
+  svg = doc.select('svg');
+
+	restoreSelect('scalePage');
+	restoreSelect('imageChoice');
+	restoreSelect('rectChoice');
+});
+
+</script>
+</head>
+<body>
+
+<form action="javascript:doAnimation()" id="panel">
+<fieldset>
+<legend>General Animation Options</legend>
+<ul>
+ <li><label for="imageChoice">Select Image</label> <select id="imageChoice" name="imageChoice" onChange="changeImage('imageChoice', 'imageX');">
+
+<option value="Butterfly%206.jpg" selected="selected">Butterfly 6</option>
+<option value="Butterfly%2017a.jpg">Butterfly 17a</option>
+<option value="Butterfly%2028.jpg">Butterfly 28</option>
+<option value="Butterfly%2057.jpg">Butterfly 57</option>
+<option value="Butterfly%2062.jpg">Butterfly 62</option>
+<option value="Butterfly%2086.jpg">Butterfly 86</option>
+<option value="Grasshopper%201.JPG">Grasshopper 1</option>
+<option value="Ladybug%206.jpg">Ladybug 6</option>
+<option value="building-1.jpg">Building 1</option>
+<option value="sphinx5.jpg">Sphinx 5</option>
+<option value="egypt-2.jpg">Egypt 2</option>
+<option value="EgyptianTomb.jpg">Egyptian Tomb</option>
+<option value="stone-hut-1.jpg">Stone Hut 1</option>
+<option value="stone-wall-1.jpg">Stone Wall 1</option>
+<option value="stone-arch-1.jpg">Stone Arch 1</option>
+<option value="igloo2.jpg">Igloo 2</option>
+<option value="rotunda-statue.jpg">Rotunda Statue</option>
+<option value="staircase-1.jpg">Spiral Staircase 1</option>
+<option value="red-fence-1.jpg">Red Fence 1</option>
+<option value="palace-1.jpg">Palace 1</option>
+<option value="london-plaza-1.jpg">London Plaza 1</option>
+<option value="glass-pyramids.jpg">Glass Pyramid</option>
+<option value="old-man-with-hat.jpg">Old Man with Hat</option>
+<option value="Woman-183.jpg">Woman 183</option>
+<option value="Woman-214.jpg">Woman 214</option>
+</select>
+ </li>
+  <li>
+  <label for="scalePage">Scale</label>
+  <select id="scalePage" name="scalePage" onChange="adjustScale('scalePage', 'main');">
+ <option value="4" selected="selected">4x</option>
+ <option value="2">2x</option>
+ <option value="1">1x</option>
+ <option value="8">8x</option>
+</select> 
+  </li>
+</ul>
+ </fieldset>
+
+ </form>
+  <div id="instructions">
+ <form id="panel">
+ <fieldset>
+  <legend>Instructions</legend>
+ <ul>
+  <li>Select Image</li>
+  <li>Refresh Page to Start Animation.</li>
+ </ul>
+ </fieldset>
+ </form>
+ </div>
+<svg x="0" 
+		 y="0" 
+		 height="6400" 
+		 width="2600" 
+		 viewport="0 0 325 225"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+		 >
+<defs>
+
+
+
+<rect id="red-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #FF0000;" />
+<rect id="green-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #00FF00;" />
+<rect id="blue-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #0000FF;" />
+
+<rect id="anti-red-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #00FFFF;" />
+<rect id="anti-green-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #FF00FF;" />
+<rect id="anti-blue-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #FFFF00;" />
+
+<!-- primary color filters -->
+<filter id="color-red" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feImage xlink:href="#red-rect" height="100" width="100" result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="red-component" />
+</filter> 
+
+<filter id="color-green" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feImage xlink:href="#green-rect" height="100" width="100" result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="green-component" />
+</filter> 
+
+<filter id="color-blue" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feImage xlink:href="#blue-rect" height="100" width="100" result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="blue-component" />
+</filter> 
+
+<!-- anti color filters -->
+<filter id="anti-color-red" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feImage xlink:href="#anti-red-rect" height="100" width="100" result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="anti-red-component" />
+</filter> 
+
+<filter id="anti-color-green" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feImage xlink:href="#anti-green-rect" height="100" width="100" result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="anti-green-component" />
+</filter> 
+
+<filter id="anti-color-blue" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feImage xlink:href="#anti-blue-rect" height="100" width="100" result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="anti-blue-component" />
+</filter> 
+
+<!-- displacement filters: primary colors -->
+
+<filter id="displace-red" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feImage xlink:href="#red-rect" height="100" width="100" result="red-tile" />
+ <feTile in="red-tile" result="red-tile" />
+ <feBlend mode="darken" in="red-tile" in2="SourceGraphic" result="red-component" />
+
+ <feDisplacementMap id="displace-red-map"
+ 		scale="5"
+    xChannelSelector="R"
+		yChannelSelector="A"
+		in="red-component" in2="red-component"
+		result="displaceRed" />
+
+  <feComposite in="displaceRed" in2="SourceGraphic" operator="arithmetic"
+	   k1="0" k2="1" k3="0" k4="0"  result="r1" />
+     
+  <feComposite in="r1" in2="SourceGraphic" operator="arithmetic"
+	   k1="0" k2="1" k3="0" k4="0"  result="r2" />
+</filter>
+
+<filter id="displace-green" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feImage xlink:href="#green-rect" height="100" width="100" result="green-tile" />
+ <feTile in="green-tile" result="green-tile" />
+ <feBlend mode="darken" in="green-tile" in2="SourceGraphic" result="green-component" />
+
+ <feDisplacementMap id="displace-green-map"
+ 		scale="5"
+		xChannelSelector="G"
+		yChannelSelector="A"
+		in="green-component" in2="green-component"
+		result="displaceGreen" />
+
+  <feComposite in="displaceGreen" in2="SourceGraphic" operator="arithmetic"
+	   k1="0" k2="1" k3="0" k4="0"  result="r1" />
+     
+  <feComposite in="r1" in2="SourceGraphic" operator="arithmetic"
+	   k1="0" k2="1" k3="0" k4="0"  result="r2" />
+</filter>
+
+
+<filter id="displace-blue" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feImage xlink:href="#blue-rect" height="100" width="100" result="blue-tile" />
+ <feTile in="blue-tile" result="blue-tile" />
+ <feBlend mode="darken" in="blue-tile" in2="SourceGraphic" result="blue-component" />
+
+ <feDisplacementMap id="displace-blue-map"
+ 		scale="5"
+		xChannelSelector="B"
+		yChannelSelector="A"
+		in="blue-component" in2="blue-component"
+		result="displaceBlue" />
+
+  <feComposite in="displaceBlue" in2="SourceGraphic" operator="arithmetic"
+	   k1="0" k2="1" k3="0" k4="0"  result="r1" />
+     
+  <feComposite in="r1" in2="SourceGraphic" operator="arithmetic"
+	   k1="0" k2="1" k3="0" k4="0"  result="r2" />
+</filter>
+
+
+<filter id="displace-all" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feImage xlink:href="#red-rect" height="100" width="100" result="red-tile" />
+ <feTile in="red-tile" result="red-tile" />
+ <feBlend mode="darken" in="red-tile" in2="SourceGraphic" result="red-component" />
+
+ <feImage xlink:href="#green-rect" height="100" width="100" result="green-tile" />
+ <feTile in="green-tile" result="green-tile" />
+ <feBlend mode="darken" in="green-tile" in2="SourceGraphic" result="green-component" />
+
+ <feImage xlink:href="#blue-rect" height="100" width="100" result="blue-tile" />
+ <feTile in="blue-tile" result="blue-tile" />
+ <feBlend mode="darken" in="blue-tile" in2="SourceGraphic" result="blue-component" />
+
+ <feDisplacementMap id="displace-all-map-red"
+ 		scale="5"
+    xChannelSelector="R"
+		in="red-component" in2="red-component"
+		result="displaceRed" />
+    
+ <feDisplacementMap id="displace-all-map-green"
+ 		scale="5"
+		yChannelSelector="G"
+		in="green-component" in2="green-component"
+		result="displaceGreen" />
+
+ <feDisplacementMap id="displace-all-map-blue"
+ 		scale="5"
+		xChannelSelector="B"
+		yChannelSelector="B"
+		in="blue-component" in2="blue-component"
+		result="displaceBlue" />
+
+  <feComposite in="displaceRed" in2="displaceGreen" operator="arithmetic"
+	   k1="0" k2="1" k3="1" k4="0"  result="r1" />
+  <feComposite in="r1" in2="displaceBlue" operator="arithmetic"
+	   k1="0" k2="1" k3="1" k4="0"  result="r2" />
+<!--  <feComposite in="r2" in2="SourceGraphic" operator="in" /> -->
+</filter>
+
+<filter id="displace-all-anti" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feImage xlink:href="#anti-red-rect" height="100" width="100" result="anti-red-tile" />
+ <feTile in="anti-red-tile" result="anti-red-tile" />
+ <feBlend mode="darken" in="anti-red-tile" in2="SourceGraphic" result="anti-red-component" />
+
+ <feImage xlink:href="#anti-green-rect" height="100" width="100" result="anti-green-tile" />
+ <feTile in="anti-green-tile" result="anti-green-tile" />
+ <feBlend mode="darken" in="anti-green-tile" in2="SourceGraphic" result="anti-green-component" />
+ 
+ <feImage xlink:href="#anti-blue-rect" height="100" width="100" result="anti-blue-tile" />
+ <feTile in="anti-blue-tile" result="anti-blue-tile" />
+ <feBlend mode="darken" in="anti-blue-tile" in2="SourceGraphic" result="anti-blue-component" />
+
+ <feDisplacementMap id="displace-map-anti-red"
+ 		scale="5"
+    xChannelSelector="R"
+		in="anti-red-component" in2="anti-red-component"
+		result="displaceAntiRed" />
+    
+ <feDisplacementMap id="displace-map-anti-green"
+ 		scale="5"
+		yChannelSelector="G"
+		in="anti-green-component" in2="anti-green-component"
+		result="displaceAntiGreen" />
+
+ <feDisplacementMap id="displace-map-anti-blue"
+ 		scale="5"
+		xChannelSelector="B"
+		yChannelSelector="B"
+		in="anti-blue-component" in2="anti-blue-component"
+		result="displaceAntiBlue" />
+
+  <feComposite in="displaceAntiRed" in2="displaceAntiGreen" operator="arithmetic"
+	   k1="0" k2="1" k3="1" k4="0"  result="r1" />
+  <feComposite in="r1" in2="displaceAntiBlue" operator="arithmetic"
+	   k1="0" k2="1" k3="1" k4="0"  result="r2" /> 
+ <!--<feComposite in="anti-red-tile" in2="anti-red-tile"  operator="arithmetic"
+	   k1="0" k2="1" k3="0" k4="0"  />-->
+</filter>
+
+
+
+<image 
+   id="imageX" 
+   xlink:href="../../images/Butterfly%206.jpg"
+	 height="105" width="150" 
+   />
+
+
+
+</defs>
+
+<g transform="scale(4)" id="main">
+
+
+<g id="row-2" transform="translate(0, 0)" >
+
+<g transform="translate(0,0)" >
+
+<rect x="5" y="5" height="105" width="150" style="stroke: orange; stroke-width: 1; fill: none;" />
+<use id="all-colors-large" xlink:href="#imageX" style="filter: url(#displace-all);" x="5" y="5"/>
+</g>
+
+</g>
+
+</g>
+</svg>
+
+
+<script >
+
+var All = d3.selectAll('#displace-all-map-green, #displace-all-map-red, #displace-all-map-blue');
+
+//All
+// .transition()
+// .delay(1000)
+// .duration(5000)
+// .ease('bounce')
+// .attr('scale', 0);
+ 
+function transitionColor(color, duration, scale, ease, goBack,delay) { 
+	if (!color) {
+		color = 'red';
+	}
+	if (!duration) {
+		duration = 5000;
+	}
+	if (scale == undefined) {
+		scale = 5;
+	}
+	if (!ease) {
+		ease = 'bounce';
+	}
+	if (goBack == undefined) {
+		goBack = 1;
+	}
+	if (delay == undefined) {
+		delay = 0;
+	}
+
+   var id = new Array();
+	 id['red'] = '#displace-all-map-red';
+	 id['green'] = '#displace-all-map-green';
+	 id['blue'] = '#displace-all-map-blue';
+	 
+	 if (goBack > 0) {
+		 var current = d3.select(id[color]).attr('scale');
+	 } 
+	 var tmpScale = Math.random()*scale;
+	 Log.Notice("scale (" + scale + ") for " + color + " for count " + goBack + " = " + tmpScale);
+	 d3.selectAll(id[color])
+	   .transition()
+		 .delay(delay)
+		 .duration(duration)
+		 .ease(ease)
+		 .attr('scale', tmpScale);
+		 
+	if (goBack-- > 0) {
+	 Log.Notice("goBack for " + color + "=" + goBack); 
+		setTimeout("transitionColor('" + color + "'," + duration + "," + current + ",'" + ease + "'," + goBack + "," + delay + ");", duration + delay);
+	}
+}
+ 
+function transitionBack() {
+	
+var All = d3.selectAll('#displace-all-map-green, #displace-all-map-red, #displace-all-map-blue');
+
+All
+ .transition()
+ .delay(0)
+ .duration(10000)
+ .ease('bounce')
+ .attr('scale', 10);
+}
+//setTimeout('transitionBack()', 6000);
+
+transitionColor('red',800,100,'bounce-in-out',15,150);
+transitionColor('blue',800,100,'bounce-in-out',15,0);
+transitionColor('green',800,100,'bounce-in-out',15,250);
+
+
+
+</script>
+
+</body>
+</html>

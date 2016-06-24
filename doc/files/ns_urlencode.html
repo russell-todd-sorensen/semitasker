@@ -1,0 +1,84 @@
+<html><head>
+<title>ns_urlencode - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_urlencode.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_urlencode.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_urlencode(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_urlencode - Encode a string to its URL-encoded representation
+
+
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_urlencode.html"> ns_urlencode </a></b> <i class='arg'>-charset charset</i> <i class='arg'>data</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+ This command encodes a string according to the rules for URL encoding defined in
+ RFC #1738, Uniform Resource Locators.
+
+ ns_urlencode codes  all  non-alphanumeric  characters  in  data.  The
+ encoding  for  a character is a &quot;%&quot; followed by the two-character hexa-
+ decimal representation for the character.
+
+ urlencoding the string:
+   http://www.aolserver.com/redirect.adp?url=http://www.aol.com&amp;t=1,2,3
+ yields the string:
+   http%3a%2f%2fwww%2eaolserver%2ecom%2fredirect%2eadp%3furl%3dhttp%3a%2f%2fwww%2eaol%2ecom%26t%3d1%2c2%2c3
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+ <dt><a name="1"><b class='cmd'><a href="ns_urlencode.html"> ns_urlencode </a></b> <i class='arg'>-charset charset</i> <i class='arg'>data</i></a><dd>
+
+
+
+</dl>
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+  set link [ns_urlencode http://www.aolserver.com/redirect.adp?url=http://www.aol.com&amp;t=1,2,3]
+  ns_adp_puts &quot;&lt;a href=[ns_urlencode [set link]]&gt;click&lt;/a&gt;&quot;
+</pre></td></tr></table></p>
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key585"> ns_urldecode </a>
+</body></html>
+

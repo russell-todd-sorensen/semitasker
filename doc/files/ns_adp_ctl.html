@@ -1,0 +1,203 @@
+<html><head>
+<title>ns_adp_ctl - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_adp_ctl.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_adp_ctl.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_adp_ctl(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_adp_ctl - ADP control command
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>bufsize</i> ?<i class='arg'>size</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>chan</i> ?<i class='arg'>channel</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>autoabort</i> ?<i class='arg'>bool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>detailerror</i> ?<i class='arg'>bool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>displayerror</i> ?<i class='arg'>bool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>expire</i> ?<i class='arg'>bool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>gzip</i> ?<i class='arg'>bool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>cache</i> ?<i class='arg'>bool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#9"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>safe</i> ?<i class='arg'>bool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#10"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>singlescript</i> ?<i class='arg'>bool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#11"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>stricterror</i> ?<i class='arg'>bool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#12"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>trace</i> ?<i class='arg'>bool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#13"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>trimspace</i> ?<i class='arg'>bool</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command enables control of the current ADP execution environment.
+Aside from the bufsize and chan subcommands,
+they all return a boolean value for a given ADP option. If
+the bool argument is given, the option is set to the
+given value and the previous value is returned.
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>bufsize</i> ?<i class='arg'>size</i>?</a><dd>
+
+<dt><a name="2"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>chan</i> ?<i class='arg'>channel</i>?</a><dd>
+
+<dt><a name="3"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>autoabort</i> ?<i class='arg'>bool</i>?</a><dd>
+
+<dt><a name="4"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>detailerror</i> ?<i class='arg'>bool</i>?</a><dd>
+
+<dt><a name="5"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>displayerror</i> ?<i class='arg'>bool</i>?</a><dd>
+
+<dt><a name="6"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>expire</i> ?<i class='arg'>bool</i>?</a><dd>
+
+<dt><a name="7"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>gzip</i> ?<i class='arg'>bool</i>?</a><dd>
+
+<dt><a name="8"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>cache</i> ?<i class='arg'>bool</i>?</a><dd>
+
+<dt><a name="9"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>safe</i> ?<i class='arg'>bool</i>?</a><dd>
+
+<dt><a name="10"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>singlescript</i> ?<i class='arg'>bool</i>?</a><dd>
+
+<dt><a name="11"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>stricterror</i> ?<i class='arg'>bool</i>?</a><dd>
+
+<dt><a name="12"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>trace</i> ?<i class='arg'>bool</i>?</a><dd>
+
+<dt><a name="13"><b class='cmd'><a href="ns_adp_ctl.html"> ns_adp_ctl </a></b> <i class='arg'>trimspace</i> ?<i class='arg'>bool</i>?</a><dd>
+
+
+
+<br><br>
+<i class='arg'>bufsize</i>
+This command returns the currently
+ADP output buffer size, setting it to a new value if the
+optionial size argument is specified.
+
+<br><br> <i class='arg'>chan</i>
+This command is used to specify an
+open file channel to receive output when the buffer is
+flushed. If channel is the null string, the output
+channel is cleared. This capability can be useful for
+specialized uses of ADP outside the context of an HTTP
+connection, e.g., for debugging or testing.
+
+<br><br>
+<i class='arg'>autoabort</i>
+Query or set the autoabort option. When enabled, failure to flush a
+buffer (normally the result of a closed HTTP connection)
+generates an ADP exception, unwinding the ADP call
+stack.
+
+<br><br>
+<i class='arg'>detailerror</i>
+Query or set the detailerror option. When enabled, errors in ADP pages
+are formatted with information about the context of the HTTP
+request. This can be very helpful in debugging ADP errors
+but potentially a security risk if the HTTP context (e.g.,
+cookie headers) contains personal or sensitive data. Errors
+are logged to the server log and, if &lt;i&gt;displayerror&lt;/i&gt; is
+enabled, appened to the output buffer.
+
+<br><br>
+<i class='arg'>displayerror</i>
+Query or set the displayerror option. When enabled, errors in ADP
+pages are formatted and appended to the output stream,
+normally visiable to a user&amp;rsquo;s browser. This option
+should generally be enabled in development and disabled in
+production.
+
+<br><br>
+<i class='arg'>expire</i>
+Query or set the expire option. When enabled, the ADP request
+processing code adds an &quot;Expires: now&quot; header in the response buffer to
+disable any caching. In practice, more thoughtful cache
+control mechanisms should be used based on the HTTP/1.1
+spec.
+
+<br><br>
+<i class='arg'>gzip</i>
+Query or set the gzip option.
+When enabled, the output buffer is compressed before being
+returned in the response. As ADP&amp;rsquo;s are generally used
+to generate text data such as HTML or XML, compression is
+normally quite successful at reducing the response size.
+
+<br><br>
+<i class='arg'>cache</i>
+Query or set the cache option. When disabled, all requests
+to cache executed ADP blocks via the ns_adp_include -cache directive are
+ignored, resulting in normal execution of all code.
+
+<br><br>
+<i class='arg'>safe</i>
+Query or set the safe option.
+When enabled, all code is executed in &amp;quot;safe&amp;quot; mode,
+disabling and ignoring any code within &amp;lt;% registered
+tags.
+
+<br><br>
+<i class='arg'>singlescript</i>
+Query or set the singlescript option. When enabled, ADP pages are
+converted from independent text-script blocks into a single
+script, which text blocks replaced with a call to
+ns_adp_append with the given text. Functionally the
+output is the same however an error anywhere on the page
+will result in the entire ADP page returning instead of
+skipping to the next block which is the normal behavior. In
+practice, singlescript is useful in development while
+in production leaving it disabled provides a more defensive
+execution environment where minor errors in one ADP do not
+inhibit execution of the overall page.
+
+<br><br>
+<i class='arg'>stricterror</i>
+Query or set the stricterror option. When enabled, the result is
+similar to that of singlescript in that an error in a
+particular block will return the entire page instead of
+continuing to the next text or script block.
+
+<br><br>
+<i class='arg'>trace</i>
+Query or set the &lt;i&gt;trace&lt;/i&gt; option which currently does nothing.
+
+<br><br>
+<i class='arg'>trimspace</i>
+Query or set the trimspace option. When enabled, any white space at
+the start of the output buffer is eliminated. White space
+can show up in the output as a result of ADP pages which do
+nothing but include other ADPs in a way to reuse code
+with the unfortunate side effect of the training newline at
+the end of a &lt;% ns_adp_include myfile.adp %&gt; ending up in the output stream.
+
+</dl>
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="ns_adp.html"> ns_adp </a>, ns_adp_close, ns_adp_flush, <a href="ns_adp_mimetype.html"> ns_adp_mimetype </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key0"> NaviServer </a>
+</body></html>
+
+

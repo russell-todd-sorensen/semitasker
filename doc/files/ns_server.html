@@ -1,0 +1,79 @@
+<html><head>
+<title>ns_server - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_server.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_server.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_server(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_server - Get state of the server's connection pools and queues
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_server.html"> ns_server </a></b> ?<i class='arg'>pool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_server.html"> ns_server </a></b> <i class='arg'>active</i> ?<i class='arg'>pool</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_server.html"> ns_server </a></b> <i class='arg'>waiting</i> ?<i class='arg'>pool</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command provides a way to examine the current server's
+connection pools and queues.  The legal options (which may be abbreviated) are:
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+ <dt><a name="1"><b class='cmd'><a href="ns_server.html"> ns_server </a></b> ?<i class='arg'>pool</i>?</a><dd>
+
+
+
+</dl>
+
+<dl>
+
+<dt><a name="2"><b class='cmd'><a href="ns_server.html"> ns_server </a></b> <i class='arg'>active</i> ?<i class='arg'>pool</i>?</a><dd>
+
+<dt><dd> ns_server all ?pool?
+<br><br>
+<dt><dd> ns_server connections ?pool?
+<br><br>
+<dt><dd> ns_server keepalive ?pool?
+<br><br>
+<dt><dd> ns_server pools ?pool?
+<br><br>
+<dt><dd> ns_server queued ?pool?
+<br><br>
+<dt><dd> ns_server threads ?pool?
+
+Returns a list of key-value pairs identifying the number
+of connection threads and what state they are currently in.
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_server.html"> ns_server </a></b> <i class='arg'>waiting</i> ?<i class='arg'>pool</i>?</a><dd>
+
+
+</dl>
+
+</body></html>
+

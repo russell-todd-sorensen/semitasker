@@ -1,0 +1,75 @@
+<html><head>
+<title>ns_buildsqldate - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_buildsqldate.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_buildsqldate.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_buildsqldate(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_buildsqldate - Build a SQL date value from specified month, day, and year
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_buildsqldate.html"> ns_buildsqldate </a></b> <i class='arg'>month</i> <i class='arg'>day</i> <i class='arg'>year</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+ This command builds a SQL date string out of the specified month, day, and year.
+ The month can be the month number (1 - 12) or the full, capitalized month name
+ (January, February, ..., December).  The day must be a number from 1 - 31, and the year
+ must be a 4-digit year (e.g., 1957).  An error is returned if any of the argument
+ values are invalid.  The resulting string can be used in an SQL statement.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_buildsqldate.html"> ns_buildsqldate </a></b> <i class='arg'>month</i> <i class='arg'>day</i> <i class='arg'>year</i></a><dd>
+
+
+
+</dl>
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_buildsqldate &quot;01&quot; &quot;15&quot; &quot;1929&quot;
+   1929-01-15
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_buildsqldate &quot;13&quot; &quot;31&quot; &quot;2000&quot;
+   Invalid date: 13 31 2000
+       while executing ...
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % set thedate
+</pre></td></tr></table></p>
+
+</body></html>
+

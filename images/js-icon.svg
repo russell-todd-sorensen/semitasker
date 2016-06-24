@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!--Scalable Vector Graphic-->
+<svg version="1.1" 
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:ev="http://www.w3.org/2001/xml-events"     
+     baseProfile="full">
+<style>
+#t1 {
+    font-family: 'Hobo Std';
+		font-size: 15px;
+		fill: url(#g1);
+		stroke-width: .1px;
+		stroke: black;
+}
+</style>
+
+<defs>
+<linearGradient id="g1" color-interpolation="sRGB">
+ <stop offset="0%" stop-color="#ff0000" />
+ <stop offset="16.7%" stop-color="#ffff00" />
+ <stop offset="34%" stop-color="#00ff00" />
+ <stop offset="50%" stop-color="#00ffff" />
+ <stop offset="67%" stop-color="#0000ff" />
+ <stop offset="83%" stop-color="#ff00ff" />
+ <stop offset="100%" stop-color="#ff0000" />
+</linearGradient>
+</defs>
+
+<text id="t1" x="2" y="18">XXX</text>
+<script type="javascript" >
+<![CDATA[
+    var textObj = document.getElementById('t1');
+		var urlList = document.URL.split('/');
+		var fileName = urlList[urlList.length-1]
+		var fileList = fileName.split('-');
+		var fileType = fileList[0].toUpperCase();
+		textObj.firstChild.nodeValue = fileType;
+
+]]>
+</script>
+</svg>

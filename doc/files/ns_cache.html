@@ -1,0 +1,310 @@
+
+
+<html><head>
+<title>ns_cache - NaviServer Built-In Commands </title>
+<link rel="stylesheet" href="../.././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/mann/ns_cache.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_cache.n
+   -->
+
+<body>
+<hr> [
+  <a href="../.././toc.html">Table Of Contents</a>
+| <a href="../.././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_cache(n) 4.99.2  &quot;NaviServer Built-In Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_cache - Cache manipulation
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#options">OPTIONS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'>ns_cache_create</b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?<strong>-maxentry <i class='arg'>s</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>size</i></a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'>ns_cache_names</b> </a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'>ns_cache_keys</b> <i class='arg'>name</i> ?<i class='arg'>pattern</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'>ns_cache_eval</b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?<strong>-force <i class='arg'>bool</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>key</i> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'>ns_cache_incr</b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>key</i> ?<i class='arg'>incr</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'>ns_cache_append</b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>key</i> <i class='arg'>args</i></a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'>ns_cache_lappend</b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>key</i> <i class='arg'>args</i></a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'>ns_cache_flush</b> ?<strong>-glob</strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> ?<i class='arg'>args</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#9"><b class='cmd'>ns_cache_stats</b> ?<strong>-contents</strong>? ?<strong>-reset</strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+The cache commands store key-value data in memory for quick access, like
+<b class='cmd'><a href="../nsv.html"> nsv </a></b>. Unlike <b class='cmd'><a href="../nsv.html"> nsv </a></b>, a limit is placed on the amount of memory used for
+each cache, and additional limits can be placed on the expirey time of cache
+entries, timeouts waiting for updates, etc.
+
+<p>
+The cache commands try to be efficient. For example, if two threads are
+simultaneously accessing the same entry in a cache, and the cache entry does not
+exist or has expired, then the first thread will evaluate it's script to
+generate the new value.  The second thread will recognise this and wait for the
+first thread to finish, and then return the value computed by the first thread.
+
+<p>
+A cache will tend to grow to it's maximum specified size.  Unused entries will
+move towards the end of the Least Recently Used list and be deleted to make room
+for new entries. Similarly, expired entries will remain in the cache and only be
+deleted when they reach the end of the LRU list, or are accessed and it is
+noticed that they have expired.
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'>ns_cache_create</b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?<strong>-maxentry <i class='arg'>s</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>size</i></a><dd>
+
+
+Create a new Tcl cache identified by <i class='arg'>name</i> with maximum size <i class='arg'>size</i>.
+
+
+
+<br><br>
+<dt><a name="2"><b class='cmd'>ns_cache_names</b> </a><dd>
+
+
+Return the list of all caches for the current virtual server.
+
+
+
+<br><br>
+<dt><a name="3"><b class='cmd'>ns_cache_keys</b> <i class='arg'>name</i> ?<i class='arg'>pattern</i>?</a><dd>
+
+
+Return a list of all keys in the named cache. If <i class='arg'>pattern</i> is given then
+each key is matched against the globbing pattern, and only those which match
+are included in the list.
+
+
+
+<br><br>
+<dt><a name="4"><b class='cmd'>ns_cache_eval</b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?<strong>-force <i class='arg'>bool</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>key</i> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a><dd>
+
+
+Return the data identified by <i class='arg'>key</i> from the named cache. If the key does
+not exist then <i class='arg'>script</i> is executed, its value is returned and inserted
+into the cache.
+
+<br><br>
+The <i class='arg'>script</i> is also executed if a cached value exists but has expired.
+
+<br><br>
+If the ?<strong>-force</strong>? option is set then any existing cached value is removed
+whether it has expired or not, and the <i class='arg'>script</i> is run to regenerate it.
+
+
+
+<br><br>
+<dt><a name="5"><b class='cmd'>ns_cache_incr</b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>key</i> ?<i class='arg'>incr</i>?</a><dd>
+
+
+Increment the integer value in the cache by 1, or by <i class='arg'>incr</i> if specified,
+and return it.
+
+
+
+<br><br>
+<dt><a name="6"><b class='cmd'>ns_cache_append</b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>key</i> <i class='arg'>args</i></a><dd>
+
+
+Append the given <i class='arg'>args</i> to the value in the cache and return the new
+value. The <i class='arg'>args</i> and the cache value are treated as simple strings.
+
+<br><br>
+If the cache value does not already exist it is created.
+
+
+
+<br><br>
+<dt><a name="7"><b class='cmd'>ns_cache_lappend</b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>key</i> <i class='arg'>args</i></a><dd>
+
+
+Append the given <i class='arg'>args</i> to the value in the cache and return the new
+value. The cache value is as a Tcl list and the <i class='arg'>args</i> are appended to
+maintain it's well-formed-list format.
+
+<br><br>
+If the cache value does not already exist it is created.
+
+
+
+<br><br>
+<dt><a name="8"><b class='cmd'>ns_cache_flush</b> ?<strong>-glob</strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> ?<i class='arg'>args</i>?</a><dd>
+
+
+Flush the entries in a cache. If 
+
+<br><br>
+The number of entries flushed are returned. If ?<i class='arg'>args</i>? are given then
+they are the keys in the cache to be flushed. If the ?<strong>-glob</strong>? option
+is given then the keys are treated as globbing patterns and only the keys which
+match are flushed.
+
+
+
+<br><br>
+<dt><a name="9"><b class='cmd'>ns_cache_stats</b> ?<strong>-contents</strong>? ?<strong>-reset</strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i></a><dd>
+
+
+Return the accumulated statistics for the given cache <i class='arg'>name</i> in array-get
+format since the cache was created or was last reset.
+
+<br><br>
+If the ?<strong>-reset</strong>? option is given then the statistics will be reset
+to zero after the command returns.
+
+<br><br>
+If the ?<strong>-contents</strong>? option is given then the first element of the
+returned list contains the size and expirey time for each entry in the
+cache. The time is in <b class='cmd'><a href="../ns_time.html"> ns_time </a></b> timespec format.
+
+The cache statistics track the following items:
+
+<br><br>
+<dl>
+
+<dt>maxsize<dd>
+The maximum size in bytes this cache can grow to, as specified by the
+?<strong>-size</strong>? option to <b class='cmd'>ns_cache_create</b>.
+
+<br><br>
+<dt>size<dd>
+The current size of the cache, in bytes.
+
+<br><br>
+<dt>entries<dd>
+The current number of entries the cache contains.
+
+<br><br>
+<dt>flushed<dd>
+Number of entries which were explicitly flushed by the <b class='cmd'>ns_cache_flush</b>
+command.
+
+<br><br>
+<dt>hits<dd>
+Number of times cache was queried and entry was present and valid.
+
+<br><br>
+<dt>missed<dd>
+Number of times cache was queried and entry was not present or valid.
+
+<br><br>
+<dt>hitrate<dd>
+The successful hit rate expressed as a percentage of total hits. Higher is better.
+
+<br><br>
+<dt>expired<dd>
+Number of times an entry was found to be present but expired when requested and
+so not returned.
+
+<br><br>
+<dt>pruned<dd>
+Number of time an entry reached the end of the LRU list and was removed to make
+way for a new entry.
+
+</dl>
+
+
+</dl>
+
+
+<h2><a name="options">OPTIONS</a></h2>
+<p>
+
+<dl>
+
+<dt><strong>-timeout</strong> <i class='arg'>t</i><dd>
+The time in seconds to wait for some other thread to compute the cache value.
+
+<br><br>
+<dt><strong>-expires</strong> <i class='arg'>t</i><dd>
+A time in the future when the cache value expires. The expired value will be
+deleted only when retrieved, e.g. via <b class='cmd'>ns_cache_eval</b>.
+
+<br><br>
+The ?<strong>-expires</strong>? time can be expressed either as an absolute time in
+the futre (the number of seconds since 190), or as an offset from the current
+time. Small values are treated as offsets, large values as absolute time. It is
+slightly less efficient to specify an offset as the current time must be looked
+up.
+
+
+</dl>
+
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+In the following example our goal is to serve a web page within 5 seconds. The
+web page requires two sets of data: the user's name and email address, and a
+personalised advert, both of which are stored in a database.
+
+<p>
+The data doesn't change often so a cache is used to speed up access. Even so,
+the server may become so busy that database queries take longer than our target
+response time of 5 seconds so we specify a ?<strong>-timeout</strong>? to both calls
+to the <b class='cmd'>ns_cache_eval</b> command.
+
+<p>
+In this case, a time 5 seconds into the future is constructed once and passed to
+both cache calls. The second call will use the remainder of the time once the
+first completes.
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+set timeout [ns_time incr [ns_time get] 5]
+
+if {[catch {
+    set user [<b class='cmd'>ns_cache_eval</b> ?<strong>-timeout</strong>? $timeout -- users $userid {
+        db_query {
+            select name, email
+            from users
+            where userid = :userid
+        }
+    }]
+    set ad [<b class='cmd'>ns_cache_eval</b> ?<strong>-timeout</strong>? $timeout ?<strong>-expires</strong>? 120 -- ads $userid {
+        db_query {
+            select advert from
+            personalised_adverts
+            where userid = :userid
+        }
+    }]
+} errmsg]} {
+    ns_returnunavailable &quot;Sorry, our web server is too busy.&quot;
+}
+
+ns_return 200 text/html [example_personalised_page $user $ad]
+
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="ns_memoize.html"> ns_memoize </a>, <a href="../nsv.html"> nsv </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../../index.html#key89"> cache </a>
+</body></html>

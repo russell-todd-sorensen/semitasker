@@ -1,0 +1,323 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Go Game</title>
+
+<style>
+
+.player1,
+.player2 {
+    height: 25px;
+    width: 100px;
+    display: inline-block;
+    border: 4px solid silver;
+    margin: 10px;
+    text-align: center;
+    text-transform: capitalize;
+    border-radius: 7px 7px 7px 7px;
+    color: black;
+    font-weight: bold;
+    padding: 2px;
+}
+
+.player1 {
+    background-color: #f3a;
+    border-color: #900;
+}
+
+.player2 {
+    background-color: #a3f;
+}
+
+#background {
+    position: absolute;
+    top: -150px;
+    left: 0;
+    font-size: 600px;
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-color: silver;
+    opacity: .10;
+}
+
+#rules {
+    position: absolute;
+    top: 5px;
+    right: 25px;
+    width: 300px;
+    background-color: rgba(150,200,25,.85);
+    color: #333;
+    font-size: 1.2em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    border: 5px solid silver;
+    border-radius: 10px 10px 10px 10px;
+}
+
+#rules h4 {
+
+    text-align: center;
+    margin-top: 10px;
+}
+
+#p1, #p2 {
+    padding: 3px;
+}
+
+#svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+</style>
+
+<script src="../../js/jquery-1.7.1.js"></script>
+<script src="../../js/log.js"></script>
+<script src="../d3.v3.js"></script>
+
+
+<script>
+var move = 0;
+var side = 35;
+var lines = 19;
+var origin = [25,25];
+
+// Build this into something useful for finding enclosed regions:
+var tokenData = new Array();
+
+var player1Tokens = new Array();
+var player2Tokens = new Array();
+
+for (var i = 1; i<lines; i++) {
+	player1Tokens[i] = new Array();
+	player2Tokens[i] = new Array();
+	for (var j = 1; j<lines; j++) {
+		player1Tokens[i][j] = 0;
+		player2Tokens[i][j] = 0;
+	}
+}
+
+var lineAttrs =  {
+	"fill": "none",
+	"class": "goline",
+	"stroke": "#231F20",
+	"stroke-width": 1,
+	"stroke-miterlimit": 10
+};
+
+var dotAttrs = {
+	"fill": "rgba(0,0,0,.85)",
+	"class": "godot",
+	"stroke": "none",
+	"r": 4
+};
+
+var tokenAttrs = {
+	"fill": "rgba(0,0,0,.1)", // don't show the token right away!
+	"class": "gotoken",
+	"stroke": "#231F20",
+	"stroke-width": 1,
+	"stroke-miterlimit": 10,
+	"r": (side-1)/2 // subtract out the stroke-width
+};
+
+function getNeighbors(point) {
+	// min and max indexes
+	var minXY = 1;
+	var maxXY = sides - 2;
+	
+	
+	
+}
+
+function playGo (svg) {
+	
+	// construct line-segments for board
+	var sideLength = side * (lines - 1);
+	
+	var body = d3.select("body");
+	var rules = body.select("#rules");
+	var player1 = rules.select(".player1");
+	var player2 = rules.select(".player2");
+	
+	
+	// create backing square
+	svg.append("rect")
+	   .attr({
+			 	"fill": "rgba(150,200,25,.85)",
+				"class": "goboard",
+				"stroke": "#231F20",
+				"stroke-width": 2,
+				"stroke-miterlimit": 10
+		 })
+		 .attr("x", origin[0])
+		 .attr("y", origin[1])
+		 .attr("height", side*(lines-1))
+		 .attr("width", side*(lines-1));
+
+
+  //x1="6" y1="39" x2="78" y2="83"
+	for (var i = 0; i< lines; i++) {
+		// horizontal lines	
+		svg.append("line")
+		   .attr(lineAttrs)
+			 .attr("class", "horizontal")
+			 .attr("x1", origin[0] )
+			 .attr("y1", origin[1] + i*side )
+			 .attr("x2", origin[0] + (lines -1)*side )
+			 .attr("y2", origin[1] + i*side );
+			 
+		// vertical lines
+		svg.append("line")
+		   .attr(lineAttrs)
+			 .attr("class", "vertical")
+			 .attr("x1", origin[0] + i*side )
+			 .attr("y1", origin[1]  )
+			 .attr("x2", origin[0] + i*side )
+			 .attr("y2", origin[1] + (lines -1)*side );
+	}
+
+  // add dots at 3 6 6 interval
+  var dotOrigin = [origin[0]+3*side, origin[1]+3*side];
+	
+	for (var i = 0; i<3; i++) {
+		for (var j=0;j<3;j++) {
+		svg.append("circle")
+		   .attr(dotAttrs)
+			 .attr("cx",dotOrigin[0] + i*side*6 )
+			 .attr("cy",dotOrigin[1] + j*side*6 );
+		}
+	}
+	
+
+	
+  for (var j = 1; j<lines-1; j++) {	
+		for (var i = 1; i<lines-1; i++) {
+			svg.append("circle")
+		   .attr(tokenAttrs)
+			 .attr("cx",origin[0] + i*side )
+			 .attr("cy",origin[1] + j*side );
+		  tokenData[tokenData.length] = {
+				"filled": false,
+				"player": false,
+				"x": i,
+				"y": j
+			};
+		}
+	}
+	
+	svg.selectAll("circle.gotoken")
+	   .data(tokenData)
+		 .transition()
+		 .delay(function (d,i) { return 25 * i/(i%5 +1) + 25;})
+		 .duration(100)
+		 .ease("linear")
+		 .attr("stroke","rbga(0,0,0,0)")
+		 .attr("fill","rgba(0,0,0,0)")
+		 .attr("stroke-width", 0);
+			 
+	svg.selectAll("circle.gotoken")
+	 .on("click", function(d,i) {
+		 d3.select(this)
+			.transition()
+			.ease("bounce-in-out")
+			.duration(2000)
+			.attr("fill", function(d,i) {
+				if (!d.filled) {
+					d.fill = move++%2 ? "#a3f" : "#f3a";
+					d.filled = true;
+					if (move%2 == 0) {
+						Log.Notice("move=" + move + ", now player= player1" );
+						var attrs = {"fill": "#a3f", "stroke": "#000"};
+						player2
+							 .attr("style", "border-color='#900'");
+						player1
+							 .attr("style", "border-color='silver'");
+						d.player = "player2";
+					} else {
+						Log.Notice("move=" + move + ", now player= player2" );
+						var attrs = {"fill":  "#f3a", "stroke": "#000"};
+						player2
+							 .style("border-color","#900");
+						player1
+							 .style("border-color","silver");
+					  d.player="player1";
+					}
+					
+					if (d.player == "player1") {
+						player1Tokens[d.x][d.y] = 1;
+					} else {
+						player2Tokens[d.x][d.y] = 1;
+					}
+					
+				}
+				return d.fill; // "#999"; //d.fill;
+			});
+	 });
+	
+}
+
+$(document).ready(function() {
+	Log.Notice("jQuery in ready!");
+	svg = d3.select("svg");
+	playGo(svg);
+
+	Log.Notice("Done");
+	//Log.Hide();
+});
+</script>
+
+</head>
+
+<body>
+
+<div id="svg">
+<svg version="1.1" 
+     id="gogame" 
+     xmlns="http://www.w3.org/2000/svg" 
+     xmlns:xlink="http://www.w3.org/1999/xlink" 
+     x="0px" 
+     y="0px"
+	   width="1000px" 
+     height="700px" 
+     viewBox="0 0 1000 700" 
+     enable-background="new 0 0 1000 700" 
+     fill="transparent"
+     xml:space="preserve"
+     >
+     <text x="100"
+           y="600" 
+           id="hex-background"
+           xml:space="preserve"
+       style="font-size:700px;
+              font-style:normal;
+              font-weight:normal;
+              fill:rgba(0,0,0,.85); 
+              fill-opacity:.85;
+              stroke:none;
+              stroke-width:1px;
+              stroke-linecap:butt;
+              stroke-linejoin:miter;
+              stroke-opacity:1;
+              font-family:'Lucida Sans Unicode'"
+       ><!-- The Name of the Game:-->GO</text>
+</svg>
+</div>
+<div id="rules">
+<h4>Go Rules:</h4>
+<ol>
+ <li>Players take turns placing tokens on the board, which consists of clicking
+     on one of the intersection of two lines.</li>
+ <li>Goal is to enclose the most amount of space on the board.</li>
+ <li>If a group of one opponent's tokens are completely surrounded by the other
+     opponent's tokens, the surrounded tokens are removed from play. </li>
+</ol>
+
+<div id="players">
+<div class="player1">Player 1</div>
+<div class="player2">Player 2</div>
+</div>
+
+</div>
+
+</body>
+</html>

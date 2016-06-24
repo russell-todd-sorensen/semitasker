@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <title>Pan &amp; Zoom Using Background Image &amp; Positioning</title>
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css"><style>
+
+#viewer {
+margin: auto;
+height: 700px;
+width: 700px;
+overflow: hidden;
+border: 1px solid black;
+}
+
+#picture {
+background-image: url(images/dundee-2.svg);
+height: 700px;
+width: 700px;
+background-color: #888;
+background-position-x: -20px;
+background-position-y: 40px;
+background-size: contain;
+background-repeat: no-repeat;
+display: block;
+margin: auto;
+vertical-align: central;
+
+}
+
+#control-bar {
+    width: 750px;
+    margin: auto;
+    position: relative;
+}
+
+#controls {
+    width: 750px;
+    margin: auto;
+    margin-top: 10px;
+    background-color: #abc;
+    padding: 5px;
+}
+
+#side-controls {
+    position: absolute;
+    top: -400px;
+    left: -35px;
+}
+
+#side-controls input {
+    display: block;
+    margin-bottom: 20px;
+}
+</style>
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/example-library.js"></script>
+
+<!-- here comes the script    -->
+<script>
+
+
+function pickBackgroundImage (input, id) {
+	
+	var url = changeBackground(input, id);
+	
+	if (url === null) {
+		 return;
+	} else {
+		url = "http://ic00408/pages/learn-html/" + url;
+	}
+	
+	var img = new Image();
+	img.src=url;
+	
+	var height = img.height;
+	var width = img.width;
+	
+	var picture = $('#picture')
+	//picture
+		//.css('height', "" + height + "px")
+		//.css('width', "" + width + "px");
+	
+}
+
+function animateBackground() {
+
+$('#picture')
+ .animate({'background-position-x': '-500px',
+ 'background-position-y': '500px'},2000, 'linear', null)
+ .animate({'background-position-x': '0px',
+ 'background-position-y': '0px'},2000,'linear',null)
+ ;
+} 
+
+function panBackground(panDirection) {
+  // panDirection is one of up, down, right, left
+  var panToX, panToY;
+  picture = $('#picture');
+  var panX = parseFloat($('#panX').val());
+  var panY = parseFloat($('#panY').val());
+  var currentX = parseFloat(picture.css('background-position-x'));
+  var currentY = parseFloat(picture.css('background-position-y'));
+ 
+  var panReturn = $('#panReturn option:checked').val();
+  switch (panDirection) {
+  case "down":
+    panY = -1 * Math.abs(panY);
+    panToY = currentY + panY;
+    panToX = currentX;
+    break; 
+  case "up":
+    panToY = Math.abs(panY) + currentY;
+    panToX = currentX; 
+    break;
+  case "right":
+    panX = -1 * Math.abs(panX);
+    panToX = currentX + panX;
+    panToY = currentY;
+    break;
+  case "left":
+    panX = Math.abs(panX);
+    panToX = currentX + panX;
+    panToY = currentY;
+    break;
+  default:
+    Log.Error("illegal pan direction: " + panDirection);
+    return 0;
+  }
+  picture
+  .animate({
+   'background-position-x': "" + panToX + "px",
+   'background-position-y': "" + panToY + "px"
+   }, 2000, 'linear', null);
+  if (panReturn == "true") {
+    picture
+      .animate({
+        'background-position-x': "" + currentX + "px",
+        'background-position-y': "" + currentY + "px"
+      }, 2000, 'linear', null);
+  }
+} 
+function zoomPicture() {
+ var picture = $('#picture');
+ var currentWidth = picture.width();
+ var currentHeight = picture.height();
+ var zoomFactor = parseFloat($('#zoom').val());
+ $('#picture')
+  .animate(
+  {
+   'height': currentHeight * zoomFactor,
+   'width': currentWidth * zoomFactor
+  }, 2000, 'linear', null);
+}  
+
+
+</script>
+</head>
+<body>
+
+
+<div id="viewer">
+ <div id="picture"></div>
+</div>
+
+
+<div id="control-bar">
+<div id="controls">
+ <form id="controlsForm">
+  <label for="panX">Pan X:</label>
+  <input id="panX" value="-500" size="2">
+  <label for="panY">Pan Y:</label>
+  <input id="panY" value="500" size="2">
+  <label for="panReturn">Pan Back:</label>
+  <select id="panReturn">
+   <option value="true" selected="selected">Yes</option>
+   <option value="false">No</option>
+  </select>
+  |
+  <input type="button" onclick="panBackground('left');" value="left">
+  <input type="button" onclick="panBackground('right');" value="right">
+  |
+  <label for="zoom">Zoom Factor</label>
+  <input type="text" value="2.0" size="2" id="zoom">
+  <input type="button" onclick="zoomPicture()" value="Zoom">
+  <br>
+  <label for="image">Pick Image:</label>
+  
+  <input type="file" size="50" id="image"
+     onchange="pickBackgroundImage(this, '#picture')">
+     
+  <div id="side-controls">
+  <input type="button" onclick="panBackground('up');" value="up">
+  <input type="button" onclick="panBackground('down');" value="down">
+ </div>
+</form>
+
+</div>
+
+</div>
+<br>
+
+
+</body></html>

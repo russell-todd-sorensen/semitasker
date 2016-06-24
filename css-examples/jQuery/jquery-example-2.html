@@ -1,0 +1,372 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+
+<meta charset="utf-8">
+
+<title>jQuery Example 1</title>
+
+<link rel="stylesheet" type="text/css" href="main.css">
+<link rel="stylesheet" type="text/css" href="../js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css" >
+
+<style type="text/css" >
+body { 
+	background-color: #39C;
+}
+#my-tabs {
+    background-color: transparent;
+    margin: auto;
+    margin-top: 20px;  
+}
+
+#my-tabs pre {
+    background-color: silver;
+    padding: 10px;
+    border: 1px solid red;
+}
+
+#my-tabs pre.hilite {
+    background-color: yellow;
+    border: 1px dashed black;
+}
+.ui-widget-content {
+    background-image: url(../images/linear-white-45diag-40px.png);
+    background-size: cover;
+}
+</style>
+
+<script language="javascript" src="../js/jquery-1.7.1.js" type="text/javascript"></script>
+<script language="javascript" src="../js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" type="text/javascript"></script>
+<script language="javascript" src="log.js" type="text/javascript"></script>
+<script language="javascript" src="headline.js" type="text/javascript"></script>
+<script language="javascript" type="text/javascript">
+
+$(document).ready(function() {
+	$('#my-tabs').tabs({
+		add: null, //{url:'#panel6',label:'jQuery',index:1 },
+		ajaxOptions: null,
+		cache: false,
+		cookie: null, // e.g. { expires: 7, path: '/', domain: 'jquery.com', secure: true }
+		collapsible: false,
+		disable: null,
+		disabled: [],
+		enable: null,
+		event: "click",
+		fx: { height: 'toggle', opacity: 'toggle', duration: 200 }, // default = null
+		idPrefix: "ui-tabs-",
+		load: null,
+		panelTemplate: "<div></div>",
+		remove: null,
+		select: null,
+		show: null,
+		spinner: "<em>Loading&#8230;</em>",
+		tabTemplate: "<li><a href='#{href}'><span>#{label}</span></a></li>"
+	});
+	
+	
+});
+
+</script>
+</head>
+
+<body>
+<h1 id="title">Example 2: UI Tabbed Panel</h1>
+
+<div id="my-tabs">
+<ul>
+ <li><a href="#panel1" title="Outline of Steps">Outline</a></li>
+ <li><a href="#panel2" title="Step 1: Outer Div">Outer Div</a></li>
+ <li><a href="#panel3" title="Step 2: Tabs HTML">Tabs HTML</a></li>
+ <li><a href="#panel7" title="Step 3: Content HTML">Content HTML</a></li>
+ <li><a href="#panel4" title="Step 4: CSS">CSS</a></li>
+ <li><a href="#panel5" title="Step 5: Javascript">Javascript</a></li>
+ <li><a href="#panel6" title="Step 6: jQuery">jQuery</a></li>
+ <li><a href="#panel8" title="Step 7: Customize">Customize</a></li>
+ <li><a href="#panel9" title="Step 8: Get Files">Get jQuery</a></li>
+
+</ul>
+
+
+<div id="panel1">
+<h4>Outline</h4>
+<ol>
+ <li>Setup Outer Div</li>
+ <li>Setup Tabs HTML</li>
+ <li>Setup Content HTML</li>
+ <li>Setup CSS for Divs and Tabs</li>
+ <li>Include Javascript libraries</li>
+ <li>Write jQuery ready function</li>
+ <li>Customize the jQuery Tabs Object</li>
+ <li>Get the jQuery UI Files</li>
+</ol>
+
+<p>Full Example: (<a href="full-tabs-example.html">or view it live here</a>)</p>
+
+ <pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang="en_US"&gt;
+&lt;head&gt;
+
+&lt;link rel="stylesheet" type="text/css" href="../js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css" &gt;
+
+&lt;style type="text/css" &gt;
+
+body { 
+	background-color: #39C;
+}
+
+#my-tabs {
+    background-color: transparent;
+    margin: auto;
+    margin-top: 20px;  
+}
+
+#my-tabs pre {
+    background-color: silver;
+    padding: 10px;
+    border: 1px solid red;
+}
+
+#my-tabs pre.hilite {
+    background-color: yellow;
+    border: 1px dashed black;
+}
+
+.ui-widget-content {
+    background-image: url(../images/linear-white-45diag-40px.png);
+    background-size: cover;
+}
+
+&lt;/style&gt;
+
+&lt;script language="javascript" src="../js/jquery-1.7.1.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script language="javascript" src="../js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" type="text/javascript"&gt;&lt;/script&gt;
+
+&lt;script language="javascript" type="text/javascript"&gt;
+
+$(document).ready(function() {
+	$('#my-tabs').tabs({
+		fx: { height: 'toggle', opacity: 'toggle', duration: 200 }
+	});
+});
+
+&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;-- OUTER CONTAINER DIV  id='my-tabs' --&gt;
+
+&lt;div id="my-tabs"&gt;
+
+ &lt;-- UL List turned into tabs --&gt;
+ 
+ &lt;ul &gt;
+  &lt;li&gt;&lt;a href="#panel1" title="Outline of Steps"&gt;Outline&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#panel2" title="Step 1: Outer Div"&gt;Outer Div&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href="#panel3" title="Step 2: Tabs HTML"&gt;Tabs HTML&lt;/a&gt;&lt;/li&gt;
+ &lt;/ul&gt;
+
+ &lt;-- ALL PANELS inside 'my-tabs' DIV --&gt;
+
+ &lt;div id="<b>panel1</b>"&gt;
+  &lt;h4&gt;Outline&lt;/h4&gt;
+  &lt;p&gt;Place panel 1 content here&lt;/p&gt;
+ &lt;/div&gt;
+
+ &lt;div id="<b>panel2</b>"&gt;
+  &lt;h4&gt;Outer Div&lt;/h4&gt;
+  &lt;p&gt;Place panel 2 content here&lt;/p&gt;
+ &lt;/div&gt;
+
+ &lt;div id="<b>panel3</b>"&gt;
+  &lt;h4&gt;Tabs HTML&lt;/h4&gt;
+  &lt;p&gt;Place panel 3 content here&lt;/p&gt;
+ &lt;/div&gt;
+
+
+&lt;/div&gt;&lt;-- END my-tabs DIV --&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</pre>
+</div>
+
+<div id="panel2">
+ <h4>Div HTML:</h4>
+ <p>Just create an empty div with a unique id (#my-tabs in this example).</p>
+ <pre>
+&lt;div id="my-tabs"&gt;
+
+&lt;/div&gt;
+ </pre>
+</div>
+
+<div id="panel3">
+ <h4>Tabs HTML:</h4>
+ <pre>
+&lt;div id="my-tabs"&gt;
+ <pre class="hilite">
+&lt;ul &gt;
+ &lt;li&gt;&lt;a href="#panel1" title="Outline of Steps"&gt;Outline&lt;/a&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;a href="#panel2" title="Step 1: Outer Div"&gt;Outer Div&lt;/a&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;a href="#panel3" title="Step 2: Tabs HTML"&gt;Tabs HTML&lt;/a&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;a href="#panel7" title="Step 3: Content HTML"&gt;Content HTML&lt;/a&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;a href="#panel4" title="Step 4: CSS"&gt;CSS&lt;/a&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;a href="#panel5" title="Step 5: Javascript"&gt;Javascript&lt;/a&gt;&lt;/li&gt;
+ &lt;li&gt;&lt;a href="#panel6" title="Step 6: jQuery"&gt;jQuery&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+ </pre>
+&lt;/div&gt;
+ </pre>
+ <p>Place the tabs html inside the div created in step 1.</p>
+</div>
+
+<div id="panel7">
+ <h4>Content HTML</h4>
+ <pre>
+&lt;div id="my-tabs"&gt;
+&lt;ul &gt;
+ &lt;li&gt;&lt;a href="#<b>panel4</b>" title="Step 4: CSS"&gt;CSS&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+ <pre class="hilite">
+&lt;div id="<b>panel4</b>"&gt;
+ &lt;h4&gt;CSS&lt;/h4&gt;
+ &lt;p&gt;Place your content here&lt;/p&gt;
+&lt;/div&gt;
+ </pre>
+&lt;/div&gt;
+ </pre>
+ <p>Create a div for each tab to hold the content associated with the tab.
+ Include an <b>id</b> which matches the <b>href</b> attribute (minus the hash #).
+</div>
+
+<div id="panel4">
+ <h4>CSS:</h4>
+ <pre>
+&lt;html&gt;
+ &lt;head&gt;
+ <pre class="hilite">
+&lt;link rel="stylesheet" type="text/css" href="../js/jquery.ui.all.css" &gt;
+
+ </pre>
+ &lt;/head&gt;
+ ....
+ </pre>
+ <p>Add a CSS stylesheet link in the head of your document. 
+</div>
+
+<div id="panel5">
+ <h4>Javascript:</h4>
+ <pre>
+&lt;html&gt;
+ &lt;head&gt;
+ <pre class="hilite">
+&lt;script language="javascript" src="../js/jquery-1.7.1.js" type="text/javascript"&gt;&lt;/script&gt;
+&lt;script language="javascript" src="../js/jquery-ui-1.8.20.js" type="text/javascript"&gt;&lt;/script&gt;
+
+ </pre>
+  &lt;/head&gt;
+  ....
+ </pre>
+</div>
+
+<div id="panel6">
+ <h4>jQuery:</h4>
+ <pre>
+&lt;html&gt;
+ &lt;head&gt;
+ <pre class="hilite">
+&lt;script language="javascript" type="text/javascript"&gt;
+
+$(document).ready(function() {
+	$('<b>#my-tabs</b>').tabs();
+	
+});
+
+&lt;/script&gt;
+ </pre>
+ &lt;/head&gt;
+  ....
+ </pre>
+ <p>Use a jQuery selector to select your outer div (#my-tabs), then apply the tabs function <b>tabs()</b>.
+</div>
+
+<div id="panel8">
+ <h4>Customize UI Tabs:</h4>
+ <ul>
+  <li>Add or override styles, and</li>
+  <li>Changing the default .tabs(options) object properties.</li>
+ </ul>
+ <pre>
+&lt;html&gt;
+ &lt;head&gt;
+ <pre class="hilite">
+&lt;style type="text/css" &gt;
+body { 
+	background-color: #39C;
+}
+#my-tabs {
+    background-color: transparent;
+    margin: auto;
+    margin-top: 20px;  
+}
+
+#my-tabs pre {
+    background-color: silver;
+    padding: 10px;
+    border: 1px solid red;
+}
+
+#my-tabs pre.hilite {
+    background-color: yellow;
+    border: 1px dashed black;
+}
+.ui-widget-content {
+    background-image: url(../images/linear-white-45diag-40px.png);
+    background-size: cover;
+}
+&lt;/style&gt;
+
+&lt;script language="javascript" type="text/javascript"&gt;
+
+$(document).ready(function() {
+	$('#my-tabs').tabs({
+		add: {url:'#panel6',label:'jQuery',index:1 },
+		ajaxOptions: null,
+		cache: false,
+		cookie: null, // e.g. { expires: 7, path: '/', domain: 'jquery.com', secure: true }
+		collapsible: false,
+		disable: null,
+		disabled: [],
+		enable: null,
+		event: "click",
+		fx: { height: 'toggle', opacity: 'toggle', duration: 200 },
+		idPrefix: "ui-tabs-",
+		load: null,
+		panelTemplate: "&lt;div&gt;&lt;/div&gt;",
+		remove: null,
+		select: null,
+		show: null,
+		spinner: "&lt;em&gt;Loading&#8230;&lt;/em&gt;",
+		tabTemplate: "&lt;li&gt;&lt;a href='#{href}'&gt;&lt;span&gt;#{label}&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;"
+	});
+	
+});
+
+&lt;/script&gt;
+ </pre>
+ &lt;/head&gt;
+  ....
+ </pre>
+</div>
+
+<div id="panel9">
+ <h4>jQuery + jQuery.UI files:</h4>
+ <p><a href="jQuery-UI-stuff.zip" title="jQuery UI files">jQuery Zip File</a></p>
+</div>
+
+</div>
+<!--<a href="jQuery-examples.html" title="jQuery-examples.html">jQuery Examples List</a>-->
+</body>
+</html>

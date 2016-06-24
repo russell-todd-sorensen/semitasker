@@ -1,0 +1,272 @@
+<html><head>
+<title>ns_guesstype - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_guesstype.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_guesstype.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_guesstype(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_guesstype - Lookup MIME type based on file extension
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_guesstype.html"> ns_guesstype </a></b> <i class='arg'>filename</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command guesses and returns the MIME type of a file, based on the extension of filename.  
+A large set of default extension to MIME type mappings is built into the command:
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_guesstype.html"> ns_guesstype </a></b> <i class='arg'>filename</i></a><dd>
+
+
+
+</dl>
+
+<dl>
+
+<dt><dd> .dci    returns &quot;text/html; charset=iso-8859-1&quot;
+<br><br>
+<dt><dd> .htm    returns &quot;text/html; charset=iso-8859-1&quot;
+<br><br>
+<dt><dd> .html   returns &quot;text/html; charset=iso-8859-1&quot;
+<br><br>
+<dt><dd> .sht    returns &quot;text/html; charset=iso-8859-1&quot;
+<br><br>
+<dt><dd> .shtml  returns &quot;text/html; charset=iso-8859-1&quot;
+<br><br>
+<dt><dd> .ai     returns &quot;application/postscript&quot;
+<br><br>
+<dt><dd> .aif    returns &quot;audio/aiff&quot;
+<br><br>
+<dt><dd> .aifc   returns &quot;audio/aiff&quot;
+<br><br>
+<dt><dd> .aiff   returns &quot;audio/aiff&quot;
+<br><br>
+<dt><dd> .ani    returns &quot;application/x-navi-animation&quot;
+<br><br>
+<dt><dd> .art    returns &quot;image/x-art&quot;
+<br><br>
+<dt><dd> .au     returns &quot;audio/basic&quot;
+<br><br>
+<dt><dd> .avi    returns &quot;video/x-msvideo&quot;
+<br><br>
+<dt><dd> .bin    returns &quot;application/x-macbinary&quot;
+<br><br>
+<dt><dd> .bmp    returns &quot;image/bmp&quot;
+<br><br>
+<dt><dd> .css    returns &quot;text/css&quot;
+<br><br>
+<dt><dd> .csv    returns &quot;application/csv&quot;
+<br><br>
+<dt><dd> .dcr    returns &quot;application/x-director&quot;
+<br><br>
+<dt><dd> .dir    returns &quot;application/x-director&quot;
+<br><br>
+<dt><dd> .dp     returns &quot;application/commonground&quot;
+<br><br>
+<dt><dd> .dxr    returns &quot;application/x-director&quot;
+<br><br>
+<dt><dd> .elm    returns &quot;text/plain&quot;
+<br><br>
+<dt><dd> .eml    returns &quot;text/plain&quot;
+<br><br>
+<dt><dd> .exe    returns &quot;application/octet-stream&quot;
+<br><br>
+<dt><dd> .gbt    returns &quot;text/plain&quot;
+<br><br>
+<dt><dd> .gif    returns &quot;image/gif&quot;
+<br><br>
+<dt><dd> .gz     returns &quot;application/x-compressed&quot;
+<br><br>
+<dt><dd> .hqx    returns &quot;application/mac-binhex40&quot;
+<br><br>
+<dt><dd> .jfif   returns &quot;image/jpeg&quot;
+<br><br>
+<dt><dd> .jpe    returns &quot;image/jpeg&quot;
+<br><br>
+<dt><dd> .jpg    returns &quot;image/jpeg&quot;
+<br><br>
+<dt><dd> .jpeg   returns &quot;image/jpeg&quot;
+<br><br>
+<dt><dd> .js     returns &quot;application/x-javascript&quot;
+<br><br>
+<dt><dd> .ls     returns &quot;application/x-javascript&quot;
+<br><br>
+<dt><dd> .map    returns &quot;application/x-navimap&quot;
+<br><br>
+<dt><dd> .mid    returns &quot;audio/x-midi&quot;
+<br><br>
+<dt><dd> .midi   returns &quot;audio/x-midi&quot;
+<br><br>
+<dt><dd> .mocha  returns &quot;application/x-javascript&quot;
+<br><br>
+<dt><dd> .mov    returns &quot;video/quicktime&quot;
+<br><br>
+<dt><dd> .mpe    returns &quot;video/mpeg&quot;
+<br><br>
+<dt><dd> .mpeg   returns &quot;video/mpeg&quot;
+<br><br>
+<dt><dd> .mpg    returns &quot;video/mpeg&quot;
+<br><br>
+<dt><dd> .nvd    returns &quot;application/x-navidoc&quot;
+<br><br>
+<dt><dd> .nvm    returns &quot;application/x-navimap&quot;
+<br><br>
+<dt><dd> .pbm    returns &quot;image/x-portable-bitmap&quot;
+<br><br>
+<dt><dd> .pdf    returns &quot;application/pdf&quot;
+<br><br>
+<dt><dd> .pgm    returns &quot;image/x-portable-graymap&quot;
+<br><br>
+<dt><dd> .pic    returns &quot;image/pict&quot;
+<br><br>
+<dt><dd> .pict   returns &quot;image/pict&quot;
+<br><br>
+<dt><dd> .pnm    returns &quot;image/x-portable-anymap&quot;
+<br><br>
+<dt><dd> .png    returns &quot;image/png&quot;
+<br><br>
+<dt><dd> .ps     returns &quot;application/postscript&quot;
+<br><br>
+<dt><dd> .qt     returns &quot;video/quicktime&quot;
+<br><br>
+<dt><dd> .ra     returns &quot;audio/x-pn-realaudio&quot;
+<br><br>
+<dt><dd> .ram    returns &quot;audio/x-pn-realaudio&quot;
+<br><br>
+<dt><dd> .ras    returns &quot;image/x-cmu-raster&quot;
+<br><br>
+<dt><dd> .rgb    returns &quot;image/x-rgb&quot;
+<br><br>
+<dt><dd> .rtf    returns &quot;application/rtf&quot;
+<br><br>
+<dt><dd> .sit    returns &quot;application/x-stuffit&quot;
+<br><br>
+<dt><dd> .snd    returns &quot;audio/basic&quot;
+<br><br>
+<dt><dd> .sql    returns &quot;application/x-sql&quot;
+<br><br>
+<dt><dd> .stl    returns &quot;application/x-navistyle&quot;
+<br><br>
+<dt><dd> .tar    returns &quot;application/x-tar&quot;
+<br><br>
+<dt><dd> .tcl    returns &quot;text/plain&quot;
+<br><br>
+<dt><dd> .text   returns &quot;text/plain&quot;
+<br><br>
+<dt><dd> .tgz    returns &quot;application/x-compressed&quot;
+<br><br>
+<dt><dd> .tif    returns &quot;image/tiff&quot;
+<br><br>
+<dt><dd> .tiff   returns &quot;image/tiff&quot;
+<br><br>
+<dt><dd> .txt    returns &quot;text/plain&quot;
+<br><br>
+<dt><dd> .xbm    returns &quot;image/x-xbitmap&quot;
+<br><br>
+<dt><dd> .xpm    returns &quot;image/x-xpixmap&quot;
+<br><br>
+<dt><dd> .xht    returns &quot;application/xhtml+xml&quot;
+<br><br>
+<dt><dd> .xhtml  returns &quot;application/xhtml+xml&quot;
+<br><br>
+<dt><dd> .xml    returns &quot;text/xml&quot;
+<br><br>
+<dt><dd> .xsl    returns &quot;text/xml&quot;
+<br><br>
+<dt><dd> .vrml   returns &quot;x-world/x-vrml&quot;
+<br><br>
+<dt><dd> .wav    returns &quot;audio/x-wav&quot;
+<br><br>
+<dt><dd> .wrl    returns &quot;x-world/x-vrml&quot;
+<br><br>
+<dt><dd> .z      returns &quot;application/x-compressed&quot;
+<br><br>
+<dt><dd> .zip    returns &quot;application/x-zip-compressed&quot;
+
+</dl>
+
+ The MIME type returned for an extension can be overriden in the NaviServer config file, and new mappings can be added, e.g.
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   ns_section &quot;ns/mimetypes&quot;
+   ns_param  &quot;.xls&quot;        &quot;application/vnd.ms-excel&quot;     &amp;nbsp;;# Add a mapping for Excel files
+   ns_param  &quot;.sjis_html&quot;  &quot;text/html; charset=shift_jis&quot; &amp;nbsp;;# Adding a mapping, specifing charset
+   ns_param  &quot;.adp&quot;        &quot;text/html; charset=UTF-8&quot;     &amp;nbsp;;# Overriding an existing mapping
+</pre></td></tr></table></p>
+
+ The MIME type to be returned for files with unrecognized or missing extensions can also be specified in the &quot;ns/mimetypes&quot; section of the config file, e.g.
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   ns_section &quot;ns/mimetypes&quot;
+   ns_param  default      &quot;*/*&quot; &amp;nbsp;;# MIME type for unrecognized extension.
+   ns_param  noextension  &quot;*/*&quot; &amp;nbsp;;# MIME type for missing extension.
+</pre></td></tr></table></p>
+
+ If default is not configured, &quot;*/*&quot; will be returned for files with unrecognized extensions.  If noextension is not configured, the MIME type configured as default (or &quot;*/*&quot;) will be used.
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+ (Assuming configured with the examples above)
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_guesstype &quot;hello.jpg&quot;
+   image/jpeg
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_guesstype &quot;hello.xls&quot;
+   application/vnd.ms-excel
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_guesstype &quot;hello.html&quot;
+   text/html; charset=iso-8859-1
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_guesstype &quot;world.adp&quot;
+   text/html; charset=UTF-8
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_guesstype &quot;world.doc&quot;
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_guesstype somefile
+</pre></td></tr></table></p>
+
+
+
+
+
+</body></html>
+

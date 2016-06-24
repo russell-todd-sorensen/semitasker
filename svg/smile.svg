@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!--Scalable Vector Graphic-->
+<svg version="1.1" 
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:ev="http://www.w3.org/2001/xml-events"     
+     baseProfile="full">
+		 
+<defs>
+
+<path id="smile-path" d="M 200 200 Q 250 200 300 200" x="0" y="0" >
+ <animate attributeName="d" 
+ 					values="M 200 200 Q 250 200 300 200;
+					        M 200 200 Q 250 250 300 200;
+									M 200 200 Q 250 200 300 200"
+					dur="10s" 
+					begin="0s;clicker.click"
+					repeatCount="1" />
+</path>
+
+<path id="frown-path" d="M 200 200 Q 250 200 300 200" x="0" y="0" >
+ <animate attributeName="d" 
+ 					values="M 200 200 Q 250 200 300 200;
+					        M 200 230 Q 250 180 300 230;
+									M 200 200 Q 250 200 300 200"
+					dur="10s" 
+					begin="0s;clicker.click"
+					repeatCount="1" />
+</path>
+
+
+<circle id="eye-1" r="15" x="0" y="0" />
+<g id="eyeball-path">
+ 
+</g>
+
+<path id="faces-path" 
+      d="M 0 300 C   0  700 600  700 600 300 
+                 C 600 -100   0 -100   0 300"   />
+
+
+<ellipse id="blinking-eye-1" rx="15" ry="15" x="0" y="0" >
+ <animate attributeName="ry" 
+          values="15;1;15" 
+					dur="1s" 
+					begin="5s;clicker.click+5"
+					repeatCount="1" />
+ <animate attributeName="rx" 
+          values="15;20;15" 
+					dur="1s" 
+					begin="5s;clicker.click+5" 
+					repeatCount="1" />
+				
+</ellipse>
+
+<ellipse id="closed-eye-1" rx="15" ry="1" x="0" y="0" />
+
+
+<path id="eye-2" d="M 0 15 Q 0 0 15 0 Q 15 15 0 15"  transform="rotate(45,0,0)" />
+
+<path id="eye-3" d="M 0 30 Q 0 0 30 0 Q 30 30 0 30"  transform="rotate(45,0,0)" />
+<path id="blinking-eye-3" 
+      d="M 0 30 Q 0 0 30 0 Q 30 30 0 30"
+      transform="rotate(45,0,0)" >
+	<animate attributeName="d" 
+ 					values="M   0 30 Q  0  0 30   0 Q 30 30   0 30;
+					        M  -5 30 Q 30 30 30  -5 Q 30 30  -5 30;
+					        M   0 30 Q  0  0 30   0 Q 30 30   0 30"
+					dur="1s" 
+					begin="5s;clicker.click+5;blinkingEyeAnimation.end"
+					repeatCount="1" />
+</path>
+
+<!-- squiggly eye ~ -->
+<path id="eye-4" d="M 0 30 C 0 0 30 30 30 0 C 30 30 0 0 0 30"  transform="rotate(45,0,0)" />
+<path id="blinking-eye-4" 
+      d="M 0 30 C 0 0 30 30 30 0 C 30 30 0 0 0 30"
+      transform="rotate(45,0,0)" >
+	<animate attributeName="d" 
+ 					values="M 0 30 C  0  0 30 30 30 0 C 30 30   0   0 0 30;
+					        M 0 30 C 30 30 30 30 30 0 C 00 00   0   0 0 30;
+									M 0 30 C  0  0 30 30 30 0 C 30 30   0   0 0 30"
+					dur="1s" 
+					begin="0s;clicker.click;faceWithEyesAnimation.end"
+					repeatCount="1" />
+</path>
+
+<!-- blink to squiggly eye ~ -->
+<path id="eye-5" d="M 0 30 C 30 30 30 30 30 0 C 00 00   0   0 0 30"  transform="rotate(45,0,0)" />
+<path id="blinking-eye-5" 
+      d="M 0 30 C 30 30 30 30 30 0 C 00 00   0   0 0 30"
+      transform="rotate(45,0,0)" >
+	<animate 
+	        id="blinkingEyeAnimation"
+	        attributeName="d"
+ 					values="M 0 30 C 30 30 30 30 30 0 C 00 00   0   0 0 30;
+									M 0 30 C  0  0 30 30 30 0 C 30 30   0   0 0 30;
+									M 0 30 C 30 30 30 30 30 0 C 00 00   0   0 0 30"
+					dur="1s" 
+					begin="0s;clicker.click;frowningFaceAnimation.end"
+					repeatCount="1" />
+</path>
+
+<!-- FACES -->
+<g id="face"> <!-- No Eyes -->
+ <circle cx="250" cy="175" r="100" x="0" y="0" />
+ <use xlink:href="#smile-path" />
+</g>
+<g id="face2"> <!-- No Eyes -->
+ <circle cx="0" cy="0" r="100" x="0" y="0" />
+ <use xlink:href="#smile-path" />
+</g>
+
+<g id="frown-face"> <!-- No Eyes -->
+ <circle cx="250" cy="175" r="100" x="0" y="0" />
+ <use xlink:href="#frown-path" />
+</g>
+
+
+<g id="face-with-eyes" transform="translate(0,-300)" >
+<use xlink:href="#face" stroke="#CC9900" x="0" y="0" />
+<use xlink:href="#eye-1" cx="220" cy="175" stroke="#CCCC00" x="210" y="150" />
+<use xlink:href="#eye-1" cx="280" cy="175" stroke="#CCCC00" x="290" y="150" />
+  <animateMotion
+     id="faceWithEyesAnimation"
+	   rotate="30" 
+	   path="M 0 300 C   0  700 600  700 600 300 
+                   C 600 -100   0 -100   0 300" 
+		 dur="10s"
+		 begin="0s;clicker.click"
+		 repeatCount="1"/>
+</g>
+
+<g id="face-with-closed-eyes"  >
+ <g transform="translate(0,0)">
+  <use xlink:href="#face" stroke="#CC9900" x="0" y="0" />
+  <use xlink:href="#closed-eye-1" cx="220" cy="175" stroke="#CCCC00" x="210" y="150" />
+  <use xlink:href="#closed-eye-1" cx="280" cy="175" stroke="#CCCC00" x="290" y="150" />
+</g>
+  <animateMotion
+     id="faceWithClosedEyesAnimation"
+	   rotate="30" 
+	   path="M 0 300 C   0  700 600  700 600 300 
+                   C 600 -100   0 -100   0 300" 
+		 dur="10s"
+		 begin="faceWithEyesAnimation.end"
+		 repeatCount="1"/>
+</g>
+
+<g id="face-with-eyes-2" >
+<use xlink:href="#face" stroke="#CC0099" x="0" y="0" />
+<use xlink:href="#blinking-eye-5" cx="220" cy="175" stroke="#CCCC00" x="210" y="130" />
+<use xlink:href="#blinking-eye-3" cx="280" cy="175" stroke="#CCCC00" x="290" y="130" />
+
+</g>
+
+<g id="face-with-blinking-eye" transform="translate(0,-300)" >
+<use xlink:href="#face" stroke="#CC99CC" x="0" y="0" />
+<use xlink:href="#eye-1" cx="220" cy="175" stroke="#CCCC00" x="210" y="150" />
+<use xlink:href="#blinking-eye-1" cx="280" cy="175" stroke="#CCCC00" x="290" y="150" />
+  <animateMotion
+     id="faceWithBlinkingEyesAnimation"
+	   rotate="30" 
+	   path="M 0 300 C   0  700 600  700 600 300 
+                   C 600 -100   0 -100   0 300" 
+		 dur="10s"
+		 begin="frowningFaceAnimation.end"
+		 repeatCount="1"/>
+</g>
+
+<g id="face-with-squiggly-eyes" >
+<use xlink:href="#face" stroke="#CC99CC" x="0" y="0" />
+<use xlink:href="#eye-4" cx="220" cy="175" stroke="#CCCC00" x="210" y="130" />
+<use xlink:href="#eye-4" cx="280" cy="175" stroke="#CCCC00" x="290" y="130" transform="scale( 1,-1) translate(0,-300) "/>
+</g>
+
+<g id="frown-face-with-squiggly-eyes" >
+<use xlink:href="#frown-face" stroke="#0099CC" x="0" y="0" />
+<use xlink:href="#eye-4" cx="220" cy="175" stroke="#CCCC00" x="210" y="130" />
+<use xlink:href="#eye-4" cx="280" cy="175" stroke="#CCCC00" x="290" y="130" transform="scale( 1,-1) translate(0,-300) "/>
+</g>
+
+
+</defs>
+<!-- make sure grid it the first thing on the page -->
+<image xlink:href="grid.svg" x="0" y="0" height="100%" width="100%" />
+
+<!-- here is the real svg document -->
+<g id="clicker" cursor="pointer" transform="translate(25,50)" >
+ <rect  x="350" y="20" height="50" width="330" fill="#aaa" />
+ <text x="360" y="62" font-size="40" font-family="Hobo Std" fill="#CC33CC" stroke="black" stroke-width=".5" >
+  Click to Animate
+ </text>
+</g>
+
+ <use xlink:href="#face-with-closed-eyes"
+      x="550" 
+			y="0" 
+			fill="none" 
+			stroke-width="5" 
+			stroke="#00CC99" 
+			stroke-linecap="round" />
+			
+ <use xlink:href="#face-with-eyes" fill="none" stroke-width="5" stroke-linecap="round" x="150" y="100"/>
+ <use xlink:href="#face-with-eyes" fill="none" stroke-width="5" stroke-linecap="round" x="450" y="100"/>
+ <use xlink:href="#face-with-blinking-eye" fill="none" stroke-width="5" stroke-linecap="round" x="50" y="300"/>
+ <use xlink:href="#face-with-eyes-2" fill="none" stroke-width="5" stroke-linecap="round" x="150" y="500"/>
+ <use xlink:href="#face-with-squiggly-eyes" fill="none" stroke-width="5" stroke-linecap="round" x="450" y="500"/>
+ <g transform="translate(550,150) "> <!--scale(.25) translate(-350,900) -->
+ <use xlink:href="#frown-face-with-squiggly-eyes"
+    fill="none" 
+		stroke-width="5" 
+		stroke-linecap="round" 
+		x="-250" 
+		y="-150" 
+		>
+  <animateMotion
+     id="frowningFaceAnimation"
+	   rotate="30" 
+	   path="M 0 300 C   0  700 600  700 600 300 
+                   C 600 -100   0 -100   0 300" 
+		 dur="10s"
+		 begin="faceWithClosedEyesAnimation.end"
+		 repeatCount="1">
+  </animateMotion>
+ </use>
+ <!--<use xlink:href="#faces-path"  stroke="#9966CC" stroke-width="2" fill="none" />-->
+ 
+ </g>
+</svg>

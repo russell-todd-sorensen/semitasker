@@ -1,0 +1,95 @@
+<html><head>
+<title>ns_quotehtml - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_quotehtml.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_quotehtml.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_quotehtml(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_quotehtml - Escape HTML characters so they appear as-is in HTML pages
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_quotehtml.html"> ns_quotehtml </a></b> <i class='arg'>html</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+Returns the contents of html with certain characters that are special in HTML
+replaced with an escape code.  This allows text displayed in a webpage that
+might otherwise be interpreted as containing HTML markup instructions to be
+interpreted as literal characters to be displayed.  Specifically:
+
+ns_quotehtml &gt; becomes &amp;amp;
+
+<dl>
+<dt><dd> &gt; becomes &amp;amp;gt;
+<br><br>
+<dt><dd> &quot; becomes &amp;amp;amp;
+<br><br>
+<dt><dd> ' becomes &amp;amp;#39;
+<br><br>
+<dt><dd> &quot; becomes &amp;amp;#34;
+</dl>
+
+ All other characters are unmodified in the output.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+ <dt><a name="1"><b class='cmd'><a href="ns_quotehtml.html"> ns_quotehtml </a></b> <i class='arg'>html</i></a><dd>
+5B
+
+
+</dl>
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_quotehtml &quot;Hello World!&quot;
+   Hello World!
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_quotehtml &quot;The &amp;lt;STRONG&amp;gt; tag is used to indicate strongly emphasized text.&quot;
+   The &amp;amp;lt;STRONG&amp;amp;gt; tag is used to indicate strongly emphasized text.
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_quotehtml {&amp;lt;span class=&quot;foo&quot;&amp;gt;}
+   &amp;amp;lt;span class=&amp;amp;#34;foo&amp;amp;#34;&amp;amp;gt;
+</pre></td></tr></table></p>
+
+<p>
+NOTES
+
+ The set of characters that are substituted and their replacements may be different in previous versions of NaviServer.  For example, NaviServer 2.x does not escape single or double-quotes.
+
+
+
+</body></html>
+

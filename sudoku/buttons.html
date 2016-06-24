@@ -1,0 +1,85 @@
+<html><head>
+
+
+<meta charset="utf-8">
+<title>Sudoku Puzzle</title>
+
+<link rel="stylesheet" href="sudoku.css" media="all" type="text/css">
+
+
+
+<script type="text/javascript" src="logger2.js"></script>
+
+<script type="text/javascript">
+	//setup logging element id
+	Logger = "logger2";
+</script>
+
+<script type="text/javascript" src="sudoku-lib-8.js"></script>
+<script type="text/javascript" src="sudoku-puzzle-controls.js"></script>
+
+<script type="text/javascript">
+    puzzleString = "E200500000300002600000300087603200090002030800070006502160004000008100009000003008P" ;
+    boxCols = 3 ;
+    boxRows = 3 ;
+    boxMapString = "EP" ;
+</script>
+
+</head><body onload='Log("Notice", "Page Loaded")'>
+<div id="puzzle">
+ <div class="leftPhone"></div>
+ <div class="Screen">
+ <div id="zoom">
+ <div id="t">
+  <!-- Puzzle Goes Here -->
+  <div class="top">
+   <div class="row">
+    <div class="camera">
+     <div id="P1" class="photo"></div>
+     <div class="camera-buttons">
+      <div class="start-buttons capture-button curves box1 bold" onclick="setupSudoku(boxCols,boxRows,boxMapString);document.getElementById('P1').innerHTML=printPuzzleFormatted(8);">Capture Puzzle</div>
+      <div class="start-buttons load-button curves box2 bold" onclick="solveSudoku(boxCols, boxRows, boxMapString); printToolBar(7);">Load Puzzle</div>
+     </div>
+    </div>
+   </div>
+  </div>
+  <!-- End Puzzle -->
+ </div>
+ <div id="t3">
+  <div class="top">
+   <div class="boxrow">
+    <div class="row">
+      <div id="Bkw" class="cell curves bold" onclick="goBackOneStep()">&lt;</div>
+      <div class="rightbox"> </div>
+    </div>
+    <div class="row">
+      <div id="Fwd" class="cell curves bold" onclick="goFwdOneStep()">&gt;</div>
+      <div class="rightbox"> </div>
+    </div>
+   </div>
+   <div class="boxrow">
+    <div class="row">
+      <div id="Play" class="cell curves bold" onclick="myPlayer = new replayAll(500);myPlayer.rewind();">P</div>
+      <div class="rightbox"> </div>
+    </div>
+    <div class="row">
+      <div id="X" class="cell curves bold" onclick="startOver()">X</div>
+      <div class="rightbox"> </div>
+    </div>
+   </div>
+  </div>
+ </div>
+
+ <div id="t2"></div>
+ </div>
+ </div> <!-- ended zoom -->
+ <div class="rightPhone"></div>
+</div>
+​​​​​<div class="spacer"></div>
+<pre id="logger2">
+[2013-05-07T08:41:41.527] Notice "Page Loaded"</pre>
+
+
+<p id="target" onclick='Log("Notice", "boxMapString = " + boxMapString)'>Show BoxMapString (click here)</p>
+
+</body></html>

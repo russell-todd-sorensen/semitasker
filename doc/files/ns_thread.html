@@ -1,0 +1,117 @@
+<html><head>
+<title>ns_thread - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_thread.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_thread.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_thread(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_thread - Operate on threads
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> ?<i class='arg'>arg arg ...</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>begin</i> <i class='arg'>script</i></a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>begindetached</i> <i class='arg'>script</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>get</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>getid</i></a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>name</i> ?<i class='arg'>name</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>join</i> <i class='arg'>tid</i></a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>yield</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command provides a mechanism to manipulate threads.  The legal options (which may be abbreviated) are:
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> ?<i class='arg'>arg arg ...</i>?</a><dd>
+
+
+
+</dl>
+
+<dl>
+
+<dt><a name="2"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>begin</i> <i class='arg'>script</i></a><dd>
+
+<dt><dd> ns_thread create script
+
+Initializes a new thread and starts it executing script.  Threads created this way
+are joinable and must be ns_thread joined, otherwise the resources held by the thread
+will not be freed until the thread is joined.  Returns a handle to the new thread.
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>begindetached</i> <i class='arg'>script</i></a><dd>
+
+
+Initializes a new thread and starts it executing script.  Threads created this way
+are detached and do not need to be (nor can be) joined.
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>get</i></a><dd>
+
+
+Returns the handle for the current thread.
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>getid</i></a><dd>
+
+
+Returns the current thread's thread ID as an integer.  This thread ID corresponds
+to the third element in the sub-list returned from ns_info threads.
+
+<br><br>
+<dt><a name="6"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>name</i> ?<i class='arg'>name</i>?</a><dd>
+
+
+Returns the name of the current thread.  Optionally sets the thread name if name is specified.
+
+<br><br>
+<dt><a name="7"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>join</i> <i class='arg'>tid</i></a><dd>
+
+
+Attempts to join the thread specified by thread handle tid.  If the thread is still executing,
+the caller will block until the thread being joined completes.  Returns the return value of
+the script that the thread being joined was executing.
+
+NOTE: Attempting to join a thread that has already been joined will currently crash the server.
+
+<br><br>
+<dt><a name="8"><b class='cmd'><a href="ns_thread.html"> ns_thread </a></b> <i class='arg'>yield</i></a><dd>
+
+
+Causes the current thread to yield its CPU to other running threads.
+
+</dl>
+
+<p>
+Calling ns_thread join on an invalid thread ID or a thread ID that has
+already been joined will cause the server to abort with a fatal error.  See 
+
+
+</body></html>
+

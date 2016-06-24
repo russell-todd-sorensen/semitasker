@@ -1,0 +1,160 @@
+<html><head>
+<title>ns_ictl - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_ictl.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_ictl.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_ictl(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_ictl - Manipulate and introspect Tcl interpreter internals
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>option</i> ?<i class='arg'>arg arg ...</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>addmodule</i> <i class='arg'>module</i></a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>cleanup</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>epoch</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>get</i></a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>getmodules</i></a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>save</i> <i class='arg'>script</i></a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>update</i></a></td></tr>
+<tr valign=top ><td ><a href="#9"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>oncreate</i> <i class='arg'>script</i></a></td></tr>
+<tr valign=top ><td ><a href="#10"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>oncleanup</i> <i class='arg'>script</i></a></td></tr>
+<tr valign=top ><td ><a href="#11"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>oninit</i> <i class='arg'>script</i></a></td></tr>
+<tr valign=top ><td ><a href="#12"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>ondelete</i> <i class='arg'>script</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command provides a mechanism to control Tcl interpreter internals.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>option</i> ?<i class='arg'>arg arg ...</i>?</a><dd>
+
+
+</dl>
+
+
+<dl>
+
+<dt><a name="2"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>addmodule</i> <i class='arg'>module</i></a><dd>
+
+
+Adds a module to the list of modules, and returns the new list as the result.
+
+This command simply appends the module to the list.  It doesn't perform any loading of modules themselves.
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>cleanup</i></a><dd>
+
+
+Runs all of the cleanup traces, and does any other necessary interpreter cleanup.
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>epoch</i></a><dd>
+
+
+Returns the current epoch for the interpreter.
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>get</i></a><dd>
+
+
+Returns the script that is executed at interpreter initialization time.
+
+<br><br>
+<dt><a name="6"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>getmodules</i></a><dd>
+
+
+Returns a list of currently loaded modules.
+
+<br><br>
+<dt><a name="7"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>save</i> <i class='arg'>script</i></a><dd>
+
+
+Replaces the current interpreter initialization script with the new script.
+
+<br><br>
+<dt><a name="8"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>update</i></a><dd>
+
+
+Update the state (procs, namespaces) of an interpreter.
+
+<br><br>
+<dt><a name="9"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>oncreate</i> <i class='arg'>script</i></a><dd>
+
+
+Registers a script to be executed at Tcl interpreter create time.
+
+<br><br>
+<dt><a name="10"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>oncleanup</i> <i class='arg'>script</i></a><dd>
+
+
+Registers a script to be executed at Tcl interpreter cleanup time.
+
+<br><br>
+<dt><a name="11"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>oninit</i> <i class='arg'>script</i></a><dd>
+
+
+Registers a script to be executed at Tcl interpreter init time.  This can only be used
+during server initialization phase of server startup.
+
+<br><br>
+<dt><a name="12"><b class='cmd'><a href="ns_ictl.html"> ns_ictl </a></b> <i class='arg'>ondelete</i> <i class='arg'>script</i></a><dd>
+
+
+Registers a script to be executed at Tcl interpreter delete time.
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_ictl epoch
+   1
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_ictl getmodules
+   nsdb nslog nscp
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key526"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key10"> ns_cleanup </a>, <a href="../index.html#key9"> ns_init </a>, <a href="../index.html#key582"> ns_markfordelete </a>
+</body></html>
+

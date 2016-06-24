@@ -1,0 +1,262 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* Major Divisions */
+
+#t {
+    visibility: visible;
+    float: left;
+}
+#t2 {
+    clear: both;
+}
+#t3 {
+    visibility: hidden;
+    display: none;
+}
+body {
+	/* background-image:url(../My%20Pictures/OneIMLogo4.svg); */
+    margin-left: 50px;
+    margin-top: 50px;
+    background-color: transparent;
+    background-size: auto;
+}
+
+body.phone {
+    margin-left: 0px;
+    margin-top: 0px;
+    background-color: transparent;
+    background-size: auto; 
+    
+}
+pre, #target, #x {
+    background-color: black;
+    color: white;
+    border-color: red;
+    border-width: 1px;
+    border-style: solid;
+    font-family: "Courier New", Courier, monospace;
+}
+.data {
+    /*padding-left: 4px;
+    padding-rignt: 4px;*/
+    padding: 4px;
+    background-color: green;
+
+}
+.top {
+    display: inline-block;
+    /*border: 1px;
+    border-color: darkgreen;
+    border-style: solid;
+    /*background-color: tan;*/
+    background-size:contain;
+    cursor:pointer;
+}
+input {
+    cursor: pointer;
+}
+
+.rightbox, .leftbox {
+    /*padding: 2px; */
+    display: inline;
+}
+.row {
+    padding: 5px;
+   /* border: 1px;
+    border-style: solid;
+    border-color: yellow; */
+    /*width: 500px; */
+}
+.boxrow {
+    /*padding-bottom: 8px; */
+}
+
+.cell {
+    height: 18px;
+    width: 18px;
+    /*font-size: 24px; */
+    text-shadow:#060;
+    background-color:#996;
+    
+    border: none;
+    align: center;
+    valign: center;
+    text-align: center;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    /*margin: 0px; */
+    display: inline;
+}
+
+.box1, .box3, .box5, .box7, .box9 {
+    color: white;
+}
+.box2, .box4, .box6, .box8 {
+    color: white;
+}
+/* individual box colors */
+.box3 {
+    background-color: #969 ;
+}
+.box1 {
+    background-color: #939;
+}
+
+.box5 {
+    background-color: #909;
+}
+
+.box7 {
+    background-color: #669;
+}
+
+.box9 {
+    background-color: #336;
+}
+
+.box8 {
+    background-color: #609;
+}
+
+.box4 {
+    background-color: #369;
+}
+
+.box6 {
+    background-color: #339;
+}
+
+.box2 {
+    background-color: #309;
+}
+
+#zoom {
+    zoom: 1;
+}
+/****************** CSS for picture capture *********/
+.top2 {
+    display: inline-block;
+    background-size:contain;
+    cursor:pointer;
+    zoom: 1;
+}
+
+.boxrow2 {
+    padding-bottom: 4px; 
+}
+
+.row2 {
+    padding: 3px;
+}
+
+.rightbox2, .leftbox2 {
+    /*padding: 2px; */
+    display: inline;
+    width: 4px;
+    padding-left: 3px;
+}
+.cell2 {
+  /*  height: 18px;
+    width: 18px;
+    font-size: 10px; 
+    text-shadow:#060; */
+    background-color:#996;
+    border: none;
+    /*align: center;
+    valign: center; 
+    text-align: center; */
+    padding-left: 7px;
+    padding-right: 7px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    /*margin: 0px; */
+    display: inline;
+}
+.boxP1, .boxP3, .boxP5, .boxP7, .boxP9 {
+    color: white;
+}
+.boxP2, .boxP4, .boxP6, .boxP8 {
+    color: white;
+}
+
+/************ End picture capture CSS ***************/
+
+#logger2 {
+    min-height: 200px;
+    clear: both;
+}
+
+.leftPhone  {
+    /*display: inline; */
+    border-radius: 20px 0px 0px 20px;
+    background-color: black;
+    width: 30px;
+    height: 298px;
+    float: left;
+}
+
+.Screen {
+    background-color:rgba(204,204,204,.90);
+    opacity: 20%;
+    width: 450px;
+    min-height: 288px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 45px;
+    padding-left: 45px;
+    border-color: black;
+    border-style: solid;
+    border-width: 3px;
+    float: left;
+}
+.rightPhone  {
+    display: inline;
+    border-radius: 0px 20px 20px 0px;
+    background-color: black;
+    width: 30px;
+    height: 298px;
+    float: left;
+}
+
+.curves {
+    border-radius: 30px;
+    border-radius: 20px 30px 20px 30px;
+    /*border-radius: 5px 40px 5px 40px; */
+
+}
+
+.spacer {
+    height: 50px;
+    clear: both;
+}
+.bold {
+    font-weight: bold;
+}
+
+#solve-me {
+    visibility: hidden;
+}
+/* Camera Functions */
+
+.camera {
+    visibility: visible;
+    min-height: 260px;
+    min-width: 288px;
+}
+.photo {
+    background-color: green;
+    min-height: 220px;
+    border: black solid 2px;
+    zoom: 1.0;
+}
+.camera-buttons {
+    padding-top: 5px;
+    padding-left: 30px;
+    background-color:transparent;
+    min-width: 288px;
+    min-height: 30px;
+}
+

@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+
+<script src="../../js/jquery-1.7.1.js"></script>
+<script src="../../js/log.js"></script>
+<script src="../d3.v3.js"></script>
+
+<script>
+
+var myObject = {
+	move: 0,
+	side:35,
+  lines:19,
+  origin:[25,25],
+	tokenData: new Array(),
+	x:"y",
+	display: function () {
+		Log.Notice("lines=" + this.lines);
+	}
+}
+
+$(document).ready(function() {
+	Log.Notice("jQuery in ready!");
+
+	Log.Notice("Done");
+	//Log.Hide();
+	myObject.display();
+});
+</script>
+
+</head>
+
+<body>
+</body>
+</html>

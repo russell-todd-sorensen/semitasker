@@ -1,0 +1,91 @@
+@import url(main.css);
+
+.container { 
+  background-color:#930;
+  /*border-width: 1px;
+  border-style: dashed;
+  border-color: yellow;
+  border-radius: 0px 0px 0px 0px; */
+  width: 206px;
+  height: 98px;
+  margin: auto;
+  overflow: hidden;
+  padding: 0px;
+}
+
+
+    
+.container2, .container3 {
+  display: inline-block;
+  background-color: silver;
+  width: 216px;
+  height: 100px;
+  margin: auto;
+  overflow: hidden;
+  padding: 5px;
+}
+.container3 {
+    background-color: white;
+}
+
+.before-tear, .box, .after-tear {
+  /*text-align: center; */
+  vertical-align: top;
+  display: inline-block;
+  height: 100px;
+  width: 70px;
+  /*border-width: 1px;
+  border-style: solid; */
+  margin: -2px;
+  /*border: solid 1px #900; */
+}
+
+.box {
+	background-color: yellow;  
+    padding: 0px; 
+}
+
+.box-inner {
+    text-align: top;
+    vertical-align: top;
+    display:inline-block;
+    background-color:#739 ;
+    padding: 0px;
+    border: none;
+    border-radius: 15px 0px 15px 0px;
+    width: 70px;
+    min-width: 70px;
+    height: 100px;
+    min-height: 100px;
+}
+#innerText {
+    height: 100px;
+    width: 70px;
+    display: block;
+}
+.before-tear, .after-tear { 
+  background-color: yellow;
+}
+
+.before-tear { 
+  border-radius: 0px 0px 30px 0px;
+
+}
+
+.after-tear { 
+  border-radius: 30px 0px 0px 0px;
+}
+.container2 .before-tear, .container2 .after-tear, .container2 .box {
+    border: 1px;
+    border-style: solid;
+    border-color: black;
+}
+
+.row {
+    width: 300px;
+    margin: auto;
+}
+
+
+
+

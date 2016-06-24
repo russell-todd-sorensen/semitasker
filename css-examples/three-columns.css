@@ -1,0 +1,30 @@
+.column-container { 
+  display: block;
+  background-color: blue;
+  color: white;
+  overflow: hidden;
+ }
+
+.Acol { 
+  display: inline-block;
+  width: 150px;
+  min-width: 150px;
+  min-height: 700px;
+  background-color: black;
+}
+
+.Bcol { 
+  display: inline-block;
+  background-color: red;
+  width: 450px;
+  min-width: 450px;
+  min-height: 700px;
+}
+
+.Ccol { 
+  display: inline-block;
+  width: 150px;
+  min-width: 150px;
+  min-height: 700px;
+  background-color: black;
+}

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   width="1300"
+   height="170"
+   viewBox="0 0 1300 170">
+<defs>
+
+<linearGradient id="h-linear-distort" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop stop-color="#FFFFFF" offset="0%" />
+ <stop stop-color="#000000" offset="50%" />
+ <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+<rect id="linear-displace-rect-1" x="0" y="0" height="180" width="1200" style="fill: url(#h-linear-distort); stroke: none;" />
+
+<linearGradient id="rainbow"  color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="hsl(0,50%,50%)" stop-opacity="0.9" id="hsl-lg-4-0" />
+ <stop offset="16.67%" stop-color="hsl(60,50%,50%)" stop-opacity="0.9" id="hsl-lg-4-17" />
+ <stop offset="33.3%" stop-color="hsl(120,50%,50%)" stop-opacity="0.9" id="hsl-lg-4-33" />
+ <stop offset="50%" stop-color="hsl(180,50%,50%)" stop-opacity="0.9" id="hsl-lg-4-50" />
+ <stop offset="66.67%" stop-color="hsl(240,50%,50%)" stop-opacity="0.9" id="hsl-lg-4-67" />
+ <stop offset="83.3%" stop-color="hsl(300,50%,50%)" stop-opacity="0.9" id="hsl-lg-4-83" />
+ <stop offset="100%" stop-color="hsl(360,50%,50%)" stop-opacity="0.9" id="hsl-lg-4-100" />
+</linearGradient>
+<rect id="rainbow-rect" x="0" y="0" height="200" width="1200" style="fill: url(#rainbow); stroke: none;" />
+
+<linearGradient id="rainbow-2"  color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color=" hsl(43,62.5%,19%)" stop-opacity="1.0" id="hsl-lg-4-0" />
+ <stop offset="16.67%" stop-color=" hsl(103,62.5%,19%)" stop-opacity="1.0" id="hsl-lg-4-17" />
+ <stop offset="33.3%" stop-color=" hsl(173,62.5%,19%)" stop-opacity="1.0" id="hsl-lg-4-33" />
+ <stop offset="50%" stop-color=" hsl(223,62.5%,19%)" stop-opacity="1.0" id="hsl-lg-4-50" />
+ <stop offset="66.67%" stop-color=" hsl(343,62.5%,19%)" stop-opacity="1.0" id="hsl-lg-4-67" />
+ <stop offset="83.3%" stop-color=" hsl(43,62.5%,19%)" stop-opacity="1.0" id="hsl-lg-4-83" />
+ <stop offset="100%" stop-color=" hsl(103,62.5%,19%)" stop-opacity="1.0" id="hsl-lg-4-100" />
+</linearGradient>
+<rect id="rainbow-rect-2" x="0" y="0" height="200" width="1200" style="fill: url(#rainbow-2); stroke: none;" />
+
+
+<filter id="linear-displace-y"  color-interpolation="sRGB" y="0%" height="120%">
+ <feImage xlink:href="#linear-displace-rect-1" result="tile"/>
+ <feTile  in="tile" result="tile" />
+ <feDisplacementMap 
+  in2="tile" 
+  in="SourceGraphic"
+  scale="50"
+  yChannelSelector="R"
+	 result="distort" >
+  <animate attributeName="scale" values="50"
+   repeatCount="indefinite" 
+   begin="0"
+   dur="15s"/>
+	 </feDisplacementMap>
+ <!-- second copy of distort will be animated -->
+ <feDisplacementMap 
+  in2="tile" 
+  in="SourceGraphic"
+  scale="15"
+  yChannelSelector="R"
+	 result="distort-2" >
+  <animate attributeName="scale" values="15"
+   repeatCount="indefinite" 
+   begin="0"
+   dur="20s" />
+ </feDisplacementMap>
+ 
+ <feImage xlink:href="#rainbow-rect-2" result="rainbow-image" >
+  <animate 
+	   attributeName="xlink:href"
+	   values="#rainbow-rect-2;#rainbow-rect;#rainbow-rect-2" 
+		 dur="20s" 
+		 begin="0" 
+		 repeatCount="indefinite" />
+ </feImage>
+ <feColorMatrix type="hueRotate" values="0" in="rainbow-image" result="rainbow-image" >
+  <animate attributeName="values" values="0;90;180;270;360" begin="0s" dur="5s" repeatCount="indefinite" />
+ </feColorMatrix>
+ <feDiffuseLighting in="distort"
+	    lighting-color="white"
+			surfaceScale="20"
+			diffuseConstant="1"
+			result="sg-lit" >
+	  <fePointLight x="600" y="80" z="30" >
+		 <animate attributeName="x" begin="0s"  values="0;1200;0" dur="20s" repeatCount="2" />
+		 <animate attributeName="y" begin="0s"  values="80;120;80;80;120;80" dur="20s" repeatCount="2" />
+		</fePointLight>
+	</feDiffuseLighting>
+	 		
+ <feComposite in2="distort" in="rainbow-image" result="distort-rainbow" operator="in" />
+ 	<feBlend mode="lighten" in="distort-rainbow" in2="sg-lit" result="distort-lit" />
+ <feComposite in2="distort" in="distort-lit" result="distort-cutout" operator="in" />
+
+<feGaussianBlur in="distort-cutout" result="shadow" stdDeviation="2" >
+  <animate attributeName="stdDeviation" values="2;10;2" dur="20s" begin="0s;x.click" repeatCount="indefinite" />
+ </feGaussianBlur>
+
+ 
+ <feOffset in="shadow" result="shadow-offset" dy="5" dx="5" />
+ 	<feMerge>
+	 <feMergeNode in="shadow-offset" />
+	 <feMergeNode in="distort-2" />
+	</feMerge>
+  <!---->
+</filter>
+</defs>
+<text id="x" style="font-size: 120; fill: #4E1223; stroke: none; font-family: 'Tw Cen MT Bold'; font-family: 'Hobo Std';" filter="url(#linear-displace-y)" x="20" y="120">
+ Inter-Active Media!
+</text>
+</svg>

@@ -1,0 +1,91 @@
+<html><head>
+<title>ns_sockopen - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_sockopen.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_sockopen.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_sockopen(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_sockopen - Connect to a remote host on the specified port
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_sockopen.html"> ns_sockopen </a></b> ?<i class='arg'>-nonblock</i>? ?<i class='arg'>-timeout</i>? <i class='arg'>host</i> <i class='arg'>port</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+ns_sockopen uses socket(), bind(), and connect() calls to connect to the
+remote host (host) on the specified port (port). ns_sockopen returns a
+list of two file ids: the first one for reads and the second one for writes.
+
+<p>
+
+The -nonblock option specifies that ns_sockopen will return immediately,
+while the connect is still in progress by the operating system. If you
+use -nonblock, you then can call ns_sockcheck with the write file id to
+see if the connect was actually completed.
+
+<p>
+The -timeout option specifies how long to wait for the connect to be made in seconds before timing out.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_sockopen.html"> ns_sockopen </a></b> ?<i class='arg'>-nonblock</i>? ?<i class='arg'>-timeout</i>? <i class='arg'>host</i> <i class='arg'>port</i></a><dd>
+
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+set fds [ns_sockopen www.aolserver.com 80]
+set rid [lindex $fds 0]
+set wid [lindex $fds 1]
+puts $wid &quot;GET /index.htm HTTP/1.0\r\n\r&quot;
+flush $wid
+while {[set line [string trim [gets $rid]]] != &quot;&quot;} {
+  lappend headers $line
+}
+set page [read $rid]
+close $rid
+close $wid
+
+</pre></td></tr></table></p>
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key0"> NaviServer </a>
+</body></html>
+
+

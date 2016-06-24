@@ -1,0 +1,163 @@
+<html><head>
+<title>ns_requestauthorize - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_requestauthorize.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_requestauthorize.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_requestauthorize(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_requestauthorize - Perform authorization check
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#return_values">RETURN VALUES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_requestauthorize.html"> ns_requestauthorize </a></b> <i class='arg'>method</i> <i class='arg'>url</i> <i class='arg'>authuser</i> <i class='arg'>authpasswd</i> ?<i class='arg'>ipaddr</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This function does the same permission check that the NaviServer does before serving
+a URL. If the nsperm module is loaded, the algorithm is as follows. See Chapter 6 in
+the Naviserver Administrator's Guide for information on access control, including permissions.
+
+<ul>
+
+<li> If the authuser is &quot;nsadmin&quot;, the password is correct, and the IP
+          address of the client is allowed nsadmin access, then access is authorized.
+
+<br><br>
+<li> Find the relevant permission record. If an exact match for the method and URL
+         combination is not found, the end of the URL is pared down until a match is found.
+         For example, if there is no match for `/products/cereals/raisin_bran.html,' then
+         the server looks for a permission record for the URL `/products/cereals.' If that
+         permission record is specified as &quot;Exact URL match is NOT required&quot;, then that
+          permission record is used.
+</ul>
+
+<p>
+By default, the server comes with a row that says GET on `/' is open to the world.
+
+<p>
+If no relevant permission record is found, access is denied (forbidden).
+
+<ul>
+
+<li> If the authuser is in the &quot;Allow Users&quot; list, access is permitted. If the authuser
+         is a member of a group in the &quot;Allow Groups&quot; list and not in the &quot;Deny Users' list,
+          access is permitted.
+
+<br><br>
+<li> If the host is in the &quot;Hosts to allow&quot; list, access is permitted. If the host
+         is in the &quot;Hosts to deny&quot; list, access is denied.
+
+<br><br>
+<li> If the request does not come in with authorization data, access is denied.
+
+<br><br>
+<li> The user and password are verified. If there is no password specified in the database,
+         any password is accepted.
+
+<br><br>
+<li>  Otherwise, access is denied.
+
+</ul>
+
+<h2><a name="return_values">RETURN VALUES</a></h2>
+<p>
+
+The following values can be returned by ns_requestauthorize.
+
+<ul>
+
+<li> OK The user has permission to execute this URL and method.
+<br><br>
+<li> DENIED The user does not have permission to execute this URL and method.
+<br><br>
+<li> FORBIDDEN There is no possible user/password/IP Address combination that would give authorization.
+<br><br>
+<li> ERROR There was an error.
+
+</ul>
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_requestauthorize.html"> ns_requestauthorize </a></b> <i class='arg'>method</i> <i class='arg'>url</i> <i class='arg'>authuser</i> <i class='arg'>authpasswd</i> ?<i class='arg'>ipaddr</i>?</a><dd>
+
+
+
+</dl>
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+  1. If the authuser is &quot;nsadmin&quot;, the password is correct, and the IP address of the client is allowed nsadmin access, then access is authorized. 
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+  2. Find the relevant permission record. If an exact match for the method and URL combination is not found, the end of the URL is pared down until a match is found. For example, if there is no match for &quot;/products/cereals/raisin_bran.html,&quot; then the server looks for a permission record for the URL &quot;/products/cereals.&quot; If that permission record is specified as &quot;Exact URL match is NOT required,&quot; then that permission record is used.
+</pre></td></tr></table></p>
+
+<p>By default, the server comes with a row that says GET on &quot;/&quot; is open to the world. If no relevant permission record is found, access is denied (forbidden).
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+  1. If the authuser is in the &quot;Allow Users&quot; list, access is permitted. If the authuser is a member of a group in the &quot;Allow Groups&quot; list and not in the &quot;Deny Users&quot; list, access is permitted. 
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+  2. If the host is in the &quot;Hosts to allow&quot; list, access is permitted. If the host is in the &quot;Hosts to deny&quot; list, access is denied.
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+  3. If the request does not come in with authorization data, access is denied. 
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+  4. The user and password are verified. If there is no password specified in the database, any password is accepted. 
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+  5. Otherwise, access is denied. Return Values: The following values can be returned by ns_requestauthorize.
+</pre></td></tr></table></p>
+
+ This command returns one of the following values:
+
+call cmd  OK - The user has permission to execute this URL and method
+&lt;li&gt; ERROR - There was an error performing the check.
+&lt;li&gt; FORBIDDEN - There is no possible user/password/IP address combination that would give authorization.
+&lt;li&gt; UNAUTHORIZED - The user does not have permission to execute this URL and method.
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key567"> ns_checkurl </a>, <a href="../index.html#key566"> nsperm </a>
+</body></html>
+

@@ -1,0 +1,140 @@
+
+
+<html><head>
+<title>ns_atsignal - NaviServer Built-In Commands </title>
+<link rel="stylesheet" href="../.././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/mann/ns_atsignal.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_atsignal.n
+   -->
+
+<body>
+<hr> [
+  <a href="../.././toc.html">Table Of Contents</a>
+| <a href="../.././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_atsignal(n) 4.99.2  &quot;NaviServer Built-In Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_atsignal - Server callbacks
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'>ns_atprestartup</b> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'>ns_atstartup</b> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_atsignal.html"> ns_atsignal </a></b> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="../../index.html#key94"> ns_atshutdown </a></b> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="../../index.html#key96"> ns_atexit </a></b> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+These commands provide hooks for you to register your own procedures to
+be called during the different stages of the server processes lifetime.
+
+<p>
+You can find out which callbacks are already registered with the
+<b class='cmd'>ns_info callbacks</b> command.
+
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'>ns_atprestartup</b> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a><dd>
+
+
+Pre-startup procs are called in FIFO order after the configuration file has been
+parsed and all modules loaded, but before the driver starts listening for and
+processing connections.
+
+
+
+<br><br>
+<dt><a name="2"><b class='cmd'>ns_atstartup</b> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a><dd>
+
+
+Startup procs are called in FIFO order just after the server is fully
+initialised and is listening for and processing connections.
+
+
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_atsignal.html"> ns_atsignal </a></b> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a><dd>
+
+
+Signal procs are called in FIFO order whenever a <em>HUP</em> signal is received
+by the server process.
+
+
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="../../index.html#key94"> ns_atshutdown </a></b> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a><dd>
+
+
+At-shutdown procs are called in LIFO order when the server performs a controlled
+shutdown after all other subsystem have been stopped.
+
+<br><br>
+Orderly shutdown is attempted within <em>shutdowntimeout</em> seconds, as
+specified in the configuration file. Tcl shutdown procs are called before C
+shutdown tasks are waited on, so should be well behaved.
+
+<br><br>
+Do not attempt to use other sub-systems, such as the <b class='cmd'><a href="../ns_job.html"> ns_job </a></b> command.
+
+
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="../../index.html#key96"> ns_atexit </a></b> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a><dd>
+
+
+At-exit procs are called in LIFO order after all <em>shutdown</em> procs have been
+called and the server process is ready to exit.  The <em>atexit</em> procs are
+basically the last code to run.
+
+
+
+</dl>
+
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+Log the accumulated cache statistics and reset whenever the server is signalled:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+<b class='cmd'><a href="ns_atsignal.html"> ns_atsignal </a></b> {
+    foreach cache [ns_cache_names] {
+        ns_log notice &quot;cache\[$cache\]: [ns_cache_stats -reset -- $cache]&quot;
+    }
+}
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../ns_atclose.html"> ns_atclose </a>, <a href="../ns_info.html"> ns_info </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../../index.html#key574"> callback </a>, <a href="../../index.html#key575"> signal </a>
+</body></html>

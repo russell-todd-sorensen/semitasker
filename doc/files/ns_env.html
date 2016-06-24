@@ -1,0 +1,95 @@
+<html><head>
+<title>ns_env - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_env.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_env.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_env(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_env - Return, change or add a value of an environment variable
+
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_env.html"> ns_env </a></b> <i class='arg'>names</i></a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_env.html"> ns_env </a></b> <i class='arg'>exists</i> <i class='arg'>name</i></a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_env.html"> ns_env </a></b> <i class='arg'>get</i> ?<i class='arg'>-nocomplain</i>? <i class='arg'>name</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_env.html"> ns_env </a></b> <i class='arg'>set</i> <i class='arg'>name</i> <i class='arg'>value</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_env.html"> ns_env </a></b> <i class='arg'>unset</i> ?<i class='arg'>-nocomplain</i>? <i class='arg'>name</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command provides thread-safe (unlike Tcl env array) access to the environemnt
+variables of the currently running nsd process.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_env.html"> ns_env </a></b> <i class='arg'>names</i></a><dd>
+
+
+<dt><a name="2"><b class='cmd'><a href="ns_env.html"> ns_env </a></b> <i class='arg'>exists</i> <i class='arg'>name</i></a><dd>
+
+
+<dt><a name="3"><b class='cmd'><a href="ns_env.html"> ns_env </a></b> <i class='arg'>get</i> ?<i class='arg'>-nocomplain</i>? <i class='arg'>name</i></a><dd>
+
+
+<dt><a name="4"><b class='cmd'><a href="ns_env.html"> ns_env </a></b> <i class='arg'>set</i> <i class='arg'>name</i> <i class='arg'>value</i></a><dd>
+
+
+<dt><a name="5"><b class='cmd'><a href="ns_env.html"> ns_env </a></b> <i class='arg'>unset</i> ?<i class='arg'>-nocomplain</i>? <i class='arg'>name</i></a><dd>
+
+
+</dl>
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+ % ns_env names
+ CONSOLE TERM INIT_VERSION PATH RUNLEVEL PWD PREVLEVEL SHLVL HOME
+
+ % ns_env get PATH
+ /usr/local/sbin:/sbin:/bin:/usr/sbin:/usr/bin
+
+ % ns_env set USER nsd
+
+ % ns_env get USER
+ nsd
+
+ % ns_env unset USER
+</pre></td></tr></table></p>
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+</body></html>
+

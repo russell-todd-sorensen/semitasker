@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Testing JavaScript with HTML Forms</title>
+<link rel="stylesheet" href="sudoku-test-6.css" media="all" type="text/css" >
+<script type="text/javascript" src="logger.js"></script>
+<script type="text/javascript">
+
+    function checkForm(form) 
+    {
+        var i = 0;
+
+        for (; i < form.elements.length; i++) 
+        {
+            Log("Notice", "Element " + i + " Type = '" + form.elements[i].type + "'");
+
+            if (form.elements[i].type == "select-multiple") 
+            {
+                Log("Notice", "Element " + i + " options[].length = '" + form.elements[i].options.length);
+
+                for (j = 0; j < form.elements[i].options.length; j++) 
+                {
+                    var node = form.elements[i].options[j];
+                    var selected = ((node.selected) ? "selected" : "not-selected")
+                    Log("Notice", " options[" + j + "].value / selected = '" + node.value
+                        + "'/'" + selected
+                        + "', options[" + j + "].text = '" + node.text + "'");
+                }
+            }
+            else 
+            {
+                Log("Notice", "Element " + i + " value = '" + form.elements[i].value + "'");
+            }
+        }
+    }
+    
+    function processData(form) {
+        checkForm(form);
+	    var i = 0;
+	    for (i = 0; i < form.Beatles.length; i++) {
+	        Log("Notice", "i = " + i);
+	        if (form.Beatles[i].checked) {
+	            break;
+	        }
+	    }
+
+        var chosenBeatle = form.Beatles[i].value;
+
+        var chosenSong = form.song.value;
+
+        alert("Looking to see if " + chosenSong + " was written by " + chosenBeatle + "...");
+
+        Log("Notice", "Looking to see if " + chosenSong + " was written by " + chosenBeatle + "...");
+
+        form.output.value = "Looking to see if " + form.song.value + " was written by " + form.Beatles[i].value + "...";
+    }
+
+    function checkSong(songTitle) {
+        var enteredSong = songTitle.value;
+        Log("Notice", "Making sure that " + enteredSong + " was recorded by the Beatles.");
+        alert("Making sure that " + enteredSong + " was recorded by the Beatles.");
+    }
+
+</script>
+
+
+</head>
+
+<body>
+
+<form name="AbbeyRoad" action=".">
+Choose your favorite Beatle:
+<input type="radio" name="Beatles" id="Beatles1"
+value="John Lennon" checked="checked">John<br>
+
+<input type="radio" name="Beatles" id="Beatles2"
+value="Paul McCartney" checked="checked">Paul<br>
+
+<input type="radio" name="Beatles" id="Beatles3"
+value="George Harrison" checked="checked">George<br>
+
+<input type="radio" name="Beatles" id="Beatles4"
+value="Ringo Star" checked="checked">Ringo<br>
+
+<select name="favorites" id="favorites"  multiple="multiple">
+ <option value="1" selected="selected" id="fav1">The White Album</option>
+ <option value="2" id="fav2" >Rock &amp; Roll Music</option>
+ <option value="3" id="fav3">Sergent Peppers Lonely Hearts Club Band</option>
+ <option value="4" id="fav4">Another Album Name 4</option>
+</select>
+
+<p>Enter the name of your favorite Beatles Song:</p>
+<input type="text" name="song" id="song" value="Elanor Rigby" onChange="checkSong(this);" /><br />
+<input type="button" name="process" value= "Process Request"
+onClick="processData(this.form)">
+<br />
+Output:<input type="text" name="output" id="output" value="" size="80" />
+</form>
+
+<pre id="logger" onMouseOver='Log("Notice", "Mouse is over me now")'>
+
+
+</pre>
+
+
+
+<form action="." method="get" enctype="application/x-www-form-urlencoded" name="myform">
+Mytext: <input name="mytext" type="text" onClick="setField(this)" value="stuff" size="30" maxlength="30"><br>
+Mytext2: <input name="mytext2" type="text" value="stuff2" size="30" maxlength="30"><br>
+</form>
+</body>
+</html>

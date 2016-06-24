@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+<style>
+/* unique styles go here */
+</style>
+<!--<link rel="stylesheet" type="text/css" href="/css/box-model.css" media="all">-->
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/vertical-products-2.js" ></script>
+<!-- here comes the script    -->
+<script>
+
+$(document).ready(function () {
+
+  Log.Hide();
+
+
+});
+
+</script>
+</head>
+
+<body>
+<svg x="0" 
+		 y="0" 
+		 height="6400" 
+		 width="2600" 
+		 viewport="0 0 325 225"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+		 >
+<defs>
+
+<rect id="black" height="50" width="50" x="0" y="0" style="stroke: none; fill: #0000BB;" />
+<rect id="white" height="50" width="50" x="0" y="0" style="stroke: none; fill: #FFFFFF;" />
+
+<filter id="checker-tile" color-interpolation-filters="sRGB" height="150%" width="100%" x="0" y="0" >
+   <feImage xlink:href="#black" result="tile"  height="50%" width="50%" x="0" y="0" />
+   <feImage xlink:href="#white" result="tile2" height="50%" width="50%" x="50" y="0" />
+   <feImage xlink:href="#white" result="tile3" height="50%" width="50%" x="0" y="50" />
+   <feImage xlink:href="#black" result="tile4" height="50%" width="50%" x="50" y="50" />
+   
+  <feTile in="tile" result="tile" />
+   <feTile in="tile2" result="tile2" />
+   <feTile in="tile3" result="tile3" />
+   <feTile in="tile4" result="tile4" />  
+   <feComposite in="tile" in2="tile2" operator="arithmetic" result="top-row"
+    k1="0" k2="1" k3="1" k4="0" />
+   <feComposite in="tile3" in2="tile4" operator="arithmetic" result="bottom-row"
+    k1="0" k2="1" k3="1" k4="0" />
+   <feComposite in="top-row" in2="bottom-row" operator="arithmetic" result="super-tile"
+    k1="0" k2="1" k3="1" k4="0" />
+    
+   <!--<feTile in="super-tile" result="super-tile" />
+   <feComposite in2="SourceGraphic" in="super-tile" operator="arithmetic" result="flag" k1="0" k2=".5" k3=".5" k4="0" />-->
+</filter>
+
+<rect id="checker-2" height="100" width="100" x="0" y="0" style="fill: url(#checker-tile)" />
+
+<filter id="checker-flag" color-interpolation-filters="sRGB">
+ <feImage xlink:href="#checker-2" height="100" width="100" x="0" y="0" result="tile" />
+ <feTile in="tile" out="tile" />
+ <feComposite in2="SourceGraphic" in="tile" operator="arithmetic" result="flag" k1="0" k2=".5" k3=".5" k4="0" /> <!--  -->
+</filter>
+
+</defs>
+
+<!--<rect id="flag" height="500" width="600" x="0" y="0" style="filter: url(#checker-flag);" />-->
+<image xlink:href="../../images/building-1.jpg" style="filter: url(#checker-flag);" height="210" width="300" transform="translate(5,105)" />
+
+</svg>
+
+</body>
+</html>

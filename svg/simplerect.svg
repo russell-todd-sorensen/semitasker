@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!--Scalable Vector Graphic-->
+<svg version="1.1" 
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:ev="http://www.w3.org/2001/xml-events"     
+     baseProfile="full"
+		 viewBox="0 0 1 1"
+		 onload="init()"
+		 >
+<script>
+<![CDATA[ 
+  function init() {
+		Root = document.documentElement;
+		Root.addEventListener('click',top.respond,false);
+	}
+		 
+]]>
+</script>
+
+<defs>
+<linearGradient id="btw-1" color-interpolation="sRGB" >
+ <stop offset="0.0" stop-color="#000" stop-opacity="1.0" />
+ <stop offset="1.0" stop-color="#FFF" stop-opacity="1.0" />
+</linearGradient>
+
+<!-- white to black (reverse direction of base gradient -->
+<linearGradient id="btw-2" xlink:href="#btw-1" x1="100%" y1="0%" x2="0%" y2="0%" />
+<linearGradient id="btw-3" xlink:href="#btw-1" x1="0%" y1="0%" x2="0%" y2="100%" />
+<linearGradient id="btw-4" xlink:href="#btw-1" x1="0%" y1="100%" x2="0%" y2="0%" />
+
+<rect id="btw-rect-1" x="0" y="0" height="100%" width="100%" 
+       style="fill: url(#btw-1); stroke: none;" />
+<rect id="btw-rect-2" x="0" y="0" height="100%" width="100%" 
+       style="fill: url(#btw-2); stroke: none;" />
+<rect id="btw-rect-3" x="0" y="0" height="100%" width="100%" 
+       style="fill: url(#btw-3); stroke: none;" />
+<rect id="btw-rect-4" x="0" y="0" height="100%" width="100%" 
+       style="fill: url(#btw-4); stroke: none;" />
+
+
+<filter id="btw-fade-1">
+ <feImage xlink:href="#btw-rect-1" result="btw" x="0" y="0" height="50%" width="50%" />
+ <feBlend in2="btw" in="SourceGraphic" mode="lighten" />
+</filter>
+
+</defs>
+
+
+<rect id="btw-rect-5" x="0" y="0" height="100%" width="100%" 
+       style="fill: url(#btw-4); stroke: none;" />
+
+
+</svg>

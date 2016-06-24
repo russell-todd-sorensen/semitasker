@@ -1,0 +1,202 @@
+<html><head>
+<title>ns_accesslog - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_accesslog.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_accesslog.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_accesslog(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_accesslog - Control the nslog access log module
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#configuration">CONFIGURATION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>option</i> ?<i class='arg'>arg</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>file</i></a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>roll</i> ?<i class='arg'>file</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>rollfmt</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>flags</i> ?<i class='arg'>flags</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>maxbuffer</i> ?<i class='arg'>maxnum</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>maxbackup</i> ?<i class='arg'>maxbum</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>extendedheaders</i> ?<i class='arg'>headers</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command provides a mechanism to control the nslog access log module.
+The legal options (which may be abbreviated) are:
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>option</i> ?<i class='arg'>arg</i>?</a><dd>
+
+
+<dt><a name="2"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>file</i></a><dd>
+
+
+Returns the name of the access log file for the current (possibly virtual) server.
+The default is relative to the server's module directory in &quot;nslog/access.log&quot;.
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>roll</i> ?<i class='arg'>file</i>?</a><dd>
+
+
+Rolls the access log, or optionally some other file.  See ns_logroll for log rolling behavior.
+However, instead of the max backup being specified in &quot;ns/parameters&quot; as &quot;logmaxbackup&quot;, it is
+specified in section &quot;ns/server/$servername/module/nslog&quot; as &quot;maxbackup&quot; and defaults to 100.
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>rollfmt</i></a><dd>
+
+
+Set or return folling format
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>flags</i> ?<i class='arg'>flags</i>?</a><dd>
+
+
+Set or return current flags such as logcombined/formattedtime/suppressquery/checkforproxy
+
+<br><br>
+<dt><a name="6"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>maxbuffer</i> ?<i class='arg'>maxnum</i>?</a><dd>
+
+
+Set or return max number of lines in the buffer
+
+<br><br>
+<dt><a name="7"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>maxbackup</i> ?<i class='arg'>maxbum</i>?</a><dd>
+
+
+Set or return max number of backup files
+
+<br><br>
+<dt><a name="8"><b class='cmd'><a href="ns_accesslog.html"> ns_accesslog </a></b> <i class='arg'>extendedheaders</i> ?<i class='arg'>headers</i>?</a><dd>
+
+
+Set or return extended headers to be logged
+
+</dl>
+
+<h2><a name="configuration">CONFIGURATION</a></h2>
+<p>
+
+<dl>
+<dt>ns_section ns/server/${servername}/module/nslog<dd>
+
+<dt>ns_param file access.log<dd>
+Name to the log file
+
+<br><br>
+<dt>ns_param formattedtime true<dd>
+true==common log format
+
+<br><br>
+<dt>ns_param logcombined false<dd>
+true==NCSA combined format
+
+<br><br>
+<dt>ns_param maxbuffer 0<dd>
+Max # of lines in the buffer
+
+<br><br>
+<dt>ns_param maxbackup 5<dd>
+Max # of files to keep when rolling
+
+<br><br>
+<dt>ns_param rollhour 0<dd>
+Time to roll log
+
+<br><br>
+<dt>ns_param rolllog true<dd>
+true==roll the log
+
+<br><br>
+<dt>ns_param rollonsignal true<dd>
+true==roll the log on SIGHUP
+
+<br><br>
+<dt>ns_param suppressquery false<dd>
+true==Don't show query string in the log
+
+<br><br>
+<dt>ns_param checkforproxy false<dd>
+true==check for X-Forwarded-For header
+
+<br><br>
+<dt>ns_param extendedheaders {Referer X-Forwarded-For}<dd>
+List of add. headers
+
+</dl>
+
+<p>
+When supressquery is true, the side-effect is that the real URI is
+returned, so places where trailing slash returns &quot;index.html&quot; logs
+as &quot;index.html&quot;
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_accesslog file
+   /home/ns/servers/exampleServer/modules/nslog/access.log
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_modulepath exampleServer nslog/access.log
+   /home/ns/servers/exampleServer/modules/nslog/access.log
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   # This will roll the access.log
+   % ns_accesslog roll
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   nscp:2&gt; ns_accesslog flags
+   logCombined formattedTime
+
+   nscp:3&gt; ns_accesslog flags logCombined formattedTime checkForProxy
+   logCombined formattedTime checkForProxy
+
+   nscp:4&gt; ns_accesslog extendedheaders
+
+   nscp:5&gt; ns_accesslog extendedheaders X-Forwarded-For Accepted
+   X-Forwarded-For Accepted
+</pre></td></tr></table></p>
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key104"> ns_logroll, </a>, <a href="../index.html#key103"> ns_modulepath </a>
+</body></html>
+

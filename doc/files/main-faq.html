@@ -1,0 +1,151 @@
+<html><head>
+<title>NaviServer Frequently-Asked Questions (FAQ) -  </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/main-faq.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ NaviServer Frequently-Asked Questions (FAQ).n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> NaviServer Frequently-Asked Questions (FAQ)(n) 4.99.2  &quot;&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> NaviServer Frequently-Asked Questions (FAQ) - NaviServer Frequently-Asked Questions (FAQ)
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#getting_naviserver">Getting NaviServer</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#building_naviserver">Building NaviServer</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#installing_naviserver">Installing NaviServer</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#getting_help">Getting Help</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#contributing_software">Contributing Software</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#contributing_patches">Contributing Patches</a><br>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+
+<em>NaviServer Frequently-Asked Questions and Answers</em>
+
+
+<h2><a name="getting_naviserver">Getting NaviServer</a></h2>
+<p>
+
+
+<p>
+
+
+NaviServer binary builds for many platforms are at
+&lt;a href=&quot;http:/http://sourceforge.net/projects/naviserver/&quot;&gt;http://sourceforge.net/projects/naviserver/
+
+
+<p>
+
+
+<h2><a name="building_naviserver">Building NaviServer</a></h2>
+<p>
+
+
+<p>
+
+
+NaviServer builds very easily and the online documentation describes the process.
+We recommend that you use the defaults in include/Makefile.global when building your module.
+This file contains rules and knows how to build modules properly for all platforms NaviServer
+has been ported to. To link a shared object, we recommend the default which is:
+
+
+<em>gcc -shared -nostartfiles</em>
+
+
+On some Solaris installations the Cygnus compiler is unable to build working shared objects.
+We're told that if you put the -Wl,-E option in the nsd/Makefile when linking the executable,
+Cygnus works, but we have not verified this successfully.  GCC from just about anywhere else
+<em>will</em> work. You can get a pre-built copy of GCC from
+&lt;a href=&quot;http://www.sunfreeware.com/&quot;&gt;http://www.sunfreeware.com or
+build your own from &lt;a href=&quot;ftp://ftp.gnu.org/&quot;&gt;ftp://ftp.gnu.org. Just install it and
+put a link to the new gcc in /usr/local/bin (keep the broken Cygnus in /usr/cygnus/bin in case you need it).
+
+
+<p>
+
+
+HINT: The magic option to GCC for the compiling step is &quot;-fPIC&quot;, so if you're
+using a third-party library, make sure &quot;-fPIC&quot; appears in the CFLAGS. And,
+to eliminate the possibility of strange behavior, it's helpful but not necessary
+to build everything with the same compiler and using the same options.
+If you're using a third-party library for which no source code is available,
+you may run into problems if the vendor did not build it with the equivalent
+of &quot;-fPIC&quot; on their compiler.  Shared objects must be position-independent.
+
+
+<p>
+
+
+<h2><a name="installing_naviserver">Installing NaviServer</a></h2>
+<p>
+
+
+<p>
+
+
+Installing NaviServer is very straightforward and is covered in the online documentation.
+<em>&lt;a name=&quot;Database_Access&quot;&gt;Database Access</em>
+<p>
+
+NaviServer works with a great many databases including all the popular enterprise systems.
+
+
+<p>
+
+
+<h2><a name="getting_help">Getting Help</a></h2>
+<p>
+
+
+<p>
+
+
+NaviServer has an active developer community as well as a very active user community.
+Links to these areas are at &lt;a href=&quot;http://sourceforge.net/projects/naviserver/&quot;&gt;http://sourceforge.net/projects/naviserver/.
+
+
+<p>
+
+
+<h2><a name="contributing_software">Contributing Software</a></h2>
+<p>
+
+
+<p>
+
+
+NaviServer is extremely extensible and we host a great many community-contributed
+modules at &lt;a href=&quot;http://sourceforge.net/projects/naviserver/&quot;&gt;http://sourceforge.net/projects/naviserver/.
+You can contribute your software by following the guidelines on that page.
+
+
+<p>
+
+
+<h2><a name="contributing_patches">Contributing Patches</a></h2>
+<p>
+
+
+<p>
+
+
+We accept any form of patches at the Source Forge link on the left of this page.
+We request that your patch include a test case and, if possible, a context diff against a tagged
+version of the NaviServer source code.  In lieu of a test case we can also
+accept a narrative describing the problem in detail.
+
+</body></html>

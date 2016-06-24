@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+<meta charset="utf-8" >
+
+<title>Hue, Saturation, Lightness</title>
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="http://ic00408/css/green-form.css" >
+
+<style>
+body, html {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background-color: #000;
+}
+
+#hsl-1 {
+    width: 360px;
+    background-color: #000;
+    color: white;
+    margin: 15px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#hsl-1 div {
+    /*border-color: #444;
+    border-width: 2px;
+    border-style: solid; */
+    height: 100px;
+    width: 350px;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-align: center;
+    margin: auto;
+    display: block;
+    line-height: 1.5em;
+    margin-bottom: 5px;
+}
+
+#hsl-1 div span {
+    font-size: 1em;
+    line-height: 1em;
+}
+
+form {
+    margin: 15px;
+    width: 350px;
+    display: inline-block;
+    vertical-align: top;
+    background-color: #eee;
+    font-family: inherit;
+    padding: 15px;
+}
+
+form ul {
+    padding: 0;
+    margin: 0;
+}
+
+form li {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+form label {
+    display: inline-block;
+    width: 100px;
+}
+
+
+</style>
+
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/data.js"></script>
+<script src="http://ic00408/js/form-save-restore.js"></script>
+<script src="http://ic00408/js/binary-hex-conversions.js"></script>
+<script src="http://ic00408/js/example-library.js"></script>
+<script src="http://ic00408/js/svg-transform.js"></script>
+<script src="js/color-mixer-8.js" ></script>
+
+<script>
+function hsl2rgb(h, s, l) {
+	var m1, m2;
+	h = isNaN(h) ? 0 : (h %= 360) < 0 ? h + 360 : h;
+	s = isNaN(s) ? 0 : s < 0 ? 0 : s > 1 ? 1 : s;
+	l = l < 0 ? 0 : l > 1 ? 1 : l;
+	m2 = l <= .5 ? l * (1 + s) : l + s - l * s;
+	m1 = 2 * l - m2;
+	function v(h) {
+		if (h > 360) h -= 360; else if (h < 0) h += 360;
+		if (h < 60) return m1 + (m2 - m1) * h / 60;
+		if (h < 180) return m2;
+		if (h < 240) return m1 + (m2 - m1) * (240 - h) / 60;
+		return m1;
+	}
+	function vv(h) {
+		return Math.round(v(h) * 255);
+	}
+	return d3.rgb(vv(h + 120), vv(h), vv(h - 120));
+}
+
+
+
+function d3_hsl(h, s, l) {
+	return new d3_Hsl(h, s, l);
+}
+
+var d3_Hsl = function (h, s, l) {
+	this.h = h;
+	this.s = s;
+	this.l = l;
+}
+
+
+var hslBrighter = function(k) {
+	k = Math.pow(.7, arguments.length ? k : 1);
+	return d3.hsl(this.h, this.s, this.l / k);
+};
+
+var hslDarker = function(k) {
+	k = Math.pow(.7, arguments.length ? k : 1);
+	return d3.hsl(this.h, this.s, k * this.l);
+};
+
+	
+function updateHSV ( evt ) {
+	
+	var hue = parseFloat($('#hue').val());
+	var saturation =  parseFloat($('#saturation').val());
+	var value =  parseFloat($('#value').val());
+	var theory = $('#theory option:selected').val();
+	var angle = $('#angle').val();
+	var chrom = $('#chrom').val();
+	var rgb = hsl2rgb(hue,saturation,value);
+	
+	Log.Notice('hue=' + hue + ' sat=' + saturation + ' val=' + value + ' rgb=' + rgb);
+	$('#hsl-1').html(""); // clear out display
+	$('#hsl-1')
+		.append("<div id='base' title='" 
+				+ "hsv(" + hue + "," + saturation + "," + value
+				+ ")' style='background-color:" 
+				+ rgb + ";'>" + rgb 
+				+ "<br>\n"
+				+ "\n<span>hsv(" + hue + "," + Math.round(saturation * 100) + "%,"
+				+ Math.round(value * 100) +  "%)"
+				+ "</span>\n"
+				+ "</div>");
+		
+	$('#hue-number').html(hue + "&deg;");
+	$('#saturation-number').html(Math.round(saturation*100) + "%");
+	$('#value-number').html(Math.round(value*100) + "%");
+	$('#chrom-number').html("&nbsp;" + chrom);
+	$('#angle-number').html(angle + "&deg;");
+	
+	switch (theory) {
+	case 'compliment':
+	  createCompliment(hue,saturation,value,'#hsl-1');
+		break;
+	case 'split-compliment':
+		createSplitCompliment(hue,saturation,value,angle,chrom,'split','#hsl-1');
+		break;
+	case 'analogous':
+		createSplitCompliment(hue,saturation,value,angle,chrom,'analogous','#hsl-1');
+		break;
+	case 'triad':
+		createSplitCompliment(hue,saturation,value,60,3,'split','#hsl-1');
+		break;
+	case 'monochromatic-val':
+		createMonochromatic(hue,saturation,value,chrom,'val','#hsl-1');
+		break;
+	case 'monochromatic-sat':
+		createMonochromatic(hue,saturation,value,chrom,'sat','#hsl-1');
+		break;
+	case 'monochromatic-dark':
+		createMonoBrighterOrDarker(hue,saturation,value,chrom,'dark','#hsl-1');
+		break;
+	case 'monochromatic-bright':
+		createMonoBrighterOrDarker(hue,saturation,value,chrom,'bright','#hsl-1');
+		break;
+	case 'tetrad':
+	default:
+		break;
+	}
+	
+}
+
+function createCompliment(hue,saturation,value,divSelector) {
+	
+	hue = parseFloat(hue);
+	saturation = parseFloat(saturation);
+	value = parseFloat(value);
+	
+	var hueCompliment;
+	if (hue >= 180) {
+		hueCompliment = hue - 180;
+	}
+	else if (hue < 180) {
+		hueCompliment = hue - 180;
+	}
+	var rgbCompliment = hsl2rgb(hueCompliment,saturation,value);
+	$(divSelector)
+		.append("<div id='compliment-1' title='" 
+				+ "hsv(" + hue + "," + saturation + "," + value
+				+ ")' style='background-color:"
+				+ rgbCompliment + ";' >" 
+				+ rgbCompliment 
+				+ "<br>\n"
+				+ "\n<span>hsv(" + hueCompliment + "," + Math.round(saturation * 100) + "%,"
+				+ Math.round(value * 100) +  "%)"
+				+ "</span>\n"
+				+ "</div>");
+	
+}
+
+function createSplitCompliment(hue,saturation,value, angle, chrom, splitOrAnalogous, divSelector) {
+	
+	hue = parseFloat(hue);
+	saturation = parseFloat(saturation);
+	value = parseFloat(value);
+	angle = parseFloat(angle);
+	chrom = parseFloat(chrom);
+	
+	var splitAngle; 
+	switch (splitOrAnalogous) {
+	case 'split':
+		splitAngle = 180;
+		break;
+	case 'analogous':
+		splitAngle = 0;
+		break;
+	}
+	
+	var hueComp1 = new Array();
+	var hueComp2 = new Array();
+	var rgbComp1 = new Array();
+	var rgbComp2 = new Array();
+	
+	
+	for (var i = 0; i < Math.floor(chrom/2); i++) {
+		hueComp1[i] =  Math.abs((hue + splitAngle + angle*(i+1)))%360;
+  	hueComp2[i] =  Math.abs((hue + splitAngle - angle*(i+1)))%360;
+		rgbComp1[i] = hsl2rgb(hueComp1[i],saturation,value);
+		rgbComp2[i] = hsl2rgb(hueComp2[i],saturation,value);
+
+	$(divSelector)
+		.append("<div id='comp-1' style='background-color:"
+		 		+ rgbComp1[i] + ";' >" 
+		 		+ rgbComp1[i] 
+				+ "<br>\n"
+				+ "\n<span>hsv(" + hueComp1[i] + "," + Math.round(saturation * 100) + "%,"
+				+ Math.round(value * 100) +  "%)"
+				+ "</span>\n"
+		 		+ "</div>");
+	$(divSelector)
+		.append("<div id='comp-2' style='background-color:"
+		 		+ rgbComp2[i] + ";' >" 
+		 		+ rgbComp2[i] 
+		 
+				+ "<br>\n"
+				+ "\n<span>hsv(" + hueComp2[i] + "," + Math.round(saturation * 100) + "%,"
+				+ Math.round(value * 100) +  "%)"
+				+ "</span>\n"
+		 		+ "</div>");
+	}
+	
+}
+
+function createMonochromatic(hue,saturation,value, chrom, sOrV, divSelector) {
+	
+	hue = parseFloat(hue);
+	saturation = parseFloat(saturation);
+	value = parseFloat(value);
+	chrom = parseFloat(chrom);
+	
+	var chromPercent = 1.0/chrom;
+	var rgbChrom = new Array();
+	var newSaturation;
+	var newValue;
+	for (var i = chrom-1; i>= 0; i--) {
+		switch (sOrV) {
+		case 'val': 
+				newSaturation = saturation;
+				newValue = value * chromPercent * i;
+			break;
+		case 'sat':
+			newSaturation = saturation * chromPercent * i;
+			newValue = value;
+			break;
+		}
+		rgbChrom[i] = hsl2rgb(hue,newSaturation,newValue);
+		$(divSelector)
+			.append("<div id='monochrom-" + sOrV +  "-" + i 
+				+ "' style='background-color:"
+				+ rgbChrom[i] + ";' >" 
+				+ rgbChrom[i] + "<br>\n"
+				+ "\n<span>hsv(" + hue + "," + Math.round(newSaturation * 100) + "%," 
+				+ Math.round(newValue * 100) +  "%)"
+				+ "</span>\n</div>");
+	}
+	$('#chrom-number').html(chrom);
+	
+}
+
+function brighter(l, k) { k = Math.pow(.7, arguments.length > 1 ? k : 1); return l/k;}
+function darker(l, k) { k = Math.pow(.7, arguments.length > 1 ? k : 1); return l*k;}
+
+
+function createMonoBrighterOrDarker(hue, saturation, value, chrom, brighterOrDarker, divSelector) {
+	
+	hue = parseFloat(hue);
+	saturation = parseFloat(saturation);
+	value = parseFloat(value);
+	chrom = parseFloat(chrom);
+	
+	var rgbChrom = new Array();
+	var hslValue = new Array();
+	var newSaturation = saturation;
+	var newValue = value;
+	for (var i = chrom-1; i>= 0; i--) {
+		switch (brighterOrDarker) {
+		case 'bright': 
+				newSaturation = saturation;
+				newValue = brighter(newValue, 1/i); 
+			break;
+		case 'dark':
+			newSaturation = newSaturation ;
+			newValue = darker(newValue, 1/i);
+			break;
+		}
+		rgbChrom[i] = hsl2rgb(hue,newSaturation,newValue);
+		$(divSelector)
+			.append("<div id='monochrom-" + brighterOrDarker +  "-" + i 
+				+ "' style='background-color:"
+				+ rgbChrom[i] + ";' >" 
+				+ rgbChrom[i] + "<br>\n"
+				+ "\n<span>hsv(" + hue + "," + Math.round(newSaturation * 100) + "%," 
+				+ Math.round(newValue * 100) +  "%)"
+				+ "</span>\n</div>");
+	}
+
+	
+}
+$(document).ready(function (evt) {
+
+		updateHSV(null);
+
+});
+	
+	
+	
+</script>
+
+
+</head>
+<body>
+
+<div id="hsl-1"></div>
+<form>
+<fieldset>
+<legend>Hue, Saturation & Value to RGB</legend>
+<ul>
+ <li>
+  <label for="hue">Hue:</label> 
+  <input id="hue" type="range" min="0" max="360" value="60" step="1" name="hue" onChange="updateHSV();">
+  <span id="hue-number" class="input-value"></span>
+ </li>
+ <li>
+  <label for="saturation">Saturation:</label> 
+  <input id="saturation" type="range" min="0.0" max="1.0" value="1.0" step="0.01" name="saturation" onChange="updateHSV();">
+  <span id="saturation-number" class="input-value"></span>
+ </li>
+ <li>
+  <label for="value">Value:</label> 
+  <input id="value" type="range" min="0.0" max="1.0" value=".5" step="0.01" name="value" onChange="updateHSV();">
+  <span id="value-number" class="input-value"></span>
+ </li>
+ <li>
+ <label for="angle">Angle:</label> 
+  <input id="angle" type="range" min="0" max="90" value="45" step="1" name="angle" onChange="updateHSV();">
+  <span id="angle-number" class="input-value"></span>
+ </li>
+ <li>
+  <label for="chrom">Chrom#:</label> 
+  <input id="chrom" type="range" min="3" max="6" value="3" step="1" name="chrom" onChange="updateHSV();">
+  <span id="chrom-number" class="input-value"></span>
+ </li>
+ <li>
+  <label for="theory">Theory:</label>
+  <select id="theory" name="theory" onChange="updateHSV();">
+   <option value="compliment" selected="selected">Compliment</option>
+   <option value="split-compliment">Split Compliment</option>
+   <option value="triad">Triad</option>
+   <option value="analogous">Analogous</option>
+   <option value="monochromatic-val">Monochromatic (Val)</option>
+   <option value="monochromatic-sat">Monochromatic (Sat)</option>
+   <option value="monochromatic-dark">Monochromatic Darker</option>
+   <option value="monochromatic-bright">Monochromatic Brighter</option>
+  </select>
+ </li>
+</ul>
+</fieldset>
+</form>
+
+</body>
+</html>

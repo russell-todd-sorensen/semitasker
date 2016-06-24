@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+<meta charset="utf-8" >
+
+<title>HTML to SVG Communication</title>
+ <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+ <link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<style>
+div.u {
+    float: top;
+    height: 30%;
+}
+div.d {
+    float: bottom;
+    height: 70%;
+}
+td {
+    text-align: center;
+    font-family: impact;
+    width: 15%;
+    background-color: #eee;
+}
+
+</style>
+ <script src="/js/jquery-1.7.1.js"></script>
+ <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+ <script src="/js/d3.v3.js"></script>
+ <script src="/js/log-2.js"></script>
+
+<script>
+function init() {
+	var Ds = document.getElementsByTagName('td');
+	for (var i in Ds) Ds[i].onclick = function () {add(this);};
+	var D = document.getElementById('E');
+	SVGDoc = D.getSVGDocument();
+	SVGRoot = SVGDoc.documentElement;
+	svgns = "http://www.w3.org/2000/svg";
+}
+
+function add(o) {
+	var word = o.firstChild.nodeValue;
+	Log.Notice('word=' + word);
+	var T = SVGDoc.createElementNS(svgns, 'text');
+	var msgNode = SVGDoc.createTextNode(word);
+	var fontratio = 0.05, adj = (1-fontratio);
+	x = Math.random() * .9 - 2 * fontratio;
+	y = Math.random() * .5;
+	T.setAttributeNS(null,'x',x);
+	T.setAttributeNS(null,'y',y);
+	T.setAttributeNS(null,'font-size',fontratio);
+	T.setAttributeNS(null,'font-family','serif');
+	T.appendChild(msgNode);
+	SVGRoot.appendChild(T);
+}
+
+function respond(evt) {
+	var w = evt.target.firstChild.nodeValue;
+	Log.Notice('w=' + w);
+	document.getElementById(w).style.background='red';
+}
+
+$(document).ready(function () {
+
+  Log.Hide();
+
+});
+
+</script>
+
+</head>
+<body>
+
+<div align="center" class="u" >
+<table border="1">
+<tr>
+ <td id="artichoke">artichoke</td>
+ <td id="balustrade">balustrade</td>
+ <td id="cantalope">cantalope</td>
+ <td id="dandelion">dandelion</td>
+</tr>
+<tr>
+ <td id="elephant">elephant</td>
+ <td id="familiar">familiar</td>
+ <td id="groundhog">groundhog</td>
+ <td id="hydroplorone">hydroplorone</td>
+</tr>
+</table>
+</div>
+
+<div class="d">
+ <object onLoad="init()" id="E" type="image/svg+xml" data="simplerect.svg" height="100%" width="100%">
+ <p>Message for browsers which don't support SVG</p>
+ </object>
+</div>
+
+</body>
+</html>

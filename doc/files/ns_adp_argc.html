@@ -1,0 +1,83 @@
+<html><head>
+<title>ns_adp_argc - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_adp_argc.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_adp_argc.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_adp_argc(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_adp_argc - Return the number of arguments to the current ADP
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_adp_argc.html"> ns_adp_argc </a></b> </a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+ This command returns an integer representing the number of arguments passed to the current ADP.  The number of arguments includes the name of the ADP itself, which is located at index zero.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_adp_argc.html"> ns_adp_argc </a></b> </a><dd>
+
+
+
+</dl>
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   # In a.adp:
+   &lt;% ns_adp_include b.adp example a b c %&gt;
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   # In b.adp:
+   &lt;%
+     ns_adp_argc      &amp;nbsp;;# =&gt; 5
+   %&gt;
+</pre></td></tr></table></p>
+
+
+
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key542"> ns_adp_abort, </a>, <a href="../index.html#key530"> ns_adp_append, </a>, <a href="../index.html#key531"> ns_adp_argv, </a>, <a href="../index.html#key545"> ns_adp_bind_args, </a>, <a href="../index.html#key537"> ns_adp_break, </a>, <a href="../index.html#key551"> ns_adp_debug, </a>, <a href="../index.html#key535"> ns_adp_debuginit, </a>, <a href="../index.html#key552"> ns_adp_dir, </a>, <a href="../index.html#key550"> ns_adp_dump, </a>, <a href="../index.html#key543"> ns_adp_eval, </a>, <a href="../index.html#key540"> ns_adp_exception, </a>, <a href="../index.html#key536"> ns_adp_include, </a>, <a href="../index.html#key541"> ns_adp_mime, </a>, <a href="../index.html#key547"> ns_adp_mimetype, </a>, <a href="../index.html#key534"> ns_adp_parse, </a>, <a href="../index.html#key549"> ns_adp_puts, </a>, <a href="../index.html#key546"> ns_adp_registeradp, </a>, <a href="../index.html#key533"> ns_adp_registerproc, </a>, <a href="../index.html#key532"> ns_adp_registertag, </a>, <a href="../index.html#key529"> ns_adp_return, </a>, <a href="../index.html#key539"> ns_adp_safeeval, </a>, <a href="../index.html#key538"> ns_adp_stats, </a>, <a href="../index.html#key548"> ns_adp_stream, </a>, <a href="../index.html#key544"> ns_adp_tell, </a>, <a href="../index.html#key16"> ns_adp_trunc </a>
+</body></html>
+

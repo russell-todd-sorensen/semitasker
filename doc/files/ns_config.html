@@ -1,0 +1,80 @@
+<html><head>
+<title>ns_config - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_config.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_config.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_config(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_config - Extract configuration information from the server
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_config.html"> ns_config </a></b> ?<i class='arg'>-exact | -bool | -int</i>? <i class='arg'>section</i> <i class='arg'>key</i> ?<i class='arg'>default</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command returns the value associated with the key in the specified section
+of the current server's configuration.  If default is specified, and the section
+and key are not defined, then default is returned.  If default is not specified
+in this situation, an empty string is returned.
+
+<p>
+If -exact is specified, matching on key is case-sensitive.  By default, matching is case-insensitive.
+
+<p>
+If -bool is specified, ns_config will perform the conversion of a boolean value
+from &quot;on&quot;, &quot;1&quot;, &quot;y&quot;, &quot;yes&quot;, &quot;t&quot;, and &quot;true&quot; to &quot;1&quot;, and it will convert a boolean
+value of &quot;off&quot;, &quot;0&quot;, &quot;n&quot;, &quot;no&quot;, &quot;f&quot;, and &quot;false&quot; to &quot;0&quot;.  If a boolean contains
+any other value, a warning is written to the server log and an empty string is
+returned.  If the configuration value is not defined, an empty string is returned.
+
+<p>
+If -int is specified, ns_config will return the integer value of the specified key.
+If there is a non-integer value in the configuration, a warning is written to the
+log file and an empty string is returned.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_config.html"> ns_config </a></b> ?<i class='arg'>-exact | -bool | -int</i>? <i class='arg'>section</i> <i class='arg'>key</i> ?<i class='arg'>default</i>?</a><dd>
+
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ % ns_config ns/parameters debug
+ off
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ % string length
+</pre></td></tr></table></p>
+
+</body></html>
+

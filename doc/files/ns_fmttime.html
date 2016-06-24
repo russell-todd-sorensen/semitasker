@@ -1,0 +1,91 @@
+<html><head>
+<title>ns_fmttime - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_fmttime.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_fmttime.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_fmttime(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_fmttime - Convert seconds to a human-readable format using templates
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_fmttime.html"> ns_fmttime </a></b> <i class='arg'>time</i> ?<i class='arg'>fmt</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command produces a string representation of time in seconds since 00:00:00 UTC Jan 1, 1970.
+
+<p>
+ns_fmttime uses the strftime() system call, so valid fmt strings will vary from platform 
+to platform.  Consult your operating system's documentation for strftime() to see what 
+valid fmt strings can contain.  fmt defaults to &quot;%c&quot; which is supposed to be the preferred
+date and time representation for the current locale, which on some platforms should be 
+&quot;%a %b %e %H:%M:%S %Z %Y&quot;.
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_fmttime.html"> ns_fmttime </a></b> <i class='arg'>time</i> ?<i class='arg'>fmt</i>?</a><dd>
+
+
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_fmttime 0
+   Wed Dec 31 19:00:00 1969
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_fmttime 0 &quot;%a %b %e %H:%M:%S %Z %Y&quot;
+   Wed Dec 31 19:00:00 EST 1969
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_fmttime ns_time &quot;%Y%m%d&quot;
+   20040614
+</pre></td></tr></table></p>
+
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key85"> ns_gmtime </a>, <a href="../index.html#key84"> ns_httptime </a>, <a href="../index.html#key82"> ns_localtime </a>, <a href="../index.html#key81"> ns_parsehttptime </a>, <a href="../index.html#key80"> ns_parsetime </a>, <a href="../index.html#key83"> ns_time </a>
+</body></html>
+

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+
+<svg x="0" y="0" height="400" width="400" viewport="0 0 400 400"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+<filter id="img-filter" x="0" y="0" height="100%" width="100%" filterUnits="objectBoundingBox">
+<feImage xlink:href="images/dundee-2.svg" result="dundee" />
+<feComponentTransfer in="dundee_tile" out="dundee">
+ <feFuncB type="gamma" amplitude="1" exponent="0.2" offset="0" />
+ <feFuncR type="gamma" amplitude="1" exponent="0.707" offset="0" />
+</feComponentTransfer>
+</filter>
+ 
+<linearGradient id="two_hues">
+ <stop offset="0%" style="stop-color: #ffcc00;" />
+ <stop offset="100%" style="stop-color: #0099cc;" />
+</linearGradient>
+ 
+ 
+<clipPath id="textClip">
+ <text id="text1" transform="rotate(45)" style="fill: none; font-size: 48pt;">
+CLIPPING
+ </text>
+</clipPath>
+ 
+<rect height="100" width="300" style="fill: url(#two_hues)" id="rect1" />
+<rect height="100" width="250" style="filter: url(#img-filter)" id="rect2" />
+</defs>
+ 
+<image xlink:href="dundee-2.svg" height="100" width="100" id="dundee" />
+ 
+<rect x="200" y="0" height="100" width="300" style="filter: url(#img-filter);" />
+ 
+<g transform="translate(100, 100)">
+ <use xlink:href="#rect1" style="clip-path: url(#textClip)" />
+</g>
+<g transform="translate(200, 200)">
+ <use xlink:href="#rect2" style="filter: url(#img-filter)" />
+</g>
+</svg>

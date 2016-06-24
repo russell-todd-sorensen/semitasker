@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+<meta charset="utf-8" >
+
+<title>ProtoObject</title>
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="http://ic00408/css/green-form.css" >
+
+<style>
+
+svg {
+    background-color: #333;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+#slider-box-1 {
+    position: relative;
+}
+
+   
+
+</style>
+<!--<link rel="stylesheet" href="http://ic00408/css/box-model.css" >-->
+
+
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/data.js"></script>
+<script src="http://ic00408/js/form-save-restore.js"></script>
+<script src="http://ic00408/js/binary-hex-conversions.js"></script>
+<script src="http://ic00408/js/example-library.js"></script>
+<script src="http://ic00408/js/svg-transform.js"></script>
+<script>
+// <![CDATA[ 
+
+var myObj = function(x,y) {
+	this.x = x;
+	this.y = y;
+	this.f = function (a, b) {
+		this.x = a;
+		this.y = b;
+	}
+}
+
+var A = new myObj(7,8);
+var B = new myObj(2,3);
+
+
+var Swatch = function () {
+	this.components = ['r', 'g', 'b'];
+	this.r = '87';
+	this.g = '87';
+	this.b = '87';
+	this.a = 1.0;
+	this.sliders = [0,1,2];
+	this.color = function () {
+		return "#" + this.r + this.g + this.b;
+	},
+	this.stopColor = function (stopPercent, component) {
+
+		var newVal = toHex(Math.round(stopPercent * 2.55));
+		
+		r = this.r;
+		g = this.g;
+		b = this.b;
+		a = this.a;
+		
+		switch (component) {
+		case 'r':
+			r = newVal;
+			break;
+		case 'g':
+			g = newVal;
+			break;
+		case 'b':
+			b = newVal;
+			break;
+		}	
+		return "#" + r + g + b;
+	};
+	this.updateGradients = function () {
+		var currentSlider, sliderStop, gradientStopSelector;
+		for (var i = 0; i < this.sliders.length; i++) {
+			currentSlider = sliders[this.sliders[i]];
+			for (var j = 0; j< currentSlider.stops.length; j++) {
+				sliderStop = currentSlider.stops[j];
+				gradientStopSelector = getFullStopSelector(sliderStop);
+			$(gradientStopSelector).attr('stop-color', this.stopColor(sliderStop.offset,currentSlider.component));
+			}
+		}
+	};
+}
+
+var registerSliderMove = function () {};
+var colorChange = function() {};
+var swatchUpdate = function () {};
+
+var Slider = function (sliderName, swatchName, sliderId, component) {
+	this.slider = sliderName;
+	this.swatch = swatchName;
+	this.stops = [{id: sliderId, offset: 0}, {id:sliderId, offset: 100}];
+	this.mouseBox ='body';
+	this.minX = 0;
+	this.maxX = 180;
+	this.skewX = 5;
+	this.minY = 0;
+	this.maxY = 180;
+	this.skewY = 5;
+	this.orientation = 'horizontal';
+	this.component =  component;
+	this.hexValue = '87';
+	this.call = [registerSliderMove,colorChange];
+	this.callParent =  [swatchUpdate];
+}
+
+var swatches = new Array();
+var sliders = new Array();
+
+swatches['#swatch-2'] = new Swatch();
+swatches['#swatch-3'] = new Swatch();
+
+for (swatch in swatches) {
+	var sliderArray = [];
+
+	for (var component in swatches[swatch].components) {
+		var sliderId = sliders.length
+		var sliderName = '#slider-' + sliderId;
+		sliderArray[sliderArray.length] = sliderId;
+		sliders[sliderId] = new Slider(sliderName, swatch, sliderId, swatches['#swatch-2'].components[component]);
+	}
+	swatches[swatch].sliders = sliderArray;
+}
+
+
+$(document).ready(function(e) {
+	Log.Notice('A.x=' + A.x);
+	Log.Notice('B.x=' + B.x);
+	
+	A.f(9,10);
+	B.f(0,1);
+	
+	Log.Notice('A.x=' + A.x);
+	Log.Notice('B.x=' + B.x);
+
+  
+});
+
+// ]]>
+</script>
+</head>
+<body>
+<svg id="swatch-app-0"><defs id="defs-0"><path id="triangle-2" d="M 5 5 L 10 10 L 0 10 Z"></path><linearGradient id="gradient-0" gradientUnits="objectBoundingBox" color-interpolation="sRGB"><stop offset="0" stop-opacity="1.0" id="lg-0-0" color="#008787"></stop><stop offset="100" stop-opacity="1.0" id="lg-0-100" color="#FF8787"></stop></linearGradient><linearGradient id="gradient-1" gradientUnits="objectBoundingBox" color-interpolation="sRGB"><stop offset="0" stop-opacity="1.0" id="lg-1-0" color="#870087"></stop><stop offset="100" stop-opacity="1.0" id="lg-1-100" color="#87FF87"></stop></linearGradient><linearGradient id="gradient-2" gradientUnits="objectBoundingBox" color-interpolation="sRGB"><stop offset="0" stop-opacity="1.0" id="lg-2-0" color="#878700"></stop><stop offset="100" stop-opacity="1.0" id="lg-2-100" color="#8787FF"></stop></linearGradient><linearGradient id="gradient-3" gradientUnits="objectBoundingBox" color-interpolation="sRGB"><stop offset="0" stop-opacity="1.0" id="lg-3-0" color="#008787"></stop><stop offset="100" stop-opacity="1.0" id="lg-3-100" color="#FF8787"></stop></linearGradient><linearGradient id="gradient-4" gradientUnits="objectBoundingBox" color-interpolation="sRGB"><stop offset="0" stop-opacity="1.0" id="lg-4-0" color="#870087"></stop><stop offset="100" stop-opacity="1.0" id="lg-4-100" color="#87FF87"></stop></linearGradient><linearGradient id="gradient-5" gradientUnits="objectBoundingBox" color-interpolation="sRGB"><stop offset="0" stop-opacity="1.0" id="lg-5-0" color="#878700"></stop><stop offset="100" stop-opacity="1.0" id="lg-5-100" color="#8787FF"></stop></linearGradient></defs><g id="color-0" transform="translate(10,150)" class="pointer"><rect id="swatch-1" x="0" y="-130" height="120" width="182" fill="#878787" stroke="#aaa" strokeWidth="2"></rect><rect x="1" height="5" width="180" fill="url(#gradient-0)" stroke="none" id="r-0" y="1"></rect><rect x="1" height="5" width="180" fill="url(#gradient-1)" stroke="none" id="r-1" y="31"></rect><rect x="1" height="5" width="180" fill="url(#gradient-2)" stroke="none" id="r-2" y="61"></rect></g><g id="color-1" transform="translate(310,150)" class="pointer"><rect id="swatch-2" x="0" y="-130" height="120" width="182" fill="#878787" stroke="#aaa" strokeWidth="2"></rect><rect x="1" height="5" width="180" fill="url(#gradient-3)" stroke="none" id="r-3" y="1"></rect><rect x="1" height="5" width="180" fill="url(#gradient-4)" stroke="none" id="r-4" y="31"></rect><rect x="1" height="5" width="180" fill="url(#gradient-5)" stroke="none" id="r-5" y="61"></rect></g></svg>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>MSNBC Etc. Animated Banners</title>
+ <link rel="stylesheet" href="main.css" type="text/css">
+ <script language="javascript" src="../js/jquery-v141.js"></script>
+ <script language="javascript">
+ 
+ 
+ 
+ 
+  // This runs at after the document is 'ready'
+  $(document).ready(function() {
+		
+		
+	});
+ </script>
+ 
+ <style>
+#container3 {
+    border: 0;
+    margin: 0;
+    margin-top: 45px;
+    margin-left: 45px;
+    padding: 0;
+    background-color: transparent;
+}
+
+.content-bgr {
+    display: inline-block;
+    background-color: #963;
+    padding: 0;
+    border: 0;
+    margin: 0;
+}
+
+.content {
+    border: 0;
+    height: 60px;
+    padding: 2px;
+    margin: 0;
+    background-image:url(../images/white2black-20px-25pct.png);
+    background-size: cover;
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+#content5 {
+    padding-left: 60px;
+    padding-right: 5px;
+    font-size: 36px;
+    font-weight: bold;
+    background-color: #069;
+    color: white; 
+}
+
+#content6 {
+    padding-left: 5px;
+    padding-right: 60px;
+    text-align: right;
+    font-size: 36px;
+    font-weight: bold;   
+    background-color: #069;
+    color: white;
+
+}
+
+#content5, #content6 {
+    position: relative;
+    display: inline-block;
+}
+
+.vert-bar-bg {
+    position: relative;
+    display: inline-block;
+    height: 64px;
+    width: 100px;
+    background-color:#808040;
+    vertical-align: bottom;
+}
+
+#vb1, #vb7 {
+    height: 25px;
+    width: 10px;
+    background-color:#963;
+    position: absolute;
+    top: -10px;
+}
+#vb2, #vb6 {
+    height: 45px;
+    width: 10px;
+    background-color:#963;
+    position: absolute;
+    top: -10px;
+}
+
+#vb3, #vb5 {
+    height: 75px;
+    width: 10px;
+    background-color:#963;
+    position: absolute;
+    top: -10px;
+}
+
+#vb1 {
+    left: 0px;
+}
+#vb7 {
+    right: 0px;
+}
+
+#vb2 {
+    left: 15px;
+}
+#vb6 {
+    right: 15px;
+}
+
+#vb3 {
+    left: 30px;
+}
+#vb5 {
+    right: 30px;
+}
+
+#vb4 {
+    height: 105px;
+    width: 10px;
+    background-color:#963;
+    position: absolute;
+    top: -10px;
+    left: 45px;
+    
+}
+.side-bar {
+    position: absolute;
+    background-color: #963;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow: 3px -3px 5px black;
+    height: 15px;
+}
+
+#sb3 {
+    left: -10px;
+    top: 15px;
+    width: 40px;
+}
+
+#sb4 {
+    left: -10px;
+    top: 35px;
+    width: 60px;
+}
+
+#sb5 {
+    right: -10px;
+    top: 15px;
+    width: 40px;
+}
+
+#sb6 {
+    right: -10px;
+    top: 35px;
+    width: 60px;
+}
+
+.vb-image {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
+.bg-row {
+	border: 0;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
+.vertical-band-rel {
+    border: 0;
+    padding: 0;
+    display: inline-block;
+    /* very important! */
+    vertical-align: bottom;
+}
+
+#vbi1 {
+    height: 64px;
+    width: 10px;
+    background-color: #666;
+} 
+
+#vbi2 {
+    height: 64px;
+    width: 10px;
+    background-color: #603;
+}
+
+
+/* additional vert bar here */
+.vert-bar-bg-2 {
+    position: relative;
+    display: inline-block;
+    height: 64px;
+    width: 72px;
+    background-color:#808040;
+    vertical-align: bottom;
+}
+
+#vb21, #vb27 {
+    height: 25px;
+    width: 6px;
+    background-color:#963;
+    position: absolute;
+    top: -10px;
+}
+#vb22, #vb26 {
+    height: 35px;
+    width: 6px;
+    background-color:#963;
+    position: absolute;
+    top: -10px;
+}
+
+#vb23, #vb25 {
+    height: 55px;
+    width: 6px;
+    background-color:#963;
+    position: absolute;
+    top: -10px;
+}
+
+#vb21 {
+    left: 0px;
+}
+#vb27 {
+    right: 0px;
+}
+
+#vb22 {
+    left: 11px;
+}
+#vb26 {
+    right: 11px;
+}
+
+#vb23 {
+    left: 22px;
+}
+#vb25 {
+    right: 22px;
+}
+
+#vb24 {
+    height: 75px;
+    width: 6px;
+    background-color:#963;
+    position: absolute;
+    top: -10px;
+    left: 33px;
+    
+}
+
+ </style>
+
+</head>
+
+<body>
+
+<div id="container3"><!--
+ --><div class="bg-row" id="bgr2"><!--
+  --><div class="content-bgr" id="cb3"><!--
+   --><div class="content" id="content5"><span>XYZ-9</span><div class="side-bar" id="sb3"></div><div class="side-bar" id="sb4"></div></div></div><!--
+   --><div class="vert-bar-bg" id="vbbg1"><!--
+      --><div class="vert-bar" id="vb1"></div><!--1
+      --><div class="vert-bar" id="vb2"></div><!--2
+      --><div class="vert-bar" id="vb3"></div><!--3
+      --><div class="vert-bar" id="vb4"></div><!--4
+      --><div class="vert-bar" id="vb5"></div><!--5
+      --><div class="vert-bar" id="vb6"></div><!--6
+      --><div class="vert-bar" id="vb7"></div><!--7
+   --></div><!--
+  --><div class="content-bgr" id="cb4"><div class="content" id="content6"><span>Today's Top Story Here</span><div class="side-bar" id="sb5"></div><div class="side-bar" id="sb6"></div></div></div><!--
+ --></div><!--
+--></div>
+
+
+<div id="container3"><!--
+ --><div class="bg-row" id="bgr2"><!--
+  --><div class="content-bgr" id="cb3"><!--
+   --><div class="content" id="content5"><span>WOW!!</span><div class="side-bar" id="sb3"></div><div class="side-bar" id="sb4"></div></div></div><!--
+   --><div class="vert-bar-bg-2" id="vbbg1"><!--
+      --><div class="vert-bar" id="vb21"></div><!--1
+      --><div class="vert-bar" id="vb22"></div><!--2
+      --><div class="vert-bar" id="vb23"></div><!--3
+      --><div class="vert-bar" id="vb24"></div><!--4
+      --><div class="vert-bar" id="vb25"></div><!--5
+      --><div class="vert-bar" id="vb26"></div><!--6
+      --><div class="vert-bar" id="vb27"></div><!--7
+   --></div><!--
+  --><div class="content-bgr" id="cb4"><div class="content" id="content6"><span>David Beats Goliath Badly!</span><div class="side-bar" id="sb5"></div><div class="side-bar" id="sb6"></div></div></div><!--
+ --></div><!--
+--></div>
+
+</body>
+</html>

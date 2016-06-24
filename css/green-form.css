@@ -1,0 +1,85 @@
+#notes, #image-select {
+    margin-left: 15px;
+    font-weight: bold;
+}
+
+#notes, #panel {
+    display: inline-block;
+}
+
+ 
+#panel fieldset {
+    border: solid 3px darkolivegreen;
+    margin: 5px;
+    font: 1.4em "Helvetica Neue";
+    background-color: #d3d3d3;
+    width: 550px;
+}
+ 
+#panel select {
+    font: 1em "Helvetica Neue";
+    color: darkolivegreen;
+}
+ 
+#panel legend {
+    color: darkolivegreen;
+    font-weight: bold;
+    font-variant: small-caps;
+    background-color: #bbb;
+    padding: 2px 6px;
+}
+ 
+#panel label {
+    display: inline-block;
+    width: 150px;
+}
+
+#panel ul {
+    list-style: none;
+    margin-left: -25px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+#panel ul li {
+    margin-bottom: 5px;
+}
+
+.input-button {
+    float: right;
+    color: darkolivegreen;
+    font-weight: bold;
+    border: 3px solid;
+    cursor: pointer;
+}
+ 
+#panel .input-text {
+    /* keeps form from moving during mouseover */
+    border: solid 1px #d3d3d3;
+}
+ 
+#panel .input-text:hover {
+    background-color: #cff;
+    border: solid #060 1px;
+    color: #000;
+}
+ 
+#panel .input-text:focus {
+    background-color: #fff;
+    color: #000;
+    border: solid #060 1px;
+}
+ 
+#panel select#state {
+    border: solid #d3d3d3 1px;
+    background-color: #fff;
+    padding: 2px;
+    margin-right: 5px;
+}
+ 
+#panel select#state:focus {
+    color: #333;
+    background-color: #cff;
+    border: solid #060 1px;
+}
+

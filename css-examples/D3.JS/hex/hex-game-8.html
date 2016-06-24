@@ -1,0 +1,268 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hex Game</title>
+<script src="../../js/jquery-1.7.1.js"></script>
+<script src="../../js/log.js"></script>
+<script src="../d3.v3.js"></script>
+
+<script>
+
+
+var points = [[36.764,65.5], [25.528,46], [36.764,26.5], [59.236,26.5], [70.473,46], [59.236,65.5]];
+var move = 0;
+
+function doD3() {
+	
+	
+	
+	var svg = d3.select("svg");
+
+	var tileHex = function (svg, points, direction) {
+		
+		var poly = d3.geom.polygon(points);
+
+		centroid = poly.centroid();
+
+		var svgPoints = tileStep(points, [0,10]);
+		
+		Log.Notice("svgPoints=" + svgPoints);
+		
+		svg.append("polygon")
+		   .attr("fill", "#fff")
+			 .attr("stroke", "#231F20")
+			 .attr("stroke-miterlimit", 10)
+			 .attr("points", svgPoints);
+	};
+	
+	var arrayToPoints =  function(array) {
+		var i = -1;
+		var sides = array.length;
+
+		var svgPoints = "";
+		
+		while (++i<sides) {
+			svgPoints += array[i][0] + "," + array[i][1] + " ";
+			//Log.Notice("points2[" + i + "]=" + points2[i]);
+		}
+	
+		return svgPoints;
+		
+	};
+
+  var createHexPointsArray = function (side, centroid) {
+		xyDim = Math.cos(Math.PI/6)*side;
+		//Log.Notice("side=" +side + " xyDim=" + xyDim); 
+		var hexagon = new Array(6);
+		// create point1 (uppermost,leftmost)
+	  hexagon[0] = [centroid[0] - side/2, centroid[1] - xyDim];
+		hexagon[1] = [centroid[0] + side/2, centroid[1] - xyDim];
+		hexagon[2] = [centroid[0] + side, centroid[1]];
+		hexagon[3] = [centroid[0] + side/2, centroid[1] + xyDim ];
+		hexagon[4] = [centroid[0] - side/2, centroid[1] + xyDim];
+		hexagon[5] = [centroid[0] - side, centroid[1]];
+	
+		
+	  return hexagon;
+	};
+	
+	
+  var createSvgHexagon = function(svg, hexagon, hexAttrs) {
+
+	  if(arguments.length < 3) {
+			var hexAttrs = {
+				"fill": "#fff",
+			  "class": "hexagon",
+				"stroke": "#231F20",
+				"stroke-miterlimit": 10
+			};
+		}
+		
+		svg.append("polygon")
+		   .attr(hexAttrs)
+			 .attr("points",arrayToPoints(hexagon));
+		
+		return hexagon;
+  };
+	
+	var getPolyCentroid = function(polygon) {
+	  return d3.geom.polygon(polygon).centroid();
+	};
+
+  
+  var getAdjacentCentroid = function (side, centroid, direction) {
+	
+	  var xyDim = Math.cos(Math.PI/6)*side;
+		var newCentroid = new Array(2);
+		switch (direction) {
+			// primary directions:
+			case "s": 
+				newCentroid = [centroid[0], centroid[1] + 2*xyDim];
+				break;		
+			case "n":
+			  newCentroid = [centroid[0], centroid[1] - 2*xyDim];
+				break;
+			case "nw": 
+			  newCentroid = [centroid[0]-3/2*side, centroid[1]-xyDim];
+				break;
+			case "ne":
+			  newCentroid = [centroid[0]+3/2*side, centroid[1]-xyDim];
+				break;
+			case "se":
+			  newCentroid = [centroid[0]+3/2*side, centroid[1]+xyDim];
+				break;
+		  case "sw":
+			  newCentroid = [centroid[0]-3/2*side, centroid[1]+xyDim];
+				break;
+			// secondary directions (not really adjacent):
+			case "w":
+			  newCentroid = [centroid[0]-3*side, centroid[1]];
+				break;
+			case "e":
+			  newCentroid = [centroid[0]+3*side, centroid[1]];
+				break;
+			case "nne": 
+			  newCentroid = [centroid[0] + 3/2*side, centroid[1] - 3/2*xyDim];
+				break;
+			case "nnw": 
+			  newCentroid = [centroid[0] - 3/2*side, centroid[1] - 3/2*xyDim];
+				break;
+			case "ssw": 
+				newCentroid = [centroid[0] - 3/2*side, centroid[1] + 3/2*xyDim];
+				break;
+			case "sse": 
+			  newCentroid = [centroid[0] + 3/2*side, centroid[1] + 3/2*xyDim];
+				break;
+		  case "self":
+			case "center":
+			  newCentroid = [centroid[0], centroid[1]];
+				break;
+			default: 
+			  Log.Error("unknown direction: '" + direction + "'");
+				break;
+		}
+		
+		return newCentroid;
+		
+	};
+	
+	var centroid, innerCentroid, hex;
+  var hexSide = 75;
+	var steps = 1;
+	var startingCentroid = [500,200];
+	var largeMatrix = new Array();
+	
+	var largeMatrixIndex = 0;
+	largeMatrix[largeMatrix.length] = startingCentroid;
+	var directions = ["s", "se", "ne", "n", "nw", "sw", "w", "e"];
+	var directionsRight = ["center", "ne", "se", "s", "e"];
+	var innerHexagon, innerInnerHexagon;
+	var hexAttrs = {
+				"fill": "#fff",
+			  "class": "hexagon",
+				"stroke": "#231F20",
+				"stroke-miterlimit": 10
+	};
+	
+	// Central Hexagon
+	hexAttrs.fill = "#faa";
+
+	
+	var allDirections = ["n", "ne", "e", "se", "s", "sw", "w", "nw"];
+	
+	function generateCentroids (matrix, centroid, side, directions) {
+		for (var j in directions) {
+			matrix[matrix.length] = getAdjacentCentroid(side, centroid, directions[j]);
+		}
+	}
+
+	generateCentroids(largeMatrix, startingCentroid, hexSide, allDirections);
+	
+	
+	// get the south centroid:
+	
+	var southCentroid = getAdjacentCentroid(hexSide, startingCentroid, "s");
+	
+	generateCentroids(largeMatrix, southCentroid, hexSide, ["e", "se", "s", "sw", "w"]);
+	
+	southCentroid = getAdjacentCentroid(hexSide, southCentroid, "s");
+	
+	generateCentroids(largeMatrix, southCentroid, hexSide, ["e", "se", "s", "sw", "w"]);
+	
+	for (var i = 0; i<largeMatrix.length; i++) {
+		//hex = createHexPointsArray(hexSide, largeMatrix[i]);
+		//createSvgHexagon(svg, hex);
+		//Log.Notice("hex i=" + i + " at=" + largeMatrix[i]);
+	}
+
+	var miniMatrix = new Array();
+  for (var i = 0; i<largeMatrix.length;i++) {
+		generateCentroids(miniMatrix, largeMatrix[i], hexSide/3, ["center", "n", "ne", "se", "s", "sw", "nw"]);
+	}
+	
+  for (var i = 0; i< miniMatrix.length; i++) {
+		hex = createHexPointsArray(hexSide/3, miniMatrix[i]);
+		createSvgHexagon(svg, hex);
+	}
+	
+	svg.selectAll("polygon.hexagon")
+		 .data(directions)
+		 .enter();
+		 
+	svg.selectAll("polygon.hexagon")
+		 .on("click", function(d,i) {
+			 d3.select(this)
+				.transition()
+				.ease("bounce-in-out")
+				.duration(2000)
+				.attr("fill", function(d,i) {
+					if (move++%2) {return "#f3a";} else {return "#a3f";}
+				});
+		 });
+};
+
+
+
+
+$(document).ready(function() {
+		Log.Notice("jQuery in ready!");
+	
+	  
+	
+	
+		doD3();
+
+		
+		Log.Notice("Done");
+		//Log.Hide();
+});
+</script>
+
+</head>
+
+<body>
+<svg version="1.1" 
+     id="hexgame" 
+     xmlns="http://www.w3.org/2000/svg" 
+     xmlns:xlink="http://www.w3.org/1999/xlink" 
+     x="0px" 
+     y="0px"
+	   width="1000px" 
+     height="700px" 
+     viewBox="0 0 1000 700" 
+     enable-background="new 0 0 1000 700" 
+     xml:space="preserve"
+     ><!--
+    <polygon fill="#FFFFFF" 
+             stroke="#231F20" 
+             stroke-miterlimit="10" 
+             points="36.764,65.5
+                     25.528,46
+                     36.764,26.5
+                     59.236,26.5
+                     70.473,46 
+	                   59.236,65.5 "/> -->
+</svg>
+</body>
+</html>

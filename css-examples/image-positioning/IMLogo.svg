@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1"
+ id="Layer1"
+ xmlns="http://www.w3.org/2000/svg" 
+ xmlns:xlink="http://www.w3.org/1999/xlink" 
+ x="0px" 
+ y="0px" 
+ width="180px"
+ height="180px" 
+ viewBox="0 0 180 180" 
+ enable-background="new 0 0 180 180" 
+ xml:space="preserve">
+
+    <text id="I"
+    transform="matrix(2.6555 -0.0125 0.0047 1 21 143)" 
+    fill="#FBB040" 
+    font-family="'PalatinoLinotype-Roman'" 
+    font-size="154.2158">I</text>
+    
+	<text id="M"
+    transform="matrix(1	0 0	 1 33 134)" 
+    fill="#ED1C24" 
+    font-family="'PalatinoLinotype-Roman'"
+    font-size="126.8105">M</text>
+
+	<text id="Ideal"
+    transform="matrix(1 0 0 1 42 33)" 
+    fill="#ED1C24" 
+    font-family="'PalatinoLinotype-Roman'" 
+    font-size="44.4452">Ideal</text>
+
+	<text id="Media"
+    transform="matrix(1 0 0 1 32 177)" 
+    fill="#FBB040" font-family="'PalatinoLinotype-Roman'" 
+    font-size="43.65">Media</text>
+
+</svg>

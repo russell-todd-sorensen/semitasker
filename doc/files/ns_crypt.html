@@ -1,0 +1,79 @@
+<html><head>
+<title>ns_crypt - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_crypt.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_crypt.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_crypt(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_crypt - Encrypt a string for use as a password
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_crypt.html"> ns_crypt </a></b> <i class='arg'>key</i> <i class='arg'>salt</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command encrypts the key using the salt and returns the encrypted string. 
+It uses the same algorithm as the Unix crypt command.
+
+Normally, key is a password, of which the first 8 bytes are significant,
+and salt is one or two bytes used to encrypt the key.  The string returned
+should always be 13 characters long and is usable as the password field in
+nscp and nsperm authentication.
+
+The algorithm used is a one-way cipher, which means that the original plain-text
+key cannot be derived knowing the encrypted string alone.  However, since only 
+up to the first 8 bytes of key are significant, this means only a 64-bit key, 
+which is reasonably attacked with modern computers with ordinary brute-force attacks today.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_crypt.html"> ns_crypt </a></b> <i class='arg'>key</i> <i class='arg'>salt</i></a><dd>
+
+
+
+</dl>
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_crypt password qy
+   qyz8eIFW3uJoo
+</pre></td></tr></table></p>
+
+
+
+
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key580"> ns_sha1 </a>, <a href="../index.html#key581"> ns_uudecode, </a>, <a href="../index.html#key579"> ns_uuencode, </a>, <a href="../index.html#key527"> nsd </a>
+</body></html>
+

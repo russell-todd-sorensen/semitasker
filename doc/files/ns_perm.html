@@ -1,0 +1,173 @@
+<html><head>
+<title>ns_perm - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_perm.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_perm.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_perm(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_perm - Add users, groups, and permissions
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>adduser</i> ?<i class='arg'>-allow</i>? ?<i class='arg'>-deny</i>? ?<i class='arg'>-clear</i>? ?<i class='arg'>-salt s</i>? <i class='arg'>name</i> <i class='arg'>pass</i> <i class='arg'>userfield</i> ?host...?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>addgroup</i> <i class='arg'>name</i> <i class='arg'>user</i> ?<i class='arg'>user...</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>allowuser</i> ?-noinherit?</a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>denyuser</i> ?<i class='arg'>-noinherit</i>? <i class='arg'>method</i> <i class='arg'>url</i> <i class='arg'>user...</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>allowgroup</i> ?<i class='arg'>-noinherit</i>? <i class='arg'>method</i> <i class='arg'>url</i> <i class='arg'>group...</i></a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>denygroup</i> ?<i class='arg'>-noinherit</i>? <i class='arg'>method</i> <i class='arg'>url</i> <i class='arg'>group...</i></a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>checkpass</i> <i class='arg'>user</i> <i class='arg'>passwd</i></a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>setpass</i> <i class='arg'>user</i> <i class='arg'>encpass</i></a></td></tr>
+<tr valign=top ><td ><a href="#9"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>listusers</i></a></td></tr>
+<tr valign=top ><td ><a href="#10"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>listgroups</i></a></td></tr>
+<tr valign=top ><td ><a href="#11"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>listperms</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+ns_perm adduser adds the user with the specified name and the encrypted password (encpass)
+and the specified user text (userfield) into the users database.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>adduser</i> ?<i class='arg'>-allow</i>? ?<i class='arg'>-deny</i>? ?<i class='arg'>-clear</i>? ?<i class='arg'>-salt s</i>? <i class='arg'>name</i> <i class='arg'>pass</i> <i class='arg'>userfield</i> ?host...?</a><dd>
+
+
+<i class='arg'>-allow</i> and hostnames are specified, the user will be allowed on the specified hostnames.
+
+<i class='arg'>-deny</i> and hostnames are specified, the user will be denied on the specified hostnames.
+The hostname must be specified as ipaddress/netmask or dnshostname.
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+128.2.142.0/255.255.255.0 or www.microsoft.com or .microsoft.com.
+</pre></td></tr></table></p>
+
+<i class='arg'>-salt</i>
+By default password is assumed encrypted with ns_crypt command and salt CU:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ns_crypt mypasswd CU
+</pre></td></tr></table></p>
+
+This argument tells command that password is clear text and it should be encrypted
+by the ns_perm command with specified salt.
+
+<i class='arg'>-clear</i>
+Tells that we keep password in clear text
+
+<br><br>
+<dt><a name="2"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>addgroup</i> <i class='arg'>name</i> <i class='arg'>user</i> ?<i class='arg'>user...</i>?</a><dd>
+
+
+ns_perm addgroup creates a new group with the specified name that includes the users listed after the name.
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>allowuser</i> ?-noinherit?</a><dd>
+ <i class='arg'>method</i> <i class='arg'>url</i> <i class='arg'>user...</i>]]
+
+ns_perm allowuser allows the specified user access to the specified method and URL combination.
+If -noinherit is specified, only access to the exact URL is allowed; otherwise, URLs under that
+URL are allowed as well.
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>denyuser</i> ?<i class='arg'>-noinherit</i>? <i class='arg'>method</i> <i class='arg'>url</i> <i class='arg'>user...</i></a><dd>
+
+
+ns_perm denyuser denies the specified user access to the specified method and URL combination.
+If -noinherit is specified, only access to the exact URL is denied; otherwise, URLs under that
+URL are denied as well.
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>allowgroup</i> ?<i class='arg'>-noinherit</i>? <i class='arg'>method</i> <i class='arg'>url</i> <i class='arg'>group...</i></a><dd>
+
+
+ns_perm allowgroup allows the specified group access to the specified method and URL combination.
+If -noinherit is specified, only access to the exact URL is allowed; otherwise, URLs under that
+URL are allowed as well.
+
+<br><br>
+<dt><a name="6"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>denygroup</i> ?<i class='arg'>-noinherit</i>? <i class='arg'>method</i> <i class='arg'>url</i> <i class='arg'>group...</i></a><dd>
+
+
+ns_perm denygroup denies the specified group access to the specified method and URL combination.
+If -noinherit is specified, only access to the exact URL is denied; otherwise, URLs under that
+URL are denied as well.
+
+<br><br>
+<dt><a name="7"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>checkpass</i> <i class='arg'>user</i> <i class='arg'>passwd</i></a><dd>
+
+
+ns_perm checkpass checks that the specified plain-text password is correct for the specified user.
+A Tcl error is thrown if it does not match.
+
+<br><br>
+<dt><a name="8"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>setpass</i> <i class='arg'>user</i> <i class='arg'>encpass</i></a><dd>
+
+
+ns_perm setpass updates the specified user's password to the encrypted password encpass. The password
+should be encrypted using ns_encrypt.
+
+<br><br>
+<dt><a name="9"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>listusers</i></a><dd>
+
+
+Produce Tcl list of all current users in the format username password ....
+
+<br><br>
+<dt><a name="10"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>listgroups</i></a><dd>
+
+
+Produce Tcl list with all registered groups in the format: groupname {user ...} ...
+
+<br><br>
+<dt><a name="11"><b class='cmd'><a href="ns_perm.html"> ns_perm </a></b> <i class='arg'>listperms</i></a><dd>
+
+
+Produce Tcl list with all registered allow/deny statements for each url
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ns_perm adduser test [ns_crypt testpass &quot;&quot;] TestUser
+ns_perm adduser -salt CU test2 test TestUser2
+
+ns_perm allowuser GET /Documents test test2
+</pre></td></tr></table></p>
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key0"> NaviServer </a>
+</body></html>
+
+

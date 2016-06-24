@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<link rel="stylesheet" type="text/css" href="main.css">
+<style>
+pre {
+ 	background-color: silver;
+    border: 1px solid black;   
+}
+</style>
+
+<script language="javascript" src="d3.v3.js"></script>
+<script language="javascript" src="../js/jquery-1.7.1.js"></script>
+<script language="javascript" src="../js/log.js"></script>
+<script language="javascript" >
+
+var version = d3.version;
+
+var myArray = new Array();
+myArray = {1:5,2:6,3:7,4:1,5:2,6:3,7:8,8:9,9:0};
+var myObject = new Object();
+myObject = [a=1,b=2];
+// test d3 functions
+function test_d3_1 () {
+	
+	var a = 1, b = 2;
+	var ascending_p_a_b = d3.ascending(a, b);
+	Log.Debug('a=' + a 
+		+ ', b=' + b 
+		+ ', ascending(a,b)='  + ascending_p_a_b 
+		+ ',   ascending(b,a)='  + d3.ascending(b,a) 
+		+ ',  ascending(a,a)='  + d3.ascending(a,a) 
+		+ '\n'
+		+ '          descending(a,b)='    + d3.descending(a,b)  
+		+ ', descending(b,a)='  + d3.descending(b,a) 
+		+ ', descending(a,a)='  + d3.descending(a,a)
+		); 
+	var map = d3.map(myObject);
+	Log.Debug('map.keys=' + map.keys());
+	Log.Debug('map.get(0)=' + map.get(0));
+	
+	var map2 = d3.map($);
+	Log.Debug('map2.keys=' + map2.keys());
+	Log.Debug('map2.get(\'fn\')=' + map2.get('fn'));
+	
+	var map3 = d3.map(d3);
+	Log.Debug('map3.keys=' + map3.keys());
+	//Log.Debug('map3.get(\'fn\')=' + map3.get('fn'));
+	map3.forEach(function(key, value) {
+		Log.Debug('map3.get(' + key + ')=' + value + '\n');
+	});
+
+	Log.Debug('end of tests');
+}
+
+function writeHtml(error, request) {
+	Log.Debug('writeHtml error =' + error 
+		 + ' request=' + request);
+        if (error === null ) {
+          $('#stuff').html(request);
+        }
+}
+
+function processResponse(data, status) {
+	if (status == 'success') {
+		$('#stuff').html('here it is:' + data );
+	} else {
+		$('#stuff').html('<h2>sorry, didn\'t work');
+	}
+}
+
+$(document).ready(function () {
+	log = $('#log');
+	Log.Debug('d3.js version=' + version);
+	//test_d3_1();
+	
+  //var myHTML = d3.html('http://192.168.1.24/git/tcl2/pages/css-examples/msnbc/msnbc-dynamic-2.html',writeHtml);
+  var myHTML = d3.html('../msnbc/msnbc-dynamic-2.html', writeHtml);
+  //var myHTML = d3.html('http://192.168.1.24:8080/css-examples/msnbc/msnbc-dynamic-1.html',writeHtml);
+  Log.Debug('ready(): finished myHTML');
+  $('#stuff').add(myHTML);
+  //$.get('http://ic00408/git/tcl2/pages/css-examples/msnbc/msnbc-dynamic-2.html','x=y',processResponse);
+  //$.get('http://ic00408:8080/css-examples/msnbc/msnbc-dynamic-2.html','',processResponse);
+  Log.Debug('Finished ready()');
+});
+
+</script>
+</head>
+<body>
+<div class="test" >This is a test</div>
+<div id="stuff"></div>
+
+
+</body>
+</html>

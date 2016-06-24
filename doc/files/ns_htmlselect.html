@@ -1,0 +1,84 @@
+<html><head>
+<title>ns_htmlselect - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_htmlselect.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_htmlselect.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_htmlselect(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_htmlselect - Build an HTML SELECT form widget from the specified data
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_htmlselect.html"> ns_htmlselect </a></b> ?<i class='arg'>-multi</i>? ?<i class='arg'>-sort</i>? ?<i class='arg'>-labels labels</i>? <i class='arg'>name</i> <i class='arg'>values</i> ?<i class='arg'>selectedData</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command builds an HTML SELECT tag using the passed-in data.
+
+If -multi is specified, the SELECT will be generated with the MULTIPLE attribute to allow multiple 
+options to be selected.  This option also affects the SIZE attribute output for the SELECT.  If 
+-multi is specified, the SIZE attribute will be set to 5 or the number of elements in values, 
+whichever is less.  If -multi is not specified, then the SIZE attribute will be set to 5 if 
+there are more than 25 elements in values.  If there are 25 or fewer elements in values, the
+SIZE attribute will be omitted (equivalent to SIZE=1).
+
+<p>
+If -sort is specified, the option list of the SELECT will be sorted according to the elements of
+labels, or the elements of values if labels is not specified.  
+
+<p>
+labels is an optional list of labels to display.  If not specified, the elements of values will be
+used.  The order and number of the labels list must match the order and number of the values list.
+
+<p>
+name specifies the NAME attribute of the SELECT.
+
+<p>
+values is a list of the OPTIONs for the SELECT. If a labels list is not specified, the values
+themselves will be used as the OPTION labels.  
+
+<p>
+selectedData is an optional list of the OPTIONs that will be selected by default.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_htmlselect.html"> ns_htmlselect </a></b> ?<i class='arg'>-multi</i>? ?<i class='arg'>-sort</i>? ?<i class='arg'>-labels labels</i>? <i class='arg'>name</i> <i class='arg'>values</i> ?<i class='arg'>selectedData</i>?</a><dd>
+
+
+
+</dl>
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % set favoriteAnimal [[ns_htmlselect_old -sort -labels [list dog cat cow]] &quot;favoriteAnimal&quot;]
+</pre></td></tr></table></p>
+
+</body></html>
+

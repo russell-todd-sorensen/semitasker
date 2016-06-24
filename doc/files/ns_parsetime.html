@@ -1,0 +1,63 @@
+<html><head>
+<title>ns_parsetime - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_parsetime.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_parsetime.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_parsetime(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_parsetime - Return an element from the time structure list
+
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_parsetime.html"> ns_parsetime </a></b> <i class='arg'>option</i> <i class='arg'>time</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command takes a nine-element Tcl list as time representing the Unix struct 
+tm structure (as would be returned from ns_gmtime or ns_localtime) and based on 
+option, returns an element from the list.  The valid options are: sec, min, hour,
+mday, mon, year, wday, yday, isdst.  The options are listed in order of the actual
+elements in the Tcl list itself.
+
+
+<dl>
+<dt><a name="1"><b class='cmd'><a href="ns_parsetime.html"> ns_parsetime </a></b> <i class='arg'>option</i> <i class='arg'>time</i></a><dd>
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % set time ns_localtime
+   33 33 22 11 5 104 5 162 1
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % expr {1900 + 123}
+</pre></td></tr></table></p>
+
+</body></html>
+

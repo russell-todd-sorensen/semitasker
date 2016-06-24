@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Background Gradient Testing</title>
+ <link rel="stylesheet" type="text/css" href="main.css">
+ <script language="javascript" src="../js/jquery-v141.js"></script>
+ <script language="javascript">
+ var log; // use to log info about what is happening
+ 
+ function shrinkDimension(id, padding) {
+	 	var height = $(id).height();
+		var width  = $(id).width();
+		var innerHeight = $(id).innerHeight();
+		var innerWidth = $(id).innerWidth();
+		log.append('Before: id =' + id + ' height=' + height
+			+ ' width=' + width + ' innerHeight='
+			+ innerHeight + ' innerWidth=' + innerWidth
+			+ '\n');
+	  $(id).height(parseInt(height)+2*padding);
+		$(id).width(parseInt(width)+2*padding);
+	  var height = $(id).height();
+		var width  = $(id).width();
+		var innerHeight = $(id).innerHeight();
+		var innerWidth = $(id).innerWidth();
+		log.append('After: id =' + id + ' height=' + height
+			+ ' width=' + width + ' innerHeight='
+			+ innerHeight + ' innerWidth=' + innerWidth
+			+ '\n');
+ }
+ 
+ function resetAnimation() {
+	 $('.light').css({'left':'-80px'});
+	 $('#frame7').css({'background-position': '-40px'});
+	 repeatAnimation();
+ }
+ 
+ function repeatAnimation() {
+	 log.append('running animation\n');
+	 $('.light').animate({left:280},8000);
+	 $('#frame7').animate({'background-position':280},8000,resetAnimation);
+ }
+ 
+ // This runs at after the document is 'ready'
+ $(document).ready(function() {
+   log = $('#log');
+	 log.append('Document Ready!\n');
+	 shrinkDimension('#time2',-1);
+	 $('.light').animate({left:280},8000);
+	 //$('#frame7').animate({'background-position':200},8000);
+	 $('#frame7').animate({backgroundPosition:'280px'},8000,resetAnimation);
+ });
+ 
+ </script>
+<style>
+
+</style>
+
+</head>
+<body>
+
+<h2>Background Gradient Example </h2>
+
+<div id="outsideButtons">
+<div id="container5">
+ <div class="slider"></div>
+ <div class="front"><span id="time1">15:00</span></div>
+ <div class="topG"></div>
+ <div class="bottomG"></div>
+ <div class="light"></div>
+</div>
+</div>
+
+<div id="outsideButtons6">
+<div id="container6">
+ <div class="slider"></div>
+ <div class="front"><span id="time2">15:00</span><span id="time4">2nd</span></div>
+ <div class="topG2"></div>
+ <div class="bottomG2"></div>
+ <!--<div class="light"></div>-->
+</div>
+</div>
+
+
+<div id="frame7">
+ <div id="outsideButtons7">
+ <div id="container7">
+  <div class="slider"></div>
+  <div class="front"><span id="time2">15:00</span><span id="time3">2nd</span><span id="time5">4th &amp; 10</span></div>
+  <div class="grad1-20"></div>
+  <div class="light"></div>
+ </div>
+ </div>
+ <!--<div class="light">--></div>
+</div>
+
+
+<pre id="log">
+Logging information
+</pre>
+
+
+</body>
+</html> 

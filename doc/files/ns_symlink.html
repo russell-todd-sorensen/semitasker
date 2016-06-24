@@ -1,0 +1,74 @@
+<html><head>
+<title>ns_symlink - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_symlink.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_symlink.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_symlink(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_symlink - Create a symbolic link
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_symlink.html"> ns_symlink </a></b> ?<i class='arg'>-nocomplain</i>? <i class='arg'>filename1</i> <i class='arg'>filename2</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command creates a symbolic link named filename2 that points to the file or
+directory specified by filename1.  If the link fails, a Tcl error is generated,
+unless -nocomplain is specified.
+
+This is a legacy command from when Tcl did not have this functionality. 
+It is now recommended you use Tcl's file link command instead.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_symlink.html"> ns_symlink </a></b> ?<i class='arg'>-nocomplain</i>? <i class='arg'>filename1</i> <i class='arg'>filename2</i></a><dd>
+
+
+
+</dl>
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   ns_symlink $file1 $file2
+</pre></td></tr></table></p>
+
+<p>is equivalent to:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   file link -symbolic $file1 $file2
+</pre></td></tr></table></p>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_symlink 
+</pre></td></tr></table></p>
+
+</body></html>
+

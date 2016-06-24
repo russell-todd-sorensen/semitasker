@@ -1,0 +1,93 @@
+<html><head>
+<title>ns_tagelement - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_tagelement.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_tagelement.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_tagelement(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_tagelement - Find the value of an attribute in an HTML element.
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_tagelement.html"> ns_tagelement </a></b> <i class='arg'>tag</i> <i class='arg'>attribute</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command takes a string containing an HTML element, tag, and searches it
+for the specified attribute.  If the attribute is found, its value is returned.
+If the attribute is not found, an empty string is returned.  If the attribute's
+value is surrounded by double quotes, they will be removed.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_tagelement.html"> ns_tagelement </a></b> <i class='arg'>tag</i> <i class='arg'>attribute</i></a><dd>
+
+
+
+</dl>
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+% set tag {&lt;img height=150 border=0 class=&quot;c1 c2&quot; src='me.jpg'&gt;}
+&lt;img height=150 border=0 class=&quot;c1 c2&quot; src='me.jpg'&gt;
+
+% ns_tagelement $tag id
+
+% ns_tagelement $tag border
+150
+
+% ns_tagelement $tag class 
+c1 c2
+
+% ns_tagelement $tag src
+'me.jpg'
+</pre></td></tr></table></p>
+
+<p>
+
+NOTES
+
+Is not removing single quotes surrounding the value a bug?
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key67"> ns_tagelementset </a>
+</body></html>
+

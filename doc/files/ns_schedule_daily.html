@@ -1,0 +1,87 @@
+<html><head>
+<title>ns_schedule_daily - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_schedule_daily.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_schedule_daily.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_schedule_daily(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_schedule_daily - Schedule a script to run daily at a certain time
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_schedule_daily.html"> ns_schedule_daily </a></b> ?<i class='arg'>-once</i>? ?<i class='arg'>-thread</i>? <i class='arg'>hour</i> <i class='arg'>minute</i> <i class='arg'>script</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command schedules a script to be run at a certain hour and minute of the day. 
+Returns the ID of the newly scheduled script.  If -once is specified, then the script
+is run once and then unscheduled, otherwise it will continue to run every day at that
+time.  If -thread is specified, then the script will be run in its own thread, 
+otherwise it will run in the scheduler's thread.  If the script is long-running,
+this may interfere with the running of other scheduled scripts, so long-running scripts should
+be run in their own threads.
+
+NOTE: hour and minute are specified in local time.  Beware of Daylight Savings Time
+shifts affecting the time of day when the script will execute.
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+ <dt><a name="1"><b class='cmd'><a href="ns_schedule_daily.html"> ns_schedule_daily </a></b> ?<i class='arg'>-once</i>? ?<i class='arg'>-thread</i>? <i class='arg'>hour</i> <i class='arg'>minute</i> <i class='arg'>script</i></a><dd>
+
+
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % set id [[ns_schedule_daily -once 5 35 { ns_log notice &quot;It is now 5:35 AM.&quot; }]]
+   123
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_unschedule_proc $id
+</pre></td></tr></table></p>
+
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key526"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key573"> ns_after </a>, <a href="../index.html#key7"> ns_info </a>, <a href="../index.html#key76"> ns_pause </a>, <a href="../index.html#key74"> ns_resume </a>, <a href="../index.html#key72"> ns_schedule_proc </a>, <a href="../index.html#key73"> ns_schedule_weekly </a>, <a href="../index.html#key77"> ns_unschedule_proc </a>, <a href="../index.html#key75"> scheduled </a>
+</body></html>
+

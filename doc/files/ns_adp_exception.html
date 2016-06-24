@@ -1,0 +1,87 @@
+<html><head>
+<title>ns_adp_exception - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_adp_exception.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_adp_exception.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_adp_exception(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_adp_exception - Examine the current ADP exception  state
+
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'>ok</b> </a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'>overflow</b> </a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'>abort</b> </a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'>break</b> </a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'>unknown</b> </a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+<p>
+
+ns_adp_exception ?state?
+
+<p>
+This function is used to examine  the  current  ADP exception  state.
+The  function  returns 0 if the exception state is ok and 1 otherwise.
+
+<p>
+If the optional state argument is passed,  a  variable with that name will
+be set for the caller, and will contain the exception state with  one  of  the
+following possible values:
+
+<dl>
+
+<dt><a name="1"><b class='cmd'>ok</b> </a><dd>
+
+
+ADP was evaluated successfully
+
+<br><br>
+<dt><a name="2"><b class='cmd'>overflow</b> </a><dd>
+
+
+Stack overflow occurred.  This might happen, for example, if there was a recursive call to ns_adp_include.
+
+<br><br>
+<dt><a name="3"><b class='cmd'>abort</b> </a><dd>
+
+
+An attempt to debug failed or ns_adp_abort was called.
+
+<br><br>
+<dt><a name="4"><b class='cmd'>break</b> </a><dd>
+
+
+ns_adp_break was called
+
+<br><br>
+<dt><a name="5"><b class='cmd'>unknown</b> </a><dd>
+
+
+Unrecognized exception status.  This should not occur.
+
+</dl>
+
+</body></html>
+

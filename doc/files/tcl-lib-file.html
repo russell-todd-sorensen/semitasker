@@ -1,0 +1,67 @@
+<html><head>
+<title>Support for .tcl-style dynamic pages - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/tcl-lib-file.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ Support for .tcl-style dynamic pages.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> Support for .tcl-style dynamic pages(n) 4.99.2  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> Support for .tcl-style dynamic pages - Setting up a TCL error page
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#support_for_.tcl-style_dynamic_pages_via_adp_engine">Support for .tcl-style dynamic pages via ADP engine</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+Similar to the ADP error page example in your sample-config.tcl file you could setup a TCL error page:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+ns_section &quot;ns/server/${servername}/tcl&quot;
+ns_param   errorpage   ${serverdir}/${pageroot}/errorpage.tcl  ;# TCL error page
+
+</pre></td></tr></table></p>
+
+<h2><a name="support_for_.tcl-style_dynamic_pages_via_adp_engine">Support for .tcl-style dynamic pages via ADP engine</a></h2>
+<p>
+
+Another way to support .tcl pages to use ADP engine to process .tcl file as
+ADP pages. the engine will source Tcl file and wrap it as &lt;% ns_adp_include filename %&gt;,
+then compiled it as regular ADP page. If caching enabled, the tcl file will be compiled as
+Tcl proc into bytecode. Using ADP engine is faster than using file.tcl based approach.
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+ns_section &quot;ns/server/${servername}/adp&quot;
+ns_param   enabletclpages  false                               ;# Parse *.tcl files in pageroot.
+ns_param   errorpage   ${serverdir}/${pageroot}/errorpage.adp  ;# ADP error page
+
+</pre></td></tr></table></p>
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key0"> NaviServer </a>
+</body></html>

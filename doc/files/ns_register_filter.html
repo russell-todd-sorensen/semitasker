@@ -1,0 +1,159 @@
+<html><head>
+<title>ns_register_filter - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_register_filter.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_register_filter.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_register_filter(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_register_filter - Register a filter function for a method/URL combination
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#notes">NOTES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_register_filter.html"> ns_register_filter </a></b> <i class='arg'>when</i> <i class='arg'>method</i> <i class='arg'>URLpattern</i> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+ns_register_filter registers a Tcl filter script for the specified method/URL combination
+on a virtual server. The script can be called at one or more of three given times:
+pre-authorization, post-authorization before page data has been returned to the user,
+and after the connection has been processed and closed.
+
+<p>
+This function will be called at the specified stage of a connection, if the method/URL
+combination for the filter matches the method/URL combination for the connection using glob style matching.
+
+<p>
+The URLpattern can contain standard string-matching characters. For example, these are valid URLpatterns:
+
+<p>
+/employees/*.tcl
+<p>
+/accounts/*/out
+
+<p>
+Valid values for the when argument are: preauth, postauth, and trace.
+
+<p>
+Using pre-authorization, the procedure will be called (assuming that the method/URL
+combination matches) just before authorization. If the procedure returns with a code of:
+
+<ul>
+
+<li> TCL_OK (using: return &quot;filter_ok&quot;): The server will continue to the next pre-authorization
+         filter for this connection, or, if there are no more pre-authorization filters, it will
+          continue on with authorization.
+
+<br><br>
+<li> TCL_BREAK (using: return &quot;filter_break&quot;): The server will not process any more pre-authorization
+         filters for this connection, and it will continue on with authorization.
+
+<br><br>
+<li> TCL_RETURN (using: return &quot;filter_return&quot;): The server will close the connection and will
+         not run any more pre-authorization filters. It will not authorize the request, and it will
+         not run the function registered for this METHOD/URL. It WILL run any trace functions
+         registered for this METHOD/URL, usually including logging. It is assumed that the filter
+         has sent a proper response (e.g., using ns_return) to the client before returning TCL_RETURN.
+</ul>
+
+Using post-authorization, the procedure will be called (assuming that the method/URL combination matches)
+just after successful authorization. If the procedure returns:
+
+<ul>
+
+<li> TCL_OK (using: return &quot;filter_ok&quot;): The server will continue to the next post-authorization 
+         filter for this connection, or, if there are no more post-authorization filters, it will run
+         the function registered to handle this request.
+
+<br><br>
+<li> TCL_BREAK (using: return &quot;filter_break&quot;): The server will not process any more post-authorization
+         filters for this connection, and it will run the function registered to handle this request.
+
+<br><br>
+<li> TCL_RETURN (using: return &quot;filter_return&quot;): The server will close the connection and will
+         not run any more post-authorization filters and it will not run the function registered for
+         this METHOD/URL. It WILL run any trace functions registered for this METHOD/URL, usually
+         including logging. It is assumed that the filter has returned a proper response (e.g.,
+          using ns_return) to the client before returning TCL_RETURN.
+
+</ul>
+
+Using trace, the procedure will be called (assuming that the method/URL combination match) after
+the connection has been totally processed and closed. If the procedure returns:
+
+<ul>
+
+<li> TCL_OK (using: return &quot;filter_ok&quot;): The server will continue to the next trace filter.
+
+<br><br>
+<li> TCL_BREAK, TCL_RETURN (using: return &quot;filter_break&quot; or return &quot;filter_return&quot;): The rest
+         of the trace filters are ignored.
+
+</ul>
+
+<h2><a name="notes">NOTES</a></h2>
+<p>
+
+ns_register_filter and ns_register_proc are similar, but significantly different.
+With ns_register_proc, the specified URL is used to match that URL and any URL below
+it in the hierarchy. Wildcards such as &quot;*&quot; are meaningful only for the final part of
+the URL, such as /scripts/*.tcl. With ns_register_filter, the URLpattern is used to 
+match URLs as a string with standard string-matching characters. ns_register_proc 
+results in a single match, whereas multiple ns_register_filters can be matched and
+will be called.
+
+Be aware that executing the same ns_register_filter statement more than once (as
+you might do when re-initializing Tcl) will add the filter more than once! You 
+may want to have a shared variable set so that you don't do this.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_register_filter.html"> ns_register_filter </a></b> <i class='arg'>when</i> <i class='arg'>method</i> <i class='arg'>URLpattern</i> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a><dd>
+
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+This example expires all HTML files after an hour.
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+ns_share -init {set filters_installed 0} filters_installed
+
+if {!$filters_installed} {
+  set filters_installed 1
+  ns_register_filter postauth GET /*.html ExpireSoon 3600
+}
+proc ExpireSoon {seconds why} {
+  ns_set update [ns_conn outputheaders] Expires [ns_httptime [expr $seconds + [ns_time]]]
+}
+</pre></td></tr></table></p>
+
+</body></html>
+

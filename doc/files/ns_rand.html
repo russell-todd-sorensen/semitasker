@@ -1,0 +1,78 @@
+<html><head>
+<title>ns_rand - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_rand.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_rand.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_rand(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_rand - Generate a random number
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_rand.html"> ns_rand </a></b> ?<i class='arg'>maximum</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command generates a cryptographically secure random number. 
+If maximum is not specified, the random number returned is a 
+floating-point value n such that 0.0 &amp;lt;= n &amp;lt; 1.0.  If maximum
+is specified, it must be a positive integer between 1 and 2147483647,
+in which case ns_rand will return an integer value n such that 0 &lt;= n &lt;= max - 1.
+
+Internally ns_rand is implemented with the drand48() and lrand48() standard
+library functions.  An internal random seed is generated the first time 
+ns_rand is called after the server starts.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+ <dt><a name="1"><b class='cmd'><a href="ns_rand.html"> ns_rand </a></b> ?<i class='arg'>maximum</i>?</a><dd>
+
+
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_rand
+   0.39938485692
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_rand 10
+   7
+</pre></td></tr></table></p>
+
+<p>CAVEAT
+
+ [ns_rand 1] will always produce the result 0. [ns_rand 2] will produce the desired &quot;coin flip&quot; outcome of 0 or 1. This is standard with 
+
+
+</body></html>
+

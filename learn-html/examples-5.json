@@ -1,0 +1,14 @@
+[
+ {
+	html: "<div id='x'>Hello, World!</div>",
+	css: "<style>\r\n#x {\r\nbackground-color: red;\r\ncolor: white;\r\n\r\n}\r\n</style>"
+ },
+ { 
+ css: '<style>\r\n\#a {\r\ncolor: blue;\r\nbackground-color: white;\r\n}\r\n</style>',
+ html: '<div id="a">This id div a</div>'
+ },
+ {
+	css: '<style>\r\n#b {\r\ncolor: silver;\r\nbackground-color: white;\r\nborder: solid green 5px;\r\n}\r\n</style>',
+	html: '<div id="b">\r\n Hello, World!\r\n</div>'
+ }
+]

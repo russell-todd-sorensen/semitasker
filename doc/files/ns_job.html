@@ -1,0 +1,250 @@
+<html><head>
+<title>ns_job - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_job.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_job.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_job(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_job - Implement job queues and thread pools for evaluating Tcl scripts
+
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>option</i> ?<i class='arg'>arg arg ...</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>configure</i> ?<i class='arg'>-jobsperthread N</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>create</i> ?<i class='arg'>-desc description</i>? <i class='arg'>queueId</i> ?<i class='arg'>maxthreads</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>queue</i> ?<i class='arg'>-detached</i>? ?<i class='arg'>-jobid id</i>? <i class='arg'>queueId</i> <i class='arg'>script</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>wait</i> ?<i class='arg'>-timeout seconds:microseconds</i>? <i class='arg'>queueId</i> <i class='arg'>jobId</i></a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>waitany</i> ?<i class='arg'>-timeout seconds:microseconds</i>? <i class='arg'>queueId</i></a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>exists</i> <i class='arg'>queueId</i> <i class='arg'>jobId</i></a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>cancel</i> <i class='arg'>queueId</i> <i class='arg'>jobId</i></a></td></tr>
+<tr valign=top ><td ><a href="#9"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>delete</i> <i class='arg'>queueId</i></a></td></tr>
+<tr valign=top ><td ><a href="#10"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>jobs</i> <i class='arg'>queueId</i></a></td></tr>
+<tr valign=top ><td ><a href="#11"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>queues</i></a></td></tr>
+<tr valign=top ><td ><a href="#12"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>threadlist</i></a></td></tr>
+<tr valign=top ><td ><a href="#13"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>queuelist</i></a></td></tr>
+<tr valign=top ><td ><a href="#14"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>joblist</i> <i class='arg'>queueId</i></a></td></tr>
+<tr valign=top ><td ><a href="#15"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>genid</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+ns_job manages a thread pool and a set of named &quot;queues&quot;. Queues have a max number of
+threads and when the current number of running thread reaches &quot;max&quot; then jobs are 
+queued.  New threads are created when there are less than maxthread number of idle threads.
+
+<p>
+This command provides a means for queueing Tcl scripts for evaluation by a pool of threads. 
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>option</i> ?<i class='arg'>arg arg ...</i>?</a><dd>
+
+
+
+</dl>
+
+<dl>
+
+<dt><a name="2"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>configure</i> ?<i class='arg'>-jobsperthread N</i>?</a><dd>
+
+
+Configures jobs system, parameters are:
+
+<i class='arg'>-jobsperthread</i> defines how many jobs each thread can process and then gracefully exit, this
+works the same way as connsperthread config parameter for connection threads to help reduce memory
+consumption and cleanup Tcl resources.
+
+<br><br>
+Without any arguments, the command just returns current settings values
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>create</i> ?<i class='arg'>-desc description</i>? <i class='arg'>queueId</i> ?<i class='arg'>maxthreads</i>?</a><dd>
+
+
+Create a new job queue called queueId. If maxthreads is not specified, then the default of 4 is used.
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>queue</i> ?<i class='arg'>-detached</i>? ?<i class='arg'>-jobid id</i>? <i class='arg'>queueId</i> <i class='arg'>script</i></a><dd>
+
+
+Add a new job to the queue. If there are less than maxthreads current running then the job will
+be started. If there are maxthreads currently running then this new job will be queued.
+
+<br><br>
+If -detached, then the job will be claned up when it completes; no wait will be necessary.
+
+<br><br>
+if -jobid is specified, it will be used as new job id instead of auto-genereated one. If 
+such job already exists, erro will be fired.
+
+<br><br>
+if -head is specified, then new job will be inserted in the beginning of the joblist,otherwise
+and by default every new job is added to the end of the job list.
+
+<br><br>
+The new job's ID is returned.
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>wait</i> ?<i class='arg'>-timeout seconds:microseconds</i>? <i class='arg'>queueId</i> <i class='arg'>jobId</i></a><dd>
+
+
+Wait for the specified queued or running job to finish.  ns_job wait returns the results of the script.
+
+An error is thrown if the specified timeout period is reached.
+
+<br><br>
+<dt><a name="6"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>waitany</i> ?<i class='arg'>-timeout seconds:microseconds</i>? <i class='arg'>queueId</i></a><dd>
+
+
+Wait for any job on the queue complete.
+
+An error is thrown if the specified timeout period is reached.
+
+<br><br>
+<dt><a name="7"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>exists</i> <i class='arg'>queueId</i> <i class='arg'>jobId</i></a><dd>
+
+
+Returns 1 if such job is running the the given queue, otherwise returns 0.
+
+<br><br>
+<dt><a name="8"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>cancel</i> <i class='arg'>queueId</i> <i class='arg'>jobId</i></a><dd>
+
+
+Remove the specified job from the queue. If the job is currently running, then the job will be
+removed from the queue when it completes.
+
+1 (true) is returned if the job is currently running and can not be cancelled.
+
+<br><br>
+<dt><a name="9"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>delete</i> <i class='arg'>queueId</i></a><dd>
+
+
+Request that the specified queue be deleted. The queue will only be deleted when all jobs are removed.
+
+<br><br>
+<dt><a name="10"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>jobs</i> <i class='arg'>queueId</i></a><dd>
+
+
+Return a list of the job IDs.
+
+<br><br>
+<dt><a name="11"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>queues</i></a><dd>
+
+
+Returns a list of the queue IDs.
+
+<br><br>
+<dt><a name="12"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>threadlist</i></a><dd>
+
+
+Returns a list of the thread pool's fields.
+
+<br><br>
+maxthreads - Max number of threads for all the queues in the thread pool.
+
+<br><br>
+numthreads - Number of allocated threads.
+
+<br><br>
+numidle - Number of currently idle threads.
+
+<br><br>
+req stop - The thread pools is being stopped. This probably means that the server is shutting down.
+
+<br><br>
+<dt><a name="13"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>queuelist</i></a><dd>
+
+
+Returns a list of the queues. A queue has the following fields:
+
+<br><br>
+name - Name of the queue.
+
+<br><br>
+desc - Description of the queue.
+
+<br><br>
+maxthreads - Max number of threads to run for this queue.
+
+<br><br>
+numrunning - Number of currently running jobs in this queue.
+
+<br><br>
+REQ delete - Someone requested this queue be deleted. Queue will not be deleted until all the jobs on the queue are removed.
+
+<br><br>
+<dt><a name="14"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>joblist</i> <i class='arg'>queueId</i></a><dd>
+
+
+Returns a list the jobs in the specified queue. A job has the following fields:
+
+<br><br>
+id - Job's ID
+
+<br><br>
+state - The state of the job.  The return values are as follows:
+
+<br><br>
+scheduled - The job is scheduled to run.
+
+<br><br>
+running - The job is currently running.
+
+<br><br>
+done - The job has completed.
+
+<br><br>
+results - If the job has completed, then this field will contain the results. If the job is running 
+or scheduled to run, then this will contain the script.
+
+<br><br>
+code - When the job is done, this will contain the return code. Return codes are 
+TCL_OK, TCL_ERROR, TCL_RETURN, TCL_BREAK, TCL_CONTINUE.
+
+<br><br>
+type - The type of job.  A job's return value is nondetached or detached.
+
+<br><br>
+req - The job is required.   Return values are none, wait, cancel.
+
+<br><br>
+<dt><a name="15"><b class='cmd'><a href="ns_job.html"> ns_job </a></b> <i class='arg'>genid</i></a><dd>
+
+
+Generate a new unique ID. This new ID can be used as the queue ID without conflicting with any other queue ID.
+
+</dl>
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+</body></html>
+

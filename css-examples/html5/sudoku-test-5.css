@@ -1,0 +1,217 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* Major Divisions */
+
+#t {
+    float: left;
+}
+#t2 {
+    clear: both;
+}
+body {
+	background-image:url(../My%20Pictures/OneIMLogo4.svg);
+    background-size: auto;
+}
+pre, #target, #x {
+    background-color: black;
+    color: white;
+    border-color: red;
+    border-width: 1px;
+    border-style: solid;
+    font-family: "Courier New", Courier, monospace;
+}
+.data {
+    /*padding-left: 4px;
+    padding-rignt: 4px;*/
+    padding: 4px;
+    background-color: green;
+
+}
+.top {
+    display: inline-block;
+    border: 1px;
+    border-color: darkgreen;
+    border-style: solid;
+    background-color: tan;
+    background-size:contain;
+    cursor:pointer;
+}
+input {
+    cursor: pointer;
+}
+.cell2 {
+    font-size: 24px;
+    padding: 4px;
+    background-color: green;
+    display: inline;
+}
+.rightbox, .leftbox {
+    /*padding: 2px; */
+    display: inline;
+}
+.row {
+    padding: 5px;
+   /* border: 1px;
+    border-style: solid;
+    border-color: yellow; */
+    /*width: 500px; */
+}
+.boxrow {
+    /*padding-bottom: 8px; */
+}
+/*
+.input {
+    height: 18px;
+    width: 18px;
+    font-size: 20px;
+    background-color: green;
+    border: none;
+    align: center;
+    valign: center;
+    text-align: center;
+}
+
+.input2 {
+    height: 18px;
+    width: 18px;
+    font-size: 24px;
+    background-color: green;
+    border: none;
+    align: center;
+    valign: center;
+    text-align: center;
+    padding: 4px;
+}
+
+.input3 {
+    height: 18px;
+    width: 18px;
+    font-size: 24px;
+    background-color: green;
+    border: none;
+    align: center;
+    valign: center;
+    text-align: center;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+*/
+.cell {
+    height: 18px;
+    width: 18px;
+    /*font-size: 24px; */
+    text-shadow:#060;
+    background-color:#996;
+    
+    border: none;
+    align: center;
+    valign: center;
+    text-align: center;
+    padding-left: 12px;
+    padding-right: 12px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    /*margin: 0px; */
+    display: inline;
+}
+
+.box1, .box3, .box5, .box7, .box9 {
+    color: white;
+}
+.box2, .box4, .box6, .box8 {
+    color: white;
+}
+/* individual box colors */
+.box3 {
+    background-color: #969 ;
+}
+.box1 {
+    background-color: #939;
+}
+
+.box5 {
+    /*background-color: #909; */
+   	background-color: #336;
+}
+
+.box7 {
+    background-color: #669;
+}
+
+.box9 {
+    background-color: #336;
+}
+
+.box8 {
+    background-color: #609;
+}
+
+.box4 {
+    background-color: #369;
+}
+
+.box6 {
+    background-color: #339;
+}
+
+.box2 {
+    /*background-color: #309; */
+    background-color: #669;
+}
+
+#logger2 {
+    /*overflow: scroll;
+    max-height: 200px; 
+    overflow-style:marquee-block; */
+    min-height: 200px;
+    clear: both;
+}
+
+.leftPhone  {
+    /*display: inline; */
+    border-radius: 20px 0px 0px 20px;
+    background-color: black;
+    width: 30px;
+    height: 298px;
+    float: left;
+}
+
+.Screen {
+    background-color: silver;
+    width: 450px;
+    min-height: 288px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-right: 45px;
+    padding-left: 45px;
+    border-color: black;
+    border-style: solid;
+    border-width: 3px;
+    float: left;
+}
+.rightPhone  {
+    display: inline;
+    border-radius: 0px 20px 20px 0px;
+    background-color: black;
+    width: 30px;
+    height: 298px;
+    float: left;
+}
+
+.curves {
+    border-radius: 30px;
+    border-radius: 20px 30px 20px 30px;
+    /*border-radius: 5px 40px 5px 40px; */
+
+}
+
+.spacer {
+    height: 10px;
+    clear: both;
+}
+.bold {
+    font-weight: bold;
+}

@@ -1,0 +1,305 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>MSNBC Etc. Animated Banners</title>
+ <link rel="stylesheet" href="main.css" type="text/css">
+  <style>
+body {
+    background-color: #0CC;
+}
+
+#container2, #container4 {
+    position: relative;
+    border: 0;
+    margin: 0;
+    margin-top: 45px;
+    margin-left: 45px;
+    padding: 0;
+    background-color: transparent;
+}
+#container4 {
+    display: none;
+}
+
+.content-bgr {
+    display: inline-block;
+    background-color: #963;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    vertical-align: top;
+}
+
+.content {
+    border: 0;
+    height: 60px;
+    padding: 2px;
+    margin: 0;
+    background-image:url(../images/white2black-20px-25pct.png);
+    background-size: cover;
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.content2 {
+    height: 56px;
+    border: 0;
+    padding: 2px;
+    margin: 0;
+    vertical-align: top;
+    background-image:url(../images/white-3-bg-2-blk-vert-60px.png);
+    background-repeat: repeat-x;
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+#content3 {
+    padding-left: 60px;
+    padding-right: 5px;
+    font-size: 36px;
+    font-weight: bold;
+    color: #069;
+    background-color: white; 
+}
+
+#content4 {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 36px;
+    font-weight: bold;   
+    background-color: #069;
+    color: white;
+    overflow: hidden;
+}
+
+#content3, #content4 {
+    position: relative;
+}
+
+.side-bar {
+    position: absolute;
+    background-color: #963;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow: 3px -3px 5px black;
+    height: 15px;
+}
+
+#sb3 {
+    left: -10px;
+    top: 15px;
+    width: 40px;
+}
+
+#sb4 {
+    left: -10px;
+    top: 35px;
+    width: 60px;
+}
+
+.vb-image {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
+.bg-row {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
+.vertical-band-rel {
+    border: 0;
+    padding: 0;
+    display: inline-block;
+    /* very important! */
+    vertical-align: bottom;
+}
+
+#vbi1 {
+    height: 64px;
+    width: 10px;
+    background-color: #666;
+} 
+
+#vbi2 {
+    height: 64px;
+    width: 10px;
+    background-color: #603;
+}
+
+#vbi3 {
+    height: 60px;
+    width: 10px;
+    background-color: #666;
+} 
+
+#vbi4 {
+    height: 60px;
+    width: 10px;
+    background-color: #603;
+}
+
+/* container 3 */
+
+#container3 {
+    height: 60px;
+    width: 300px;
+    background-color: red;
+}
+
+#bg1 {
+    height: 60px;
+    width: 300px;
+    background-image: url(../images/white-3-bg-2-blk-vert-60px.png);
+}
+
+
+#headline {
+    position: relative;
+    overflow: hidden
+}
+
+
+/* Styles for dynamic H1 wrapper */
+
+#spotlight {
+    background-image:url(../images/radial-white-40px.png);
+    background-size: cover;
+    height: 160px;
+    width: 160px;
+    position: absolute;
+    left: -160px;
+    top: -100px;
+}
+
+.titleWrap1 { /* same as #content4 */
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 36px;
+    font-weight: bold;   
+    background-color: #069;
+    color: white;
+    overflow: hidden;
+    position: relative;
+}
+
+div#tw4 {
+    position: relative;
+    border: 0;
+    margin: 0;
+    margin-top: 45px;
+    margin-left: 45px;
+    padding: 0;
+    background-color: transparent;  
+}
+
+#title {
+}
+
+#tw1 {
+    position: relative;
+}
+
+</style>
+ <script language="javascript" src="../js/jquery-v141.js"></script>
+ <script language="javascript">
+ 
+ var log;
+ 
+ function moveSpotlight (evt) {
+	 log.append('moveSpotlight mouseAt=' + evt.pageX + ' ' + evt.pageY + '\n');
+     log.append('moveSpotlite: left=' + $('#spotlight').css('left')+ '\n');
+	 $('#spotlight')
+	 	.css('left', -160);
+	$('#spotlight')
+		.animate({left:800},8000);
+	 log.append('moveSpotlite finished registering animation\n');
+ }
+ 
+ function wrapTitle ( selector, preText ) {
+	var titleNode = $(selector);
+	var titleText = titleNode.text();
+	titleNode.wrap('<div class="content2 titleWrap1" id="tw1">')
+	titleNode.remove();
+	$('#tw1')
+	   .html('<span class="title" id="title">' + titleText + '</span><div id="spotlight"></div>')
+	   .wrap('<div class="content-bgr" id="tw2">');
+	$('#tw2')
+	   .wrap('<div class="bg-row" id="tw3">');
+	$('#tw3')
+	   .wrap('<div id="tw4">');
+	
+	titleNode = $('span#title');
+	
+	$('#tw3')
+	   .prepend('<div class="vertical-band-rel" id="tp1"><div class="vb-image" id="vbi3"></div></div>')
+	   .prepend('<div class="content-bgr" id="tp2"><div class="content2" id="content3"><span>' + preText + '</span><div class="side-bar" id="sb3"></div><div class="side-bar" id="sb4"></div></div></div>');
+	$('#tw3').append('<div class="vertical-band-rel" id="ta1"><div class="vb-image" id="vbi4"></div></div>');
+ 
+	 $('#tw1').bind('click','',moveSpotlight);
+ }
+// This runs at after the document is 'ready'
+$(document).ready(function() {
+    log = $('#log');	 
+	$('#container4').bind('click','',moveSpotlight);
+    //wrapTitle('h1#title', 'XYZ-8');
+	wrapTitle('div#test', 'BREAKING:');
+
+});
+ </script>
+ 
+
+
+</head>
+
+<body>
+
+<div id="container2"><!--
+ --><div class="bg-row" id="bgr1"><!--
+  --><div class="content-bgr" id="cb3"><!--
+   --><div class="content" id="content3"><span>Hi!</span><div class="side-bar" id="sb3"></div><div class="side-bar" id="sb4"></div></div></div><!--
+  --><div class="vertical-band-rel" id="vbr1"><div class="vb-image" id="vbi1"></div></div><!--
+  --><div class="content-bgr" id="cb4"><div class="content" id="content4"><span>Today's Top Story Here</span></div></div><!--
+  --><div class="vertical-band-rel" id="vbr2"><div class="vb-image" id="vbi2"></div></div><!--
+ --></div><!--
+--></div>
+
+
+<div id="container2"><!--
+ --><div class="bg-row" id="bgr1"><!--
+  --><div class="content-bgr" id="cb3"><!--
+   --><div class="content2" id="content3"><span>XYZ-9</span><div class="side-bar" id="sb3"></div><div class="side-bar" id="sb4"></div></div></div><!--
+  --><div class="vertical-band-rel" id="vbr1"><div class="vb-image" id="vbi3"></div></div><!--
+  --><div class="content-bgr" id="cb4"><div class="content2" id="content4"><span>Today's Top Story Here</span></div></div><!--
+  --><div class="vertical-band-rel" id="vbr2"><div class="vb-image" id="vbi4"></div></div><!--
+ --></div><!--
+--></div>
+
+<p> Div with background-image:</p>
+
+<div id="container3"><div id="bg1"></div></div>
+
+<p>Div with animation:</p>
+
+<div id="container4"><!--
+--><div class="bg-row" id="bgr1"><!--
+  --><div class="content-bgr" id="cb3"><!--
+   --><div class="content2" id="content3"><span>XYZ-9</span><div class="side-bar" id="sb3"></div><div class="side-bar" id="sb4"></div></div></div><!--
+ --><div class="vertical-band-rel" id="vbr1"><div class="vb-image" id="vbi3"></div></div><!--
+  --><div class="content-bgr" id="cb4"><div class="content2" id="content4"><span id="headline">Today's Top Story Here</span><div id="spotlight2"></div></div></div><!--
+  --><div class="vertical-band-rel" id="vbr2"><div class="vb-image" id="vbi4"></div></div><!--
+  --><!--
+ --></div><!--
+--></div>
+
+<h1 id="title">This is the title</h1>
+
+
+<div id="test">This is a test banner! :)</div>
+<pre id="log">Click on Banner to see animation.
+</pre>
+</body>
+</html>

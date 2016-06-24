@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg>
+<svg 
+    xmlns:svg="http://www.w3.org/2000/svg" 
+    xmlns="http://www.w3.org/2000/svg" 
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
+    version="1.0" 
+    x="0" 
+    y="0" 
+    width="500" 
+    height="500" 
+    viewBox="0 0 500 500">
+<defs>
+<g id="original">
+ <!--<rect id="r1" x="0" y="0" height="100" width="200" fill="black" />-->
+ <text x="10" y="10" font-size="50" fill="black" stroke="none">LOVE</text>
+</g>
+
+<filter id="mrcm-1" height="100%" width="100%" >
+ <!--<feImage xlink:href="#original" result="image-1" x="0%" y="0%" height="50%" width="50%" />
+ <feImage xlink:href="#original" result="image-2" x="0%" y="50%" height="50%" width="50%" />-->
+ <feImage xlink:href="#original" result="image-2" x="50%" y="50%" height="50%" width="50%" />
+
+
+</filter>
+
+</defs>
+
+
+<g x="0" y="0" transform="translate(100,100)">
+ <rect id="r2" filter="url(#mrcm-1)" x="0" y="0" height="100%" width="100%" fill="tan" />
+</g>
+
+</svg>

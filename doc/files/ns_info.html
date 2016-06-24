@@ -1,0 +1,126 @@
+<html><head>
+<title>ns_info - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_info.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_info.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_info(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_info - Return information about various aspects of the running NaviServer
+
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>option</i> ?<i class='arg'>arg arg ...</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>address</i></a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>argv0</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>boottime</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>builddate</i></a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>callbacks</i></a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>config</i></a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>home</i></a></td></tr>
+<tr valign=top ><td ><a href="#9"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>hostname</i></a></td></tr>
+<tr valign=top ><td ><a href="#10"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>label</i></a></td></tr>
+<tr valign=top ><td ><a href="#11"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>locks</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command provides information about the current state of the running NaviServer. 
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>option</i> ?<i class='arg'>arg arg ...</i>?</a><dd>
+
+
+
+</dl>
+
+
+<dl>
+
+<dt><a name="2"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>address</i></a><dd>
+
+
+Returns the primary IP address of this machine, or &quot;0.0.0.0&quot; if unable to determine
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>argv0</i></a><dd>
+
+
+Returns file path to executable binary
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>boottime</i></a><dd>
+
+
+Returns the time in epoch seconds since the current server was started
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>builddate</i></a><dd>
+
+
+Returns the date and time at which the current server was compiled, e.g.: &quot;Jul 20 2004 at 14:57:20&quot;
+
+<br><br>
+<dt><a name="6"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>callbacks</i></a><dd>
+
+
+Returns all registered startup/exit/shutdown callbacks
+
+<br><br>
+<dt><a name="7"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>config</i></a><dd>
+
+
+Returns the absolute path to the config file used to start the server
+
+<br><br>
+<dt><a name="8"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>home</i></a><dd>
+
+
+Returns the current working directory of the server
+
+<br><br>
+<dt><a name="9"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>hostname</i></a><dd>
+
+
+Returns the value of gethostname(), or &quot;localhost&quot; if that fails
+
+<br><br>
+<dt><a name="10"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>label</i></a><dd>
+
+
+Returns the value of NSD_LABEL from nsd.h, e.g. &quot;NaviServer4_99&quot;
+
+<br><br>
+<dt><a name="11"><b class='cmd'><a href="ns_info.html"> ns_info </a></b> <i class='arg'>locks</i></a><dd>
+
+
+Lists the mutexes that currently exist.  A 5-element list is returned for each mutex: 
+
+</dl>
+
+</body></html>
+

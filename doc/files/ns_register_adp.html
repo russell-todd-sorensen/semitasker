@@ -1,0 +1,60 @@
+<html><head>
+<title>ns_register_adp - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_register_adp.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_register_adp.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_register_adp(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_register_adp - register ADP handler for the specific url
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_register_adp.html"> ns_register_adp </a></b> <i class='arg'>GET|POST</i> <i class='arg'>/URL/*</i> <i class='arg'>FILE</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+Similar to Registered Procedures, all requests to a particular URL
+can be captured but in this situation processing can be performed
+by an ADP file. Giving additional functionality of being able to make
+changes a lot more rapidly.
+
+<p>
+This also provides a method of making view controls at ADP level
+rather than at TCL level, which keeps development at an
+appropriate abstracted level.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_register_adp.html"> ns_register_adp </a></b> <i class='arg'>GET|POST</i> <i class='arg'>/URL/*</i> <i class='arg'>FILE</i></a><dd>
+
+
+</dl>
+
+Both registered ADP pages, and registered procedures will be called
+irregardless of to original requested target existing or not.
+
+</body></html>
+

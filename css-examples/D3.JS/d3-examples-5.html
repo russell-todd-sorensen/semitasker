@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>d3.js Example 5</title>
+<link rel="stylesheet" type="text/css" href="main.css">
+<style>
+pre {
+ 	background-color: silver;
+    border: 1px solid black;   
+}
+
+.symbolContainer {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.symbols {
+    position: relative;
+    background-color: silver;
+    color: white;
+}
+
+.tick {
+    padding: 20px;
+}
+.minor {
+    padding: 5px;
+}
+
+</style>
+
+<script language="javascript" src="d3.v3.js"></script>
+<script language="javascript" src="../js/jquery-1.7.1.js"></script>
+<script language="javascript" src="../js/log.js"></script>
+<script language="javascript" >
+
+var version = d3.version;
+
+$(document).ready(function () {
+
+  Log.Notice('d3.js version=' + version + '\n');
+
+  Log.Notice('Finished ready()\n');
+  
+  svg = d3.select(document.body)
+  	.append("svg")
+	.style("position", "absolute")
+	.style("top", '450px')
+	.style("left", '200px')
+	.attr('id','svgBox2');
+	
+  svg.append("rect")
+  	.attr("x",400)
+	.attr("y",120)
+	.attr("height",100)
+	.attr("width",222)
+	.style("fill",'#640');
+	
+	
+	var svgOriginalPosition = new Array();
+	var svgSymbols = new Array();
+	var svgTags = new Array();
+	
+	var top = 100;
+	var docBody = d3.select(document.body);
+	
+	var myContainer = docBody.append("div")
+		.attr("class","symbolContainer")
+		.attr("id","container1");
+		
+	var myDiv = myContainer.append("div")
+		.attr("class","symbols")
+		.attr("id","symbols1");
+		
+	var i = 0;
+	
+	d3.svg.symbolTypes.forEach( function (type) {
+		
+		Log.Notice('type =' + type);
+		
+		svgSymbols["symbols" + i] = d3.svg.symbol().type(type).size(1200);
+		
+		svgTags["svg" + i] = myDiv.append("svg")
+			.style("position", "absolute")
+			.style("top", top + "px")
+			.style("right", '50px')
+			.attr("id","svg" + i);
+		svgTags["svg" + i].append("path")
+			.attr('x',100)
+			.attr('y',100)
+			.style('fill','#9' + i + (9-i))
+			.style("opacity", 1)
+			.attr('stroke','#f' + i + (10-i))
+			.attr('d', svgSymbols["symbols" + i]);
+		svgOriginalPosition["svg" + i] = top + "px";
+		top += 100;
+		i++;
+		
+	});
+	
+	
+	var axis = d3.svg.axis();
+	axis.orient("bottom");
+	Log.Notice('axis.orient()=' + axis.orient());
+	axis.ticks(10);
+	//axis.scale(true);
+	axis.tickValues([0,10]);
+	axis.tickSize(89,90,99);
+	axis.tickSubdivide(2);
+	axis.tickPadding(10);
+	axis.scale = d3.scale.ordinal();
+	axis(d3.select("#svgBox2"));
+});
+
+</script>
+</head>
+<body>
+
+<svg width="100%" id="svgBox1" height="100%" style="position:absolute; left:100px;top:700px" version="1.1" xmlns="http://www.w3.org/2000/svg">
+<rect id="rec" x="200" y="100" width="300" height="100" style="fill:#046">
+</rect>
+</svg> 
+
+
+
+
+</body>
+</html>

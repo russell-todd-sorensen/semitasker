@@ -1,0 +1,148 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Hex Game</title>
+
+<style>
+
+.player1,
+.player2 {
+    height: 25px;
+    width: 100px;
+    display: inline-block;
+    border: 4px solid silver;
+    margin: 10px;
+    text-align: center;
+    text-transform: capitalize;
+    border-radius: 7px 7px 7px 7px;
+    color: black;
+    font-weight: bold;
+    padding: 2px;
+}
+
+.player1 {
+    background-color: #f3a;
+    border-color: #900;
+}
+
+.player2 {
+    background-color: #a3f;
+}
+
+#background {
+    position: absolute;
+    top: -150px;
+    left: 0;
+    font-size: 600px;
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-color: silver;
+    opacity: .10;
+}
+
+#rules {
+    position: absolute;
+    top: 5px;
+    right: 25px;
+    width: 300px;
+    background-color: rgba(150,200,25,.85);
+    color: #333;
+    font-size: 1.2em;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    border: 5px solid silver;
+    border-radius: 10px 10px 10px 10px;
+}
+
+#rules h4 {
+
+    text-align: center;
+    margin-top: 10px;
+}
+
+#p1, #p2 {
+    padding: 3px;
+}
+#hexgame {
+    z-index: 2;
+}
+
+#svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+#hex-background {
+	font-size:700px;
+    font-style:normal;
+    font-weight:normal;
+    fill:rgba(0,0,0,.85); 
+    fill-opacity:.85;
+    stroke:none;
+    stroke-width:1px;
+    stroke-linecap:butt;
+    stroke-linejoin:miter;
+    stroke-opacity:1;
+    font-family:'Lucida Sans Unicode'
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log.js"></script>
+<script src="hex-2.js"></script>
+
+<script>
+
+
+$(document).ready(function() {
+		Log.Notice("jQuery in ready!");
+	
+		playHex();
+
+		Log.Notice("Done");
+		Log.Hide();
+});
+</script>
+
+</head>
+
+<body>
+
+<div id="svg">
+<svg version="1.1" 
+     id="hexgame" 
+     xmlns="http://www.w3.org/2000/svg" 
+     xmlns:xlink="http://www.w3.org/1999/xlink" 
+     x="0px" 
+     y="0px"
+	 width="1500px" 
+     height="700px" 
+     viewBox="0 0 1500 700" 
+     enable-background="new 0 0 1000 700" 
+     fill="transparent"
+     xml:space="preserve"
+     >
+     <text 
+       x="-60"
+       y="600" 
+       id="hex-background"
+       xml:space="preserve">HEX</text>
+</svg>
+</div>
+<div id="rules">
+<h4>HEX Rules:</h4>
+<ol>
+ <li>Players take turns placing tokens on the board, which consists of clicking on one of the small hexagons.</li>
+ <li>Goal is to connect any two opposite sides with an uninterrupted string of tokens</li>
+ <li>Stalemate is not possible, there are no guaranteed best strategies to winning this game.</li>
+</ol>
+
+<div id="players">
+<div class="player1">Player 1</div>
+<div class="player2">Player 2</div>
+</div>
+
+</div>
+
+</body>
+</html>

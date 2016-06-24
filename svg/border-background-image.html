@@ -1,0 +1,110 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Border Background Image</title>
+
+<style type="text/css" >
+
+#container1 {
+    height: 300px;
+    width: 450px;
+    /*border: 10px solid black; */
+    background-color: #990;
+    /*border-width: 10px; */
+    border-style:solid;
+    /*border-image-source: url(top-white-10px-30pct.png);
+    border-image:fill url(image-1.jpg);
+    border-image:url(5-color-square-5px.png); */
+    border-image: url(border-white-black-40px.png);
+    border-image-slice: 5;
+	border-image-width: 10px;
+	border-image-repeat: stretch;
+}
+
+#container2 {
+    height: 300px;
+    width: 450px;
+    /*border: 10px solid black; */
+    background-color: #990;
+    /*border-width: 10px; */
+    border-style:solid;
+    /*border-image-source: url(top-white-10px-30pct.png);
+    border-image:fill url(image-1.jpg); */
+    border-image:url(5-color-square-5px.png);
+    /*border-image: url(border-white-black-40px.png);*/
+    border-image-slice: 1;
+	border-image-width: 5px;
+	border-image-repeat: stretch;
+}
+
+.bgimage {
+    display: inline-block;
+ 	background-image: url(5-color-square-5px.png);
+    background-size: cover;
+    border: 1px solid black;
+    color: white;
+    font-size: 1cm;
+}
+
+#bgimage1 {
+    height: 5px;
+    width: 5px;
+}
+#bgimage2 {
+    height: 40px;
+    width: 40px;
+}
+#bgimage3 {
+    height: 160px;
+    width: 160px;
+}
+.small {
+    height: 160px;
+    width: 160px;
+    display: inline-block;
+}
+
+#bgimage-1 {
+    display: inline-block;
+ 	background-image: url(border-white-black-40px.png);
+    background-size: cover;
+    color: white;
+    font-size: 1cm;
+    width: 40px;
+    height: 40px;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<p>Container 1:</p>
+<div id="container1">
+ <div id="inner1"></div>
+</div>
+<p>Background Image for Container 1:
+<div id="bgimage-1"></div>
+
+<p>Container 2:</p>
+<div id="container2">
+ <div id="inner1"></div>
+</div>
+
+<p>Background Image for Container 2:
+<div class="image-row">
+ <div class="bgimage" id="bgimage3">32x</div>
+ <div class="bgimage" id="bgimage2">8x</div>
+ <div class="small"><div class="bgimage" id="bgimage1"></div>
+ <br>Actual Image Size <br> (5px X 5px)
+ </div>
+</div>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,515 @@
+<html><head>
+<title>ns_set - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_set.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_set.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_set(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_set - Manipulate sets of key-value pairs
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> ?<i class='arg'>arg arg ...</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>array</i> <i class='arg'>setId</i></a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>cleanup</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>copy</i> ?<i class='arg'>-persist</i>? <i class='arg'>setId</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>cput</i> <i class='arg'>setId</i> <i class='arg'>key</i> <i class='arg'>value</i></a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>create</i> ?<i class='arg'>-persist</i>? ?<i class='arg'>name</i>? ?<i class='arg'>key</i>? ?<i class='arg'>value</i>? ...</a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>delete</i> <i class='arg'>setId</i> <i class='arg'>fieldNumber</i></a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>delkey</i> <i class='arg'>setId</i> <i class='arg'>key</i></a></td></tr>
+<tr valign=top ><td ><a href="#9"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>find</i> <i class='arg'>setId</i> <i class='arg'>key</i></a></td></tr>
+<tr valign=top ><td ><a href="#10"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>free</i> <i class='arg'>setId</i></a></td></tr>
+<tr valign=top ><td ><a href="#11"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>get</i> <i class='arg'>setId</i> <i class='arg'>key</i></a></td></tr>
+<tr valign=top ><td ><a href="#12"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>icput</i> <i class='arg'>setId</i> <i class='arg'>key</i> <i class='arg'>value</i></a></td></tr>
+<tr valign=top ><td ><a href="#13"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>idelkey</i> <i class='arg'>setId</i> <i class='arg'>key</i></a></td></tr>
+<tr valign=top ><td ><a href="#14"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>ifind</i> <i class='arg'>setId</i> <i class='arg'>key</i></a></td></tr>
+<tr valign=top ><td ><a href="#15"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>iget</i> <i class='arg'>setId</i> <i class='arg'>key</i></a></td></tr>
+<tr valign=top ><td ><a href="#16"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>isnull</i> <i class='arg'>setId</i> <i class='arg'>fieldNumber</i></a></td></tr>
+<tr valign=top ><td ><a href="#17"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>iunique</i> <i class='arg'>setId</i> <i class='arg'>key</i></a></td></tr>
+<tr valign=top ><td ><a href="#18"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>key</i> <i class='arg'>setId</i> <i class='arg'>fieldNumber</i></a></td></tr>
+<tr valign=top ><td ><a href="#19"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>list</i> ?<i class='arg'>-shared</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#20"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>merge</i> <i class='arg'>high</i> <i class='arg'>low</i></a></td></tr>
+<tr valign=top ><td ><a href="#21"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>move</i> <i class='arg'>to</i> <i class='arg'>from</i></a></td></tr>
+<tr valign=top ><td ><a href="#22"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>name</i> <i class='arg'>setId</i></a></td></tr>
+<tr valign=top ><td ><a href="#23"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>print</i> <i class='arg'>setId</i></a></td></tr>
+<tr valign=top ><td ><a href="#24"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>put</i> <i class='arg'>setId</i> <i class='arg'>key</i> <i class='arg'>value</i></a></td></tr>
+<tr valign=top ><td ><a href="#25"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>size</i> <i class='arg'>setId</i></a></td></tr>
+<tr valign=top ><td ><a href="#26"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>split</i> ?<i class='arg'>-persist</i>? <i class='arg'>setId</i> ?<i class='arg'>splitChar</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#27"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>truncate</i> <i class='arg'>setId</i> <i class='arg'>fieldNumber</i></a></td></tr>
+<tr valign=top ><td ><a href="#28"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>unique</i> <i class='arg'>setId</i> <i class='arg'>key</i></a></td></tr>
+<tr valign=top ><td ><a href="#29"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>update</i> <i class='arg'>setId</i> <i class='arg'>key</i> <i class='arg'>value</i></a></td></tr>
+<tr valign=top ><td ><a href="#30"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>value</i> <i class='arg'>setId</i> <i class='arg'>fieldNumber</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command is used to manipulate sets of key-value pairs or &quot;fields&quot;. 
+The fields in the set are ordered by number.  The field numbers start at
+zero and increase by one, up to the total number of fields.  An ns_set is
+actually a multiset - in other words, the same key can appear multiple times
+in the same set.  This data structure is particularly useful for things like
+HTTP headers which have this same property.
+
+The legal options (which may be abbreviated) are:
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> ?<i class='arg'>arg arg ...</i>?</a><dd>
+
+
+
+</dl>
+
+<dl>
+
+
+<dt><a name="2"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>array</i> <i class='arg'>setId</i></a><dd>
+
+
+Returns the contents of the setId in a string representation similar
+to Tcl's array get format.  This is useful for converting an ns_set
+to an array or for iterating over the key-value pairs with foreach.
+Since ns_sets can contain the same key multiple times, converting
+an ns_set to an array can result in an array that is not exactly
+the same as the original ns_set as keys in an array are unique.
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>cleanup</i></a><dd>
+
+
+Frees all sets in the current interp.
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>copy</i> ?<i class='arg'>-persist</i>? <i class='arg'>setId</i></a><dd>
+
+
+Returns a new set that has the same name and contents as the set referenced
+in setId.  If -persist is specified, the new set will not be freed when the
+current transaction ends, and you can free it later with ns_set free. 
+If -persist is not specified, the new set is automatically freed when
+the transaction ends.
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>cput</i> <i class='arg'>setId</i> <i class='arg'>key</i> <i class='arg'>value</i></a><dd>
+
+
+Appends a new field to the set with key and value, if the field does not already exist
+in the set.  If the field already exists in the set, the set is unchanged. 
+Returns the field number of the new field, or the field number of the existing
+field if it already exists in the set.
+
+<br><br>
+<dt><a name="6"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>create</i> ?<i class='arg'>-persist</i>? ?<i class='arg'>name</i>? ?<i class='arg'>key</i>? ?<i class='arg'>value</i>? ...</a><dd>
+]
+&lt;li&gt; ns_set new ?-persist?&amp;nbsp;?name?&amp;nbsp;?key?&amp;nbsp;?value? ...
+
+Allocates memory for a new set and returns the setId for the new set.  If -persist
+is specified, the new set will not be freed when the current transaction ends, and
+you can free it later with ns_set free.  If -persist is not specified, the new set
+is automatically freed when the transaction ends.
+
+<br><br>
+<dt><a name="7"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>delete</i> <i class='arg'>setId</i> <i class='arg'>fieldNumber</i></a><dd>
+
+
+Deletes the field in the set at field number fieldNumber.
+
+<br><br>
+<dt><a name="8"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>delkey</i> <i class='arg'>setId</i> <i class='arg'>key</i></a><dd>
+
+
+Removes the first field in the set whose key is key.  Note that there could be
+multiple fields in the set with this key; this command only removes the first occurrence.
+
+<br><br>
+<dt><a name="9"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>find</i> <i class='arg'>setId</i> <i class='arg'>key</i></a><dd>
+
+
+Returns the index of the first field in the specified setId whose key matches
+the specified key.  Indexing starts at zero.  If no matching fields are found,
+ns_set find returns -1.
+
+<br><br>
+<dt><a name="10"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>free</i> <i class='arg'>setId</i></a><dd>
+
+
+Frees the specified set.  Sets must be explicitly freed with ns_set free if
+the -persist option was used when creating the set.  Otherwise, sets are
+automatically freed when the transaction ends.
+
+<br><br>
+<dt><a name="11"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>get</i> <i class='arg'>setId</i> <i class='arg'>key</i></a><dd>
+
+
+Returns the first value associated with key.  If key isn't in the set,
+an empty string is returned.
+
+<br><br>
+<dt><a name="12"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>icput</i> <i class='arg'>setId</i> <i class='arg'>key</i> <i class='arg'>value</i></a><dd>
+
+
+Case-insensitive counterpart of ns_set cput.
+
+<br><br>
+<dt><a name="13"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>idelkey</i> <i class='arg'>setId</i> <i class='arg'>key</i></a><dd>
+
+
+Case-insensitive counterpart of ns_set delkey.
+
+<br><br>
+<dt><a name="14"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>ifind</i> <i class='arg'>setId</i> <i class='arg'>key</i></a><dd>
+
+
+Case-insensitive counterpart of ns_set find.
+
+<br><br>
+<dt><a name="15"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>iget</i> <i class='arg'>setId</i> <i class='arg'>key</i></a><dd>
+
+
+Case-insensitive counterpart of ns_set get.
+
+<br><br>
+<dt><a name="16"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>isnull</i> <i class='arg'>setId</i> <i class='arg'>fieldNumber</i></a><dd>
+
+
+Returns 1 if the value of the field specified by fieldNumber is null and 0 if it is not. 
+Note that an empty string is not the same as a null.  ns_set isnull will return 0 if the
+value is an empty string.
+
+<br><br>
+<dt><a name="17"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>iunique</i> <i class='arg'>setId</i> <i class='arg'>key</i></a><dd>
+
+
+Case-insensitive counterpart of ns_set unique.
+
+<br><br>
+<dt><a name="18"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>key</i> <i class='arg'>setId</i> <i class='arg'>fieldNumber</i></a><dd>
+
+
+Returns the key for the field numbered fieldNumber.  This command is useful
+when looping through all the key-value pairs in the set in order.
+
+<br><br>
+<dt><a name="19"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>list</i> ?<i class='arg'>-shared</i>?</a><dd>
+
+
+Returns the list of all non-persistent ns_sets.  If -shared is specified,
+this command returns only the list of persistent ns_sets.
+
+<br><br>
+<dt><a name="20"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>merge</i> <i class='arg'>high</i> <i class='arg'>low</i></a><dd>
+
+
+Merges two sets.  Any fields in the low set are appended to the high set if a
+field with the same key name does not already exist in the high set.
+
+<br><br>
+<dt><a name="21"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>move</i> <i class='arg'>to</i> <i class='arg'>from</i></a><dd>
+
+
+Moves all fields from the from set to the end of the to set, leaving
+the from set a valid, empty set.
+
+<br><br>
+<dt><a name="22"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>name</i> <i class='arg'>setId</i></a><dd>
+
+
+Returns the name of the set.  Returns an empty string if no name has been set.
+
+<br><br>
+<dt><a name="23"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>print</i> <i class='arg'>setId</i></a><dd>
+
+
+Prints the specified set to stderr which should go to the server log.  This
+is useful for debugging, but ns_set array may be more useful in actual code.
+
+<br><br>
+<dt><a name="24"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>put</i> <i class='arg'>setId</i> <i class='arg'>key</i> <i class='arg'>value</i></a><dd>
+
+
+Appends a new field to the set with key and value.  Note that the field is
+appended so if a previous field has the same key as the new field, the previous
+field will be returned by ns_set get.  The field number of the new field is returned.
+
+<br><br>
+<dt><a name="25"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>size</i> <i class='arg'>setId</i></a><dd>
+
+
+Returns the number of fields in the set.
+
+<br><br>
+<dt><a name="26"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>split</i> ?<i class='arg'>-persist</i>? <i class='arg'>setId</i> ?<i class='arg'>splitChar</i>?</a><dd>
+
+
+Splits one set into multiple sets based on the splitChar as described below and
+returns a Tcl list of IDs for the newly-allocated sets.  It assumes that the
+keys in the source setId contain a specific character (splitChar) that can be used
+to separate the name of a new set and the key in the new set.  The default splitChar is a period &quot;.&quot;.
+
+<br><br>
+<dt><a name="27"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>truncate</i> <i class='arg'>setId</i> <i class='arg'>fieldNumber</i></a><dd>
+
+
+Removes any fields with index fieldNumber or greater and frees any memory allocated for them.
+
+<br><br>
+<dt><a name="28"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>unique</i> <i class='arg'>setId</i> <i class='arg'>key</i></a><dd>
+
+
+Returns 1 if the specified key is unique in the specified set and 0 if it is not. 
+For example, a web browser could send multiple &quot;Accept:&quot; headers which would end up
+in the header set for the connection.  ns_set unique would return 0 for the &quot;Accept:&quot;
+key, because there are multiple fields with the key &quot;Accept:&quot;.  The test for uniqueness
+is performed case-sensitively.
+
+<br><br>
+<dt><a name="29"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>update</i> <i class='arg'>setId</i> <i class='arg'>key</i> <i class='arg'>value</i></a><dd>
+
+
+Updates the first field in the specified set whose key is key and replaces its value
+with value.  This is equivalent to ns_set delkey followed by ns_set put if there is
+only one field with the key of key.
+
+<br><br>
+<dt><a name="30"><b class='cmd'><a href="ns_set.html"> ns_set </a></b> <i class='arg'>value</i> <i class='arg'>setId</i> <i class='arg'>fieldNumber</i></a><dd>
+
+
+Returns the value of the set at field number fieldNumber.  This command is useful
+when looping through all the key-value pairs in the set.
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % set mySet [ns_set create mySetName a b c d e f A Joe B John C Jeff]
+   d0
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set size $mySet
+   6
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set name $mySet
+   mySetName
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set array $mySet
+   a b c d e f A Joe B John C Jeff
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set get $mySet A
+   Joe
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set iget $mySet a
+   b
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set unique $mySet a
+   1
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set iunique $mySet a
+   0
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set truncate $mySet 3
+  
+   % ns_set print $mySet
+   mySetName:
+           a = b
+           c = d
+           e = f
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set update $mySet c &quot;Hello World!&quot;
+   2
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set print $mySet
+   mySetName:
+           a = b
+           e = f
+           c = Hello World!
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set find $mySet c
+   2
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set find $mySet nokey
+   -1
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set delete $mySet 0
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set array $mySet
+   e f c {Hello World!}
+</pre></td></tr></table></p>
+
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % set anotherSet [ns_set create]
+   d1
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set list
+   d0 d1
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set put $anotherSet dog.food &quot;Yummy dog food!&quot;
+   0
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set put $anotherSet cat.food &quot;Yummy cat food!&quot;
+   1
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set print $anotherSet
+   &amp;lt;Unamed set&amp;gt;:
+           dog.food = Yummy dog food!
+           cat.food = Yummy cat food!
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % set newSets [ns_set split $anotherSet]
+   d2 d3
+</pre></td></tr></table></p>
+
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % foreach s $newSets { ns_set print $s }
+   dog:
+           food = Yummy dog food!
+   cat:
+           food = Yummy cat food!
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set key $anotherSet 0
+   dog.food
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set value $anotherSet 1
+   Yummy cat food!
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set move $mySet $anotherSet
+   d0
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set array $mySet
+   e f c {Hello World!} dog.food {Yummy dog food!} cat.food {Yummy cat food!}
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set array $anotherSet
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % set thirdSet [ns_set new]
+   d4
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set move $thirdSet $mySet
+   d4
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_set array $thirdSet
+   e f c {Hello World!} dog.food {Yummy dog food!} cat.food {Yummy cat food!}
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % array set testArray [ns_set array $thirdSet]
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   to run through an ns_set
+   for {set i 0} {$i &amp;lt; [ns_set size $myset]} {incr i} {
+       set key [ns_set key $myset $i]
+       set value [ns_set value $myset $i]
+   }
+</pre></td></tr></table></p>
+
+<p>
+NOTES
+
+The ns_set command currently reports that it accepts two additional subcommands,
+idelete and purge.  These are both noops (idelete may be a mistake as delete is already case-irrelevant).
+
+NULL values, distinct from the empty string, are useful when representing a
+database row as an ns_set.  Currently, it is difficult to get a NULL value
+in an ns_set through the TCL API.  You may get a NULL value in the set created
+by ns_parsequery or by omitting the last value when seeding the ns_set in the
+create/new subcommand, etc.  It is possible to create NULL-valued fields through the C API.
+
+ns_set is intended for relatively small amounts of data.  (Keys are found by
+a linear search through the whole underlying C array.)  If you stuff very large
+amounts of data into an ns_set, performance will be very poor - use a Tcl Array instead for that.
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key582"> ns_findset </a>
+</body></html>
+

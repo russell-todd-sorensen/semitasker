@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>MSNBC Etc. Animated Banners</title>
+ <link rel="stylesheet" href="main.css" type="text/css">
+ <script language="javascript" src="../js/jquery-v141.js"></script>
+ <script language="javascript">
+ 
+ 
+ 
+ 
+  // This runs at after the document is 'ready'
+  $(document).ready(function() {
+		
+		
+	});
+ </script>
+ 
+ <style>
+ 
+#container1 {
+    position: relative; 
+}
+
+.cornerBox {
+    position: absolute;
+    display: inline-block;
+    background-color: #666;
+ 	border: 0;
+ 	padding: 0;
+ 	margin: 0; 
+    height: 250px;
+    width: 125px;
+}
+
+#cb1 {
+    left: 0;
+    top: 0;
+}
+
+#cb2 {
+    right: 0;
+    top: 0;
+}
+
+.spacer {
+    display: inline-block;
+    vertical-align: top;
+    background-color: #ddd;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    height: 240px;
+}
+
+#spacer1 {
+    width: 395px;
+    margin-right: -5px;
+	margin-top: 5px;
+}
+
+.content {
+    background-color: purple;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    height: 230px;
+    width: 500px;
+}
+
+#content1 {
+ 	position: absolute;
+    top: 10px;
+    left:10px;
+}
+
+/* Banner 2 */
+
+#container2 {
+    position: relative;
+    height: 250px;
+    width: 520px;
+}
+.backing {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: #ddd;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    height: 240px;
+    width: 510px;
+}
+
+#backing1 {
+
+}
+
+.cornerBox2 {
+    position: absolute;
+    display: block;
+    background-color: #666;
+ 	border: 0;
+ 	padding: 0;
+ 	margin: 0; 
+    height: 100px;
+    width: 130px;
+}
+
+#cb-top-left {
+    top: 0;
+    left: 0;
+}
+#cb-bottom-left {
+    bottom: 0;
+    left: 0;
+}
+#cb-top-right {
+    top: 0;
+    right: 0;
+}
+#cb-bottom-right {
+    bottom: 0;
+    right: 0;
+}
+ 
+.texture1 {
+    background-image:url(../images/brush3-white-to-bg-40x40.png);
+    /*background-repeat: repeat; */
+    background-size: cover;
+    height: 100px;
+    width: 130px;
+    border: 0;
+    padding: 0;
+    margin: 0;
+}
+
+#content2 {
+ 	position: absolute;
+    top: 10px;
+    left:10px;
+}
+
+ </style>
+
+</head>
+
+<body>
+
+
+<div id="container1">
+ <div class="cornerBox" id="cb-left"></div>
+ <div class="spacer" id="spacer1"></div>
+ <div class="cornerBox" id="cb-right"></div>
+ <div class="content" id="content1"></div>
+</div>
+
+<p>Container2:</p>
+
+<div id="container2">
+ <div class="backing" id="backing1"></div>
+ <div class="cornerBox2" id="cb-top-left"><div class="texture1"></div></div>
+ <div class="cornerBox2" id="cb-bottom-left"><div class="texture1"></div></div>
+ <div class="cornerBox2" id="cb-top-right"><div class="texture1"></div></div>
+ <div class="cornerBox2" id="cb-bottom-right"><div class="texture1"></div></div>
+ <div class="content" id="content1"></div>
+</div>
+
+
+</body>
+</html>

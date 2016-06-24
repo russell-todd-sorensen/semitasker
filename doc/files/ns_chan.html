@@ -1,0 +1,173 @@
+<html><head>
+<title>ns_chan - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_chan.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_chan.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_chan(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_chan - Share Tcl channels between threads and interpreters
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>option</i> ?<i class='arg'>arg arg ...</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>cleanup</i> ?<i class='arg'>-shared</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>create</i> <i class='arg'>channel name</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>get</i> <i class='arg'>name</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>list</i> ?<i class='arg'>-shared</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>put</i> <i class='arg'>name</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+123
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>option</i> ?<i class='arg'>arg arg ...</i>?</a><dd>
+
+
+
+</dl>
+
+ This command lets you transfer ownership of Tcl channels between threads and interpreters
+ within the NaviServer process.
+
+ NaviServer maintains several internal tables to implement the channel-transfer capability.
+ Each virtual server maintains a private table of shared Tcl channels which are not associated
+ to any particular thread.  Each Tcl interpreter maintains a table of currently attached shared
+ channels.  Consequently, a shared channel can be in the per-virtual-server private table, or
+ it can be in the interpreter private table, but not both at the same time.
+
+<p>
+ Furthermore, each shared channel has a user-supplied name.  This name is used to track the
+ channel handle in the tables mentioned above.  By using the various ns_chan commands, you can
+ create shared Tcl channels and move them back and forth between the current Tcl interpreter
+ and per-virtual-server private table.
+
+<p>
+ The legal options (which may be abbreviated) are:
+
+<dl>
+<dt><a name="2"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>cleanup</i> ?<i class='arg'>-shared</i>?</a><dd>
+
+
+ Closes all shared channels found in the per-virtual-server private table or current Tcl
+ interpreter table, depending on the -shared flag.  If the -shared flag is not specified,
+ this command will close all channels from the current interpreter which were attached to
+ it by the ns_chan get command.  If the -shared flag is specified, this command will close
+ all channels from the per-virtual-server private table, i.e., all those which are currently
+ not attached in any Tcl interpreter or thread.
+
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>create</i> <i class='arg'>channel name</i></a><dd>
+
+
+ Given an existing Tcl channel handle, ns_chan create &quot;unplugs&quot; this channel from
+ the current interpreter, and stores it under the name in the per-virtual-server
+ private table.  Any further attempt to use this channel from the current interpreter
+ will fail by throwing a Tcl error.  On success, this command will return an empty string.
+ The command also throws an error if the channel cannot be found in the current Tcl interpreter
+ or if an entry already exists with the same name in the per-virtual-server private table.
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>get</i> <i class='arg'>name</i></a><dd>
+
+
+ Retrieves a channel from the per-virtual-server private table for the entry name and makes
+ it available within the current interpreter.  On success, the command will return the handle
+ for the channel.  This handle can be used in any regular Tcl or NaviServer command that operates
+ on Tcl channels, like puts, read, fconfigure, etc.  The command will throw an error if
+ the channel cannot be plugged in for current interpreter or if the entry name could not
+ be found in the per-virtual-server private table.
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>list</i> ?<i class='arg'>-shared</i>?</a><dd>
+
+
+ Returns a list of all shared channels found in the per-virtual-server private table or
+ current Tcl interpreter, depending on the -shared flag.  If the -shared flag is not specified,
+ this command will report all channels from the current interpreter which were attached to it
+ by the ns_chan get command.  If the -shared flag is specified, this command will report all
+ channels from the per-virtual-server private table, i.e., all those which are currently not
+ attached in any Tcl interpreter or thread.
+
+<br><br>
+<dt><a name="6"><b class='cmd'><a href="ns_chan.html"> ns_chan </a></b> <i class='arg'>put</i> <i class='arg'>name</i></a><dd>
+
+
+ Unplugs a channel from the current interpreter matching entry name and returns it to the
+ per-virtual-server private table.  Any further attempt to use the named channel from the
+ current interpreter will fail by throwing a Tcl error.  On success, command will return
+ an empty string.  The command will also throw an error if the named channel was never
+ attached to the current interpreter by some previous ns_chan get command or if the entry
+ name is already found in the per-virtual-server private table.
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+    # In thread #1, create the shared entry.
+    ns_chan create file9 test
+
+    # Attach to it in thread #1, and write something to it.
+    set fd [ns_chan get test]
+    puts $fd &quot;this is thread #1&quot;
+
+    # Detach from it in thread #1.
+    ns_chan put test
+
+    # Now, in thread #2, attach to the channel and write something to it.
+    set fd [ns_chan get test]
+    puts $fd &quot;this is thread #2&quot;
+
+    # See it in the attached state in thread #2.
+    ns_chan list ;# =&gt; test
+
+    # Detach from it in thread #2.
+    ns_chan put test
+
+    # See it back in the per-virtual-server private table.
+    ns_chan list -shared ;# =&gt; test
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key63"> ns_cleanupchans </a>, <a href="../index.html#key62"> ns_getchannels </a>
+</body></html>
+

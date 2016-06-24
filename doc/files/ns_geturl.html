@@ -1,0 +1,81 @@
+<html><head>
+<title>ns_geturl - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_geturl.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_geturl.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_geturl(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_geturl - Fetch a URL
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_geturl.html"> ns_geturl </a></b> <i class='arg'>URL</i> ?<i class='arg'>headersSetIdVar</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+This function retrieves the contents of the passed-in URL. If headersSetIdVar is passed in 
+and it is a valid ns_set, then the header information received along with the request is 
+inserted into it.
+
+<p>
+Notes: This function should be used with caution. If the server is running with 1 thread, 
+and you perform ns_geturl back to the originating server, the server may deadlock.
+
+Also, ns_geturl does not follow redirects or handle relative URLs. URLs that are server-relative 
+(begin with &quot;/&quot;) are translated into filenames, and the content of the file is returned.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_geturl.html"> ns_geturl </a></b> <i class='arg'>URL</i> ?<i class='arg'>headersSetIdVar</i>?</a><dd>
+
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ns_register_proc GET /wais getwais
+
+proc getwais { conn context } {
+  ns_return 200 text/html [ns_geturl http://www.wais.com/]
+}
+
+</pre></td></tr></table></p>
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key0"> NaviServer </a>
+</body></html>
+
+

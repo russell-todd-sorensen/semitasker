@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html><head>
+ <title>Marching Ants: Simple SVG Animation</title>
+<meta charset="utf-8">
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<style>
+svg {
+background-color: /*fuchsia;*/ #aaa;
+}
+/*
+.cell {
+    display: none;
+}
+#bottom-middle-cell {
+    display: block; 
+}
+*/
+.a {
+    color: #ed1c24;
+}
+.b {
+    color: #f68b1f;
+}
+.c {
+    color: #00a651;
+}
+.d {
+    color: #00abbd;
+}
+.e {
+    color: #ffa;
+    background-color: #aaa;
+}
+
+#font-form {
+    display: none;
+}
+
+.font-form-on {
+    float: right;
+    clear: left;
+}
+</style>
+
+<script src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/data.js"></script>
+<script src="http://ic00408/js/form-save-restore.js"></script>
+<script src="http://ic00408/js/binary-hex-conversions.js"></script>
+<script src="http://ic00408/js/svg-transform.js"></script>
+<script src="logo-maker/js/logo-maker-1.js" ></script>
+<script src="http://ic00408/js/example-library.js"></script>
+
+<script>
+
+var currentCell = {
+	id: null,
+	x: 0,
+	y: 0
+};
+
+function enlargeCell (evt) {
+	$('.cell').css('display','none');
+	var id = $(this).attr('id');
+	currentCell = {
+		id: id,
+		x: $('#' + id).attr('x'),
+		y: $('#' + id).attr('y'),
+		transform: $('#' + id).attr('transform')
+	};
+	var cell = $(this);
+	cell
+		.attr('transform', 'scale(2)');
+	cell
+		.attr('x', 30);
+	cell
+		.attr('y', 30)
+		.css('display','block');	
+		
+	$(this).unbind('click').bind('click',shrinkCell);
+	return false;
+}
+
+function shrinkCell (evt) {
+	$('.cell').css('display','block');
+  var cell = $(this);
+	cell
+		.attr('transform',currentCell.transform);
+	cell
+		.attr('x', currentCell.x);
+	cell
+		.attr('y', currentCell.y)
+		;
+	$(this).unbind('click').bind('click',enlargeCell);
+	return false;
+}
+
+$(document).ready(function () {
+	$('.cell').bind('click', null, enlargeCell);
+});
+
+
+
+</script>
+</head>
+<body>
+<!--
+  stroke-linecap  = butt, round, square, inherit
+  stroke-linejoin = miter, round, bevel, inherit
+  stroke-miterlimit = some limit
+  stroke-opacity = 0.0-1.0
+
+
+-->
+<h4>Click On <span class="e">Border</span> or <span class="a">C</span><span class="a">o</span><span class="b">l</span><span class="c">o</span><span class="d">r</span><span class="a">e</span><span class="b">d</span>
+<span class="c">G</span><span class="d">r</span><span class="a">a</span><span class="b">d</span><span class="c">i</span><span class="d">e</span><span class="a">n</span><span class="b">t</span>
+  to Expand/Restore Individual Cells</h4>
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="1.0" x="0" y="0" width="900"
+   height="970" viewBox="0 0 900 970">
+   <defs>
+   <radialGradient id="radial-grad-50" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="red" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="red" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="red" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="green" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="green" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="green" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="blue" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="blue" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="blue" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-51" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#faf" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#faf" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="#faf" stop-opacity="0"></stop>
+</radialGradient>
+   <radialGradient id="radial-grad-52" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="red" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="red" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="red" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="green" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="blue" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="blue" stop-opacity="1"></stop>
+ <stop offset="75%" stop-color="yellow" stop-opacity="0"></stop>
+ <stop offset="85%" stop-color="yellow" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="blue" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-53" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#fff" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#fff" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#fff" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="#faa" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="#faa" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#faa" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#aaf" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#aaf" stop-opacity="1"></stop>
+ <stop offset="75%" stop-color="#aaf" stop-opacity="0"></stop>
+ <stop offset="85%" stop-color="#ffa" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="#ffa" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-54" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#ed1c24" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#ed1c24" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#f68b1f" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="#f68b1f" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="#00a651" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#00a651" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#00abbd" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#00abbd" stop-opacity="1"></stop>
+ <stop offset="75%" stop-color="#f68b1f" stop-opacity="0"></stop>
+ <stop offset="85%" stop-color="#ed1c24" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="#00abbd" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-55" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#547b80" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#547b80" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#67ada9" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#67ada9" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#e18256	" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#e18256" stop-opacity="1"></stop>
+ <stop offset="75%" stop-color="#cae2aa" stop-opacity="0"></stop>
+ <stop offset="85%" stop-color="#cae2aa" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="#e18256" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-bright" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop offset="0" stop-color="#f15a22" stop-opacity="0"></stop>
+ <stop offset="5%" stop-color="#f15a22" stop-opacity="1"></stop>
+ <stop offset="10%" stop-color="#fcee22" stop-opacity="0"></stop>
+ <stop offset="15%" stop-color="#fcee22" stop-opacity="1"></stop>
+ <stop offset="20%" stop-color="#b2d235" stop-opacity="0"></stop>
+ <stop offset="25%" stop-color="#b2d235" stop-opacity="1"></stop>
+ <stop offset="30%" stop-color="#ab4a9c" stop-opacity="0"></stop>
+ <stop offset="35%" stop-color="#ab4a9c" stop-opacity="1"></stop>
+ <stop offset="75%" stop-color="#ed1164" stop-opacity="0"></stop>
+ <stop offset="85%" stop-color="#ed1164" stop-opacity="1"></stop>
+ <stop offset="100%" stop-color="b2d235" stop-opacity="0"></stop>
+</radialGradient>
+<radialGradient id="radial-grad-3" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="#FFF" stop-opacity="0.0" />
+ <stop offset="5%" stop-color="rgb(255,51,204)" stop-opacity="0.5" />
+ <stop offset="10%" stop-color="rgb(0,204,255)" stop-opacity="1" />
+</radialGradient>
+
+ <!-- black to white gradient  -->
+<linearGradient id="btw-1" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="#456" stop-opacity="0.0" />
+ <stop offset="30%" stop-color="#abc" stop-opacity="0.8" />
+ <stop offset="80%" stop-color="#123" stop-opacity="0.2" />
+ <stop offset="100%" stop-color="#faa" stop-opacity="1" />
+</linearGradient>
+
+<!-- white to black (reverse direction of base gradient -->
+<linearGradient id="btw-2" xlink:href="#btw-1" x1="100%" y1="0%" x2="0" y2="0%" />
+<!-- black to white at diagonal -->
+<linearGradient id="btw-3" xlink:href="#btw-1" x1="0" y1="0" x2="100%" y2="100%" />
+<linearGradient id="btw-4" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop offset="0%" stop-color="#000" stop-opacity="0.0" />
+ <stop offset="5%" stop-color="#000" stop-opacity="0.8" />
+ <stop offset="10%" stop-color="#000" stop-opacity="0" />
+</linearGradient>
+
+</defs>
+
+<g transform="translate(0,0)" id="top-left-cell" class="cell"> 
+ <rect  x="10" y="10" rx="50" ry="80"
+  height="300" 
+  width="270" 
+  stroke="white"
+  stroke-width="20"
+  />
+ <rect id="top-left-rect" x="10" y="10" rx="50" ry="80"
+  height="300" 
+  width="270" 
+  fill="white"
+  stroke-linecap="round"
+  stroke-dashoffset="0"
+  stroke-width="20"
+  stroke-dasharray="1 40"
+  style="stroke: url(#radial-grad-3);" >
+  <animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="41" dur="1s" repeatCount="indefinite" />
+   <!--      <animate attributeName="stroke-dasharray" begin="0s" dur="20s"
+    from="0" to="120" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="0s" dur="20s"
+   from="0" to="60" repeatCount="indefinite" />-->
+ </rect>
+ <g transform="translate(30,30)">
+ <circle cx="130" cy="130" r="50" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: rgba(255,51,204,.5); stroke-opacity: 1"> 
+ <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+    from="20" to="100" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="3s" dur="10s"
+    from="10" to="100" repeatCount="indefinite" />
+ </circle>
+ <circle cx="100" cy="100" r="50" fill="none"
+   stroke-width="10" 
+   style="stroke-dasharray: 20; stroke: rgba(0,204,255,.5);">
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="-40" dur="2s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="10s" dur="10s"
+   from="10" to="100" repeatCount="indefinite" />
+ </circle>
+ </g>
+
+</g>
+</g>
+
+
+<g transform="translate(300,0)" id="top-middle-cell"  class="cell">
+<g transform="translate(30,30)">
+ <circle cx="130" cy="130" r="50" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#radial-grad-51); stroke-opacity: 1">
+   <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="5s" dur="10s"
+   from="10" to="200" repeatCount="indefinite" />
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+   from="20" to="100" repeatCount="indefinite" />
+   
+ </circle>
+ <circle cx="100" cy="100" r="50" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-50);">
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="40" dur="2s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="10s" dur="10s"
+   from="10" to="100" repeatCount="indefinite" />
+ </circle>
+ </g>
+ <rect id="top-middle-rect" x="10" y="10" height="300" width="270" fill="none" stroke-linecap="round"  stroke-linejoin="round"
+  style="stroke-dasharray: 30 30; stroke-width: 10; stroke: #ffa;" stroke-dashoffset="15">
+   <animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="-60" dur="3s" repeatCount="indefinite" />
+ </rect>
+</g>
+
+<g transform="translate(600,0)" id="top-right-cell" class="cell">
+<g transform="translate(30,30)">
+ <circle cx="130" cy="130" r="50" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#radial-grad-51); stroke-opacity: 1"> 
+   <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="5s" dur="10s"
+   from="10" to="200" repeatCount="indefinite" />
+
+   
+ </circle>
+ <circle cx="100" cy="100" r="50" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-50);">
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="40" dur="2s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="10s" dur="10s"
+   from="10" to="100" repeatCount="indefinite" /> 
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+   from="1" to="200" repeatCount="indefinite" />
+ </circle>
+ </g>
+ <rect id="top-right-rect" x="10" y="10" height="300" width="270" fill="none" stroke-linecap="round"  stroke-linejoin="round"
+  style="stroke-dasharray: 30 30; stroke-width: 10; stroke: #ffa;" stroke-dashoffset="15">
+   <animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="60" dur="3s" repeatCount="indefinite" />
+ </rect>
+ </g>
+ </g>
+
+
+<!--<g transform="translate(0,320)" id="middle-left-cell"  class="cell">
+<g transform="translate(30,30)">
+ <circle cx="130" cy="130" r="50" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#btw-1); stroke-opacity: 1">
+ <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+    from="20" to="100" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="3s" dur="10s"
+    from="10" to="100" repeatCount="indefinite" />
+ </circle>
+ <circle cx="100" cy="100" r="50" fill="none"
+   stroke-width="10" 
+   style="stroke-dasharray: 20; stroke: url(#btw-2);">
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="-40" dur="2s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="10s" dur="10s"
+   from="10" to="100" repeatCount="indefinite" />
+ </circle>
+ </g>
+ <rect id="middle-left-rect" x="10" y="10" height="300" width="270" fill="none"
+  stroke-linecap="round"
+  stroke-dashoffset="0"
+  stroke-width="15"
+  stroke-dasharray="1 30"
+  style="stroke: url(#radial-grad-50);" >
+<animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="31" dur="1s" repeatCount="indefinite" />
+   <!--      <animate attributeName="stroke-dasharray" begin="0s" dur="20s"
+    from="0" to="120" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="0s" dur="20s"
+   from="0" to="60" repeatCount="indefinite" />
+ </rect>
+</g>
+-->
+<g transform="translate(0,320)" id="middle-left-cell" class="cell">
+<g transform="translate(20,25)">
+ <ellipse cx="130" cy="130" rx="50" ry="70" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#radial-grad-bright); stroke-opacity: 1">
+   <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="5s" dur="20s"
+   from="1" to="400" repeatCount="indefinite" />
+ </ellipse>
+ <!--<circle cx="100" cy="100" r="50" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-53);">
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="40" dur="7s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="0s" dur="13s"
+   from="1" to="200" repeatCount="indefinite" /> 
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+   from="1" to="200" repeatCount="indefinite" />
+ </circle>-->
+ </g>
+ <rect id="middle-left-rect" x="10" y="10" rx="80" ry="100"
+  height="300" width="270" fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-dasharray="30"
+  stroke-width="10"
+  stroke-dashoffset="15"
+  stroke="#ffa">
+   <animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="60" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="5s" dur="20s"
+   from="1" to="10" repeatCount="indefinite" />
+ </rect>
+ </g>
+ </g>
+<g transform="translate(300,320)" id="middle-middle-cell" class="cell">
+<g transform="translate(45,55)">
+<!-- <circle cx="130" cy="130" r="50" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#radial-grad-51); stroke-opacity: .5"> 
+   <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="5s" dur="10s"
+   from="10" to="200" repeatCount="indefinite" />
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+   from="20" to="100" repeatCount="indefinite" />
+   
+ </circle> -->
+ <circle cx="100" cy="100" r="50" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-53);">
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="40" dur="7s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="0s" dur="13s"
+   from="1" to="200" repeatCount="indefinite" /> 
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+   from="1" to="200" repeatCount="indefinite" />
+ </circle>
+ <circle cx="100" cy="100" r="50" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-50);"><!-- was #afa -->
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="40" dur="5s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="10s" dur="10s"
+   from="10" to="100" repeatCount="indefinite" />
+ </circle>
+ </g>
+ <rect id="middle-middle-rect" x="10" y="10" height="300" width="270" fill="none" stroke-linecap="round"  stroke-linejoin="round"
+  style="stroke-dasharray: 30 30; stroke-width: 10; stroke: #ffa;" stroke-dashoffset="15">
+   <animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="-60" dur="3s" repeatCount="indefinite" />
+ </rect>
+</g>
+
+<g transform="translate(600,320)" id="middle-right-cell" class="cell">
+<g transform="translate(20,25)">
+ <circle cx="130" cy="130" r="50" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#radial-grad-52); stroke-opacity: 1">
+   <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="5s" dur="10s"
+   from="1" to="200" repeatCount="indefinite" />
+ </circle>
+ <!--<circle cx="100" cy="100" r="50" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-53);">
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="40" dur="7s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="0s" dur="13s"
+   from="1" to="200" repeatCount="indefinite" /> 
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+   from="1" to="200" repeatCount="indefinite" />
+ </circle>-->
+ </g>
+ <rect id="middle-right-rect" x="10" y="10" height="300" width="270" fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-dasharray="30"
+  stroke-width="10"
+  stroke-dashoffset="15"
+  stroke="#ffa">
+   <animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="60" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width-2"
+     begin="0s" from="10" to="100" dur="15s" repeatCount="indefinite" />
+ </rect>
+ </g>
+ </g>
+
+<!-- row 3 -->
+<g transform="translate(0,640)" id="bottom-left-cell"  class="cell">
+<g transform="translate(30,30)">
+ <circle cx="130" cy="130" r="50" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#radial-grad-54); stroke-opacity: 1">
+ <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+    from="20" to="100" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="3s" dur="10s"
+    from="10" to="100" repeatCount="indefinite" />
+ </circle>
+ <circle cx="100" cy="100" r="50" fill="none"
+   stroke-width="10" 
+   style="stroke-dasharray: 20; stroke: url(#radial-grad-54);">
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="-40" dur="2s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="10s" dur="10s"
+   from="10" to="100" repeatCount="indefinite" />
+ </circle>
+ </g>
+ <rect id="bottom-left-rect" x="10" y="10" height="300" width="270" fill="none"
+  stroke-linecap="round"
+  stroke-dashoffset="0"
+  stroke-width="15"
+  stroke-dasharray="1 30"
+  style="stroke: url(#radial-grad-54);" >
+<animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="31" dur="1s" repeatCount="indefinite" />
+   <!--      <animate attributeName="stroke-dasharray" begin="0s" dur="20s"
+    from="0" to="120" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="0s" dur="20s"
+   from="0" to="60" repeatCount="indefinite" />-->
+ </rect>
+</g>
+
+<g transform="translate(300,640)" id="bottom-middle-cell" class="cell">
+<g transform="translate(45,55)">
+<!-- <circle cx="130" cy="130" r="50" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#radial-grad-51); stroke-opacity: .5"> 
+   <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="5s" dur="10s"
+   from="10" to="200" repeatCount="indefinite" />
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+   from="20" to="100" repeatCount="indefinite" />
+   
+ </circle> 
+ <ellipse cx="100" cy="100" rx="50" ry="70" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-53);">
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="40" dur="17s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="0s" dur="13s"
+   from="1" to="200" repeatCount="indefinite" /> 
+   <animate attributeName="stroke-dasharray" begin="15s" dur="11s"
+   from="1" to="200" repeatCount="indefinite" />
+ </ellipse>
+ <ellipse cx="100" cy="100" rx="50" ry="70" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-55);">
+  <animate attributeName="stroke-dashoffset" begin="0s"
+   from="0" to="40" dur="7s" repeatCount="indefinite" />
+  <animate attributeName="stroke-width" begin="10s" dur="11s"
+   from="10" to="200" repeatCount="indefinite" />
+  <animate attributeName="stroke-dasharray" begin="7s" dur="19s"
+   from="10" to="200" repeatCount="indefinite" />
+ </ellipse>-->
+ <circle cx="100" cy="100" r="50" rx="50" ry="70" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-55);">
+  <animate attributeName="stroke-dashoffset" begin="0s"
+   from="0" to="-40" dur="7s" repeatCount="indefinite" />
+  <animate attributeName="stroke-width" begin="10s" dur="11s"
+   from="10" to="200" repeatCount="indefinite" />
+  <animate attributeName="stroke-dasharray" begin="7s" dur="19s"
+   from="10" to="200" repeatCount="indefinite" />
+ </circle>
+ </g>
+ <rect id="bottom-middle-rect" x="10" y="10" rx="20" ry="80"
+  height="300" width="270" fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  style="stroke-dasharray: 30 30; stroke-width: 10; stroke: #ffa;" stroke-dashoffset="15">
+   <animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="-60" dur="3s" repeatCount="indefinite" />
+ </rect>
+</g>
+
+<g transform="translate(600,640)" id="bottom-right-cell" class="cell">
+<g transform="translate(20,25)">
+ <ellipse cx="130" cy="130" rx="50" ry="70" fill="none"
+   stroke-dashoffset="0"
+   stroke-width="10" 
+   stroke-dasharray="20"
+   style="stroke: url(#radial-grad-bright); stroke-opacity: 1">
+   <animate attributeName="stroke-dashoffset"
+    begin="0s" from="0" to="40" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="5s" dur="20s"
+   from="1" to="400" repeatCount="indefinite" />
+ </ellipse>
+ <!--<circle cx="100" cy="100" r="50" fill="none" stroke-width="10" 
+   style="stroke-dasharray: 20;
+   stroke: url(#radial-grad-53);">
+   <animate attributeName="stroke-dashoffset" begin="0s"
+    from="0" to="40" dur="7s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="0s" dur="13s"
+   from="1" to="200" repeatCount="indefinite" /> 
+   <animate attributeName="stroke-dasharray" begin="15s" dur="10s"
+   from="1" to="200" repeatCount="indefinite" />
+ </circle>-->
+ </g>
+ <rect id="bottom-right-rect" x="10" y="10" rx="80" ry="100"
+  height="300" width="270" fill="none"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  stroke-dasharray="30"
+  stroke-width="10"
+  stroke-dashoffset="15"
+  stroke="#ffa">
+   <animate attributeName="stroke-dashoffset"
+     begin="0s" from="0" to="60" dur="3s" repeatCount="indefinite" />
+   <animate attributeName="stroke-width" begin="5s" dur="20s"
+   from="1" to="10" repeatCount="indefinite" />
+ </rect>
+ </g>
+ </g>
+
+</svg>
+<!-- here comes the script    -->
+<script>
+
+$(document).ready(function() {
+	Log.Hide();
+});
+
+</script>
+</body></html>

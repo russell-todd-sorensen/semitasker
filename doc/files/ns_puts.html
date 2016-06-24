@@ -1,0 +1,46 @@
+<html><head>
+<title>ns_puts - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_puts.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_puts.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_puts(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_puts - Output string to the connection
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+In the Tcl script this command can be used to output lines
+in case when the whole response is built manually, not via ns_returnXXXX
+commands.
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+ns_puts &quot;HTTP/1.0 200 OK&quot;
+ns_puts &quot;Content-Type: text/plain&quot;
+ns_puts &quot;&quot;
+
+ns_puts &quot;Response body&quot;
+ns_conn close
+
+</pre></td></tr></table></p>
+
+
+</body></html>
+

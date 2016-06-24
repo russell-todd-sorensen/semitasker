@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+<meta charset="utf-8" >
+<title>Accounting Flows 1</title>
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="/css/green-form.css" >
+
+<style>
+
+svg {
+    background-color: #FFF;
+}
+
+html, body {
+    background-color: FFF;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-family: "Consolas Bold";
+    font-family: "Agency FB Bold";
+    font-family: "Tw Cen MT";
+    font-weight: bold;
+}
+.flowbox {
+	height: 100px;
+	width: 350px;
+	border: 3px solid;
+	font-weight: bold;
+	font-size: 36px;
+	margin: auto;
+	text-align: center;
+	line-height: 2.6em;
+}
+#receipt-entered {
+}
+.spacer {
+	height: 100px;
+	width: 20px;
+}
+.done {
+	background-color: limegreen;
+	border-color: tan;
+	color: white;
+}
+
+.todo {
+	background-color: salmon;
+	color: black;
+}
+
+</style>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+
+<script>
+
+</script>
+</head>
+<body>
+<div class="spacer"></div>
+<div id="receipt-entered" class="flowbox done">
+Recorded Receipts
+</div>
+<div class="spacer"></div>
+<div id="receipt-to-be-entered" class="flowbox todo">
+Receipts To Enter
+</div>
+</body>
+</html>

@@ -1,0 +1,279 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <title>Learn HTML</title>
+</head>
+<body>
+<examples>
+<example id="Example-18">
+ <tags>
+<div id="main">
+ <div id="A" class="col">A</div>
+ <div id="B" class="col">B</div>
+ <div id="C" class="col">C</div>
+</div>
+
+ </tags>
+ <css>
+#main {
+background-color: white;
+height: 500px;
+width: 400px;
+margin: auto;
+text-align: center;
+}
+.col {
+border: solid green 3px;
+margin: 5px;
+padding: 10px;
+font-size: 40px;
+display: inline-block;
+max-width: 40px;
+}
+#A {
+background-color: red;
+color: blue;
+}
+#B {
+background-color: white;
+color: red;
+}
+#C {
+background-color: blue;
+color: white;
+}
+
+ </css>
+ <comment></comment>
+</example>
+<example id="Example-19">
+ <tags>
+<div id="main">
+ <div id="A" class="col">A</div>
+ <div id="B" class="col">B</div>
+ <div id="C" class="col">C</div>
+</div>
+
+ </tags>
+ <css>
+#main {
+background-color: white;
+height: 250px;
+width: 400px;
+margin: auto;
+text-align: center;
+border: 3px solid black;
+}
+#A, #C, #B {
+border: solid green 3px;
+margin: 5px;
+padding: 10px;
+font-size: 40px;
+display: inline-block;
+max-width: 40px;
+vertical-align: top;
+}
+#A {
+background-color: red;
+color: blue;
+height: 200px;
+}
+#B {
+background-color: white;
+color: red;
+height: 100px;
+}
+#C {
+background-color: blue;
+color: white;
+}
+
+ </css>
+ <comment></comment>
+</example>
+<example id="Example-20">
+ <tags>
+<div id="main">
+ <div id="A" class="col"><span id="a">A</span></div>
+ <div id="B" class="col">B</div>
+ <div id="C" class="col">C</div>
+</div>
+
+ </tags>
+ <css>
+#main {
+background-color: white;
+height: 250px;
+width: 400px;
+margin: auto;
+text-align: center;
+border: 15px double orange;
+}
+.col {
+border: solid green 3px;
+margin: 5px;
+padding: 10px;
+font-size: 40px;
+display: inline-block;
+max-width: 40px;
+vertical-align: bottom;
+}
+#A {
+background-color: red;
+color: blue;
+height: 200px;
+}
+#B {
+background-color: white;
+color: red;
+height: 100px;
+}
+#C {
+background-color: blue;
+color: white;
+}
+#a {
+vertical-align: text-bottom;
+background-color: white;
+}
+
+ </css>
+ <comment></comment>
+</example>
+<example id="Example-22">
+ <tags>
+<div id="nav">
+ <a href="#">Home</a>
+ <a href="#">Products</a>
+ <a href="#">Contact</a>
+ <a href="#">Schedule</a>
+</div>
+
+ </tags>
+ <css>
+#nav {
+width: 352px;
+display: run-in;
+background-color: silver;
+margin: auto;
+}
+#nav a {
+display: inline-block;
+width: 65px;
+margin: auto;
+text-align: center;
+padding: 10px;
+background-color: rgba(125,50,125,.85);
+font-weight: bold;
+}
+#nav a:link {
+color: silver;
+text-decoration: none;
+}
+#nav a:hover {
+text-decoration: underline;
+}
+
+ </css>
+ <comment></comment>
+</example>
+<example id="Example-23">
+ <tags>
+<div class="button-outer">
+ <div class="button-inner">Click Me!</div>
+</div>
+
+ </tags>
+ <css>
+.button-outer {
+color: rgba(125, 125,125,.95);
+border: 15px solid;
+display: inline-block;
+border-top-color: rgba(0,0,0,.3);
+background-color: white;
+border-bottom-color: rgba(0,0,0,.5);
+border-left-color: rgba(0,0,0,.4);
+border-right-color: rgba(0,0,0,.4);
+border-radius: 10px;
+margin: 20px;
+margin-left: 100px;
+}
+.button-inner {
+padding: 5px;
+font-weight: bold;
+}
+.button-inner:hover {
+text-decoration: underline;
+cursor: pointer;
+}
+
+ </css>
+ <comment></comment>
+</example>
+<example id="Example-24">
+ <tags>
+<svg x="50" y="200">
+ <rect id="r1" width="300" height="50" y="20" x="50">
+ </rect>
+ <text x="0" y="0" style="font-family:verdana;font-size:24;fill:black;">Hi there</text>
+</svg>
+
+ </tags>
+ <css>
+
+svg {
+ width: 500px;
+ height: 300px;
+ background-color: white;
+}
+#r1 {
+fill: green;
+stroke: #222;
+stroke-width: 4;
+}
+#t1 {
+font-family: Arial;
+font-size: 24;
+stroke: 2;
+fill: black;
+}
+
+ </css>
+ <comment></comment>
+</example>
+<example id="Example-current">
+ <tags>
+<svg x="50" y="200">
+ <rect x="100" y="200" id="r1"></rect>
+ <text x="30" y="30" style="font-family:verdana;font-size:24;fill:black;">Hi there</text>
+</svg>
+
+ </tags>
+ <css>
+
+svg {
+ width: 500px;
+ height: 300px;
+ background-color: white;
+}
+#r1 {
+height: 100px;
+width: 30px;
+fill: green;
+stroke: #222;
+stroke-width: 4;
+}
+#t1 {
+font-family: Arial;
+font-size: 24;
+stroke: 2;
+fill: black;
+}
+
+ </css>
+ <comment></comment>
+</example>
+
+</examples>
+
+</body></html>

@@ -1,0 +1,78 @@
+[comment {
+ 	Process Form and show what was in it.
+}/]
+
+[set title "Start a New Sudoku Puzzle"/]
+
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+ <meta charset="utf-8">
+ <title>$title</title>
+ <link rel="stylesheet" type="text/css" href="sudoku.css" media="all">
+ <style type="text/css">
+body {
+  color: #336699;
+ letter-spacing: 3px;
+}
+
+.puzzle {
+
+  background-color: silver;
+  border-color: black;
+  border-width: 2px;
+  border-style: solid;
+  width: 400px;
+  padding: 10px;
+  
+}
+
+.label {
+
+  font-weight: bold;
+  font-size: 1.3em;
+  color: #336699;
+}
+
+.textarea {
+  letter-spacing: 10px;
+  padding: 15px;
+  padding-right: 0px;
+  padding-bottom: 0px;
+
+}
+.dims {
+  padding: 4px;
+
+}
+ </style>
+
+</head>
+<body>
+<h1>$title</h1>
+
+<form action="SudokuPuzzle.tcl" method="GET">
+<div class="puzzle">
+ <div class="label">Enter Puzzle Here:</div>
+ <div class="textarea"> 
+  <textarea  class="textarea" name="p" cols="12" rows="12">000 306 070
+509 400 000
+003 000 425
+
+030 094 600
+600 000 008
+002 760 030
+
+297 000 300
+000 009 507
+040 603 000</textarea>
+ </div>
+ <div class="dims">
+  BoxCols:<input type="text" size="3" name="bc" value="3"> 
+  BoxRows:<input type="text" size="3" name="br" value="3">
+ </div>
+ <div class="button"><input type="submit" value="Start Sudoku"></div>
+</div>
+</form>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>D3.JS Examples 3</title>
+<link rel="stylesheet" type="text/css" href="main.css">
+<style>
+pre {
+ 	background-color: silver;
+    border: 1px solid black;   
+}
+</style>
+
+<script language="javascript" src="d3.v3.js"></script>
+<script language="javascript" src="../js/jquery-1.7.1.js"></script>
+<script language="javascript" src="../js/log.js"></script>
+<script language="javascript" >
+
+var version = d3.version;
+
+var myObject = new Object();
+myObject = {1:5,2:6,3:7,4:1,5:2,6:3,7:8,8:9,9:0};
+
+var myObject2 = {'first':'tom', 'last':'jackson', 'middle':'clay', 'age':51}
+
+var myArray3 = [1,2,3,4,7,8,9,10];
+
+function writeHtml(error, request) {
+	Log.Debug('writeHtml error =' + error 
+		 + ' request=' + request);
+        if (error === null ) {
+          $('#stuff').html(request);
+        }
+}
+
+$(document).ready(function () {
+
+	Log.Debug('d3.js version=' + version);
+
+	Log.Debug('Finished ready()');
+	
+	Log.Notice('myArray3=' + myArray3);
+
+	var permutes = d3.permute(myArray3, [2,1,5,4]);
+	
+	Log.Notice('myPermutes =' + permutes);
+	
+	for (var i=0; i < permutes.length; i++) {
+		Log.Notice('Permutes Key=' + i + ' Value=' + permutes[i] );
+	}
+	
+	var zips = d3.zip('a',5,3,'b',9);
+	Log.Notice('zips=' + zips);
+	
+	for (var i=0; i < zips.d3_zipLength; i++) {
+		Log.Notice('Zips Key=' + i + ' Value=' + zips[i] );
+	}
+	
+	var shuffle2= d3.shuffle(myArray3);
+	
+	Log.Notice('myArray3.shuffled=' + shuffle2);
+	for (var i=0; i < shuffle2.length; i++) {
+		Log.Notice('Shuffled Key=' + i + ' Value=' + shuffle2[i] );
+	}
+	
+	var myMap = d3.map(myObject);
+	var myMap2 = d3.map(myObject2);
+	
+	Log.Notice('myMap keys=' + myMap.keys());
+	Log.Notice('myMap vals=' + myMap.values());
+	
+	Log.Notice('myMap2 keys=' + myMap2.keys());
+	Log.Notice('myMap2 vals=' + myMap2.values());
+
+});
+
+</script>
+</head>
+<body>
+<div class="test" >This is a test</div>
+<div id="stuff"></div>
+
+
+</body>
+</html>

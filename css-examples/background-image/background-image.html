@@ -1,0 +1,210 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Backgound Image Example</title>
+ <link rel="stylesheet" type="text/css" href="background-image.css">
+</head>
+<body>
+<h1>Backgound Image Example</h1>
+
+<div class="main-container">
+ <div class="main"><!-- Nothing in main --></div>
+ <div class="main-css">
+ <pre>
+.main-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}
+
+.main {
+    display: inline-block;
+    <span class="hilite">background-image:url(IMLogo.svg);
+    background-size: cover;</span>
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+}
+.main-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+
+ </pre>
+ 
+ </div>
+</div>
+
+<div class="second-container">
+ <div class="second"><!-- Nothing in second, either --></div>
+ <div class="second-css">
+ <pre>
+.second-container {
+    width: 1150px;
+    min-width: 1150px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+
+.second {
+    display: inline-block;
+    <span class="hilite">background-image:url(IMLogo.svg);
+    background-size:contain;</span>
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+}
+.second-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+ </pre>
+ </div>
+</div>
+
+<div class="third-container">
+ <div class="third"><!-- Nothing in third, of course --></div>
+ <div class="third-css">
+ <pre>
+.third-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+.third {
+    display: inline-block;
+    <span class="hilite">background-image:url(IMLogo.svg);
+    background-repeat:repeat-y;</span>
+    min-width: 700px;
+    width: 700px;
+    min-height: 700px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+}
+.third-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+} 
+ </pre>
+ </div>
+</div>
+
+
+<div class="fourth-container">
+ <div class="fourth"><!-- Nothing in third, get it! --></div>
+ <div class="fourth-css">
+ <pre>
+ .fourth-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+.fourth {
+    display: inline-block;
+    <span class="hilite">background-image:url(IMLogo.svg);
+    background-clip: padding-box;
+    background-repeat: space;</span>
+    padding: 20px;
+    min-width: 660px;
+    width: 660px;
+    min-height: 660px;
+    border-color: red;
+    border-style: dashed;
+    border-width: 5px;
+}
+.fourth-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+ </pre>
+ </div>
+</div>
+
+<div class="fifth-container">
+ <div class="fifth"><!-- Nothing in third, really? --></div>
+ <div class="fifth-css">
+ <pre>
+ .fifth-container {
+    width: 1050px;
+    min-width: 1050px;
+    display: block;
+    border-color: silver;
+    border-style: solid;
+    border-width: 2px;
+}  
+
+.fifth {
+    display: inline-block;
+    <span class="hilite">background-image:url(IMLogo.svg);
+    background-repeat:repeat-x;
+    background-position:bottom;
+    background-clip: padding-box;</span>
+    padding: 20px;
+    min-width: 660px;
+    width: 660px;
+    min-height: 660px;
+    border-color: red;
+    border-style: dotted;
+    border-width: 5px;
+}
+
+.fifth-css {
+    display: inline-block;
+    width: 300px;
+    min-width: 300px;
+    min-height: 700px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: green;
+    vertical-align: top;
+}
+ </pre>
+ </div>
+</div>
+
+
+</body>
+</html>

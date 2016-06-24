@@ -1,0 +1,113 @@
+<html><head>
+<title>ns_sema - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_sema.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_sema.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_sema(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_sema - Operate on semaphore-like objects
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_sema.html"> ns_sema </a></b> ?<i class='arg'>arg arg ...</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_sema.html"> ns_sema </a></b> <i class='arg'>create</i> ?<i class='arg'>count</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_sema.html"> ns_sema </a></b> <i class='arg'>destroy</i> <i class='arg'>object</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_sema.html"> ns_sema </a></b> <i class='arg'>release</i> <i class='arg'>object</i> ?<i class='arg'>count</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_sema.html"> ns_sema </a></b> <i class='arg'>wait</i> <i class='arg'>object</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command provides a mechanism to manipulate semaphore-like objects
+but are not inter-process capable like true semaphores.  They are actually
+implemented with a mutex and a counter.  The legal options (which may be abbreviated) are:
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+ <dt><a name="1"><b class='cmd'><a href="ns_sema.html"> ns_sema </a></b> ?<i class='arg'>arg arg ...</i>?</a><dd>
+
+
+
+</dl>
+
+<dl>
+
+<dt><a name="2"><b class='cmd'><a href="ns_sema.html"> ns_sema </a></b> <i class='arg'>create</i> ?<i class='arg'>count</i>?</a><dd>
+
+
+Initializes a new semaphore whose count is initialized to zero by default
+or count otherwise.  Returns a handle to the semaphore object.
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_sema.html"> ns_sema </a></b> <i class='arg'>destroy</i> <i class='arg'>object</i></a><dd>
+
+
+Destroys the semaphore object and frees any resources it was using.
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_sema.html"> ns_sema </a></b> <i class='arg'>release</i> <i class='arg'>object</i> ?<i class='arg'>count</i>?</a><dd>
+
+
+Releases the semaphore object by incrementing the counter by one by default
+or by count otherwise.  The thread will wake any threads blocking on this 
+semaphore when count is equal to one.
+
+This is what is commonly referred to as &quot;semaphore up&quot;.
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_sema.html"> ns_sema </a></b> <i class='arg'>wait</i> <i class='arg'>object</i></a><dd>
+
+
+Waits for a semaphore object to be greater than zero.  Will block the thread until
+this is true.  Decrements the counter by one when the counter is greater than zero.
+
+This is what is commonly referred to as &quot;semaphore down&quot;.
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   # need an example here
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key115"> ns_cond </a>, <a href="../index.html#key116"> ns_critsec </a>, <a href="../index.html#key42"> ns_event </a>, <a href="../index.html#key43"> ns_mutex </a>, <a href="../index.html#key41"> ns_thread </a>
+</body></html>
+

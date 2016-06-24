@@ -1,0 +1,131 @@
+<html><head>
+<title>ns_http - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_http.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_http.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_http(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_http - Simple HTTP client functionality
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_http.html"> ns_http </a></b> <i class='arg'>cancel</i> <i class='arg'>id</i></a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_http.html"> ns_http </a></b> <i class='arg'>cleanup</i></a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_http.html"> ns_http </a></b> <i class='arg'>list</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_http.html"> ns_http </a></b> <i class='arg'>queue</i> ?<i class='arg'>-method M</i>? ?<i class='arg'>-body B</i>? ?<i class='arg'>-headers S</i>? ?<i class='arg'>-timeout T</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_http.html"> ns_http </a></b> <i class='arg'>wait</i> ?<i class='arg'>-result var</i>? ?<i class='arg'>-status var</i>? ?<i class='arg'>-timeout t</i>? ?<i class='arg'>-headers H</i>? ?<i class='arg'>-elapsed var</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command provides a simple HTTP client mechanism.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_http.html"> ns_http </a></b> <i class='arg'>cancel</i> <i class='arg'>id</i></a><dd>
+
+
+Cancel quueued http request by id
+
+<br><br>
+<dt><a name="2"><b class='cmd'><a href="ns_http.html"> ns_http </a></b> <i class='arg'>cleanup</i></a><dd>
+
+
+Cancel all pending http requests
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_http.html"> ns_http </a></b> <i class='arg'>list</i></a><dd>
+
+
+Return the list of currently running or pending requests in format:
+id url done|running ....
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_http.html"> ns_http </a></b> <i class='arg'>queue</i> ?<i class='arg'>-method M</i>? ?<i class='arg'>-body B</i>? ?<i class='arg'>-headers S</i>? ?<i class='arg'>-timeout T</i>?</a><dd>
+
+
+<i class='arg'>-timeout</i>
+Timeout for how long to wait reply back from the web server
+
+<i class='arg'>-method</i>
+GET or POST or HEAD
+
+<i class='arg'>-body</i>
+body is the value which will be sent as the HTTP request body.
+
+<br><br>
+<i class='arg'>-headers</i>
+headers is the ns_set ID containing the additional headers to include in the HTTP request.
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_http.html"> ns_http </a></b> <i class='arg'>wait</i> ?<i class='arg'>-result var</i>? ?<i class='arg'>-status var</i>? ?<i class='arg'>-timeout t</i>? ?<i class='arg'>-headers H</i>? ?<i class='arg'>-elapsed var</i>?</a><dd>
+
+
+<i class='arg'>-elapsed</i>
+var is the name of a variable that should be used to store the elapsed time for the request from beginning to finish
+
+<br><br>
+<i class='arg'>-result</i>
+var is the name of a variable that should be used to store the HTTP response body.
+
+<br><br>
+<i class='arg'>-status</i>
+var is the name of a variable that should be used to store the HTTP response status
+
+<br><br>
+<i class='arg'>-timeout</i>
+Default timeout is &quot;2:0&quot; (2s, 0usec).
+
+<br><br>
+<i class='arg'>-headers</i>
+headers is the ns_set ID which will receive the headers from the HTTP response.
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ % ns_http queue http://www.google.com
+ % http0
+ % ns_http wait -status status -result result http0
+ % 1
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key91"> ns_httpopen </a>
+</body></html>
+

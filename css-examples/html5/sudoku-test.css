@@ -1,0 +1,78 @@
+@charset "utf-8";
+/* CSS Document */
+
+pre, #target, #x {
+    background-color: black;
+    color: white;
+    border-color: red;
+    border-width: 1px;
+    border-style: solid;
+    font-family: "Courier New", Courier, monospace;
+}
+.data {
+    /*padding-left: 4px;
+    padding-rignt: 4px;*/
+    padding: 4px;
+    background-color: green;
+
+}
+.top {
+    display: inline-block;
+    border: 1px;
+    border-color: darkgreen;
+    border-style: solid;
+    background-color: tan;
+    background-size:contain;
+    cursor:pointer;
+}
+input {
+    cursor: pointer;
+}
+.cell {
+    font-size: 24px;
+    padding: 4px;
+    background-color: green;
+    display: inline;
+    
+}
+.rightbox, .leftbox {
+    padding: 2px;
+    display: inline;
+}
+.row {
+    padding: 5px;
+   /* border: 1px;
+    border-style: solid;
+    border-color: yellow; */
+    width: 500px;
+}
+.boxrow {
+    padding-bottom: 8px;
+}
+.input {
+    height: 18px;
+    width: 18px;
+    font-size: 20px;
+    background-color: green;
+    border: none;
+    align: center;
+    valign: center;
+    text-align: center;
+}
+
+.input2 {
+    height: 18px;
+    width: 18px;
+    font-size: 24px;
+    background-color: green;
+    border: none;
+    align: center;
+    valign: center;
+    text-align: center;
+    padding: 4px;
+}
+
+#b {
+    
+    background-image:url(../My%20Pictures/OneIMLogo4.svg);
+}

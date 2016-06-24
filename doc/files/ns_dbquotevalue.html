@@ -1,0 +1,93 @@
+<html><head>
+<title>ns_dbquotevalue - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_dbquotevalue.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_dbquotevalue.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_dbquotevalue(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_dbquotevalue - Prepare a value string for inclusion in an SQL statement
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_dbquotevalue.html"> ns_dbquotevalue </a></b> <i class='arg'>value</i> ?<i class='arg'>type</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command prepares the string value for inclusion in an SQL statement. 
+If value is &quot;&quot;, ns_dbquotevalue will return the string &quot;NULL&quot;.  If value is
+not &quot;&quot;, the returned value depends on type.  If type is one of: bigint, bit,
+decimal, double, float, int, integer, numeric, real, smallint, or tinyint, 
+then value will be returned without modification.  When type is any other 
+string, or if type is omitted, value will be surrounded by single quotes, 
+and any single quotes that it contains will be escaped by translation into
+two single quotes.
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_dbquotevalue.html"> ns_dbquotevalue </a></b> <i class='arg'>value</i> ?<i class='arg'>type</i>?</a><dd>
+
+
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_dbquotevalue &quot;&quot;
+   NULL
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_dbquotevalue 45.3 float
+   45.3
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_dbquotevalue &quot;John's Car&quot;
+   'Johns Car'
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % set company &quot;John's Cheese Factory&quot;
+   % ns_db dml $db &quot;INSERT INTO companies (name) VALUES ([ns_dbquotevalue $company])&quot;
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key54"> ns_dbquotename </a>
+</body></html>
+

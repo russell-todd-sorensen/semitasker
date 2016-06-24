@@ -1,0 +1,166 @@
+<html><head>
+<title>NaviServer urlspace Data Structure -  </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/c-urlspace.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ NaviServer urlspace Data Structure.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> NaviServer urlspace Data Structure(n) 4.99.2  &quot;&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> NaviServer urlspace Data Structure - NaviServer urlspace Data Structure
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#the_urlspace_trie">The urlspace Trie</a><br>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+
+<h2><a name="the_urlspace_trie">The urlspace Trie</a></h2>
+<p>
+
+There are four basic data structures used in maintaining the urlspace
+trie. They are:
+
+
+<p>
+
+
+
+<ol>
+
+
+<li> Junction
+   A junction is nothing more than a list of channels.
+
+<br><br>
+
+
+<br><br>
+<li> Channel
+   A channel points to a branch which ultimately leads to nodes
+   that match a particular &quot;filter&quot;, such as &quot;*.html&quot;. The filter
+   is the last section of a URL mask, and is the only part of
+   the mask that may contain wildcards.
+
+
+<br><br>
+
+
+<br><br>
+<li> Branch
+   A branch represents one part of a URL, such as a server, method,
+   directory, or wildcard filename. It has a list of branches
+   representing sub-URLs as well as a pointer to a list of Nodes.
+
+
+<br><br>
+
+
+<br><br>
+<li> Node
+   A node stores URL-specific data, as well as a pointer to the
+   cleanup function.
+
+
+</ol>
+
+
+Another data structure, called an Index, which is manipulated by the
+ns_Index API calls, is used by the urlspace code. An Index is an
+ordered list of pointers. The order is determined by callback
+functions. See index.c for the scoop on that.
+
+Here is what the urlspace data structure would look like after
+calling
+
+
+<p>
+
+
+ns_UrlSpecificSet(&quot;server1&quot;, &quot;GET&quot;, &quot;/foo/bar/*.html&quot;, myID, myData,
+                  0, MyDeleteProc);
+
+<p>
+
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+
+------------------------------------------------------------------------------
+
+urlspace: JUNCTION
+  byname: INDEX [*][ ][ ][ ][ ]
+                 |
+  +--------------+
+  |
+  V
+CHANNEL
+  filter:  CHAR*   &quot;*.html&quot;
+  trie:    TRIE
+             indexnode: INDEX* (NULL)
+	     branches:  INDEX  [*][ ][ ][ ][ ]
+	                        |
+  +-----------------------------+
+  |
+  V
+BRANCH
+  word: CHAR* &quot;server1&quot;
+  node: TRIE
+          indexnode: INDEX* (NULL)
+	  branches:  INDEX  [*][ ][ ][ ][ ]
+	                     |
+  +--------------------------+
+  |
+  V
+BRANCH
+  word: CHAR* &quot;GET&quot;
+  node: TRIE
+          indexnode: INDEX* (NULL)
+	  branches:  INDEX  [*][ ][ ][ ][ ]
+	                     |
+  +--------------------------+
+  |
+  V
+BRANCH
+  word: CHAR* &quot;foo&quot;
+  node: TRIE
+          indexnode: INDEX* (NULL)
+	  branches:  INDEX  [*][ ][ ][ ][ ]
+	                     |
+  +--------------------------+
+  |
+  V
+BRANCH
+  word: CHAR* &quot;*.html&quot;
+  node: TRIE
+          indexnode: INDEX* -----------------&gt; [*][ ][ ][ ][ ]
+	  branches:  INDEX  [ ][ ][ ][ ][ ]     |
+	                                        |
+  +---------------------------------------------+
+  |
+  V
+NODE
+  id:                  INT               myID
+  dataInherit:         VOID*             myData
+  dataNoInherit:       VOID*             0
+  deleteFuncInherit:   VOID(*)(VOID*)    MyDeleteProc
+  deleteFuncNoInherit: VOID(*)(VOID*)    0
+
+</pre></td></tr></table></p>
+
+
+</body></html>

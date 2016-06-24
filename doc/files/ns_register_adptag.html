@@ -1,0 +1,142 @@
+<html><head>
+<title>ns_register_adptag - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_register_adptag.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_register_adptag.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_register_adptag(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_register_adptag - Register a tag for use within an ADP
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_register_adptag.html"> ns_register_adptag </a></b> <i class='arg'>command</i> ?<i class='arg'>endcommand</i>? <i class='arg'>proc</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+ns_register_adptag registers a procedure to be called when the specified beginning and
+ending tags are used in an ADP. The command is the beginning tag to look for, and the
+endcommand is the ending tag to look for. The proc is the procedure that will be called
+when Naviserver encounters those tags when processing an ADP.
+
+<p>
+There are two ways to use ns_register_adptag, with and without the endcommand parameter:
+
+<ul>
+
+<li> If the endcommand parameter is specified, the procedure you specify with proc must be of the form:
+
+         <br><br>
+         proc myadpproc { string tagset }
+
+         <br><br>
+         The string is the string of characters between the beginning tag and the ending tag.
+         The tagset is an ns_set of parameters that were specified with the beginning tag. 
+         The return value of the procedure will be sent to the browser in place of the string
+         of text that was specified between the beginning and ending tags.
+         <br><br>
+         The string is not parsed, which means that you cannot include ADP tags in the string unless
+         you execute ns_adp_parse on the string inside the procedure that processes the registered ADP tag.
+
+<br><br>
+<li> If endcommand is not specified, then no closing tag is required. The procedure (proc)
+         will be called every time the specified command is encountered. The procedure should 
+         take one parameter, an ns_set containing the parameters to the tag:
+         <br><br>
+         proc myadpproc { tagset }
+
+</ul>
+
+Note: This function cannot be called after the server has started. It must be called in a 
+Tcl script in a virtual server's Tcl directory so that it can be initialized at server startup time.
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_register_adptag.html"> ns_register_adptag </a></b> <i class='arg'>command</i> ?<i class='arg'>endcommand</i>? <i class='arg'>proc</i></a><dd>
+
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+For example, suppose you want to register a tag that displays the enclosed text only if it is Christmas. You could register the tag as follows:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+  ns_register_adptag &quot;christmas&quot; &quot;/christmas&quot; xmas
+
+  proc xmas {string tagset} {
+    if { [ns_fmttime [ns_time] &quot;%m/%d&quot;] == &quot;12/25&quot; } {
+    return $string
+  }
+}
+
+</pre></td></tr></table></p>
+
+Then, in an ADP, you could use these tags:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+&lt;christmas&gt;Merry Christmas to all, and to all a good night!&lt;/christmas&gt;
+
+</pre></td></tr></table></p>
+
+This example shows the use a registered tag without an endcommand. The tag is registered as follows:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+ns_register_adptag hello helloproc
+
+proc helloproc { tags } {
+   return &quot;Hello, [ns_set get $tags name].&quot;
+}
+
+</pre></td></tr></table></p>
+
+In an ADP, you could then use this tag:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+&lt;hello name=Bob&gt;
+
+</pre></td></tr></table></p>
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key526"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key0"> NaviServer </a>
+</body></html>
+
+

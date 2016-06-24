@@ -1,0 +1,173 @@
+
+
+<html><head>
+<title>ns_cookie - NaviServer Built-In Commands </title>
+<link rel="stylesheet" href="../.././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/mann/ns_cookie.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_cookie.n
+   -->
+
+<body>
+<hr> [
+  <a href="../.././toc.html">Table Of Contents</a>
+| <a href="../.././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_cookie(n) 4.99.2  &quot;NaviServer Built-In Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_cookie - HTTP cookies
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#options">OPTIONS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'>ns_setcookie</b> ?<strong>-secure <i class='arg'>bool</i></strong>? ?<strong>-domain <i class='arg'>d</i></strong>? ?<strong>-path <i class='arg'>p</i></strong>? ?<strong>-maxage <i class='arg'>t</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>data</i></a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'>ns_getcookie</b> <i class='arg'>name</i> ?<i class='arg'>default</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'>ns_deletecookie</b> ?<strong>-secure <i class='arg'>bool</i></strong>? ?<strong>-domain <i class='arg'>d</i></strong>? ?<strong>-path <i class='arg'>p</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+Cookies are small pieces of data which the server sends to the <em>user agent</em>
+and the user agent sends back during subsequent requests. You can use this
+mechanism to save state between otherwise statelss HTTP requests.
+
+<p>
+Cookie size limits are user agent dependent. Practically, as cookies are sent
+with every request to the server (for which the optional <em>domain</em> and
+<em>path</em> match), size should be kept to a minimum.
+
+<p>
+These commands implement the original version 1 Netscape cookie protocol which
+is widely supported by user agents.
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'>ns_setcookie</b> ?<strong>-secure <i class='arg'>bool</i></strong>? ?<strong>-domain <i class='arg'>d</i></strong>? ?<strong>-path <i class='arg'>p</i></strong>? ?<strong>-maxage <i class='arg'>t</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i> <i class='arg'>data</i></a><dd>
+
+
+Send <i class='arg'>data</i> to the user agent as a cookie, using <i class='arg'>name</i> as the
+identifier. The user agent will send the cookie data back to the server
+during subsequent requests for which the <i class='arg'>domain</i> and <i class='arg'>path</i> match,
+if it has not expired.
+
+<br><br>
+A cookie is identified by a signature which is made up of it's name, domain,
+path and secure flag. A cookie named <em>foo</em> with path <em>/x/y</em> is a
+different cookie than one named <em>foo</em> with path <em>/x/y/z</em>. During a
+request for the URL <em>/x/y/z</em> both cookies named <em>foo</em> are sent.
+
+<br><br>
+The <i class='arg'>data</i> will be URL-encoded to escape special characters.
+<b class='cmd'>ns_getcookie</b> correctly reverses this encoding.
+
+
+
+<br><br>
+<dt><a name="2"><b class='cmd'>ns_getcookie</b> <i class='arg'>name</i> ?<i class='arg'>default</i>?</a><dd>
+
+
+Get the cookie data identified by <i class='arg'>name</i>. If no such cookie exists then
+<i class='arg'>default</i> is returned. If <i class='arg'>default</i> is not given and no such cookie
+exists, an error is raised.
+
+<br><br>
+Only the first cookie identified by <i class='arg'>name</i> is returned. If two cookies
+with the same name are sent by the user agent, each with a different <i class='arg'>domain</i>
+and/or <i class='arg'>path</i>, which cookie data is returned depends on the user agent.
+
+<br><br>
+When using <i class='arg'>domain</i> or <i class='arg'>path</i> to restrict cookies, use a unique name for
+each restricted cookie.
+
+
+
+<br><br>
+<dt><a name="3"><b class='cmd'>ns_deletecookie</b> ?<strong>-secure <i class='arg'>bool</i></strong>? ?<strong>-domain <i class='arg'>d</i></strong>? ?<strong>-path <i class='arg'>p</i></strong>? ?<i class='arg'>--</i>? <i class='arg'>name</i></a><dd>
+
+
+Instruct the client to delete the cookie data identified by <i class='arg'>name</i>. The
+complete cookie signature including <i class='arg'>domain</i> and <i class='arg'>path</i> must match
+for the cookie to be deleted.
+
+
+</dl>
+
+
+<h2><a name="options">OPTIONS</a></h2>
+<p>
+
+<dl>
+
+<dt><strong>-secure</strong> <i class='arg'>boolean</i><dd>
+If the secure option is true then the the cookie will only be sent back to the
+server when the client uses a secure (<em>TLS</em>/<em>SSL</em>) connection.
+
+<br><br>
+<dt><strong>-domain</strong> <i class='arg'>domain</i><dd>
+Restrict the cookie to a domain name, such as <em>example.com</em>. The
+current domain is implied if none is specified.
+
+<br><br>
+<dt><strong>-path</strong> <i class='arg'>path</i><dd>
+Restrict the cookie to a URL path such as <em>/foo/bar</em>. If no path is
+specified then the cookie will be back sent to the server for all requests.
+If a path is specified the cookie will only be sent back for requests which
+match the specified path, or a sub-path.
+
+<br><br>
+<dt><strong>-maxage</strong> <i class='arg'>seconds</i><dd>
+The cookie will expire in maxage <i class='arg'>seconds</i>, after which the client will no
+longer send the cookie back to the server. The special value <em>-1</em> may be
+used to indicate that the cookie should never expire.
+
+<br><br>
+The expirey time is valid accross browser sessions.  If no expirey is
+specified then the cookie will expire when the browser session ends,
+which is ususally when the user closes their browser.
+
+</dl>
+
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+Track all user agents which ever vist out site:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+    proc browser_tracking_filter {} {
+        if {![<b class='cmd'>ns_getcookie</b> first_visit 0]} {
+            <b class='cmd'>ns_setcookie</b> -maxage -1 -- first_visit [clock seconds]
+        }
+    }
+    ns_register_filter preauth GET /* browser_tracking_filter
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+Ns_Cookie(3), <a href="../ns_cookiecharset.html"> ns_cookiecharset </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../../index.html#key102"> cookie </a>, <a href="../../index.html#key101"> session </a>
+</body></html>

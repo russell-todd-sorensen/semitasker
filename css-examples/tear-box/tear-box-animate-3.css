@@ -1,0 +1,225 @@
+@import url(main.css);
+div {
+    border: 0;
+}
+
+.stage {
+    display: block;
+    min-height: 150px;
+    width: 500px;
+    min-width: 500px;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border: 1px solid black;
+}
+
+.container { 
+  background-color: #930;
+  width: 130px;
+  height: 100px;
+  margin: auto;
+  overflow: hidden;
+  padding: 0px;
+}
+
+.before-tear,
+.box,
+.after-tear {
+    background-color: yellow;
+  	vertical-align: top;
+  	display: inline-block;
+  	height: 100px;
+    padding: 0px;
+  	margin-left: -2px;
+  	margin-right: -2px;
+}
+
+.before-tear,
+.after-tear {
+  	width: 31px;
+}
+
+.box {
+    width: 70px;
+}
+
+.box-inner {
+    display:inline-block;
+    background-color:#930 ;
+    padding: 0px;
+    border: none;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 0px;
+    width: 70px;
+    margin: 0px;
+    height: 100px;
+}
+
+.before-tear { 
+  border-radius: 0px 0px 30px 0px;
+}
+
+.after-tear { 
+  border-radius: 30px 0px 0px 0px;
+}
+
+
+/* Following styles are for control of animation */
+
+.heading {
+    padding-top: 40px;
+    display: none;
+    color: #930;
+    background-color: white;
+    margin: auto;
+}
+
+#step1, #step2, #step3, #step4, #step5, #step0 {
+    font-weight: bold;
+    margin: auto;
+    text-align: center;
+}
+
+#controls {
+    margin: auto;
+    margin-top: 5px;
+    width: 150px;
+}
+
+#goBackward, 
+#goForward {
+    height: 25px;
+    width: 60px;
+    background-color: #930;
+    color: yellow;
+    display: inline-block;
+    border-style:outset;
+    border-width: 4px;
+    border-color: #930;
+    font-weight: bold;
+    text-align: center;
+    padding-top: 5px;
+}
+
+#goBackward:hover, 
+#goForward:hover {
+    border-style: inset;
+}
+
+
+/* Controls for adjusting tear box dimensions */
+#tear-box-size-controls {
+    width: 130px;
+    height: 100px;
+    border: 1px solid black;
+    padding: 0px;
+    background-color: yellow;
+    position: relative;
+    margin: auto;
+}
+
+#before-control {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 30px;
+    width: 30px;
+    vertical-align: bottom;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 30px;
+    border-bottom-left-radius: 0px;
+    background-color: #930;
+}
+
+#box-control {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    height: 40px;
+    width: 70px;
+    margin: auto;
+    background-color:#930;
+    vertical-align: middle;
+}
+
+#after-control {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    height: 30px;
+    width: 30px;
+    vertical-align: top;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+    background-color: #930;
+}
+
+#line-test {
+    padding: 10px;
+    
+}
+
+#vertical-line {
+    position: absolute;
+    height: 0px;
+    width: 1px;
+    border: .5px solid black;
+    padding-top: 40px;
+    overflow:visible;
+    margin-left: -3px;
+    left: 32px;
+    /*bottom: -71px; */
+    bottom: -11px;
+}
+
+#handle-before {
+    background-color: #06F;
+    height: 5px;
+    width: 5px;
+    min-height: 1px;
+    min-width: 1px;
+    border: 3px solid #06F;
+    margin-left: -2.5px;
+}
+
+#horizontal-line {
+    position: absolute;
+    height: 1px;
+    width: 0px;
+    border: .5px solid black;
+    padding-left: 40px;
+    overflow:visible;
+    margin-top: -2px;
+    right: -11px;
+    top: 30px;
+}
+
+ #handle-after {
+    background-color: #06F;
+    height: 5px;
+    width: 5px;
+    min-height: 1px;
+    min-width: 1px;
+    border: 3px solid #06F;
+    margin-top: -3px;
+}
+
+#box-text {
+    text-align: center;
+    vertical-align:central;
+    font-size: 2.54cm;
+    fonr-weight: bold;
+    color: white;
+    background-color: silver;
+    border-radius: inherit;
+    margin: auto;
+}
+ 
+
+    

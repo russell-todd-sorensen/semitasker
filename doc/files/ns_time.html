@@ -1,0 +1,145 @@
+<html><head>
+<title>ns_time - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_time.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_time.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_time(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_time - Perform various time-related functions
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> ?<i class='arg'>arg arg ...</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>adjust</i> <i class='arg'>time</i></a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>diff</i> <i class='arg'>time1</i> <i class='arg'>time2</i></a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>get</i></a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>incr</i> <i class='arg'>time</i> <i class='arg'>sec</i> ?<i class='arg'>usec</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>make</i> <i class='arg'>sec</i> ?<i class='arg'>usec</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>seconds</i> <i class='arg'>time</i></a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>microseconds</i> <i class='arg'>time</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command provides various time-related functions.  The legal options (which may be abbreviated) are:
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+ <dt><a name="1"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> ?<i class='arg'>arg arg ...</i>?</a><dd>
+
+
+
+</dl>
+
+<dl>
+
+
+<dt><a name="2"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>adjust</i> <i class='arg'>time</i></a><dd>
+
+
+Adjusts time so that it is within the valid range of values for a time.
+(TODO:  Figure out how this is actually useful.)
+
+<br><br>
+<dt><a name="3"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>diff</i> <i class='arg'>time1</i> <i class='arg'>time2</i></a><dd>
+
+
+Computes the time difference between time1 to time2.  It does this
+by subtracting time1 from time2 and returns a string in &quot;sec:usec&quot; format.
+
+<br><br>
+<dt><a name="4"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>get</i></a><dd>
+
+
+Returns the current time in &quot;sec:usec&quot; format.
+
+<br><br>
+<dt><a name="5"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>incr</i> <i class='arg'>time</i> <i class='arg'>sec</i> ?<i class='arg'>usec</i>?</a><dd>
+
+
+Increments time by sec seconds and optionally usec microseconds.
+Returns a string in &quot;sec:usec&quot; format.
+
+<br><br>
+<dt><a name="6"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>make</i> <i class='arg'>sec</i> ?<i class='arg'>usec</i>?</a><dd>
+
+
+Returns a string in the form &quot;sec:usec&quot;.  usec defaults to zero. 
+If usec is zero, the colon and usec are not returned.  If sec is zero,
+however, it is returned as part of the time string.
+
+<br><br>
+<dt><a name="7"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>seconds</i> <i class='arg'>time</i></a><dd>
+
+
+Parses a time in &quot;sec:usec&quot; format and returns the seconds portion.
+
+<br><br>
+<dt><a name="8"><b class='cmd'><a href="ns_time.html"> ns_time </a></b> <i class='arg'>microseconds</i> <i class='arg'>time</i></a><dd>
+
+
+Parses a time in &quot;sec:usec&quot; format and returns the microseconds portion.
+It assumes zero microseconds if time only contains seconds.
+
+All times are relative to 00:00:00 UTC, January 1, 1970 aka the Unix epoch. 
+ns_time called with no option returns the current time in seconds.
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_time
+   1087006685
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % set time 
+   1087013247:598897
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_time diff $time $time3
+   0
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key90"> ns_fmttime </a>, <a href="../index.html#key85"> ns_gmtime </a>, <a href="../index.html#key84"> ns_httptime </a>, <a href="../index.html#key82"> ns_localtime </a>, <a href="../index.html#key81"> ns_parsehttptime </a>, <a href="../index.html#key80"> ns_parsetime </a>
+</body></html>
+

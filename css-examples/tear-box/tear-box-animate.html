@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title>Tear Box</title>
+ <link rel="stylesheet" type="text/css" href="tear-box-animate.css">
+ <script language="javascript" src="jquery-v141.js"></script>
+ <script language="javascript">
+
+ var stepPosition = 0;
+ var fadeSpeed = 2000;
+ 
+ function step1 (n) {
+	 $('.container').fadeIn(n,'',step2(n));
+ }
+ function step2 (n) {
+	 $('.before-tear').fadeIn(n,'',step3(n));
+ }
+ function step3 (n) {
+	 $('.box').fadeIn(n,'',step4(n));
+ }
+ function step4 (n) {
+	 $('.after-tear').fadeIn(n,'',step5(n));
+ }
+ function step5 (n) {
+	 $('.box-inner').fadeIn(n);
+ }
+ 
+ function resetAnimation () {
+	 
+	 stepPosition = 0;
+	 var idValue;
+	 
+	 $('.container').fadeOut('fast');
+	 $('.container2').fadeOut('fast');
+	 $('.box-inner').fadeOut('fast');
+	 $('.box').fadeOut('fast');
+	 $('.before-tear').fadeOut('fast');
+	 $('.after-tear').fadeOut('fast');
+
+	 for (var i=1; i<6; i++) {
+		 idValue = "#step" + i;
+		 $(idValue).css('display', 'none');
+	 }
+	 $('#step0').css('display','block');
+	 $('#bgcolor').attr('value','#930');
+	 $('#fgcolor').attr('value','yellow');
+ }
+ 
+ function swapHeading (from, to) {
+ 		var fromId = "#step" + from;
+		var toId = "#step" + to;
+		
+		$(fromId).css('display','none');
+		$(toId).css('display', 'block');
+ }
+ 
+ function changeForegroundColor(to) {
+	 $('.container').css('background-color', to);
+	 $('.heading').css('color', to);
+	 $('.box-inner').css('background-color', to);
+	 $('#goBackward').css('background-color', to);
+	 $('#goForward').css('background-color', to);
+	 $('#goBackward').css('border-color', to);
+	 $('#goForward').css('border-color', to);
+
+ }
+ 
+ function changeBackgroundColor(to) {
+	 $('.before-tear').css('background-color', to);
+	 $('.box').css('background-color', to);
+	 $('.heading').css('background-color', to);
+	 $('.after-tear').css('background-color', to);
+	 $('#goBackward').css('color', to);
+	 $('#goForward').css('color', to);
+ }
+ 
+ function stepForward () {
+	 
+	 var from = stepPosition;
+	 var to = stepPosition + 1;
+	 
+	 stepPosition++;
+	 swapHeading(from, to);
+	 
+	 switch (stepPosition) {
+		 case 1:
+		 $('.container').fadeIn(fadeSpeed);
+		 break;
+		 case 2:
+		 $('.before-tear').fadeIn(fadeSpeed);
+		 break;
+		 case 3:
+		 $('.box').fadeIn(fadeSpeed);
+		 break;
+		 case 4:
+		 $('.after-tear').fadeIn(fadeSpeed);
+		 break;
+		 case 5:
+		 $('.box-inner').fadeIn(fadeSpeed);
+		 break;
+		 default:
+		 resetAnimation();
+	 }
+ }
+
+ function stepBackward () {
+	 
+   var from = stepPosition;
+	 var to = stepPosition - 1;
+	 
+	 swapHeading(from, to);
+	 
+	 switch (stepPosition) {
+		 case 1:
+		 $('.container').fadeOut(fadeSpeed);
+		 break;
+		 case 2:
+		 $('.before-tear').fadeOut(fadeSpeed);
+		 break;
+		 case 3:
+		 $('.box').fadeOut(fadeSpeed);
+		 break;
+		 case 4:
+		 $('.after-tear').fadeOut(fadeSpeed);
+		 break;
+		 case 5:
+		 $('.box-inner').fadeOut(fadeSpeed);
+		 break;
+		 default:
+		 resetAnimation();
+		 return;
+	 }
+	 stepPosition--;
+ }
+ 
+ // This runs at after the document is 'ready'
+  $(document).ready(function() {
+	 resetAnimation();
+ });
+ 
+
+ </script>
+</head>
+<body>
+
+<h2 class="heading" id="step0">Tear Box: Beyond Rounded Corners in CSS3</h2>
+<h2 class="heading" id="step1">Parent Div Container</h2>
+<h2 class="heading" id="step2">Left Mask With Rounded SE Corner</h2>
+<h2 class="heading" id="step3">Middle Mask With Square Corners</h2>
+<h2 class="heading" id="step4">Right Mask with Rounded NW Corner</h2>
+<h2 class="heading" id="step5">Inner Middle Box With Rounded NW &amp; SE Corners </h2>
+
+<div class="stage">
+ <div class="container">
+  <div class="before-tear"></div>
+  <div class="box"><div class="box-inner"></div></div>
+  <div class="after-tear"></div>
+ </div>
+</div>
+<div id="controls">
+ <div id="goBackward" onClick="stepBackward();">&lt; Back</div>
+ <div id="goForward" onClick="stepForward();">Fwd &gt;</div>
+</div>
+<div id="form">
+ <form id="tweak" name="tweak">
+  <div class="input">BG Color: <input id="bgcolor" name="bgcolor" value="" size="15"onChange="changeBackgroundColor(this.value);" ></div>
+  <div class="input">FG Color: <input id="fgcolor" name="fgcolor" value="" size="15" onChange="changeForegroundColor(this.value);"></div>
+ </form>
+</div>
+
+</body>
+</html> 
+

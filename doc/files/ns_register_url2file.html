@@ -1,0 +1,74 @@
+<html><head>
+<title>ns_register_url2file - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_register_url2file.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_register_url2file.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_register_url2file(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_register_url2file - Register Tcl script that will be called for the url pattern
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'>ns_unregister_url2file</b> ?<i class='arg'>-noinherit</i>? ?<i class='arg'>-recurse</i>? <i class='arg'>url</i></a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'><a href="ns_register_url2file.html"> ns_register_url2file </a></b> ?<i class='arg'>-noinherit</i>? <i class='arg'>url</i> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'>ns_register_fasturl2file</b> ?<i class='arg'>-noinherit</i>? <i class='arg'>url</i> ?<i class='arg'>basepath</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+These commands are used to perform runtime resolving of the requested urls into
+corresponding files that will be served to the client. They use ns_url2file
+interface which resolves file for current url.
+
+<dl>
+
+<dt><a name="1"><b class='cmd'>ns_unregister_url2file</b> ?<i class='arg'>-noinherit</i>? ?<i class='arg'>-recurse</i>? <i class='arg'>url</i></a><dd>
+
+<dt><a name="2"><b class='cmd'><a href="ns_register_url2file.html"> ns_register_url2file </a></b> ?<i class='arg'>-noinherit</i>? <i class='arg'>url</i> <i class='arg'>script</i> ?<i class='arg'>args</i>?</a><dd>
+
+<dt><a name="3"><b class='cmd'>ns_register_fasturl2file</b> ?<i class='arg'>-noinherit</i>? <i class='arg'>url</i> ?<i class='arg'>basepath</i>?</a><dd>
+
+
+<br><br>
+<i class='arg'>url</i>
+Register or unregister callback for given url pattern
+
+<i class='arg'>script</i>
+Tcl script to be called to return full path to the requested url
+
+</dl>
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key526"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key0"> NaviServer </a>
+</body></html>
+
+

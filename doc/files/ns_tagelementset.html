@@ -1,0 +1,88 @@
+<html><head>
+<title>ns_tagelementset - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_tagelementset.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_tagelementset.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_tagelementset(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_tagelementset - Set the value of the value attribute in an HTML element
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_tagelementset.html"> ns_tagelementset </a></b> <i class='arg'>tagvar</i> <i class='arg'>attribute</i> <i class='arg'>value</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command takes a variable name to upvar, tagvar.  The variable should exist
+in the calling environment and should contain an HTML element that has had its
+closing &quot;&gt;&quot; removed.  The string is searched for the attribute attribute, which
+will be removed if found.  A value attribute will be added to the end of the string
+with value value, which will be surrounded with double quotes.  This procedure does
+not close the tag with a &quot;&gt;&quot;.
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_tagelementset.html"> ns_tagelementset </a></b> <i class='arg'>tagvar</i> <i class='arg'>attribute</i> <i class='arg'>value</i></a><dd>
+
+
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % set tag {&lt;input type=&quot;hidden&quot; name=&quot;myfield&quot; value=&quot;100&quot;}
+   &lt;input type=&quot;hidden&quot; name=&quot;myfield&quot; value=&quot;100&quot;
+</pre></td></tr></table></p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+   % ns_tagelementset tag value 250
+   &lt;input type=&quot;hidden&quot; name=&quot;myfield&quot;  value=&quot;250&quot;
+</pre></td></tr></table></p>
+
+<p>
+
+NOTES
+
+I believe using &quot;value&quot; as the attribute name in the output instead of the passed in attribute may be a bug.
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key110"> ns_tagelement </a>
+</body></html>
+

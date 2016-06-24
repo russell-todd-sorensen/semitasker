@@ -1,0 +1,479 @@
+<html><head>
+<title>ns_proxy - NaviServer Modules </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_proxy.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_proxy.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_proxy(n) 4.99  &quot;NaviServer Modules&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_proxy - Execute Tcl scripts in an external process
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#error_handling">ERROR HANDLING</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'>ns_proxy pools</b> </a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'>ns_proxy handles</b> </a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'>ns_proxy cleanup</b> </a></td></tr>
+<tr valign=top ><td ><a href="#4"><b class='cmd'>ns_proxy active</b> <i class='arg'>pool</i> ?handle?</a></td></tr>
+<tr valign=top ><td ><a href="#5"><b class='cmd'>ns_proxy free</b> <i class='arg'>pool</i></a></td></tr>
+<tr valign=top ><td ><a href="#6"><b class='cmd'>ns_proxy clear</b> <i class='arg'>pool</i> ?handle?</a></td></tr>
+<tr valign=top ><td ><a href="#7"><b class='cmd'>ns_proxy stop</b> <i class='arg'>pool</i> ?handle?</a></td></tr>
+<tr valign=top ><td ><a href="#8"><b class='cmd'>ns_proxy configure</b> <i class='arg'>pool</i> ?-key val -key val...?</a></td></tr>
+<tr valign=top ><td ><a href="#9"><b class='cmd'>ns_proxy get</b> <i class='arg'>pool</i> ?-handles n? ?-timeout ms?</a></td></tr>
+<tr valign=top ><td ><a href="#10"><b class='cmd'>ns_proxy ping</b> <i class='arg'>handle</i></a></td></tr>
+<tr valign=top ><td ><a href="#11"><b class='cmd'>ns_proxy send</b> <i class='arg'>handle</i> <i class='arg'>script</i></a></td></tr>
+<tr valign=top ><td ><a href="#12"><b class='cmd'>ns_proxy wait</b> <i class='arg'>handle</i> ?timeout?</a></td></tr>
+<tr valign=top ><td ><a href="#13"><b class='cmd'>ns_proxy recv</b> <i class='arg'>handle</i></a></td></tr>
+<tr valign=top ><td ><a href="#14"><b class='cmd'>ns_proxy eval</b> <i class='arg'>handle</i> <i class='arg'>script</i> ?timeout?</a></td></tr>
+<tr valign=top ><td ><a href="#15"><b class='cmd'>ns_proxy put</b> <i class='arg'>handle</i></a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+<em>ns_proxy</em> provides a simple, robust proxy mechanism to evaluate
+Tcl scripts in a separate, pipe-connected process. This approach
+can be useful both to isolate potentially thread-unsafe code outside
+the address space of a multithreaded process such as NaviServer or
+to enable separation and timeout of potentially misbehaving, long
+running scripts.
+
+<p>
+
+The command is provided by the <em>nsproxy</em> dynamic library which
+can be loaded into an interpreter via the Tcl <em>load</em> command,
+for example:
+
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+        load /usr/local/lib/libnsproxy.so
+        ns_proxy ...
+</pre></td></tr></table></p>
+
+<p>
+It is also possible to load the library into all interpreters of
+an NaviServer virtual server by specifying an <em>nsproxy.so</em> entry
+in the server's module config entry, for example:
+
+<p>
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+        ns_section ns/server/server1/modules
+        ns_param nsproxy nsproxy.so
+</pre></td></tr></table></p>
+
+<p>
+When loaded, the library adds the single <b class='cmd'><a href="ns_proxy.html"> ns_proxy </a></b> command with
+takes multiple options as described below. Proxies (i.e. slave 
+processes) are normally created on demand when requested and connected
+to the parent process via pipes used to send scripts and receive response.
+Proxies remain active until the parent process exits, effectively closing
+all pipes to the slave processes, or when their idle timer expires, depending
+on the setup of the <i class='arg'>pool</i> (see <b class='cmd'>ns_proxy configure</b>).
+Proxies are obtained from their corresponding <i class='arg'>pool</i> by means of the
+<b class='cmd'>ns_proxy get</b> command. Only the thread that obtained the proxy can use
+it to communicate with the slave process. In order to allow other threads to
+use the same proxy, the thread must return (via the <b class='cmd'>ns_proxy put</b> or 
+<b class='cmd'>ns_proxy cleanup</b> commands) the proxy back to it's/theirs correspondig
+pool/s. One thread can obtain one or a bunch of proxies from a pool in one step.
+It cannot, however, repeatedly obtain proxy by proxy in a loop, as this may
+lead to difficult-to-trace deadlock situation (see <b class='cmd'>ns_proxy get</b> command).
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+<dl>
+
+
+<dt><a name="1"><b class='cmd'>ns_proxy pools</b> </a><dd>
+
+Returns a list of all currently defined proxy pools.
+
+
+<br><br>
+<dt><a name="2"><b class='cmd'>ns_proxy handles</b> </a><dd>
+
+Returns list of all proxies allocated for the current interpreter.
+
+
+<br><br>
+<dt><a name="3"><b class='cmd'>ns_proxy cleanup</b> </a><dd>
+
+Releases any handles from any pools currently owned by a thread.
+This command is intended to be used as part of a garbage collection
+step. Calling this command within NaviServer is not necessary as the
+module registers a trace to release all handles via the 
+<em>Ns_TclRegisterTrace</em> facility when interpreters are deallocated
+after some transaction, for example, at the end of a connection.
+
+
+<br><br>
+<dt><a name="4"><b class='cmd'>ns_proxy active</b> <i class='arg'>pool</i> ?handle?</a><dd>
+
+Returns a list of currently evaluating scripts in proxies for
+the given <i class='arg'>pool</i>. The output is one or more lists, depending on
+the optional ?handle? argument. If the optional argument is
+given, only the status of the proxy for the given handle is 
+returned and the result is a one-element list. Otherwise, stati of 
+all active proxies for the given <i class='arg'>pool</i> are returned and the
+result is a list of two or more elements.
+Each element itself is a list which includes several keys: <em>handle</em>, 
+<em>slave</em>, <em>start</em>, <em>script</em> and their associated values. 
+This format is suitable for filling in an Tcl array with the 
+<b class='cmd'>array set</b> Tcl command. 
+The <em>handle</em> key contains the handle of the proxy. 
+The <em>slave</em> key contains the process-id of the slave process.
+The <em>start</em> key contains the timestamp with the absolute time
+when this proxy has been activated. The timestamp is in format that
+<b class='cmd'><a href="ns_time.html"> ns_time </a></b> command understands.
+The <em>script</em> contains the script passed to the proxy for execution.
+It is also possible to view the currently evaluating scripts with the 
+Unix <em>ps</em> command as the proxy slave process re-writes it's command
+argument space with the request script before evaluation and clears it 
+after sending the result.
+
+
+<br><br>
+<dt><a name="5"><b class='cmd'>ns_proxy free</b> <i class='arg'>pool</i></a><dd>
+
+Returns a list of all free proxies for the given <i class='arg'>pool</i>. Free
+proxies are those which are left in the pool queue waiting to
+be used by the <b class='cmd'>ns_proxy get</b> command. Some proxies may have
+an active slave process attached, some not. If a slave process is
+not attached to the free proxy, a new one will be created as soon
+as the proxy is requested by some thread.
+
+
+<br><br>
+<dt><a name="6"><b class='cmd'>ns_proxy clear</b> <i class='arg'>pool</i> ?handle?</a><dd>
+
+Stop all slave processes attached to free proxies for the given <i class='arg'>pool</i>.
+If the optional ?handle? is given, it stops the process only for
+that handle.
+
+
+<br><br>
+<dt><a name="7"><b class='cmd'>ns_proxy stop</b> <i class='arg'>pool</i> ?handle?</a><dd>
+
+Stop all slave processes attached to running proxies for the given <i class='arg'>pool</i>.
+If the optional ?handle? is given, it stops the process only for
+that handle.
+
+
+<br><br>
+<dt><a name="8"><b class='cmd'>ns_proxy configure</b> <i class='arg'>pool</i> ?-key val -key val...?</a><dd>
+
+Configures options for the <i class='arg'>pool</i>. The <i class='arg'>pool</i> is created with 
+default options if it does not already exist. Default options for the
+<i class='arg'>pool</i> are taken from the NaviServer configuration file under the
+section &quot;ns/server/$servername/module/nsproxy&quot;. In case
+the library is loaded in plain Tcl shell, default configuration options
+are fixed and cannot be changed w/o recompiling the code.
+Configurable options include:
+
+<br><br>
+<dl>
+
+<dt>-init script<dd>
+Specifies a script to evaluate when proxies are started.  This can
+be used to load additional libraries and/or source script files.
+The default is no script.
+
+<br><br>
+<dt>-reinit script<dd>
+Specifies a script to evaluate after being allocated and before
+being returned to the caller. This can be used to re-initalize
+the slave state. The default is no script.
+
+<br><br>
+<dt>-maxslaves n<dd>
+Sets the maximum number of proxy slave processes. Requests for
+proxies beyond the maximum will result in requesting threads
+waiting for existing proxies to be available instead of creating
+new proxy processes. Setting this value to 0 disables the pool,
+causing all subsequent allocation requests to fail immediately
+(currently allocated proxies, if any, remain valid).
+
+<br><br>
+<dt>-maxruns n<dd>
+Sets the maximum number of activation of the proxy slave process.
+When the limit it reached, the slave process is automatically restarted.
+
+<br><br>
+<dt>-exec program<dd>
+Specifies the filename of a slave proxy program.  This defaults to
+<em>nsproxy</em> in the <em>bin</em> subdirectory of the NaviServer
+runtime. It is possible to create a custom program and enter the
+proxy event loop with the <em>Ns_ProxyMain</em> application startup
+routine; see the source code for details.
+
+<br><br>
+<dt>-gettimeout ms<dd>
+Specifies the maximum time to wait to allocate handles from the pool.
+The default is 5000 milliseconds.
+
+<br><br>
+<dt>-evaltimeout ms<dd>
+Specifies the maximum time to wait for a script to be evaluated in
+a proxy. This parameter can be overridden on a per-call basis with
+the optional ?timeout? parameter to <b class='cmd'>ns_proxy eval</b>.
+The default is 0 milliseconds i.e. infinite.
+
+<br><br>
+<dt>-sendtimeout ms<dd>
+<dt>-recvtimeout ms<dd>
+Specifies the maximium time to wait to send a script and receive a
+result from a proxy.  The default is 1000 milliseconds which assumes
+minimal delay sending and receiving reasonably sized scripts and 
+results over the connecting pipe.
+
+<br><br>
+<dt>-waittimeout ms<dd>
+Specifies the maximum time to wait for a proxy to exit. The wait
+is performed in a dedicated reaper thread. The reaper will close
+the connection pipe and wait the given timeout. If the timeout is
+exceeded, the reaper will send a SIGTERM signal and finally a SIGKILL
+signal to ensure the process eventually exits. The default is 100
+milliseconds which should be ample time for a graceful exit unless
+the process is hung executing a very long, misbehaving script,
+resulting in a more disruptive SIGTERM or SIGKILL.
+
+<br><br>
+<dt>-idletimeout ms<dd>
+Specifies the maximum time for an idle slave process to live.
+Minimum value is 5000 milliseconds. After expiry of the idle
+timeout, the reaper thread will close the connection pipe and
+wait <i class='arg'>-waittimeout</i> milliseconds for the process to die. 
+If the timeout is exceeded, the reaper will send a SIGTERM 
+signal and finally a SIGKILL signal (waiting <i class='arg'>-waittimeout</i> 
+milliseconds in between) to ensure the process eventually exits.
+<br><br>
+Slave processes whose handles are already attached to some Tcl 
+interps by the means of the <b class='cmd'>ns_proxy get</b> command) are not 
+expired automatically. The idle timer starts to count at the moment 
+their handles are put back to the pool by the <b class='cmd'>ns_proxy put</b> 
+or <b class='cmd'>ns_proxy cleanup</b> command.
+
+</dl>
+
+
+<dt><a name="9"><b class='cmd'>ns_proxy get</b> <i class='arg'>pool</i> ?-handles n? ?-timeout ms?</a><dd>
+
+Returns one or more handles to proxies from the specified <i class='arg'>pool</i>. 
+The <i class='arg'>pool</i> will be created with default options if it does not 
+already exist. The optional ?-handle n? arguments can be used 
+to specify the number of handles to allocate, the default being 1.
+The optional ?-timeout ms? arguments specifies the maximum 
+amount of time in milliseconds to wait for the handles to become
+available before raising an error (see ERROR HANDLING below
+for details on handling errors). Requesting more than one handle in 
+a single call (if more than one handle is required) is necessary as it
+is an error to request handles from a <i class='arg'>pool</i> from which handles are
+already owned by the thread. This restriction is implemented to avoid
+possible deadlock conditions.
+The handle returned by this command can be used as a scalar value for
+other <b class='cmd'><a href="ns_proxy.html"> ns_proxy </a></b> commands, or it can be used as Tcl command itself
+(see <b class='cmd'>ns_proxy eval</b> for more information).
+<br><br>
+The proxy <i class='arg'>pool</i> naming convention allows proxy slaves to be started
+under different Unix UID/GID then the server itself. For that to work, 
+the server must be running under root user (UID = 0). The naming
+convention is simple: pool_name:&lt;optional_user_id&gt;:&lt;optional_group_id&gt;.
+For example, to start the proxy for the pool &quot;mypool&quot; with user UID 
+of 100 the pool name can be constructed as: &quot;mypool:100&quot;. To start the 
+proxy with UID of 100 and group GID of 200: &quot;mypool:100:200&quot;. Instead
+of numeric values user/group names can also be used.
+Beware: if the main server is not running under privileged root user, 
+the startup of the proxy under some alternative UID/GID may/will fail.
+
+<br><br>
+<dt><a name="10"><b class='cmd'>ns_proxy ping</b> <i class='arg'>handle</i></a><dd>
+
+This command sends a null request to the proxy specified by the
+<i class='arg'>handle</i> argument. The proxy will be verified alive and restarted
+if necessary.  This command is not normally required as the 
+<b class='cmd'>ns_proxy eval</b> command will also verify and restart proxies
+as needed.
+
+<br><br>
+<dt><a name="11"><b class='cmd'>ns_proxy send</b> <i class='arg'>handle</i> <i class='arg'>script</i></a><dd>
+
+Sends <i class='arg'>script</i> to the proxy specified by <i class='arg'>handle</i>.
+(see ERROR HANDLING below for details on handling errors).
+
+<br><br>
+<dt><a name="12"><b class='cmd'>ns_proxy wait</b> <i class='arg'>handle</i> ?timeout?</a><dd>
+
+Waits for results from the proxy specified by <i class='arg'>handle</i>.
+The optional ?timeout? argument specifies a maximum number of
+milliseconds to wait for the command to complete before raising an
+error (see ERROR HANDLING below for details on handling errors).
+
+<br><br>
+<dt><a name="13"><b class='cmd'>ns_proxy recv</b> <i class='arg'>handle</i></a><dd>
+
+Reads result from the script from the proxy specified by <i class='arg'>handle</i>
+(see ERROR HANDLING below for details on handling errors).
+
+
+<br><br>
+<dt><a name="14"><b class='cmd'>ns_proxy eval</b> <i class='arg'>handle</i> <i class='arg'>script</i> ?timeout?</a><dd>
+
+Evalutes <i class='arg'>script</i> in the proxy specified by <i class='arg'>handle</i>.
+The optional ?timeout? argument specifies a maximum number of
+milliseconds to wait for the command to complete before raising an
+error (see ERROR HANDLING below for details on handling errors).
+<br><br>
+Alternatively, the <i class='arg'>handle</i> itself may be used as Tcl command like 
+in the example below:
+<br><br>
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+        set handle [ns_proxy get mypool]
+        $handle &quot;short_running_proc&quot;
+        $handle &quot;long_running_proc&quot; 20000
+</pre></td></tr></table></p>
+<br><br>
+
+<br><br>
+<dt><a name="15"><b class='cmd'>ns_proxy put</b> <i class='arg'>handle</i></a><dd>
+
+This command can be used to release a single proxy specified by the
+<i class='arg'>handle</i> argument. All handles owned by a thread to the
+cooresponding pool must be returned before any handles can be
+allocated again. Within NaviServer, a call to this routine is
+recommended for clarity but not strictly necessary. NaviServer installs
+a trace to release all handles at the end of every connection during 
+interpreter deallocation.
+
+</dl>
+
+<h2><a name="error_handling">ERROR HANDLING</a></h2>
+<p>
+Errors generated by a script evaluated in a proxy interpreter are
+completely returned to the calling interpreter, including mapping
+the <em>errorInfo</em> and <em>errorCode</em> global variables from the
+proxy to the parent and raising a Tcl exception. This enables proxy 
+code to look very similar to that which may use the Tcl <b class='cmd'>eval</b>
+command.
+
+<p>
+Errors raised by a failure to communicate with the proxy process
+due to a timeout or unexpected process exit are also communicated
+back to the parent interpreter as Tcl exceptions.  To distinguish
+between these cases, communication related errors set the
+<em>errorCode</em> global variable with the first element
+<em>NSPROXY</em>.  The second element is one of the following:
+
+<dl>
+
+<dt><em>EDeadlock</em><dd>
+The interpreter attempted to allocate handles from a pool from which
+it already owns one or more handles.
+
+<br><br>
+<dt><em>EExec</em><dd>
+The slave program specified by the <i class='arg'>-exec program</i> option could
+not be started.
+
+<br><br>
+<dt><em>EImport</em><dd>
+The response from the proxy was invalid.
+
+<br><br>
+<dt><em>ERecv</em><dd>
+There was an error receiving the result from the slave process.
+
+<br><br>
+<dt><em>ESend</em><dd>
+There was an error sending the script to the slave process.
+
+<br><br>
+<dt><em>EGetTimeout</em><dd>
+Timeout while waiting to get a proxy handle from the pool.
+
+<br><br>
+<dt><em>EEvalTimeout</em><dd>
+Timeout while waiting for the response from the proxy process after
+sending the command for evaluation.
+
+<br><br>
+<dt><em>ERange</em><dd>
+Requested too many proxy handles from the pool
+
+<br><br>
+<dt><em>EIdle</em><dd>
+Proxy is currently in the idle state.
+
+<br><br>
+<dt><em>EInit</em><dd>
+Evaluation of the init script failed.
+
+<br><br>
+<dt><em>EDead</em><dd>
+Proxy handle is currently not connected to any process.
+
+<br><br>
+<dt><em>EBusy</em><dd>
+Proxy handle is currently busy with the evaluation.
+
+</dl>
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+<p>
+The following demonstrates sending a script to a remote proxy:
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+        set handle [ns_proxy get myproxy]
+        ns_proxy eval $handle {info patchlevel}
+        ns_proxy release $handle
+
+</pre></td></tr></table></p>
+Alternatively, instead of using the scalar handle you can use
+the handle directly as an Tcl command:
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+        set handle [ns_proxy get myproxy]
+        $handle {info patchlevel}
+        rename $handle &quot;&quot;
+
+</pre></td></tr></table></p>
+The following demonstrates using multiple proxies:
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+	ns_proxy config myproxy -maxslaves 10
+	set handles [ns_proxy get myproxy -handle 10]
+	foreach h $handles {
+		$h {puts &quot;alive: [pid]&quot;}
+	}
+	ns_proxy cleanup
+
+</pre></td></tr></table></p>
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key0"> NaviServer </a>, <a href="../index.html#key569"> ns_proxy </a>
+</body></html>

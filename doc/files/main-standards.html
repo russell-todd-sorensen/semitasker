@@ -1,0 +1,1010 @@
+<html><head>
+<title>Engineering Standards Manual -  </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/main-standards.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ Engineering Standards Manual.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> Engineering Standards Manual(n) 4.99.2  &quot;&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> Engineering Standards Manual - Engineering Standards Manual
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#introduction">Introduction</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#overall_structure">Overall Structure</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#makefile_structure">Makefile Structure</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#header_file_structure">Header file structure</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#code_file_structure">Code File Structure</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#function_definitions">Function definitions</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#parameter_order">Parameter order</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#naming_conventions">Naming Conventions</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#basic_syntax_rules">Basic Syntax Rules</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#function_names_contain_meaning">Function names contain meaning</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#low-level_coding_conventions">Low-level coding conventions</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#idioms,_canonical_forms,_and_recommended_practices">Idioms, Canonical Forms, and Recommended Practices</a><br>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+
+Contributed by George Nachman.
+
+<p>
+
+Based on the Tcl/Tk Engineering Manual by John K. Ousterhout
+
+<p>
+
+
+<h2><a name="introduction">Introduction</a></h2>
+<p>
+
+This manual is based on the <em>Tcl/Tk Engineering Manual</em> by John
+K. Ousterhout that is available at <a href="http://www.activestate.com/">ActiveState</a>.
+Most of this document is a subset of what his manual specifies, with the goal of
+being more practical and up-to-date than the original. For example, it is assumed
+that only an ANSI compiler will be used, whereas the Ousterhout's manual
+describes conventions that will also work with non-ANSI compilers. The
+<em>Tcl/Tk Engineering Manual</em> is still recommended reading,
+particularly with respect to the section on code documentation, which
+is not reproduced here.
+
+<p>
+
+<h2><a name="overall_structure">Overall Structure</a></h2>
+<p>
+
+Each module will be named ns<em>xxx</em>, where <em>xxx</em> is a short
+name that describes the module. Each module will have its own
+directory, and contain at least the following files:
+
+<ul>
+<li> ns<em>xxx</em>.c
+<br><br>
+<li> Makefile
+
+</ul>
+
+
+
+<p>
+ If a module exports symbols, then a header file by the name of
+ns<em>xxx</em>.h should also be in that directory.
+
+<p>
+
+
+<h2><a name="makefile_structure">Makefile Structure</a></h2>
+<p>
+
+Use this as a template for module makefiles:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+#
+# (dollar-sign)Header: (dollar-sign)
+#
+# nsexample --
+#
+#      Example NaviServer module Makefile.
+#
+
+#
+# NaviServer's location
+#
+#  Since your module probably doesn't live inside the &quot;naviserver&quot;
+#  directory, you can tell make where to find naviserver.
+#
+#NAVISERVER   =  /usr/local/ns
+NAVISERVER    =  ../naviserver
+
+#
+# Module name
+#
+MOD      =  nsexample.so
+
+#
+# Objects to build
+#
+OBJS     =  nsexample.o
+
+#
+# Header files in THIS directory (included with your module)
+#
+HDRS     =
+
+#
+# Extra libraries required by your module (-L and -l go here)
+#
+MODLIBS  =
+
+#
+# Compiler flags required by your module (-I for external headers goes here)
+#
+CFLAGS   =
+
+
+include  $(NSHOME)/include/Makefile.module
+
+
+</pre></td></tr></table></p>
+
+
+<h2><a name="header_file_structure">Header file structure</a></h2>
+<p>
+
+Use this as a template for all header files:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+/*
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the &quot;License&quot;); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://mozilla.org.
+ *
+ * Software distributed under the License is distributed on an &quot;AS IS&quot;
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+ * the License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU General Public License (the &quot;GPL&quot;), in which case the
+ * provisions of GPL are applicable instead of those above.  If you wish
+ * to allow use of your version of this file only under the terms of the
+ * GPL and not to allow others to use your version of this file under the
+ * License, indicate your decision by deleting the provisions above and
+ * replace them with the notice and other provisions required by the GPL.
+ * If you do not delete the provisions above, a recipient may use your
+ * version of this file under either the License or the GPL.
+ */
+
+/*
+ * file.h --
+ *
+ * 	Description of file.
+ *
+ */
+
+#ifndef FILE_H
+#define FILE_H
+
+static const char
+*RCSID_FILE_H = &quot;(dollar-sign)Header: (dollar-sign), compiled: &quot; __DATE__;
+
+/*
+ * The following constants...
+ */
+
+#define ...
+
+/*
+ * The following structure defines...
+ */
+
+typedef struct ...
+
+/*
+ * Exported functions
+ */
+
+extern ...
+
+#endif /* FILE_H */
+
+</pre></td></tr></table></p>
+
+
+
+<p>
+
+
+Header files never contain static symbols.
+
+
+<h2><a name="code_file_structure">Code File Structure</a></h2>
+<p>
+
+Each source code file should contain a related set of procedures. The
+most manageable size for files is usually in the range of 500-2000
+lines. Closely related functions should be placed as close together as
+possible.
+
+
+<p>
+
+
+API functions (ns_*) come first; exported functions that are not API
+calls (Ns*) come after those; static functions come last. Logical
+groups of functions can be separated like this:
+
+
+<p>
+
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+/*
+ *==========================================================================
+ * This is where we torque the wingnut on the widget.
+ *==========================================================================
+ */
+
+</pre></td></tr></table></p>
+
+
+
+<p>
+
+
+Use this as a template for all code files:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+/*
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the &quot;License&quot;); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://mozilla.org/.
+ *
+ * Software distributed under the License is distributed on an &quot;AS IS&quot;
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+ * the License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * Alternatively, the contents of this file may be used under the terms
+ * of the GNU General Public License (the &quot;GPL&quot;), in which case the
+ * provisions of GPL are applicable instead of those above.  If you wish
+ * to allow use of your version of this file only under the terms of the
+ * GPL and not to allow others to use your version of this file under the
+ * License, indicate your decision by deleting the provisions above and
+ * replace them with the notice and other provisions required by the GPL.
+ * If you do not delete the provisions above, a recipient may use your
+ * version of this file under either the License or the GPL.
+ */
+
+/*
+ * file.c --
+ *
+ * 	Description of file.
+ */
+
+static const char
+*RCSID = &quot;(dollar-sign)Header: (dollar-sign), compiled: &quot; __DATE__ &quot; &quot; __TIME__;
+
+#include &quot;file.h&quot;
+
+/*
+ * The following constants...
+ */
+
+#define ...
+
+/*
+ * The following structure defines...
+ */
+
+typedef struct ...
+
+/*
+ * Local functions defined in this file
+ */
+
+static int FunctionName(int x);
+
+/*
+ * Static variables defined in this file
+ */
+
+static int nsNumFooBar;     /* Number of foobars allocated */
+...
+
+/*
+ *==========================================================================
+ * API functions
+ *==========================================================================
+ */
+
+ (API function definitions go here)
+
+/*
+ *==========================================================================
+ * Exported functions
+ *==========================================================================
+ */
+
+ (Exported, non-api functions go here)
+
+/*
+ *==========================================================================
+ * Static functions
+ *==========================================================================
+ */
+
+(Static functions go here)
+
+</pre></td></tr></table></p>
+
+
+
+<p>
+
+
+Source files should never contain extern statements; those belong in
+header files (called file.h in the above template).
+
+<h2><a name="function_definitions">Function definitions</a></h2>
+<p>
+
+Function definitions should follow this template:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+/*
+ *----------------------------------------------------------------------
+ * FunctionName -
+ *
+ * 	Description of function.
+ *
+ * Results:
+ *	This function returns ...
+ *
+ * Side effects:
+ *	A new thread will be created.
+ *
+ *----------------------------------------------------------------------
+ */
+
+static int
+FunctionName(int x)
+{
+	...
+}
+
+</pre></td></tr></table></p>
+
+
+<p>
+
+All functions definitions begin on a new page (which is to say they
+should be preceeded by a control-L character). All functions must be
+typed: use void if the function returns no result. The second line
+gives the function's name and argument list. If there are many
+arguments, they should spill onto additional lines as such:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+static int
+FunctionThatTakesLotsOfParameters(int a, int b, int c, int d, int e,
+                                  int f, int g)
+{
+	...
+}
+
+</pre></td></tr></table></p>
+
+
+
+<p>
+
+The same rule applies to prototypes.
+
+<h2><a name="parameter_order">Parameter order</a></h2>
+<p>
+
+Function parameters may be divided into three categories. <em>In</em>
+parameters only pass information into the function (either directly or
+by pointing to information that the function reads). <em>Out</em>
+parameters point to things in the caller's memory that the function
+modifies. <em>In-out</em> parameters do both. Below is a set of rules
+for deciding on the order of parameters to a function:
+
+
+<ol>
+
+
+<li>Parameters should normally appear in the order in, in/out, out,
+except where overridden by the rules below.
+
+<br><br>
+<li>If there is a group of functions, all of which operate on
+structures of a particular type--such as a hash table--the token for
+the structure should be the first argument to each of the functions.
+
+
+<br><br>
+<li>When two parameters are the address of a callback function and a
+context value (or ClientData value) to pass to that function, the
+function address should appear in the argument list immediately before
+the context/ClientData.
+
+<br><br>
+<li>If a callback function takes a context/ClientData argument (and
+all callbacks should), the context/ClientData argument should be the
+first argument to the procedure. Typically the context/ClientData is a
+pointer to the structure managed by the callback, so this is really
+the same as rule 2.
+
+<br><br>
+<li>In/out parameters should not be used without a <em>very </em>good
+reason.
+
+
+</ol>
+
+
+<h2><a name="naming_conventions">Naming Conventions</a></h2>
+<p>
+
+
+<ol>
+
+
+<li>Be consistent. Use the same name to refer to the same thing
+everywhere. For example, in the Tcl implementation the name
+<em>interp</em> is used consistently for pointers to the user-visible
+Tcl_Interp structure.
+
+<br><br>
+<li>Make sure a function name describes what the function actually
+does. Will the name make sense out of context?
+
+<br><br>
+<li>Sometimes it is appropriate to use one-letter variables, such as a
+for-loop control variable called <em>i</em>. For anything more complex,
+a short descriptive name should be used.
+
+
+</ol>
+
+
+<h2><a name="basic_syntax_rules">Basic Syntax Rules</a></h2>
+<p>
+
+
+<ol>
+
+
+<li>Variable names always start with a lowercase letter. Function and
+type names always start with an uppercase letter.
+
+<br><br>
+<li>In multi-word names, the first letter of each word after the first
+is in uppercase. For example,
+
+<br><br>
+
+
+<em>int nsThreadTimeout;</em>
+
+
+
+<br><br>
+<li>Any name that refers to a pointer ends in Ptr. If it is a pointer
+to a pointer, then it ends in PtrPtr. Exceptions to this rule include
+opaque handles for structures (such as ns_ModLogHandle) and char *
+variables that refer to null-terminated strings. Also, static buffers
+should not have the Ptr suffix, as in this case:
+
+
+<br><br>
+
+
+<em>char buf[32];</em>
+
+
+
+<br><br>
+<li>Variables that hold address of procedures should have names ending
+in Proc, as should typedefs for such variables.
+<br><br>
+ <em>typedef int
+(ns_OpProc) (void *argPtr, ns_Conn *connPtr) ns_OpProc
+*opProc;</em>
+
+
+<br><br>
+<li><em>#define</em> macros and constants should be in all
+uppercase. Underscores separate multiple words (as in NS_TRUE).
+
+<br><br>
+<li>Tcl commands are always in all-lowercase.
+
+
+</ol>
+
+
+<h2><a name="function_names_contain_meaning">Function names contain meaning</a></h2>
+<p>
+
+Public exported functions that are part of the API should begin with
+ns_, as in:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+extern int ns_ConnPort(ns_Conn *conn);
+</pre></td></tr></table></p>
+
+
+<p>
+Functions that are to be used by other files in a module, but are
+not meant to be called from outside the module, should begin with Ns,
+as in:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+extern void NsDbInit(void);
+</pre></td></tr></table></p>
+
+
+<p>
+Global variables that do <em>not</em> have static scope begin with ns, as in:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+ns_Cache *nsAdpCachePtr = NULL;
+</pre></td></tr></table></p>
+
+
+<p>
+C implementations of Tcl commands should be static functions ending
+with Cmd, as in:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+static int RegisterTagCmd(ClientData ignored, Tcl_Interp *interp,
+                          int argc, char **argv);
+
+</pre></td></tr></table></p>
+
+
+<h2><a name="low-level_coding_conventions">Low-level coding conventions</a></h2>
+<p>
+
+If you use Emacs, the following lisp (which you can put in your
+.emacs file) will make C-mode do much of the formatting for you (its
+default behavior is almost correct--this just makes indents be four
+spaces):
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+(add-hook 'c-mode-hook
+	(function (lambda ()
+		(setq c-basic-offset 4)
+		(setq c-indent-level 4))))
+
+</pre></td></tr></table></p>
+
+
+<ul>
+
+<li> Indents are four spaces
+
+
+<br><br>
+<li> Code comments occupy full lines, with empty lines before and
+after, as such:
+
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+foo();
+
+/*
+ * This is a comment.
+ */
+
+bar();
+
+</pre></td></tr></table></p>
+
+
+
+<br><br>
+<li> Opening curly braces go at the end of a line, except for the
+beginnings of functions, as such:
+
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+
+   if (x == y) {
+       FooBar();
+   }
+
+
+
+and
+
+   static void
+   FooBar(void)
+   {
+      Foo();
+   }
+
+
+</pre></td></tr></table></p>
+
+
+<br><br>
+<li> Always put a blank line after variable definitions:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+static void
+FooBar(void)
+{
+    int blah;
+
+    ...
+    if (blah != 0) {
+        char *string;
+
+	...
+    }
+}
+
+</pre></td></tr></table></p>
+
+
+<br><br>
+<li> Use curly braces even if you don't have to, such as in if
+statements that have only statement in the block. There is an
+exception to this, which is else if clauses which may look like
+this:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+
+if (!strcmp(cmd, &amp;quot;put&amp;quot;)) {
+    ...
+} else if (!strcmp(cmd, &amp;quot;get&amp;quot;)) {
+    ...
+} else if (!strcmp(cmd, &amp;quot;reset&amp;quot;)) {
+    ...
+} else {
+    ...
+}
+
+</pre></td></tr></table></p>
+
+
+<br><br>
+<li> No line should exceed 79 characters. The only exception to this is CVS
+headers because they have an external dependency.
+
+<br><br>
+<li> Labels are indented four spaces fewer than statements, except when
+they would touch the left margin, in which case they are indented one
+space in from the left margin.
+
+<br><br>
+<li> Switch statements should look like this:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+
+switch (adPtr-&amp;gt;exception) {
+case ADP_OK:
+    exception = &amp;quot;ok&amp;quot;;
+    break;
+case ADP_BREAK:
+    exception = &amp;quot;break&amp;quot;;
+    break;
+....
+}
+
+</pre></td></tr></table></p>
+
+
+<br><br>
+<li> Avoid macros except for extremely simple operations. Enclose
+arguments in parentheses, as well as the entire macro
+expression:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+#define MIN(a,b) (((a) &amp;lt; (b)) ? (a) : (b))
+
+</pre></td></tr></table></p>
+
+
+<br><br>
+<li> Do not use bit fields
+
+<br><br>
+<li> Goto statements may be used as long as they jump to the end of a
+function that then performs cleanup and returns. They are an excellent
+way of ensuring that functions have only one exit point. Most other
+uses of goto are, as usual, looked on with disdain.
+
+<br><br>
+<li> Common sense applies when using obscure or confusing parts of the
+C language. For example, don't do this:
+
+<br><br>
+
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+if (++c != NULL) {
+    foo();
+}
+
+</pre></td></tr></table></p>
+
+
+<br><br>
+<li> Where it is sensible, have only one return statement in each function.
+
+<br><br>
+<li> Complex if statements (such as those with three or more expressions)
+should have newline breaks after the operator separating each expression.
+In this case, put two newlines after the open brace to separate the
+conditions from the code that follows.
+
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+if (foo == bar &amp;&amp;
+    baz == spoo &amp;&amp;
+    ns_FooBarBaz() == NS_TRUE) {
+
+    ...
+}
+
+</pre></td></tr></table></p>
+
+
+<br><br>
+<li> When there are multiple variables defined in a block, the first letter
+of each variable name should line up, with asterisks running to the left.
+There should not be multiple variables defined on the same line unless the
+relationship between them is obvious. Non-obvious variables may be
+commented to the right.
+
+<br><br>
+The leftmost asterisk should begin on the column that is one space
+after the rightmost character of the longest type name. If there are no
+pointers, then every variable name should begin on the column that is one space
+after the rightmost character of the longest type name.
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+void
+Foo(void)
+{
+    int              bar;
+    unsigned int    *fooPtr;
+    int          ****extremePtrPtrPtrPtr;  /* Just an example! */
+
+    ...
+
+</pre></td></tr></table></p>
+
+or
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+void
+Foo(void)
+{
+    int          bar;
+    unsigned int foo;
+    char         baz;
+
+    ...
+
+</pre></td></tr></table></p>
+
+
+Variable initializers should not be anything more complex than a constant;
+function calls and complicated expressions deserve their own lines of code.
+
+
+
+<br><br>
+<li> In pointer definitions, be they local variables,
+global variables, parameters, or static functions prototypes,
+the asterisk should always make
+contact with the first character of the symbol. In typecasts, there should
+be one space between the type name and the asterik, and parentheses should
+make contact with both:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+static void *Foo(int *fooPtr);
+int *fooPtr = (int *) barPtr;
+
+</pre></td></tr></table></p>
+
+<br><br>
+<li> If a function ends with a return statement which is neither the only
+statement in the function body and is not preceeded by a label, an empty
+line should appear before it:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+static int
+Foo(void)
+{
+    ...
+    FooBar();
+
+    return code;
+}
+
+</pre></td></tr></table></p>
+
+
+</ul>
+
+
+
+<p>
+
+<h2><a name="idioms,_canonical_forms,_and_recommended_practices">Idioms, Canonical Forms, and Recommended Practices</a></h2>
+<p>
+
+The following conventions are frequently used in NaviServer. They
+are the recommended way of implementing a behavior.
+<ul>
+<li> Configuration parameters should be defined at the top of source files, as
+such:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+#define CONFIG_CACHE &quot;Cache&quot;     /* Enable caching in this module? */
+#define CONFIG_FOO   &quot;Foo&quot;       /* What is foo? */
+
+#define DEFAULT_CACHE NS_TRUE    /* Caching is on */
+#define DEFAULT_FOO   &quot;Bar&quot;      /* Foo is bar */
+
+</pre></td></tr></table></p>
+
+
+
+<br><br>
+<li> C is not PL/I. Write this:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+return foo;
+
+</pre></td></tr></table></p>
+
+
+not
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+return (foo);
+
+</pre></td></tr></table></p>
+
+
+With very complicated expressions, parentheses are acceptable:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+return (sqrt(variance) + foo() / bar() - (MAGIC + getch()) % 99);
+
+</pre></td></tr></table></p>
+
+
+<br><br>
+<li> Booleans can only have two values: NS_TRUE and NS_FALSE.
+Using 0 and 1 as boolean values is discouraged. Also avoid using the
+conventions of &lt;code&gt;if (foo)&lt;/code&gt; and &lt;code&gt;if (!foo)&lt;/code&gt;; rather, say:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+if (foo == NS_TRUE) {
+    ...
+}
+
+</pre></td></tr></table></p>
+
+
+or
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+if (foo == NS_FALSE) {
+    ...
+}
+
+</pre></td></tr></table></p>
+
+
+Of course, this only applies to NaviServer APIs and internal boolean values.
+Respect the wishes of library calls; values from outside code should never
+be compared with NS_TRUE or NS_FALSE, nor should NS_TRUE or NS_FALSE values
+ever be passed to outside code.
+
+
+<br><br>
+<li> Explicit checks for 0 values are usually preferred over implicit checks.
+
+<br><br>
+
+For pointers, use &lt;code&gt;NULL&lt;/code&gt;:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+if (fooPtr == NULL) {
+    ...
+}
+
+</pre></td></tr></table></p>
+
+
+or
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+if (fooPtr != NULL) {
+    ...
+}
+
+</pre></td></tr></table></p>
+
+
+For characters, use &lt;code&gt;'\0'&lt;/code&gt; when checking for equality to zero:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+if (*ch == '\0') {
+    ...
+}
+
+</pre></td></tr></table></p>
+
+
+For integers, explicitly use 0 when checking for equality to zero:
+
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+if (foo == 0) {
+    ...
+}
+
+</pre></td></tr></table></p>
+
+
+
+
+</ul>
+
+
+</body></html>

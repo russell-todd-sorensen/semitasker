@@ -1,0 +1,128 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* controls headline/title of document */
+
+.vb-image {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
+.bg-row {
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+}
+
+.vertical-band-rel {
+    border: 0;
+    padding: 0;
+    display: inline-block;
+    /* very important! */
+    vertical-align: bottom;
+}
+
+.content-bgr {
+    display: inline-block;
+    background-color: #963;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    /* very important: */
+    vertical-align: top;
+}
+
+.content2 {
+    height: 56px;
+    border: 0;
+    padding: 2px;
+    margin: 0;
+    vertical-align: top;
+    background-image:url(../images/white-3-bg-2-blk-vert-60px.png);
+    background-repeat: repeat-x;
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.titleWrap1 { /* same as #content4 */
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 36px;
+    font-weight: bold;   
+    background-color: #069;
+    color: white;
+    overflow: hidden;
+    position: relative;
+}
+
+.pretext1 { 
+    padding-left: 60px;
+    padding-right: 5px;
+    font-size: 36px;
+    font-weight: bold;
+    color: #069;
+    background-color: white; 
+    position: relative;
+}
+
+.side-bar {
+    position: absolute;
+    background-color: #963;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow: 3px -3px 5px black;
+    height: 15px;
+}
+
+#sb3 {
+    left: -10px;
+    top: 15px;
+    width: 40px;
+}
+
+#sb4 {
+    left: -10px;
+    top: 35px;
+    width: 60px;
+}
+
+#vbi1 {
+    height: 60px;
+    width: 10px;
+    background-color: #666;
+} 
+
+#vbi2 {
+    height: 60px;
+    width: 10px;
+    background-color: #603;
+}
+
+#spotlight {
+    background-image:url(../images/radial-white-40px.png);
+    background-size: cover;
+    height: 160px;
+    width: 160px;
+    position: absolute;
+    left: -160px;
+    top: -100px;
+}
+
+div#tw4 {
+    position: relative;
+    border: 0;
+    margin: 0;
+    margin-top: 45px;
+    margin-left: 45px;
+    padding: 0;
+    background-color: transparent;  
+}
+
+#title {
+}
+
+#tw1 {
+    position: relative;
+}

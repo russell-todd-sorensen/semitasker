@@ -1,0 +1,131 @@
+
+
+<html><head>
+<title>ns_memoize - NaviServer Built-In Commands </title>
+<link rel="stylesheet" href="../.././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/mann/ns_memoize.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_memoize.n
+   -->
+
+<body>
+<hr> [
+  <a href="../.././toc.html">Table Of Contents</a>
+| <a href="../.././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_memoize(n) 4.99.2  &quot;NaviServer Built-In Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_memoize - Evaluate a Tcl script and cache the result
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_memoize.html"> ns_memoize </a></b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?--? <i class='arg'>script</i> ?args ...?</a></td></tr>
+<tr valign=top ><td ><a href="#2"><b class='cmd'>ns_memoize_flush</b> ?<i class='arg'>pattern</i>?</a></td></tr>
+<tr valign=top ><td ><a href="#3"><b class='cmd'>ns_memoize_stats</b> </a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+A simple wrapper around <b class='cmd'>ns_cache_eval</b> which uses the script to be
+evaluated as the key to the cached result of evaluating the script. Use this
+when evaluating the script could take some time.
+
+<p>
+If the script is not pure, i.e. if it depends on something other than it's
+arguments to compute the result, then you will need to supply an expirey
+time or explicitly flush the result when the dependency changes.
+
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+<dl>
+
+
+<dt><a name="1"><b class='cmd'><a href="ns_memoize.html"> ns_memoize </a></b> ?<strong>-timeout <i class='arg'>t</i></strong>? ?<strong>-expires <i class='arg'>t</i></strong>? ?--? <i class='arg'>script</i> ?args ...?</a><dd>
+
+
+Evaluate <i class='arg'>script</i> and <i class='arg'>args</i> and return the result. The result is
+cached so that future evaluations of the same <i class='arg'>script</i> and <i class='arg'>args</i> will
+return the cached result without first evaluating the script.
+
+<br><br>
+The script result remains valid until the supplied expirey time passes, or
+forever if not specified. The expirey time can be expressed either as an
+absolute time in the future (seconds since the Unix epoch), or as an offset
+from the current time.
+
+<br><br>
+If two threads execute the same <i class='arg'>script</i> and <i class='arg'>args</i>, one will wait for
+the other to compute the result and store it in the cache. The <strong>-timeout</strong> 
+option specifies how long to wait.
+
+
+<br><br>
+<dt><a name="2"><b class='cmd'>ns_memoize_flush</b> ?<i class='arg'>pattern</i>?</a><dd>
+
+
+Flush results from the memoize cache. If a <i class='arg'>pattern</i> is not given, all
+results are discarded. If a <i class='arg'>pattern</i> is given it is treated as a
+<em>globbing</em> pattern and matched against each script for which there is
+a cached result in turn, and those that match are discarded.
+
+<br><br>
+Note: this may be an expensive operation. First the cache lock is accquired,
+then all entries in the cache are iterated over in turn matching the script
+against the globbing pattern.  During this period all access to the memoize
+cache will be blocked.
+
+
+<br><br>
+<dt><a name="3"><b class='cmd'>ns_memoize_stats</b> </a><dd>
+
+
+Return a list of statistics about the effectiveness of the memoize cache. Use
+this information to help you tune the cache size. See <b class='cmd'>ns_cache_stats</b>
+for details of the format of this list.
+
+
+</dl>
+
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+For the next three quarters of an hour, the answer to the &quot;meaning of life&quot;
+will take no time at all to decide:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+    set answer [<b class='cmd'><a href="ns_memoize.html"> ns_memoize </a></b> -expires 2520 deep_thought &quot;meaning of life&quot;]
+</pre></td></tr></table></p>
+
+
+Flush the cache of all thoughts which are deep:
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+    <b class='cmd'>ns_memoize_flush</b> deep_*
+</pre></td></tr></table></p>
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="ns_cache.html"> ns_cache </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../../index.html#key89"> cache </a>
+</body></html>

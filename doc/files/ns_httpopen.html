@@ -1,0 +1,124 @@
+<html><head>
+<title>ns_httpopen - NaviServer Built-in Commands </title>
+<link rel="stylesheet" href=".././nsd.css" type="text/css">
+</head>
+<! -- Generated from file 'files/ns_httpopen.html' by tcllib/doctools with format 'html'
+   -->
+<! -- CVS: $Id$ ns_httpopen.n
+   -->
+
+<body>
+<hr> [
+  <a href=".././toc.html">Table Of Contents</a>
+| <a href=".././index.html">Keyword Index</a>
+] <hr>
+
+<h1> ns_httpopen(n) 4.99  &quot;NaviServer Built-in Commands&quot;</h1>
+<h2><a name="name">NAME</a></h2>
+<p>
+<p> ns_httpopen - Fetch a web page
+
+
+
+
+<h2><a name="table_of_contents">TABLE OF CONTENTS</a></h2>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;<a href="#table_of_contents">TABLE OF CONTENTS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#synopsis">SYNOPSIS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#description">DESCRIPTION</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#commands">COMMANDS</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#examples">EXAMPLES</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#see_also">SEE ALSO</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#keywords">KEYWORDS</a><br>
+<h2><a name="synopsis">SYNOPSIS</a></h2>
+<p>
+<table border=1 width=100% cellspacing=0 cellpadding=0><tr            bgcolor=lightyellow><td bgcolor=lightyellow><table 0 width=100% cellspacing=0 cellpadding=0><tr valign=top ><td ><a href="#1"><b class='cmd'><a href="ns_httpopen.html"> ns_httpopen </a></b> <i class='arg'>method</i> <i class='arg'>url</i> ?<i class='arg'>rqset</i>? ?<i class='arg'>timeout</i>? ?<i class='arg'>pdata</i>?</a></td></tr>
+</table></td></tr></table>
+<h2><a name="description">DESCRIPTION</a></h2>
+<p>
+
+This command opens an http connection to a web page used to fetch its contents
+via the method, which may be POST, GET, or another valid http method.  If the
+act of opening the connections fails, it may throw an error.
+The url may be either absolute () or local (/page). If it is local, the host and
+port number of the server are added.
+The parameter rqset is the handle for an ns_set containing headers to send with
+the request. The timeout is the number of seconds to wait for the connection to
+open.  Pdata is the  extra data to send with the request (i.e. post data). If
+pdata is specified, the caller is responsible for supplying the Content-length
+and Content-type headers in rqset The call returns a list with these three elements:
+a file descriptor for reading, a file descriptor for writing, and a set ID for a set
+describing the connection. 
+
+Note: This command is currently implemented in Tcl, in the source file tcl/http.tcl
+
+<h2><a name="commands">COMMANDS</a></h2>
+<p>
+
+<dl>
+
+<dt><a name="1"><b class='cmd'><a href="ns_httpopen.html"> ns_httpopen </a></b> <i class='arg'>method</i> <i class='arg'>url</i> ?<i class='arg'>rqset</i>? ?<i class='arg'>timeout</i>? ?<i class='arg'>pdata</i>?</a><dd>
+
+
+
+</dl>
+
+
+<h2><a name="examples">EXAMPLES</a></h2>
+<p>
+
+<p><table><tr><td bgcolor=black>&nbsp;</td><td><pre class='sample'>
+
+    # A proc to post some data to a url and return the result
+    proc postit {url data} {
+        set rqset [ns_set new rqset]
+        ns_set put $rqset &quot;Accept&quot; &quot;*/*&quot;
+        ns_set put $rqset &quot;User-Agent&quot; &quot;[ns_info name]-Tcl/[ns_info version]&quot;
+        # ns_set put $rqset &quot;Content-type&quot; &quot;text/xml&quot;
+        ns_set put $rqset &quot;Content-type&quot; &quot;application/x-www-form-urlencoded&quot;
+        ns_set put $rqset &quot;Content-length&quot; [string length $data]
+        set timeout 15
+        set connInfo [ns_httpopen POST $url $rqset $timeout $data]
+        foreach {rfd wfd headers} $connInfo break
+        close $wfd
+        set length [ns_set iget $headers content-length]
+        if {[string match &quot;&quot; $length]} {
+            set length -1
+        }
+        set page &quot;&quot;
+        set err [catch {
+            # Read the content.
+            while {1} {
+                set buf [_ns_http_read $timeout $rfd $length]
+                append page $buf
+                if {[string match &quot;&quot; $buf]} {
+                    break
+                }
+                if {$length &gt; 0} {
+                    incr length -[string length $buf]
+                    if {$length &gt;= 0} {
+                        break
+                    }
+                }
+            }
+        } errMsg]
+        ns_set free $headers
+        close $rfd
+        if {$err} {
+            return -code error -errorinfo $::errorInfo $errMsg
+        }
+        return $page
+    }
+</pre></td></tr></table></p>
+
+
+
+
+
+<h2><a name="see_also">SEE ALSO</a></h2>
+<p>
+<a href="../index.html#key527"> nsd </a>
+<h2><a name="keywords">KEYWORDS</a></h2>
+<p>
+<a href="../index.html#key98"> ns_http </a>, <a href="../index.html#key97"> ns_httpget </a>, <a href="../index.html#key99"> ns_httppost </a>
+</body></html>
+
