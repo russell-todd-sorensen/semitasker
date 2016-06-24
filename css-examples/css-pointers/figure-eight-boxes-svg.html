@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <title>Figure Eight Boxes</title>
 
-<script src="../../../../../js/d3.v3.js"></script>
-<script src="../../../../../js/jquery-1.7.1.js" ></script>
-<script src="../../../../../js/log.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/jquery-1.7.1.js" ></script>
+<script src="/js/log.js"></script>
 
 <style>
 
@@ -136,11 +136,14 @@ function start () {
 	var height = 500;
 	var width = 500;
 	var svg = d3.select(document.body)
-		.append("svg")
-		.style("position", "absolute")
-		.style("top", '100px')
-		.style("left", '50px')
-		.attr('id','svgBox1');
+	.append("svg")
+	.style("position", "absolute")
+	.style("top", '100px')
+	.style("left", '50px')
+	.attr('id','svgBox1')
+    .attr('height',900)
+	.attr('width',1500)
+	.attr('viewbox', '0 0 1500 900');
 		
 		
 	Log.Notice("svg=" + svg);
@@ -203,7 +206,7 @@ $(document).ready(function() {
 </head>
 <body>
 
-
+<p>Click on boxes to get them to move</p>
 <!--
 <div id="container">
  <div id="a1"></div>

@@ -13,6 +13,10 @@ li,
 pre,
 code,
 address,
+article,
+nav,
+section,
+header,
 variable,
 form,
 fieldset, 
@@ -52,5 +56,3 @@ q:before, q:after {
   content: '';
 }
 
-
-/* Now add back some styles: */

@@ -135,8 +135,13 @@ $(document).ready(function() {
 	   alert("USE IE9.0 MODE!!!!" + "\n" + "Push the F12 key, then Alt+9");
   }
 
-  $('body')
-		.append("<div><pre id='" 
+  var x = $('footer');
+  var logDiv = 'footer';
+  if (x[0] == undefined) {
+  	  logDiv = 'body';
+  } 
+  $(logDiv)
+	.append("<div><pre id='" 
 			+ Log.Logger 
 			+ "'>Log\n\n</pre><div id='log-close-button'><span>X</span></div></div>");
 

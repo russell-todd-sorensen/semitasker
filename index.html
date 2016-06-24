@@ -3,20 +3,75 @@
 <head>
 <meta charset="utf-8">
 
-<title>Learn HTML 20</title>
+<title>SemiTasker: Divide and Conquer!</title>
 
+<link rel="stylesheet" href="/css/main.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 <link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
 <style type="text/css">
-/* place any page unique styles here */
+
+header h1 {
+	text-align: center;
+	background-color: #ddd;
+	padding: 15px;
+	color: #69F;
+	border: none;
+	margin: 0;
+}
+
+article,section {
+	margin: 0;
+}
+
+#main nav {
+	display: inline-block;
+	background-color: #ddd;
+	color: #69F;
+	margin: 0;
+	padding: 5px;
+}
+
+nav h2 {
+	font-size: 20px;
+}
+
+nav li {
+	list-style: none;
+	padding-left: 10px;
+	margin-left: -25px;
+	border: 1px solid transparent;
+}
+nav li:hover {
+	border-color: tan;
+}
+/* link fixup */
+nav a {
+	display: inline-block;
+	width: 250px;
+	height: 1.5em;
+}
+
+nav a:link, a:visited {
+	color: #666;
+	text-decoration: none;
+}
+
+nav a:hover, a:active {
+	color: #666;
+}
+
+footer {
+	position: relative;
+	height: 200px;
+	width: 100%;
+}
 
 </style>
 
-<script src="/js/d3.v3.js" type="application/javascript" language="javascript"></script>
-<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
-<script type="text/javascript" src="/js/log-2.js"></script>
-<script src="/js/example-library.js"></script>
+<script src="/js/d3.v3.js" charset="utf-8"></script>
+<script src="/js/jquery-1.7.1.js" charset="utf-8"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" charset="utf-8"></script>
+<script src="/js/log-2.js" charset="utf-8"></script>
 
 <script>
 
@@ -28,17 +83,19 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
- <div id="main">
- <h1 id="header" class="transparent">SemiTasker.com</h1>
- <div id="body">
- <div id="nav" class="transparent">
+ <article>
+ <header>
+ <h1>SemiTasker: Divide and Conquer!</h1>
+ </header>
+ <section id="main">
+ <nav>
  <ul>
   <li><a href="/">Home</a></li>
   <li><a href="/doc/toc.html">Naviserver Documentation</a></li>
  </ul>
 <h2>Live Edit HTML/CSS/JS</h2>
 <ul>
- <li><a href="/learn-html/learn-html-20.html">Learn HTML Editor</a></li>
+ <li><a href="/geek-code/geek-code-2.html">Learn HTML Editor</a></li>
 </ul>
 <h2>SVG Apps</h2>
 <ul>
@@ -46,6 +103,10 @@ $(document).ready(function() {
          title="Interactive Color Pallet Tool">Color Mixer</a></li>
  <li><a href="/learn-html/color-mixer/rgb-hsl-conversion-5.html" 
          title="RGB to HSL/HSB Conversion Animation">RGBtoHSL Conversion</a></li>
+ <li><a href="/svg/image-deform-7.html" 
+         title="Affine Transform of Image in SVG">Image Deform</a></li>
+         
+ <li><a href="/svg/svg-index.html">More SVG Apps</a></li>
 </ul>
 
 <h2>HTML 5 Canvas Apps</h2>
@@ -55,8 +116,54 @@ $(document).ready(function() {
  <li><a href="/fractal/mrcm-affine.html"
          title="Multiple Reduction Copy Machine Using Affine Transforms">MRCM Fractal</a></li>
 </ul>
- </div><!-- end nav -->
- </div><!-- end body -->
- </div><!-- end main -->
+<h2>HTML 5 Simple Apps</h2>
+<ul>
+  <li><a href="/gallery-2.html">Background Image Photo Gallery</a></li>
+</ul>
+
+<h2>Games</h2>
+<ul>
+ <li><a href="/css-examples/D3.JS/game-of-life/game-of-life-2.html">Game of Life</a></li>
+ <li><a href="/css-examples/D3.JS/go/go-game-4.html">Go</a></li>
+ <li><a href="/css-examples/D3.JS/hex/hex-game-polished.html">Hex</a></li>
+</ul>
+
+<h2>D3.JS</h2>
+<ul>
+ <li><a href="/css-examples/D3.JS/d3-data-2.html">D3.js Example 1</a></li>
+ <li><a href="/css-examples/D3.JS/d3-data-test-8.html">D3.js Example 2</a></li>
+ <li><a href="/css-examples/D3.JS/d3-data-test-1.html">D3.js Example 3</a></li>
+ <li><a href="/css-examples/css-pointers/figure-eight-boxes-svg.html">D3.js Example 4</a></li>
+ <li><a href="/css-examples/D3.JS/d3-data-2.html">D3.js Example 5</a></li>
+</ul>
+
+<h2>jQuery</h2>
+<ul>
+ <li><a href="/css-examples/jQuery/jquery-example-4.html">jQuery Example 1</a></li>
+</ul>
+
+<h2>Directory Browser</h2>
+<ul>
+ <li><a href="/css/">/css/</a></li>
+ <li><a href="/css-examples/">/css-examples/</a></li>
+ <li><a href="/doc/">/doc/</a></li>
+ <li><a href="/fractal/">/fractal/</a></li>
+ <li><a href="/geek-code/">/geek-code/</a></li>
+ <li><a href="/images/">/images/</a></li>
+ <li><a href="/js/">/js/</a></li>
+ <li><a href="/learn-html/">/learn-html/</a></li>
+ <li><a href="/sudoku/">/sudoku/</a></li>
+ <li><a href="/svg/">/svg/</a></li>
+
+</ul>
+ </nav>
+ <div id="content">
+ </div>
+ </section>
+ 
+ </article>
+<footer>
+
+</footer>
 </body>
 </html>

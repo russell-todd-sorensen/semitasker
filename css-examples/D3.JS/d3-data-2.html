@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <title>d3 data examples</title>
 <link rel="stylesheet" type="text/css" href="main.css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 <style>
 
 pre {
@@ -53,39 +54,18 @@ pre {
 
 </style>
 
-<script language="javascript" src="d3.v3.js"></script>
-<script language="javascript" src="../js/jquery-1.7.1.js"></script>
-<script language="javascript" src="../js/log.js"></script>
+<script language="javascript" src="/js/d3.v3.js"></script>
+<script language="javascript" src="/js/jquery-1.7.1.js"></script>
+<script language="javascript" src="/js/log-2.js"></script>
 <script language="javascript" >
 
 var version = d3.version;
 var index = 0;
-if (false) {
-var dataset = [
-	{ x: 100, y: 200, a:   500},
-	{ x:  50, y:  30, a:  1000},
-	{ x:   5, y:   3, a:   300},
-	{ x: 500, y: 400, a:  4000},
-	{ x: 220, y: 300, a:    30},
-	{ x: 700, y: 100, a:   500},
-	{ x:  40, y: 300, a:  3000},
-	{ x:  55, y: 100, a:  1000},
-	{ x:  22, y:  30, a:    30},
-	{ x: 000, y: 400, a:  5000},
-	{ x: 100, y:  30, a:    30},
-	{ x: 300, y:  10, a:   500},
-	{ x: 333, y: 400, a:  7000},
-	{ x:  80, y: 330, a:  2000},
-	{ x: 750, y:  80, a:    30},
-	{ x: 150, y:  38, a:   390},
-	{ x: 400, y: 300, a:   300},
-	{ x: 120, y: 200, a:    50}
-	];
-} else {
+
 var dataset = new Array();
-}
-var datasetSize = 40;
+var datasetSize = 70;
 var datasetMax = new Array();
+
 datasetMax["a"]       = 10000;
 datasetMax["x"]       =  1000;
 datasetMax["y"]       =   500;
@@ -108,10 +88,13 @@ function startD3 () {
 	
   var svg = d3.select(document.body)
   	.append("svg")
-		.style("position", "absolute")
-		.style("top", '100px')
-		.style("left", '50px')
-		.attr('id','svgBox1');
+	.style("position", "absolute")
+	.style("top", '100px')
+	.style("left", '50px')
+	.attr('id','svgBox1')
+    .attr('height',900)
+	.attr('width',1500)
+	.attr('viewbox', '0 0 1500 900');
 	
 	svg.selectAll("circle")
 		.data(dataset)
@@ -226,7 +209,8 @@ function startD3 () {
 $(document).ready(function () {
 
   Log.Notice('d3.js version=' + version);
-	d3.csv("data4.csv", function(e,d) {
+  if (false) {
+	d3.csv("data2.csv", function(e,d) {
 		Log.Notice("running d3.csv");
 		if (e) {
 			// do nothing
@@ -237,7 +221,8 @@ $(document).ready(function () {
 		}
 		startD3();
 	});
- // startD3();
+  }
+ startD3();
 });
 
 </script>

@@ -71,11 +71,24 @@
     top: 0;
     left: 0;
 }
+#hex-background {
+	font-size:700px;
+    font-style:normal;
+    font-weight:normal;
+    fill:rgba(0,0,0,.85); 
+    fill-opacity:.85;
+    stroke:none;
+    stroke-width:1px;
+    stroke-linecap:butt;
+    stroke-linejoin:miter;
+    stroke-opacity:1;
+    font-family:'Lucida Sans Unicode'
+}
 </style>
 
-<script src="../../js/jquery-1.7.1.js"></script>
-<script src="../../js/log.js"></script>
-<script src="../d3.v3.js"></script>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log.js"></script>
 <script src="hex-2.js"></script>
 
 <script>
@@ -102,29 +115,18 @@ $(document).ready(function() {
      xmlns:xlink="http://www.w3.org/1999/xlink" 
      x="0px" 
      y="0px"
-	   width="1000px" 
+	 width="1500px" 
      height="700px" 
-     viewBox="0 0 1000 700" 
+     viewBox="0 0 1500 700" 
      enable-background="new 0 0 1000 700" 
      fill="transparent"
      xml:space="preserve"
      >
-     <text x="-60"
-           y="600" 
-           id="hex-background"
-           xml:space="preserve"
-       style="font-size:700px;
-              font-style:normal;
-              font-weight:normal;
-              fill:rgba(0,0,0,.85); 
-              fill-opacity:.85;
-              stroke:none;
-              stroke-width:1px;
-              stroke-linecap:butt;
-              stroke-linejoin:miter;
-              stroke-opacity:1;
-              font-family:'Lucida Sans Unicode'"
-       >HEX</text>
+     <text 
+       x="-60"
+       y="600" 
+       id="hex-background"
+       xml:space="preserve">HEX</text>
 </svg>
 </div>
 <div id="rules">
