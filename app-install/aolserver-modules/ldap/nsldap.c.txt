@@ -1,0 +1,410 @@
+/*
+ * The contents of this file may be used under the terms 
+ * of the GNU General Public License (the "GPL"). 
+ * Originally licensed Feb 26, 2001.
+ * Copyright 2001-02 Tom Jackson <tom@zmbh.com>
+ */  
+
+
+/*
+ * nsldap.c
+ *
+ * This file must be compiled with an ldap client library.
+ * I chose to use openldap, which is available from
+ * http://openldap.org/.
+ *
+ * A suitable script to compile this module under Linux is:
+ *
+#!/bin/bash
+
+NS_HOME=/usr/local/aolserver
+INCLUDE=${NS_HOME}/include
+LDAP_HOME=/tmp/ldap
+
+gcc -rdynamic -I${LDAP_HOME}/include/ -I${INCLUDE} -D_REENTRANT -c nsldap.c -o nsldap.o
+
+gcc -dynamic -shared -I${LDAP_HOME}/include/ -I${INCLUDE} -L${LDAP_HOME}/libraries -o nsldap.so nsldap.o -lldap -llber
+ 
+ *
+ * Adjust NS_HOME to reflect the top directory for aolserver.
+ * Adjust LDAP_HOME to reflect the top directory for your ldap software.
+ */
+
+ 
+static const char *RCSID = "@(#) $Header: /var/cvs/nsldap/nsldap.c,v 1.2 2001/02/27 08:48:37 nsadmin Exp $, compiled: " __DATE__ " " __TIME__;                                                
+
+#include "ns.h"
+#include <ldap.h>
+#include <sys/time.h>
+
+int Ns_ModuleVersion = 1;
+
+/*
+ * Static variables used in this file
+ */
+
+
+static Tcl_HashTable ldapConnHandlesTable;
+
+typedef struct LdapConnHandle {
+  LDAP           *ld;
+  LDAPMessage    *res;
+  char           *datasource;
+  char           *user;
+  char           *password;
+  int            scope;
+  int            attrsonly;
+  int            entries;     /* Number of entries in main LDAPMessage */
+  char           *poolname;
+  int            init;
+  int            search;      /* signals that search results are in res (and memory needs freeing) */
+  int            verbose;
+}         LdapConnHandle;
+      
+/* Prototype functions */
+
+LdapConnHandle *getLdapHandle (Tcl_Interp *interp, char *string);
+int NSTclLdapInitCmd (Tcl_Interp *interp, char *datasource, char *user, char *password);
+int NSTclLdapSimpleBindSCmd(Tcl_Interp *interp, char *ldaphandle);
+int NSTclLdapUnbindCmd (Tcl_Interp *interp, char *ldaphandle);
+int NSTclLdapDebugCmd (Tcl_Interp *interp, char *ldaphandle);
+int NSTclLdapCountEntriesCmd(Tcl_Interp *interp, char *ldaphandle);
+int NSTclLdapSearchSCmd(Tcl_Interp *interp, char *ldaphandle, char *base, char *filter);
+int NSTclLdapTestCmd(Tcl_Interp *interp, char *datasource);
+int deleteLdapHandle (Tcl_Interp *interp, char *string);
+
+/* Registered Command:
+ * The registered command figures out what subcommand to actually run.
+ * Checks that the number of arguments is correct.
+ * Gives nice names to the variables.
+ * Runs the function that performs the command.
+ */
+
+static int
+NsTclLdapCmd(ClientData dummy, Tcl_Interp *interp, int argc, char **argv)
+{
+
+  char        *cmd;
+
+  if (argc < 2) {
+	Tcl_AppendResult(interp, "wrong # of args: should be \"",
+					 argv[0], "init|simple_bind_s|search_s|debug|test|count_entries|unbind ?args ...?\"", NULL);
+	return TCL_ERROR;
+  }
+
+  /*
+   *  Determine subcommand.
+   */
+
+  cmd = argv[1];
+  if (STREQ(cmd, "init")) {
+	if (argc != 5) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " init ldaphost user pass",   NULL);
+	  return TCL_ERROR;
+	}
+	return NSTclLdapInitCmd(interp, argv[2], argv[3], argv[4]);
+  } 
+  if (STREQ(cmd, "simple_bind_s")) { 
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " simple_bind_s ldaphandle",   NULL);
+	  return TCL_ERROR;
+	}
+
+	return NSTclLdapSimpleBindSCmd(interp, argv[2]);
+  }  
+  if (STREQ(cmd, "search_s")) {
+	if (argc != 5) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " search_s ldaphandle base filter",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclLdapSearchSCmd(interp,argv[2],argv[3],argv[4]);
+  }
+  if (STREQ(cmd, "debug")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " debug ldaphandle",   NULL);
+	  return TCL_ERROR;
+	}
+	return NSTclLdapDebugCmd(interp, argv[2]);
+
+  }
+  if (STREQ(cmd, "count_entries")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " count_entries ldaphandle",   NULL);
+	  return TCL_ERROR;
+	}
+
+	return NSTclLdapCountEntriesCmd(interp, argv[2]);
+  }
+  if (STREQ(cmd, "unbind")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " unbind ldaphandle",   NULL);
+	  return TCL_ERROR;
+	}
+
+	return NSTclLdapUnbindCmd(interp, argv[2]);
+  } 
+  if (STREQ(cmd, "test")) { 
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " test datasource",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclLdapTestCmd(interp, argv[2]);
+  }
+ 
+}
+
+
+/* 
+ * Functions that actually do the work
+ */
+
+int
+NSTclLdapInitCmd (Tcl_Interp *interp, char *datasource, char *user, char *password ) {
+  Ns_DString     datasrc, u, p;
+  Tcl_HashEntry  *entryPtr;
+  LdapConnHandle *handlePtr;
+  int         new;
+  static unsigned int id = 1;
+
+  do {
+	sprintf(interp->result, "ldap%u", id);
+	id++;
+	entryPtr = Tcl_CreateHashEntry(&ldapConnHandlesTable, interp->result, &new);
+  } while (!new);
+  
+  handlePtr = (LdapConnHandle *) ns_malloc(sizeof(LdapConnHandle));
+  Tcl_SetHashValue(entryPtr, handlePtr);
+
+  /*
+   * Try to get length of datasource
+   */
+  Ns_DStringInit(&datasrc);
+  Ns_DStringAppend(&datasrc, datasource);
+  handlePtr->datasource = ns_malloc(datasrc.length + 1);
+  memcpy(handlePtr->datasource, datasrc.string, datasrc.length + 1);
+  Ns_DStringFree(&datasrc);
+
+  Ns_DStringInit(&u);
+  Ns_DStringAppend(&u, user);
+  handlePtr->user = ns_malloc(u.length + 1);
+  memcpy(handlePtr->user, u.string, u.length + 1);
+  Ns_DStringFree(&u);
+
+  Ns_DStringInit(&p);
+  Ns_DStringAppend(&p, password);
+  handlePtr->password = ns_malloc(p.length + 1);
+  memcpy(handlePtr->password, p.string, p.length + 1);
+  Ns_DStringFree(&p);
+
+  
+  /*
+   *  Initialize handle
+   */
+  
+  handlePtr->search = 0;
+  handlePtr->scope = 2;
+  handlePtr->entries = 0;
+  handlePtr->attrsonly = 0;
+  handlePtr->init = 0;
+
+  if ((handlePtr->ld = ldap_init(handlePtr->datasource,LDAP_PORT)) == NULL) {
+	Tcl_AppendResult(interp, "Unable to Initialize Connection ", handlePtr->datasource,  NULL);
+	
+	return TCL_ERROR;
+  } else {
+	handlePtr->init = 1;
+  }
+  Ns_Log(Debug,"Init datasource '%s' user '%s'", handlePtr->datasource, handlePtr->user);
+  return TCL_OK;
+
+}
+
+int
+NSTclLdapSimpleBindSCmd(Tcl_Interp *interp, char *ldaphandle) {
+
+  LdapConnHandle *handlePtr;
+
+  handlePtr = getLdapHandle(interp, ldaphandle);
+  if (handlePtr == NULL) {
+	return TCL_ERROR;
+  }
+
+  Ns_Log(Debug,"Binding: %s user %s", handlePtr->datasource, handlePtr->user);
+
+  if (ldap_simple_bind_s(handlePtr->ld,handlePtr->user,handlePtr->password) != LDAP_SUCCESS) {
+	ldap_perror(handlePtr->ld,"ldap_simple_bind_s");
+	Ns_Log(Debug,"Unable to bind %s user %s", handlePtr->datasource, handlePtr->user);
+	Tcl_AppendResult(interp, "Unable to Bind ", handlePtr->datasource, NULL);
+	return TCL_ERROR;
+  }
+  Ns_Log(Debug,"Bound %s", handlePtr->datasource);
+  return TCL_OK;
+}
+
+int 
+NSTclLdapUnbindCmd (Tcl_Interp *interp, char *ldaphandle) {
+
+  LdapConnHandle *handlePtr;
+  
+  handlePtr = getLdapHandle (interp, ldaphandle);
+  if (handlePtr == NULL) {
+	return TCL_ERROR;
+  }
+  ldap_unbind(handlePtr->ld);
+  if (deleteLdapHandle (interp, ldaphandle) != TCL_OK) {
+	return TCL_ERROR;
+  }
+}
+
+int 
+NSTclLdapDebugCmd (Tcl_Interp *interp, char *ldaphandle) {
+
+  LdapConnHandle *handlePtr;
+ 
+  handlePtr = getLdapHandle (interp, ldaphandle);
+  if (handlePtr == NULL) {
+	return TCL_ERROR;
+  }
+  Ns_Log(Debug,"\n datasource '%s'  \n user '%s' \n password '%s' \n ldaphandle '%s' ", 
+		 handlePtr->datasource, 
+		 handlePtr->user, 
+		 handlePtr->password,
+		 ldaphandle);
+  
+  return TCL_OK;
+
+}
+
+int 
+NSTclLdapCountEntriesCmd(Tcl_Interp *interp, char *ldaphandle) {
+
+  LdapConnHandle *handlePtr;
+
+  handlePtr = getLdapHandle (interp, ldaphandle);
+  if (handlePtr == NULL) {
+	return TCL_ERROR;
+  }
+  if (handlePtr->entries = ldap_count_entries(handlePtr->ld,handlePtr->res) == -1) {
+	ldap_perror(handlePtr->ld, "ldap_count_entries");
+	Tcl_AppendResult(interp, "No Entries from Search", NULL);
+	return TCL_ERROR;
+  }
+  sprintf(interp->result, "%i", handlePtr->entries); 
+  return TCL_OK;
+
+}
+
+int 
+NSTclLdapSearchSCmd(Tcl_Interp *interp, char *ldaphandle, char *base, char *filter) {
+
+  LdapConnHandle *handlePtr;
+
+  handlePtr = getLdapHandle (interp, ldaphandle);
+  if (handlePtr == NULL) {
+	return TCL_ERROR;
+  }
+
+  if (handlePtr->search == 1) {
+    ldap_msgfree(handlePtr->res);
+    handlePtr->search = 0;
+  }
+   
+  
+  if (ldap_search_s(handlePtr->ld,base,handlePtr->scope,filter,NULL,handlePtr->attrsonly,&handlePtr->res) != LDAP_SUCCESS) {
+	ldap_perror(handlePtr->ld,"ldap_search_s");
+	return TCL_ERROR;
+  }
+  handlePtr->search = 1;
+  return TCL_OK;
+  
+}
+
+int 
+NSTclLdapTestCmd(Tcl_Interp *interp, char *datasource) {
+
+  LDAP        *ld;
+  char        *User = NULL;
+  char        *Passwd = NULL;
+  
+  if ((ld = ldap_init(datasource,LDAP_PORT)) == NULL) {
+	
+	Tcl_AppendResult(interp, "Unable to Initialize Connection",  NULL);
+	return TCL_ERROR;
+  }
+  if (ldap_simple_bind_s(ld,User,Passwd) != LDAP_SUCCESS) {
+	ldap_perror(ld,"ldap_simple_bind_s");
+	Tcl_AppendResult(interp, "Unable to Bind",  NULL);
+	return TCL_ERROR;
+  }
+  ldap_unbind(ld);
+  Tcl_AppendResult(interp, "Successful Init, Bind, Unbind",   NULL);
+  return TCL_OK;
+
+}
+
+/*
+ *  Utility Functions
+ */
+
+LdapConnHandle *getLdapHandle (Tcl_Interp *interp, char *string) {
+
+  Tcl_HashEntry *entryPtr;
+
+  entryPtr = Tcl_FindHashEntry(&ldapConnHandlesTable, string);
+  if (entryPtr == NULL) {
+	Tcl_AppendResult(interp, "No ldap handle named '", string, "'", (char *) NULL);
+	return NULL;
+  }
+  return (LdapConnHandle *) Tcl_GetHashValue(entryPtr);
+}
+
+int deleteLdapHandle (Tcl_Interp *interp, char *string) {
+
+  Tcl_HashEntry *entryPtr;
+  LdapConnHandle *handlePtr;
+
+  entryPtr = Tcl_FindHashEntry(&ldapConnHandlesTable, string);
+  if (entryPtr == NULL) {
+	return TCL_OK;
+  }
+  handlePtr = (LdapConnHandle *) Tcl_GetHashValue(entryPtr);
+  Tcl_DeleteHashEntry(entryPtr);
+
+  if (handlePtr->search == 1) {
+    ldap_msgfree(handlePtr->res);
+  }
+   
+  ns_free ((char *) handlePtr);
+  return TCL_OK;
+}
+
+
+/* 
+ *  Functions to register the commands and initalize the module
+ */
+
+static int
+AddLDAPCmds(Tcl_Interp *interpPtr, void *ctx)
+{
+
+  Tcl_CreateCommand(interpPtr, "ns_ldap", NsTclLdapCmd, NULL, NULL);
+  return NS_OK;
+}
+
+void
+NsLdapInit(void)
+{
+ 
+    Tcl_InitHashTable(&ldapConnHandlesTable, TCL_STRING_KEYS);
+}
+
+
+NS_EXPORT int
+Ns_ModuleInit(char *hServer, char *hModule)
+{
+  Ns_Log(Notice,"Starting LDAP Module");
+  Ns_TclInitInterps(hServer, AddLDAPCmds, NULL);
+  NsLdapInit();
+  return NS_OK;
+}
+

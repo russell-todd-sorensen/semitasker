@@ -1,0 +1,5 @@
+
+
+ls says [puts stdout "this is a test"]
+
+

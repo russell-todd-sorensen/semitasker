@@ -1,0 +1,94 @@
+# Copyright 1994-1996 America Online, Inc. 
+
+# Copyright 1994-1996 America Online, Inc. 
+
+#
+# Makefile for nsreturnz.so module.
+#
+# To compile the nsreturnz.so loadable AOLserver module, edit the NSHOME
+# variable (below) to the directory where the AOLserver files are located 
+# and uncomment the CC, COPTS, and LDFLAGS variables for your platform and
+# compiler.  Then type "make install" to compile and install the module
+# in the AOLserver bin directory.  To have the AOLserver load the
+# nsreturnz.so module at runtime, you will need to add the following
+# entry in the [ns\server\godzilla\modules] section of your nsd.ini file
+# (where 'godzilla' is the name of a virtual server):
+#
+#	nsreturnz=nsreturnz.so
+#
+#
+# NOTE:  This code is unsupported and for example purposes only.
+#
+
+# Location of the AOLserver files (normally the ~nsadmin directory):
+NSHOME=../aolserver
+
+#
+# Module name
+#
+MOD      = nsreturnz.so
+
+#
+# Objects to build
+#
+OBJS     =  nsreturnz.o
+
+#
+# Header files in THIS directory
+#
+HDRS     =  
+
+#
+# Extra libraries
+#
+MODLIBS  = -lz
+
+#
+# Compiler flags
+#
+CFLAGS   = 
+
+include  $(NSHOME)/include/Makefile.module
+
+###   # Solaris 2.4
+###   #CC=/opt/SUNWspro/bin/cc
+###   #COPTS=-g -mt -Xa
+###   #LDFLAGS=-dy -G
+###   
+###   # Alpha Digital Unix 3.2
+###   #CC=cc
+###   #COPTS=-g -D_REENTRANT -threads
+###   #LDFLAGS=-shared -expect_unresolved '*'
+###   
+###   # HP/UX
+###   #CC=cc
+###   #COPTS=-g -Ae -D_REENTRANT +z
+###   #LDFLAGS=-b
+###   
+###   # SGI Irix 5.3
+###   #CC=cc
+###   #COPTS=-g -D_SGI_MP_SOURCE
+###   #LDFLAGS=-shared
+###   
+###   CC=cc
+###   COPTS=-g -D_REENTRANT
+###   LDFLAGS=-shared
+###   
+###   # You should not need to edit anything below this line.
+###   
+###   OBJS=nsreturnz.o
+###   MODULE=nsreturnz.so
+###   CFLAGS=-I$(NSHOME)/include $(COPTS)
+###   
+###   all: $(MODULE)
+###   
+###   $(MODULE): $(OBJS)
+###   	ld $(LDFLAGS) -o $(MODULE) $(OBJS) /usr/lib/libz.so.1
+###   
+###   install: $(MODULE)
+###   	cp $(MODULE) $(NSHOME)/bin/
+###   	chmod +x $(NSHOME)/bin/$(MODULE)
+###   
+###   clean:
+###   	rm -f *.o *.so
+

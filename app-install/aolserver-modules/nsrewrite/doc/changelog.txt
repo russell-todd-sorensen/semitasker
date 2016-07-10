@@ -1,0 +1,6 @@
+2002-12-30 Tom Jackson <tom@rmadilo.com>
+
+	* doc/nsrewriteurl.html documentation on use
+	* Makefile updated to show help, cvs tag and release
+	* README html stripped version of the html doc
+	* INSTALL mimimal install guide

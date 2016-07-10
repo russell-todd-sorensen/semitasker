@@ -1,0 +1,19 @@
+
+
+'application'
+ 'name'pg-init'
+ 'variable'
+  'name'PgInitFile'
+  'default'postgresql'
+  'help'Filename to use for service'
+ ''
+ 'command'cd /etc/rc.d/init.d'
+ 'command'wget http://zmbh.com/app-install/pg-init.d/postgresql.txt'
+ 'command'mv postgresql.txt $PgInitFile'
+ 'command'chmod +x $PgInitFile'
+ 'command'chkconfig --add $PgInitFile'
+ 'command'chkconfig --list $PgInitFile'
+ 'command'./$PgInitFile start'
+''
+'comment'end of postgesql+pg-init'
+

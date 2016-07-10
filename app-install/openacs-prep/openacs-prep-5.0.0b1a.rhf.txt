@@ -1,0 +1,376 @@
+'application'
+ 'name'OPrep'
+ 'help'OpenACS Prep: Sets up Database, OpenACS startup files.'
+ 'variable'
+  'name'OPrepBaseUrl'
+  'default'http://zmbh.com/app-install/openacs-prep'
+ ''
+ 'variable'
+  'name'OPrepOpenACSVersion'
+  'default'5.0.0b1a'
+ ''
+ 'variable'
+  'name'OPrepAOLserverVersion'
+  'default'4.0'
+ ''
+ 'variable'
+  'name'Server'
+  'help'Server is a short internal name used to identify the AOLserver instance.'
+  'default'server1'
+ ''
+ 'variable'
+  'name'ServerName'
+  'help'Short string identifying the service.'
+  'default'Server 1'
+ ''
+ 'variable'
+  'name'DebugSetting'
+  'help'Default debug setting'
+  'default'true'
+ ''
+ 'variable'
+  'name'DatabaseType'
+  'help'Database Type: postgres or oracle'
+  'default'postgres'
+ ''
+ 'variable'
+  'name'DatabaseUser'
+  'help'Database Owner. This user will be created'
+  'default'joeuser'
+ ''
+ 'variable'
+  'name'DatabasePassword'
+  'default'password'
+ ''
+ 'variable'
+  'name'DatabaseName'
+  'help'Name of database'
+  'default'joesdb'
+ ''
+ 'variable'
+  'name'Hostname'
+  'help'Domain name to use when returning redirects.
+  'default'example.com'
+ ''
+ 'variable'
+  'name'IPAddress'
+  'help'Comma separated list of address:port for this service.'
+  'default'127.0.0.1:8000'
+ ''
+ 'variable'
+  'name'HTTPSIPAddress'
+  'help'Comma separated list of address:port for secure services.'
+  'default''
+ ''
+ 'variable'
+  'name'ServerRoot'
+  'help'Directory where private tcl directory and pageroot directory reside.'
+  'default'/var/lib/aolserver/$Server'
+ ''
+ 'variable'
+  'name'ServerLog'
+  'help'Log file where Server notices and errors are written.'
+  'default'$ServerRoot/log/${Server}-error.log'
+ ''
+ 'variable'
+  'name'AccessLog'
+  'help'Access Log'
+  'default'$ServerRoot/log/${Server}-access.log'
+ ''
+ 'variable'
+  'name'NSDHomeDirectory'
+  'help'AOLserver installation directory.'
+  'default'/usr/local/aolserver'
+ ''
+ 'variable'
+  'name'NSDBinDirectory'
+  'help'Directory where executable nsd and shared modules reside.'
+  'default'$NSDHomeDirectory/bin'
+ ''
+ 'variable'
+  'name'OPrepAOLserverPIDDirectory'
+  'help'Directory where AOLserver pid file will be stored.'
+  'default'${NSDHomeDirectory}/log'
+ ''
+ 'variable'
+  'name'Pageroot'
+  'help'Path to website root directory.'
+  'default'$ServerRoot/www'
+ ''
+ 'variable'
+  'name'DirectoryFileList'
+  'help'Which filenames to consider directory files.'
+  'default'index.tcl,index.adp,index.html,index.htm'
+ ''
+ 'variable'
+  'name'SharedModules'
+  'help'Shared Modules. Leave out nssock modules.'
+  'default'nslog,nsdb,nssha1,nscache'
+ ''
+ 'variable'
+  'name'PgUser'
+  'help'PostgreSQL SuperUser'
+  'default'postgres'
+ ''
+ 'variable'
+  'name'PgPrefix'
+  'help'Where PostgreSQL is installed
+  'default'/usr/local/pgsql'
+ ''
+ 'variable'
+  'name'PgWithPgPort'
+  'help'Port the Postmaster is listening on.'
+  'default'5432'
+ ''
+ 'command'wget $OPrepBaseUrl/nsd-${OPrepOpenACSVersion}.txt'
+ 'command'mv nsd-${OPrepOpenACSVersion}.txt nsd-${OPrepOpenACSVersion}.tcl'
+ 'command'/usr/sbin/useradd $DatabaseUser -d ${ServerRoot} -g web'
+ 'command'su - $PgUser -c "$PgPrefix/bin/createuser --createdb \\
+   --adduser --port=$PgWithPgPort --username=$PgUser $DatabaseUser"'
+ 'command'su - $DatabaseUser -c "$PgPrefix/bin/createdb --encoding=UNICODE \\
+   --port=$PgWithPgPort --owner=$DatabaseUser --template=template1 \\
+   --username=$DatabaseUser $DatabaseName"'
+ 'command'mkdir -p [file dirname $ServerLog]'
+ 'command'chown ${DatabaseUser}.web [file dirname $ServerLog]'
+ 'command'mkdir -p [file dirname $AccessLog]'
+ 'command'chown ${DatabaseUser}.web [file dirname $AccessLog]'
+ 'command'chown .web $NSDHomeDirectory/log'
+ 'command'chmod g+w $NSDHomeDirectory/log'
+ 'command'cp nsd-${OPrepOpenACSVersion}.tcl ${NSDHomeDirectory}/nsd-${OPrepOpenACSVersion}.tcl'
+ 'filemod'
+  'filename'${NSDHomeDirectory}/${Server}.tcl'
+  'editMode'w+'
+  'mode'0640'
+  'tclSubst'true'
+  'content'# OpenACS Configuration file.
+# This file contains all variables and sources the static config file
+
+# What server is this:
+set server           "$Server"
+set servername       "$ServerName"
+
+# Debug Setting
+set debug            "$DebugSetting"
+
+# Database
+set database         "$DatabaseType" 
+set db_password      "$DatabasePassword"
+set db_name          "$DatabaseName"
+set db_user          "$DatabaseUser"
+set db_port          "$PgWithPgPort"
+
+# Host IP Address and Ports
+set hostname         "$Hostname"
+
+# Edit this if you have more than one nssock
+# Template is as follows:
+# ipaddress:port:hostname:protocol:location"
+# Location is the internet visible domain.
+# i.e. www.example.com
+# Separate sockets with a comma ","
+set Sockets          "${IPAddress}:${Hostname}:http"
+
+# Secure address
+set HTTPSIPAddress   "$HTTPSIPAddress" 
+set httpsport        ""
+set httpsaddress     ""
+
+#  Path Information
+set serverroot       "$ServerRoot"
+set homedir          "$NSDHomeDirectory"
+set bindir           "$NSDBinDirectory" 
+set pageroot         "$Pageroot"
+set pidfile          "${OPrepAOLserverPIDDirectory}/nspid.$Server"
+# Log Files
+set accesslog        "$AccessLog"
+set serverlog        "$ServerLog"
+
+# Index Files
+set directoryfile    "$DirectoryFileList"
+
+# Modules
+set Modules          "$SharedModules"
+
+# source the main configuration file:
+source "$NSDHomeDirectory/nsd-${OPrepOpenACSVersion}.tcl"
+'
+ ''
+
+ 'filemod'
+  'filename'$NSDBinDirectory/restart-aolserver'
+  'editMode'w+'
+  'tclSubst'false'
+  'content'#!/usr/bin/perl
+## Restarts an AOLserver. Takes as its only argument the name of the server to kill.
+## bquinn 6/16/2000 with help from {ryanlee, doug}@arsdigita
+## This is a perl script because it needs to run setuid root,
+## and perl has fewer security gotchas than most shells.
+##
+## Make sure that $PIDFILE points to the right location.
+
+
+use strict;
+undef %ENV;
+$ENV{\'PATH\'} = \'/sbin:/bin\';
+
+if (scalar(@ARGV) == 0) {
+     die "Don\'t run this without any arguments!";
+}
+
+my $server = shift;
+$server =~ /^([\\w-]*)$/;
+my $service_name = $1;'
+ ''
+
+ 'comment'Putting in directory so script can find pid file.'
+
+ 'filemod'
+  'filename'$NSDBinDirectory/restart-aolserver'
+  'editMode'a'
+  'tclSubst'true'
+  'content'my \\\$PIDFILE = "${NSDHomeDirectory}/log/nspid.\\\$service_name";'
+ ''
+
+ 'filemod'
+  'filename'$NSDBinDirectory/restart-aolserver'
+  'editMode'a'
+  'mode'0750'
+  'tclSubst'false'
+  'content'my $pid;
+
+$< = $>; # set realuid to effective uid (root)
+
+# Get the PID of the process to kill.
+
+open(IN,"$PIDFILE") || die "No such server\\n";
+while(<IN>) {
+    chomp($_);
+    $pid=$_;
+}
+close(IN) || die "Problem closing PID file\\n";
+
+# Remove the PID file.  We have to delete the file to make sure that a subsequent call 
+# to this script will kill some other process.  We delete the file before the process dies
+# because if the service is set to respawn then we may delete the new pid file.
+
+my $cmd ="rm -f $PIDFILE";
+$cmd =~ /^(.*)$/;
+my $untaint_cmd = $1;
+`$untaint_cmd`;
+
+# Issue the kill
+$pid =~ /^(.*)$/;
+my $untaint_pid = $1;
+print "Killing $untaint_pid\\n";
+kill 9, $untaint_pid;'
+ ''
+ 'filemod' 
+  'filename'${NSDBinDirectory}/${Server}-run'
+  'editMode'w+'
+  'mode'0750'
+  'tclSubst'true'
+  'content'#!/bin/bash
+sleep 5
+export PATH=\\\$PATH:${PgPrefix}/bin:${NSDBinDirectory}
+export LD_LIBRARY_PATH=\\\$LD_LIBRARY_PATH:${PgPrefix}/lib
+
+exec ${NSDBinDirectory}/nsd -ft ${NSDHomeDirectory}/${Server}.tcl \\\$* -b $IPAddress
+'
+ ''
+ 'filemod'
+  'filename'${NSDHomeDirectory}/modules/tcl/init.tcl'
+  'editMode'a'
+  'content'package require tdom'
+ ''
+ 'filemod'
+  'filename'${NSDBinDirectory}/kill-${Server}'
+  'editMode'w+'
+  'tclSubst'true'
+  'content'#!${NSDBinDirectory}/tclsh8.4
+
+# to allow a user other than the file owner to execute this file,
+# edit the /etc/sudoers file (using visudo), adding a line similar to:
+# otheruser localhost = (scriptowner) /path/to/this/file/scriptfile
+# for an entire group:
+# %groupname localhost = (scriptowner) /path/to/this/file/scriptfile
+
+# Avoid command line arguments.
+set SERVER "$Server"
+set PIDFILE "${NSDHomeDirectory}/log/nspid.\$SERVER"
+
+########## Nothing to edit below this line ################'
+ ''
+ 'filemod'
+  'filename'${NSDBinDirectory}/kill-${Server}'
+  'editMode'a'
+  'tclSubst'false'
+  'content'
+#Tests:
+# 1: Pidfile exists, and path to file is readable
+if {![file exists $PIDFILE]} {
+    puts stdout "Pidfile does not exist, or path not readable by this user."
+    exit
+}
+# 2. Pidfile is regular file, not directory, symlink, or other
+# type of file.
+if {![file isfile $PIDFILE]} {
+    puts stdout "Pidfile isn't regular file"
+    exit
+}
+# 3. Pidfile is owned by user running this script:
+if {![file owned $PIDFILE]} {
+    puts stdout "Pidfile isn't owned by current user"
+    exit
+}
+# Open Pidfile and read it.
+set FD [open $PIDFILE r]
+
+# Make sure we catch any expected or unexpected errors
+# while the pidfile is open.
+# The Pidfile must start with numbers and end with EOF
+# or end with \nEOF. AOLserver writes the latter format.
+# Reading one char at a time to avoid memory exhaustion,
+# and any unexpected variable substitutions.
+
+if {[catch {
+    set PIDVALUE 0
+    while {![eof $FD] && ($PIDVALUE < 32768)} {
+        set CHAR [read $FD 1]
+        if {[string is integer -strict "${CHAR}"]} {
+            set PIDVALUE [expr (10 * ${PIDVALUE} ) + "${CHAR}"]
+        } elseif {[string eq "\n" "${CHAR}"] || [string eq "" "${CHAR}"] } {
+            break
+        } else {
+            # pid format is 123\n or just 123.
+            error "Unexpected format in Pid file"
+        }
+    }
+} err ]} {
+    close $FD
+    puts stdout $err
+    exit
+} else {
+    close $FD
+}
+
+
+# Last Test: Pidvalue is in range:
+if {!($PIDVALUE < 32768) || ($PIDVALUE < 2) } {
+    puts stdout "Pidvalue out of range."
+    exit
+}
+
+# a race condition exists where two users could be running this script,
+# or otherwise deleting the pidfile and restarting the server. In this
+# case, the new pidfile, containing the pid of the running server may
+# be deleted. The following kill command will not have any effect, but
+# will return the error to the terminal. The result will be a running
+# server without the pidfile. This condition is will likely never
+# occur.
+
+file delete "$PIDFILE"
+exec /usr/bin/kill -9 "$PIDVALUE"
+' 
+ ''
+''
+

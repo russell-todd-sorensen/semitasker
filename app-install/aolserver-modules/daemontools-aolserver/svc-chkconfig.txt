@@ -1,0 +1,57 @@
+#! /bin/sh
+
+# chkconfig: 345 99 01
+# description: svc start and kill all
+
+# This is an example of a start/stop script for SysV-style init, such
+# as is used on Linux systems.  You should edit some of the variables
+# and maybe the 'echo' commands.
+#
+# add to starup via:
+# chkconfig --add svc
+#
+
+
+touch /tmp/running_svc
+
+# The path that is to be used for the script
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+# What to use to start up the postmaster
+DAEMON="/usr/local/bin/svc"
+
+
+# Only start if we can find svc.
+test -f $DAEMON || exit 0
+
+# Parse command line parameters.
+case $1 in
+   start)
+         echo "Starting All SVC Daemons:" 
+         $DAEMON -u /service/*
+         touch /var/lock/subsys/svc
+         echo "ok"
+         ;;
+   stop)
+         echo -n "Stopping All SVC Daemons: "
+         svc -d /service/*
+         rm -f /var/lock/subsys/svc
+         echo "ok"
+         ;;
+   restart)
+         echo -n "Restarting All SVC Daemons: "
+         $0 stop
+         $0 start
+         echo "ok"
+         ;;
+   status)
+         svstat /service/*
+         ;;
+   *)
+         # Print help
+         echo "Usage: $0 {start|stop|restart|status}" 1>&2
+         exit 1
+         ;;
+esac
+
+exit 0

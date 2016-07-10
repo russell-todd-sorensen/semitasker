@@ -1,0 +1,10 @@
+'application'
+ 'command'wget -o /etc/rc.d/init.d/postgresql http://zmbh.com/app-install/pg-init.d/postgresql.txt'
+ 'command'chkconfig --add postgresql'
+ 'command'chkconfig --level 345 postgresql'
+ 'command'chkconfig --list postgresql'
+ 'command'service postgresql start'
+''
+
+
+

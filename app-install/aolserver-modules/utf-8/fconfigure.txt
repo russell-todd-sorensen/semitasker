@@ -1,0 +1,17 @@
+set file /web/zmbh/www/utf-8/utf8.html
+
+set fd [open $file r]
+if {[catch {
+   fconfigure $fd -encoding utf-8
+
+  set out [read $fd]
+
+  close $fd
+} err ]} {
+  ns_log Error $err
+  close $fd
+  ns_return 500 "text/plain; charset=utf-8" $err
+}
+
+ns_return 200 "text/html; charset=utf-8" "$out"
+

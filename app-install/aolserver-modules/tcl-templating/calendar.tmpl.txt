@@ -1,0 +1,6 @@
+Year: $year
+Month: $month
+Day: $day
+DayOfWeek: $dayOfWeek
+FirstDayOfMonth: $firstDayOfMonth
+

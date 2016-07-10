@@ -1,0 +1,339 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "docbook.dtd">
+<article>
+<title>AOLserver+Daemontools Mini-HOWTO</title>
+
+<sect1 id="aolserver-plus-doemontools" xreflabel="AOLserver+Daemontools Mini-HOWTO">
+<title> </title>
+
+<sect2 id="apd-intro">
+<title>Introduction</title>
+
+<para>
+<ulink url="http://cr.yp.to/daemontools.html">Daemontools</ulink> is a collection of 
+programs written and maintained by 
+Dan Bernstein. Togeather the programs can be used to start, supervise
+and control other programs. Daemontools can be used as a robust replacement
+for inetd. 
+</para>
+
+<para>
+<ulink url="http://aolserver.com/">AOLserver</ulink> is a multi-threaded, 
+high-performance webserver. Like any piece of software
+it occasionally gets out of wack and needs to be restarted. Sometimes it just needs to
+be stopped so a bigger problem can be fixed. AOLserver is usually used on larger websites
+where multiple developers need to restart or otherwise control the server.  
+</para>
+
+<para>
+The following document will detail how to install and configure the daemontools to 
+allow members of a given unix/linux group to control an AOLserver. 
+</para>
+
+</sect2>
+
+
+
+<sect2 id="apd-software">
+<title>Obtaining the software</title>
+
+<para>
+The newest release of daemontools is available from:
+<ulink url="http://cr.yp.to/daemontools/install.html">http://cr.yp.to/daemontools/install.html</ulink>
+As of this writing, the latest version was <computeroutput>daemontools-0.70.tar.gz</computeroutput>.
+</para>
+
+</sect2>
+
+
+<sect2 id="apd-install">
+
+<title>Installing the Daemontools Package</title>
+
+<para>
+Unpack the daemontools package:
+
+<programlisting>
+  gunzip daemontools-0.70.tar.gz
+  tar -xf daemontools-0.70.tar
+  cd daemontools-0.70
+</programlisting>	
+
+</para>
+
+<para>
+The default installation directory is <computeroutput>/usr/local</computeroutput>. You can change this
+by editing the first line of the <computeroutput>conf-home</computeroutput> file at this time.
+</para>
+
+<para>
+Compile the programs:
+
+<programlisting>
+  $ make
+</programlisting>	
+
+</para>
+
+<para>
+And, as root install the daemontools programs:
+
+<programlisting>
+  # make setup check
+</programlisting>	
+
+</para>
+
+<para>
+Run a test to check if everything is working so far:
+
+<programlisting>
+  $ ./rts > rts.out
+  $ cmp rts.out rts.exp
+</programlisting>
+
+</para>
+
+<para>
+Which should not produce any output if things are working. According to
+DJB, some SVR4 varients fail the 'already locked' tests. You can ignore this
+failure.
+</para>
+
+<para>
+<computeroutput>svscan</computeroutput> 
+looks for programs to start by examining the <computeroutput>/service</computeroutput> directory.
+You need to create this directory if it doesn't already exist.
+</para>
+
+<programlisting>
+  # mkdir /service
+  # chmod 755 /service
+</programlisting>
+
+</sect2>
+
+<sect2>
+
+<title>Starting <computeroutput>svscan</computeroutput> at boot time</title>
+
+<para>
+Daemontools includes the <computeroutput>supervise</computeroutput> program, which is directly responsible for
+watching over your AOLserver. Another program called <computeroutput>svscan</computeroutput> is responsible for 
+starting <computeroutput>supervise</computeroutput>. This is convenient, because you only have to arrange for 
+<computeroutput>svscan</computeroutput> to start at boot time. Adding more than one AOLserver does not require 
+you to modify your startup scripts. Here is how you can install <computeroutput>svscan</computeroutput> to startup
+at boot time. Place the following at the end of your <computeroutput>/etc/rc.d/rc.local</computeroutput> file. 
+</para>
+
+<programlisting>
+   env - PATH=/usr/local/bin:/usr/sbin:/usr/bin:/bin csh -cf 'svscan /service &'
+</programlisting>
+
+<para>
+This file is usually one of the last files to be sourced during startup, so networking
+and other required services, like your databases, will have already started up. 
+You should reboot to verify that <computeroutput>svscan</computeroutput> is running. 
+If you changed the default 
+installation directory, you will need to modify the above command.  
+</para>
+
+</sect2>
+
+<sect2 id="apd-start-script">
+
+<title>Creating the <computeroutput>run</computeroutput> startup script</title>
+<para>
+The next step is to decide where to place your startup script for AOLserver. If you are using 
+the ArsDigita Community System, a likely choice might be <computeroutput>/web/servername/</computeroutput>. 
+AOLserver is usually
+installed in <computeroutput>/usr/local/aolserver</computeroutput>, 
+so a good location for the <computeroutput>run</computeroutput> script would be in 
+<computeroutput>/usr/local/aolserver/servers/servername/</computeroutput>.
+</para>
+
+<para>
+The <computeroutput>run</computeroutput> script will contain at least the following lines:
+</para>
+<programlisting>
+#!/bin/sh 
+
+exec /usr/local/aolserver/bin/nsd -ic /usr/local/aolserver/servername.ini -u username -g group
+</programlisting>
+
+<para>
+Where you substitute the correct path to your <computeroutput>nsd</computeroutput> and configuration file. The above line is for the older <computeroutput>.ini</computeroutput> format file. The newer tcl format would look more like this:
+</para>
+
+<programlisting>
+#!/bin/sh 
+
+exec /usr/local/aolserver/bin/nsd -it /usr/local/aolserver/servername.tcl -u username -g group
+</programlisting>
+
+<para>
+Once setup change the permission to 700, with owner and group set to root:
+</para>
+
+<programlisting>
+-rwx------   1 root     root          435 Oct  1 20:00 run 
+</programlisting>
+
+<para>
+Shutdown your AOLserver process, and you will be ready to try out your script.
+</para>
+
+</sect2>
+
+<sect2 id="apd-svscan">
+
+<title>Telling <computeroutput>svscan</computeroutput> about AOLserver</title>
+
+<para>
+With the startup script ready, you need to tell <computeroutput>svscan</computeroutput> 
+about your AOLserver <computeroutput>run</computeroutput> script.
+You do this by creating a symbolic link from the directory where your 
+<computeroutput>run</computeroutput> script lives, to the 
+<computeroutput>/service</computeroutput> directory you created. 
+For a <computeroutput>run</computeroutput> script in 
+<computeroutput>/usr/local/aolserver/servers/server1</computeroutput> use:
+
+<programlisting>
+ $ ln -s /usr/local/aolserver/servers/server1/ /service
+</programlisting>
+</para>
+
+<para>
+AOLserver should start, if everything went alright.
+</para>
+
+</sect2>
+
+<sect2>
+
+<title>Controlling AOLserver with <computeroutput>svc</computeroutput></title>
+
+<para>
+Another daemontools program, <computeroutput>svc</computeroutput>, is used 
+to control AOLserver once it is started. Here is a summary of
+the relevent commands:
+</para>
+
+<itemizedlist>
+
+   <listitem><para> <computeroutput>svc -d</computeroutput> If the service is running, 
+         send it a TERM signal, do not restart.</para></listitem>
+   <listitem><para> <computeroutput>svc -u</computeroutput> If the service is not running, 
+         start it. If is stops, restart it.</para></listitem>
+   <listitem><para> <computeroutput>svc -t</computeroutput> Send the service a TERM signal. This allows AOLserver to make an
+                   orderly exit. It may take several minutes for a busy server to 
+                   exit. Once the server stops, it is immediately restarted.</para></listitem>
+   <listitem><para> <computeroutput>svc -k</computeroutput> Sends the server a KILL signal. 
+                   This is like <computeroutput>KILL -9</computeroutput>. AOLserver
+                   exits immediately. If <computeroutput>svc -t</computeroutput> fails to fully kill AOLserver,
+                   use this option.</para></listitem>
+   <listitem><para> <computeroutput>svc -o</computeroutput> The server is started. 
+                   If it exits, it is not restarted. This might
+                   be useful for debugging a startup script. </para></listitem>
+
+</itemizedlist>
+
+</para>
+
+</sect2>
+
+<sect2>
+
+<title>Allowing others to restart AOLserver</title>
+
+<para>
+If you look again at the directory where <computeroutput>run</computeroutput> 
+resides, you will see a new 
+directory called <computeroutput>supervise</computeroutput> . This is the control 
+directory. Normally the permissions
+do not allow anyone other than the owner of the <computeroutput>run</computeroutput> 
+script to control the server. However,
+<computeroutput>svc</computeroutput> will allow a group to also control the server. 
+The following script, 
+saved as <computeroutput>/usr/sbin/svgroup</computeroutput> changes the
+permissions to allow group control :
+</para>
+
+<programlisting>
+#! /bin/sh
+if test $# -lt 2 ; then
+    echo svgroup groupname directories ... >&2
+    echo for example: >&2
+    echo svgroup wheel /service/\* >&2
+    exit 2
+fi
+g="$1" ; shift
+for i in $* ; do
+    chgrp $g $i/supervise/control
+    chmod g+w $i/supervise/control
+    chgrp $g $i/supervise/ok
+    chmod g+w $i/supervise/ok
+    # just in case
+    chgrp $g $i/supervise/status
+    chmod g+r $i/supervise/status
+    chgrp $g $i/supervise
+    chmod g+x $i/supervise
+done 
+
+</programlisting>
+
+<para>
+For a group <computeroutput>web</computeroutput>, and a directory 
+<computeroutput>/service/server1</computeroutput>, you would run:
+<programlisting>
+ $ /usr/sbin/svgroup web /service/server1
+</programlisting>
+</para>
+
+</sect2>
+
+<sect2>
+
+<title>Startup file for Oracle</title>
+
+<para>
+Oracle has a few special requirements. Here is a startup file for AOLserver
+using the Oracle <ulink url="http://www.arsdigita.com/acs-repository/">driver</ulink> 
+provided by <ulink url="http://www.arsdigita.com/">ArsDigita</ulink>.
+</para>
+
+<programlisting>
+#!/bin/sh
+
+export ORACLE_HOME="/ora8/m01/app/oracle/product/8.1.6"
+export ORACLE_BASE="/ora8/m01/app/oracle"
+export LD_LIBRARY_PATH=$ORACLE_HOME/lib:$ORACLE_HOME/ctx/lib:/usr/lib:/lib:/usr/X11R6/lib
+export PATH=$ORACLE_HOME/bin:$ORACLE_HOME/ctx/lib:$PATH
+export ORACLE_SID='ora8'
+export ORACLE_TERM='vt100'
+export ORAENV_ASK=NO
+export NLS_DATE_FORMAT="YYYY-MM-DD"
+
+exec /home/aol31/bin/nsd -ic /home/aol31/multi.ini -u nsadmin -g web 
+</programlisting>
+
+<para>
+You should adjust any values that may be different for your installation.
+</para>
+
+</sect2>
+
+<sect2 id="apd-ack">
+
+<title>Acknowledgements</title>
+
+<para>
+Dan Bernstein's Daemontools Package provides a very stable and secure method of monitoring
+and controlling AOLserver. Most of this HOWTO is derived from his literature, or from newsgroups
+he has setup to discuss his software.
+</para>
+
+</sect2>
+
+</sect1>
+
+</article>

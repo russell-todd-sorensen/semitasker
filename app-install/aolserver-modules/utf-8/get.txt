@@ -1,0 +1,8 @@
+<%
+
+set s [ns_httpget http://zmbh.com/utf-8/utf8.html]
+
+%>
+
+<%= $s %>
+

@@ -1,0 +1,7 @@
+
+How to install:
+--------------
+
+$ make
+$ make install INST=/path/to/aolserver
+

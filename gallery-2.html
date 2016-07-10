@@ -67,6 +67,7 @@ var imageDirectory = "/images/desktop-background-images/";
 var imageNameTemplate = "hsb-";
 var imageType = "png";
 var imageIds = [3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,20,21,22,23,24,25,29,33,34,40,41,42,43,45,47];
+
 function loadImages(thumbDivId,viewerDivId) {
    var gallery,div,image;
    gallery = d3.select('#' + thumbDivId);
@@ -85,6 +86,7 @@ function loadImages(thumbDivId,viewerDivId) {
        })
       .on('click', displayImage);
 }
+
 function displayImage(d,i) {
   Log.Notice("image=" + d.image);
   d3.select('#' + d.viewerId)
@@ -93,8 +95,11 @@ function displayImage(d,i) {
     .attr('target', 'myViewer')
     .attr('href', d.image);
 }
-loadImages('gallery','viewer');
 
+$(document).ready(function() {
+	
+   loadImages('gallery','viewer');
+});
 
 </script>
 </body></html>

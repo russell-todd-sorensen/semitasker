@@ -1,0 +1,54 @@
+'application'
+ 'name'Daemontools Init'
+ 'help'Daemontools Init creates a control directory
+for the AOLserver service. The control directory will
+be linked to the Daemontools /service directory which
+will start the service. The service will be setup so
+that the supplied group will be able to control the
+service via the svc command. When this script completes
+the service will be in the down state. 
+
+See http://cr.yp.to/daemontools.html for usage of
+Daemontools.'
+ 'variable'
+  'name'DTDaemontoolsInitBaseURL'
+  'default'http://zmbh.com/app-install/daemontools-init'
+ ''
+ 'variable'
+  'name'DTServiceName'
+  'help'Service Name'
+  'default'server1'
+ ''
+ 'variable'
+  'name'DTControlDirectory'
+  'help'Directory'
+  'default'/var/lib/aolserver/control'
+ ''
+ 'variable'
+  'name'DTControlScript'
+  'help'Full path and name of script used to start the service.'
+  'default'/usr/local/aolserver/bin/${DTServiceName}-run'
+ ''
+ 'variable'
+  'name'DTGroupName'
+  'help'Name of Service Group, a valid *nix group.'
+  'default'web'
+ ''
+ 'command'mkdir -p $DTControlDirectory'
+ 'command'mkdir -p ${DTControlDirectory}/$DTServiceName'
+ 'command'chown .${DTGroupName} $DTControlDirectory'
+ 'command'chown .${DTGroupName} ${DTControlDirectory}/$DTServiceName'
+ 'command'chmod 750 ${DTControlDirectory}/$DTServiceName'
+ 'command'cp $DTControlScript ${DTControlDirectory}/${DTServiceName}/run'
+ 'command'chmod 750 ${DTControlDirectory}/${DTServiceName}/run'
+ 'command'ln -s ${DTControlDirectory}/${DTServiceName} /service'
+ 'command'sleep 10'
+ 'command'svc -k /service/${DTServiceName}'
+ 'command'svc -d /service/${DTServiceName}'
+ 'command'cd /tmp'
+ 'command'wget $DTDaemontoolsInitBaseURL/svgroup'
+ 'command'cp svgroup /usr/sbin/svgroup'
+ 'command'chmod +x /usr/sbin/svgroup'
+ 'command'/usr/sbin/svgroup $DTGroupName /service/${DTServiceName}'
+''
+

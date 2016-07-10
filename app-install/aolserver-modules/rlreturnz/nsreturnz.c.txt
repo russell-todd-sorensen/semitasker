@@ -1,0 +1,143 @@
+/* Copyright 1994-1996 America Online, Inc. */
+
+#include "ns.h"
+
+/*
+ * This code adds a new TCL command named "ns_returnz" to AOLserver.
+ * To test this module, add the following to the 
+ * [ns\server\server-name\modules] section of your nsd.ini file:
+ * rubylane.so on Unix platforms
+ * 
+ * You can then run your "ns_returnz" command from the /NS/EvalTcl
+ * interface provided by AOLserver.
+ */
+
+DllExport int Ns_ModuleVersion = 1;
+static Tcl_CmdProc NsreturnzCmd;
+
+#define GZIP_FILE_HEADER \
+   "\037\213"         /* GZIP magic number */ \
+   "\010"             /* Z_DEFLATED */ \
+   "\000"             /* flags */ \
+   "\000\000\000\000" /* timestamp */ \
+   "\000"             /* xflags */ \
+   "\003"             /* Unix OS_CODE */
+
+static int
+NsreturnzCmd(ClientData buf, Tcl_Interp *interp, int argc, char **argv)
+{
+  int len, do_gzip, rc, outlen, crc;
+  unsigned char *accept, *agent, *outbuf;
+  Ns_Conn *conn;
+  Ns_Set *headers;
+
+  if (argc < 4) {
+    Tcl_AppendResult(interp, "wrong # args: should be \"",
+		       argv[0], " status mime string\"", NULL);
+    return TCL_ERROR;
+  }
+
+  /* get connection structure  */
+  conn = Ns_TclGetConn(interp);
+  if (conn == NULL) {
+    Tcl_AppendResult(interp, "NULL conn??", NULL);
+    return TCL_ERROR;
+  }
+
+  /* get headers, see if browser supports compression */
+  do_gzip = 0;
+  headers = Ns_ConnHeaders(conn);
+  if (headers != NULL) {
+    accept = Ns_SetIGet(headers, "Accept-Encoding");
+    agent = Ns_SetIGet(headers, "User-Agent");
+    if (accept != NULL && strstr(accept, "gzip") != NULL && (agent == NULL || strstr(agent, "MSIE 5.0; Mac") == NULL)) {
+      do_gzip = 1;
+    }
+  }
+
+  len = strlen(argv[3]);
+  if (!do_gzip) {
+    Ns_ConnReturnData(conn, atoi(argv[1]), argv[3], len, argv[2]);
+    return TCL_OK;
+  }
+
+  /* going to gzip! Man says: 
+
+     "Compresses the source buffer into the destination buffer. The level
+     parameter has the same meaning as in deflateInit. sourceLen is the
+     byte length of the source buffer. Upon entry, destLen is the total
+     size of the destination buffer, which must be at least 0.1% larger
+     than sourceLen plus 12 bytes. Upon exit, destLen is the actual size of
+     the compressed buffer.
+
+     In my tests, level 3 compression is almost twice as fast as level 4,
+     so I picked that.  In tests with a 330K HTML file, the result is
+     21K - 27K for levels 1-9, so I picked 3 for speed. (No difference 
+     in timing tests between levels 1/2/3 for this data.)
+
+     To make a gzip file, 10 bytes are added at the beginning, the 
+     first 2 and last 4 bytes of compress2 result are ignored (dunno why),
+     and a CRC of the orig string and len of orig string are added in 
+     little-endian byte order.  Messy, messy...
+
+  */
+
+  outlen = len*1.002+12+sizeof(GZIP_FILE_HEADER)+8;
+  outbuf = Ns_Malloc(outlen);  /* AOLServer crashes if this fails */
+  outlen = outlen-16;    /* don't let compress2 use the whole thing */
+  rc = compress2(outbuf+8, &outlen, argv[3], len, 3);
+#define Z_OK 0
+  if (rc != Z_OK) {
+    Ns_Free(outbuf);
+    Ns_Log(Notice, "ns_returnz: compress2 failed, status=%d", rc);
+    Ns_ConnReturnData(conn, atoi(argv[1]), argv[3], len, argv[2]);
+    return TCL_OK;
+  }
+
+  Ns_ConnSetHeaders(conn, "Content-Encoding", "gzip");
+#define Z_NULL 0
+  crc = crc32(0, Z_NULL, 0);
+  crc = crc32(crc, argv[3], len);
+
+  /* copy the gzip header into the first 10 bytes, wiping out the
+     first 2 bytes from compress2.  Add 8 to outlen for the gzip
+     header (10-2), subtract 4 because we're ignoring the last 4
+     bytes of compress2 */
+
+  memcpy(outbuf, GZIP_FILE_HEADER, 10);
+  outlen = outlen+10-2-4;
+
+  /* append the crc and length, 4 bytes each in LE order */
+
+  *(unsigned char *)(outbuf+outlen+0) = (crc & 0x000000ff);
+  *(unsigned char *)(outbuf+outlen+1) = (crc & 0x0000ff00) >>  8;
+  *(unsigned char *)(outbuf+outlen+2) = (crc & 0x00ff0000) >> 16;
+  *(unsigned char *)(outbuf+outlen+3) = (crc & 0xff000000) >> 24;
+
+  *(unsigned char *)(outbuf+outlen+4) = (len & 0x000000ff);
+  *(unsigned char *)(outbuf+outlen+5) = (len & 0x0000ff00) >>  8;
+  *(unsigned char *)(outbuf+outlen+6) = (len & 0x00ff0000) >> 16;
+  *(unsigned char *)(outbuf+outlen+7) = (len & 0xff000000) >> 24;
+
+  outlen += 8;
+
+  Ns_ConnReturnData(conn, atoi(argv[1]), outbuf, outlen, argv[2]);
+  Ns_Free(outbuf);
+  return TCL_OK;
+
+}
+
+static int
+NsreturnzInterpInit(Tcl_Interp *interp, void *context) 
+{
+    Tcl_CreateCommand(interp, "ns_returnz", NsreturnzCmd, NULL, NULL);
+    return NS_OK;
+}
+
+DllExport int
+Ns_ModuleInit(char *hServer, char *hModule)
+{
+    return (Ns_TclInitInterps(hServer, NsreturnzInterpInit, NULL));
+}
+
+

@@ -1,0 +1,26 @@
+
+append string {<html>
+<head>
+ <title>}
+
+append string $title
+
+append string {</title>
+ <style type="text/css">
+/* <!}
+
+append string {[CDATA}
+
+append string {[ */
+@import url(/css/budigan.css);
+/* ]]> */
+ </style>
+</head>
+<body>
+
+<div class="header">
+<h2>Test Album</h2>
+
+</div>
+ 
+}

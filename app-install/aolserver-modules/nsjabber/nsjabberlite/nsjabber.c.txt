@@ -1,0 +1,1647 @@
+/*
+ * Copyright 2001 tom jackson <datapro security corp.>
+ */ 
+ 
+/*
+ * nsjabber.c
+ *
+ * A suitable script to compile this module under Linux is:
+ *
+ *
+ * Adjust NS_HOME to reflect the top directory for aolserver.
+
+#!/bin/bash
+
+NS_HOME=/usr/local/aolserver
+INCLUDE=${NS_HOME}/include
+
+gcc -rdynamic -D_REENTRANT  -I/usr/include -I${INCLUDE} -I/usr/include/asm  -I../libjabber/include -c nsjabber.c -o nsjabber.o 
+
+gcc  -dynamic -shared -D_REENTRANT -I/usr/include -I/usr/include/asm -I${INCLUDE} -I../libjabber/include -o nsjabber.so nsjabber.o -L. -L/usr/local/lib  -L/usr/lib  -ljabber
+
+ * 
+ */
+
+
+ 
+static const char *RCSID = "@(#) $Header: /var/cvs/nsjabber/nsjabber.c,v 1.1.1.1 2001/09/23 17:41:08 nsadmin Exp $, compiled: " __DATE__ " " __TIME__;                                                
+
+#include "ns.h"
+#include "jabber.h"
+
+#define MAXLINE 4096
+#define AUTH_PACKET_ID "AUTH_PACKET1"
+int Ns_ModuleVersion = 1;
+
+/*
+ * Static variables used in this file
+ */
+      
+static Tcl_HashTable jabberConnHandlesTable;
+static Tcl_HashTable jabberXodeHandlesTable;
+
+/* Prototype functions */
+
+int NSTclJabberTestCmd(Tcl_Interp *interp, char *user, char *pass);
+int NSTclJabberNewCmd(Tcl_Interp *interp, char *user, char *pass);
+int NSTclJabberDeleteCmd(Tcl_Interp *interp, char *j);
+int NSTclJabberStartCmd(Tcl_Interp *interp, char *conn);
+int NSTclJabberStopCmd(Tcl_Interp *interp, char *conn);
+int NSTclJabberPollCmd(Tcl_Interp *interp, char *conn, int timeout);
+int NSTclJabberStartCmd(Tcl_Interp *interp, char *conn);
+int NSTclJabberSendRawCmd(Tcl_Interp *interp, char *conn, const char *rawxml);
+int NSTclJabberSendCmd(Tcl_Interp *interp, char *conn, char *xode);
+int NSTclJabberRecvCmd(Tcl_Interp *interp, char *conn);
+int NSTclJabberStateGetCmd(Tcl_Interp *interp, char *conn);
+
+/* Commands from libXode */
+int NSTclXodeTestCmd(Tcl_Interp *interp, char *name, char *tag);
+
+/* create xmlnodes */
+int NSTclXodeNewTagCmd(Tcl_Interp *interp, const char *tag);
+int NSTclXodeStrCmd(Tcl_Interp *interp, char *str); 
+int NSTclXodeFileCmd(Tcl_Interp *interp, char *file); 
+
+/* Insert into xmlnodes */
+int NSTclXodeInsertTagCmd(Tcl_Interp *interp, char *xode, const char *tag);
+int NSTclXodeInsertTagNodeCmd(Tcl_Interp *interp, char *parent, char *child);
+int NSTclXodeInsertNodeCmd(Tcl_Interp *interp, char *parent, char *child);
+int NSTclXodeInsertCdataCmd(Tcl_Interp *interp, char *xode, const char *cdata);
+int NSTclXodeWrapCmd(Tcl_Interp *interp, char *xode, const char *wrapper);
+int NSTclXodePutAttribCmd(Tcl_Interp *interp, char *xode, const char *attrib, const char *value);
+
+/* get from xmlnodes */
+int NSTclXodeGetAttribCmd(Tcl_Interp *interp, char *xode, const char *attrib);
+int NSTclXode2StrCmd(Tcl_Interp *interp, char *xode);
+int NSTclXodeGetTagCmd(Tcl_Interp *interp, char *xode, const char *name);
+int NSTclXodeGetNameCmd(Tcl_Interp *interp, char *xode);
+int NSTclXodeGetDataCmd(Tcl_Interp *interp, char *xode);
+
+/* Freeing xmlnode memory */
+int NSTclXodeFreeCmd(Tcl_Interp *interp, char *xode);
+
+/* Should these be local static functions? */
+void user_input_handler(jconn j, FILE *fp);
+void iq_handler(jconn j, jpacket p);
+void message_handler(jconn j, jpacket p);
+void presence_handler(jconn j, jpacket p);
+void my_packet_handler(jconn j, jpacket p);
+void jpacket_sort(jconn j, jpacket p);
+void jconn_state_handler(jconn j, int state);
+void groupchat_handler(jconn j, jpacket p);
+void chat_handler(jconn j, jpacket p); 
+void error_handler(jconn j, jpacket p);
+void headline_handler(jconn j, jpacket p);
+jconn getJabberConnHandle(Tcl_Interp *interp, char *string);
+int deleteJabberConnHandle(Tcl_Interp *interp, char *string);
+xmlnode getJabberXodeHandle(Tcl_Interp *interp, char *string);
+int deleteJabberXodeHandle(Tcl_Interp *interp, char *string);
+int jabberSend(Tcl_Interp *interp, jconn j, xmlnode x);
+int jabberSendRaw(Tcl_Interp *interp, jconn j, const char *rawxml);
+Tcl_HashEntry *createXodeHandle(Tcl_Interp *interp); 
+/*
+ * Local Functions 
+ */
+static void startElement(void *userdata, const char *name, const char **attribs);
+static void endElement(void *userdata, const char *name);
+static void charData(void *userdata, const char *s, int slen);
+
+
+/* local macros for launching event handlers */
+#define STATE_EVT(arg) if(j->on_state) { (j->on_state)(j, (arg) ); }
+
+
+/* Registered Commands:
+ * The registered command figures out what subcommand to actually run.
+ * Checks that the number of arguments is correct.
+ * Gives nice names to the variables.
+ * Runs the function that performs the command.
+ */
+
+static int
+NsTclXodeCmd(ClientData dummy, Tcl_Interp *interp, int argc, char **argv)
+{
+
+  char        *cmd;
+  if (argc < 2) {
+	Tcl_AppendResult(interp, "wrong # of args: should be \"",
+					 argv[0], "command [xmlnode] [data]\"", NULL);
+	return TCL_ERROR;
+  }
+  
+  /*
+   *  Determine subcommand.
+   */
+  cmd = argv[1]; 
+  if (STREQ(cmd, "test")) {
+	if (argc != 4) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " user@domain/resource pass",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeTestCmd(interp, argv[2], argv[3]);
+	
+  }
+  if (STREQ(cmd, "newtag")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " newtag tagname",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeNewTagCmd(interp, argv[2]);
+	
+  }
+  if (STREQ(cmd, "string")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " string xmlstring",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeStrCmd(interp, argv[2]);
+	
+  }
+  if (STREQ(cmd, "file")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " file xmlfile",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeFileCmd(interp, argv[2]);
+	
+  }
+  if (STREQ(cmd, "insert_tag_node")) {
+	if (argc != 4) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " insert_tag_node xmlnode tagname",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeInsertTagNodeCmd(interp, argv[2], argv[3]);
+	
+  }
+  if (STREQ(cmd, "insert_cdata")) {
+	if (argc != 4) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " insert_cdata xmlnode cdata",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeInsertCdataCmd(interp, argv[2], argv[3]);
+	
+  }
+  if (STREQ(cmd, "insert_node")) {
+	if (argc != 4) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " insert_node parentNode childNode",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeInsertNodeCmd(interp, argv[2], argv[3]);
+	
+  }
+  
+  if (STREQ(cmd, "wrap")) {
+	if (argc != 4) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " wrap parentNode wrapper",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeInsertNodeCmd(interp, argv[2], argv[3]);
+	
+  }
+  if (STREQ(cmd, "put_attrib")) {
+	if (argc != 5) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " put_attrib xmlnode attrib value",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodePutAttribCmd(interp, argv[2], argv[3], argv[4]);
+	
+  }
+  if (STREQ(cmd, "get_attrib")) {
+	if (argc != 4) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " get_attrib xmlnode attrib",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeGetAttribCmd(interp, argv[2], argv[3]);
+	
+  }
+   if (STREQ(cmd, "to_string")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " to_string xmlnode",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXode2StrCmd(interp, argv[2]);
+	
+  }
+   if (STREQ(cmd, "get_tag")) {
+	if (argc != 4) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " get_tag xmlnode name",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeGetTagCmd(interp, argv[2], argv[3]);
+	
+  }
+   if (STREQ(cmd, "free")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " free xmlnode",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeFreeCmd(interp, argv[2]);
+	
+  }
+    if (STREQ(cmd, "get_data")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " get_data xmlnode",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeGetDataCmd(interp, argv[2]);
+	
+  }
+  if (STREQ(cmd, "get_name")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " get_name xmlnode",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclXodeGetNameCmd(interp, argv[2]);
+	
+  }
+
+}
+
+int 
+NSTclXodeFreeCmd(Tcl_Interp *interp, char *xode) 
+{
+  xmlnode x;
+  x = getJabberXodeHandle(interp, xode);
+  xmlnode_free(x);
+  return TCL_OK;
+
+}
+int 
+NSTclXodeGetNameCmd(Tcl_Interp *interp, char *xode) 
+{
+  xmlnode x;
+  x = getJabberXodeHandle(interp, xode);
+  Tcl_AppendResult(interp, xmlnode_get_name(x), NULL);
+  return TCL_OK;
+
+}
+int  
+NSTclXodeGetDataCmd(Tcl_Interp *interp, char *xode)
+{
+  xmlnode x;
+  x = getJabberXodeHandle(interp, xode);
+  Tcl_AppendResult(interp, xmlnode_get_data(x), NULL);
+  return TCL_OK;
+}
+
+int 
+NSTclXodeTestCmd(Tcl_Interp *interp, char *name, char *tag)
+{
+  return TCL_OK;
+
+}
+
+int 
+NSTclXodeGetTagCmd(Tcl_Interp *interp, char *xode, const char *name)
+{
+  xmlnode x, child;
+  Tcl_HashEntry  *entryPtr;
+
+  x = getJabberXodeHandle(interp, xode);
+  entryPtr = createXodeHandle(interp);
+  child = xmlnode_get_tag(x, name);
+
+  Tcl_SetHashValue(entryPtr, child);
+  
+  return TCL_OK;
+
+}
+
+int 
+NSTclXodeInsertTagCmd(Tcl_Interp *interp, char *xode, const char *tag)
+{
+
+  xmlnode x, newxode;
+  Tcl_HashEntry  *entryPtr;
+
+  x = getJabberXodeHandle(interp, xode);
+  entryPtr = createXodeHandle(interp);
+  newxode = xmlnode_insert_tag(x, tag);
+
+  Tcl_SetHashValue(entryPtr, newxode);
+  
+  return TCL_OK;
+
+}
+
+int 
+NSTclXodeInsertTagNodeCmd(Tcl_Interp *interp, char *parent, char *child)
+{
+
+  xmlnode p, c, newxode;
+  Tcl_HashEntry  *entryPtr;
+
+  p = getJabberXodeHandle(interp, parent);
+  c = getJabberXodeHandle(interp, child);
+  entryPtr = createXodeHandle(interp);
+  newxode = xmlnode_insert_tag_node(p,c);
+
+  Tcl_SetHashValue(entryPtr, newxode);
+
+  return TCL_OK;
+
+}
+
+int 
+NSTclXodeInsertNodeCmd(Tcl_Interp *interp, char *parent, char *child)
+{
+
+  xmlnode p, c;
+
+  p = getJabberXodeHandle(interp, parent);
+  c = getJabberXodeHandle(interp, child);
+
+  xmlnode_insert_node(p,c);
+
+  return TCL_OK;
+
+}
+int 
+NSTclXodeInsertCdataCmd(Tcl_Interp *interp, char *xode, const char *cdata)
+{
+
+  xmlnode x, newxode;
+  Tcl_HashEntry  *entryPtr;
+
+  x = getJabberXodeHandle(interp, xode);
+  entryPtr = createXodeHandle(interp);
+
+  newxode = xmlnode_insert_cdata(x, cdata, -1);
+
+  Tcl_SetHashValue(entryPtr, newxode);
+  
+  return TCL_OK;
+
+}
+
+int 
+NSTclXodeWrapCmd(Tcl_Interp *interp, char *xode, const char *wrapper)
+{
+
+  xmlnode x, newxode;
+  Tcl_HashEntry  *entryPtr;
+
+  x = getJabberXodeHandle(interp, xode);
+  entryPtr = createXodeHandle(interp);
+
+  newxode = xmlnode_wrap(x, wrapper);
+
+  Tcl_SetHashValue(entryPtr, newxode);
+  
+  return TCL_OK;
+
+}
+
+int 
+NSTclXodePutAttribCmd(Tcl_Interp *interp, char *xode, const char *attrib, const char *value)
+{
+
+  xmlnode x;
+
+  x = getJabberXodeHandle(interp, xode);
+  
+  xmlnode_put_attrib(x, attrib, value);
+
+  return TCL_OK;
+}
+
+int 
+NSTclXodeGetAttribCmd(Tcl_Interp *interp, char *xode, const char *attrib)
+{
+
+  xmlnode x;
+
+  x = getJabberXodeHandle(interp, xode);
+  
+  Tcl_AppendResult(interp, xmlnode_get_attrib(x, attrib), NULL);
+  
+  return TCL_OK;
+}
+int 
+NSTclXode2StrCmd(Tcl_Interp *interp, char *xode)
+{
+
+  xmlnode x;
+
+  x = getJabberXodeHandle(interp, xode);
+  Ns_Log(Debug,"Got xode to convert to string");
+  Tcl_AppendResult(interp, xmlnode2str(x), NULL);
+
+  return TCL_OK;
+}
+
+int 
+NSTclXodeNewTagCmd(Tcl_Interp *interp, const char *tag)
+{
+  Tcl_HashEntry  *entryPtr;
+  xmlnode x;
+  char *nodestr;
+
+  entryPtr = createXodeHandle(interp);
+  x = xmlnode_new_tag(tag);
+  nodestr = xmlnode2str(x);
+  Tcl_SetHashValue(entryPtr, x);
+  
+  Ns_Log(Debug,"Created xmlnode_new_tag '%s'", nodestr);
+
+  return TCL_OK;
+
+}
+
+int NSTclXodeStrCmd(Tcl_Interp *interp, char *str) 
+{
+
+  Tcl_HashEntry  *entryPtr;
+  xmlnode x;
+  int len;
+  char *nodestr;
+
+  entryPtr = createXodeHandle(interp);
+  len =  strlen(str);
+  x = xmlnode_str(str, len);
+  nodestr = xmlnode2str(x);
+  Tcl_SetHashValue(entryPtr, x);
+  
+  Ns_Log(Debug,"Created xmlnode from string '%s' of length %i", str, len);
+
+  return TCL_OK;
+
+}
+
+int NSTclXodeFileCmd(Tcl_Interp *interp, char *file) 
+{
+
+  Tcl_HashEntry  *entryPtr;
+  xmlnode x;
+
+  entryPtr = createXodeHandle(interp);
+  x = xmlnode_file(file);
+
+  Tcl_SetHashValue(entryPtr, x);
+  
+  Ns_Log(Debug,"Created xmlnode from file '%s'", file);
+
+  return TCL_OK;
+
+}
+
+static int
+NsTclJabberCmd(ClientData dummy, Tcl_Interp *interp, int argc, char **argv)
+{
+
+  char        *cmd;
+  int         timeout;
+  if (argc < 2) {
+	Tcl_AppendResult(interp, "wrong # of args: should be \"",
+					 argv[0], "command [jconn] [data]\"", NULL);
+	return TCL_ERROR;
+  }
+  
+  
+  /*
+   *  Determine subcommand.
+   */
+  cmd = argv[1];
+  if (STREQ(cmd, "test")) {
+	if (argc != 4) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " user@domain/resource pass",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclJabberTestCmd(interp, argv[2], argv[3]);
+	
+  }
+  if (STREQ(cmd, "new")) {
+	if (argc != 4) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " user@domain/resource pass",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclJabberNewCmd(interp, argv[2], argv[3]);
+   
+  } 
+  if (STREQ(cmd, "start")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " start jconn ",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclJabberStartCmd(interp, argv[2]);
+   
+  } 
+
+  if (STREQ(cmd, "delete")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " delete jconn ",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclJabberDeleteCmd(interp, argv[2]);
+   
+  } 
+
+  if (STREQ(cmd, "stop")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " stop jconn ",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclJabberStopCmd(interp, argv[2]);
+   
+  } 
+  if (STREQ(cmd, "auth")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " auth jconn ",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclJabberAuthCmd(interp, argv[2]);
+   
+  } 
+  if (STREQ(cmd, "poll")) {
+	if (argc != 4) {
+      
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " poll jconn timeout",  NULL);
+	  return TCL_ERROR;
+	} else if (Tcl_GetInt(interp,argv[3],&timeout) != TCL_OK) {
+	  Tcl_AppendResult(interp, "timeout was not an integer value", NULL);
+	  return TCL_ERROR;
+	}
+	return NSTclJabberPollCmd(interp, argv[2], timeout);
+   
+  } 
+
+  if (STREQ(cmd, "sendraw")) {
+	if (argc != 4) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " jconn rawxml",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclJabberSendRawCmd(interp, argv[2], argv[3]);
+   
+  } 
+  if (STREQ(cmd, "send")) {
+	if (argc != 4) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " jconn xmlnode",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclJabberSendCmd(interp, argv[2], argv[3]);
+   
+  } 
+  if (STREQ(cmd, "receive")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " receive jconn ",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclJabberRecvCmd(interp, argv[2]);
+   
+  } 
+  if (STREQ(cmd, "stateget")) {
+	if (argc != 3) {
+	  Tcl_AppendResult(interp, "Wrong Number of args: should be ", argv[0], " stateget jconn ",  NULL);
+	  return TCL_ERROR;
+	}	
+	return NSTclJabberStateGetCmd(interp, argv[2]);
+   
+  } 
+}
+
+/*
+ * Actual Functions that do the work
+ *
+ */
+
+int
+NSTclJabberRecvCmd(Tcl_Interp *interp, char *conn) 
+{
+  static char buf[4096];
+  int len;
+  jconn j;
+  j =  getJabberConnHandle(interp, conn);
+
+
+  if(!j || j->state == JCONN_STATE_OFF)
+	return;
+
+  len = read(j->fd, buf, sizeof(buf)-1);
+  if(len>0)
+    {
+	  buf[len] = '\0';
+	  /* Ns_Log(Debug,"Jabber in: %s\n", buf); */
+      j->interp = interp;
+	  j->conn = conn;
+	  XML_Parse(j->parser, buf, len, 0);
+    }
+  else if(len == 0) {	
+	Ns_Log(Error,"Jabber Server Terminated Prematurely.\n");
+	j->state = JCONN_STATE_OFF;
+	return TCL_ERROR;
+	
+  }
+  else if(len<0)
+    {
+	  STATE_EVT(JCONN_STATE_OFF);
+	  Ns_Log(Error,"Jabber Recv Error");
+      /* Stop command needs a why argument: why am I stopping? */
+	  NSTclJabberStopCmd(interp, conn);
+    }
+
+  
+}
+
+int
+NSTclJabberStateGetCmd(Tcl_Interp *interp, char *conn) 
+{
+  jconn j;
+  j =  getJabberConnHandle(interp, conn);
+  if (!j) {
+
+    /* 
+	 * j is gone should it be 0 or -1? 
+	 * this just translates NULL to 0.
+	 */
+
+	sprintf(interp->result, "%i", 0);
+	return TCL_OK;
+  }
+  sprintf(interp->result, "%i", j->state);
+  return TCL_OK;
+
+}
+
+int
+NSTclJabberSendRawCmd(Tcl_Interp *interp, char *conn, const char *rawxml)
+{
+
+  jconn j;
+  j =  getJabberConnHandle(interp, conn);
+  jabberSendRaw(interp, j, rawxml);
+  return TCL_OK;
+}
+int
+NSTclJabberSendCmd(Tcl_Interp *interp, char *conn, char *xode)
+{
+
+  jconn j;
+  xmlnode x;
+
+  j =  getJabberConnHandle(interp, conn);
+  x =  getJabberXodeHandle(interp, xode);
+  Ns_Log(Debug,"About to send xmlnode");
+  
+  jabberSend(interp, j, x);
+
+  return TCL_OK;
+}
+
+int 
+NSTclJabberNewCmd(Tcl_Interp *interp, char *user, char *pass)
+{
+  Tcl_HashEntry  *entryPtr;
+  jconn j;
+  pool p;
+  int         new;
+  static unsigned int id = 1;
+  
+  if(!user) {
+    Tcl_AppendResult(interp, "No User@domain in ns_jabber new.",  NULL);
+    return TCL_ERROR;
+  }
+
+
+  do {
+	sprintf(interp->result, "jabber%u", id);
+	id++;
+	entryPtr = Tcl_CreateHashEntry(&jabberConnHandlesTable, interp->result, &new);
+  } while (!new);
+  
+  p = pool_new();
+  if(!p) return TCL_ERROR;
+
+  j = pmalloc_x(p, sizeof(jconn_struct), 0);
+  if(!j) return TCL_ERROR;
+  j->p = p;
+
+  j->user = jid_new(p, user);
+  j->pass = pstrdup(p, pass);
+
+  j->state = JCONN_STATE_OFF;
+  j->id = 1;
+  j->fd = -1;
+  j->interp = interp;
+  Tcl_SetHashValue(entryPtr, j);
+  
+  /*
+   * Test getting data our of xml stream
+   * I think this requires a packet handler
+   */
+
+  jab_packet_handler(j, jpacket_sort);
+  jab_state_handler(j, jconn_state_handler);
+  Ns_Log(Debug,"Init Jconn for %s",user );
+  return TCL_OK;
+
+}
+
+int
+NSTclJabberAuthCmd(Tcl_Interp *interp, char *conn)
+{
+ jconn j;
+ xmlnode x,y,z;
+ char *hash, *user, *id;
+
+ j =  getJabberConnHandle(interp, conn);
+
+ if(!j) {
+  Ns_Log(Debug,"No Jconn in Auth %s", conn );
+  return TCL_OK;
+ }
+
+ x = jutil_iqnew(JPACKET__SET, NS_AUTH);
+ /* Maybe we need to just use 1 here? 
+  * better to start tracking ids so you 
+  * know what id to look for 
+  */
+ /* id = jab_getid(j); */
+ id = AUTH_PACKET_ID;
+ xmlnode_put_attrib(x, "id", id);
+ y = xmlnode_get_tag(x,"query");
+ 
+ user = j->user->user;
+ 
+ if (user)
+   {
+	 z = xmlnode_insert_tag(y, "username");
+	 xmlnode_insert_cdata(z, user, -1);
+   }
+
+ z = xmlnode_insert_tag(y, "resource");
+ xmlnode_insert_cdata(z, j->user->resource, -1);
+ 
+ if (j->sid)
+   {
+	 z = xmlnode_insert_tag(y, "digest");
+	 hash = pmalloc(x->p, strlen(j->sid)+strlen(j->pass)+1);
+	 strcpy(hash, j->sid);
+	 strcat(hash, j->pass);
+	 hash = shahash(hash);
+	 xmlnode_insert_cdata(z, hash, 40);
+   }
+ else
+   {
+	 z = xmlnode_insert_tag(y, "password");
+	 xmlnode_insert_cdata(z, j->pass, -1);
+   }
+ 
+ jabberSend(interp, j, x);
+ xmlnode_free(x);
+ sprintf(interp->result, "%s", id);
+ return TCL_OK;
+ 
+}
+
+int
+NSTclJabberStartCmd(Tcl_Interp *interp, char *conn)
+{
+ jconn j;
+ xmlnode x;
+ char *t,*t2;
+
+ j =  getJabberConnHandle(interp, conn);
+ if(!j || j->state != JCONN_STATE_OFF) {
+   return TCL_OK;
+ }
+
+ j->parser = XML_ParserCreate(NULL);
+ XML_SetUserData(j->parser, (void *)j);
+ XML_SetElementHandler(j->parser, startElement, endElement);
+ XML_SetCharacterDataHandler(j->parser, charData);
+
+ j->fd = make_netsocket(5222, j->user->server, NETSOCKET_CLIENT);
+ if(j->fd < 0) {
+   STATE_EVT(JCONN_STATE_OFF);
+     return TCL_OK;
+ }
+ j->state = JCONN_STATE_CONNECTED;
+ STATE_EVT(JCONN_STATE_CONNECTED)
+
+ /* start stream */
+ x = jutil_header(NS_CLIENT, j->user->server);
+ t = xmlnode2str(x);
+ /* this is ugly, we can create the string here instead of jutil_header */
+ /* what do you think about it? -madcat */
+ t2 = strstr(t,"/>");
+ *t2++ = '>';
+ *t2 = '\0';
+ /* Need to sub the NS Commands here */
+ jabberSendRaw(interp,j,"<?xml version='1.0'?>");
+ jabberSendRaw(interp,j,t);
+ xmlnode_free(x);
+
+ j->state = JCONN_STATE_ON;
+ STATE_EVT(JCONN_STATE_ON)
+
+ return TCL_OK;
+
+}
+
+int
+NSTclJabberDeleteCmd(Tcl_Interp *interp, char *conn) 
+{
+  jconn j;
+
+  j =  getJabberConnHandle(interp, conn);
+  if(!j) {
+    Ns_Log(Debug,"Jconn Not Found for Delete %s",conn );
+    return TCL_OK;
+  }
+  NSTclJabberStopCmd(interp, conn);
+  Ns_Log(Debug,"Stopped Jconn %s",conn );
+  pool_free(j->p);
+  /*
+   * Clean up the tcl side
+   */
+  deleteJabberConnHandle(interp, conn);
+  Ns_Log(Debug,"Resources Freed for Jconn %s",conn );
+  return TCL_OK;
+}
+
+int
+NSTclJabberStopCmd(Tcl_Interp *interp, char *conn) 
+{
+  jconn j;
+
+  j =  getJabberConnHandle(interp, conn);
+
+  if(!j || j->state == JCONN_STATE_OFF) {
+    Ns_Log(Debug,"Jconn Not Found for Stop %s",conn );
+    return TCL_OK;
+  }
+  /*
+   * Close the socket
+   */
+  j->state = JCONN_STATE_OFF;
+  close(j->fd);
+  j->fd = -1;
+  XML_ParserFree(j->parser);
+
+  return TCL_OK;
+}
+
+int
+NSTclJabberPollCmd(Tcl_Interp *interp, char *conn, int timeout )
+{
+  jconn j;
+
+  fd_set fds;
+  struct timeval tv;
+
+  j =  getJabberConnHandle(interp, conn);
+
+
+  if (!j || j->state == JCONN_STATE_OFF) {
+    Ns_Log(Debug,"Jconn State Off in Poll: %s",conn );
+    return TCL_OK;
+  }
+
+  FD_ZERO(&fds);
+  FD_SET(j->fd, &fds);
+
+  if (timeout < 0) {
+     if (select(j->fd + 1, &fds, NULL, NULL, NULL) > 0)
+       NSTclJabberRecvCmd(interp, conn);
+  }
+  else
+  {
+	 tv.tv_sec  = 0;
+	 tv.tv_usec = timeout;
+	 if (select(j->fd + 1, &fds, NULL, NULL, &tv) > 0)
+	   NSTclJabberRecvCmd(interp, conn);
+  }
+  return TCL_OK;
+
+}
+
+jconn 
+getJabberConnHandle(Tcl_Interp *interp, char *string) 
+{
+  Tcl_HashEntry *entryPtr;
+
+  entryPtr =  Tcl_FindHashEntry(&jabberConnHandlesTable, string);
+  if(entryPtr == NULL) {
+		Tcl_AppendResult(interp, "No jabber connection named '", string, "'", (char *) NULL);
+		return NULL;
+  }
+  return Tcl_GetHashValue(entryPtr);
+}
+
+int 
+deleteJabberConnHandle (Tcl_Interp *interp, char *string) {
+
+  Tcl_HashEntry *entryPtr;
+
+  entryPtr = Tcl_FindHashEntry(&jabberConnHandlesTable, string);
+  if (entryPtr == NULL) {
+    Ns_Log(Debug,"Jconn Hash entryPtr Null for %s", string );
+	return TCL_OK;
+  }
+ 
+  Tcl_DeleteHashEntry(entryPtr);
+
+  return TCL_OK;
+}
+
+/* Command for sending when internally generating xmlnode */
+int jabberSend(Tcl_Interp *interp, jconn j, xmlnode x) {
+
+  char *buf;
+
+  if (j && j->state != JCONN_STATE_OFF) {
+
+	buf = xmlnode2str(x);
+    /* need to catch errors here */
+	if (buf) {
+	  write(j->fd, buf, strlen(buf));
+	  Ns_Log(Debug,"Sending xmlnode '%s'", buf ); 
+	}
+  }
+  return TCL_OK;
+
+}
+
+int 
+jabberSendRaw(Tcl_Interp *interp, jconn j, const char *rawxml)
+{
+  
+  if (j && j->state != JCONN_STATE_OFF) {
+	Ns_Log(Debug,"Sending rawxml '%s'", rawxml );
+    /* Need to catch errors here */
+	write(j->fd, rawxml, strlen(rawxml));
+
+  }
+
+
+}
+
+xmlnode
+getJabberXodeHandle(Tcl_Interp *interp, char *string) 
+{
+  Tcl_HashEntry *entryPtr;
+
+  entryPtr =  Tcl_FindHashEntry(&jabberXodeHandlesTable, string);
+  if(entryPtr == NULL) {
+		Tcl_AppendResult(interp, "No xmlnode named '", string, "'", (char *) NULL);
+		return NULL;
+  }
+  return Tcl_GetHashValue(entryPtr);
+}
+
+int 
+deleteJabberXodeHandle (Tcl_Interp *interp, char *string) {
+
+  Tcl_HashEntry *entryPtr;
+
+  entryPtr = Tcl_FindHashEntry(&jabberXodeHandlesTable, string);
+  if (entryPtr == NULL) {
+    Ns_Log(Debug,"Xode Hash entryPtr Null for %s", string );
+	return TCL_OK;
+  }
+ 
+  Tcl_DeleteHashEntry(entryPtr);
+
+  return TCL_OK;
+}
+
+Tcl_HashEntry 
+*createXodeHandle(Tcl_Interp *interp) 
+{
+  Tcl_HashEntry  *entryPtr;
+  int         new;
+  static unsigned int id = 1;
+
+  do {
+	sprintf(interp->result, "xode%u", id);
+	id++;
+	entryPtr = Tcl_CreateHashEntry(&jabberXodeHandlesTable, interp->result, &new);
+  } while (!new);
+   
+}
+
+
+
+int
+NSTclJabberTestCmd(Tcl_Interp *interp, char *user, char *pass)
+{
+	
+  /*
+   * Try to use some jabber functions.
+   */
+  
+  jconn j;
+  char *sid;
+  char *iq_id;
+  char *resource;
+  
+  /*
+   * Start A new Jabber Session.
+   * Nothing is sent with jab_new, it just initializes the connection
+   * jab_new(use@server,password), or I believe:
+   * user@server/resource will set the resource directly!
+   */
+  j = jab_new(user,pass);
+  /*
+   * Jab Start opens the session with the server
+   * The server is taken from the server in user@server
+   */
+  
+  jab_start(j);
+  
+  /*
+   * Jab Poll waits for data to arrive 
+   * and reads it when it does with jab_read 
+   * jab_read parses the data 
+   */
+  
+  jab_poll(j,-1);
+  
+  /*
+   * jab_getsid pulls the session_id returned by
+   * the server from the stream tag.
+   * Having the sid in j->sid allows the use of 
+   * a hash instead of the password.
+   * Putting a resource into j->user->resource 
+   * allows it to be included in the auth request.
+   */
+  
+  sid = jab_getsid(j);
+  j->sid = sid;
+  resource = "Winjab";
+  j->user->resource = resource;
+  
+  /*
+   * jab_auth sends the user@server/resource
+   * along with the hashed password
+   */
+  
+  iq_id = jab_auth(j);
+  
+  /*
+   * jab poll reads the returned packet,
+   * when it arrives.
+   */
+  
+  jab_poll(j,-1);
+  /*
+   *printf ("SID: %s\n", sid );
+   *printf ("Auth ID: %s\n", iq_id);
+   */
+  /* 
+   * jab_stop sends the end stream tag
+   */
+  
+  jab_stop(j);
+  
+  /*
+   * jab_delete frees the resources 
+   * required during the connection
+   */
+  
+  jab_delete(j);
+  
+  /*
+   * Finish Jabber Client Session
+   */
+  return TCL_OK;
+  
+  
+}
+
+/* local functions */
+
+static void startElement(void *userdata, const char *name, const char **attribs)
+{
+    xmlnode x;
+    jconn j = (jconn)userdata;
+
+    if(j->current)
+    {
+        /* Append the node to the current one */
+        x = xmlnode_insert_tag(j->current, name);
+        xmlnode_put_expat_attribs(x, attribs);
+
+        j->current = x;
+    }
+    else
+    {
+        x = xmlnode_new_tag(name);
+        xmlnode_put_expat_attribs(x, attribs);
+        if(strcmp(name, "stream:stream") == 0) {
+            /* special case: name == stream:stream */
+            /* id attrib of stream is stored for digest auth */
+            j->sid = xmlnode_get_attrib(x, "id");
+            /* STATE_EVT(JCONN_STATE_AUTH) */
+        } else {
+            j->current = x;
+        }
+    }
+}
+
+static void endElement(void *userdata, const char *name)
+{
+    jconn j = (jconn)userdata;
+    xmlnode x;
+    jpacket p;
+
+    if(j->current == NULL) {
+        /* we got </stream:stream> */
+        STATE_EVT(JCONN_STATE_OFF)
+        return;
+    }
+
+    x = xmlnode_get_parent(j->current);
+
+    if(x == NULL)
+    {
+        /* it is time to fire the event */
+        p = jpacket_new(j->current);
+
+        if(j->on_packet)
+            (j->on_packet)(j, p);
+        else
+            xmlnode_free(j->current);
+    }
+
+    j->current = x;
+}
+
+static void charData(void *userdata, const char *s, int slen)
+{
+    jconn j = (jconn)userdata;
+
+    if (j->current)
+        xmlnode_insert_cdata(j->current, s, slen);
+}
+
+
+void 
+my_packet_handler(jconn j, jpacket p) {
+
+  xmlnode x;
+  char *name, *nodestr;
+  int size;
+  Ns_DbHandle *handle;
+  int status;
+  /*
+   * Get the xmlnode from the jpacket
+   */
+
+  x = p->x;
+  size = sizeof(x);
+  if (size == 0 ) {
+	j->state = JCONN_STATE_OFF;
+	Ns_Log(Debug,"Server Terminated Prematurely");
+	return;
+  }
+  name = xmlnode_get_name(x);
+
+  /*
+   * Print the Node Name
+   */
+  
+  Ns_Log(Debug,"Node Name: %s Size: %i\n", name, size );
+	
+  /*
+   * What else is in this node?
+   * lets print the whole thing.
+   */
+  
+  nodestr = xmlnode2str(x);
+  Ns_Log(Debug,"Node XML: %s\n", nodestr );
+
+  /*
+   * What Type of tag is this
+   * I wonder If I should look at the 
+   * tag type instead of the name here?
+   */
+
+  if (strcmp(name, "iq") == 0) {
+		
+	iq_handler(j,p);
+  } 
+  if (strcmp(name, "message") == 0) {
+	
+	message_handler(j,p);
+  } 
+  if (strcmp(name, "presence") == 0) {
+	
+	presence_handler(j,p);
+  } 
+	 
+  
+  /* 
+   * Free up the node. Here or in the handler?
+   */
+  
+  xmlnode_free(x);
+  return;
+
+}
+
+/* State Handler */
+
+void
+jconn_state_handler(jconn j, int state) {
+
+  Ns_Log(Debug, "state is %i", state);
+  return;
+
+}
+
+void 
+jpacket_sort(jconn j, jpacket p) {
+
+  xmlnode x;
+  int size;
+  Ns_DString script;
+  Tcl_HashEntry  *entryPtr;
+  char *xode;
+  Tcl_Interp *interp;
+
+  /* Get the interp for this thread */
+  interp = j->interp;
+
+  /* create an pointer for the duplicate xmlnode */
+  entryPtr = createXodeHandle(interp); 
+
+  /* Get the string rep of the xode */
+  xode = interp->result;
+  Ns_Log(Debug,"New xmlnode: '%s'", xode); 
+  /* Duplicate the xmlnode */
+  x = xmlnode_dup(p->x);
+
+  /* enter the pointer into the hash. */
+  Tcl_SetHashValue(entryPtr, x); 
+   
+  /* is sizeof what I want here? */
+  size = sizeof(x);
+
+  if (size == 0 ) {
+    /* should I run jab_stop? */
+	j->state = JCONN_STATE_OFF;
+	Ns_Log(Debug,"Server Terminated Prematurely");
+	return;
+  }
+
+
+  /*
+   * Write node to a file
+   */
+
+  Ns_DStringInit(&script);
+
+  Ns_DStringAppend(&script, "packet_callback ");
+  Ns_DStringAppend(&script, j->conn);
+
+  Ns_DStringAppend(&script, " \"");
+  Ns_DStringAppend(&script, xode);
+  Ns_DStringAppend(&script, "\" ");
+
+  Ns_Log(Debug, "Script is %s" ,Ns_DStringValue(&script));  
+  /* free the xmlnode */
+  /* Actually no more 
+   * xmlnode_free(x);
+   */
+
+  /*
+   * What Type of tag is this
+   * I wonder If I should look at the 
+   * tag type instead of the name here?
+   */
+ 
+  Tcl_Eval(j->interp, Ns_DStringValue(&script));
+
+  /* 
+   * Free up the node. Here or in the handler?
+   */
+  Ns_DStringFree(&script);
+  switch (p->type) 
+	{	
+	case JPACKET_PRESENCE:
+	  presence_handler(j,p);
+	  break;
+	case JPACKET_IQ:
+	  iq_handler(j,p);
+	  break;
+	case JPACKET_S10N:
+	  break;
+	case JPACKET_UNKNOWN:
+	  break;
+	default:
+	  break;
+	}
+  return;
+
+}
+
+void
+iq_handler(jconn j, jpacket p) {
+
+  xmlnode x;
+  char *type, *id;
+  
+  x = p->x;
+  
+  /*if (xmlnode_get_type(x) != NTYPE_TAG) return; */
+  type = xmlnode_get_attrib(x,"type");
+  id = xmlnode_get_attrib(x,"id");
+  if (id == NULL) {
+	id = "none";
+  }
+  if (! type) {
+	type = "unknown";
+  }
+  Ns_Log(Debug,"iq Node Type: %s ID: %s\n", type, id );
+  
+  if ( STREQ(type, "result") && STREQ(id, AUTH_PACKET_ID) ) {
+	/*
+	 * First packet, successful login
+	 */
+	j->state = JCONN_STATE_AUTH;
+	Ns_Log(Debug,"Successful Login to %s\n",j->user->server);
+	return;
+  }
+  return;
+}
+
+void
+user_input_handler(jconn j, FILE *fp) {
+  char sendline[MAXLINE];
+	char	*rptr;
+	/*
+	 * I hope ^D sends eof
+	 */
+	if ((rptr = fgets(sendline, MAXLINE, fp)) == NULL && ferror(fp)) {
+		Ns_Log(Debug,"fgets error");
+    j->state = JCONN_STATE_OFF;
+		return;
+	}
+	if (rptr == NULL) {
+		j->state = JCONN_STATE_OFF;
+	} else {
+		
+		jab_send_raw(j,sendline);
+	}
+	  
+	return;
+}
+
+void
+message_handler(jconn j, jpacket p) 
+{
+
+  char *type;
+
+  /* Get the message type */
+  type = xmlnode_get_attrib(p->x,"type");
+  if (! type) {
+	type = "unknown";
+  }
+  Ns_Log(Debug,"In Message Handler found type '%s'", type);
+
+  if (STREQ(type, "groupchat")) {
+	/* goto groupchat handler */
+
+	groupchat_handler(j,p);
+	return;
+  }
+
+  if (STREQ(type, "chat")) {
+	/* goto groupchat handler */
+
+	chat_handler(j,p);
+	return;
+  }
+   if (STREQ(type, "error")) {
+	/* goto groupchat handler */
+
+	error_handler(j,p);
+	return;
+  }
+  if (STREQ(type, "normal")) {
+	/* goto groupchat handler */
+
+	chat_handler(j,p);
+	return;
+  }
+
+   if (STREQ(type, "headline")) {
+	/* goto groupchat handler */
+
+	headline_handler(j,p);
+	return;
+  }
+   /* call the default type handler */
+   
+   chat_handler(j,p);
+   return;
+
+}
+
+void
+error_handler(jconn j, jpacket p)
+{
+
+  return;
+
+}
+
+void
+headline_handler(jconn j, jpacket p)
+{
+
+  return;
+
+}
+
+void
+groupchat_handler(jconn j, jpacket p) {
+ 
+  char *to, *body, *subject, *user, *server, *resource;
+  Ns_DString   sql, dbquote_body, dbquote_subject;
+  xmlnode x, child;
+  Ns_DbHandle *handle;
+  int status;
+  
+  Ns_Log(Debug, "Running groupchat handler");
+  x = p->x;
+
+  to = xmlnode_get_attrib(x,"to");
+  user = p->from->user;
+  server = p->from->server;
+  resource = p->from->resource;
+  body = xmlnode_get_data(xmlnode_get_tag(x,"body"));
+  subject = xmlnode_get_data(xmlnode_get_tag(x,"subject"));
+
+  /*
+   * Build up sql statement, skipping null values.
+   */
+  Ns_DStringInit(&sql);
+  Ns_DStringInit(&dbquote_body);
+  Ns_DStringInit(&dbquote_subject);
+  Ns_Log(Debug,"Init Ns_DString");
+  Ns_DStringAppend(&sql, "insert into jab_groupchat (group_name,server,resource,message_to,subject,body) values ('");
+  if (j_strlen(user)) {
+	Ns_DStringAppend(&sql, user);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if (j_strlen(server)) {
+	Ns_DStringAppend(&sql, server);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if(j_strlen(resource)) {
+	Ns_DStringAppend(&sql, resource);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if (j_strlen(to)) {
+  Ns_DStringAppend(&sql, to);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if (j_strlen(subject) ) {
+	Ns_DbQuoteValue(&dbquote_subject, subject);
+	Ns_DStringAppend(&sql, dbquote_subject.string);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if (j_strlen(body)) {
+	Ns_DbQuoteValue(&dbquote_body, body);
+	Ns_DStringAppend(&sql, dbquote_body.string);
+  }
+  Ns_DStringAppend(&sql, "')");
+
+  Ns_Log(Debug, "sql is %s", sql.string);
+
+  if ((handle = Ns_DbPoolGetHandle("jabber")) != NULL) {
+   	Ns_Log(Debug,"Got DB Handle for jab_groupchat insert." );
+   	status = Ns_DbDML(handle, sql.string);
+	Ns_DbPoolPutHandle(handle);
+   }
+
+  Ns_DStringFree(&sql);
+  Ns_DStringFree(&dbquote_body);
+  Ns_DStringFree(&dbquote_subject); 
+  return;
+}
+
+void
+chat_handler(jconn j, jpacket p) 
+{
+ 
+  char *to_user, *to_server, *to_resource;
+  char *from_user, *from_server, *from_resource, *body, *subject;
+  Ns_DString   sql, dbquote_body, dbquote_subject;
+  xmlnode x;
+  Ns_DbHandle *handle;
+  int status;
+  
+  Ns_Log(Debug, "Running chat handler");
+
+  x = p->x;
+
+  to_user = p->to->user;
+  to_server = p->to->server;
+  to_resource = p->to->resource;
+  from_user = p->from->user;
+  from_server = p->from->server;
+  from_resource = p->from->resource; 
+
+  /* process body */
+  body = xmlnode_get_data(xmlnode_get_tag(x,"body"));
+
+  subject = xmlnode_get_data(xmlnode_get_tag(x,"subject"));
+
+
+  /*
+   * Build up sql statement, skipping null values.
+   */
+  Ns_DStringInit(&sql);
+  Ns_DStringInit(&dbquote_body);
+  Ns_DStringInit(&dbquote_subject);
+  Ns_Log(Debug,"Init Ns_DString");
+  Ns_DStringAppend(&sql, "insert into jab_chat (from_user,from_server,from_resource,to_user,to_server,to_resource,subject,body) values ('");
+  if (j_strlen(from_user)) {
+	Ns_DStringAppend(&sql, from_user);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if (j_strlen(from_server)) {
+	Ns_DStringAppend(&sql, from_server);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if(j_strlen(from_resource)) {
+	Ns_DStringAppend(&sql, from_resource);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if (j_strlen(to_user)) {
+	Ns_DStringAppend(&sql, to_user);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if (j_strlen(to_server)) {
+	Ns_DStringAppend(&sql, to_server);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if (j_strlen(to_resource)) {
+	Ns_DStringAppend(&sql, to_resource);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if (j_strlen(subject) ) {
+	Ns_DbQuoteValue(&dbquote_subject, subject);
+	Ns_DStringAppend(&sql, dbquote_subject.string);
+  }
+  Ns_DStringAppend(&sql, "','");
+  if (j_strlen(body)) {
+	Ns_DbQuoteValue(&dbquote_body, body);
+	Ns_DStringAppend(&sql, dbquote_body.string);
+  }
+  Ns_DStringAppend(&sql, "')");
+
+  Ns_Log(Debug, "sql is %s", sql.string);
+
+  if ((handle = Ns_DbPoolGetHandle("jabber")) != NULL) {
+   	Ns_Log(Debug,"Got DB Handle for jab_chat insert." );
+   	status = Ns_DbDML(handle, sql.string);
+	Ns_DbPoolPutHandle(handle);
+  }
+
+  Ns_DStringFree(&sql);
+  Ns_DStringFree(&dbquote_body);
+  Ns_DStringFree(&dbquote_subject);  
+  return;
+}
+
+void
+presence_handler(jconn j, jpacket p) {
+
+  return;
+	
+}
+
+/* 
+ *  Functions to register the commands and initalize the module
+ */
+AddJabberCmds(Tcl_Interp *interpPtr, void *ctx)
+{
+
+  Tcl_CreateCommand(interpPtr, "ns_jabber", NsTclJabberCmd, NULL, NULL);
+  Tcl_CreateCommand(interpPtr, "ns_xode", NsTclXodeCmd, NULL, NULL);
+  return NS_OK;
+}
+
+
+void
+NsJabberInit(void)
+{
+   Tcl_InitHashTable(&jabberConnHandlesTable, TCL_STRING_KEYS);
+   Tcl_InitHashTable(&jabberXodeHandlesTable, TCL_STRING_KEYS);
+}
+
+
+NS_EXPORT int
+Ns_ModuleInit(char *hServer, char *hModule)
+{
+  Ns_Log(Notice,"Starting NS_Jabber Module");
+  Ns_TclInitInterps(hServer, AddJabberCmds, NULL);
+  NsJabberInit();
+  return NS_OK;
+}
+

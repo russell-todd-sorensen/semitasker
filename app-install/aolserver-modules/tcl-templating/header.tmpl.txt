@@ -1,0 +1,16 @@
+<html>
+<head>
+ <title>$title</title>
+ <style type="text/css">
+/* <![CDATA[ */
+@import url(/css/budigan.css);
+/* ]]> */
+ </style>
+</head>
+<body>
+
+<div class="header">
+<h2>Test Album</h2>
+
+</div>
+ 

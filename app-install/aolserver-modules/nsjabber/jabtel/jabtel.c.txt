@@ -1,0 +1,370 @@
+/*
+ * Copyright 2001 tom jackson <datapro security corp.>
+ * 
+ *
+ * jabtel.c
+ *
+ * 
+ */
+ 
+static const char *RCSID = "@(#) $Header: /var/cvs/jabtel/jabtel.c,v 1.1.1.1 2001/09/23 17:35:47 nsadmin Exp $, compiled: " __DATE__ " " __TIME__;                                                
+ 
+
+#include <libxode.h>
+#include "jabber.h"
+#include "unpipc.h"
+
+#define FIFO1 "/tmp/fifo.1"
+
+/* local macros for launching event handlers */
+#define STATE_EVT(arg) if(j->on_state) { (j->on_state)(j, (arg) ); }
+
+/* prototypes of the local functions */
+void jab_poll2(jconn j, FILE *fp, int timeout);
+void user_input_handler(jconn j, FILE *fp);
+void iq_handler(jconn j, jpacket p);
+void message_handler(jconn j, jpacket p);
+void presence_handler(jconn j, jpacket p);
+void my_packet_handler(jconn j, jpacket p);
+void jab_recv(jconn j);
+/*
+ *  jab_poll2 -- check multiple fds for incoming data
+ *
+ *  parameters
+ *      j -- connection
+ *      fp -- client user input fp (probably stdin?)
+ *      timeout -- poll timeout
+ *  
+ */
+void jab_poll2(jconn j, FILE *fp, int timeout)
+{
+    fd_set fds;
+    struct timeval tv;
+		int maxfdp1;
+
+    if (!j || j->state == JCONN_STATE_OFF)
+        return;
+
+    FD_ZERO(&fds);
+    /* 
+     * Add Both Fds to the set
+     */
+    FD_SET(fileno(fp), &fds);
+    FD_SET(j->fd, &fds);
+		/*
+		 * Find the max fd plus one.
+		 */
+		maxfdp1 = max(fileno(fp),j->fd) + 1;
+    if (timeout < 0)
+    {
+			select(maxfdp1, &fds, NULL, NULL, NULL);
+
+    }
+    else
+    {
+	    tv.tv_sec  = 0;
+	    tv.tv_usec = timeout;
+	    select(maxfdp1, &fds, NULL, NULL, &tv);
+
+    }
+    if (FD_ISSET(j->fd,&fds)) { /* socket from jabber server is readable */
+				jab_recv(j);
+
+		}
+		if (FD_ISSET(fileno(fp),&fds)) { /* user input is readable */
+			user_input_handler(j,fp);
+
+		}
+}
+
+/*
+ *  jab_recv -- read and parse incoming data
+ *  My version does something on zero bytes.
+ *  parameters
+ *      j -- connection
+ */
+void jab_recv(jconn j)
+{
+    static char buf[4096];
+    int len;
+
+    if(!j || j->state == JCONN_STATE_OFF)
+        return;
+
+    len = read(j->fd, buf, sizeof(buf)-1);
+    if(len>0)
+    {
+        buf[len] = '\0';
+#ifdef JDEBUG
+        printf (" in: %s\n", buf);
+#endif
+        XML_Parse(j->parser, buf, len, 0);
+    }
+    else if(len == 0) {
+
+				printf("Server Terminated Prematurely.\n");
+				j->state = JCONN_STATE_OFF;
+				return;
+
+		}
+    else if(len<0)
+    {
+        STATE_EVT(JCONN_STATE_OFF);
+				printf("Error");
+        jab_stop(j);
+    }
+}
+
+void
+iq_handler(jconn j, jpacket p) {
+
+	xmlnode x;
+	char *type, *id;
+
+	x = p->x;
+
+	/*if (xmlnode_get_type(x) != NTYPE_TAG) return; */
+  type = xmlnode_get_attrib(x,"type");
+  id = xmlnode_get_attrib(x,"id");
+  if (id == NULL) {
+		id = "none";
+	}
+	printf ("iq Node Type: %s ID: %s\n", type, id );
+
+  if (strcmp(type, "result") == 00 && strcmp(id, "1") == 0 ) {
+		/*
+		 * First packet, successful login
+		 */
+		printf("Successful Login to %s\n",j->user->server);
+	}
+	return;
+}
+
+void
+user_input_handler(jconn j, FILE *fp) {
+  char sendline[MAXLINE];
+	char	*rptr;
+	/*
+	 * I hope ^D sends eof
+	 */
+	if ((rptr = fgets(sendline, MAXLINE, fp)) == NULL && ferror(fp)) {
+		printf("fgets error");
+    j->state = JCONN_STATE_OFF;
+		return;
+	}
+	if (rptr == NULL) {
+		j->state = JCONN_STATE_OFF;
+	} else {
+		
+		jab_send_raw(j,sendline);
+	}
+
+	return;
+}
+
+void
+message_handler(jconn j, jpacket p) {
+
+	return;
+
+}
+
+void
+presence_handler(jconn j, jpacket p) {
+
+	return;
+
+}
+
+void 
+my_packet_handler(jconn j, jpacket p) {
+
+	xmlnode x;
+  char *name, *nodestr;
+	int size;
+	/*
+	 * Get the xmlnode from the jpacket
+	 */
+
+	x = p->x;
+	size = sizeof(x);
+  if (size == 0 ) {
+		j->state = JCONN_STATE_OFF;
+		printf("Server Terminated Prematurely");
+		return;
+	}
+  name = xmlnode_get_name(x);
+
+  /*
+	 * Print the Node Name
+	 */
+
+	printf ("Node Name: %s Size: %i\n", name, size );
+
+	/*
+	 * What else is in this node?
+	 * lets print the whole thing.
+	 */
+  
+	nodestr = xmlnode2str(x);
+	printf ("Node XML: %s\n", nodestr );
+
+	/*
+	 * What Type of tag is this
+	 * I wonder If I should look at the 
+	 * tag type instead of the name here?
+	 */
+  
+	if (strcmp(name, "iq") == 0) {
+		
+		iq_handler(j,p);
+	} 
+	if (strcmp(name, "message") == 0) {
+		
+		message_handler(j,p);
+	} 
+	if (strcmp(name, "presence") == 0) {
+		
+		presence_handler(j,p);
+	} 
+	 
+
+	/* 
+	 * Free up the node. Here or in the handler?
+	 */
+
+	xmlnode_free(x);
+	return;
+
+}
+
+int
+main(int argc, char **argv)
+{
+
+
+  /*
+   * Try to use some jabber functions.
+   */
+
+	jconn j;
+	char *sid;
+	char *iq_id;
+  char *resource;
+	char *user, *pass;
+	
+	/*
+	 * Can we make a FIFO?
+	 *
+	 *  int readfd;
+	 *
+	 *	if ( (mkfifo(FIFO1, FILE_MODE) < 0 ) && (errno != EEXIST) ) {
+	 *		printf("can't make FIFO");
+	 *		exit(1);
+	 *
+	 *	}
+	 *	readfd = open(FIFO1, O_RDONLY, 0);
+	 */
+
+	if (argc < 3) {
+			printf ("usage: %s user@server password\n", argv[0] );
+			exit(1);
+	}
+	user = argv[1];
+	pass = argv[2];
+
+  /*
+	 * Start A new Jabber Session.
+	 * Nothing is sent with jab_new, it just initializes the connection
+	 * jab_new(use@server,password), or I believe:
+	 * user@server/resource will set the resource directly!
+	 */
+
+	j = jab_new(user,pass);
+
+	/*
+	 * Test getting data our of xml stream
+	 * I think this requires a packet handler
+	 */
+
+	jab_packet_handler(j, my_packet_handler);
+ 
+	/*
+	 * Jab Start opens the session with the server
+	 * The server is taken from the server in user@server
+	 */
+
+	jab_start(j);
+
+	/*
+	 * Jab Poll waits for data to arrive 
+	 * and reads it when it does with jab_read 
+	 * jab_read parses the data 
+	 */
+
+	jab_poll(j,-1);
+
+	/*
+	 * jab_getsid pulls the session_id returned by
+	 * the server from the stream tag.
+	 * Having the sid in j->sid allows the use of 
+	 * a hash instead of the password.
+	 * Putting a resource into j->user->resource 
+	 * allows it to be included in the auth request.
+	 */
+	
+	sid = jab_getsid(j);
+  j->sid = sid;
+	resource = "Winjab";
+  j->user->resource = resource;
+
+	/*
+	 * jab_auth sends the user@server/resource
+	 * along with the hashed password
+	 */
+
+	iq_id = jab_auth(j);
+	
+	/*
+	 * jab poll reads the returned packet,
+	 * when it arrives.
+	 */
+
+	jab_poll(j,-1);
+  
+	printf ("SID: %s\n", sid );
+	printf ("Auth ID: %s\n", iq_id);
+
+
+  for ( ; ; ) {
+		if (j->state == JCONN_STATE_OFF)
+			break;
+		jab_poll2(j,stdin,-1);
+		
+	}
+
+	/* 
+	 * jab_stop sends the end stream tag
+	 */
+  printf("Stopping Jabber Client\n");
+  jab_stop(j);
+
+	/*
+	 * jab_delete frees the resources 
+	 * required during the connection
+	 */
+
+	jab_delete(j);
+
+  /*
+	 * Finish Jabber Client Session
+	 */
+
+	/*
+	 * Remove FIFO
+	 */
+
+	/* unlink(FIFO1); */
+
+	exit(0);
+}

@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html><head>
+ <title>Labels 8366</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/css/main.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/example-library.js"></script>
+<style>
+.page8366 {
+	width:  8.5in;
+	height: 11in;
+	fill: white;
+	stroke-width: .5;
+	stroke: black;
+	
+}
+
+.label8366 {
+	display: inline-block;
+	height: .6667in;
+	width: 3.4375in;
+	fill: white;
+	stroke: black;
+	stroke-width: .25;
+	
+}
+
+.house {
+	text-anchor: middle;
+	font-weight: normal;
+	font-size: 14px;
+	stroke: none;
+	fill: black;
+}
+
+.pname {
+	text-anchor: left;
+	font-weight: bold;
+	font-size: 22px;
+	stroke: none;
+	fill: black;
+}
+
+.docid {
+	text-anchor: end;
+	font-weight: bold;
+	font-size: 22px;
+	stroke: none;
+	fill: black;
+}
+</style>
+
+</head>
+<body>
+
+<svg id="svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink" 
+   version="1.0" 
+   x="0" 
+   y="0"
+   height="800"
+   width="800"
+   style="cursor: pointer;">
+<defs>
+
+</defs>
+<rect id="page" x="0" y="0" class="page8366"></rect>
+<rect id="label-1" class="label8366" x="51" y="48" rx="10" ry="10"></rect>
+<text id="label-1-house" class="house" x="208" y="61">Barnabas</text>
+<text id="label-1-pname" class="pname" x="55" y="96">Boston, Howard</text>
+<text id="label-1-docid" class="docid" x="375" y="96">555123</text>
+
+<rect id="label-2" class="label8366" x="435" y="48" rx="10" ry="10"></rect>
+<text id="label-2-house" class="house" x="608" y="61">Philippians</text>
+<text id="label-2-pname" class="pname" x="440" y="96">Sorensen, Russell</text>
+<text id="label-2-docid" class="docid" x="758" y="96">555123</text>
+
+<rect id="label-3" class="label8366" x="51" y="112" rx="10" ry="10"></rect>
+<text id="label-3-house" class="house" x="208" y="125">Barnabas</text>
+<text id="label-3-pname" class="pname" x="55" y="160">Watson, Tom</text>
+<text id="label-3-docid" class="docid" x="375" y="160">555123-98</text>
+
+<rect id="label-4" class="label8366" x="435" y="112" rx="10" ry="10"></rect>
+<text id="label-4-house" class="house" x="608" y="125">Philippians</text>
+<text id="label-4-pname" class="pname" x="440" y="160">Sneed, Samual</text>
+<text id="label-4-docid" class="docid" x="758" y="160">5553</text>
+
+<rect id="label-5" class="label8366" x="51" y="176" rx="10" ry="10"></rect>
+<text id="label-5-house" class="house" x="208" y="189">Zion</text>
+<text id="label-5-pname" class="pname" x="55" y="224">Sneed, Samual</text>
+<text id="label-5-docid" class="docid" x="375" y="224">5553</text>
+
+<rect id="label-6" class="label8366" x="435" y="176" rx="10" ry="10"></rect>
+<text id="label-6-house" class="house" x="608" y="189">Mark</text>
+<text id="label-2-pname" class="pname" x="440" y="224">Thale, Glen</text>
+<text id="label-2-docid" class="docid" x="758" y="224">555123</text>
+
+</svg>
+
+
+<script>
+var labelData = {
+	label: {
+		x: 51,
+		dx: 384,
+		y: 48,
+		dy: 64
+	},
+	house: {
+		x: 208,
+		dx: 400,
+		y: 61,
+		dy: 64
+	},
+	pname: {
+		x: 55,
+		dx: 385,
+		y: 96,
+		dy: 64
+	},
+	docid: {
+		x: 375,
+		dx: 383,
+		y: 96,
+		dy: 64
+	}
+}
+
+function getRow (index) {
+	return Math.floor(index/2);
+}
+	
+function getCol (index) {
+	return index % 2;
+}
+
+function getLabelX (index) {
+	return labelData.label.x + getCol(index) * labelData.label.dx;
+}
+function getLabelY (index) {
+	return labelData.label.y + getRow(index) * labelData.label.dy;
+}
+
+function getItemX (item, index) {
+	return labelData[item].x + getCol(index) * labelData[item].dx;
+}
+function getItemY (item, index) {
+	return labelData[item].y + getRow(index) * labelData[item].dy;
+}
+
+function generateLabel (index,svgId) {
+
+	var svg = d3.select('#' + svgId);
+	svg
+	 .append('rect')
+	 .attr('id','label-' + index)
+	 .attr('class','label8366')
+	 .attr('x',getItemX('label',index))
+	 .attr('y',getItemY('label',index));
+	 
+	 svg
+	  .append('text')
+	  .attr('id','label-' + index + '-house')
+	  .attr('class','house')
+	  .attr('x',getItemX('house',index))
+	  .attr('y',getItemY('house',index));
+	  
+	 svg
+	  .append('text')
+	  .attr('id','label-' + index + '-pname')
+	  .attr('class','pname')
+	  .attr('x',getItemX('pname',index))
+	  .attr('y',getItemY('pname',index));
+	  
+  	 svg
+	  .append('text')
+	  .attr('id','label-' + index + '-docid')
+	  .attr('class','docid')
+	  .attr('x',getItemX('docid',index))
+	  .attr('y',getItemY('docid',index)); 
+	
+}
+	
+$(document).ready(function() {
+  generateLabel(7);
+});
+
+
+</script>
+</body>
+</html>

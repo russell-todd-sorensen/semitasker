@@ -1,0 +1,30 @@
+
+set a(a) 1
+set a(b) 2
+set a(c) 3
+set a(d) 4
+
+set b(a) 5
+set b(b) 6
+set b(c) 7
+set b(d) 8
+
+set c(a) 9
+set c(b) 10
+set c(c) 11
+set c(d) 12
+
+set d(a) 13
+set d(b) 14
+set d(c) 15
+set d(d) 16
+
+set rows [list a b c d]
+
+source /web/zmbh/vhost/budigan/www/photos/grid.cmp
+
+ns_return 200 text/html $string
+
+
+
+

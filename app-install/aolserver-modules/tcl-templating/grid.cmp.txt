@@ -1,0 +1,104 @@
+
+append string {
+}
+
+set list {x y}
+
+append string {
+<table border="1" width="30%" >
+ <tr>
+}
+set __loop_list [list]
+foreach __item $list {
+    lappend __loop_list __temp_$__item
+}
+
+foreach $__loop_list $rows {
+    foreach __i $list {
+        if {[array exists [set __temp_$__i]]} {
+            array set $__i [array get [set __temp_$__i]]
+        } else {
+            set $__i [set __temp_$__i]
+        }
+    }
+
+    append string {
+  <td>
+     <li>}
+
+    append string $x(a)
+
+    append string {
+     <li>}
+
+    append string $x(b)
+
+    append string {
+     <li>}
+
+    append string $x(c)
+
+    append string {
+     <li>}
+
+    append string $x(d)
+
+    append string {
+  </td>
+}
+
+}
+
+append string {
+ </tr>
+ <tr>
+}
+set __loop_list [list]
+foreach __item $list {
+    lappend __loop_list __temp_$__item
+}
+
+foreach $__loop_list $rows {
+    foreach __i $list {
+        if {[array exists [set __temp_$__i]]} {
+            array set $__i [array get [set __temp_$__i]]
+        } else {
+            set $__i [set __temp_$__i]
+        }
+    }
+
+    append string {
+  <td>
+     <li>}
+
+    append string $y(a)
+
+    append string {
+     <li>}
+
+    append string $y(b)
+
+    append string {
+     <li>}
+
+    append string $y(c)
+
+    append string {
+     <li>}
+
+    append string $y(d)
+
+    append string {
+  </td>
+}
+
+}
+
+append string {
+ </tr>
+</table>
+
+
+
+
+}

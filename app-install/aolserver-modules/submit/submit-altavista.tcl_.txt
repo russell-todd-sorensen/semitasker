@@ -1,0 +1,265 @@
+######## Script to make list of all html files or pseudo files ######
+#                                                                   #
+#        Need a start file that will link to other files            #
+#        Store the filenames in an ns_set                           #
+#        Incriment thru the ns_set, read files and add new files    #
+#        to the ns_set                                              #
+#        This file will be fed from submit-altavista.html           #
+#                                                                   #
+# ******            NEW NEW NEW NEW NEW NEW                *******  #
+#                                                                   #
+#        1. This version restricts the number of urls searched to   #
+#        100.                                                       #
+#        2. The minimum interval for retreival is 5 seconds         #
+#        3. Offer of disconnecting and returning email of results   #
+#####################################################################
+
+proc exclude_urls_100 {exclude_list url_list } {
+    set return_list ""
+    ###### Exclude urls in url_list that match
+    #      with glob type expressions in exclude_list
+    #      example:
+    #      Exclude list http://zmbh.com/mybasket/* http://zmbh.com/orders*
+    #      Will exclude:
+    #      http://zmbh.com/mybasket/add.html
+    #      Will not exclude:
+    #      http://zmbh.com/mybasket
+    ###################################
+
+    foreach url $url_list {
+	set count 0
+	foreach pattern $exclude_list {
+	    if {[string match $pattern $url]} {
+		incr count
+		break
+	    } 
+	}
+	if {!$count} {
+	    lappend return_list $url
+	}
+    }
+    return $return_list    
+}
+proc make_absolute_urls_100 {start_page url_list email} {
+    set show_progress ""
+    set new_list ""
+    set list_length [llength $url_list]
+    set parts_of_url [split $start_page "/"]
+    set domain_name http://[lindex $parts_of_url 2]
+    set current_url "[string trim [join [lrange $parts_of_url 3 end] "/"] "/ "]" 
+    set last_slash [string last "/" $current_url]
+    set last_part_of_url [string range $current_url [expr $last_slash  + 1] end]
+    if { [string last "." $last_part_of_url] > 0} { 
+	set current_path [string range $current_url 0 [expr $last_slash - 1]] 
+    } else {
+	set current_path $current_url
+    }
+    # ns_write "Last part of url is: $last_part_of_url<br>"
+    for {set i 0} {$i < $list_length} {incr i} {
+
+	# Check to see if the link is relative:
+	set url [lindex $url_list $i] 
+	# remove any links with pound signs
+	if {[string match "*\#*" $url]} { continue }
+	if {![string match "http://*" [string tolower $url]] } {
+	    # ns_write "'$url' is relative<br>"
+	    # Now you need to convert it to absolute
+	    # set first_char [string range $url 0 0]
+	    switch -glob $url {
+		"mailto:*" - "ftp:*" - "news:*" {
+		    append show_progress "."
+		    continue
+		}
+		".*" {
+		    # Refers to item needing normalizing above
+		    lappend new_list $domain_name[ns_normalizepath $current_path/$url] 
+		    #ns_write "$url made absolute is $domain_name[ns_normalizepath $current_path/$url]<br>"
+		    append show_progress "."		    
+		    continue
+		}
+		"/*" {
+		    # Refers to item relative to the root directory
+		    # Fix by appending rest of url to current path.
+		    lappend new_list $domain_name[ns_normalizepath $url]
+		    #ns_write "$url made absolute is $base_url/[string range $url 2 end]<br>"
+		    #ns_write "$url made absolute is $domain_name[ns_normalizepath $url]<br>"
+		    append show_progress "."
+		    continue
+		}
+		
+		default {
+		    # Didnt start with  / or . must just be file 
+		    # or directory name relative to the current directory
+		    if {$current_path == ""} {
+			lappend new_list $domain_name/$url
+			#ns_write "$url made absolute is $domain_name/$url<br>"
+		    } else {
+			lappend new_list $domain_name/$current_path/$url
+			#ns_write "$url made absolute is $domain_name/$current_path/$url<br>"
+		    }
+		    append show_progress "."
+		    continue		
+		}
+	    }
+	    
+	} else { 
+	    # use the unconverted url
+
+	    regsub -nocase "http://" $url "http://" url
+	    lappend new_list $url
+	}
+
+    }
+    if {$email == "" } { 
+	ns_write "<p>$show_progress (Processed: $list_length links in $start_page.)</p>"
+    }
+    return $new_list
+}
+set email [ns_queryget email]
+set base_url [ns_queryget base_url ""]
+set start_page $base_url
+set limit_dir [ns_queryget limit_dir]
+if {$limit_dir == ""} {
+    set parts_of_url [split $start_page "/"]
+    set domain_name http://[lindex $parts_of_url 2]
+    set current_url "/[string trimright [join [lrange $parts_of_url 3 end] "/"] "/ "]" 
+    set last_slash [string last "/" $current_url]
+    set last_part_of_url [string range $current_url [expr $last_slash  + 1] end]
+    if { [string last "." $last_part_of_url] > 0} { 
+	set current_path [string range $current_url 0 [expr $last_slash - 1]]
+	set filename $last_part_of_url
+    } else {
+	set current_path $current_url
+	set filename ""
+    }
+set limit_dir $domain_name$current_path
+
+}
+set exclude_list [split [ns_queryget exclude_text] "!"]
+set exclude_list_html "
+  <ul>"
+foreach item $exclude_list {
+    append exclude_list_html "
+   <li>Exclude Pattern: $item</li>"
+}
+append exclude_list_html "
+  </ul>"
+set sleep_time [ns_queryget sleep_time "5"]
+if {$sleep_time < "5"} {set sleep_time "5"}
+if {$email != "" } {
+    ReturnHeaders
+    ReturnHead "Submission Successful: Email will follow!"
+    ns_write "
+<body>
+<h3>Your submission of $base_url was successful</h3>
+<p>I will search this url for other links.</p>
+<p>Only Links below: $limit_dir will be added to my list.</P>
+<p>I will not follow links that match the following glob patterns:</p>
+$exclude_list_html
+<p>When I finish, I will email the result to: $email</p>
+</body>
+</html>"
+    ns_conn close
+} else {
+    ReturnHeaders
+}
+
+##### Set up the first element of the array which will be the #######
+#     starting url
+#####################################################################
+set count 0
+set file_set [ns_set create]
+ns_set put $file_set "$base_url" $count
+incr count
+####### Set the Limit Directory
+
+if {$email == "" } {ns_write "limit directory set to: $limit_dir<br>"}
+## Now limit_dir should be set at same level as initial page.
+
+
+
+####### Set up the first file get the contents and then grab the urls #
+#
+#######################################################################
+set error_count 0
+set url_errors "
+<h4>Listed below are any errors I encountered:</h4>"
+for {set i 0} {$i < $count} {incr i} {
+    set current_url [ns_set key $file_set $i]
+    if {[catch {set url_list [ns_hrefs [ns_httpget $current_url]]} err ] } { 
+	if {$email == ""} {
+	    set error_text "<p>Had trouble with $current_url: $err</p>"
+	    incr error_count
+	    ns_write $error_text
+	} else {
+	    set error_text "<p>Had trouble with $current_url: $err</p>"
+	    incr error_count
+	    append url_errors $error_text
+	}
+	continue 
+    }
+
+    set url_list [exclude_urls_100 $exclude_list $url_list]
+    # ns_write $url_list
+    set new_list [make_absolute_urls_100 $current_url $url_list $email]
+    set size [llength $new_list]
+    for {set j 0 } {$j < $size} {incr j} {
+	set item [lindex $new_list $j]
+	
+	if {[string match ${limit_dir}* $item]} {
+	    if {[ns_set iget $file_set $item] == "" } {
+		ns_set put $file_set $item $count
+		incr count
+	    } else { 
+		# ns_write "skipped $item"
+	    }
+	}
+    }
+    if {$email == "" } { ns_write "<p>Finished searching($i): [ns_set key $file_set $i] at [ns_time] Total qualifying urls: $count.</p>" }
+    # This version limits searching to 100 urls.
+    if {$count > 99 } { break }
+    ns_sleep $sleep_time
+}
+ns_write [ns_time]
+if {$error_count == 0 } {
+    set url_errors  "
+<h4>Listed below are any errors I encountered:</h4>
+<p>No errors during processing</p>"
+}
+set show_urls "
+<table border=1 cellspacing=0 cellpadding=2>
+ <th>URL Number</th><th>URL to Submit</th>"
+set size [ns_set size $file_set]
+for {set m 0} {$m < $size} {incr m} {
+    append show_urls "
+<tr>
+ <td>[ns_set value $file_set $m]</td>
+ <td><a href=\"http://add-url.altavista.com/cgi-bin/newurl?ad=1&q=[ns_urlencode [ns_set key $file_set $m]]\">[ns_set key $file_set $m]</a></td></tr>"
+}
+append show_urls "</table>"
+if {$email == "" } {
+    ns_write $show_urls 
+    set extraheaders [ns_set create]
+    ns_set put $extraheaders "MIME-Version" "1.0"
+    ns_set put $extraheaders "Content-type" "text/html; charset=us-ascii"
+    catch {ns_sendmail "tom@zmbh.com" "tom@zmbh.com" "New test of your software" "<html>$show_urls$url_errors</html>" $extraheaders }
+    ReturnFoot
+    
+} else {
+    set extraheaders [ns_set create]
+    ns_set put $extraheaders "MIME-Version" "1.0"
+    ns_set put $extraheaders "Content-type" "text/html; charset=us-ascii"
+    catch {ns_sendmail "$email" "tom@zmbh.com" "Links Ready to Submit to Altavista" "<html><P>You recently submitted a request for links from $base_url.</p> 
+<p>I have processed that request and have compiled a list of $size links that are ready to submit to altavista. All you have to do is to click on each link to complete the submission process.</p>
+
+ <p>Altavista should respond with a success or failure for each submission.</p> <p>Keep this list so you can submit again in the future.</p>
+$url_errors
+$show_urls</html>" $extraheaders }
+
+    catch {ns_sendmail "tom@zmbh.com" "$email" "New test of your software" "<html><P>You recently submitted a request for links from $base_url.</p> 
+<p>I have processed that request and have compiled a list of $size links that are ready to submit to altavista. All you have to do is to click on each link to complete the submission process.</p>
+ <p>Altavista should respond with a success or failure for each submission.</p> <p>Keep this list so you can submit again in the future.</p>
+$url_errors
+$show_urls</html>" $extraheaders } 
+
+}

@@ -1,0 +1,11 @@
+'include'
+ 'variable'
+  'name'ModulesBaseDir'
+  'default'http://zmbh.com/app-install/aolserver-modules'
+ ''
+ 'url'$ModulesBaseDir/nscache/nscache-1.5.rhf'
+ 'url'$ModulesBaseDir/nssha1/nssha1-0.1.rhf'
+ 'url'$ModulesBaseDir/tDOM/tDOM-0.7.8.rhf'
+ 'url'$ModulesBaseDir/nspostgres/nspostgres-4.0beta1.rhf'
+''
+

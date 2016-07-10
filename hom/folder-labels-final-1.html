@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html><head>
+ <title>Labels 8366</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/css/main.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/example-library.js"></script>
+<style>
+.page8366 {
+	width:  8.5in;
+	height: 11in;
+	fill: white;
+	stroke-width: .5;
+	stroke: black;
+	
+}
+
+.label8366 {
+	display: inline-block;
+	height: .6667in;
+	width: 3.4375in;
+	fill: white;
+	stroke: black;
+	stroke-width: .25;
+	rx: 10;
+	ry: 10;
+	
+}
+
+.house {
+	text-anchor: middle;
+	font-weight: normal;
+	font-size: 14px;
+	stroke: none;
+	fill: black;
+}
+
+.pname {
+	text-anchor: left;
+	font-weight: bold;
+	font-size: 22px;
+	stroke: none;
+	fill: black;
+}
+
+.docid {
+	text-anchor: end;
+	font-weight: bold;
+	font-size: 22px;
+	stroke: none;
+	fill: black;
+}
+
+@media print {
+	.page8366 {
+		display:none;
+	}
+}
+</style>
+
+</head>
+<body>
+
+<svg id="svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink" 
+   version="1.0" 
+   x="0" 
+   y="0"
+   height="800"
+   width="800"
+   style="cursor: pointer;">
+<defs>
+
+</defs>
+<rect id="page" x="0" y="0" class="page8366"></rect>
+
+</svg>
+<script>
+
+var ParticipantData = [
+/*	{
+		house:'Israel',
+		pname:'Hoch, Jeffrey',
+		docid: '885632'
+	},
+	{
+		house: 'Light',
+		pname: 'Sanchez, Jesus',
+		docid: '864076'
+	}, */
+	{
+		house: 'Mark',
+		pname: 'Martinez, Jose',
+		docid: '873892'
+	}
+];
+var skewX = 4.0;
+var skewY = 0;
+var labelData = {
+	label: {
+		x: 51,
+		dx: 384,
+		y: 48,
+		dy: 64
+	},
+	house: {
+		x: 208,
+		dx: 400,
+		y: 61,
+		dy: 64
+	},
+	pname: {
+		x: 55,
+		dx: 385,
+		y: 96,
+		dy: 64
+	},
+	docid: {
+		x: 375,
+		dx: 383,
+		y: 96,
+		dy: 64
+	}
+}
+		
+
+function getRow (index) {
+	return Math.floor(index/2);
+}	
+function getCol (index) {
+	return index % 2;
+}
+
+function getItemX (item, index) {
+	return labelData[item].x + getCol(index) * labelData[item].dx + skewX;
+}
+function getItemY (item, index) {
+	return labelData[item].y + getRow(index) * labelData[item].dy + skewY;
+}
+
+function generateLabel (index,svgId,data) {
+
+	var svg = d3.select('#' + svgId);
+	svg
+	 .append('rect')
+	 .attr('id','label-' + index)
+	 .attr('class','label8366')
+	 .attr('x',getItemX('label',index))
+	 .attr('y',getItemY('label',index));
+	 
+	 svg
+	  .append('text')
+	  .attr('id','label-' + index + '-house')
+	  .attr('class','house')
+	  .attr('x',getItemX('house',index))
+	  .attr('y',getItemY('house',index))
+	  .text(data.house);
+	  
+	 svg
+	  .append('text')
+	  .attr('id','label-' + index + '-pname')
+	  .attr('class','pname')
+	  .attr('x',getItemX('pname',index))
+	  .attr('y',getItemY('pname',index))
+	  .text(data.pname);
+	  
+  	 svg
+	  .append('text')
+	  .attr('id','label-' + index + '-docid')
+	  .attr('class','docid')
+	  .attr('x',getItemX('docid',index))
+	  .attr('y',getItemY('docid',index))
+	  .text(data.docid); 
+}
+	
+function createLabels (startIndex, svgId, labelDataArray) {
+	
+	var count = labelDataArray.length;
+	for (var i = startIndex, j = 0; i < count+startIndex; i++, j++) {
+		generateLabel(i,'svg',labelDataArray[j]);
+	}
+}
+
+$(document).ready(function() {
+  createLabels(4, 'svg',ParticipantData);
+});
+
+
+</script>
+</body>
+</html>

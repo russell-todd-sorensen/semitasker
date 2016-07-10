@@ -1,0 +1,6 @@
+export CVSROOT=:pserver:anoncvs@jabber.org:/home/cvs
+cvs -d :pserver:anoncvs@jabber.org:/home/cvs login
+password: anoncvs
+cvs co -c
+cvs -z3 checkout libjabber
+cvs -z3 checkout libxode

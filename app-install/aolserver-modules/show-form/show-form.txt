@@ -1,0 +1,65 @@
+# process form with multiple values for each key.
+# shamelessly stolen from philg@mit.edu 
+proc set_the_usual_form_variables_mult {{error_if_not_found_p 1}} {
+    if { $error_if_not_found_p == 1} {
+	uplevel { if { [ns_getform] == "" } {
+	    ns_returnerror 500 "Missing form data"
+	    return
+	}
+	}
+    } else {
+	uplevel { if { [ns_getform] == "" } {
+	    # we're not supposed to barf at the user but we want to return
+	    # from this subroutine anyway because otherwise we'd get an error
+	    return
+	}
+	}
+    }
+
+    # at this point we know that the form is legal
+    
+    uplevel {
+	set form [ns_getform]
+	set form_size [ns_set size $form]
+	set form_counter_i 0
+	while {$form_counter_i<$form_size} {
+	    # use list for each variable
+	    lappend QQ[ns_set key $form $form_counter_i] [DoubleApos [string trim [ns_set value $form $form_counter_i]]]
+	    incr form_counter_i
+	}
+    }
+}
+set_the_usual_form_variables_mult 0
+
+set allvars [info vars QQ*]
+set vartable "<table cellspacing=0 cellpadding=2 border=1>
+<tr><th>Variable Name</th><th>Value</th><th>List Size or Index Number</th></tr>"
+proc make_vartable_rows { allvars } {
+    uplevel {
+	foreach var $allvars {
+	    set    varvalue   [set $var]
+	    set    varlength  [llength $varvalue]
+	    if {$varlength > 1 } {
+		append vartable   "<tr><td>$var</td><td>$varvalue</td><td>$varlength</td></tr>"
+		set i 0
+		foreach element $varvalue {
+		    append vartable   "<tr><td>$var\[$i\]</td><td>$element</td><td>index $i of $var</td></tr>"
+		    incr i
+		}
+	    } else {
+		append vartable   "<tr><td>$var</td><td>$varvalue</td><td>$varlength</td></tr>"
+	    }
+	}
+    }
+    return
+}
+make_vartable_rows $allvars
+append vartable "</table>"
+ns_return 200 text/html "
+$vartable
+<form action=./show-form.tcl method=post>
+myvar:<input type=\"text\" name=\"myvar\" size=10><br>
+myvar:<input type=\"text\" name=\"myvar\" size=10><br>
+myvar:<input type=\"text\" name=\"myvar\" size=10><br>
+myvar:<input type=\"text\" name=\"myvar\" size=10><br>
+<input type=submit>"

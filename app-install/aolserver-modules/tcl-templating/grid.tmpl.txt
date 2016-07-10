@@ -1,0 +1,28 @@
+
+[set list {x y}]
+<table border="1" width="30%" >
+ <tr>
+[foreach $list $rows]
+  <td>
+     <li>$x(a)
+     <li>$x(b)
+     <li>$x(c)
+     <li>$x(d)
+  </td>
+[/foreach]
+ </tr>
+ <tr>
+[foreach $list $rows]
+  <td>
+     <li>$y(a)
+     <li>$y(b)
+     <li>$y(c)
+     <li>$y(d)
+  </td>
+[/foreach]
+ </tr>
+</table>
+
+
+
+

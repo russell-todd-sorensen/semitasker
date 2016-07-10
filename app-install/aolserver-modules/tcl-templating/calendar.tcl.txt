@@ -1,0 +1,6 @@
+Year: 2005
+Month: 02
+Day: 21
+DayOfWeek: 1
+FirstDayOfMonth: 2
+

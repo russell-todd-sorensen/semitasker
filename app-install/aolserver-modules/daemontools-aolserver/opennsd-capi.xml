@@ -1,0 +1,45 @@
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN" "docbook.dtd">
+<article>
+<title>Using the OpenNSD C API</title>
+
+<sect1 id="modules" xreflabel="Using the OpenNSD C API: Modules">
+
+<sect2 id="module-intro">
+<title>Introduction: Modules</title>
+
+<para>
+OpenNSD is a multi-threaded, high performance platform for developing web enabled applications. 
+Although it has a very complete API in both C and Tcl, only the Tcl API is usually used for application 
+development. Both API's can be extended by the use of modules. There is a general lack of information on 
+the use of the C API, and this is the main purpose of this document. 
+</para>
+
+</sect2>
+<sect2 id="donothing-module">
+<title>A Do Nothing Module</title>
+<programlisting>
+</programlisting>
+</sect2>
+<sect2 id="hello-world-module">
+<title>A Hello World Module</title>
+<programlisting>
+</programlisting>
+</sect2>
+<sect2 id="integers-in-and-out">
+<title>Integers In and Out</title>
+<programlisting>
+</programlisting>
+</sect2>
+<sect2 id="linking-a-library">
+<title>Linking in a Static Library</title>
+<programlisting>
+</programlisting>
+</sect2>
+<sect2 id="integers-in-and-out">
+<title>Integers In and Out</title>
+<programlisting>
+</programlisting>
+</sect2>
+
+</sect1>
+</article> 

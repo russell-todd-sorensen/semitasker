@@ -1,0 +1,56 @@
+Directory Listing Module for AOLserver
+
+Purpose: Improve usability of AOLserver directory listings.
+
+Background: AOLserver uses a procedure to display directory
+listings when an index file is not present. Changing the 
+procedure changes the appearance of the listing. 
+
+Improvements:
+ 1. Fix bugs. The current _ns_dirlist procedure has a bug where
+ the directory divider is doubled /dir/ is displayed /dir//.
+ 2. Directory/file order. Directories are listed first, followed
+ by files. This improved readability.
+ 3. Add CSS usability. Image tags are provided by css attributes.
+ The type of file determines the css class, which determines the
+ image. To change the images used, you only need to edit the style
+ sheet, and provide new images. The new procedure addresses usability
+ by providing alternates to image content. For nonvisual browsers
+ a directory is prepended with the text [/], while a file is prepended
+ with the text [file]. The parent directory is prepended with [../].
+
+Installation:
+ 1. Copy the file dirlist.tcl into the private or global tcl directory. 
+ A good place would be in the same directory as the init.tcl file. 
+ (Note: not the bin/init.tcl file)
+ 2. Copy the css, global and images directories into your pageroot.
+ 3. Non OpenACS users can ignore the global directory. 
+ 4. To use the new procedure in place of _ns_dirlist, you must change your
+ startup configuration file (nsd.tcl). See example below.
+ Restart your server to see the changes. 
+ 5. OpenACS users: only directories below the www directory will work. 
+
+Example Configuration File Changes (AOLserver, and OpenACS):
+# Note: the fastpath section may not exist in older versions of AOLserver,
+# Just add the section as follows: 
+
+ns_section "ns/server/${server}/fastpath"
+ns_param directorylisting fancy  ;# or simple, or none
+ns_param directoryproc css_dirlist ;# the name of the new procedure.
+
+Example Configuration File Changes (OpenACS)
+# Note: Make these changes in addition to the above:
+
+# Note: OpenACS uses the following param for its own
+# internal dirlisting. You must set this to none, or comment
+# out the param to enable this module.
+ns_section ns/server/${server}
+ns_param directorylisting none
+
+# The following section controls what AOLserver does 
+# in case of a 404 (file-not-found), or other response
+# codes:
+ns_section "ns/server/${server}/redirects
+ns_param 404 "global/file-not-found.tcl"
+
+

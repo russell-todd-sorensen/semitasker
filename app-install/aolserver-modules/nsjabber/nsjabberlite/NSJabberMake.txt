@@ -1,0 +1,9 @@
+#!/bin/sh
+
+NS_HOME=/usr/local/aolserver
+INCLUDE=${NS_HOME}/include
+
+gcc -rdynamic -D_REENTRANT  -I/usr/include -I${INCLUDE} -I/usr/include/asm  -I../libjabber/include -c nsjabber.c -o nsjabber.o 
+
+gcc  -dynamic -shared -D_REENTRANT -I/usr/include -I/usr/include/asm -I${INCLUDE} -I../libjabber/include -o nsjabber.so nsjabber.o -L. -L/usr/local/lib  -L/usr/lib  -ljabber
+

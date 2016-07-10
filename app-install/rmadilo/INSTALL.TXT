@@ -1,0 +1,35 @@
+Rmadilo requires Tcl version 8.4 or greater.
+
+To install:
+ 1. Check tcl version:
+$tclsh
+% info tclversion
+8.4
+% exit
+
+ 2. Check tcl library:
+$tclsh
+% info library
+/usr/lib/tcl8.4
+% exit
+
+ 3. Check path to tclsh:
+$which tclsh
+/usr/bin/tclsh
+
+ 4. If this is the tclsh you wish to use, run the install.sh script:
+
+$ ./install.sh /usr/lib/tcl8.4 /usr/bin/tclsh
+
+ 5. Copy the rmadilo package into place:
+$ su -c "cp -a rmadilo /usr/lib/tcl8.4"
+
+ 6. Test the installation:
+$tclsh
+% package require rmadilo
+0.1.1
+% exit
+
+ 7. Done.
+
+

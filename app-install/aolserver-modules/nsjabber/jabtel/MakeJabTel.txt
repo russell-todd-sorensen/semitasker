@@ -1,0 +1,5 @@
+#!/bin/sh
+
+gcc -g -O2 -D_REENTRANT -Wall -I/usr/include  -I/usr/include/asm -c jabtel.c -o jabtel.o 
+
+gcc  -g -O2 -D_REENTRANT -Wall -I/usr/include -I/usr/include/asm -o jabtel jabtel.o -L. -L/usr/local/lib  -L/usr/lib  -ljabber

@@ -1,0 +1,15 @@
+#!/bin/sh
+# cvs-id: $Id: ldapmake,v 1.2 2001/02/27 08:48:37 nsadmin Exp $
+NS_HOME=/usr/local/aolserver
+INCLUDE=${NS_HOME}/include
+LDAP_HOME=/tmp/ldap
+
+gcc -rdynamic -I${LDAP_HOME}/include/ -I${INCLUDE} -D_REENTRANT -c nsldap.c -o nsldap.o
+
+gcc -dynamic -shared -I${LDAP_HOME}/include/ -I${INCLUDE} -L${LDAP_HOME}/libraries -o nsldap.so nsldap.o -lldap -llber
+
+svc -d /service/opennsd/
+
+sleep 2
+
+svc -u /service/opennsd/

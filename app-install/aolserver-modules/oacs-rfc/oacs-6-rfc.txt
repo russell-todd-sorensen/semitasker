@@ -1,0 +1,353 @@
+Request for Comment: Implementing a data-centric model in OpenACS 6
+Summary
+We propose to extend OpenACS functionality by one level of abstraction, to the “data-oriented” layer.  We propose a related set of changes to OpenACS, to be developed in summer 2004 for release as OpenACS 6, to address these problems. These changes can be summarized as
+Generating UI automatically from data definitions 
+Make it easier to customize sites without changing packaged code 
+ 
+Technically, these are all relatively small changes. Conceptually, they bring OpenACS up to a level comparable with the best commercial CMS platforms. These changes can be implemented incrementally, and should not break existing packages which use the OpenACS 5 API. 
+Design Requirements
+Involve more UI skills
+Information architects to ensure a meaningful user experience. This exercise is bound to reveal flaws in the technical designs.
+Front-end programmers: Writing clean XHTML, CSS, and Javascript requires a separate skill set which most of us don’t have.
+Better definition of boundary between packaged code and local configuration 
+OpenACS is a combination of code, data structures, and data. Let's call changes to the data itself "configuring," and changes to the code and data structures "customizing."
+Changing packaged code is bad, because: 
+It requires programming ability 
+It requires knowledge of OpenACS 
+Even expert OpenACS coders regularly break functions when customizing 
+It usually forks the code, even if just for one file, which makes upgrading harder 
+To be done safely, it requires a staged development system, which is cumbersome to set up and maintain 
+Our changes should move functionality from customization to configuration. 
+Maintain backwards compatibility 
+OpenACS developers should not be punished for choosing to develop on OpenACS. Our changes should not break existing code if at all possible. Ideally we should simply make backwards-compatible API changes. Where schema changes are necessary, we provide upgrades. Only where absolutely necessary (as a function of budget and realistic constraints) should we make changes that will break existing packages. 
+Incremental implementation 
+We break up the work into pieces which can be implemented - and hopefully be useful - independently. This lets the work be spread out over time and also over developers.  
+Project Goals
+Build a complete application with much less code than in OpenACS 5
+Use Case: build the “notes” application from the tutorial
+Suppose you want an application for your website which lets you store notes. Each note has a title and a body, and you want to have a list of them and be able to open any one and view and edit it. (Ie, the tutorial application). In OpenACS 5, you do this by:
+Current Functionality 
+ 1.Creating a new package in the APM, thus creating a set of directories on the file system. 
+ 2.Creating the data model. This is one of: 
+ a)Create a sql script to create a table 
+ b)OR Create a sql script to create a table keyed to the ACS object table, and sql wrapper functions to create, edit, and delete records using the acs_object functions plus any custom columns. 
+ c)OR Create a sql script that uses function calls to create a specialized cr_item, and then write some custom functions to use this because the cr API isn't complete. 
+ 3.Create interface. At a minimum, this entails: 
+ a)Create a tcl page which uses list builder 
+ b)Create a xql files with queries in Oracle and Postgres to populate the list 
+ c)Sorting and filtering are both possible but require additional custom code; pagination is not easily supported. 
+ d)Create a short adp page to display the list 
+ e)Create an tcl page which uses ad_form 
+ f)EITHER write sql code in ad_form to handle data retrieval and storage for adding and editing OR write a set of custom API calls to get, insert, and update records. 
+ g)EITHER: use a hack to force display mode of ad_form in some cases OR write another tcl/adp/xql page to display individual records 
+ h)Create a tcl page to handle deletes. If you want confirmation of deletes, add custom javascript or another adp/tcl pair. 
+ 4.Install the package on a system, thus invoking the database creation scripts. 
+ 5.Mount the package at a specific url 
+New Functionality
+ 1.Fill out a web page form
+ a)Name the object type 
+ b)Describe any custom fields 
+Combine existing features easily
+Much of the potential value in OpenACS is as a high-level toolkit, by combining different features.  For example, adding email notification to a calendar application, or to a new application.  This currently requires custom code to do, which is a high barrier even to programmers.  It should be possible to combine features and create new “applications” from a web admin interface. 
+Use case: add blog view to photo album
+I've installed the photo album and blog packages on my site.  Now I want a blog on my home page that shows the last 4 pictures uploaded.
+A possible admin UI:
+ 1.Navigate to the home page
+ 2.Select “Configure this page”
+ 3.Select “Add a window”
+ a)Select “Photo album” as the data source
+ b)Select “blog view” as the display mode
+Host multiple sites on one instance of OpenACS
+Use case
+Run one installation of OpenACS, with one database and one set of the software, which hosts many different distinct host addresses.  Everything shares the same package code.  New host addresses can be added without changing any package code (or config.tcl files etc).
+Modify UI without forking
+Use Case: Customize home page
+Change the name of the web site displayed in the upper left corner and add a thumbnail graphic from photo-album..
+Currently, the first part can be accomplished with a web interface, because it's a package parameter.  The second part requires changing an ADP file on the disk, possibly creating new directories in the process.  This is much harder to do, requires HTML skill, and makes upgrades harder and riskier.  It should be possible to add a picture and change text as simply as changing the name of the web site. 
+Create the user home page, where the user can have files, blogs, photos, etc.
+Current Functionality
+1.Create a package instance of "lars-blogger", "file-storage", "photo-album", etc., for each user. Where will these be mounted? Perhaps at  /user/<screen_name>/blog, /user/<screen_name>/files, /user/<screen_name>/photos, etc.?
+2.This requires creating all these packages when the user registers. It will make the site-map huge, which with today's code will be a problem, but I guess that could be resolved.
+3.If you want to change the navigation, layout, or looks of the pages, you have to change pages directly in the lars-blogger, file-storage, and photo-album packages, and you're on your own.
+Proposed Functionality
+any object can go anywhere. You don't have to mount a file-storage package to drop a file in your home page
+if you want to attach a file or a photo to your blog entry, you can just do that.
+any client site can get the exact user experience they want without forking
+Skinning and Personalization
+Skinning is displaying different interfaces depending on user preferences or categorization.  Personalization is showing different content to different users.  Collectively, this can apply to the full spectrum of what a user can see and do, from which records they can see to which features they can see to what pages and page layout are presented to which fonts and colors are used.
+Use Case:
+On my site, I want the front page to be displayed according to these rules:
+Unregistered users see only a blog view and a registration box.
+Registered users in group G1 see the blog view, but no registration box.  Also, the page background is different.
+Registered users in group G3 see the blog view, and it contains additional entries that nobody else can see.  They also see my calendar.
+
+Feature: Page Processing
+We start with a URL and end up with html and http headers.  In between we want:
+templating up (master template) and down (includes)
+mix-and-match, so any display template can be used with any matching page contract 
+New Request Processor Features
+(this needs to be superimposed on the existing request processor for backwards compat etc)
+ 1.Map incoming requests to processing logic
+ 2.Retrieve the page display rules
+ 3.Process the page display rules for the page, and any included things, recursively:
+ a)Get data from the page contract
+ b)Pass the data to the displaylet
+ c)Paste the results, and the style sheet reference, to the returned page being built
+ 4.Return the page
+Page Display Rules
+The idea is that pages are built of page elements (includelets), which you can use to put together your user experience.
+For each page, you need to specify:
+which URL it responds to
+which URL/query/form variables it accepts
+  Examples: /user/<screen_name>/
+  Examples: /user/<screen_name>/comments?<entry_id>
+  Examples: /user/<screen_name>/comments/<name>
+Its global layout, including persistent navigation elements (master template)
+Its internal layout (1-column, 2-column, 3-column, other specific layout template).
+The layout template will have slots which accept page elements
+Page elements, with parameters filled in either with static values, or with the URL/query/form variables accepted by the page itself. Page elements are positioned in  the available slots in the internal layout template.
+Here's what the page specification could look like in pseudo-XML
+
+<page name="user-homepage"
+      master="/packages/dotkul/lib/master/user-homepage-master"
+      label="@user.first_names@ @user.last_name@'s Home Page"
+      url="/user/@user.screen_name@/"
+        <!-- 
+            We need a way to specify that the page is about an object of type 'user', 
+            and that the user is identifier through the @user.screen_name@ part of the URL
+        -->
+      >
+
+    <page name="blog"
+          label="@user.first_names@ @user.last_name@'s Weblog"
+          navigation-slot="main"
+
+            <!-- 
+              The master template above will have one or more navigation slots. The navigation-tag here 
+              refers to the name of the slot where this page should appear.
+            -->
+
+          layout_template="/packages/dotkul/lib/layout/3-column"
+
+            <!-- URL defaults to name of page -->
+
+          >
+
+        <page-element name="blog"
+                      src="/packages/lars-blogger/lib/blog"
+                      layout-slot="left"
+                          
+                      <!--
+                        The layout template will have named slots for page elements. The layout-slot here 
+                        is the name of the slot in the layout template where this element should appear.
+                      -->
+
+                      >
+            <parameter name="one_entry_page" value="comments" />
+
+              <!-- This tells the page-element where links to the 'one_entry' page should point -->
+
+            <parameter name="parent_id" value="@user.user_id@" />
+
+              <!-- This tells the page-element how it should find the blog entries to display -->
+
+        </page-element>
+        
+        <page-element name="recent-comments" ...>
+          ...
+        </page-element>
+
+        <page name="comments"
+              label="Comments"
+              title="@post.title@"
+              layout_template="/packages/dotkul/lib/layout/2-column">
+              
+              <parameter name="entry_id" type="object_id" object_type="pinds_blog_entry" />
+              
+              <!-- 
+                This says the page will accept one query parameter named entry_id, which will be 
+                the object_id of an object of type 'pinds_blog_entry'
+              -->
+
+            <page-element name="one-entry" 
+                          layout-slot="left"
+                          ...>
+                <parameter name="entry_id" value="@entry_id@" />
+            </page-element>
+
+            <page-element name="comments" 
+                          layout-slot="left"
+                          src="/packages/comments/lib/comments" 
+                          ...>
+                <parameter name="object_id" value="@entry_id@" />
+            </page-element>
+
+            <page-element name="whos-talking" 
+                          layout-slot="right"
+                          src="/packages/dotkul/lib/whos-talking" ... >
+                <parameter name="object_id" value="@entry_id@" />
+            </page-element>
+
+        </page>
+    </page>
+</page>
+
+
+
+More details:
+
+- A page can have three names:
+
+  - label: What it's called in navigation links
+
+  - title: What's displayed on the page itself
+
+  - browser_title: What's displayed in the browser's title bar (poorly named, I know)
+Page Contract
+Every object has a default page contract.  This could be some tcl code stored in the database, or a pointer to a .tcl/xql file combo.
+It returns a data set in the standard “in-memory data object” format
+by default, it is just a tcl/xql pair.  for example, for a blog entry object, it would be one-entry.tcl/xql.
+"Filtered Source" Object
+A filtered source object 
+stores arbitrary filter rules, eg,  (give me all objects of type blog post, author in group Professors, creation date > 2003) 
+provides a list of matching objects, determined at run time
+how is it configured?  minimal: direct 
+Displaylet property
+Every object has a displaylet property.  This could be some xml in the database, or a pointer to an adp file.
+Style property
+
+XML displaylets
+    • Content_template should be made a subclass of content_revision, not
+      content_item.
+    • All objects can have default templates associated for rendering them
+
+An XML displaylet is a chunk of xml code which tells the page processor how to render a data set in html.
+Interchangeable displaylets and sources
+so that anything that returns "title, body" could be rendered in anything that can render a multirow including “title, body". we should have a systemwide registry of "displayers", which are sections of ADP code or XML displaylets so the "multiple blog entries" displayer would require "title", "poster", "body", and "post date" and accept optionally "url".  any data source that could generate those four minimum variables could be shown as a blog.
+currently, to use an includelet, you just say, "include blog-entry, and tell it I want blog entry 1" or, "include "blog thing", and tell it I want the last 10" and you get back a chunk of html
+instead, we want, "include blog thing", and tell it to use the output from "filter thing: last 10 forum posts", using forum_title as title and forum body as body, and we store these rules  in the database
+Feature: Auto-generated UI
+Given an object type definition, the following UI should be available with no code:
+List View
+Sorting
+Filtering
+Pagination
+Add a record
+Edit a record
+Delete a record (with confirmation/cascade)
+View a record
+Forms for objects
+    • We can auto-generate forms from the metadata
+    • Or you can define forms by hand – where a form doesn’t have to be for
+      one object
+
+Feature: Administration
+UI to edit the page template
+Minimal: A page with 
+              - a textarea element for the XML
+              - A dropdown list of objects that can be added to the
+                page, including parameter skeletons
+Better: A drag-and-drop UI for editing and moving 
+Object Browser
+Single tree for every object in the database
+    • /Types
+    • /PageElements
+    • /Sites
+    • /Media
+    • /System
+Lets us build the back-end.
+How do we show users in groups, object type hierarchies, etc?
+Participants
+Users, groups, request to join and invitations can be added to any object
+“Request to join”, “invitation”, and “membership” are objects with attributes
+
+Metadata system
+
+Page Elements
+
+    • Input parameters
+    • Properties for ADP
+    • Outgoing links
+    • Wrap existing pages/includelets in these things
+
+Feature: Architecture improvements
+Skinny-storage
+You can add new attributes to any object via the UI.  Possible implementations:
+Any object type can be dynamically subclassed with additional attributes for a particular part of the site.
+You should be able to add ‘virtual’ attributes to the users table, as well as to the membership-relationship.
+The attribute can be scoped to just a specific part of the site, e.g. membership in a particular group, or only this subsite has this attribute for the user.  For example, only “Bob”'s photos have the attribute “exposure level”. 
+Content definition API
+    • API for easy definition of content/object types in Tcl (ETP-style?)
+    • Include all information required for defining metadata for forms, etc.
+
+All objects have a place in the master hierarchy
+Current Design
+Currently, 'package instances' are the only possible containers of objects, either through the package_id column in acs_objects (on HEAD), or through package_id column in object tables (e.g. pinds_blog_entries table).
+Proposed Design
+1.Any object can be the container (parent) of any object.
+2.All objects must have exactly one parent.
+For example:
+The parent_id of the user's files, photos, or blog posts will be the user_id.
+For additional structure, you can create a folder object, which can contain objects (folders could be a separate object type, or just a plain acs_object, it's just a named placeholder).
+For a 'community', you can either have a community object, a folder object, or a group object, which will be the parent of the files, photos, blog posts, etc, of the community.
+The logical content hierarchy could look like:
+Root (ACS Object)
+ |
+ +- Jeff (User)
+ |   | 
+ |   +- "I'm going on vacation" (Post)
+ |   |    |
+ |   |    +- "Snapshot before leaving" (Photo)
+ |   |    |
+ |   |    +- "Have a good trip" (Comment)
+ |   | 
+ |   +- "Jeff and family in Rome" (Photo)
+ |
+ +- Joel (User)
+ |   |
+ |   +- "My Stuff" (Folder)
+ |   |   | 
+ |   |   ...
+ |   | 
+ |   ...
+ |
+ +- "Funny Hats Community" (Community)
+ |   |
+ |   +- "Welcome message" (Post)
+ |   |
+ |   ...
+ |
+ ...
+History and Justification
+We use hierarchies in OpenACS for two main features:
+1.Inheritance.  If an object doesn't have a specific attribute set, you can get it from its parent, or ancestors.  We can use this:
+to set permissions on lots of objects without making lots of database records; 
+To set default permissions for new objects (ie, no permissions, and hence inherit from parent)
+To easily change those default permissions (just change the parent)
+2.Selection.  We use hierarchies to make it easier to select content.  In OpenACS 5, the only generic way to do this is at the package level.  That is, since context_id is the package_id, we can only group objects per package.  To have two sets of blog entries with different permissions, you need two packages.
+Implementation and Impact on existing code
+1.Move parent_id column from cr_items to acs_objects.
+2.Move cr_child_rels from CR to ACS Object system
+3.Move cr_item_rels from CR to ACS Object system
+4.require parent id for all objects
+5.supply upgrade scripts that roll context_id to parent_id
+6.change permissions to use parent_id, not context_id
+(summarize and address objections from forum discussion)
+Single storage and retrieval mechanism
+    • Single way to represent and pass objects in memory
+    • Single proc to populate those from the DB
+    • Single proc to insert/update objects in the DB
+One API for all objects
+how do we map in non-objects?
+Moving storage_type to cr_revision
+Since it’s the storage of the ‘content’ column which is in that table.
+Jeff’s suggested this before.
+
+Fine-grained permissions inheritance from parent object
+Current objects either do or don't inherit.  Instead, it should be possible to control inheritance for each permission for each object.  This is easy to add but will require re-optimization of the permissions queries.
+Negative privileges
+A negative privilege is a standard feature of an Access Control List (such as in NT or Java).  It takes precedence over broader permissions - for example, I can grant Registered Users the right to read Joel's Blog, and then negatively grant Registered Users the right to read Joel's Blog: Private Entries.
+http://www.msu.edu/service/afs/acl.html
+http://www.mycore.de/library/jdk1.2.2/docs/api/java/security/acl/AclEntry.html#setNegativePermissions()
+http://www.develop.com/kbrown/book/html/whatis_aclinheritance.html
+

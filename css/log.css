@@ -12,8 +12,6 @@
 }
 
 #log2 {
-  /*  position: relative;
-    width:1000px; */
     max-height:150px;
     overflow-y:scroll;
     overflow-x:visible;
@@ -50,4 +48,10 @@
 
 #log-close-button span:hover {
     color: #800000;
+}
+
+@media print {
+	#log-parent {
+		display: none;
+	}
 }

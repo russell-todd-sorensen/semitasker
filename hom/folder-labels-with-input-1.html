@@ -1,0 +1,177 @@
+<!DOCTYPE HTML>
+<html><head>
+ <title>Labels 8366</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/css/main.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/example-library.js"></script>
+<style>
+.page8366 {
+	width:  8.5in;
+	height: 11in;
+	fill: white;
+	stroke-width: .5;
+	stroke: black;
+	
+}
+
+.label8366 {
+	display: inline-block;
+	height: .6667in;
+	width: 3.4375in;
+	fill: white;
+	stroke: black;
+	stroke-width: .25;
+	rx: 10;
+	ry: 10;
+	
+}
+
+.house {
+	text-anchor: middle;
+	font-weight: normal;
+	font-size: 14px;
+	stroke: none;
+	fill: black;
+}
+
+.pname {
+	text-anchor: left;
+	font-weight: bold;
+	font-size: 22px;
+	stroke: none;
+	fill: black;
+}
+
+.docid {
+	text-anchor: end;
+	font-weight: bold;
+	font-size: 22px;
+	stroke: none;
+	fill: black;
+}
+
+/* form input styles */
+
+#form1 {
+    background-color: rgb(192,192,192);
+    padding: 10px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
+.input-button {
+    color: #666;
+    float: right;
+    font-weight: bold;
+    border: 3px solid;
+    cursor: pointer;
+}
+
+
+/* what not to show when printing */
+
+@media print {
+	.page8366 {
+		display:none;
+	}
+	#form1 {
+		display:none;
+	}
+}
+</style>
+
+</head>
+<body>
+<div id="form1">
+<form id="controls">
+<fieldset>
+<legend onClick="togglePanel('panel','panel-4','panel-2');" style="cursor: pointer" title="Click to Minimize/Expand">Participant Data</legend>
+<ul id="panel">
+ <li><label for="pname">Name:</label>
+  <input type="text" name="pname" id="pname" onChange="" maxlength="20" />
+ </li>
+ <li>
+  <label for="docid" >DOC Id:</label>
+   <input id="docid" name="docid" type="text" maxlength="15" onChange="">
+  </li>
+ <li>
+   <label for="house" >House:</label>
+   <select id="house" name="house" onChange="">
+    <option value="1 Timothy">1 Timothy</option>
+    <option value="2 Timothy">2 Timothy</option>
+    <option value="Barnabas">Barnabas</option>
+    <option value="Israel">Israel</option>
+    <option value="James">James</option>
+    <option value="John">John</option>
+    <option value="Joshua">Joshua</option>
+    <option value="Light">Light</option>
+    <option value="Luke">Luke</option>
+    <option value="Mark">Mark</option>
+    <option value="Matthew">Matthew</option>
+    <option value="Paul">Paul</option>
+    <option value="Peter">Peter</option>
+    <option value="Philippians">Philippians</option>
+    <option value="Romans">Romans</option>
+    <option value="Zion">Zion</option>
+   </select>
+ </li>
+ </ul>
+</fieldset>
+</form>
+</div> 
+  
+  
+<svg id="svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink" 
+   version="1.0" 
+   x="0" 
+   y="0"
+   height="800"
+   width="800"
+   style="cursor: pointer;">
+<defs>
+
+</defs>
+<rect id="page" x="0" y="0" class="page8366"></rect>
+
+</svg>
+<script>
+// data to merge with labels:
+var ParticipantData = [
+/*	{
+		house:'Israel',
+		pname:'Hoch, Jeffrey',
+		docid: '885632'
+	},
+	{
+		house: 'Joshua',
+		pname: 'Myers, Anthony',
+		docid: '823409'
+	}, */
+	{
+		house: 'Zion',
+		pname: 'O\'Brian, Michael',
+		docid: '883924'
+	}
+];
+
+$(document).ready(function() {
+  createLabels(7, 'svg',ParticipantData);
+});
+
+
+</script>
+</body>
+</html>

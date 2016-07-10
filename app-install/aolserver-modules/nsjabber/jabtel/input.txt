@@ -1,0 +1,7 @@
+<iq to='tom@multi.zmbh.com/Winjab' type='get' id='3'>
+<query xmlns='jabber:iq:roster'/></iq>
+
+<iq from='tom@multi.zmbh.com/Winjab' type='get' id='7'>
+<query xmlns='jabber:iq:agents'/></iq>
+
+  

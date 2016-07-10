@@ -1,0 +1,108 @@
+
+set g ""
+
+append string {
+}
+
+set gg ""
+
+append string {
+<table>
+}
+set __loop_list [list]
+foreach __item row {
+    lappend __loop_list __temp_$__item
+}
+
+foreach $__loop_list $rlist {
+    foreach __i row {
+        if {[array exists [set __temp_$__i]]} {
+            array set $__i [array get [set __temp_$__i]]
+        } else {
+            set $__i [set __temp_$__i]
+        }
+    }
+
+    append string {
+ <tr>
+}
+
+    if {"$g" ne $row(a)} {
+
+        append string {
+  <th colspan="6" align="left">a = }
+
+        append string $row(a)
+
+        append string {</th>
+ </tr>
+ <tr>
+  <td>&nbsp;</td>
+}
+
+    } else {
+
+        append string {
+  <td>&nbsp;</td>
+}
+
+    }
+
+    append string {
+}
+
+    if {"$gg" ne $row(b)} {
+
+        append string {
+  <th colspan="5" align="left">b = }
+
+        append string $row(b)
+
+        append string {</th>
+ </tr>
+ <tr>
+  <td colspan="2">&nbsp;</td>
+}
+
+    } else {
+
+        append string {
+  <td >&nbsp;</td>
+}
+
+    }
+
+    append string {
+}
+
+    set g $row(a)
+
+    append string {
+}
+
+    set gg $row(b)
+
+    append string {
+  <td>c = }
+
+    append string $row(c)
+
+    append string {</td>
+  <td>d = }
+
+    append string $row(d)
+
+    append string {</td>
+  <td>e = }
+
+    append string $row(e)
+
+    append string {</td>
+</tr>
+}
+
+}
+
+append string {
+</table>
+}

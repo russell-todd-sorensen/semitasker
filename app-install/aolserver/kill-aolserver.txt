@@ -1,0 +1,80 @@
+#!/usr/local/aolserver/bin/tclsh8.4
+
+######### SETUP SUDO #####################################
+# to allow a user other than the file owner to execute this file,
+# edit the /etc/sudoers file (using visudo), adding a line similar to:
+#
+# otheruser localhost = (scriptowner) /path/to/this/file/scriptfile
+# for an entire group:
+# %groupname localhost = (scriptowner) /path/to/this/file/scriptfile
+
+######## SETUP YOUR PIDFILE ##############################
+# Avoid command line arguments.
+# Substitute your pidfile absolute path here, in your nsd.tcl file use
+# ns_section ns/parameters
+# ns_param pidfile /path/to/nspid.servername
+set PIDFILE "/var/lib/aolserver/servername/log/nspid.servername
+
+########## Nothing to edit below this line ################
+
+#Tests:
+# 1: Pidfile exists, and path to file is readable
+if {![file exists $PIDFILE]} {
+    puts stdout "Pidfile does not exist, or path not readable by this user."
+    exit
+}
+# 2. Pidfile is regular file, not directory, symlink, or other
+# type of file.
+if {![file isfile $PIDFILE]} {
+    puts stdout "Pidfile isn't regular file"
+    exit
+}
+# 3. Pidfile is owned by user running this script:
+if {![file owned $PIDFILE]} {
+    puts stdout "Pidfile isn't owned by current user"
+    exit
+}
+# Open Pidfile and read it.
+set FD [open $PIDFILE r]
+
+# Make sure we catch any expected or unexpected errors
+# while the pidfile is open.
+# The Pidfile must start with numbers and end with EOF
+# or end with \nEOF. AOLserver writes the latter format.
+# Reading one char at a time to avoid memory exhaustion,
+# and any unexpected variable substitutions.
+
+
+if {[catch {
+    set PIDVALUE 0
+    while {![eof $FD] && ($PIDVALUE < 32768)} {
+        set CHAR [read $FD 1]
+        if {[string is integer -strict "${CHAR}"]} {
+            set PIDVALUE [expr (10 * ${PIDVALUE} ) + "${CHAR}"]
+        } elseif {[string eq "\n" "${CHAR}"] || [string eq "" "${CHAR}"] } {
+            break
+        } else {
+            # pid format is 123\n or just 123.
+            error "Unexpected format in Pid file"
+        }
+    }
+} err ]} {
+    close $FD
+    puts stdout $err
+    exit
+} else {
+    close $FD
+}
+
+
+
+# Last Test: Pidvalue is in range:
+if {!($PIDVALUE < 32768) || ($PIDVALUE < 2) } {
+    puts stdout "Pidvalue out of range."
+    exit
+}
+
+file delete "$PIDFILE"
+exec /usr/bin/kill -9 "$PIDVALUE"
+
+

@@ -1,0 +1,12 @@
+'application'
+ 'comment'Assume cvs is installed, but not initialized'
+ 'variable'
+  'name'CvsRoot'
+  'default'/cvsroot'
+ ''
+ 'command'mkdir $CvsRoot'
+ 'command'cvs -d $CvsRoot'
+
+ 'comment'This is the end'
+''
+

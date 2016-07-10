@@ -1,0 +1,72 @@
+
+[set team_name ""]
+[set position_played ""]
+[set player_name ""]
+[resource command matrix rows rows2 2]
+<style >
+[foreach position $positions] 
+.color-$position {
+   background-color: $color($position)
+}
+[/foreach]
+</style>
+
+<table border="1" cellpadding="2" cellspacing="0">
+[foreach player $rows]
+<tr>
+[if {$team_name eq $player(team)}]
+ <td>&nbsp;</td>
+[else]
+ <th>$player(team)</th>
+[/if]
+[if {$position_played eq $player(position)}]
+ <td class="color-$player(position)">&nbsp;</td>
+[else]
+ <th class="color-$player(position)">$player(position)</th>
+[/if]
+ <td class="color-$player(position)">$player(player)</td>
+</tr>
+[set team_name $player(team)]
+[set position_played $player(position)]
+[/foreach]
+</table>
+
+<br />
+
+
+[set team_name ""]
+[set position_played ""]
+[set row2_rownum 1]
+
+<table border="1" cellpadding="2" cellspacing="0">
+<tr>
+ <th>Position</th>
+ [foreach team $teams]
+ <th class="color-$team">$team</th>
+ [/foreach]
+</tr>
+<tr>
+
+[set col 1]
+[foreach player $rows2]
+  [if {$col == 1}]
+   [if {$position_played ne $player(position)}]
+   <th>$player(position)</th>
+   [else]
+   <td>&nbsp;</td>
+   [/if]
+   [incr col]
+  [/if]
+  <td class="color-$player(position)">$player(player)</td>
+  [incr col]
+  [if {$col == 4}]
+  </tr>
+  <tr>
+   [set col 1]
+  [/if]
+[set position_played $player(position)]
+[/foreach]
+
+</table>
+
+

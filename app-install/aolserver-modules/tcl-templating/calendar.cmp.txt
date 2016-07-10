@@ -1,0 +1,28 @@
+
+append string {Year: }
+
+append string $year
+
+append string {
+Month: }
+
+append string $month
+
+append string {
+Day: }
+
+append string $day
+
+append string {
+DayOfWeek: }
+
+append string $dayOfWeek
+
+append string {
+FirstDayOfMonth: }
+
+append string $firstDayOfMonth
+
+append string {
+
+}

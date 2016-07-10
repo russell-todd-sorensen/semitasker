@@ -1,0 +1,13 @@
+'include'
+ 'variable'
+  'name'AllBaseUrl'
+  'default'http://zmbh.com/app-install'
+ ''
+ 'url'$AllBaseUrl/daemontools/daemontools-0.76.rhf'
+ 'url'$AllBaseUrl/postgresql/postgresql-7.3.4.rhf'
+ 'url'$AllBaseUrl/pg-init.d/pg-init.rhf'
+ 'url'$AllBaseUrl/aolserver/aolserver-4.0.7.rhf'
+ 'url'$AllBaseUrl/cvs/cvs.rhf'
+''
+
+

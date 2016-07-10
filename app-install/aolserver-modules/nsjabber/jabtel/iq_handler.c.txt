@@ -1,0 +1,28 @@
+#include <libxode.h>
+#include "jabber.h"
+#include "unpipc.h"
+
+void
+iq_handler(jconn j, jpacket p) {
+
+	xmlnode x;
+	char *type, *id;
+
+	x = p->x;
+
+	/*if (xmlnode_get_type(x) != NTYPE_TAG) return; */
+  type = xmlnode_get_attrib(x,"type");
+  id = xmlnode_get_attrib(x,"id");
+  if (id == NULL) {
+		id = "none";
+	}
+	printf ("iq Node Type: %s ID: %s\n", type, id );
+
+  if (strcmp(type, "result") == 00 && strcmp(id, "1") == 0 ) {
+		/*
+		 * First packet, successful login
+		 */
+		printf("Successful Login to %s\n",j->user->server);
+	}
+	return;
+}

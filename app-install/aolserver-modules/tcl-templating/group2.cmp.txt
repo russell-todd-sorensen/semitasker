@@ -1,0 +1,315 @@
+
+append string {
+}
+
+set team_name ""
+
+append string {
+}
+
+set position_played ""
+
+append string {
+}
+
+set player_name ""
+
+append string {
+}
+if {[resource::exists command matrix]} {
+ resource::eval command matrix rows rows2 2
+}
+
+append string {
+<style >
+}
+set __position_list [list]
+foreach __item position {
+    lappend __position_list __position_$__item
+}
+
+foreach $__position_list $positions {
+    foreach __i position {
+        if {[array exists [set __position_$__i]]} {
+            array set $__i [array get [set __position_$__i]]
+        } else {
+            set $__i [set __position_$__i]
+        }
+    }
+
+    append string { 
+.color-}
+
+    append string $position
+
+    append string { }
+
+    append string "{
+   background-color: "
+
+    append string $color($position)
+
+    append string {
+}
+
+    append string "}
+"
+
+}
+
+append string {
+</style>
+
+<table border="1" cellpadding="2" cellspacing="0">
+}
+set __player_list [list]
+foreach __item player {
+    lappend __player_list __player_$__item
+}
+
+foreach $__player_list $rows {
+    foreach __i player {
+        if {[array exists [set __player_$__i]]} {
+            array set $__i [array get [set __player_$__i]]
+        } else {
+            set $__i [set __player_$__i]
+        }
+    }
+
+    append string {
+<tr>
+}
+
+    if {$team_name eq $player(team)} {
+
+        append string {
+ <td>&nbsp;</td>
+}
+
+    } else {
+
+        append string {
+ <th>}
+
+        append string $player(team)
+
+        append string {</th>
+}
+
+    }
+
+    append string {
+}
+
+    if {$position_played eq $player(position)} {
+
+        append string {
+ <td class="color-}
+
+        append string $player(position)
+
+        append string {">&nbsp;</td>
+}
+
+    } else {
+
+        append string {
+ <th class="color-}
+
+        append string $player(position)
+
+        append string {">}
+
+        append string $player(position)
+
+        append string {</th>
+}
+
+    }
+
+    append string {
+ <td class="color-}
+
+    append string $player(position)
+
+    append string {">}
+
+    append string $player(player)
+
+    append string {</td>
+</tr>
+}
+
+    set team_name $player(team)
+
+    append string {
+}
+
+    set position_played $player(position)
+
+    append string {
+}
+
+}
+
+append string {
+</table>
+
+<br />
+
+
+}
+
+set team_name ""
+
+append string {
+}
+
+set position_played ""
+
+append string {
+}
+
+set row2_rownum 1
+
+append string {
+
+<table border="1" cellpadding="2" cellspacing="0">
+<tr>
+ <th>Position</th>
+ }
+set __team_list [list]
+foreach __item team {
+    lappend __team_list __team_$__item
+}
+
+foreach $__team_list $teams {
+    foreach __i team {
+        if {[array exists [set __team_$__i]]} {
+            array set $__i [array get [set __team_$__i]]
+        } else {
+            set $__i [set __team_$__i]
+        }
+    }
+
+    append string {
+ <th class="color-}
+
+    append string $team
+
+    append string {">}
+
+    append string $team
+
+    append string {</th>
+ }
+
+}
+
+append string {
+</tr>
+<tr>
+
+}
+
+set col 1
+
+append string {
+}
+set __player_list [list]
+foreach __item player {
+    lappend __player_list __player_$__item
+}
+
+foreach $__player_list $rows2 {
+    foreach __i player {
+        if {[array exists [set __player_$__i]]} {
+            array set $__i [array get [set __player_$__i]]
+        } else {
+            set $__i [set __player_$__i]
+        }
+    }
+
+    append string {
+  }
+
+    if {$col == 1} {
+
+        append string {
+   }
+
+        if {$position_played ne $player(position)} {
+
+            append string {
+   <th>}
+
+            append string $player(position)
+
+            append string {</th>
+   }
+
+        } else {
+
+            append string {
+   <td>&nbsp;</td>
+   }
+
+        }
+
+        append string {
+   }
+
+        incr col
+
+        append string {
+  }
+
+    }
+
+    append string {
+  <td class="color-}
+
+    append string $player(position)
+
+    append string {">}
+
+    append string $player(player)
+
+    append string {</td>
+  }
+
+    incr col
+
+    append string {
+  }
+
+    if {$col == 4} {
+
+        append string {
+  </tr>
+  <tr>
+   }
+
+        set col 1
+
+        append string {
+  }
+
+    }
+
+    append string {
+}
+
+    set position_played $player(position)
+
+    append string {
+}
+
+}
+
+append string {
+
+</table>
+
+
+}

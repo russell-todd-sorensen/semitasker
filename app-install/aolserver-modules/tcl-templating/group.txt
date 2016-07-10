@@ -1,0 +1,32 @@
+
+set r(a) ra
+set r(b) rb
+set r(c) rc
+set r(d) rd
+set r(e) re
+
+set rr(a) ra
+set rr(b) rb
+set rr(c) rrc
+set rr(d) rrd
+set rr(e) rre
+
+set rrr(a) rrra
+set rrr(b) rb
+set rrr(c) rrrc
+set rrr(d) rrrd
+set rrr(e) rrre
+
+set rrrr(a) rrrra
+set rrrr(b) rrrrb
+set rrrr(c) rrrrc
+set rrrr(d) rrrrd
+set rrrr(e) rrrre
+
+set rlist [list r rr rrr rrrr]
+
+source /web/zmbh/vhost/budigan/www/photos/group.cmp
+
+ns_return 200 text/html $string
+
+

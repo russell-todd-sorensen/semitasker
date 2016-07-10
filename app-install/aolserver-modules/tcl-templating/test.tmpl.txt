@@ -1,0 +1,5 @@
+[resource command set a $a]
+[resource command list a b c d $a]
+ls says $a
+
+
