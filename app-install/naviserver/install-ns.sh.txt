@@ -22,9 +22,9 @@ done
 echo "------------------------ Settings ---------------------------------------"
 # Installation directory and software versions to be installed
 
-build_dir=/usr/local/src
+build_dir=/software/naviserver
 #build_dir=/usr/local/src/oo2
-ns_install_dir=/usr/local/ns
+ns_install_dir=/web
 #ns_install_dir=/usr/local/oo2
 version_ns=4.99.11
 #version_ns=HEAD
