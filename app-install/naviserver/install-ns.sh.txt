@@ -24,29 +24,29 @@ echo "------------------------ Settings ---------------------------------------"
 
 build_dir=/software/naviserver
 #build_dir=/usr/local/src/oo2
-ns_install_dir=/web
+ns_install_dir=/webs/oacs
 #ns_install_dir=/usr/local/oo2
 version_ns=4.99.11
-#version_ns=HEAD
+version_ns=HEAD
 version_modules=4.99.11
-#version_modules=HEAD
-version_tcl=8.5.19
+version_modules=HEAD
+version_tcl=8.6.5
 version_tcllib=1.18
 tcllib_dirname=tcllib
 version_thread=2.7.3
 version_xotcl=2.0.0
-#version_xotcl=HEAD
+version_xotcl=HEAD
 version_tdom=GIT
-ns_user=nsadmin
-ns_group=nsadmin
+ns_user=ns
+ns_group=web
 with_mongo=0
 with_postgres=1
 #
 # the pg_* variables should be the path leading to the include and
 # library file of postgres to be used in this build.  In particular,
 # "libpg-fe.h" and "libpq.so" are typically needed.
-pg_incl=/usr/include/postgresql
-pg_lib=/usr/lib
+pg_incl=/usr/local/pgsql/include
+pg_lib=/usr/local/pgsql/lib
 pg_user=postgres
 
 export LANG=en_US.UTF-8
