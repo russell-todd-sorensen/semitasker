@@ -400,8 +400,8 @@ Data.restoreInput = function (inputId) {
   var call = localStorage.getItem(document.URL + '-ANIMATION-RESTORE-' + inputId);
   if (value || value == 0) {
     //d3.select("#" + inputId).attr('value',value);
-		$('#' + inputId).val(value);
-    setTimeout(call, 10);
+	$('#' + inputId).val(value);
+     setTimeout(call, 10);
   }
 };
 

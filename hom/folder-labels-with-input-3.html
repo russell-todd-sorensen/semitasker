@@ -13,7 +13,7 @@
 <script src="/js/data.js"></script>
 <script src="/js/form-save-restore.js"></script>
 <script src="/js/example-library.js"></script>
-<script src="js/folder-labels-with-input-2.js" ></script>
+<script src="js/folder-labels-with-input-3.js" ></script>
 <style>
 .page8366 {
 	width:  8.5in;
@@ -29,8 +29,8 @@
 	height: .6667in;
 	width: 3.4375in;
 	fill: white;
-	stroke: black;
-	stroke-width: .25;
+	stroke: tan;
+	stroke-width: .5;
 	rx: 10;
 	ry: 10;
 	
@@ -103,6 +103,12 @@
 	#notice {
 		display:none;
 	}
+	.label8366 {
+		stroke: black;
+	}
+	.null {
+		display: none;
+	}
 }
 </style>
 
@@ -111,6 +117,7 @@
 <div id="notice">When printing, remove headers, footers and margins</div>
 <div id="form1">
 <form id="controls">
+<input type="text" name="data" id="data" value="">
 <fieldset>
 <legend onClick="togglePanel('panel','panel-4','panel-2');" style="cursor: pointer" title="Click to Minimize/Expand">Participant Data</legend>
 <ul id="panel">
@@ -130,6 +137,7 @@
     <option value="1 Timothy">1 Timothy</option>
     <option value="2 Timothy">2 Timothy</option>
     <option value="Barnabas">Barnabas</option>
+    <option value="Genesis 3">Genesis 3</option>
     <option value="Israel">Israel</option>
     <option value="James">James</option>
     <option value="John">John</option>
@@ -145,6 +153,11 @@
     <option value="Zion">Zion</option>
    </select>
  </li>
+ <li>
+  <input type="button" value="Update" onClick="updateLabel()">
+  <input type="button" value="Save All" onClick="saveAll();">
+  <input type="button" value="Clear Label" onClick="clearLabel();">
+ </li>
  </ul>
 </fieldset>
 </form>
@@ -159,7 +172,7 @@
    version="1.0" 
    x="0" 
    y="0"
-   height="800"
+   height="1020"
    width="800"
    style="cursor: pointer;">
 <defs>
@@ -170,50 +183,134 @@
 </svg>
 <script>
 // data to merge with labels:
-var ParticipantData = [
-/*	 {
-		house:'1 Timothy',
-		pname:'Goddard, Ean',
-		docid: '389303'
+
+var Labels = {
+	participants: [],
+	template: function () {
+		this.house = null;
+		this.pname = null;
+		this.docid = null;
+		this.extra = null;
+		return this;
 	},
-	{
-		house: '1 Timothy',
-		pname: 'England, Joshua',
-		docid: '832655'
+	participant: function (house,pname,docid,extra) {
+		this.house = house;
+		this.pname = pname;
+		this.docid = docid;
+		this.extra = extra;
+		return this;
 	},
-	{
-		house: 'Mark',
-		pname: 'Cornejo, Mark',
-		docid: '333621'
-	},*/
-	{
-		house: 'Philippians',
-		pname: 'Wright, Michael',
-		docid: '739619'
-	}
-];
+	initialized: false,
+	initParticipants: function(size) {
+		if (!this.initialized) {
+			for (var i = 0; i < size; i++) {
+				this.participants[i] = new this.template();
+			}
+			this.initialized = true;
+		}
+		return this.initialized;
+	},
+	
+};
+
+var size = 30;
+Labels.initParticipants(size)
 
 var formIds = {
 	editIndex: 'editIndex',
+	data: 'data',
 	house: 'house',
 	docid: 'docid',
-	pname: 'pname'
+	pname: 'pname',
+	extra: 'extra'
 };
 
+function getLabelData(labelId, field) {
+	var val = $('#' + labelId + "-" + formIds[field]).text();
+	$('#' + formIds[field]).val(val);
+	Log.Notice(field + '="' + val + '"');
+	return val
+}
+
+function getLabelSelectData(labelId, field) {
+	var val = $('#' + labelId + "-" + formIds[field]).text();
+	Log.Notice(field + '="' + val + '"');
+	
+	var selectedOption = "#" + formIds[field] + " " + "option:selected";
+    $(selectedOption).removeAttr('selected');
+    var valueOption = "#" + formIds[field] + " " + "option[value='" + val + "']";
+    $(valueOption).attr('selected', 'selected');
+	return val
+}
 
 function setEditLabelIndex ( evt ) {
 
 	var data = this.id;
 	var re = /(label-)([0-9]*)/;
 	var match =  data.match(re);
+	var labelId = match[0];
+	
 	$('#' + formIds.editIndex).val(match[2]);
-	Log.Notice('wow it worked data=' + data + ' match=' + match[2]);
+	
+	getLabelData(labelId,formIds.docid);	
+	getLabelData(labelId,formIds.pname);	
+	getLabelSelectData(labelId,formIds.house);
+}
+
+function restoreAll(inputId) {
+	var val = $('#' + inputId).val();
+	Labels.participants = JSON.parse(val);
+	Log.Notice("restoreAll('" + inputId + "')");
+}
+
+function updateLabel() {
+	
+	var id = parseInt($('#' + formIds.editIndex).val());
+	var pname = $('#' + formIds.pname).val();
+	var docid = $('#' + formIds.docid).val();
+	var house = $('#' + formIds.house + " option:selected").val();
+	
+	Labels.participants[id] = {
+		pname:pname,
+		docid:docid,
+		house:house,
+		extra:null
+	};
+
+	reloadLabels();
+}
+
+function reloadLabels() {
+	
+    saveAll();
+	destroyLabels(0,'svg',Labels.participants);
+	createLabels(0,'svg',Labels.participants);
+}
+
+function clearLabel() {
+	var id = parseInt($('#' + formIds.editIndex).val());
+	Labels.participants[id] = {
+		pname:null,
+		docid:null,
+		house:null,
+		extra:null
+	};
+	reloadLabels();
+}
+
+function saveAll() {
+	var id = formIds.data
+	var val = JSON.stringify(Labels.participants);
+	$('#' + id).val(val);
+	Data.saveInput(id,'restoreAll');
+	Log.Notice('saved all');
 }
 
 $(document).ready(function() {
-  createLabels(16, 'svg',ParticipantData);
+		
+  Data.restoreInput('data');
+  createLabels(0, 'svg',Labels.participants);
   
- // .bind('click',setEditLabelIndex);
   var labels = $('.label8366');
   var node;
   for (i=0; i< labels.length;i++) {
