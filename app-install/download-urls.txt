@@ -31,3 +31,6 @@ fi
 exec /usr/local/bin/softlimit -m 2000000 \
     /usr/local/bin/tcpserver -v -R -l "$LOCAL" -x /etc/tcp.smtp.cdb -c "$MAXSMTPD" \
         -u "$QMAILDUID" -g "$NOFILESGID" 0 smtp /var/qmail/bin/qmail-smtpd 2>&1
+
+
+http://github.semitasker.com/app-install/pg-init/postgresql.txt
