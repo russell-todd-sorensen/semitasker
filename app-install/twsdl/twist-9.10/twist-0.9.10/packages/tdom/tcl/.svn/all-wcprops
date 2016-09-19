@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tdom/tcl
+END
+tdom-local-conf.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tdom/tcl/tdom-local-conf.tcl
+END
+tdom-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tdom/tcl/tdom-init.tcl
+END
+tdom-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tdom/tcl/tdom-procs.tcl
+END

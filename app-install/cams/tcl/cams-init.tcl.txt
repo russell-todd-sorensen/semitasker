@@ -1,0 +1,14 @@
+set rowcount [db_string count_rows_query "
+select
+ count(*) as rowcount
+from
+ qw_objects
+where
+ object_id = 'cams_content_type'"]
+
+if {[string match "0" $rowcount]} {
+    
+    ns_log Notice "Loading CAMS Bootstrap Data..."
+    source "[acs_package_root_dir cams]/tcl/cams-data.data"
+    ns_log Notice "Done loading CAMS Bootstrap Data."
+}

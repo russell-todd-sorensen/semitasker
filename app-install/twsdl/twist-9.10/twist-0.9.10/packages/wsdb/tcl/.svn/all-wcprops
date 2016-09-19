@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdb/tcl
+END
+wsdb-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdb/tcl/wsdb-init.tcl
+END
+wsdb-schema-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdb/tcl/wsdb-schema-procs.tcl
+END
+wsdb-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdb/tcl/wsdb-procs.tcl
+END

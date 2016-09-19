@@ -1,0 +1,159 @@
+0. This is INSTALL.TXT. It is not included with the code so that
+   updates don't require version bumping. Look for other
+   all UPPERCASE.TXT files in the same location as this file for
+   more up-to-date information, and potential clarifications.
+
+1. tWSDL/TWiST is pure Tcl code. No compiling is required but
+   it is not quite as easy to install as a regular Tcl package.
+   Therefore, details of install are very important.
+
+2. Requirements:
+   A. Tcl 8.4.x-8.5.x. tWSDL/TWiST is very conservative in the use
+   of new Tcl features (doesn't use 'em) and in the application of
+   external dependencies. The code appears to work with both the
+   latest 8.4.x and the latest 8.5.x.
+   
+   B. tDOM 8.x.x. I would recommend using the latest version of tDOM,
+   but if not available, you can try what you have. Some of the
+   servers require a threaded version of all code, so you need to 
+   know the details of your tDOM install. Using un-threaded
+   extensions with a threaded server can lead to very strange and
+   inconsistent errors (leading to process exit!). Note that tDOM is
+   used for one purpose: to parse an XML document and produce a Tcl
+   list (toList). This serves to validate that the XML is well formed.
+
+   C. Threaded servers require Tcl Threads. I have tested with 2.6.
+   This requirement doesn't apply to use with AOLserver or nstclsh,
+   both of which use pthreads. The threaded servers are the most 
+   efficient. The example servers start with five worker threads. 
+   Any instance data is deleted at the end of a request. 
+
+   D. Running a server on a port < 1024 requires admin privileges.
+
+3. Yes there are requirements, but I have tried ActiveTcl8.5 and it
+   works. I have to use teacup to install tDOM, but that is it. I 
+   think that Tcl 8.5 is 'threaded' already, but AT8.5 has Tcl Threads
+   enabled. Instead of checking if you have everything installed, you
+   could just try it and see what happens. The typical error message is
+   that the [dom] command doesn't exist.
+
+4. Code download:
+   The latest 'released' version should be in the same location as this 
+   file. The only advantage of released code is that it has a specific 
+   tag. It also comes in a .zip file, which helps out windows users. The
+   GIT archive always has up-to-date code. In general, expect that 
+   releases will be done whenever a significant bug is fixed. Users should
+   never have to use the GIT repository to fix a significant bug. In addition,
+   bug fixes should be separate from changes which require upgrading user
+   code. Currently I can't imagine any changes which would require changes to
+   user code (TWiST configuration files).
+
+5. Installation location:
+   tWSDL/TWiST is fundamentally different from most Tcl code, and this makes a
+   generic installation location unhelpful. I expect that the typical user of 
+   this code will develop very specific requirements, which may require small,
+   but obviously important changes to the tWSDL/TWiST code. Only extremely
+   generic servers (inetd/tcpserver/httpd) can share an installation location.
+   
+   So, where to install? 
+   A. If you have installed a special version of Tcl, try to install tWSDL below
+   this directory. In general if the prefix=/a/b/c, then install tWSDL in 
+   /a/b/c/twsdl. A prefix of /a/b/c means that the tclsh is /a/b/c/bin/tclsh....
+   This may appear to be (and is) a major deviation from typical installation
+   instructions, but servers must have absolute control over the code they execute. 
+   They only command one ip/port, and multiple users (or the same user) should be
+   allowed to vary their installed code when necessary.
+
+   B. And? So first determine where your Tcl version is installed. Do you have
+   complete control over this Tcl version? You should. Servers are supposed to 
+   support applications which might not be able to advance with the generic Tcl
+   installation. Old code which works is much better than any code which doesn't
+   work. Any important service should be isolated from unexpected changes and/or
+   upgrades. Distributors are very interested in making a single installation 
+   easy. But developers should keep in mind that a single, global, installation
+   is not robust. If you are providing an important service, which means that
+   someone, besides you, relies upon it, don't rely on a generic installation,
+   unless you also completely control upgrades. You still need to be able to 
+   create and maintain completely independent Tcl installations. 
+
+6. Let's assume that you installed a private Tcl version, ActiveTcl:
+   /home/you/ActiveTcl8.5/
+                         /server-conf.tcl
+                         /bin/tclsh8.5
+                         /twsdl/
+                         /twsdl/init.tcl
+                       
+
+7. Check your version of tclsh (in my home directory):
+
+   tom@home ~/ActiveTcl-8.5 $ ./bin/tclsh8.5
+   % package require tdom
+   0.8.2
+   % package require Thread
+   2.6.5
+   % ls
+   bin/      lib/  myserver.tcl 
+   include/  man/  twsdl/     
+
+8. Make a copy of the startup file to run under tclsh:
+   
+   tom@home ~/ActiveTcl-8.5 $ cp twsdl/packages/nsd/tcl/server-conf-example.tcl ./myserver.tcl
+   
+9. Edit this file.
+   
+   A. Add a startup line for your shell as line one in this file:
+   
+      #!/home/tom/ActiveTcl-8.5/bin/tclsh8.5
+
+   B. Choose the server type by editing the line similar to this:
+   
+      set server "thread" 
+
+   C. If you choose 'thread', 'thread-windows' or 'socket' you need to 
+      set the address and port of the socket.
+
+      set address 127.0.0.1
+      set port    8888
+
+   D. Set the home variable. The home variable indicates the full path
+      up to and including the twsdl directory. In the example, this is:
+ 
+      set home "/home/tom/ActiveTcl-8.5/twsdl" 
+
+      Leave off the trailing slash '/' or '\'. Also note that this variable
+      is already set in the example file using the following code:
+
+      set home [file normalize [file join [file dirname [info script]] twsdl]] 
+
+      This should work for *nix and win* platforms. 
+
+10. Set the pageroot variable. Pageroot is where the web service files are stored.
+    Anything below pageroot may be accessible to the server. The default is set
+    to the example webservices directory:
+
+    set pageroot [file join $home packages wsapi www]
+
+    If you leave this setting as it is for now, you should be able to access the
+    examples web services after starup at the following urls:
+
+    http://127.0.0.1:8888/mywebservice/
+    http://127.0.0.1:8888/datetime/
+    http://127.0.0.1:8888/openacs/
+    http://127.0.0.1:8888/stockquoter/
+    http://127.0.0.1:8888/stockquoter2/
+
+11. Save the changes you have made.
+
+12. On *nix platforms, change the file mode:
+
+    tom@home ~/ActiveTcl-8.5 $ chmod +x myserver.tcl
+
+13. Startup the server:
+
+    tom@home ~/ActiveTcl-8.5 $ ./myserver.tcl
+
+
+
+
+
+ 

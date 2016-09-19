@@ -1,5 +1,5 @@
 // skewX and skewY are for adjusting alignment on page due to printer fuzz
-var skewX = 2.0;
+var skewX = -1.0;
 var skewY = 0;
 
 

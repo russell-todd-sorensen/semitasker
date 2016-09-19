@@ -1,0 +1,433 @@
+CUST,NAME,REFNUM,TIMESTAMP,BADDR1,CTYPE,REP,TAXITEM,COMPANYNAME,FIRSTNAME,LASTNAME,CUSTFLD1,CUSTFLD5,CUSTFLD6,CUSTFLD7,CUSTFLD8,CUSTFLD9
+CUST,"@James -- Alger, Eric Paul",898,1468856692,Eric Alger,Left Program,DOC Voucher:4:DV,,DOC Voucher 10/17/2016,Eric,Alger,7/18/2016,James,330088,2/27/1988,CCO Maura Jackson,Y
+CUST,"@James -- Gregory, Robert",955,1472571269,Robert Gregory,Program Participant,,,,Robert,Gregory,9/1/2016,James,936970,9/6/1971,,Y
+CUST,"@James -- Griffith, Joseph",940,1471272654,Joseph Griffith,Program Participant,DOC Voucher:4:DV,,DOC Voucher 11/14/2016,Joseph,Griffith,8/15/2016,James,846700,6/3/1972,CCO Natasha Ruddell,Y
+CUST,"@James -- Hastings, Flint",892,1468441617,Flint Hastings,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/13/2016,Flint,Hastings,7/14/2016,James,300866,6/6/1969,CCO Jill Volke,Y
+CUST,"@James -- Kehn, Kevin",899,1468857472,Kevin Kehn,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/18/2016,Kevin,Kehn,7/19/2016,James,318901,6/15/1986,CCO Jill Volke,Y
+CUST,"@James -- Kysar, David",891,1468441094,David Kysar,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/14/2016,David,Kysar,7/15/2016,James,928606,4/4/1967,CCO Pamela Madill,Y
+CUST,"@James -- Marshall, Randy",905,1469036000,Randy Marshall,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/19/2016,Randy,Marshall,7/20/2016,James,770904,5/14/1964,CCO Jill Volke,Y
+CUST,"@James -- Murphy, Patrick",487,1436390055,Patrick Murphy,Program Participant,,,,Patrick,Murphy,7/9/2015,James,313659,8/8/1986,CCO Jeff Moen,Y
+CUST,"@James -- Shrader, Michael",913,1470060723,Michael Shrader,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/30/2016,Michael,Shrader,8/1/2016,James,772280,6/16/1979,,Y
+CUST,"@James -- Sutherland, Roy",904,1469035534,Roy Sutherland,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/19/2016,Roy,Sutherland,7/20/2016,James,920381,7/14/1966,CCO Jill Volke,Y
+CUST,"@James -- Syers, Richard Lee",903,1469035358,Richard Syers,Left Program,DOC Voucher:4:DV,,DOC Voucher 10/17/2016,Richard,Syers,7/18/2016,James,954659,2/25/1971,CCO Maura Jackson,Y
+CUST,"@James -- Wilson, Ruben",902,1469035154,Ruben Wilson,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/17/2016,Ruben,Wilson,7/18/2016,James,822608,4/18/1977,CCO Ryan King,Y
+CUST,"@Philippians -- Bunce, James",181,1421969792,James Bunce,Program Participant,,,,James,Bunce,12/24/2013,Philippians,,3/26/1977,,N
+CUST,"@Philippians -- Frayley, Larry",305,1422903514,Larry Frayley,Terminated,,,,Larry,Frayley,4/29/2016,Philippians,981928,1/26/1959,CCO Ryan King,Y
+CUST,"@Philippians -- Harris, Kevin",875,1467392220,Kevin Harris,Program Participant,,,,Kevin,Harris,8/22/2016,Philippians,887383,1/22/1962,,
+CUST,"@Philippians -- Ihle, Jeffrey",844,1465594484,Jeffrey Ihle,Left Program,,,,Jeffrey,Ihle,6/2/2016,Philippians,384471,3/13/1990,CCO Ryan King,
+CUST,"@Philippians -- Lovell, Van",961,1473268734,Van Lovell,Pending New Arrivals,DOC Voucher:4:DV,,DOC Voucher 12/12/2016,Van,Lovell,9/13/2016,Philippians,890391,8/23/1965,,Y
+CUST,"@Philippians -- Woolsey, Blake",49,1421969789,Blake Woolsey,House Leader,,,,Blake,Woolsey,5/12/2012,Philippians,,2/20/1969,,N
+CUST,"@Philippians -- Wright, Michael",893,1468442073,Michael Wright,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/13/2016,Michael,Wright,7/14/2016,Philippians,739619,7/13/1976,CCO Anjanette Hughes,Y
+CUST,"1 Timothy -- Andrews, Pradis",698,1456179967,Pradis Andrews,House Leader,,,,Pradis,Andrews,2/23/2016,1 Timothy,303668,1/7/1981,CCO Jeff Moen,Y
+CUST,"1 Timothy -- Case, Richard",476,1435861671,Richard Case,Program Participant,,,,Richard,Case,11/16/2015,1 Timothy,896282,2/27/1962,CCO Shawna Dickerson,N
+CUST,"1 Timothy -- Cloyd, David",751,1459792188,David D Cloyd,Program Participant,DOC Voucher:4:DV,,,David,Cloyd,4/7/2016,1 Timothy,314247,4/29/1974,CCO Don Malo,Y
+CUST,"1 Timothy -- Cook, Mike",131,1421969790,Mike Cook,Left Program,,,,Mike,Cook,11/12/2014,1 Timothy,,1/12/1968,,N
+CUST,"1 Timothy -- England, Joshua",878,1467393612,Joshua England,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/4/2016,Joshua,England,7/5/2016,1 Timothy,832655,2/20/1981,CCO Tyler D'Souza,Y
+CUST,"1 Timothy -- Erickson, John",498,1437421366,John Erickson,Left Program,,,,John,Erickson,7/21/2015,1 Timothy,340487,11/30/1954,CCO Jeff Moen,Y
+CUST,"1 Timothy -- Hainsey, William J",478,1435937696,William J Hainsey,Program Participant,,,,William,Hainsey,7/2/2015,1 Timothy,270198,6/29/1948,CCO Shawna Dickerson,Y
+CUST,"1 Timothy -- Jenkins, Daniel",460,1433349871,Daniel Jenkins,Terminated,,,,Daniel,Jenkins,6/3/2015,1 Timothy,360180,11/18/1992,,N
+CUST,"1 Timothy -- Lockett, Douglas",738,1458666787,Douglas Lockett,Program Participant,,,FairStart,Douglas,Lockett,4/25/2016,1 Timothy,944512,1/31/1965,CCO Don Malo,N
+CUST,"1 Timothy -- Sanchez, Phillip",60,1421969789,Phillip Sanchez,Program Participant,,,,Phillip,Sanchez,12/9/2014,1 Timothy,819124,5/7/1940,CCO Andrew Liebl,Y
+CUST,"1 Timothy -- Weeks, Larry Jr.",918,1470163630,Larry Weeks Jr.,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/30/2016,Larry,Weeks Jr.,8/1/2016,1 Timothy,325185,3/28/1987,CCO Thomas Leibrand,N
+CUST,"2 Timothy -- Bell, Dustin",1,1421969788,Dustin Bell,Left Program,,,Private Pay,Dustin,Bell,1/11/2013,2 Timothy,771470,3/28/1973,CCO Jeff Moen,N
+CUST,"2 Timothy -- Coleman, Eric",719,1457128762,Eric Coleman,Program Participant,,,HEN,Eric,Coleman,3/4/2016,2 Timothy,,7/22/1982,,N
+CUST,"2 Timothy -- Goddard, Ean",879,1467397085,Ean Goddard,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/4/2016,Ean,Goddard,7/5/2016,2 Timothy,384303,12/31/1991,CCO Shawna Dickerson,Y
+CUST,"2 Timothy -- Gonzalez, Luis",30,1421969788,Luis Gonzalez,Left Program,,,,Luis,Gonzalez,11/6/2014,2 Timothy,324685,,,
+CUST,"2 Timothy -- Guerra, Santos",403,1428946578,Santos Guerra,Left Program,,,,Santos,Guerra,4/9/2015,2 Timothy,331922,,,
+CUST,"Barnabas -- Alaniz, Manuel",5,1421969788,"Alaniz, Manuel",Inactive,,,,Manuel,Alaniz,10/15/2009,Barnabas,,,,
+CUST,"Barnabas -- Arnett, Matthew",850,1466013981,Matthew Arnett,Program Participant,DOC Voucher:4:DV,,DOC Voucher 9/20/2016,Matthew,Arnett,6/21/2016,Barnabas,776470,2/12/1979,CCO Jeremy Praven,Y
+CUST,"Barnabas -- Austin, Ernest",6,1421969788,Ernest Austin,Inactive,,,,Ernest,Austin,10/15/2014,Barnabas,,,,
+CUST,"Barnabas -- Aylen, Marc",743,1459195334,Aylen Marc,Program Participant,,,,Marc,Aylen,4/4/2016,Barnabas,309574,5/25/1952,CCO William Jones,Y
+CUST,"Barnabas -- Barrios, Pedro",28,1421969788,Pedro Barrios,Inactive,,,,Pedro,Barrios,3/15/2013,Barnabas,,,,
+CUST,"Barnabas -- Borsheim, Bryan",191,1421969792,Bryan Borsheim,House Leader,,,,Bryan,Borsheim,10/1/2013,Barnabas,,4/8/1971,,N
+CUST,"Barnabas -- Bowers, Michael",2,1421969788,Michael Bowers,Program Participant,,,,Michael,Bowers,5/31/2014,Barnabas,858962,11/20/1983,CCO Jermaine Castillo,N
+CUST,"Barnabas -- Chapman, Scott",8,1421969788,Scott Chapman,Inactive,,,,Scott,Chapman,3/1/2013,Barnabas,,,,
+CUST,"Barnabas -- Crismon, Tyson",9,1421969788,Tyson Crismon,Inactive,,,,Tyson,Crismon,3/4/2014,Barnabas,,,,
+CUST,"Barnabas -- Curley, Ty",10,1421969788,Ty Curley,Inactive,,,,Ty,Curley,11/26/2012,Barnabas,,,,
+CUST,"Barnabas -- Dean, Justen",622,1449698947,Justen Dean,Left Program,DOC Voucher:4:DV,,DOC Voucher 03/07/16,Justen,Dean,12/8/2015,Barnabas,898526,,,
+CUST,"Barnabas -- Doyle, Joel",11,1421969788,Joel Doyle,Inactive,,,,Joel,Doyle,12/17/2013,Barnabas,,,,
+CUST,"Barnabas -- Dysart, David",29,1421969788,David Dysart,Inactive,,,,David,Dysart,11/19/2014,Barnabas,,,,
+CUST,"Barnabas -- Everybodytalksabout, Nathan",575,1444670181,Nathan Everybodytalksabout,Program Participant,,,,Nathan,Everybodytalksabout,10/10/2015,Barnabas,375528,9/23/1986,CCO Christopher May,N
+CUST,"Barnabas -- Fisher, Derrick",445,1431708347,Derrick Fisher,Terminated,,,,Derrick,Fisher,7/1/2015,Barnabas,792758,10/17/1979,,
+CUST,"Barnabas -- Fuller, Jesse",3,1421969788,Jesse Fuller,Terminated,,,,Jesse,Fuller,7/9/2014,Barnabas,,,,
+CUST,"Barnabas -- Gasper, Franklin",12,1421969788,Franklin Gasper,Inactive,,,,Franklin,Gasper,3/27/2014,Barnabas,,,,
+CUST,"Barnabas -- Kernan, Eugene",31,1421969788,Eugene Kernan,Inactive,,,,Eugene,Kernan,4/1/2013,Barnabas,,,,
+CUST,"Barnabas -- Killian, Chad",13,1421969788,Chad Killian,Inactive,,,,Chad,Killian,11/1/2013,Barnabas,,,,
+CUST,"Barnabas -- Kuro, Richard",14,1421969788,Richard Kuro,Inactive,,,,Richard,Kuro,3/31/2014,Barnabas,,,,
+CUST,"Barnabas -- Lampos, Jason",32,1421969788,Jason Lampos,Inactive,,,,Jason,Lampos,7/19/2013,Barnabas,,,,
+CUST,"Barnabas -- Luera, Daniel",741,1458669692,Daniel Luera,Left Program,,,,Daniel,Luera,3/22/2016,Barnabas,18183097,6/8/1961,USPO Steven Gregoryk,N
+CUST,"Barnabas -- Martin, Ernest",406,1428947190,Ernest Martin,Program Participant,,,,Ernest,Martin,4/9/2015,Barnabas,858262,9/19/1966,CCO Jermaine Castillo,N
+CUST,"Barnabas -- McGregor, Douglas B",630,1450733868,Douglas B McGregor,Program Participant,,,,Douglas,McGregor,12/17/2015,Barnabas,342543,1/24/1975,CCO Eric Vandewalle,Y
+CUST,"Barnabas -- Nielsen, Dusty",4,1421969788,Dusty Nielsen,Inactive,,,,Dusty,Nielsen,7/8/2014,Barnabas,,,,
+CUST,"Barnabas -- Nolan, Bryant",17,1421969788,Bryant Nolan,Inactive,,,,Bryant,Nolan,6/1/2013,Barnabas,,,,
+CUST,"Barnabas -- Norman, Christopher",18,1421969788,Christopher Norman,Program Participant,,,,Christopher,Norman,8/18/2014,Barnabas,358680,2/1/1971,CCO Fred Johnson,N
+CUST,"Barnabas -- Patrick, Jeramy",33,1421969788,Jeramy L Patrick,Inactive,,,,Jeramy,Patrick,12/30/2014,Barnabas,,,,
+CUST,"Barnabas -- Pierce, Anthony",559,1443461964,Pierce Anthony,Terminated,,,,Pierce,Anthony,9/24/2015,Barnabas,782666,1/27/1977,,
+CUST,"Barnabas -- Poindexter, Sinclair",19,1421969788,Sinclair Poindexter,Left Program,,,,Sinclair,Poindexter,3/28/2011,Barnabas,,,,
+CUST,"Barnabas -- Poquette, Mark",555,1442348328,Mark Poquette,Program Participant,,,,Mark,Poquette,10/26/2015,Barnabas,730304,10/26/1972,CCO Eric Vandewalle,Y
+CUST,"Barnabas -- Rambert, Curtis",735,1458241667,Curtis Rambert,Program Participant,,,,Curtis,Rambert,3/21/2016,Barnabas,313191,5/7/1974,CCO Fred Johnson,Y
+CUST,"Barnabas -- Ramirez, Steve",34,1421969788,Steve Ramirez,Inactive,,,,Steve,Ramirez,3/24/2013,Barnabas,,,,
+CUST,"Barnabas -- Reed, Cleo Palmer",433,1430414747,Cleo P Reed,Inactive,,,,Cleo,Reed,4/30/2015,Barnabas,,,,
+CUST,"Barnabas -- Shilling, Paul",20,1421969788,Paul Shilling,Inactive,,,,Paul,Shilling,6/16/2013,Barnabas,,,,
+CUST,"Barnabas -- Shoals, Paul",21,1421969788,Paul Shoals,Inactive,,,,Paul,Shoals,6/12/2013,Barnabas,,,,
+CUST,"Barnabas -- St. Aubin Jr, John",684,1455035198,John St. Aubin Jr.,Terminated,,,,John,St. Aubin Jr.,2/9/2016,Barnabas,309897,5/23/1988,CCO Jermaine Castillo,Y
+CUST,"Barnabas -- Taylor, Robert",407,1428947247,Robert Taylor,Inactive,,,,Robert,Taylor,4/2/2015,Barnabas,,,,
+CUST,"Barnabas -- Waldrop, Tim",23,1421969788,Tim Waldrop,Inactive,,,,Tim,Waldrop,12/11/2013,Barnabas,,,,
+CUST,"Barnabas -- Wheeler, Clarence",24,1421969788,Clarence Wheeler,Inactive,,,,Clarence,Wheeler,9/25/2014,Barnabas,,,,
+CUST,"Barnabas -- Williams, Timothy",25,1421969788,Timothy Williams,Inactive,,,,Timothy,Williams,7/17/2014,Barnabas,,,,
+CUST,"Barnabas -- Wilson, Joshua",26,1421969788,Joshua C Wilson,Inactive,,,,Joshua,Wilson,8/19/2014,Barnabas,,,,
+CUST,"Barnabas -- Wilson, Richard",493,1437079345,Richard Wilson,Terminated,,,,Richard,Wilson,7/15/2015,Barnabas,282685,1/27/1961,,
+CUST,"Barnabas -- Wood, William",27,1421969788,William Wood,Inactive,,,,William,Wood,12/1/2010,Barnabas,,,,
+CUST,"Barnabus -- Busch, Majacque",35,1421969788,Majacque Busch,Inactive,,,,Majacque,Busch,1/26/2014,Barnabas,,,,
+CUST,"Genesis 1 - 3029 - Zachary, Willsey",148,1421969791,Zachary & Alicia Willsey,Non Transitional Housing,,,,Zachary,Willsey,2/6/2016,Genesis 1,306091,,,N
+CUST,"Genesis 2 - 3035 - Oakes, Lon",670,1454186059,Lon Oakes,Inactive,,,,Lon,Oakes,,Genesis 2,,,,N
+CUST,"Genesis 3 -- Lee, Michael",652,1452727930,Michael Lee,Program Participant,,,,Michael,Lee,1/14/2016,Genesis 3,884998,12/31/1977,CCO Leon Neal,Y
+CUST,"Genesis 3 -- Newitt, Michael",221,1421969792,Michael Newitt,Program Participant,,,,Michael,Newitt,2/11/2014,Genesis 3,830426,12/30/1962,CCO Fred Johnson,N
+CUST,"Genesis 3 -- Von Minden, Miles",237,1421969793,Miles VonMinden,Program Participant,,,,Miles,Von Minden,10/28/2012,Genesis 3,,,,
+CUST,"Genesis 3 - 3055 - Falkowski, Denise",671,1454187032,Denise Falkowski,Inactive,,,,Denise,Falkowski,2/1/2016,Genesis 3,,,,N
+CUST,"Genesis 4 - 3045 - Argaez, Raul Jr.",129,1421969790,Raul Argaez Jr.,Non Transitional Housing,,,,Raul,Argaez Jr.,3/1/2016,Genesis 4,372610,,CCO Kam Warner,N
+CUST,"House -- Van Nostern, Jeremy",116,1421969790,Jeremy Van Nostern,Left Program,,,,Jeremy,Van Nostern,2/7/2014,Mark,,,,
+CUST,"Israel -- Boris, Gregory",531,1439833037,Gregory Boris,Terminated,,,,Gregory,Boris,8/11/2015,Israel,869637,6/23/1981,,
+CUST,"Israel -- Coker, Jay",704,1456339443,Jay Coker,Program Participant,,,,Jay,Coker,2/23/2016,Israel,83742,4/21/1978,USPO Steven Gregoryk,Y
+CUST,"Israel -- Diaz, Darrel",330,1423589909,Darrel Diaz,Terminated,,,,Darrel,Diaz,12/1/2015,Israel,837621,,,
+CUST,"Israel -- Flanagan, Dennis",360,1425661850,Dennis Flanagan,Left Program,,,,Dennis,Flanagan,3/3/2015,Israel,303787,1/26/1972,CCO Jeff Moen,N
+CUST,"Israel -- Frey, Daniel",746,1459451323,Daniel A Frey,Program Participant,,,,Daniel,Frey,4/25/2016,Israel,89498,9/18/1978,USPO Steven Gregoryk,N
+CUST,"Israel -- Hoch, Jeffrey",866,1467131526,Jeffrey Hoch,Program Participant,DOC Voucher:4:DV,,DOC Voucher 9/25/2016,Jeffrey,Hoch,6/27/2016,Israel,885632,5/29/1974,CCO Shawna Dickerson,Y
+CUST,"Israel -- Jackson, Ronald",764,1460398357,Ronald Jackson,Program Participant,DOC Voucher:4:DV,,,Ronald,Jackson,4/11/2016,Israel,830030,11/6/1976,CCO Jeff Moen,N
+CUST,"Israel -- Lough, Ryan",901,1469034857,Ryan Lough,Program Participant,DOC Voucher:4:DV,,DOC Voucher 11/7/2016,Ryan,Lough,8/8/2016,Israel,333195,11/6/1979,CCO Shawna Dickerson,Y
+CUST,"Israel -- Moore, Robert",838,1464974686,Robert Moore,Program Participant,DOC Voucher:4:DV,,DOC Voucher 9/6/16,Robert,Moore,6/7/2016,Israel,379221,1/2/1939,CCO Shawna Dickerson,Y
+CUST,"Israel -- Noonan, Peter",624,1449768559,Peter Noonan,House Leader,,,,Peter,Noonan,2/19/2016,Israel,373203,6/13/1984,CCO Shawna Dickerson,Y
+CUST,"Israel -- Partin, James",824,1464200301,James Partin,Left Program,,,,James,Partin,5/24/2016,Israel,44318-061,6/19/1962,USPO McDaniel,
+CUST,"Israel -- Preble, Joseph",627,1450727176,Joseph Preble,Program Participant,,,,Joseph,Preble,1/8/2016,Israel,82502,2/18/1977,USPO Steven Gregoryk,Y
+CUST,"Israel -- Thomas, Jeffrey",685,1455036791,Jeffrey Thomas,Terminated,,,DOC Voucher 05/08/16,Jeffrey,Thomas,2/9/2016,Israel,884063,11/24/1985,,
+CUST,"Israel -- Thornton, Shawn",967,1473706518,Shawn Thornton,Program Participant,,,,Shawn,Thornton,9/12/2016,Israel,989344,9/11/1973,,Y
+CUST,"Israel -- Weibye, Brian",659,1453844134,Brian Weibye,Inactive,,,,Brian,Weibye,,,,,,
+CUST,"Israel -- Young, Christopher",494,1437079550,Christopher Young,Program Participant,,,,Christopher,Young,7/16/2015,Israel,315845,5/17/1969,CCO Jeff Moen,N
+CUST,"James -- Blair, George",851,1466015839,George Blair,Left Program,DOC Voucher:4:DV,,DOC Voucher 9/15/16,George,Blair,6/16/2016,James,308141,5/19/1981,,Yes
+CUST,"James -- McCormack, Casey",874,1467217001,Casey McCormack,Program Participant,DOC Voucher:4:DV,,DOC Voucher 9/25/2016,Casey,McCormack,6/26/2016,James,884468,8/18/1985,,Y
+CUST,"John -- Ace, Travis",651,1452727789,Travis Ace,House Leader,,,HEN,Travis,Ace,1/14/2016,John,899739,3/11/1972,CCO Steve Pyka,Y
+CUST,"John -- Braaten, Benjamin",456,1433175651,Benjamin Braaten,Program Participant,,,,Benjamin,Braaten,6/3/2015,John,315355,9/24/1989,CCO John Casos,N
+CUST,"John -- Burch, Lance",873,1467215439,Lance Burch,Program Participant,,,,Lance,Burch,9/12/2016,John,856411,3/7/1964,,Y
+CUST,"John -- Bush, Jermaine",697,1456179319,Jermaine Bush,Terminated,,,,Jermaine,Bush,2/23/2016,John,871897,6/3/1983,CCO Steve Pyka,N
+CUST,"John -- Castillo, Michael",40,1421969789,Michael Castillo,Inactive,,,,Michael,Castillo,11/20/2013,John,,,,
+CUST,"John -- Chapman, James",463,1434396662,James P Chapman,Inactive,,,,James,Chapman,6/15/2015,John,,,,
+CUST,"John -- Dixon, Robert",42,1421969789,Robert Dixon,Left Program,,,,Robert,Dixon,11/25/2014,John,978364,,,
+CUST,"John -- Lytle, Stephen",863,1466613083,Stephen Lytle,Left Program,,,,Stephen,Lytle,6/22/2016,John,827222,11/1/1979,CCO Steve Pyka,Y
+CUST,"John -- Martindale, Anthony",44,1421969789,Anthony Martindale,Inactive,,,,Anthony,Martindale,4/14/2014,John,,,,
+CUST,"John -- Mutz, Steven",50,1421969789,Steven Mutz,Left Program,,,,Steven,Mutz,8/10/2014,John,851989,9/18/1969,,
+CUST,"John -- Orellana, Jose",45,1421969789,Jose Orellana,Inactive,,,,Jose,Onella,8/1/2012,John,,,,
+CUST,"John -- Patee, Raymond",636,1451586331,Raymond Patee,Program Participant,,,HEN,Raymond,Patee,1/1/2016,John,870234,2/13/1985,CCO Ethan Green,N
+CUST,"John -- Richardson, Tyrone",46,1421969789,Tyrone Richardson,Inactive,,,,Tyrone,Richardson,3/1/2014,John,,,,
+CUST,"John -- Shaughnessy, James",51,1421969789,James Shaughnessy,Inactive,,,,James,Shaughnessy,5/14/2014,John,,,,
+CUST,"John -- Shepherd, Richard",52,1421969789,Richard Shepherd,Left Program,,,,Richard,Shepherd,5/12/2014,John,851989,,,
+CUST,"John -- Sigafoos, Daniel",567,1444150686,Daniel Sigafoos,Left Program,DOC Voucher:4:DV,,DOC Voucher 01/05/16,Daniel,Sigafoos,10/5/2015,John,356897,1/29/1955,,
+CUST,"John -- Stanley, Donald",957,1472668726,Donald Stanley,Pending New Arrivals,DOC Voucher:4:DV,,DOC Voucher 11/30/2016,Donald,Stanley,9/1/2016,John,759019,2/6/1977,,Y
+CUST,"John -- Stewart, Robert",47,1421969789,Robert Stewart,Inactive,,,,Robert,Stewart,11/26/2012,John,,,,
+CUST,"John -- Watson, Dennis",48,1421969789,"Watson, Dennis",Inactive,,,,Dennis,Watson,7/1/2010,John,,,,
+CUST,"Joshua -- Carter, Tre",820,1464021763,Tre Carter,Terminated,DOC Voucher:4:DV,,DOC Voucher 08/23/16,Tre,Carter,,Joshua,371100,10/21/1993,,
+CUST,"Joshua -- Champagne, John",192,1421969792,John Champagne,Left Program,,,,John,Champagne,8/1/2010,Joshua,860470,4/10/1967,CCO Kristina Hanks,N
+CUST,"Joshua -- Coleman, Johnny",788,1461691425,Johnny Coleman,Program Participant,,,,Johnny,Coleman,4/26/2016,Joshua,831621,2/18/1957,CCO Jessica Amaya,N
+CUST,"Joshua -- Cone, Douglas",962,1473351507,Douglas Cone,,,,,Douglas,Cone,9/7/2016,Joshua,332855,7/27/1952,,N
+CUST,"Joshua -- Fazzino, Anthony",228,1421969792,Anthony Fazzino,Assistant House Leader,,,,Anthony,Fazzino,8/12/2013,Joshua,320509,12/27/1952,CCO James Larson,N
+CUST,"Joshua -- Finklea, Romey",739,1458667216,Romey Finklea,Terminated,DOC Voucher:4:DV,,DOC Voucher 06/20/16,Romey,Finklea,3/21/2016,Joshua,939942,8/21/1966,CCO Sean Scott,N
+CUST,"Joshua -- Harris, Keith",740,1458667457,Keith Harris,Program Participant,,,,Keith,Harris,3/22/2016,Joshua,259983,11/5/1958,CCO Kristina Hanks,Y
+CUST,"Joshua -- Hill, Joseph",763,1460398142,Joseph T Hill,Program Participant,,,,Joseph,Hill,4/11/2016,Joshua,894898,6/28/1973,CCO Kristina Hanks,Y
+CUST,"Joshua -- Livingston, Leland",232,1421969792,Leland Livingston,Program Participant,,,,Leland,Livingston,10/1/2013,Joshua,943954,5/23/1938,CCO Leon Neal,N
+CUST,"Joshua -- Manning, Samuel",922,1470241213,Samuel Manning,Program Participant,,,,Samuel,Manning,9/13/2016,Joshua,367731,12/29/1992,CCO Sean Scott,Y
+CUST,"Joshua -- Minifield, Roamelo",803,1462804716,Roamelo Minifield,Program Participant,,,,Roamelo,Minifield,5/10/2016,Joshua,385415,3/18/1996,CCO Kristina Hanks,N
+CUST,"Joshua -- Morin, Jeff",728,1457983267,Jeff Morin,Terminated,,,,Jeff,Morin,3/13/2016,Joshua,281844,12/9/1960,CCO Isaiah Garrison,Y
+CUST,"Joshua -- Myers, Anthony",872,1467214208,Anthony Myers,Program Participant,DOC Voucher:4:DV,,DOC Voucher 9/28/16,Anthony,Myers,6/29/2016,Joshua,829409,6/8/1979,CCO Iris Peterson,Y
+CUST,"Joshua -- Nelson, Radar",633,1451324111,Radar Nelson,Program Participant,,,,Radar,Nelson,12/28/2015,Joshua,882359,11/9/1983,CCO Leon Neal,Y
+CUST,"Joshua -- Neumann, Don",16,1421969788,Donald Neumann,Program Participant,,,,Donald,Neumann,3/1/2011,Joshua,,4/26/1960,,N
+CUST,"Joshua -- Powell, Harold",714,1456785210,Harold Powell,Program Participant,,,,Harold,Powell,4/4/2016,Joshua,911072,7/6/1958,CCO Gregory Cobb,N
+CUST,"Joshua -- Runnels, Joseph",781,1461184823,Joseph P Runnels,Program Participant,,,,Joseph,Runnels,4/18/2016,Joshua,867284,4/24/1971,CCO James Larson,Y
+CUST,"Joshua -- Schindewolf, Sean",747,1459453873,Sean Schindewolf,Program Participant,,,,Sean,Schindewolf,4/4/2016,Joshua,302562,1/22/1970,CCO Kristina Hanks,Y
+CUST,"Joshua -- Taylor, Jeano",694,1455817873,Jeano Taylor,Terminated,DOC Voucher:4:DV,,DOC Voucher 05/16/16,Jeano,Taylor,2/17/2016,Joshua,633868,12/23/1964,,
+CUST,"Joshua -- Terrance, LeVerne",889,1468358460,LaVerne Terrance,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/13/2016,LaVerne,Terrance,7/14/2016,Joshua,702521,10/31/1970,CCO Kristina Hanks,Y
+CUST,"Light -- Barcenas, Jesus",919,1470164308,Jesus Barcenas,Pending New Arrivals,DOC Voucher:4:DV,,DOC Voucher 11/3/2016,Jesus,Barcenas,8/4/2016,Light,335991,2/2/1981,CCO Shawna Dickerson,Y
+CUST,"Light -- Cross, Terry",53,1421969789,Terry Cross,Program Participant,,,HEN,Terry,Cross,7/6/2014,Light,330885,1/13/1963,CCO Jeff Moen,N
+CUST,"Light -- Dilka, Charles",54,1421969789,Charles E Dilka,Inactive,,,,Charles,Dilka,12/15/2014,Light,,,,
+CUST,"Light -- Gaut, James",675,1454434963,James Gaut,Terminated,,,,James,Gaut,2/1/2016,Light,932995,3/4/1969,CCO Samuel Padula,Y
+CUST,"Light -- Golden, George",55,1421969789,George Golden,Program Participant,,,HEN,George,Golden,12/29/2014,Light,738292,6/2/1966,CCO Shawna Dickerson,N
+CUST,"Light -- Grant, Michael",347,1424731057,Michael Grant,Inactive,,,,Michael,Grant,2/23/2015,Light,,,,
+CUST,"Light -- Hessner, William",56,1421969789,William Hessner,Inactive,,,,William,Hessner,1/10/2015,Light,,,,
+CUST,"Light -- John, Darrell",57,1421969789,Darrell John,House Leader,,,,Darrell,John,10/7/2014,Light,375319,3/12/1975,CCO Samuel Padula,Y
+CUST,"Light -- Jones-Thomas, Michael",367,1426105234,Michael Jones-Thomas,Terminated,,,,Michael,Jones-Thomas,3/11/2015,Light,857556,,,
+CUST,"Light -- Jossart, Ryan",530,1439832950,Ryan Jossart,Terminated,,,,Ryan,Jossart,8/11/2015,Light,897886,6/4/1976,CCO Jeff Moen,Y
+CUST,"Light -- Lane, Jimmie",602,1446837057,Jimmie Lane,Program Participant,,,Private Pay,Jimmie,Lane,11/6/2015,Light,624784,7/31/1951,,
+CUST,"Light -- Long, Andrew",58,1421969789,Andrew Long,Inactive,,,,Andrew,Long,12/8/2014,Light,,,,
+CUST,"Light -- Paschich, Jeremy",765,1460398818,Jeremy Paschich,Program Participant,,,,Jeremy,Paschich,4/11/2016,Light,894725,11/9/1977,CCO Shawna Dickerson,Y
+CUST,"Light -- Riles, Roland",362,1425923815,Roland Riles,Inactive,,,,Roland,Riles,3/10/2015,Light,,,,
+CUST,"Light -- Rubio, Brandon",59,1421969789,Brandon Rubio,Inactive,,,,Brandon,Rubio,11/25/2014,Light,,,,
+CUST,"Light -- Schoneck, John",145,1421969791,John M Shoneck,Left Program,,,,John,Shoneck,1/19/2015,Light,343425,8/19/1990,,
+CUST,"Light -- Stephens, Jimmie",936,1471018713,Jimmie Stephens,Program Participant,DOC Voucher:4:DV,,DOC Voucher 11/14/2016,Jimmie,Stephens,8/15/2016,Light,899040,5/2/1970,CCO Shawna Dickerson,Y
+CUST,"Light -- Thompson, Edward",744,1459195753,Edward Thompson,Terminated,DOC Voucher:4:DV,,,Edward,Thompson,3/30/2016,Light,929417,7/18/1966,CCO Amanda Gjefle,N
+CUST,"Light -- Winbush, Donnie",483,1436307484,Donnie Winbush,Left Program,,,,Donnie,Winbush,2/24/2016,Light,955151,,,
+CUST,"Luke --  Alleman, Jason",62,1421969789,Jason Alleman,Inactive,,,,Jason,Alleman,11/4/2010,Luke,,,,
+CUST,"Luke --  Beers, Dwayne",63,1421969789,"Beers, Dwayne",Inactive,,,,Dwayne,Beers,1/8/2011,Luke,,,,
+CUST,"Luke --  Haynes, Don",65,1421969789,Don Haynes,Inactive,,,,Don,Haynes,8/1/2012,Luke,,,,
+CUST,"Luke -- Arrington, Howard",66,1421969789,Howard Arrington,Inactive,,,,Howard,Arrington,7/11/2013,Luke,,,,
+CUST,"Luke -- Balska, Randy",67,1421969789,Randy Balska,Inactive,,,,Randy,Balska,3/26/2011,Luke,,,,
+CUST,"Luke -- Barkoff, Clifford",68,1421969789,Clifford Barkoff,Inactive,,,,Clifford,Barkoff,10/2/2014,Luke,,,,
+CUST,"Luke -- Bennett, Freddie",737,1458665258,Freddie Bennett,Terminated,,,DOC Voucher 06/15/16,Freddie,Bennett,3/16/2016,Luke,367734,11/15/1982,,
+CUST,"Luke -- Blue Jr, Torain",577,1444674159,Torain Blue Jr.,Left Program,,,,Torain,Blue Jr.,9/15/2015,Luke,329718,2/21/1971,,
+CUST,"Luke -- Braa, Theophil",70,1421969789,Theophil Braa,Inactive,,,,Theophil,Braa,8/31/2014,Luke,,,,
+CUST,"Luke -- Brown Jr., Willie",381,1427313557,Willie Brown Jr.,Inactive,,,,Willie,Brown Jr.,3/25/2015,Luke,,,,
+CUST,"Luke -- Brown, Phillip",71,1421969789,Phillip Brown,Inactive,,,,Phillip,Brown,9/19/2011,Luke,,,,
+CUST,"Luke -- Bustamante, Adrian",7,1421969788,Adrian Bustamante,Terminated,,,,Adrian,Bustamante,9/1/2015,Luke,,,,
+CUST,"Luke -- Chapman, Antonio",841,1465321334,Antonio Chapman,Program Participant,,,,Antonio,Chapman,6/7/2016,Luke,382469,10/11/1989,CCO Kam Warner,N
+CUST,"Luke -- Chapman, Roberto",707,1456515091,Roberto Chapman,Program Participant,,,,Roberto,Chapman,2/27/2016,Luke,387299,3/15/1991,CCO Jaune Sonnier,N
+CUST,"Luke -- Cole, Tim",73,1421969789,Tim Cole,Inactive,,,,Tim,Cole,7/22/2010,Luke,,,,
+CUST,"Luke -- Cook, Troshan",965,1473696138,Troshan Cook,Program Participant,,,,Troshan,Cook,9/10/2016,Luke,,11/6/1973,,N
+CUST,"Luke -- Crowther, Jack",730,1457983442,Jack Crowther,Program Participant,,,,Jack,Crowther,3/16/2016,Luke,380786,1/12/1986,CCO Jaune Sonnier,N
+CUST,"Luke -- Davey, Mark",755,1459885040,Mark Alex Davey,Left Program,,,,Mark,Davey,4/5/2016,Luke,,7/26/1969,,N
+CUST,"Luke -- Delgado, Joseph M",599,1446574429,Joseph M Delgado,Terminated,,,,Joseph,Delgado,11/3/2015,Luke,369954,3/17/1988,,
+CUST,"Luke -- Dethridge, Ed",74,1421969789,Ed Dethridge,Inactive,,,,Ed,Dethridge,5/31/2014,Luke,,,,
+CUST,"Luke -- Dow, Todd",76,1421969789,Todd Dow,Inactive,,,,Todd,Dow,8/11/2014,Luke,,,,
+CUST,"Luke -- Edwards, Christopher",77,1421969789,Christopher Edwards,Inactive,,,,Christopher,Edwards,1/1/2001,Luke,,,,
+CUST,"Luke -- Edwards, David",387,1427818730,David Edwards,Left Program,,,,David,Edwards,3/27/2015,Luke,,,,
+CUST,"Luke -- England, Mike",78,1421969789,Mike England,Inactive,,,,Mike,England,May-12,Luke,,,,
+CUST,"Luke -- Erickson, Paul",79,1421969789,Paul Erickson,Inactive,,,,Paul,Erickson,7/24/2013,Luke,,,,
+CUST,"Luke -- Fair, Martin",638,1451590874,Martin Fair,Left Program,,,,Martin,Fair,1/1/2016,Luke,,9/24/1969,,
+CUST,"Luke -- Falealili, Joshua",80,1421969789,Joshua Falealili,Inactive,,,,Joshua,Falealili,2/11/2013,Luke,,,,
+CUST,"Luke -- Faulk, Bob Jr.",81,1421969789,Robert Faulk,Inactive,,,,Robert,Faulk,2/1/2013,Luke,,,,
+CUST,"Luke -- Fernandez, Timothy",658,1453829645,Timothy Fernandez,Terminated,,,,Timothy,Fernandez,1/21/2016,,380787,,,
+CUST,"Luke -- Franklin, Thomas",655,1453141288,Thomas Franklin,Terminated,DOC Voucher:4:DV,,DOC Voucher 04/17/16,Thomas,Franklin,1/19/2016,Luke,297722,3/16/1964,,
+CUST,"Luke -- French, John",663,1454005122,John French,Terminated,,,,John,French,1/26/2016,Luke,,6/17/1971,,
+CUST,"Luke -- Fuentes, Montemar",718,1457103077,Montemar Fuentes,Program Participant,,,,Montemar,Fuentes,2/29/2016,Luke,884709,2/15/1982,CCO Kam Warner,N
+CUST,"Luke -- Garcia, David",82,1421969789,David Garcia,Inactive,,,,David,Garcia,8/8/2014,Luke,,,,
+CUST,"Luke -- Granthan, Don",83,1421969789,Don Granthan,Inactive,,,,Don,Granthan,8/9/2011,Luke,,,,
+CUST,"Luke -- Greene, Bruce",887,1468265102,Bruce Greene,Terminated,,,,Bruce,Greene,7/12/2016,Luke,377032,5/28/1967,CCO Jill Rosendahl,N
+CUST,"Luke -- Guest, Jesse",84,1421969789,Jesse Guest,Terminated,,,,Jesse,Guest,11/16/2013,Luke,,,,
+CUST,"Luke -- Guyton, Ron",466,1434492239,Ron Guyton,Inactive,,,,Ron,Guyton,6/18/2015,Luke,,,,
+CUST,"Luke -- Hammond, Chad",85,1421969789,Chad Hammond,Inactive,,,,Chad,Hammond,4/1/2011,Luke,,,,
+CUST,"Luke -- Hill, Terry",579,1444769716,Terry Hill,Terminated,,,,Terry,Hill,11/2/2015,Luke,322982,10/22/1986,,
+CUST,"Luke -- Huffman, Jeffery",86,1421969789,Jeffery Huffman,Inactive,,,,Huffman,Huffman,4/1/2011,Luke,,,,
+CUST,"Luke -- Hunt, Jesten",87,1421969789,Jesten Hunt,Inactive,,,,Jesten,Hunt,6/24/2014,Luke,,,,
+CUST,"Luke -- Jones, Mark",88,1421969789,Mark S Jones,Inactive,,,,Mark,Jones,1/12/2015,Luke,,,,
+CUST,"Luke -- Kent, Perry",218,1421969792,Perry Kent,Program Participant,,,,Perry,Kent,10/17/2012,Luke,,7/14/1966,,N
+CUST,"Luke -- Kinzy, Phillip",368,1426271085,Phillip Kinzy,Inactive,,,,Phillip,Kinzy,3/16/2015,Luke,,,,
+CUST,"Luke -- Laglin, Mike",89,1421969789,Mike Laglin,Inactive,,,,Mike,Laglin,1/1/2001,Luke,,,,
+CUST,"Luke -- LaPlant, Jude",727,1457982560,Jude LaPlant,Terminated,DOC Voucher:4:DV,,,Jude,LaPlant,3/2/2016,Luke,,,,
+CUST,"Luke -- Lara, Luseano G",566,1444150315,Luseano G Lara,Left Program,DOC Voucher:4:DV,,DOC Voucher 01/05/16,Luseano,Lara,10/5/2015,Luke,745763,11/6/1968,,
+CUST,"Luke -- Lee, Antonio",90,1421969789,SeaTac -- Antonio Lee,Inactive,,,,Antonio,Lee,1/1/2001,Luke,,,,
+CUST,"Luke -- Lee, Jared",649,1452727353,Jared Lee,Left Program,,,,Jared,Lee,1/10/2016,Luke,,10/12/1973,,
+CUST,"Luke -- Manago, Johnny",750,1459791996,Johnny D Manago,Program Participant,DOC Voucher:4:DV,,,Johnny,Manago,4/6/2016,Luke,858751,5/4/1957,CCO Nathan Conrad,N
+CUST,"Luke -- Marconi, Michael",91,1421969789,Michael Marconi,Terminated,,,,Michael,Marconi,5/13/2016,Luke,,,,
+CUST,"Luke -- Mares, Brian",380,1427313393,Brian Mares,Inactive,,,,Brian,Mares,3/24/2015,Luke,,,,
+CUST,"Luke -- Martyn, Andrew",634,1451324449,Andrew Martyn,Terminated,,,,Andrew,Martyn,12/28/2015,Luke,,8/19/1969,,
+CUST,"Luke -- Mauga, Erin",92,1421969790,Erin Mauga,Inactive,,,,Erin,Mauga,1/1/2001,Luke,,,,
+CUST,"Luke -- Maynard, Henry",127,1421969790,Henry Maynard,Inactive,,,,Henry,Maynard,4/17/2013,Luke,,,,
+CUST,"Luke -- Mc Martin, Cameron",93,1421969790,Cameron McMartin,Inactive,,,,Cameron,Mc Martin,8/23/2014,Luke,,,,
+CUST,"Luke -- Melcer, Brian",580,1444770844,Brian Melcer,Terminated,,,,Brian,Melcer,10/14/2015,Luke,,4/18/1977,,
+CUST,"Luke -- Messer, Al",124,1421969790,,Inactive,,,,Al,Messer,1/1/2001,Luke,,,,
+CUST,"Luke -- Miller-Slover, Brandon",528,1439829590,Brandon Miller-Slover,Terminated,,,,Brandon,Miller-Slover,8/9/2015,Luke,N/A,4/26/1983,,
+CUST,"Luke -- Narcisse, Charles",94,1421969790,Charles Narcisse,Inactive,,,,Charles,Narcisse,8/11/2013,Luke,,,,
+CUST,"Luke -- Newman, Eddie",95,1421969790,Eddie Newman,Inactive,,,,Eddie,Newman,12/1/2014,Luke,,,,
+CUST,"Luke -- Noble, Patrick",947,1471889060,Patrick Noble,Left Program,DOC Voucher:4:DV,,DOC Voucher ONLY ONE,Patrick,Noble,8/9/2016,Luke,708268,5/18/1974,,
+CUST,"Luke -- Okerson, Donald D",558,1443461832,Donald D Okerson,Terminated,DOC Voucher:4:DV,,DOC Voucher 12/26/15,Donald,Okerson,9/26/2015,Luke,917131,5/21/1966,,
+CUST,"Luke -- Ollison, John",125,1421969790,John Ollison,Inactive,,,,John,Ollison,1/1/2001,Luke,,,,
+CUST,"Luke -- Paul, Bladen",541,1441051616,Bladen Paul,Left Program,,,,Bladen,Paul,8/18/2015,Luke,,,,
+CUST,"Luke -- Pegram, Robert",96,1421969790,Robert Pegram,Inactive,,,,Robert,Pegram,6/4/2014,Luke,,,,
+CUST,"Luke -- Pepera, Adam",825,1464279192,Adam Pepera,Left Program,,,,Adam,Pepera,7/18/2016,Luke,354471,8/11/1978,CCO Nathan Conrad,N
+CUST,"Luke -- Picket, Michael",97,1421969790,Michael Picket,Inactive,,,,Michael,Picket,1/1/2001,Luke,,,,
+CUST,"Luke -- Pines, Nick",98,1421969790,Nick Pines,Inactive,,,,Nick,Pines,10/8/2009,Luke,,,,
+CUST,"Luke -- Portch, Andrew",835,1464804391,"Luke -- Portch, Andrew",Terminated,,,,Andrew,Portch,5/25/2016,Luke,,8/5/1992,,N
+CUST,"Luke -- Pua, Aigalelei",99,1421969790,Aigalelei Pua,Inactive,,,,Aigalelei,Pua,11/21/2012,Luke,,,,
+CUST,"Luke -- Radvanyi, Mike",100,1421969790,Mike Radvanyl,Inactive,,,,Mike,Radvanyl,1/1/2001,Luke,,,,
+CUST,"Luke -- Reeves, Christopher",126,1421969790,Christopher Reeves,Inactive,,,,Christopher,Reeves,5/21/2013,Luke,,,,
+CUST,"Luke -- Reeves,Chris",101,1421969790,Chris Reeves,Inactive,,,,Chris,Reeves,5/27/2014,Luke,,,,
+CUST,"Luke -- Reifert, Paul",614,1447959923,Paul Reifert,Terminated,,,,Paul,Reifert,11/18/2015,Luke,310095,11/15/1988,,
+CUST,"Luke -- Rocha, Toby",758,1459968886,Toby Rocha,Left Program,,,,Toby,Rocha,4/10/2016,Luke,795279,3/1/1974,,
+CUST,"Luke -- Rosenthal, Henry James",711,1456775893,Henry James Rosenthal,Terminated,,,,Henry,Rosenthal,2/10/2016,Luke,,,,
+CUST,"Luke -- Rubish, Stuart",529,1439832676,Stuart Rubish,Terminated,,,,Stuart,Rubish,8/18/2015,Luke,972657,11/5/1967,,
+CUST,"Luke -- Sam, Cedric",102,1421969790,Cedric Sam,Inactive,,,,Cedric,Sam,6/18/2013,Luke,,,,
+CUST,"Luke -- Santiago, Sergio",452,1432224853,Sergio Santiago,Left Program,,,,Sergio,Santiago,5/22/2015,Luke,,1/12/1981,,
+CUST,"Luke -- Schweik, Dan",103,1421969790,Dan Schweik,Inactive,,,,Dan,Schweik,5/17/2011,Luke,,,,
+CUST,"Luke -- Shappart, Bob",104,1421969790,"Shappart, Bob",Inactive,,,,Bob,Shappart,1/1/2001,Luke,,,,
+CUST,"Luke -- Sharrah, Craig",105,1421969790,Craig Sharrah,Inactive,,,,Craig,Sharral,5/8/2011,Luke,,,,
+CUST,"Luke -- Sisneros, Danny T",436,1430764980,Danny T Sisneros,Terminated,,,,Danny,Sisneros,8/13/2015,Luke,,10/21/1971,,
+CUST,"Luke -- Snell, Chris",106,1421969790,Chris Snell,Inactive,,,,Chris,Snell,8/1/2011,Luke,,,,
+CUST,"Luke -- Sparks, Jeff",107,1421969790,Jeff Sparks,Inactive,,,,Jeff,Sparks,7/9/2010,Luke,,,,
+CUST,"Luke -- Staudinger, Dennis",108,1421969790,Dennis Staudinger,Inactive,,,,Dennis,Staudinger,12/3/2014,Luke,,,,
+CUST,"Luke -- Sweat, Taft, Jr.",109,1421969790,"Taft Sweat, Jr.",Inactive,,,,Taft,"Sweat, Jr.",11/14/2014,Luke,,,,
+CUST,"Luke -- Taylor, Anthony",110,1421969790,Anthony Taylor,Left Program,,,,Anthony,Taylor,11/21/2015,Luke,,9/21/1959,,N
+CUST,"Luke -- Traylor, DeMarco",111,1421969790,"Traylor, DeMarco",Inactive,,,,DeMarco,Traylor,11/28/2010,Luke,,,,
+CUST,"Luke -- Triggs, Daniel",112,1421969790,Daniel Triggs,Inactive,,,,Daniel,Triggs,1/22/2013,Luke,,,,
+CUST,"Luke -- Tucker, Benjamin",113,1421969790,Benjamin Tucker,Inactive,,,,Benjamin,Tucker,2/19/2015,Luke,,,,
+CUST,"Luke -- Tyler, Max",114,1421969790,Max Tyler,Inactive,,,,Max,Tyler,9/12/2011,Luke,,,,
+CUST,"Luke -- Valencia, William",115,1421969790,William Valencia,Inactive,,,,William,Valencia,6/14/2014,Luke,,,,
+CUST,"Luke -- Waldeck, David",117,1421969790,David Waldeck,Inactive,,,,David,Waldeck,12/29/2014,Luke,,,,
+CUST,"Luke -- Walker, Terrell",118,1421969790,Terrell Walker,Inactive,,,,Terrell,Walker,10/6/2014,Luke,,,,
+CUST,"Luke -- Watkins, Christian",119,1421969790,Christian Watkins,Left Program,,,,Christian,Watkins,12/16/2015,Luke,,,,
+CUST,"Luke -- Welch, Gary",551,1442248176,Gary Welch,Left Program,,,,Gary,Welch,9/11/2015,Luke,,,,
+CUST,"Luke -- Wells, Jason",120,1421969790,Jason Wells,House Leader,,,,Jason,Wells,7/13/2011,Luke,,11/26/1974,,N
+CUST,"Luke -- Wheeler, Jesse",340,1424287878,Jesse I Wheeler,Left Program,,,,Jesse,Wheeler,2/18/2015,Luke,,5/2/1984,,
+CUST,"Luke -- Wickman, Tim",121,1421969790,Tim Wickman,Inactive,,,,Tim,Wickman,1/1/2001,Luke,,,,
+CUST,"Luke -- Wilhelm, Damian",405,1428947046,Damian Wilhelm,Inactive,,,,Damian,Wilhelm,4/9/2015,Luke,,,,
+CUST,"Luke -- Williams, Lorenzo",128,1421969790,Lorenzo Williams,Inactive,,,,Lorenzo,Williams,5/1/2013,Luke,,,,
+CUST,"Luke -- Wise, Chris",122,1421969790,Chris Wise,Inactive,,,,Chris,Wise,2/1/2012,Luke,,,,
+CUST,"Luke -- Yewondwossen, Abetew",911,1469557268,Abetew Yewondwossen,Program Participant,,,,Abetew,Yewondwossen,7/26/2016,Luke,,9/4/1989,,
+CUST,"Mark -- Bogner, William",130,1421969790,William Bogner,Inactive,,,,William,Bogner,3/1/2012,Mark,,,,
+CUST,"Mark -- Copeland, Michael",132,1421969790,Michael Copeland,Inactive,,,,Michael,Copeland,12/25/2014,Mark,,,,
+CUST,"Mark -- Cornejo, Mark",877,1467393290,Mark Cornejo,Program Participant,DOC Voucher:4:DV,,DOC Voucher 10/3/2016,Mark,Cornejo,7/4/2016,Mark,333621,8/18/1958,CCO Jermaine Castillo,N
+CUST,"Mark -- George, Robert",134,1421969790,Robert George,Inactive,,,,Robert,George,1/1/2001,Mark,,,,
+CUST,"Mark -- Goodenough, Dusty",135,1421969790,"Goodenough, Dusty",Inactive,,,,Dusty,Goodenough,1/1/2001,Mark,,,,
+CUST,"Mark -- Guevara, Kevin",621,1449698691,Kevin Guevara,Terminated,,,,Kevin,Guevara,12/7/2015,Mark,383594,7/11/1993,CCO Jeremy Praven,Y
+CUST,"Mark -- Hairelson, Richard",137,1421969791,Richard Hairelson,Inactive,,,,Richard,Hairelson,3/31/2014,Mark,,,,
+CUST,"Mark -- Holmes, Isaac",484,1436307649,Isaac Holmes,Terminated,,,,Isaac,Holmes,7/8/2015,Mark,380882,12/14/1980,CCO Jeff Moen,Y
+CUST,"Mark -- Howard, Richard",364,1426006691,Richard Howard,Left Program,,,,Richard,Howard,3/11/2015,Mark,,,,
+CUST,"Mark -- Jones, Raymond",703,1456339071,Raymond Jones,Left Program,DOC Voucher:4:DV,,DOC Voucher 05/23/16,Raymond,Jones,2/24/2016,Mark,373951,11/23/1952,,
+CUST,"Mark -- Kauffman, Rafael",607,1447439710,Rafael Kauffman,House Leader,,,,Rafael,Kauffman,11/12/2015,Mark,353629,10/25/1978,CCO Leon Neal,Y
+CUST,"Mark -- Kelly, Michael",138,1421969791,Michael Kelly,Left Program,,,,Michael,Kelly,6/11/2014,Mark,,,,
+CUST,"Mark -- Laws, Luther",139,1421969791,Luther Laws,Inactive,,,,Luther,Laws,7/11/2013,Mark,,,,
+CUST,"Mark -- Lear, Travis",140,1421969791,Travis Lear,Inactive,,,,Travis,Lear,1/1/2001,Mark,,,,
+CUST,"Mark -- Lopez, Rogelio R",479,1435946019,Rogelio R Lopez,Program Participant,,,,Rogelio,Lopez,7/20/2015,Mark,872735,7/12/1952,CCO Fred Johnson,Y
+CUST,"Mark -- Macias, Micah",729,1457983368,Micah Macias,Terminated,,,,Micah,Macias,3/14/2016,Mark,874586,8/29/1985,CCO Jermaine Castillo,N
+CUST,"Mark -- Marshall, Travis",141,1421969791,Travis Marshall,Inactive,,,,Travis,Marshall,1/1/2001,Mark,,,,
+CUST,"Mark -- Martinez, Jose",868,1467132137,Jose Martinez,Program Participant,DOC Voucher:4:DV,,DOC Voucher 9/26/2016,Jose,Martinez,6/27/2016,Mark,873892,1/16/1960,CCO Jessica Amaya,Y
+CUST,"Mark -- Matteson, Mike",142,1421969791,Mike Matteson,Inactive,,,,Mike,Matteson,1/1/2001,Mark,,,,
+CUST,"Mark -- Mendoza, Connor",219,1421969792,Connor Mendoza,Inactive,,,,Connor,Mendoza,8/1/2014,Mark,,,,
+CUST,"Mark -- Mickelsen, Rodney",143,1421969791,Rodney Mickelsen,Inactive,,,,Rodney,Mickelsen,3/1/2011,Mark,,,,
+CUST,"Mark -- Montgomery, Trent",144,1421969791,Trent Montgomery,Inactive,,,,Trent,Montgomery,1/1/2001,Mark,,,,
+CUST,"Mark -- Muhanji, Ngaira",496,1437416349,Ngaira Muhanji,Terminated,,,,Ngaira,Muhanji,7/22/2015,Mark,350061,7/25/1982,,
+CUST,"Mark -- Murray,  Shawn",613,1447959837,Shawn Murray,Left Program,,,,Shawn,Murray,11/18/2015,Mark,863265,3/23/1970,CCO Eric Vandewalle,Y
+CUST,"Mark -- Norris, Ray",416,1429127189,Ray Norris,Program Participant,,,,Ray,Norris,4/15/2015,Mark,,4/17/1962,,N
+CUST,"Mark -- Peterson, Dennis",720,1457381421,Dennis Peterson,Left Program,,,,Dennis,Peterson,3/4/2016,Mark,30916-086,,USPO Matt McDaniel,N
+CUST,"Mark -- Stroh, Jonathan",146,1421969791,Jonathan Stroh,Left Program,,,,Jonathan,Stroh,4/30/2014,Mark,,,,
+CUST,"Mark -- Valela, James",147,1421969791,James Valela,Inactive,,,,James,Valela,1/1/2001,Mark,,,,
+CUST,"Mark -- Vargison, Max",587,1445287453,Max Vargison,Program Participant,,,,Max,Vargison,11/20/2015,Mark,362215,5/24/1990,,N
+CUST,"Mark -- Wheeler, Clarence",912,1469819067,Clarence Wheeler,Program Participant,,,,Clarence,Wheeler,7/28/2016,Mark,857581,,CCO Eric Vandewalle,N
+CUST,"Mark -- Williams, Montigue",909,1469457897,Montigue Williams,Terminated,DOC Voucher:4:DV,,DOC Voucher 10/27/16,Montigue,Williams,7/28/2016,Mark,311289,3/20/1989,,Y
+CUST,"Mark -- Wray, Joel",149,1421969791,Joel Wray,Inactive,,,,Joel,Wray,5/1/2010,Mark,,,,
+CUST,"Mark -- Yohannes, Azazi",150,1421969791,Azazi Yohannes,Inactive,,,,Azazi,Yohannes,12/30/2014,Mark,,,,
+CUST,"Mark -- Zamora, Humberto",151,1421969791,Humberto Zamora,Left Program,,,,Humberto,Zamora,11/10/2014,Mark,,,,
+CUST,"Matt -- Altuna, Ronald",152,1421969791,Ronald Altuna,Inactive,,,,Ronald,Altuna,12/3/2013,Matt,,,,
+CUST,"Matt -- Bennett, Clarence",153,1421969791,Clarence Bennett,Inactive,,,,Clarence,Bennett,3/1/2011,Matt,,,,
+CUST,"Matt -- Brisbin, Jesse",154,1421969791,Jesse Brisbin,Inactive,,,,Jesse,Brisbin,9/5/2011,Matt,,,,
+CUST,"Matt -- Collins, Taylor",155,1421969791,John Taylor,Inactive,,,,Taylor,John,5/1/2011,Matt,,,,
+CUST,"Matt -- Duncan, Charles Mr",157,1421969791,Charles Duncan,Inactive,,,,Duncan,Duncan,1/1/2001,Matt,,,,
+CUST,"Matt -- Duncan, William",158,1421969791,William Duncan,Inactive,,,,William,Duncan,5/1/2012,Matt,,,,
+CUST,"Matt -- Emmett, John",159,1421969791,John Emmett,Inactive,,,,John,Emmett,8/22/2013,Matt,,,,
+CUST,"Matt -- Guerrero-Sanchez,",160,1421969791,Juan Guererro-Sanchez,Inactive,,,,Juan,Sanchez,3/1/2012,Matt,,,,
+CUST,"Matt -- Guillermo, Mingo",161,1421969791,Mingo Guillermo,Inactive,,,,Mingo,Guillermo,10/28/2012,Matt,,,,
+CUST,"Matt -- Harvest, Robert",162,1421969791,Robert Harvest,Inactive,,,,Robert,Harvest,1/1/2010,Matt,,,,
+CUST,"Matt -- Heyn, Richard",163,1421969791,Richard Heyn,Inactive,,,,Richard,Heyn,11/1/2009,Matt,,,,
+CUST,"Matt -- Jacobson, Kevin",164,1421969791,Kevin Jacobson,Inactive,,,,Kevin,Jacobson,3/1/2011,Matt,,,,
+CUST,"Matt -- Keith, James",165,1421969791,James Keith,Inactive,,,,James,Keith,9/1/2010,Matt,,,,
+CUST,"Matt -- Lupfer, Allen",166,1421969791,Allen Lupfer,Inactive,,,,Allen,Lupfer,10/16/2009,Matt,,,,
+CUST,"Matt -- Matthews, John",167,1421969791,John Matthews,Inactive,,,,John,Matthews,12/5/2013,Matt,,,,
+CUST,"Matt -- Moon, Bobby",168,1421969791,Bobby Moon,Inactive,,,,Bobby,Moon,1/1/2010,Matt,,,,
+CUST,"Matt -- Moon, Danny",169,1421969791,Daniel Moon,Inactive,,,,Daniel,Moon,4/1/2012,Matt,,,,
+CUST,"Matt -- Romero, Joey",170,1421969791,Joey Romero,Inactive,,,,Joey,Romero,4/1/2011,Matt,,,,
+CUST,"Matt -- Sanford, Grant",171,1421969791,Grant Sanford,Inactive,,,,Grant,Sanford,12/1/2008,Matt,,,,
+CUST,"Matt -- Sykes, Edward",172,1421969791,Edward Sykes,Inactive,,,,Edward,Sykes,7/26/2012,Matt,,,,
+CUST,"Matt -- Vonminden, Miles",177,1421969792,Miles Vonminden,Inactive,,,,Miles,Vonminden,10/19/2012,Matt,,,,
+CUST,"Matt -- Wells, Aaron",173,1421969791,Aaron Wells,Inactive,,,,Aaron,Wells,1/1/2012,Matt,,,,
+CUST,"Matt -- Wilton, D.",174,1421969791,Dwayne Wilton,Inactive,,,,Dan,Wilton,12/1/2011,Matt,,,,
+CUST,"Matt -- Wissing, Dave",175,1421969791,Matt -- Dave Wissing,Inactive,,,,Dave,Wissing,1/1/2001,Matt,,,,
+CUST,"Matt -- Wren, Kevin",176,1421969791,Kevin Wren,Inactive,,,,Kevin,Wren,10/26/2012,Matt,,,,
+CUST,"Matthew -- Bash, James E.",179,1421969792,James E Bash,Inactive,,,,James,Bash,6/2/2014,Matthew,,,,
+CUST,"Matthew -- Brown, Chad",180,1421969792,Chad Brown,Inactive,,,,Chad,Brown,9/2/2014,Matthew,,,,
+CUST,"Matthew -- Drown, Keith",823,1464199945,Keith Drown,Program Participant,,,,Keith,Drown,8/9/2016,Matthew,854841,8/18/1954,CCO Kam Warner,Y
+CUST,"Matthew -- Gonzales, Jason",182,1421969792,Jason Gonzales,Inactive,,,,Jason,Gonzales,4/21/2014,Matthew,,,,
+CUST,"Matthew -- Grissom, Malcom",210,1421969792,Malcom Grissom,Left Program,,,,Malcom,Grissom,10/1/2013,Matthew,,,,
+CUST,"Matthew -- Lukes, Dennis",183,1421969792,Dennis Lukes,Program Participant,,,,Dennis,Lukes,12/27/2007,Matthew,,9/21/1943,,N
+CUST,"Matthew -- McGowan, George",178,1421969792,George McGowan,Program Participant,,,,George,McGowan,2/24/2014,Matthew,354027,3/27/1952,CCO Mary Bullard,N
+CUST,"Matthew -- Osborne, Eddie",465,1434396809,Eddie Osborne,Terminated,,,,Eddie,Osborne,6/15/2015,Matthew,840970,9/21/1962,,
+CUST,"Matthew -- Pardo, Jose",187,1421969792,Jose Pardo,Inactive,,,,Jose,Pardo,10/28/2014,Matthew,,,,
+CUST,Matthew -- Ryan Carpenter,224,1421969792,Ryan Carpenter,Left Program,,,,Ryan,Carpenter,12/31/2014,Matthew,359408,,,
+CUST,"Matthew -- Sorensen, Russell",748,1459454217,Russell Sorensen,House Leader,,,,Russell,Sorensen,4/4/2016,Matthew,353159,4/9/1962,CCO Jaune Sonnier,Y
+CUST,"Matthew -- VanGuilder, Robert",499,1437499291,Robert F VanGuilder,Program Participant,,,,Robert,VanGuilder,7/30/2015,Matthew,792649,6/13/1973,CCO Jill Rosendahl,N
+CUST,"Matthew -- Walker, Zack",185,1421969792,Zack Walker,Inactive,,,,Zack,Walker,6/2/2014,Matthew,,,,
+CUST,"Matthew -- Wright, Eric",186,1421969792,Eric Wright,Program Participant,,,,Eric,Wright,5/2/2014,Matthew,358289,6/22/1970,CCO Jermaine Castillo,N
+CUST,"Matthew -- Yeager, Jeremy",408,1428947319,Jeremy Yeager,Left Program,,,,Jeremy,Yeager,4/9/2015,Matthew,303743,8/30/1974,,
+CUST,"None -- Smallidge, Jon",239,1421969793,Jon Smallidge,Inactive,,,,Jon,Smallidge,1/1/2001,None,,,,
+CUST,Paul -- Aaron Roberts,190,1421969792,Aaron Roberts,Inactive,,,,Aaron,Roberts,10/16/2013,Paul,,,,
+CUST,"Paul -- Carlman,  Jeremy",760,1460060805,Jeremy Carlman,Program Participant,,,,Jeremy,Carlman,7/21/2016,Paul,800580,9/20/1979,CCO Thomas McJicton,Y
+CUST,"Paul -- Ching, Robert",193,1421969792,Robert Ching,Inactive,,,,Robert,Ching,10/1/2013,Paul,,,,
+CUST,"Paul -- Dumas, Delgado",189,1421969792,Dumas Delgado,Inactive,,,,Dumas,Delgado,10/1/2013,Paul,,,,
+CUST,"Paul -- Fyffe, Michael",194,1421969792,Michael Fyffe,Left Program,,,,Michael,Fyffe,10/1/2013,Paul,,,,
+CUST,"Paul -- Grow, James",136,1421969790,James Grow,Left Program,,,,James,Grow,7/20/2011,Paul,741023,2/1/1974,,
+CUST,"Paul -- Hall, Edwardo B",490,1436894882,Edwardo B Hall,Left Program,,,DOC Voucher 10/14/15,Edwardo,Hall,7/14/2015,Paul,332034,,,
+CUST,"Paul -- Hayes, Michael",195,1421969792,Michael Hayes,Inactive,,,,Michael,Hayes,6/10/2014,Paul,,,,
+CUST,"Paul -- Herron, Robert",846,1465834212,Robert Herron,Left Program,DOC Voucher:4:DV,,DOC Voucher 9/12/16,Robert,Herron,6/13/2016,Paul,856780,2/8/1984,CCO Thomas McJicton,Y
+CUST,"Paul -- Jackson, Demetrius",196,1421969792,Demetrius Jackson,Inactive,,,,Demetrius,Jackson,9/18/2014,Paul,,,,
+CUST,"Paul -- Justiniano, David",197,1421969792,David Justiniano,Inactive,,,,David,Justiniano,11/24/2014,Paul,,,,
+CUST,"Paul -- Khat, Chang",198,1421969792,Chang Khat,Inactive,,,,Chang,Khat,10/1/2013,Paul,,,,
+CUST,"Paul -- Lindsey, Ronald",421,1429551745,Ronald Lindsey,Program Participant,,,,Ronald,Lindsey,5/25/2015,Paul,623701,9/3/1950,CCO Christopher May,N
+CUST,"Paul -- Lubliner, Michael",199,1421969792,Michael Lubliner,Terminated,,,,Michael,Lubliner,9/25/2015,Paul,882050,,,
+CUST,"Paul -- Mackebon, Jamey",644,1452211756,Jamey Mackebon,Terminated,,,,Jamey,Mackebon,1/4/2016,Paul,775080,6/16/1979,CCO Mary Bullard,N
+CUST,"Paul -- Marshall, Jerry",662,1454002106,Jerry Marshall,Terminated,,,,Jerry,Marshall,1/21/2016,Paul,854975,6/10/1975,CCO Patricia Turner,Y
+CUST,"Paul -- Merculief, Douglas",200,1421969792,Douglas Merculief,Inactive,,,,Douglas,Merculief,11/24/2014,Paul,,,,
+CUST,"Paul -- Mincer, Michael",201,1421969792,Michael Mincer,Inactive,,,,Michael,Mincer,6/18/2014,Paul,,,,
+CUST,"Paul -- Moultrie, Raymond",464,1434396741,Raymond Moultrie,Terminated,,,,Raymond,Moultrie,6/15/2015,Paul,896013,6/20/1968,,
+CUST,"Paul -- Parmer, Antwoine",202,1421969792,Antwoine Parmer,Left Program,,,,Antwoine,Parmer,3/16/2014,Paul,,,,
+CUST,"Paul -- Paschich, Danny",203,1421969792,Danny Paschich,Inactive,,,,Danny,Paschich,10/1/2013,Paul,,,,
+CUST,"Paul -- Poffenberger, Zachary",876,1467392862,Zachary Poffenberger,Program Participant,DOC Voucher:4:DV,,DOC Voucher 9/29/2016,Zachary,Poffenberger,6/30/2016,Paul,362780,8/5/1988,CCO Kristina Hanks,Y
+CUST,"Paul -- Reed, Randall",204,1421969792,Randall Reed,Program Participant,,,,Randall,Reed,10/1/2013,Paul,287477,6/9/1954,CCO Kristina Hanks,N
+CUST,"Paul -- Ritchey, Frederick",420,1429549550,Frederick Ritchey,Program Participant,,,,Frederick,Ritchey,4/20/2015,Paul,333140,2/21/1989,CCO Kristina Hanks,Y
+CUST,"Paul -- Roth, Robert",578,1444674360,Robert Roth,Program Participant,,,,Robert,Roth,3/9/2016,Paul,906329,4/9/1952,CCO Christopher May,Y
+CUST,"Paul -- Smith, Chris",188,1421969792,Chris Smith,Inactive,,,,Chris,Smith,4/17/2014,Paul,,,,
+CUST,"Paul -- Thomas, Rusty",745,1459196072,Rusty Thomas,Program Participant,,,,Rusty,Thomas,3/28/2016,Paul,911154,4/30/1961,CCO Mary Bullard,N
+CUST,"Peter -- Barias, Anthony",205,1421969792,Anthony Barias,Inactive,,,,Anthony,Barias,2/11/2014,Peter,,,,
+CUST,"Peter -- Bertling, Michael",206,1421969792,Michael Bertling,Inactive,,,,Michael,Bertling,9/29/2014,Peter,,,,
+CUST,"Peter -- Buzzard, Ronald",852,1466017159,Ronald Buzzard,Program Participant,DOC Voucher:4:DV,,DOC Voucher 9/14/16,Ronald,Buzzard,6/15/2016,Peter,846650,6/10/1977,CCO Leon Neal,Y
+CUST,"Peter -- Dove, Larry",207,1421969792,Larry Dove,Inactive,,,,Larry,Dove,11/1/2013,Peter,,,,
+CUST,"Peter -- Eidem, Jeramie",404,1428946949,Jeramie Eidem,Left Program,,,,Jeramie,Eidem,4/8/2015,Peter,896271,8/15/1979,CCO Jermaine Castillo,Y
+CUST,"Peter -- Fair, Nicholas",208,1421969792,Nicholas J Fair,Inactive,,,,Nicholas,Fair,10/15/2014,Peter,,,,
+CUST,"Peter -- Frazier, Daniel",209,1421969792,Daniel Frazier,Inactive,,,,Daniel,Frazier,10/22/2014,Peter,,,,
+CUST,"Peter -- Galla, Robert",43,1421969789,Robert Galla,House Leader,,,,Robert,Galla,7/14/2014,Peter,,2/4/1972,,N
+CUST,"Peter -- Gruben, Fred",211,1421969792,Fred Gruben,Inactive,,,,Fred,Gruben,6/5/2014,Peter,,,,
+CUST,"Peter -- Hall, Edwardo",212,1421969792,Edwardo Hall,Inactive,,,,Edwardo,Hall,11/1/2013,Peter,,,,
+CUST,"Peter -- Iverson, Ronald",213,1421969792,Ronald Iverson,Left Program,,,,Ronald,Iverson,11/1/2013,Peter,,,,
+CUST,"Peter -- Keeno, Frank",811,1463507056,Frank A Keeno,Program Participant,,,,Frank,Keeno,5/24/2016,Peter,883282,11/3/1963,CCO Jermaine Castillo,Y
+CUST,"Peter -- Lackey, Jason",643,1452211621,Jason Lackey,Program Participant,,,HEN,Jason,Lackey,1/7/2016,Peter,313952,6/16/1972,CCO Jeremy Praven,Y
+CUST,"Peter -- Lubialuli, George",485,1436307780,George Lubialuli,Program Participant,,,,George,Lubialuli,7/7/2015,Peter,340289,11/19/1949,CCO Leon Neal,Y
+CUST,"Peter -- Orilla, Ronnel",369,1426271213,Ronnel Orilla,Program Participant,,,,Ronnel,Orilla,3/16/2015,Peter,374425,,,
+CUST,"Peter -- Powers, Michael",637,1451589676,Michael Powers,Program Participant,,,,Michael,Powers,1/1/2016,Peter,328051,5/3/1987,CCO Eric Vandewalle,Y
+CUST,"Peter -- Voelckel, Chas",214,1421969792,Chas Voleckel,Inactive,,,,Chas,Voleckel,11/1/2013,Peter,,,,
+CUST,"Peter -- Yates, Lawrence",810,1463424839,Lawrence Yates,Program Participant,,,,Lawrence,Yates,5/19/2016,Peter,753200,5/17/1976,CCO Leon Neal,Y
+CUST,"Philippians -- Bowman, Andrew",468,1434650492,Andrew Bowman,Inactive,,,,Andrew,Bowman,6/17/2015,Philippians,,,,
+CUST,"Philippians -- Burnett, Mark",216,1421969792,Mark Burnett,Inactive,,,,Mark,Burnett,6/14/2014,Philippians,,,,
+CUST,"Philippians -- Hills, James",215,1421969792,James Hills,Inactive,,,,James,Hills,10/1/2014,Philippians,,,,
+CUST,"Philippians - Thomas, David",220,1421969792,David G. Thomas,Inactive,,,,David,Thomas,11/19/2014,Philippians,,,,
+CUST,"Revelation -- Collier, Aaron",222,1421969792,Aaron Collier,Left Program,,,,Aaron,Collier,12/16/2014,Revelation,880640,11/2/1978,,
+CUST,"Revelation -- Hing, Christopher",554,1442333703,Christopher Hing,Terminated,,,,Christopher,Hing,9/14/2015,Revelation,843326,8/30/1983,,
+CUST,"Revelation -- Knox, Robert",542,1441122570,Robert Knox,Terminated,,,Private Pay,Robert,Knox,9/1/2015,Revelation,45152-086,1/9/1961,,
+CUST,"Revelation -- Lesan, Gerald",650,1452727511,Gerald Lesan,Left Program,,,,Gerald,Lesan,1/8/2016,Revelation,,8/3/1967,,
+CUST,"Revelation -- Mitchell, Christian",223,1421969792,Christian Mitchell,Inactive,,,,Christian,Mitchell,9/25/2014,Revelation,,,,
+CUST,"Revelation -- Rigtrup, Steven",586,1445285249,Steven Rigtrup,Left Program,,,,Steven,Rigtrup,10/19/2015,Revelation,383676,6/17/1979,,
+CUST,"Revelation -- Stolcis, Christopher",225,1421969792,Christopher Stolcis,Inactive,,,,Christopher,Stolcis,12/1/2014,Revelation,,,,
+CUST,"Revelation -- Taylor, Andre",226,1421969792,Andre Taylor,Inactive,,,,Andre,Taylor,8/21/2014,Revelation,,,,
+CUST,"Revelation -- Woodring, George",608,1447439906,George Woodring,Terminated,,,,George,Woodring,11/8/2015,Revelation,716096,3/12/1974,,
+CUST,"Romans -- Castilla, Julio",227,1421969792,Julio Castilla,Program Participant,,,,Julio,Castilla,6/2/2014,Romans,849068,7/19/1956,CCO Fred Johnson,N
+CUST,"Romans -- Hartwell, Greg",229,1421969792,Greg Hartwell,Program Participant,,,,Greg,Hartwell,1/13/2014,Romans,880777,4/10/1948,CCO Fred Johnson,N
+CUST,"Romans -- James, Jeremiah",230,1421969792,Jeremiah James,Program Participant,,,,Jeremiah,James,6/14/2014,Romans,,5/13/1984,,N
+CUST,"Romans -- Lalum, Jon",231,1421969792,Jon Lalum,House Leader,,,,Jon,Lalum,9/23/2014,Romans,335739,9/15/1981,CCO Fred Johnson,N
+CUST,"Romans -- Molina, Nestor",233,1421969792,Nestor Molina,Program Participant,,,,Nestor,Molina,3/5/2014,Romans,354668,09/??/28,CCO Jaune Sonnier,N
+CUST,"Romans -- Moss, Curtis",234,1421969793,Curtis Moss,Inactive,,,,Curtis,Moss,2/1/2014,Romans,,,,
+CUST,"Romans -- Neskey, Gary",971,1473956647,Gary Neskey,Program Participant,DOC Voucher:4:DV,,DOC Voucher 12/15/2016,Gary,Neskey,9/16/2016,Romans,995979,11/1/1971,,Y
+CUST,"Romans -- Sanchez, Jesus",867,1467131902,Jesus Sanchez,Program Participant,DOC Voucher:4:DV,,DOC Voucher 9/26/2016,Jesus,Sanchez,6/27/2016,Romans,864076,11/25/1975,CCO Jeff Moen,Y
+CUST,"Romans -- Schermerhorn, Alex",235,1421969793,Alex Schermerhorn,Program Participant,,,,Alex,Schermerhorn,5/27/2014,Romans,310201,9/18/1970,CCO Fred Johnson,N
+CUST,"Romans -- Secrest, Robert",236,1421969793,Robert Secrest,Inactive,,,,Robert,Secrest,11/26/2013,Romans,,,,
+CUST,"Unassigned -- Carter, T",862,1466521350,T Carter,Program Participant,DOC Voucher:4:DV,,DOC Voucher 9/25/16,T,Carter,6/24/2016,,,,,
+CUST,"Unassigned -- Taylor, Scott",618,1448992681,Scott Taylor,Terminated,,,,Scott,Taylor,11/29/2015,Luke,747760,,,
+CUST,"Unassigned -- Traylor, Marvin",615,1448311966,Marvin Traylor,Terminated,,,Awaiting DOC Voucher Left Program,Marvin,Traylor,11/23/2015,Luke,883683,9/6/1968,,
+CUST,"Wright, Brian",39,1421969789,Brian Wright,Active,,,,Brian,Wright,11/19/2012,,,,,
+CUST,"Zion -- Beckenhauer, Ken",411,1428949634,Ken Beckenhauer,Program Participant,,,,Ken,Beckenhauer,8/22/2016,Zion,891261,9/12/1981,CCO Tyler DSouza,
+CUST,"Zion -- Drake, David",847,1465839661,David Drake,Left Program,,,,David,Drake,6/15/2016,Zion,896513,2/25/1987,CCO Shawna Dickerson,
+CUST,"Zion -- Grubbs, Alvin",960,1473191896,Alvin Grubbs,Program Participant,,,,Alvin,Grubbs,9/6/2016,Zion,,2/25/1967,,N
+CUST,"Zion -- Kelly, Glenn",939,1471029520,Glenn Kelly,Program Participant,,,,Glenn,Kelly,8/12/2016,Zion,377217,2/20/1962,CCO Tyler DSouza,Y
+CUST,"Zion -- Melvin, Michael",938,1471024438,Michael Melvin,Program Participant,,,,Michael,Melvin,8/8/2016,Zion,352089,5/27/1977,CCO Andrew Liebl,
+CUST,"Zion -- Morris, Brandon",937,1471023029,Shirley A Morris,Inactive,,,,Brandon,Morris,9/9/2016,Zion,90794,10/5/1978,,N
+CUST,"Zion -- Morton, Anthony",946,1471887355,Anthony Morton,Program Participant,,,,Anthony,Morton,8/20/2016,Zion,336965,11/3/1987,CCO Marco Lazaro,Y
+CUST,"Zion -- OBrien, Michael",184,1421969792,Michael OBrien,Program Participant,,,,Michael,OBrien,4/29/2016,Zion,883924,2/12/1966,CCO Kristina Hanks,N
+CUST,"Zion -- Reedy, Bennett",307,1422983452,Bennett Reedy,Program Participant,,,,Bennett,Reedy,2/1/2015,Zion,,9/14/1961,,N
+CUST,"Zion -- Rodrigue, Stephen",935,1471018442,Stephen Rodrigue,Program Participant,DOC Voucher:4:DV,,DOC Voucher 11/9/2016,Stephen,Rodrigue,8/10/2016,Zion,327624,4/10/1984,CCO Samual Padula,Y
+CUST,"Zion -- Smalancke, John",941,1471290961,John Smalancke,Program Participant,,,,John,Smalancke,8/14/2016,Zion,309562,8/26/1942,CCO Michael Coleman,Y
+CUST,"Zion -- Tate, Kyle",871,1467212878,Kyle Tate,Program Participant,,,,Kyle,Tate,6/28/2016,Zion,47746-086,4/16/1982,USPO Mark Okano,N
+CUST,"Zion -- Thale, Glen",61,1421969789,Glen Thale,House Leader,,,,Glen,Thale,7/6/2014,Zion,375319,7/4/1955,CCO Jeff Moen,N
+CUST,"Zion -- Thompson, William",956,1472666414,William Thompson,Program Participant,DOC Voucher:4:DV,,DOC Voucher 12/5/2016,William,Thompson,9/6/2016,Zion,292480,4/1/1964,CCO Iris Peterson,Y
+CUST,"Zion -- White, John",819,1464021323,John White,Program Participant,,,,John,White,5/26/2016,Zion,334739,1/14/1986,CCO Shawna Dickerson,N
+CUST,"Zion -- White, Kenneth",865,1467045766,Kenneth F White,Program Participant,,,,Kenneth,White,6/25/2016,Zion,42018-086,4/22/1954,USPO Lisimba Jackson,?

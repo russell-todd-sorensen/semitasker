@@ -1,0 +1,37 @@
+8
+
+dir
+66
+http://twsdl.googlecode.com/svn/tags/twist-0.9.10/packages/doc
+http://twsdl.googlecode.com/svn
+
+
+
+2007-09-05T20:43:30.138314Z
+64
+tom.rmadilo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+45e038e7-871e-0410-ab0a-b1edb26ebeb7
+
+tcl
+dir
+
+www
+dir
+
+man
+dir
+

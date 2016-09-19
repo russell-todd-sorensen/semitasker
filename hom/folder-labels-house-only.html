@@ -1,0 +1,325 @@
+<!DOCTYPE HTML>
+<html><head>
+ <title>Labels 8366</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/css/main.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="js/folder-labels-house-only.js" ></script>
+<style>
+.page8366 {
+	width:  8.5in;
+	height: 11in;
+	fill: white;
+	stroke-width: .5;
+	stroke: black;
+	
+}
+
+.label8366 {
+	display: inline-block;
+	height: .6667in;
+	width: 3.4375in;
+	fill: white;
+	stroke: tan;
+	stroke-width: .5;
+	rx: 10;
+	ry: 10;
+	
+}
+
+.house {
+	text-anchor: middle;
+	font-weight: normal;
+	font-size: 36px;
+	stroke: none;
+	fill: black;
+}
+
+.pname {
+	text-anchor: start;
+	font-weight: bold;
+	font-size: 36px;
+	stroke: none;
+	fill: black;
+}
+
+.docid {
+	text-anchor: end;
+	font-weight: bold;
+	font-size: 36px;
+	stroke: none;
+	fill: #AA0000;
+}
+
+/* form input styles */
+
+#form1 {
+    background-color: rgb(192,192,192);
+    padding: 10px;
+    position: absolute;
+    top: 100px;
+    right: 5px;
+}
+
+.input-button {
+    color: #666;
+    float: right;
+    font-weight: bold;
+    border: 3px solid;
+    cursor: pointer;
+}
+#label-12-pname {
+	font-size: 20px;
+}
+
+/* what not to show when printing */
+
+#notice {
+	color: red;
+	font-style: bold;
+	width: 300px;
+	position: absolute;
+	right: 0;
+	top: 10px;
+	text-align: center;
+}
+
+@media print {
+	.page8366 {
+		display:none;
+	}
+	#form1 {
+		display:none;
+	}
+	#notice {
+		display:none;
+	}
+	.label8366 {
+		stroke: black;
+	}
+	.null {
+		display: none;
+	}
+}
+</style>
+
+</head>
+<body>
+<div id="notice">When printing, remove headers, footers and margins</div>
+<div id="form1">
+<form id="controls">
+<input type="text" name="data" id="data" value="">
+<fieldset>
+<legend onClick="togglePanel('panel','panel-4','panel-2');" style="cursor: pointer" title="Click to Minimize/Expand">Participant Data</legend>
+<ul id="panel">
+ <li><label for="editIndex">Edit Index:</label>
+     <input type="number" min="0" max="29" step="1" name="editIndex" id="editIndex" onChange=""/>
+ </li>
+ <li><label for="pname">Left:</label>
+  <input type="text" name="pname" id="pname" onChange="" maxlength="20" />
+ </li>
+ <li>
+  <label for="docid" >Right:</label>
+   <input id="docid" name="docid" type="text" maxlength="15" onChange="">
+  </li>
+ <li>
+   <label for="house" >Top:</label>
+   <select id="house" name="house" onChange="">
+    <option value="" selected>None</option>
+    <option value="1 Timothy">1 Timothy</option>
+    <option value="2 Timothy">2 Timothy</option>
+    <option value="Barnabas">Barnabas</option>
+    <option value="Genesis 3">Genesis 3</option>
+    <option value="Israel">Israel</option>
+    <option value="James">James</option>
+    <option value="John">John</option>
+    <option value="Joshua">Joshua</option>
+    <option value="Light">Light</option>
+    <option value="Luke">Luke</option>
+    <option value="Mark">Mark</option>
+    <option value="Matthew">Matthew</option>
+    <option value="Paul">Paul</option>
+    <option value="Peter">Peter</option>
+    <option value="Philippians">Philippians</option>
+    <option value="Romans">Romans</option>
+    <option value="Zion">Zion</option>
+   </select>
+ </li>
+ <li>
+  <input type="button" value="Update" onClick="updateLabel()">
+  <input type="button" value="Save All" onClick="saveAll();">
+  <input type="button" value="Clear Label" onClick="clearLabel();">
+ </li>
+ </ul>
+</fieldset>
+</form>
+
+</div> 
+
+  
+<svg id="svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink" 
+   version="1.0" 
+   x="0" 
+   y="0"
+   height="1020"
+   width="800"
+   style="cursor: pointer;">
+<defs>
+
+</defs>
+<rect id="page" x="0" y="0" class="page8366"></rect>
+
+</svg>
+<script>
+// data to merge with labels:
+
+var Labels = {
+	participants: [],
+	template: function () {
+		this.house = null;
+		this.pname = null;
+		this.docid = null;
+		this.extra = null;
+		return this;
+	},
+	participant: function (house,pname,docid,extra) {
+		this.house = house;
+		this.pname = pname;
+		this.docid = docid;
+		this.extra = extra;
+		return this;
+	},
+	initialized: false,
+	initParticipants: function(size) {
+		if (!this.initialized) {
+			for (var i = 0; i < size; i++) {
+				this.participants[i] = new this.template();
+			}
+			this.initialized = true;
+		}
+		return this.initialized;
+	},
+	
+};
+
+var size = 30;
+Labels.initParticipants(size)
+
+var formIds = {
+	editIndex: 'editIndex',
+	data: 'data',
+	house: 'house',
+	docid: 'docid',
+	pname: 'pname',
+	extra: 'extra'
+};
+
+function getLabelData(labelId, field) {
+	var val = $('#' + labelId + "-" + formIds[field]).text();
+	$('#' + formIds[field]).val(val);
+	Log.Notice(field + '="' + val + '"');
+	return val
+}
+
+function getLabelSelectData(labelId, field) {
+	var val = $('#' + labelId + "-" + formIds[field]).text();
+	Log.Notice(field + '="' + val + '"');
+	
+	var selectedOption = "#" + formIds[field] + " " + "option:selected";
+    $(selectedOption).removeAttr('selected');
+    var valueOption = "#" + formIds[field] + " " + "option[value='" + val + "']";
+    $(valueOption).attr('selected', 'selected');
+	return val
+}
+
+function setEditLabelIndex ( evt ) {
+
+	var data = this.id;
+	var re = /(label-)([0-9]*)/;
+	var match =  data.match(re);
+	var labelId = match[0];
+	
+	$('#' + formIds.editIndex).val(match[2]);
+	
+	getLabelData(labelId,formIds.docid);	
+	getLabelData(labelId,formIds.pname);	
+	getLabelSelectData(labelId,formIds.house);
+}
+
+function restoreAll(inputId) {
+	var val = $('#' + inputId).val();
+	Labels.participants = JSON.parse(val);
+	Log.Notice("restoreAll('" + inputId + "')");
+}
+
+function updateLabel() {
+	
+	var id = parseInt($('#' + formIds.editIndex).val());
+	var pname = $('#' + formIds.pname).val();
+	var docid = $('#' + formIds.docid).val();
+	var house = $('#' + formIds.house + " option:selected").val();
+	
+	Labels.participants[id] = {
+		pname:pname,
+		docid:docid,
+		house:house,
+		extra:null
+	};
+
+	reloadLabels();
+}
+
+function reloadLabels() {
+	
+    saveAll();
+	destroyLabels(0,'svg',Labels.participants);
+	createLabels(0,'svg',Labels.participants);
+}
+
+function clearLabel() {
+	var id = parseInt($('#' + formIds.editIndex).val());
+	Labels.participants[id] = {
+		pname:null,
+		docid:null,
+		house:null,
+		extra:null
+	};
+	reloadLabels();
+}
+
+function saveAll() {
+	var id = formIds.data
+	var val = JSON.stringify(Labels.participants);
+	$('#' + id).val(val);
+	Data.saveInput(id,'restoreAll');
+	Log.Notice('saved all');
+}
+
+$(document).ready(function() {
+		
+  Data.restoreInput('data');
+  createLabels(0, 'svg',Labels.participants);
+  
+  var labels = $('.label8366');
+  var node;
+  for (i=0; i< labels.length;i++) {
+  	  node = labels[i].id
+  	  $('#' + node).bind('click',i,setEditLabelIndex);
+  }
+});
+
+</script>
+</body>
+</html>

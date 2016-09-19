@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<queryset>
+<fullquery name="cams_content::file::new.attribute">      
+      <querytext>
+select
+ content_type_id,
+ attribute,
+ attribute_type,
+ public_p
+from
+ cams_attributes
+where
+ attribute_id = :attribute_id
+      </querytext>
+</fullquery>
+</queryset>

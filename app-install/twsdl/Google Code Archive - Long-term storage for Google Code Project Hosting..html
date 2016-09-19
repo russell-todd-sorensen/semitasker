@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)https://code.google.com/archive/p/twsdl/wikis/Installation.wiki -->
+<html class="google ng-scope" lang="en" ng-app="codesiteArchive.application"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta content="initial-scale=1, minimum-scale=1, width=device-width" name="viewport">
+
+    <!-- https://developers.google.com/webmasters/ajax-crawling/docs/specification -->
+    <meta name="fragment" content="!">
+    <title>Google Code Archive - Long-term storage for Google Code Project Hosting.</title>
+
+    <link rel="icon" type="image/vnd.microsoft.icon" href="https://code.google.com/archive/img/project-hosting.ico">
+    <script src="./Google Code Archive - Long-term storage for Google Code Project Hosting._files/google.js"></script>
+    <link href="./Google Code Archive - Long-term storage for Google Code Project Hosting._files/maia.css" rel="stylesheet">
+    <link href="./Google Code Archive - Long-term storage for Google Code Project Hosting._files/css" rel="stylesheet">
+    <link rel="stylesheet" href="./Google Code Archive - Long-term storage for Google Code Project Hosting._files/archive_css.css">
+    <script>
+      CLOSURE_NO_DEPS = true;
+    </script>
+    <script src="./Google Code Archive - Long-term storage for Google Code Project Hosting._files/angular.js"></script><style type="text/css">@charset "UTF-8";
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak],
+.ng-cloak, .x-ng-cloak,
+.ng-hide:not(.ng-hide-animate) {
+  display: none !important;
+}
+
+ng\:form {
+  display: block;
+}
+
+.ng-animate-shim {
+  visibility:hidden;
+}
+
+.ng-anchor {
+  position:absolute;
+}
+</style>
+    <script src="./Google Code Archive - Long-term storage for Google Code Project Hosting._files/pagedown.js"></script>
+    <script src="./Google Code Archive - Long-term storage for Google Code Project Hosting._files/archive.js"></script>
+    <!--<base href="/archive/">--><base href=".">
+  </head>
+
+  <body>
+    <div class="maia-header" id="maia-header" role="banner">
+      <div class="maia-aux">
+        <a href="https://code.google.com/archive/">
+          </a><h1><a href="https://code.google.com/archive/">
+            <img alt="Google" src="./Google Code Archive - Long-term storage for Google Code Project Hosting._files/googlelogo_color_116x41dp.png"> Code</a>
+          </h1>
+        
+        <a href="https://code.google.com/archive/">
+          <h2>
+            Archive
+          </h2>
+        </a>
+        <a class="maia-teleport" href="https://code.google.com/archive/#content">Skip to content</a>
+        <div class="maia-util">
+          <form action="https://code.google.com/archive/search" class="maia-search ng-pristine ng-valid">
+            <input name="q" placeholder="Search this site" type="text">
+            <button class="maia-button">
+              <span class="maia-search-icon">Search</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ngView:  --><div ng-view="" class="ng-scope"><div ng-controller="ProjectWikiCtrl as wikiCtrl" class="ng-scope">
+<nav-bar-widget nav-level-1="wikiCtrl.navLevel1" class="ng-isolate-scope"><div class="maia-nav maia-complex" id="maia-nav-x" role="navigation">
+  <div class="maia-aux">
+    <ul>
+      <li ng-class="{active: navLevel1 == &#39;projects&#39;}" class="active">
+        <a href="https://code.google.com/archive/">Projects</a>
+        <!-- ngIf: navLevel2 -->
+      </li>
+      <li ng-class="{active: navLevel1 == &#39;search&#39;}">
+        <a href="https://code.google.com/archive/search">Search</a>
+      </li>
+      <li ng-class="{active: navLevel1 == &#39;about&#39;}">
+        <a href="https://code.google.com/archive/about">About</a>
+      </li>
+    </ul>
+  </div>
+</div>
+</nav-bar-widget>
+<div id="maia-main" role="main">
+
+  <!-- ngIf: wikiCtrl.notFound -->
+
+  <div ng-hide="wikiCtrl.notFound">
+    <!-- Left-side resource nav -->
+    <project-resources-widget domain="wikiCtrl.domain" project="wikiCtrl.projectName" class="ng-isolate-scope"><div class="maia-nav" id="maia-nav-y" role="navigation">
+  <!-- ngIf: domain == 'code.google.com' --><ul ng-if="domain == &#39;code.google.com&#39;" class="ng-scope">
+    <li class="active">
+      <a href="https://code.google.com/archive/p/twsdl/">Project</a>
+    </li>
+    <li>
+      <a href="https://code.google.com/archive/p/twsdl/source">Source</a>
+    </li>
+    <li>
+      <a href="https://code.google.com/archive/p/twsdl/issues">Issues</a>
+    </li>
+    <li>
+      <a href="https://code.google.com/archive/p/twsdl/wikis">Wikis</a>
+    </li>
+    <li>
+      <a href="https://code.google.com/archive/p/twsdl/downloads">Downloads</a>
+    </li>
+  </ul><!-- end ngIf: domain == 'code.google.com' -->
+
+    <!-- ngIf: domain != 'code.google.com' -->
+</div></project-resources-widget>
+
+    <div class="maia-article" role="article">
+      <div class="maia-teleport" id="content"></div>
+      <div class="maia-cols">
+        <div id="gca-project-header" class="maia-col-10">
+          <a id="gca-export-to-gh" class="maia-button" href="https://code.google.com/export-to-github/export?project=twsdl">Export to GitHub</a>
+          <img class="gca-project-logo" src="./Google Code Archive - Long-term storage for Google Code Project Hosting._files/logo.png">
+          <h1 class="ng-binding">twsdl - Installation.wiki</h1>
+        </div>
+
+        <!-- ngIf: wikiCtrl.error -->
+
+        <!-- ngIf: !wikiCtrl.error --><div ng-if="!wikiCtrl.error" class="maia-col-10 ng-scope">
+          <hr>
+
+          <markdown-widget text="wikiCtrl.wikiContents" class="markdown"><h1>Introduction</h1>
+
+<p>This page describes how to install tWSDL</p>
+
+<h2>Install Tcl 8.4</h2>
+
+<p>I use a file to hold my configure params create a file in
+the tcl8.4.9/unix directory:</p>
+
+<p>```</p>
+
+<h1>!/bin/bash</h1>
+
+<p>./configure --prefix=/web/m2 \
+            --enable-threads \
+            --enable-symbols \
+            --disable-shared 
+```</p>
+
+<p>Make changes to --prefix as required (Tcl will install in
+/web/m2/lib based upon the above --prefix, tclsh8.4 will
+go into /web/m2/bin.</p>
+
+<h2>Install AOLserver 4.5 (referencing Tcl from step 0)</h2>
+
+<p>I use a file to hold my configure params create a file in
+the AOLserver source directory with this contents:</p>
+
+<p>```</p>
+
+<h1>!/bin/bash</h1>
+
+<p>./configure --prefix=/web/nsd45 \
+        --with-tcl=/web/m2/lib \
+        --enable-debug \
+        --enable-symbols \
+        --enable-shared
+```</p>
+
+<p>Make changes to --prefix and --with-tcl as required
+You may have to edit some compile/install files to reflect the path
+to the tclsh8.4 installed in step 0.</p>
+
+<h2>2. Install tDOM 0.8.0 (into Tcl lib directory from step 0)</h2>
+
+<p>Create a file as follows:</p>
+
+<p>```</p>
+
+<h1>!/bin/bash</h1>
+
+<p>../configure --enable-threads \
+        --enable-shared \
+        --enable-dtd \
+        --enable-ns \
+        --disable-unknown \
+        --disable-tdomalloc \
+        --with-tcl=/web/m2/lib \
+        --with-aolserver=/web/nsd45
+```</p>
+
+<p>Make changes to --with-tcl and --with-aolserver as needed.
+Note that I have disabled tdom unknown, since it makes it harder to
+track down errors during development.</p>
+
+<h2>Checkout tWSDL into the private Tcl directory of the virtual server</h2>
+
+<p>If AOLserver Home = /web/nsd45,
+Virtual servers are under /web/nsd45/servers
+For virtual server wstest,
+Private Tcl Directory = /web/nsd45/servers/wstest/modules/tcl</p>
+
+<p>Or the Private Tcl Directory can be set using , for instance:</p>
+
+<p>```
+ns_section  ns/server/${server}/tcl
+ns_param   library        "$home/servers/${server}/modules/tcl"
+ns_param   autoclose      "on" 
+ns_param   debug          "true" ;# false
+ns_param   SharedLibrary  "$home/modules/tcl" 
+ns_param   initfile       "$home/bin/init.tcl"
+ns_param   nsvbuckets     "8"</p>
+
+<p>```</p>
+
+<p>The ns_param library gives the full path.</p>
+
+<p>Use these commands:</p>
+
+<p><code>
+$ cd /web/nsd45/servers/wstest/modules/tcl
+$ svn checkout http://twsdl.googlecode.com/svn/trunk/ twsdl
+</code></p>
+
+<h2>Configure AOLserver to load tWSDL by adding a tcl module:</h2>
+
+<p><code>
+ns_section ns/server/${server}/modules
+ns_param twsdl tcl
+</code></p>
+
+<h2>Testing:</h2>
+
+<p>Large parts of tWSDL function without AOLserver. Additional parts work
+with libnsd.so loaded. Here is a simple method of testing that all the
+software is installed, ignoring AOLserver configuration issues:</p>
+
+<p>```
+$ cd (to twsdl directory containing init.tcl)
+$ ls
+add-copyright  copyright-notice.txt  init.tcl  packages  README</p>
+
+<p>$ /web/m2/bin/tclsh8.4 <br>
+% load /web/nsd45/lib/libnsd.so 
+% source init.tcl
+```</p>
+
+<p>Any errors should be related to missing server commands such as
+ns_register_proc.</p>
+
+<p>You don't even need to load libnsd.so, but you then will need to load tDOM
+by hand.</p>
+
+<p>Symlink package www directories to where you want them to show up under
+pageroot.</p>
+
+<p>Remove or add packages by editing the file packages/tws/tcl/tws-local-conf.tcl
+(edit the list ::tws::packages, note that order may be important).</p>
+
+<h2>Enjoy!</h2></markdown-widget>
+        </div><!-- end ngIf: !wikiCtrl.error -->
+      </div>
+    </div>
+  </div>
+</div>
+</div></div>
+
+    <div id="maia-signature"></div>
+    <div class="maia-footer" id="maia-footer">
+      <div id="maia-footer-local">
+      </div>
+      <div id="maia-footer-global">
+        <div class="maia-aux">
+          <ul>
+            <li>
+              <a href="https://www.google.com/">Google</a>
+            </li>
+            <li>
+              <a href="https://www.google.com/intl/en/about/">About Google</a>
+            </li>
+            <li>
+              <a href="https://www.google.com/intl/en/policies/privacy/">Privacy</a>
+            </li>
+            <li>
+              <a href="https://www.google.com/intl/en/policies/terms/">Terms</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <script src="./Google Code Archive - Long-term storage for Google Code Project Hosting._files/maia.js"></script>
+  
+
+</body></html>

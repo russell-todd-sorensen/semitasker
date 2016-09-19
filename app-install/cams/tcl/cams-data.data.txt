@@ -1,0 +1,1011 @@
+catch {db_dml insert_group "insert into qw_groups (group_id, name) values (
+'1','QW Admin')" } 
+catch {db_dml insert_group "insert into qw_groups (group_id, name) values (
+'2','Main Site Members')" } 
+db_dml insert_qw_object "insert into qw_objects (object_id,object,obj_table,key,
+to_eval,set_perm_check,del_perm_check,ops,new_fn,set_fn,del_fn,rst_fn,
+perm_p) values ('cams_values','cams_values','cams_attribute_values','value_id',
+'context_id;set context_id
+\$content_id','','','new;set;del','cams_values__new','cams_values__new','cams_values__delete','cams_values__reset_attrs',
+'1')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'value_id','cams_values','value_id',
+'value_id','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'attribute_id','cams_values','attribute_id',
+'attribute_id','',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'content_id','cams_values','content_id',
+'content_id','',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'attr_order','cams_values','attr_order',
+'attr_order','''1''',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'attr_value','cams_values','attr_value',
+'attr_value','',
+'','',
+'','0','text')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'content_type','cams_values','content_type',
+'content_type','''text/plain''',
+'','',
+'','256','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'attr_title','cams_values','attr_title',
+'attr_title','null',
+'','',
+'','256','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'attr_longdesc','cams_values','attr_longdesc',
+'attr_longdesc','null',
+'','',
+'','0','text')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'modifying_ip','cams_values','modifying_ip',
+'modifying_ip','null',
+'','',
+'','2','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'context_id','cams_values','context_id',
+'context_id','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'security_inherit_p','cams_values','security_inherit_p',
+'security_inherit_p','''t''',
+'','',
+'','0','bool')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_user','cams_values','creation_user',
+'creation_user','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_date','cams_values','creation_date',
+'creation_date','(''now''::text)::timestamp(6) with time zone',
+'','',
+'','0','timestamptz')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_ip','cams_values','creation_ip',
+'creation_ip','null',
+'','',
+'','2','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'last_modified','cams_values','last_modified',
+'last_modified','(''now''::text)::timestamp(6) with time zone',
+'','',
+'','0','timestamptz')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'object_type','cams_values','object_type',
+'object_type','''cams_values''',
+'','',
+'','100','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'modifying_user','cams_values','modifying_user',
+'modifying_user','null',
+'','integer',
+'','0','int4')"
+db_dml insert_qw_object "insert into qw_objects (object_id,object,obj_table,key,
+to_eval,set_perm_check,del_perm_check,ops,new_fn,set_fn,del_fn,rst_fn,
+perm_p) values ('cams_content_type','cams_content_type','cams_content_types','content_type_id',
+'party_id;upvar user_id party_id','','','new;set;del','cams_content_type__new','cams_content_type__new','cams_content_type__delete','cams_content_type__reset_attrs',
+'1')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'content_type_id','cams_content_type','content_type_id',
+'content_type_id','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'parent_id','cams_content_type','parent_id',
+'parent_id','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'content_type','cams_content_type','content_type',
+'content_type','',
+'','',
+'','64','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'link_text','cams_content_type','link_text',
+'link_text','',
+'','',
+'','64','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'archive_type_id','cams_content_type','archive_type_id',
+'archive_type_id','''1''',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'sort_by','cams_content_type','sort_by',
+'sort_by','''content_date DESC''',
+'','',
+'','256','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'display_limit','cams_content_type','display_limit',
+'display_limit','''20''',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'party_id','cams_content_type','party_id',
+'party_id','',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'public_p','cams_content_type','public_p',
+'public_p','''f''',
+'','',
+'','1','bpchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'open_p','cams_content_type','open_p',
+'open_p','''f''',
+'','',
+'','1','bpchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'moderated_p','cams_content_type','moderated_p',
+'moderated_p','''t''',
+'','',
+'','1','bpchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'type_title','cams_content_type','type_title',
+'content_title','',
+'','',
+'','0','text')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'type_description','cams_content_type','type_description',
+'content_description','',
+'','',
+'','0','text')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'type_template_id','cams_content_type','type_template_id',
+'type_template_id','null',
+'','',
+'','0','integer')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'master_template_id','cams_content_type','master_template_id',
+'master_template_id','null',
+'','',
+'','0','integer')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'context_id','cams_content_type','context_id',
+'context_id','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_user','cams_content_type','creation_user',
+'creation_user','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'security_inherit_p','cams_content_type','security_inherit_p',
+'security_inherit_p','''t''',
+'','',
+'','0','bool')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_date','cams_content_type','creation_date',
+'creation_date','(''now''::text)::timestamp(6) with time zone',
+'','',
+'','0','timestamptz')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_ip','cams_content_type','creation_ip',
+'creation_ip','null',
+'','',
+'','2','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'last_modified','cams_content_type','last_modified',
+'last_modified','(''now''::text)::timestamp(6) with time zone',
+'','',
+'','0','timestamptz')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'modifying_ip','cams_content_type','modifying_ip',
+'modifying_ip','null',
+'','',
+'','2','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'object_type','cams_content_type','object_type',
+'object_type','''cams_content_type''',
+'','',
+'','100','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'modifying_user','cams_content_type','modifying_user',
+'modifying_user','null',
+'','integer',
+'','0','int4')"
+db_dml insert_qw_object "insert into qw_objects (object_id,object,obj_table,key,
+to_eval,set_perm_check,del_perm_check,ops,new_fn,set_fn,del_fn,rst_fn,
+perm_p) values ('cams_attribute','cams_attribute','cams_attributes','attribute_id',
+'context_id;
+set context_id \$content_type_id','','','new;set;del','cams_attribute__new','cams_attribute__new','cams_attribute__delete','cams_attribute__reset_attrs',
+'1')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'attribute_id','cams_attribute','attribute_id',
+'attribute_id','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'content_type_id','cams_attribute','content_type_id',
+'content_type_id','',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'attribute','cams_attribute','attribute',
+'attribute','',
+'','',
+'','30','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'attribute_type','cams_attribute','attribute_type',
+'attribute_type','''text''',
+'','',
+'','64','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'form_widget','cams_attribute','form_widget',
+'form_widget','''text''',
+'','',
+'','64','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'pretty_name','cams_attribute','pretty_name',
+'pretty_name','',
+'','',
+'','64','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'public_p','cams_attribute','public_p',
+'public_p','''t''',
+'','',
+'','1','bpchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'modifying_ip','cams_attribute','modifying_ip',
+'modifying_ip','null',
+'','',
+'','2','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'context_id','cams_attribute','context_id',
+'context_id','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'security_inherit_p','cams_attribute','security_inherit_p',
+'security_inherit_p','''t''',
+'','',
+'','0','bool')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_user','cams_attribute','creation_user',
+'creation_user','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_date','cams_attribute','creation_date',
+'creation_date','(''now''::text)::timestamp(6) with time zone',
+'','',
+'','0','timestamptz')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_ip','cams_attribute','creation_ip',
+'creation_ip','null',
+'','',
+'','2','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'last_modified','cams_attribute','last_modified',
+'last_modified','(''now''::text)::timestamp(6) with time zone',
+'','',
+'','0','timestamptz')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'object_type','cams_attribute','object_type',
+'object_type','''cams_attribute''',
+'','',
+'','100','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'modifying_user','cams_attribute','modifying_user',
+'modifying_user','null',
+'','integer',
+'','0','int4')"
+db_dml insert_qw_object "insert into qw_objects (object_id,object,obj_table,key,
+to_eval,set_perm_check,del_perm_check,ops,new_fn,set_fn,del_fn,rst_fn,
+perm_p) values ('cams_content','cams_content','cams_content','content_id',
+'user_id;upvar user_id user_id;context_id;set context_id \$content_type_id','','','new;set;del','cams_content__new','cams_content__new','cams_content__delete','cams_content__reset_attrs',
+'1')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'content_id','cams_content','content_id',
+'content_id','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'user_id','cams_content','user_id',
+'user_id','',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'content_type_id','cams_content','content_type_id',
+'content_type_id','',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'content_template_id','cams_content','content_template_id',
+'content_template_id','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'content_title','cams_content','content_title',
+'content_title','',
+'','',
+'','0','text')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'content','cams_content','content',
+'content','',
+'','',
+'','0','text')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'content_date','cams_content','content_date',
+'content_date','(''now''::text)::timestamp(6) with time zone',
+'','',
+'','0','timestamptz')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'public_p','cams_content','public_p',
+'public_p','''f''',
+'','',
+'','1','bpchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'archive_p','cams_content','archive_p',
+'archive_p','''f''',
+'','',
+'','1','bpchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'approved_p','cams_content','approved_p',
+'approved_p','''f''',
+'','',
+'','1','bpchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'approval_date','cams_content','approval_date',
+'approval_date','null',
+'','',
+'','0','timestamptz')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_date','cams_content','creation_date',
+'creation_date','(''now''::text)::timestamp(6) with time zone',
+'','',
+'','0','timestamptz')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_ip','cams_content','creation_ip',
+'creation_ip','null',
+'','',
+'','2','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'last_modified','cams_content','last_modified',
+'last_modified','(''now''::text)::timestamp(6) with time zone',
+'','',
+'','0','timestamptz')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'modifying_ip','cams_content','modifying_ip',
+'modifying_ip','null',
+'','',
+'','2','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'security_inherit_p','cams_content','security_inherit_p',
+'security_inherit_p','''t''',
+'','',
+'','0','bool')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'creation_user','cams_content','creation_user',
+'creation_user','null',
+'','integer',
+'','0','int4')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'context_id','cams_content','context_id',
+'context_id','null',
+'','integer',
+'','0','integer')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'object_type','cams_content','object_type',
+'object_type','''cams_content''',
+'','',
+'','100','varchar')"
+db_dml insert_object_attr "insert into qw_attrs (attr_id,object_id,attr,
+description,default_value,help_text,filters,values,length,datatype) values (
+'modifying_user','cams_content','modifying_user',
+'modifying_user','null',
+'','integer',
+'','0','int4')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','modifying_user',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','attr_title',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','object_type',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','attribute_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','security_inherit_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','creation_date',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','attr_order',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','context_id',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','value_id',
+'','new;del')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','content_type',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','attribute_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','security_inherit_p',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','last_modified',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','creation_user',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','content_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','attr_order',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','creation_date',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','attr_longdesc',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','modifying_ip',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','creation_ip',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','value_id',
+'','new;del')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','context_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','attr_value',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','content_type',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','last_modified',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','attr_title',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','creation_user',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','modifying_user',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','content_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','attr_longdesc',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','modifying_ip',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','creation_ip',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_values','attr_value',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_values','object_type',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','creation_date',
+'','new')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','creation_user',
+'','new')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','security_inherit_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','type_template_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','display_limit',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','parent_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','modifying_ip',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','party_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','content_type',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','creation_date',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','creation_user',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','party_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','archive_type_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','object_type',
+'','new')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','content_type',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','creation_ip',
+'','new')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','creation_ip',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','link_text',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','public_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','link_text',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','public_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','last_modified',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','master_template_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','context_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','open_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','last_modified',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','content_type_id',
+'','new;del')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','sort_by',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','modifying_user',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','moderated_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','open_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','type_template_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','security_inherit_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','modifying_ip',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','object_type',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','archive_type_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','modifying_user',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','display_limit',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','parent_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','context_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','master_template_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','sort_by',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','content_type_id',
+'','new;del')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','moderated_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','type_title',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','type_title',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content_type','type_description',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content_type','type_description',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','modifying_ip',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','public_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','context_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','content_type_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','creation_user',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','creation_ip',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','attribute_type',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','security_inherit_p',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','attribute_id',
+'','new;del')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','pretty_name',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','content_type_id',
+'','new')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','creation_user',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','modifying_user',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','creation_date',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','attribute',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','attribute_type',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','creation_ip',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','object_type',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','last_modified',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','attribute_id',
+'','new;del')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','security_inherit_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','form_widget',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','pretty_name',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','modifying_user',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','public_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','creation_date',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','modifying_ip',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','attribute',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','object_type',
+'','new')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','last_modified',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_attribute','form_widget',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_attribute','context_id',
+'','new')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','modifying_user',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','modifying_ip',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_date',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','creation_date',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','archive_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','last_modified',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','user_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','approval_date',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','context_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_template_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','approved_p',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','content_id',
+'','new;del')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','user_id',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','creation_user',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','approval_date',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','content_type_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','object_type',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','context_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','public_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','content_template_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','creation_ip',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','security_inherit_p',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','content_title',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_id',
+'','new;del')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','approved_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','modifying_user',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','modifying_ip',
+'','set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','content',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','creation_user',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_type_id',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','creation_date',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','content_date',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','object_type',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','creation_ip',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','public_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','last_modified',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','security_inherit_p',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_title',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('2','cams_content','archive_p',
+'','')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_date.month',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_date.day',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_date.year',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_date.hour',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_date.minute',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_date.timezone',
+'','new;set')"
+db_dml  insert_qroup_attr_mapping "insert into qw_group_attr_map 
+(group_id,object_id,attr_id,values,ops) values ('1','cams_content','content_date.second',
+'','new;set')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_set','cams_values','pseudo')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_del','cams_values','pseudo')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_new','cams_values','pseudo')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_object_files_new','cams_values','::cams::file::new')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_set','cams_content_type','pseudo')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_del','cams_content_type','pseudo')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_new','cams_content_type','pseudo')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_set','cams_attribute','pseudo')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_del','cams_attribute','pseudo')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_new','cams_attribute','pseudo')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_set','cams_content','pseudo')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_del','cams_content','pseudo')"
+db_dml nsv_map "insert into qw_nsv_map (nsv_name, nsv_element, nsv_value) 
+values
+ ('qw_new','cams_content','pseudo')"
+

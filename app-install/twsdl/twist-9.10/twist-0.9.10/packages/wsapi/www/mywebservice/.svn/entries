@@ -1,0 +1,41 @@
+8
+
+dir
+66
+http://twsdl.googlecode.com/svn/tags/twist-0.9.10/packages/wsapi/www/mywebservice
+http://twsdl.googlecode.com/svn
+
+
+
+2007-06-23T17:25:52.904206Z
+60
+tom.rmadilo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+45e038e7-871e-0410-ab0a-b1edb26ebeb7
+
+index.tcl
+file
+
+
+
+
+2007-09-21T21:31:12.000000Z
+c97e5fb2302d31acbee94c756997d5e4
+2007-06-23T17:25:52.904206Z
+60
+tom.rmadilo
+has-props
+

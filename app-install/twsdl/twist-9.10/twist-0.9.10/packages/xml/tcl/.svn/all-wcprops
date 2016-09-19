@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/xml/tcl
+END
+xml-document-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/xml/tcl/xml-document-procs.tcl
+END
+xml-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/xml/tcl/xml-init.tcl
+END
+xml-instance-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/xml/tcl/xml-instance-init.tcl
+END
+xml-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/xml/tcl/xml-procs.tcl
+END
+xml-instance-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/xml/tcl/xml-instance-procs.tcl
+END
+xml-element-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/xml/tcl/xml-element-procs.tcl
+END

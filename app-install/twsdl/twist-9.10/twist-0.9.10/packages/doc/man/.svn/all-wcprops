@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/doc/man
+END
+wselement.n
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/doc/man/wselement.n
+END
+wsnamespace.n
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/doc/man/wsnamespace.n
+END
+wsreturn.n
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/doc/man/wsreturn.n
+END
+wstype.n
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/doc/man/wstype.n
+END
+wsproc.n
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/doc/man/wsproc.n
+END
+Makefile
+K 25
+svn:wc:ra_dav:version-url
+V 60
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/doc/man/Makefile
+END

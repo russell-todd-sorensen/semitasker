@@ -1,0 +1,41 @@
+The WS::Client can be used to access a TWiST service.
+
+From a Tcl prompt:
+
+% package require WS::Client
+1.0.6
+% WS::Client::GetAndParseWsdl http://junom.com/ws/mywebservice/?WSDL {} mws
+(lots of stuff)
+% WS::Client::CreateStubs mws
+
+        ::mws::testitOperation {a b c}
+        ::mws::EchoSymbolOperation Symbol
+        ::mws::EchoCodeOperation Code
+        ::mws::EchoOperation Input
+        ::mws::AddNumbersOperation {FirstNum SecondNum}
+        ::mws::MultiplyNumbersOperation {FirstDecimal SecondDecimal}
+        ::mws::helloOperation who
+        ::mws::helloWorldOperation helloWorldRequest
+        ::mws::EchoByteOperation ByteAsIntegerIn
+        ::mws::TestDecimalValueOperation StringToTest
+        ::mws::testStringOperation {MyOtherString MyString MyThirdString}
+
+% ::mws::MultiplyNumbersOperation 56.7 89.34
+Product 5065.578
+% ::mws::testitOperation "e " " f" " g "
+A {e } B { f} C { g }
+% WS::Client::GetAndParseWsdl http://junom.com/ws/stockquoter2/?WSDL {} sq
+(lots of stuff)
+% WS::Client::CreateStubs sq
+
+        ::sq::StockOperation {Symbol Verbose}
+        ::sq::StocksOperation {Symbol Verbose}
+
+% ::sq::StocksOperation {MSFT XOM} 0
+StockResponse {{Symbol MSFT Quote 27.23 Name {}} {Symbol XOM Quote 27.69 Name {}}}
+% ::sq::StockOperation MSFT 0
+Symbol MSFT Quote 27.42 Name {}
+% exit
+$
+
+

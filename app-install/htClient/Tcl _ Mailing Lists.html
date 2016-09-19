@@ -1,0 +1,5554 @@
+<!DOCTYPE html>
+<!-- saved from url=(0075)https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&viewday=20 -->
+<html lang="en" class="js cssgradients boxshadow"><!--<![endif]--><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <title>Tcl / Mailing Lists</title>
+    
+
+
+<script async="" type="text/javascript" src="./Tcl _ Mailing Lists_files/gpt.js"></script><script type="text/javascript" async="" defer="" src="./Tcl _ Mailing Lists_files/sf.js"></script><script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView', document.title, {
+        dimension1: 'tcl',
+        dimension2: 'mailman'
+  }]);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+    var u="//analytics.slashdotmedia.com/";
+    _paq.push(['setTrackerUrl', u+'sf.php']);
+    _paq.push(['setSiteId', 39]);
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'sf.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript>&lt;p&gt;&lt;img src="//analytics.slashdotmedia.com/sf.php?idsite=39" style="border:0;" alt="" /&gt;&lt;/p&gt;</noscript>
+
+<meta id="project_name" name="project_name" content="tcl">
+<!--[if lt IE 7 ]>
+  <script src="https://a.fsdn.com/allura/nf/1470329408/_ew_/theme/sftheme/js/sftheme/vendor/dd_belatedpng.js"></script>
+  <script> DD_belatedPNG.fix('img, .png_bg'); //fix any <img> or .png_bg background-images </script>
+<![endif]-->
+<link href="./Tcl _ Mailing Lists_files/css" rel="stylesheet" type="text/css">
+    
+        <!-- ew:head_css -->
+
+    
+        <link rel="stylesheet" type="text/css" href="./Tcl _ Mailing Lists_files/css(1)">
+    
+        <link rel="stylesheet" type="text/css" href="./Tcl _ Mailing Lists_files/font-awesome.min.css">
+    
+        <link rel="stylesheet" type="text/css" href="./Tcl _ Mailing Lists_files/forge.css">
+    
+        <link rel="stylesheet" type="text/css" href="./Tcl _ Mailing Lists_files/css(2)">
+    
+        
+<!-- /ew:head_css -->
+
+    
+    
+        <!-- ew:head_js -->
+
+    
+        <script type="text/javascript" src="./Tcl _ Mailing Lists_files/js"></script>
+    
+        
+<!-- /ew:head_js -->
+
+    
+
+    
+        <style type="text/css">
+            #page-body.project---init-- #top_nav { display: none; }
+
+#page-body.project---init-- #nav_menu_holder { display: none; margin-bottom: 0; }
+
+#page-body.project---init-- #content_base {margin-top: 0; }
+        </style>
+    
+    
+    <style>.XTysgyKnufxHOsCXoLlKirDEIA {
+        display: none
+    }</style>
+
+    
+    
+    
+    
+
+
+<script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    function _add_tracking(prefix, tracking_id) {
+        ga('create', tracking_id, {cookieDomain: 'auto', 'name': prefix});
+        
+        ga(prefix+'.set', 'dimension9', 'tcl');
+        ga(prefix+'.set', 'dimension10', 'mailman');
+        
+        ga(prefix+'.set', 'dimension13', 'Logged Out');
+        ga(prefix+'.send', 'pageview');
+    }
+      _add_tracking('sfnt1', 'UA-32013-6');
+      _add_tracking('sfnt2', 'UA-36130941-1');
+    
+</script>
+</head>
+
+<body id="forge">
+
+    
+        <!-- ew:body_top_js -->
+
+    
+        
+<!-- /ew:body_top_js -->
+
+    
+
+
+
+
+<header id="site-header">
+    <div class="wrapper">
+        <a href="https://sourceforge.net/" class="logo">
+            <span>SourceForge</span>
+        </a>
+        
+        <form method="get" action="https://sourceforge.net/directory/">
+            <input type="text" id="words" name="q" placeholder="Search" tabindex="1">
+        </form>
+        
+        <!--Switch to {language}-->
+        <nav id="nav-site">
+            <a href="https://sourceforge.net/directory/" title="Browse our software.">Browse</a>
+            <a href="https://sourceforge.net/directory/enterprise" title="Browse our Enterprise software.">Enterprise</a>
+            <a href="https://sourceforge.net/blog/" title="Read the latest news from the SF HQ.">Blog</a>
+            <a href="https://deals.sourceforge.net/?utm_source=sourceforge&amp;utm_medium=navbar&amp;utm_campaign=homepage" title="Discover and Save on the Best Gear, Gadgets, and Software" class="featured-link" target="_blank">Deals</a>
+            <a href="https://sourceforge.net/support" title="Contact us for help and feedback.">Help</a>
+            <a href="https://sourceforge.net/create" class="featured-link blue" style="" title="Create and publish Open Source software for free.">Create</a>
+        </nav>
+        <nav id="nav-account">
+            
+              <div class="logged_out">
+                <a href="https://sourceforge.net/auth/">Log In</a>
+                <span>or</span>
+                <a href="https://sourceforge.net/user/registration/">Join</a>
+              </div>
+            
+        </nav>
+        
+    </div>
+</header>
+<header id="site-sec-header">
+    <div class="wrapper">
+        <nav id="nav-hubs">
+            <h4>Solution Centers</h4>
+            <a href="http://goparallel.sourceforge.net/">Go Parallel</a>
+        </nav>
+        <nav id="nav-collateral">
+            <a href="https://library.slashdotmedia.com/">Resources</a>
+            <a href="https://sourceforge.net/user/newsletters?source=sfnet_header">Newsletters</a>
+            <a href="https://sourceforge.net/cloud-storage-providers/?source=sfnet_header">Cloud Storage Providers</a>
+            <a href="https://sourceforge.net/business-voip/?source=sfnet_header">Business VoIP Providers</a>
+            
+            <a href="https://sourceforge.net/speedtest/?source=sfnet_header">Internet Speed Test</a>
+            
+            <a href="https://sourceforge.net/call-center-providers/?source=sfnet_header">Call Center Providers</a>
+        </nav>
+    </div>
+</header>
+
+
+    
+    
+    
+
+<section id="page-body" class=" neighborhood-Projects project-tcl mountpoint-mailman">
+<div id="nav_menu_holder">
+    
+        
+            
+
+
+
+    
+    
+    
+    
+        
+    <script type="text/javascript">
+        var googletag = googletag || {};
+        googletag.cmd = googletag.cmd || [];
+        (function() {
+
+            var gads = document.createElement("script");
+            gads.async = true;
+            gads.type = "text/javascript";
+            var useSSL = "https:" == document.location.protocol;
+            gads.src = (useSSL ? "https:" : "http:") + "//www.googletagservices.com/tag/js/gpt.js";
+            var node =document.getElementsByTagName("script")[0];
+            node.parentNode.insertBefore(gads, node);
+        })();
+
+        googletag.cmd.push(function () {
+            var leader_slot = googletag.defineSlot("/41014381/Sourceforge/SF_Mailarchive_728x90_A", [728, 90], "div-gpt-ad-1394299123435-0");
+            leader_slot.addService(googletag.pubads())
+                .setTargeting('shortname', 'tcl')
+                .setTargeting('page_type', 'mailman')
+                .setTargeting('sz', '728x90')
+                .setTargeting('dc_ref', 'https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=20');
+            googletag.pubads().addEventListener('impressionViewable', SF.Ads.RenderHandlers.viewabilityInstrumentation);
+            googletag.pubads().enableAsyncRendering();
+            googletag.pubads().collapseEmptyDivs();
+            
+                googletag.pubads().addEventListener('slotRenderEnded', SF.Ads.listenerForBlockThis);
+            
+            googletag.enableServices();
+        });
+    </script>
+    
+    <div class="sticky-anchor"></div>
+    <div class="sticky masthead stick">
+
+    <div id="SF_Mailarchive_728x90_A_wrapped" style="margin: 0 auto 5px auto; width:728px" class="draper">
+        <div id="div-gpt-ad-1394299123435-0">
+            <script type="text/javascript">
+                googletag.cmd.push(function() { googletag.display('div-gpt-ad-1394299123435-0'); });
+            </script>
+        </div>
+    </div>
+
+    
+    
+    
+        
+        <script src="./Tcl _ Mailing Lists_files/dropzone-4.3.0.min.js"></script>
+        
+    <div id="overlay-blockthis-wrapper">
+    <div id="overlay-blockthis">
+        <div class="instructions">
+            <h2>Thanks for helping keep SourceForge clean.</h2>
+            <p>
+            <u>Screenshot instructions:</u><br>
+            <a data-external="" target="_blank" href="http://windows.microsoft.com/en-us/windows/take-screen-capture-print-screen#take-screen-capture-print-screen=windows-8">Windows</a><br>
+            <a data-external="" target="_blank" href="https://support.apple.com/en-us/HT201361">Mac</a><br>
+            <a data-external="" target="_blank" href="https://access.redhat.com/solutions/2178">Red Hat Linux</a> &nbsp;
+            <a data-external="" target="_blank" href="https://help.ubuntu.com/stable/ubuntu-help/screen-shot-record.html">Ubuntu</a>
+            </p>
+            <p>
+                <u>Click URL instructions:</u><br>
+                Right-click on ad, choose "Copy Link", then paste here →<br>
+                (This may not be possible with some types of ads)
+            </p>
+            <a class="more-info" href="https://sourceforge.net/p/forge/documentation/Report%20a%20problem%20with%20Ad%20content/" target="_blank">More information about our ad policies</a>
+        </div>
+        <form class="dropzone" action="https://sourceforge.net/api/instrumentation/gpt" id="blockthisForm" method="POST">
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=20#" id="btn-blockthis-close">X</a>
+            
+  <input type="hidden" name="_visit_cookie" value="5744b76543a74e5c93dffd2b" tabindex="2">
+                <input id="w-5a1" name="timestamp" type="hidden" value="1470591173" tabindex="3">
+                <input id="w-5a2" name="spinner" type="hidden" value="XU3N1--ffUjyo1nCCmdZ75PzAfeQ" tabindex="4">
+                <p class="XTysgyKnufxHOsCXoLlKirDEIA">
+    <label for="XVBsalYKmYgzvMU_6yQfNdKpRXTY">You seem to have CSS turned off.
+        Please don't fill out this field.</label><br>
+    <input id="XVBsalYKmYgzvMU_6yQfNdKpRXTY" name="XVRsalYKmYntP6QjSSGDrsm3gr9g" type="text" tabindex="5"><br></p>
+                <p class="XTysgyKnufxHOsCXoLlKirDEIA">
+    <label for="XVBsalYKmYg3vMU_6yQfNdKpRXTY">You seem to have CSS turned off.
+        Please don't fill out this field.</label><br>
+    <input id="XVBsalYKmYg3vMU_6yQfNdKpRXTY" name="XVRsalYKmY3tP6QjSSGDrsm3gr9g" type="text" tabindex="6"><br></p>
+            <p>Briefly describe the problem (required):
+            <input name="XWBcQiIStO0zcvx_s3jFEnKwRy3Q" type="text" required="" tabindex="7">
+            </p>
+
+            <div class="upload-text">Upload screenshot of ad (required):</div>
+            <div id="upload-it">
+                <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=20#" onclick="return false">Select a file</a>, or drag &amp; drop file here.
+            </div>
+            <div id="upload-it-placeholder"></div> 
+
+            <div class="dropzone-previews" style="display: none"></div>
+            <div class="dz-message" style="display: none"></div> 
+            
+            <div id="dropzone-preview-template" style="display: none">
+                <div class="dz-preview dz-file-preview">
+                    <img data-dz-thumbnail="" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="">
+                    <div class="dz-success-mark"><span>✔</span></div>
+                    <div class="dz-error-mark"><span>✘</span></div>
+                    <div class="dz-error-message"><span data-dz-errormessage=""></span></div>
+                </div>
+            </div>
+            <p></p>
+            <p>Please provide the ad click URL, if possible:
+            <input name="XWhAZkoS0DUnaujdlpq4rNUpQK3U" type="url" tabindex="8">
+            </p>
+            <textarea id="gpt-info" name="XVxcUj4aYtQPQhqE0CYDqxC78nNo" tabindex="9"></textarea>
+            <input type="submit" id="btn-blockthis-submit" value="Submit Report" tabindex="10">
+        </form>
+    </div>
+    </div>
+
+    
+
+    
+    </div>
+    <script type="text/javascript">
+        $(function(){
+            SF.Ads.stickyLeader = new SF.Stickify($('.sticky').eq(0));
+        });
+    </script>
+    
+    <nav id="breadcrumbs">
+        <ul>
+            <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="https://sourceforge.net/">Home</a></li>
+            <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="https://sourceforge.net/directory">Browse</a></li>
+            
+            
+                
+                
+            
+            
+                
+            
+            
+            
+                <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb"><a itemprop="url" href="https://sourceforge.net/p/tcl/">Tcl</a></li>
+                
+            
+            
+                <li itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">Mailing Lists</li>
+                
+            
+        </ul>
+    </nav>
+    
+    
+    
+  
+    
+      <img src="./Tcl _ Mailing Lists_files/icon" class="project_icon" alt="Project Logo">
+    
+        <h1 class="project_title">
+            <a href="https://sourceforge.net/p/tcl/" class="project_link">Tcl</a>
+        </h1>
+    
+    
+    
+    <h2 class="project_summary with-icon">
+        
+    </h2>
+    
+    <div class="brought-by with-icon">
+        Brought to you by:
+        
+        
+            
+                <a href="https://sourceforge.net/u/userid-75003/">andreas_kupries</a>,
+            
+            
+                <a href="https://sourceforge.net/u/apnadkarni/">apnadkarni</a>,
+            
+            
+                <a href="https://sourceforge.net/u/das/">das</a>,
+            
+            
+                <a href="https://sourceforge.net/u/dgp/">dgp</a>,
+            
+            and <a href="https://sourceforge.net/p/tcl/_members/">8 others</a>
+            </div>
+    
+
+        
+    
+</div>
+    <div id="top_nav" class="">
+        
+            
+<div id="top_nav_admin">
+<ul class="dropdown">
+  
+    <li class="">
+        <a href="https://sourceforge.net/projects/tcl/" class="tool-summary-32">
+            Summary
+        </a>
+        
+        
+    </li>
+  
+    <li class="">
+        <a href="https://sourceforge.net/projects/tcl/files/" class="tool-files-32">
+            Files
+        </a>
+        
+        
+    </li>
+  
+    <li class="">
+        <a href="https://sourceforge.net/projects/tcl/reviews" class="tool-reviews-32">
+            Reviews
+        </a>
+        
+        
+    </li>
+  
+    <li class="">
+        <a href="https://sourceforge.net/projects/tcl/support" class="tool-support-32">
+            Support
+        </a>
+        
+        
+    </li>
+  
+    <li class="selected">
+        <a href="https://sourceforge.net/p/tcl/mailman/" class="tool-mailman-32">
+            Mailing Lists
+        </a>
+        
+        
+    </li>
+  
+    <li class="">
+        <a href="https://sourceforge.net/p/tcl/_list/tickets" class="tool-tickets-32">
+            Tickets ▾
+        </a>
+        
+        
+            <ul>
+                
+                    <li class=""><a href="https://sourceforge.net/p/tcl/bugs/">Read-Only Bugs</a></li>
+                
+                    <li class=""><a href="https://sourceforge.net/p/tcl/patches/">Read-Only Patches</a></li>
+                
+                    <li class=""><a href="https://sourceforge.net/p/tcl/feature-requests/">Read-Only Feature Requests</a></li>
+                
+            </ul>
+        
+    </li>
+  
+  
+</ul>
+</div>
+
+
+        
+    </div>
+    <div id="content_base">
+        
+            
+                
+                    
+
+
+<div id="sidebar">
+  
+    <form id="search" method="GET" action="https://sourceforge.net/p/tcl/mailman/search/">
+      <input name="q" type="text" title="Search Mailing Lists" placeholder="Search Mailing Lists" tabindex="11">
+    </form>
+  
+    
+    
+      
+      
+        
+    
+      <ul class="sidebarmenu">
+      
+    
+  <li>
+      
+        <a href="https://sourceforge.net/p/tcl/mailman/tcl-bugs/">
+      
+      <span>tcl-bugs</span>
+      </a>
+  </li>
+  
+      
+        
+    
+  <li class="active">
+      
+        <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/">
+      
+      <span>tcl-core</span>
+      </a>
+  </li>
+  
+      
+        
+    
+  <li>
+      
+        <a href="https://sourceforge.net/p/tcl/mailman/tcl-gsoc/">
+      
+      <span>tcl-gsoc</span>
+      </a>
+  </li>
+  
+      
+        
+    
+  <li>
+      
+        <a href="https://sourceforge.net/p/tcl/mailman/tcl-mac/">
+      
+      <span>tcl-mac</span>
+      </a>
+  </li>
+  
+      
+        
+    
+  <li>
+      
+        <a href="https://sourceforge.net/p/tcl/mailman/tcl-soc2008/">
+      
+      <span>tcl-soc2008</span>
+      </a>
+  </li>
+  
+      
+        
+    
+  <li>
+      
+        <a href="https://sourceforge.net/p/tcl/mailman/tcl-tdbc/">
+      
+      <span>tcl-tdbc</span>
+      </a>
+  </li>
+  
+      
+        
+    
+  <li>
+      
+        <a href="https://sourceforge.net/p/tcl/mailman/tcl-threads/">
+      
+      <span>tcl-threads</span>
+      </a>
+  </li>
+  
+      
+        
+    
+  <li>
+      
+        <a href="https://sourceforge.net/p/tcl/mailman/tcl-win/">
+      
+      <span>tcl-win</span>
+      </a>
+  </li>
+  
+      
+    
+    
+      </ul>
+      
+    
+    
+</div>
+                
+                
+            
+            
+                
+            
+            <div class="grid-20 pad">
+                <h2 class="dark title">
+  tcl-core
+  
+    — Tcl Core Team discussions about Tcl development
+  
+
+                    <!-- actions -->
+                    <small>
+                        
+                    </small>
+                    <!-- /actions -->
+                </h2>
+                
+                <div>
+                    
+                    
+  
+
+  <p>You can subscribe to this list <a href="https://lists.sourceforge.net/lists/listinfo/tcl-core">here</a>.</p>
+  
+  
+  <table class="calendar-month">
+    
+      <tbody><tr>
+        <th>2000</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200006">(19)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200007">(96)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200008">(144)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200009">(222)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200010">(496)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200011">(171)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200012">(6)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2001</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200101">(4)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200102">(4)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200103">(9)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200104">(4)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200105">(12)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200106">(6)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200109">(1)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200110">(2)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2002</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200206">(1)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200207">(52)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200208">(47)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200209">(47)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200210">(95)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200211">(56)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200212">(34)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2003</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200301">(99)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200302">(116)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200303">(125)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200304">(99)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200305">(123)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200306">(69)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200307">(110)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200308">(130)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200309">(289)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200310">(211)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200311">(98)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200312">(140)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2004</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200401">(85)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200402">(87)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200403">(342)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200404">(125)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200405">(101)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200406">(60)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200407">(151)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200408">(118)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200409">(162)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200410">(117)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200411">(125)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200412">(95)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2005</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200501">(141)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200502">(54)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200503">(79)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200504">(83)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200505">(74)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200506">(125)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200507">(63)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200508">(89)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200509">(130)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200510">(89)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200511">(34)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200512">(39)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2006</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200601">(98)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200602">(62)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200603">(56)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200604">(94)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200605">(169)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200606">(41)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200607">(34)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200608">(35)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200609">(132)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200610">(722)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200611">(381)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200612">(36)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2007</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200701">(34)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200702">(174)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200703">(15)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200704">(35)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200705">(74)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200706">(15)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200707">(8)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200708">(18)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200709">(39)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200710">(125)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200711">(89)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200712">(129)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2008</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200801">(176)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200802">(91)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200803">(69)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200804">(178)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200805">(310)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200806">(434)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200807">(171)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200808">(73)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200809">(187)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200810">(132)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200811">(259)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200812">(292)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2009</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200901">(27)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200902">(54)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200903">(35)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200904">(54)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200905">(93)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200906">(10)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200907">(36)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200908">(36)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200909">(93)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200910">(52)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200911">(45)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=200912">(74)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2010</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201001">(20)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201002">(120)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201003">(165)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201004">(101)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201005">(56)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201006">(12)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201007">(73)</a>
+          
+        </td>
+        
+        
+        
+        <td class="active">
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008">(306)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201009">(154)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201010">(82)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201011">(63)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201012">(42)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2011</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201101">(176)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201102">(86)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201103">(199)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201104">(86)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201105">(237)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201106">(50)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201107">(26)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201108">(56)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201109">(42)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201110">(62)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201111">(62)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201112">(52)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2012</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201201">(35)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201202">(33)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201203">(128)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201204">(152)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201205">(133)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201206">(21)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201207">(74)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201208">(423)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201209">(165)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201210">(129)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201211">(387)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201212">(276)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2013</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201301">(105)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201302">(30)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201303">(130)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201304">(42)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201305">(60)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201306">(79)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201307">(101)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201308">(46)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201309">(81)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201310">(14)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201311">(43)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201312">(4)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2014</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201401">(25)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201402">(32)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201403">(30)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201404">(80)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201405">(42)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201406">(23)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201407">(68)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201408">(127)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201409">(112)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201410">(72)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201411">(29)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201412">(69)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2015</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201501">(35)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201502">(49)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201503">(95)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201504">(10)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201505">(70)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201506">(64)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201507">(93)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201508">(85)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201509">(43)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201510">(38)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201511">(124)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201512">(29)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        <th>2016</th>
+        
+        
+        
+        <td>
+          <sub>Jan</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201601">(253)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Feb</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201602">(181)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Mar</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201603">(132)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Apr</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201604">(419)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>May</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201605">(68)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jun</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201606">(90)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Jul</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201607">(52)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Aug</sub>
+          <br>
+          
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201608">(41)</a>
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Sep</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Oct</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Nov</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+        
+        
+        <td>
+          <sub>Dec</sub>
+          <br>
+          
+          
+            &nbsp;
+          
+        </td>
+        
+      </tr>
+    
+  </tbody></table>
+  
+
+  
+  
+  <table class="calendar-day">
+    <tbody><tr>
+    
+      <th>S</th>
+    
+      <th>M</th>
+    
+      <th>T</th>
+    
+      <th>W</th>
+    
+      <th>T</th>
+    
+      <th>F</th>
+    
+      <th>S</th>
+    
+    </tr>
+    
+      <tr>
+        
+        <td>
+          1
+          <br>
+          
+            &nbsp;
+          
+        </td>
+        
+        <td>
+          2
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=2">(2)</a>
+          
+        </td>
+        
+        <td>
+          3
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=3">(1)</a>
+          
+        </td>
+        
+        <td>
+          4
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=4">(3)</a>
+          
+        </td>
+        
+        <td>
+          5
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=5">(2)</a>
+          
+        </td>
+        
+        <td>
+          6
+          <br>
+          
+            &nbsp;
+          
+        </td>
+        
+        <td>
+          7
+          <br>
+          
+            &nbsp;
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        
+        <td>
+          8
+          <br>
+          
+            &nbsp;
+          
+        </td>
+        
+        <td>
+          9
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=9">(8)</a>
+          
+        </td>
+        
+        <td>
+          10
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=10">(3)</a>
+          
+        </td>
+        
+        <td>
+          11
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=11">(20)</a>
+          
+        </td>
+        
+        <td>
+          12
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=12">(10)</a>
+          
+        </td>
+        
+        <td>
+          13
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=13">(18)</a>
+          
+        </td>
+        
+        <td>
+          14
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=14">(21)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        
+        <td>
+          15
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=15">(17)</a>
+          
+        </td>
+        
+        <td>
+          16
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=16">(5)</a>
+          
+        </td>
+        
+        <td>
+          17
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=17">(16)</a>
+          
+        </td>
+        
+        <td>
+          18
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=18">(16)</a>
+          
+        </td>
+        
+        <td>
+          19
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=19">(17)</a>
+          
+        </td>
+        
+        <td class="active">
+          20
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=20">(23)</a>
+          
+        </td>
+        
+        <td>
+          21
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=21">(21)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        
+        <td>
+          22
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=22">(14)</a>
+          
+        </td>
+        
+        <td>
+          23
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=23">(3)</a>
+          
+        </td>
+        
+        <td>
+          24
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=24">(12)</a>
+          
+        </td>
+        
+        <td>
+          25
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=25">(16)</a>
+          
+        </td>
+        
+        <td>
+          26
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=26">(22)</a>
+          
+        </td>
+        
+        <td>
+          27
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=27">(19)</a>
+          
+        </td>
+        
+        <td>
+          28
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=28">(9)</a>
+          
+        </td>
+        
+      </tr>
+    
+      <tr>
+        
+        <td>
+          29
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=29">(3)</a>
+          
+        </td>
+        
+        <td>
+          30
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=30">(3)</a>
+          
+        </td>
+        
+        <td>
+          31
+          <br>
+          
+            
+            <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=31">(2)</a>
+          
+        </td>
+        
+        <td>
+          &nbsp;
+          <br>
+          
+            &nbsp;
+          
+        </td>
+        
+        <td>
+          &nbsp;
+          <br>
+          
+            &nbsp;
+          
+        </td>
+        
+        <td>
+          &nbsp;
+          <br>
+          
+            &nbsp;
+          
+        </td>
+        
+        <td>
+          &nbsp;
+          <br>
+          
+            &nbsp;
+          
+        </td>
+        
+      </tr>
+    
+  </tbody></table>
+  
+
+  <div class="grid-19 mail-archive-style-switcher">
+    <div class="grid-8">
+      <form method="get">
+  
+    <input type="hidden" name="viewmonth" value="201008" tabindex="12">
+  
+    <input type="hidden" name="viewday" value="20" tabindex="13">
+  
+  
+  <p><strong>Showing
+  
+    23
+  
+  results of 23 </strong></p>
+  
+</form>
+    </div>
+    <div class="grid-4 thread-flat-switcher ">
+      <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=20&amp;style=flat">Flat</a> |
+      <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=20&amp;style=threaded">Threaded</a>
+    </div>
+    <div>
+  <div class="page_list">
+    
+  </div>
+  <div class="clear"></div>
+</div>
+  </div>
+  <div style="clear: both;"></div>
+
+  
+    
+      
+
+<table id="msg25993260">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25993260/">Re: [TCLCORE] Detecting font size change in megawidgets</a></b></div>
+      
+      <small>From: Konstantin Khomoutov &lt;flatworm@us...&gt; - 2010-08-20 17:43:00</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On Fri, 20 Aug 2010 09:48:09 -0700
+Jeff Hobbs &lt;jeffh@...&gt; wrote:
+
+&gt; &gt; Is there any possibility to detect a font size change within a
+&gt; &gt; (mega)widget which uses this [Tk named] font ?
+[...]
+&gt; The answer is no, but it is possible, because I've been curious
+&gt; myself enough to look (for my own use and BWidgets).  This would mean
+&gt; exporting the WorldChanged proc to a virtual event.  WorldChanged is
+&gt; one of the class procs introduced in Tk 8.4 for (C-based) widgets to
+&gt; be made aware of just such changes.  I don't think it would hard to
+&gt; cause a virtual event visible in Tcl to be triggered in the same
+&gt; low-level machinery.
+
+It would be cool if Tk also could properly handle desktop color depth
+changes on Windows when processing such "WorldChanged" event.
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25993142">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25993142/">Re: [TCLCORE] Detecting font size change in megawidgets</a></b></div>
+      
+      <small>From: Jeff Hobbs &lt;jeffh@ac...&gt; - 2010-08-20 17:17:20</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On 20/08/2010 10:04 AM, Harald Oehlmann wrote:
+&gt; Am 20.08.2010 18:48, schrieb Jeff Hobbs:
+&gt;&gt; On 20/08/2010 2:14 AM, Harald Oehlmann wrote:
+&gt;&gt;&gt; Is there any possibility to detect a font size change within a
+&gt;&gt;&gt; (mega)widget which uses this [Tk named] font ?
+&gt;
+&gt;&gt; The answer is no, but it is possible, because I've been curious myself
+&gt;&gt; enough to look (for my own use and BWidgets).  This would mean exporting
+&gt;&gt; the WorldChanged proc to a virtual event.  WorldChanged is one of the
+&gt;&gt; class procs introduced in Tk 8.4 for (C-based) widgets to be made aware
+&gt;&gt; of just such changes.  I don't think it would hard to cause a virtual
+&gt;&gt; event visible in Tcl to be triggered in the same low-level machinery.
+&gt;
+&gt; So the point is that tkFont::TheWorldHasChanged would in addition
+&gt; generate an event ?
+
+WorldChanged happens already at the C level, and fonts is just what 90% 
+of people care about (e.g it's the only thing tktable really watches 
+this for).  As a C level per-widget thing, it would be a per-widget 
+&lt;&lt;WorldChange&gt;&gt; event to watch for on (mega)widgets that care (at least, 
+that's my design in head without looking at code).
+
+Jeff
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25993072">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25993072/">Re: [TCLCORE] Detecting font size change in megawidgets</a></b></div>
+      
+      <small>From: Harald Oehlmann &lt;Harald.Oehlmann@Elmicron.de&gt; - 2010-08-20 17:04:52</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>Am 20.08.2010 18:48, schrieb Jeff Hobbs:
+&gt; On 20/08/2010 2:14 AM, Harald Oehlmann wrote:
+&gt;&gt; Is there any possibility to detect a font size change within a
+&gt;&gt; (mega)widget which uses this [Tk named] font ?
+
+&gt; The answer is no, but it is possible, because I've been curious myself
+&gt; enough to look (for my own use and BWidgets).  This would mean exporting
+&gt; the WorldChanged proc to a virtual event.  WorldChanged is one of the
+&gt; class procs introduced in Tk 8.4 for (C-based) widgets to be made aware
+&gt; of just such changes.  I don't think it would hard to cause a virtual
+&gt; event visible in Tcl to be triggered in the same low-level machinery.
+
+So the point is that tkFont::TheWorldHasChanged would in addition
+generate an event ?
+
+&gt; Want to create the RFE at SF?
+
+Yes!
+
+Harald
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25992984">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25992984/">Re: [TCLCORE] Detecting font size change in megawidgets</a></b></div>
+      
+      <small>From: Jeff Hobbs &lt;jeffh@ac...&gt; - 2010-08-20 16:49:12</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On 20/08/2010 2:14 AM, Harald Oehlmann wrote:
+&gt; Is there any possibility to detect a font size change within a
+&gt; (mega)widget which uses this [Tk named] font ?
+	...
+&gt; All standard widgets automatically change size.
+&gt; But those composite widgets which use Canvas drawing (BWidget notebook
+&gt; tabs) or the text widget (tablelist) do not resize properly.
+&gt;
+&gt; How is it possible to detect a font reconfiguration by a megawidget so
+&gt; it may adjust any dependent visual items?
+&gt;
+&gt; E.G. is there any code like
+&gt; % bind&lt;Configure&gt;  Script
+&gt; to get informed about a font (size) change ?
+
+The answer is no, but it is possible, because I've been curious myself 
+enough to look (for my own use and BWidgets).  This would mean exporting 
+the WorldChanged proc to a virtual event.  WorldChanged is one of the 
+class procs introduced in Tk 8.4 for (C-based) widgets to be made aware 
+of just such changes.  I don't think it would hard to cause a virtual 
+event visible in Tcl to be triggered in the same low-level machinery.
+
+Want to create the RFE at SF?
+
+Jeff
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25992836">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25992836/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Tom Jackson &lt;tom.rmadilo@gm...&gt; - 2010-08-20 16:22:34</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On Fri, Aug 20, 2010 at 9:17 AM, Tom Jackson &lt;tom.rmadilo@...&gt; wrote:
+&gt; I ran the head of the above code on a few urls, the code and log files are here:
+
+Oops, here's the url:
+
+<a href="http://rmadilo.com/files/htclient/tk/" rel="nofollow">http://rmadilo.com/files/htclient/tk/</a>
+
+tom jackson
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25992783">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25992783/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Tom Jackson &lt;tom.rmadilo@gm...&gt; - 2010-08-20 16:17:14</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On Fri, Aug 20, 2010 at 1:31 AM, Twylite &lt;twylite@...&gt; wrote:
+&gt; Hi,
+&gt;&gt;
+&gt;&gt; When you integrate long running code into an event driven environment,
+&gt;&gt; the problem to solve is how to handle long-running events (not
+&gt;&gt; blocking code), so that the event is divided up, occasionally paused,
+&gt;&gt; so that other code/events can run. So in the context of events,
+&gt;&gt; coroutines can be used to chop up a single event into sub-events.
+&gt;&gt;
+&gt;
+&gt; &lt;snip&gt;
+&gt;&gt;
+&gt;&gt; Every example I have seen so far where coroutines are mixed with
+&gt;&gt; fileevents fail to follow this refactoring admonition: instead of
+&gt;&gt; dividing event code into small chunks, the same routine is used for
+&gt;&gt; multiple events (I'm calling them super-events, for instance, a
+&gt;&gt; protocol request/response interaction is a super-event). So the use of
+&gt;&gt; [yield] seems obvious in this case: the developer failed to correctly
+&gt;&gt; refactor their code into sub-events, or even events, so they have to
+&gt;&gt; use [yield] to give other parts of the application a shot at
+&gt;&gt; execution.
+&gt;&gt;
+&gt;&gt;
+&gt;&gt; In summary: there are two situations: yielding because a particular
+&gt;&gt; computation takes too long (or never completes), or yielding because
+&gt;&gt; the developer doesn't want to refactor their event code. Choose
+&gt;&gt; wisely.
+&gt;&gt;
+
+
+&gt; <a href="http://en.wikipedia.org/wiki/Coroutine" rel="nofollow">http://en.wikipedia.org/wiki/Coroutine</a> :
+&gt; "In situations where a coroutine would be the natural implementation of a
+&gt; mechanism, but is not available, the typical response is to create a
+&gt; subroutine that uses an ad-hoc assemblage of boolean flags and other state
+&gt; variables to maintain an internal state between calls. Conditionals within
+&gt; the code result in the execution of different code paths on successive
+&gt; calls, based on the values of the state variables. Another typical response
+&gt; is to implement an explicit state machine in the form of a large and complex
+&gt; switch statement. Such implementations are difficult to understand and
+&gt; maintain."
+
+
+Wow! Let me show you an example from my event driven http client.
+
+This is the complicated state machine (called from [filevent $machine $client]):
+
+proc ::htclient::statusMachine { client } {
+
+    set state [getVar $client state]
+
+    switch -exact -- $state {
+	httpversion {
+	    htHTTPVersion $client
+	}
+	statuscode {
+	    htStatusCode $client
+	}
+	reasonphrase {
+	    htReasonPhrase $client
+	}
+	cleanup {
+	    log Debug "htCleanup $client"
+	    htCleanup $client
+	}
+	default {
+	    log Error "statusMachine: unknown state $state"
+	    htError $client
+	}
+    }
+}
+
+There are multiple state machines to handle various tasks (sending a
+request vs. receiving a response vs. receiving a chunked response).
+The idea is that different machines have different states to handle
+different circumstances. Machines can share state code since all
+macines and all state procs share the same interface (they take the
+clientID) as a single argument.
+
+Note that every state machine also share the final two states:
+"cleanup" and "default".
+
+Looking through this code:
+
+<a href="http://junom.com/gitweb/gitweb.perl?p=htclient.git;a=blob;f=htclient.tcl" rel="nofollow">http://junom.com/gitweb/gitweb.perl?p=htclient.git;a=blob;f=htclient.tcl</a>
+
+I see exactly one use of [while], but it isn't used as a loop
+construct. The only loop in the htclient code is provided by the event
+loop. (There are a few [for] loops used to setup data). This is by
+design: I needed a client that would work with a Tk application and
+http::geturl switches channels to blocking mode when reading a chunk
+encoded response...not good).
+
+Anyway, I had thought I would need, or could use [yield] to handle a
+difficult problem: how to keep large http requests (where the Tk
+application uploads a large file) from freezing the application.
+
+For instance here is my code for sending the request:
+
+proc ::htclient::htSend { client } {
+
+    set sock [getVar $client sock]
+
+    puts -nonewline $sock [getVar $client request]
+
+    flush $sock
+
+    if {![htPending output $sock]} {
+	log Debug "htSend sent '[getVar $client request]'"
+	setVar $client state httpversion
+    } else {
+	log Debug "htSend still sending pending = [htPending input $sock]"
+	setVar $client state sendwait
+    }
+
+    log Debug "htSend end state $client = [getVar $client state]"
+}
+
+I know those first three lines are complicated, and the following [if]
+can be removed, since [chan pending] will always return 0 after [puts]
+returns. The log statement is obviously not part of the control
+structure, so we basically have a total of four lines of effective
+code here...very complicated stuff.
+
+Now here is what I did so that a large $request wouldn't take up too much time:
+
+proc ::htclient::htSendChunk { client } {
+
+    variable clientSendBufIndex
+
+    set chunkSize 20
+    set requestLength [getVar $client request-length]
+
+    set lastChunk 0
+
+    if {$clientSendBufIndex($client) + $chunkSize &lt;= $requestLength} {
+	set chunkEnd [expr {$clientSendBufIndex($client) + $chunkSize - 1}]
+	set chunk [string range [getVar $client request]
+$clientSendBufIndex($client) $chunkEnd]
+	set clientSendBufIndex($client) [expr {$chunkEnd +1}]
+    } else {
+	set chunkEnd end
+	set chunk [string range [getVar $client request]
+$clientSendBufIndex($client) $chunkEnd]
+	set clientSendBufIndex($client) $requestLength
+	set lastChunk 1
+    }
+
+    set sock [getVar $client sock]
+
+    puts -nonewline $sock $chunk
+
+    flush $sock
+
+    if {$lastChunk} {
+	if {![htPending output $sock]} {
+	    log Debug "htSendChunk sent '[getVar $client request]'"
+	    setVar $client state httpversion
+	} else {
+	    log Debug "htSendChunk still sending pending = [htPending input $sock]"
+	    setVar $client state sendwait
+	}
+    }
+
+    log Debug "htSendChunk end state $client = [getVar $client state]
+chunkEnd = $chunkEnd"
+    log Debug "htSendChunk sent: '$chunk'"
+}
+
+Basically just a little more complicated. I hard coded the "chunk"
+size for testing 20 chars allows me to use small requests for testing
+and see more than one invocation of the above code per request.
+
+The new code just maintains an index into the $request and sends a
+certain length chunk from this string. The last send, changes the
+state.
+
+I thought about this for a few hours before I realized that [yield]
+would not help at all here.
+
+I ran the head of the above code on a few urls, the code and log files are here:
+
+What you see in the log files is five simultaneous requests/responses
+(geturl does one at a time, no overlap). I used wish8.6 to source the
+script file. You could write a Tk GUI which would allow you to click
+on a current request and cancel it (by setting the state to "cleanup",
+or executing htCleanup if no events are firing). htCleanup only
+deletes state data and closes the socket, request/response still
+exist. another procedure htEraseClient is used to free all resources.
+
+This type of design would make much more sense with a POP
+client/server since the conversation is considerably more complicated.
+
+Please don't get the idea that I'm an event cheerleader: I use
+AOLserver which uses threads, but I wrote htclient in an attempt to
+understand events in Tcl.
+
+Now I'm going to work on using coroutines to stop/start long running
+computations (using a sudoku solver as the example ... the time to
+solve some puzzles is many orders of magnitude higher than the typical
+puzzle).
+
+
+&gt; In the view of various other people, dividing sequential logic into separate
+&gt; "sub-events" is a work-around for not having coroutines, and is harder to
+&gt; maintain.
+
+It's called modular programming. The new NRE core follows this concept
+(a little) by dividing a single command implementation into three
+potentially reusable C functions.
+
+&gt; A more modular approach may involve an object storing the state, and the
+&gt; logic being split into different methods. &nbsp;The effect is the same: if you
+&gt; don't have coroutines, you may have to refactor your code to use events.
+
+You can't handle I/O in Tcl without events, my htclient code proves
+(it is still example code, but is large enough to demonstrate
+capabilities) you don't need coroutines or complicated code to use
+events.
+
+That doesn't make coroutines any less interesting.
+
+tom jackson
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25992621">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25992621/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Donal K. Fellows &lt;donal.fellows@ma...&gt; - 2010-08-20 15:42:32</small>
+      <div class="attachments">
+        <small>
+          
+            <b>Attachments:</b>
+            <a href="https://sourceforge.net/p/tcl/mailman/attachment/4C6EA243.9050605%40manchester.ac.uk/1/">donal_k_fellows.vcf</a>&nbsp;&nbsp;&nbsp;&nbsp;
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On 20/08/2010 16:12, Tom Jackson wrote:
+&gt; So basically you run an additional coroutine tied to the original
+&gt; caller? And returning from this proc skips by the first coroutine
+&gt; (which called [yieldto ...]) and returns to the caller of $c.
+
+I'll try to do a bit of summarization. I don't plan to explain 
+everything though; there's a lot of background material elsewhere. 
+(Notably the Wiki and archives of this list from 2008.)
+
+
+Current status:
+
+There's at most one current coroutine per interpreter. (If there was 
+always exactly one, we'd have a fully symmetric coroutine system AIUI, 
+but we don't.)
+
+[yieldto] stops the current coroutine and, in effect, tailcalls 
+something else (except that unlike with [tailcall], you can resume the 
+coroutine to get back to where you were). When the coroutine is resumed, 
+the optional value passed in is the result of [yieldto]. The other thing 
+called could be a resumption of another coroutine, but need not be.
+
+[yield] stops the current coroutine and returns a value to the 
+caller/resumer of the coroutine. When the coroutine is resumed, the 
+optional value passed in is the result of [yield].
+
+Every coroutine has a name (returned by [info coroutine]) which is the 
+name of the command that is used to resume the coroutine. Deleting that 
+command deletes the coroutine (running any unset traces defined for 
+variables on stack frames that are local to the coro).
+
+The resumption command takes a single, optional value that forms the 
+result of the [yield]/[yieldto] inside the coroutine.
+
+Resuming a coroutine inside another coroutine, unlike yielding to it, 
+keeps the "outer" coroutine around, waiting for the result/yielded value.
+
+There is an unsupported [yieldm] which is just like [yield] except it 
+makes the coroutine take arbitrarily many resumption arguments; the 
+[yieldm] returns the list of these values.
+
+
+Proposals on the table:
+
+Expose [yieldto] (currently unexposed). Not very controversial since it 
+appears to be useful and unduplicated (as well as being able to emulate 
+some neat useful things). Note that this can pass arbitrarily many 
+arguments to the command that is yielded to.
+
+Expose something that makes [yield] able to resume with multiple 
+arguments being passed in, in effect exposing [yieldm]'s capabilities. 
+Colin McCormack asserts that this is useful and is known to have an 
+application of a stature able to back this up with in-service 
+experience, and it is certainly nicer than having to manually pack 
+things up with [list] before passing them in. (Just because we can do 
+things by packing doesn't mean that we should; it's just making things 
+harder than necessary.) The [yieldset] command was a proposal for doing 
+this, but arguably it is better to use some optional arguments to 
+[yield] instead. [yieldto] would also need some alteration if [yield] 
+was modified that way.
+
+If [yield] and [yieldto] have any option arguments, arguably [yield] 
+should support all [return] options (just as if they were [yieldto 
+return]). This is less than critical; just a tidying up.
+
+
+Other notes:
+
+Some people in this discussion are presenting very low-value arguments. 
+A reminder to all: this is a technical group, so only **technical** 
+arguments are valid and persuasive. One who attempts to be dismissive of 
+others is truly just cheapening their own position.
+
+Donal.
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25992424">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25992424/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Tom Jackson &lt;tom.rmadilo@gm...&gt; - 2010-08-20 15:12:26</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On Fri, Aug 20, 2010 at 1:20 AM, Twylite &lt;twylite@...&gt; wrote:
+&gt; Hi,
+&gt;&gt;
+&gt;&gt; [yieldset] modifies how the created coroutine is called. I previously
+&gt;&gt; thought that this command only affected one yield/resume call.
+&gt;&gt;
+&gt;
+
+(This question posed by tom):
+
+&gt;&gt; This is needed so that you can later call [yieldto $c arg1 arg2 arg3].
+&gt;&gt;
+&gt;
+&gt; No. &nbsp;"yieldto implements 'suspend yourself and tailcall the new command'".
+&gt; &nbsp;$c can be any command, including for example [return] (allowing errors to
+&gt; be returned to the coroutine caller, as described in the TIP).
+&gt;
+&gt; [yieldset] modifies the behaviour of the running coroutine, defining the
+&gt; arglist of its resume command.
+
+
+&gt; Example:
+&gt;
+&gt; &nbsp;proc puts_and_return {val} {
+&gt; &nbsp; &nbsp;puts "output: $val"
+&gt; &nbsp; &nbsp;return $val
+&gt; &nbsp;}
+&gt;
+&gt; &nbsp;proc accum {a b} {
+&gt; &nbsp; &nbsp;yieldset {b x y}
+&gt; &nbsp; &nbsp;set total $a
+&gt; &nbsp; &nbsp;while { $b ne {} } {
+&gt; &nbsp; &nbsp; &nbsp;lassign [yieldto puts_and_return [incr total $b]] b x y
+&gt; &nbsp; &nbsp; &nbsp;# x, y unused
+&gt; &nbsp; &nbsp;}
+&gt; &nbsp;}
+&gt;
+&gt; &nbsp;coroutine coro accum 1 2 ;# -&gt; 3 (and puts "output: 3" to console)
+&gt; &nbsp;coro 4 &nbsp;;# -&gt; wrong # args, should be "coro b x y"
+&gt; &nbsp;coro 5 foo bar ;# -&gt; 8 (and puts "output: 8" to console)
+&gt; &nbsp;coro -1 a b ;# -&gt; 7 (and puts "output: 7" to console)
+
+
+&gt; * [coroutine] executes "[uplevel #0 [list accum 1 2]]" (such that its stack
+&gt; can be suspended)
+&gt; * [yieldset] makes a note of the arglist for $coroCmdName
+&gt; * [yieldto] suspends the execution of [accum], creates a command
+&gt; $coroCmdName (in this case "coro") that accepts the arglist noted by
+&gt; [yieldset], then [tailcall]s "puts_and_return ...".
+&gt; * [puts_and_return] runs and returns to the coroutine caller.
+&gt; * Later we invoke [coro] to resume the coroutine.
+
+
+So basically you run an additional coroutine tied to the original
+caller? And returning from this proc skips by the first coroutine
+(which called [yieldto ...]) and returns to the caller of $c.
+
+This sounds like the "Alice in Wonderland" feature.
+
+tom jackson
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25991028">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25991028/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Andreas Leitgeb &lt;avl@lo...&gt; - 2010-08-20 11:17:31</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>Twylite &lt;twylite@...&gt; wrote:
+&gt; In the view of various other people, dividing sequential logic into 
+&gt; separate "sub-events" is a work-around ...
+
+What "sequential logic" do you see in code like the following?
+
+ proc pseudo_coro {...} {
+    set prev_resp "dummy-value for first yield"
+    while 1 { 
+       set x [yield $prev_resp]
+       set prev_resp [ handler $x ]
+    }
+ }
+
+That's the pattern that's been offered so far.
+
+Obviously, just calling [ handler $x ] with $x being whatever
+is passed to the resume command, not only obviates the need for
+multi-value resume, but also shows, how bizarre it was, to make
+*that* into a coroutine.
+
+What I suggest is not dividing into separate sub-events, but
+to avoid merging separate events into a useless "sequence".
+
+
+And another similar one:
+
+Neil Madden &lt;neil.e.madden@...&gt; wrote:
+&gt;&gt; On wiki 26683, the actual coroutine body is:
+&gt;&gt; " [up to details the same as "pseudo_coro" above]
+&gt;&gt; [Andreas suggests to just call the "handler" directly]
+&gt; You seem to be missing the fact that message sends are asynchronous via the
+&gt; event loop. That is the purpose of the yield. Otherwise, you could just use
+&gt; a normal object.
+
+You seem to be confused about asynchronity.
+
+The coro didn't involve the event loop at all. The time where it
+is suspended corresponds exactly with the time between two separate
+handler calls. Doesn't a procedure "sleep", too, between two calls?
+No, it is killed and resurrected on next call, and (just like with the
+pseudo_coro) there isn't really anything worth preserving in the stack,
+anyway.
+
+Perhaps, someone interested in pushing multi-valued coroutines for that
+pattern, will run a performance test, to see, whether calling a procedure
+is more or less efficient than yielding to an already started coroutine.
+
+If the coroutine won, that would truly smash my argumentation.
+
+&gt; &gt; "Real coroutine use" would be: ...
+&gt; This is a highly arbitrary definition of what a coroutine should be used
+&gt; for.
+
+It was an attempt to positively characterize coroutines that do not
+match the "pseudo_coro" (anti-)pattern.
+
+&gt; Note that $result and $options *do* change at each iteration and are
+&gt; used.
+
+They weren't used across the yield.  They were passed to yield, and next
+use was that they were overwritten with new values.
+
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25990801">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25990801/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Andreas Leitgeb &lt;avl@lo...&gt; - 2010-08-20 10:38:17</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On Fri, Aug 20, 2010 at 11:18:12AM +0200, Twylite wrote:
+&gt; The resume action is embodied as a command.
+
+That is an implementation detail.  It could just as well have been
+some identifier to be used with some "resume" command. In hindsight
+that would probably have been the better choice.
+
+&gt; The behaviour of executing that command is defined by me, the developer.
+
+No. The behaviour is defined as "resume that coroutine".  Even if it allowed
+multi args, you wouldn't be doing anything else with it than resuming a
+coroutine. This is about as different from calling a procedure, as "return"
+is from calling a procedure (although return ends up in the caller code
+that may be also written by yourself).
+
+&gt; Comparisons to [canvas], [exit], [lappend] are specious.
+Yes, they were meant to.  btw., just as specious as comparison to a proc.
+
+&gt;&gt; Having to pick apart such a list feels so perl'ish.
+&gt; perl'ish:
+&gt;   lassign [yieldm] arg1 arg2 arg3
+&gt;   $coro a1 a2 a3
+That being a feature would encorage perl'ish programming.
+
+&gt; not perl'ish ? :
+&gt;   lassign [yield] arg1 arg2 arg3
+&gt;   $coro [list a1 a2 a3]
+
+That looks ugly enough to make programmers (hopefully) find a better
+approach to their task.
+
+Anyway, this is moot now, since if there's ever an agreement on it's real
+usefulness, yieldm as specified in the TIP is not likely to make it, but
+rather the "-args params" approach, which stays away from that perl'ism.
+
+[about: "yield -args param-spec value" behaviour]
+&gt;&gt;&gt; Or "yieldset $arglist; lassign2 [yield] $arglist".
+&gt;&gt; The default, however isn't expressable as a param-spec.
+&gt; <a href="http://www.tcl.tk/cgi-bin/tct/tip/373.html" rel="nofollow">http://www.tcl.tk/cgi-bin/tct/tip/373.html</a>: "In this manner, current  
+&gt; yield behaves as if 'yieldset {{arg {}}}' "
+&gt; Unless I'm misunderstanding what you are saying?
+
+[yield ?-args param-spec? ?value?]  without -args param-spec given would 
+skip the lassign2-part and just return the value, rather than assigning it
+to a local variable "arg".  The TIP'd yieldset failed to cover assignment
+to local vars altogether, thus leading to the perl'ism in the first place.
+
+&gt; Option 1: coroutines should suspend, yielding a single value to the  
+&gt; caller, then resume with no data/arguments.
+That would have been the "correct" way.
+Just because it fit in snugly, it "offered a finger" to passing one 
+argument.
+
+&gt; Option 2: coroutines should suspend, yielding a single value to the  
+&gt; caller, then resume with data/arguments.
+Option 2 grabs not just the finger, but the whole hand, to pull
+one head-first into the cold water.
+
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25990721">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25990721/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Lars Hellström &lt;Lars.H&lt;ellstrom@re...&gt; - 2010-08-20 10:21:42</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>Andreas Leitgeb skrev:
+&gt; On Fri, Aug 20, 2010 at 08:15:12AM +0100, Neil Madden wrote:
+&gt;&gt; Regardless, however, I am now mostly convinced that multi-arg resumes
+&gt;&gt; are useful and difficult enough to implement well. My preferred interface
+&gt;&gt; is the one Alex mentioned some time back, namely [yield -args {a b c} $foo]. 
+&gt; 
+&gt; I am really curious about real usecases.
+
+One that comes to mind is implementing a POP server.
+
+IIRC, messages to the server all take the simple form "command 
+argument", so a coroutine acting as "the server" (more properly: 
+handling one connection to it) would be naturally implemented by a 
+coroutine with
+
+   yieldset {cmd arg}
+
+(I think later extensions to the protocol adds commands with more than 
+one argument, so one might make that [yieldset {cmd arg args}] just to 
+be on the safe side, but that's a minor detail.) This makes 
+experiments-at-tclsh-prompt with the server blazingly obvious, as you 
+can merely "connect to it" by
+
+   coroutine test pop::serve_connection ...possibly-more-args...
+
+and enter your commands as
+
+   test USER avl
+   test PASS swordfish
+
+The two main states of the connection would be "not logged in" and 
+"logged in", so a basic structure of pop::serve_connection could be
+
+proc pop::serve_connection {} {
+    set logged_in 0
+    while {!$logged_in} {
+       # Authentication processing
+    }
+    while {$logged_in} {
+       # Serve commands for particular user
+    }
+    return "Bye"
+}
+
+This assumes logging out implies closing the connection; I don't recall 
+if that's the case (and the bye message probably didn't look quite like 
+that), but it's no big deal to fix.
+
+One point where doing this as a coroutine really simplifies the code is 
+in the login sequence, since the user is first supposed to send a USER 
+command and then immediately after a PASS command. With yielding, that 
+is merely
+
+  set res [initial_greeting]
+  while {!$logged_in} {
+     yield -args {cmd arg args} $res
+     switch -- $cmd USER {
+        yield -args {PASS password} "nnn Enter PASS"
+        if {$PASS ne "PASS"} then {
+           set res "nnn Wrong command, must be PASS"
+        } elseif {[info exists Passwd($arg)] &amp;&amp;\
+                  $Passwd($arg) eq $password {
+           set logged_in 1
+           set user $arg
+        } else {
+           set res "nnn Wrong password, or user unknown"
+        }
+     }
+  }
+  set res "nnn Welcome $user, you have [unread $user] new messages"
+
+In a non-coroutine implementation, it would instead be necessary to 
+handle this quirk in the protocol by adding an extra state to the machine.
+
+Hope that helps,
+
+Lars Hellström
+
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25990378">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25990378/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Neil Madden &lt;neil.madden@gm...&gt; - 2010-08-20 09:21:12</small>
+      <div class="attachments">
+        <small>
+          
+            <b>Attachments:</b>
+            <a href="https://sourceforge.net/p/tcl/mailman/attachment/AANLkTinm6vNWPyrY%3D8JesU6jW_EsFdGpc79KTiBUb55K%40mail.gmail.com/1/">Message as HTML</a>&nbsp;&nbsp;&nbsp;&nbsp;
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>Hi Andreas,
+
+On 20 August 2010 09:26, Andreas Leitgeb &lt;avl@...&gt; wrote:
+
+&gt; On Fri, Aug 20, 2010 at 08:15:12AM +0100, Neil Madden wrote:
+&gt; &gt; Regardless, however, I am now mostly convinced that multi-arg resumes
+&gt; &gt; are useful and difficult enough to implement well. My preferred interface
+&gt; &gt; is the one Alex mentioned some time back, namely [yield -args {a b c}
+&gt; $foo].
+&gt;
+&gt; I am really curious about real usecases.
+&gt;
+&gt; On wiki 26683, the actual coroutine body is:
+&gt;    proc dispatch actor {
+&gt;        set result ""
+&gt;        set options [dict create]
+&gt;        while 1 {
+&gt;
+&gt;            # Yield the result of this message, and receive the next
+&gt;            set message [yield [list $result $options]]
+&gt;
+&gt;            #puts "Dispatching: $message"
+&gt;
+&gt;            # Dispatch the message to the actor ensemble
+&gt;            catch { $actor {*}$message } result options
+&gt;        }
+&gt;    }
+&gt;
+&gt; Thus, the coroutine state is really just the actor argument.
+&gt; If you saved that in the object (as you saved the coroutine),
+&gt; you could use a plain procedure:
+&gt;
+&gt; proc dispatch {any arguments you like} {
+&gt;   variable actor
+&gt;   catch { $actor $any $arguments $you $like } result options
+&gt;   return [list $result $options]
+&gt; }
+&gt;
+
+
+You seem to be missing the fact that message sends are asynchronous via the
+event loop. That is the purpose of the yield. Otherwise, you could just use
+a normal object.
+
+
+&gt;
+&gt; "Real coroutine use" would be: a couple of different yields throughout
+&gt; the code, or a yield inside an interesting loop (i.e.: one with at least
+&gt; one non-dummy variable that changes with each iteration, and is actually
+&gt; used.)
+&gt;
+
+This is a highly arbitrary definition of what a coroutine should be used
+for. Note that $result and $options *do* change at each iteration and are
+used.
+
+You also seem to be missing that the example I gave uses only standard
+[yield]: i.e., it is actually an argument against the utility of [yieldm].
+My intention was to use this as a simple example of the kind of system that
+proponents of multi-arg resume would like to build. Hence, it can be used as
+a use-case for demonstrating the utility of the various multi-arg
+alternatives: do they really significantly improve the code? My feeling is
+that the improvements will be real, but fairly minor.
+
+Neil
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25990377">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25990377/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Twylite &lt;twylite@cr...&gt; - 2010-08-20 09:18:27</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>Hi,
+&gt; The whole wiki page does not cover the topic of "resuming with parameters".
+&gt;
+&gt; I don't know, why you insist so much on comparing the resume action with
+&gt; procedure calls.
+&gt;    
+The resume action is embodied as a command.
+The behaviour of executing that command is defined by me, the developer.
+For any other command, the behaviour of which is defined by me, Tcl 
+offers me the flexibility of defining the arguments accepted by that 
+command.
+For [coroutine] (more specifically [yield]), I am artificially limited 
+to defining behaviour that accepts 0 or 1 arguments.
+
+Comparisons to [canvas], [exit], [lappend] are specious.  These are not 
+commands the behaviour of which is defined by me.  They are commands the 
+behaviour of which has been defined by other developers, who have 
+tailored the arglist to suit the needs of the particular command 
+_because they could_.
+&gt;&gt; The "official" [yieldm], ...
+&gt;&gt; Both state "This is just like yield, except that it causes the coroutine
+&gt;&gt; command to accept arbitrarily many arguments and will return the list of
+&gt;&gt; those arguments".
+&gt;&gt;      
+&gt; That is the version that actually sucks most, imho.
+&gt; Having to pick apart such a list feels so perl'ish.
+&gt;    
+
+perl'ish:
+
+   lassign [yieldm] arg1 arg2 arg3
+   ...
+   $coro a1 a2 a3
+
+not perl'ish ? :
+
+   lassign [yield] arg1 arg2 arg3
+   ...
+   $coro [list a1 a2 a3]
+
+&gt;&gt; The [yieldm -args] proposal that I have seen is a combination of
+&gt;&gt; [yieldset] and [yieldm] that is roughly equivalent to ...
+&gt;&gt; Or "[yieldset $arglist] ; lassign2 [yield] $arglist".
+&gt;&gt;      
+&gt; Just without the brackets around yieldset.
+Yes ;)
+&gt;    If it *were* worth the
+&gt; trouble, it could even go by name of "yield".  The default, however
+&gt; isn't expressable as a param-spec.
+<a href="http://www.tcl.tk/cgi-bin/tct/tip/373.html" rel="nofollow">http://www.tcl.tk/cgi-bin/tct/tip/373.html</a>: "In this manner, current 
+yield behaves as if 'yieldset {{arg {}}}' "
+Unless I'm misunderstanding what you are saying?
+
+&gt;&gt; This comes back to the issue of generality: coroutines are a
+&gt;&gt; generalisation of subroutines that permit suspending and resuming.
+&gt;&gt;      
+&gt; Again, you mix up the "starting" of a coroutine, which in tcl is as
+&gt; flexible as it can possibly get, with resumption.
+&gt;    
+Option 1: coroutines should suspend, yielding a single value to the 
+caller, then resume with no data/arguments.
+Option 2: coroutines should suspend, yielding a single value to the 
+caller, then resume with data/arguments.
+
+Assuming that Tcl supports Option 2 (which [yield] currently does -- 
+Option 1 vs Option 2 is a different debate);
+And assuming that "resume a coroutine" looks like a command invocation 
+(which it currently does);
+And given that what happens after resume (i.e. how the data/arguments 
+are used) is defined by the developer rather than predefined;
+Then there is No Good Reason that you shouldn't be able to implement 
+"resume a coroutine" to look like any other command, if you choose to;
+And Consistency and Generality (and possibly others) are Good Reasons to 
+be consistent with the flexibility of other user-definable commands.
+
+&gt; My lassign2-suggestion was for the yet unknown usecase, where it *really* would
+&gt; be useful.  Not, for cases where the coroutine-features are really wasted, as
+&gt; a plain proc call does the job better than a parameterized resume.
+&gt;    
+Wait, what?  Your unknown use case is really useful, but someone else's 
+useful feature is a waste and abuse?
+
+Regards,
+Twylite
+
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25990357">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25990357/">[TCLCORE] Detecting font size change in megawidgets</a></b></div>
+      
+      <small>From: Harald Oehlmann &lt;Harald.Oehlmann@Elmicron.de&gt; - 2010-08-20 09:14:43</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>Is there any possibility to detect a font size change within a
+(mega)widget which uses this font ?
+
+Example:
+Create a font with size 8:
+% font create Custom -size 8
+And use it in a widget, for example the BWidget NoteBook or the
+tablelist widget:
+% NoteBook -font Custom
+Now change the font size:
+% font configure Custom -size 17
+
+All standard widgets automatically change size.
+But those composite widgets which use Canvas drawing (BWidget notebook
+tabs) or the text widget (tablelist) do not resize properly.
+
+How is it possible to detect a font reconfiguration by a megawidget so
+it may adjust any dependent visual items?
+
+E.G. is there any code like
+% bind &lt;Configure&gt; Script
+to get informed about a font (size) change ?
+
+I discussed this issue with Casbah Nemeti (tablelist) and we did not
+find any answer. The clt post had no answer so I allow me to ask the
+core list.
+
+If this could/should lead to an extension of Tk I would not mind to get
+active here.
+
+Regards,
+Harald
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25990110">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25990110/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Twylite &lt;twylite@cr...&gt; - 2010-08-20 08:32:09</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>Hi,
+&gt; When you integrate long running code into an event driven environment,
+&gt; the problem to solve is how to handle long-running events (not
+&gt; blocking code), so that the event is divided up, occasionally paused,
+&gt; so that other code/events can run. So in the context of events,
+&gt; coroutines can be used to chop up a single event into sub-events.
+&gt;    
+&lt;snip&gt;
+&gt; Every example I have seen so far where coroutines are mixed with
+&gt; fileevents fail to follow this refactoring admonition: instead of
+&gt; dividing event code into small chunks, the same routine is used for
+&gt; multiple events (I'm calling them super-events, for instance, a
+&gt; protocol request/response interaction is a super-event). So the use of
+&gt; [yield] seems obvious in this case: the developer failed to correctly
+&gt; refactor their code into sub-events, or even events, so they have to
+&gt; use [yield] to give other parts of the application a shot at
+&gt; execution.
+&gt;
+&gt;
+&gt; In summary: there are two situations: yielding because a particular
+&gt; computation takes too long (or never completes), or yielding because
+&gt; the developer doesn't want to refactor their event code. Choose
+&gt; wisely.
+&gt;    
+
+<a href="http://en.wikipedia.org/wiki/Coroutine" rel="nofollow">http://en.wikipedia.org/wiki/Coroutine</a> :
+"In situations where a coroutine would be the natural implementation of 
+a mechanism, but is not available, the typical response is to create a 
+subroutine that uses an ad-hoc assemblage of boolean flags and other 
+state variables to maintain an internal state between calls. 
+Conditionals within the code result in the execution of different code 
+paths on successive calls, based on the values of the state variables. 
+Another typical response is to implement an explicit state machine in 
+the form of a large and complex switch statement. Such implementations 
+are difficult to understand and maintain."
+
+In the view of various other people, dividing sequential logic into 
+separate "sub-events" is a work-around for not having coroutines, and is 
+harder to maintain.
+
+A more modular approach may involve an object storing the state, and the 
+logic being split into different methods.  The effect is the same: if 
+you don't have coroutines, you may have to refactor your code to use events.
+
+Regards,
+Twylite
+
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25990092">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25990092/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Andreas Leitgeb &lt;avl@lo...&gt; - 2010-08-20 08:26:36</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On Fri, Aug 20, 2010 at 08:15:12AM +0100, Neil Madden wrote:
+&gt; Regardless, however, I am now mostly convinced that multi-arg resumes
+&gt; are useful and difficult enough to implement well. My preferred interface
+&gt; is the one Alex mentioned some time back, namely [yield -args {a b c} $foo]. 
+
+I am really curious about real usecases.
+
+On wiki 26683, the actual coroutine body is:
+    proc dispatch actor {
+        set result ""
+        set options [dict create]
+        while 1 {
+
+            # Yield the result of this message, and receive the next
+            set message [yield [list $result $options]]
+
+            #puts "Dispatching: $message"
+
+            # Dispatch the message to the actor ensemble
+            catch { $actor {*}$message } result options
+        }
+    }
+
+Thus, the coroutine state is really just the actor argument.
+If you saved that in the object (as you saved the coroutine),
+you could use a plain procedure:
+
+proc dispatch {any arguments you like} {
+   variable actor
+   catch { $actor $any $arguments $you $like } result options
+   return [list $result $options]
+}
+
+"Real coroutine use" would be: a couple of different yields throughout
+the code, or a yield inside an interesting loop (i.e.: one with at least
+one non-dummy variable that changes with each iteration, and is actually
+used.)
+
+Otoh, where each call to yield is the same as the previous one, then
+this is a misuse, which isn't in itself bad, just inefficient and
+doesn't count as an argument for the necessity of multi-arg resume.
+
+My feeling is, that the amount of "state" doesn't usually grow 
+indefinitely, so if new state enters with each resume, then
+most likely it just replaces old state or gets added to some
+accumulator. If the latter, then it's surely better to keep that
+accumulator separately accessible: as a field of a class for
+better introspectability. If the former, then calling procedures
+is likely the more efficient solution in the first place.
+So, I'd be rather surprised by any real usecase, but I don't
+rule out the possibility of this feeling being disproved.
+Btw., this paragraph also applies to resume with one argument
+as we already have it.
+
+If a real usecase is ever found, then I'll be all for the 
+ yield ?-args param-spec? ?value?
+It just wasn't so far.
+
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25990060">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25990060/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Twylite &lt;twylite@cr...&gt; - 2010-08-20 08:21:02</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>Hi,
+&gt; [yieldset] modifies how the created coroutine is called. I previously
+&gt; thought that this command only affected one yield/resume call.
+&gt;    
+
+&gt; This is needed so that you can later call [yieldto $c arg1 arg2 arg3].
+&gt;    
+No.  "yieldto implements 'suspend yourself and tailcall the new 
+command'".  $c can be any command, including for example [return] 
+(allowing errors to be returned to the coroutine caller, as described in 
+the TIP).
+
+[yieldset] modifies the behaviour of the running coroutine, defining the 
+arglist of its resume command.
+
+Example:
+
+   proc puts_and_return {val} {
+     puts "output: $val"
+     return $val
+   }
+
+   proc accum {a b} {
+     yieldset {b x y}
+     set total $a
+     while { $b ne {} } {
+       lassign [yieldto puts_and_return [incr total $b]] b x y
+       # x, y unused
+     }
+   }
+
+   coroutine coro accum 1 2 ;# -&gt; 3 (and puts "output: 3" to console)
+   coro 4  ;# -&gt; wrong # args, should be "coro b x y"
+   coro 5 foo bar ;# -&gt; 8 (and puts "output: 8" to console)
+   coro -1 a b ;# -&gt; 7 (and puts "output: 7" to console)
+
+* [coroutine] executes "[uplevel #0 [list accum 1 2]]" (such that its 
+stack can be suspended)
+* [yieldset] makes a note of the arglist for $coroCmdName
+* [yieldto] suspends the execution of [accum], creates a command 
+$coroCmdName (in this case "coro") that accepts the arglist noted by 
+[yieldset], then [tailcall]s "puts_and_return ...".
+* [puts_and_return] runs and returns to the coroutine caller.
+* Later we invoke [coro] to resume the coroutine.
+
+&gt; I guess this means a number of things:
+&gt;
+&gt; 1. A specific coroutine will start out with one call signature and
+&gt; could change to a completely different one at any time.
+&gt;    
+Yes.  A coroutine could expect different data each time it resumes.
+&gt; 2. This new call signature could be different for every coroutine, or
+&gt; any specific coroutine, for instance, a variable or dynamically
+&gt; generated signature could be used.
+&gt;    
+Yes.
+&gt; 4. After calling [yieldset], you use [yieldto somecommand arg1 arg2 ...]
+&gt;    
+Or [yield].  From TIP #373: 'In this manner, current yield behaves as if 
+"yieldset {{arg {}}}" had been called. ... In order to obtain TIP #372's 
+yieldm behaviour for yield, it would be necessary to call "yieldset args"'
+&gt; 7. You could also use [yield] or [yieldm], back to the original
+&gt; caller. Apparently, when the coroutine resumes it will also apply the
+&gt; new signature, or will it?
+&gt;    
+Yes, it will.
+
+&gt; Did I get anything wrong?
+&gt;    
+I'm really unsure about points 5. and 6.
+
+Regards,
+Twylite
+
+
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25989740">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25989740/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Neil Madden &lt;neil.madden@gm...&gt; - 2010-08-20 07:15:55</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>Personally I think the comparisons to proc etc are rather tenuous. If the proposal was to change [coroutine] itself to accept a parameter list then it would be more convincing. But the proposal is to change yield/resume, which I struggle to think of as being like proc in any meaningful way. The nearest equivalent I can think of is thread::send, which sends a single script argument, but is different again. 
+
+I'm also a little confused by some of the examples given. For instance, the example of converting a thread pool and fifo queue dispatcher to use coros seems like a retrograde step: the use of queues is usually to decouple producers and consumers, leading to improved throughput. Coros are synchronous though, so surely this is lost? Perhaps it would help to see the code - is this in coronet or Wub?
+
+Regardless, however, I am now mostly convinced that multi-arg resumes are useful and difficult enough to implement well. My preferred interface is the one Alex mentioned some time back, namely [yield -args {a b c} $foo]. 
+
+I would like to see more code examples showing usage though. For my part, I'll point to <a href="http://wiki.tcl.tk/26683" rel="nofollow">http://wiki.tcl.tk/26683</a> (actor model with coros) that supports multi arg resume and correct propagation of exceptions. Note here that a built-in multi-arg resume would only slightly simplify the code as argument checking has to be done by an ensemble that us delegated to (i.e., I'd be doing [yield -args args]). 
+
+Neil
+
+On 20 Aug 2010, at 03:24, Colin McCormack &lt;colin@...&gt; wrote:
+
+&gt; On 20/08/10 09:37, Andreas Leitgeb wrote:
+&gt;&gt; Colin McCormack&lt;colin@...&gt;  wrote:
+&gt;&gt; 
+&gt;&gt;&gt; On 19/08/10 23:26, Andreas Leitgeb wrote:
+&gt;&gt;&gt; 
+&gt;&gt;&gt;&gt; Factory commands (those that create other commands) do *not* have any
+&gt;&gt;&gt;&gt; requirement to create any particular type or generality of commands.
+&gt;&gt;&gt;&gt; It is ok for factory commands to create no-args, "one optional"-arg,
+&gt;&gt;&gt;&gt; "at least 42"-args, or arbitrary args taking commands.
+&gt;&gt;&gt;&gt; If you're talking of factory commands that can create any types of
+&gt;&gt;&gt;&gt; commands, then it reduces the precedents to just "proc".
+&gt;&gt;&gt;&gt; 
+&gt;&gt;&gt; I've no idea what a 'factory command' is,
+&gt;&gt;&gt; 
+&gt;&gt; Short for "command-producing-command". The explanation followed in
+&gt;&gt; parentheses - seems like I should have added "i.e.:" before it.
+&gt;&gt; 
+&gt; 
+&gt; Isn't this pure nominalism?  By giving something a name, one presumes 
+&gt; that by that act alone it shares properties with other things which 
+&gt; happen also to share that name?
+&gt; 
+&gt; Let's see if I can sketch it:  there are things called factory commands, 
+&gt; they are things which create other commands.  Nothing in the definition 
+&gt; of factory command entails an arity of the commands produced.  Let 
+&gt; [coroutine] to be a factory command.  (now watch what I do here) Because 
+&gt; factory commands entail nothing of the arity of their product, it 
+&gt; follows that coroutine is free to implement any arity it wishes.
+&gt; 
+&gt; It's argument by analogy, fragile at best.
+&gt; 
+&gt; Try this:  There is a category of command called Tcl command, and a 
+&gt; subset of those produce commands.  All of the existing instances of that 
+&gt; category, but [coroutine], produce variadic commands.  The creation of a 
+&gt; Tcl command producing a command does not logically entail that the 
+&gt; command so produced must be variadic, but the general principle 'it is 
+&gt; best if things which do similar things do them in similar ways' suggests 
+&gt; that it ought.
+&gt; 
+&gt; Or, if we tire of sterile scholasticism, how about an empirical 
+&gt; argument:  My code is cleaner and shorter if coroutines are variadic.  
+&gt; It is reasonable to suppose that others' code also might benefit.
+&gt; 
+&gt; 
+&gt;&gt;&gt; I'm also not sure what 'requirement' means in this context. Required by
+&gt;&gt;&gt; whom?
+&gt;&gt;&gt; 
+&gt;&gt; By nobody and nothing. That's the point. That's why the arity of commands
+&gt;&gt; produced by other factory commands bears *no importance at all* for
+&gt;&gt; coroutine's produced resumer command.
+&gt;&gt; 
+&gt; 
+&gt; by 'produced resumer command' I presume we're talking about what is 
+&gt; commonly called 'the coroutine' ?
+&gt; 
+&gt; I think your categorical use of 'requirement' is leading to some 
+&gt; category confusion.  I know I have a requirement for the arity of 
+&gt; coroutines.  Does this mean we're using 'requirement' in a different 
+&gt; sense, or that I'm categorically non-existent?
+&gt; 
+&gt; I know I'm sullying your argument with mere usage, but using coroutines 
+&gt; happens to be more important to me than reasoning about them.
+&gt; 
+&gt;&gt;&gt; There's a table on that page.  It enumerates each of the
+&gt;&gt;&gt; command-producing-commands I could find in Tcl, and it clearly
+&gt;&gt;&gt; demonstrates that
+&gt;&gt;&gt; 
+&gt;&gt; The total number of "e"s on that page couldn't be less relevant than
+&gt;&gt; that table.
+&gt;&gt; 
+&gt; 
+&gt; Relevant usually implies the existence of an indirect object.  Perhaps 
+&gt; if you supplied it in this instance, your argument might be convincing 
+&gt; to others.
+&gt; 
+&gt; Colin.
+&gt; 
+&gt; 
+&gt; ------------------------------------------------------------------------------
+&gt; This SF.net email is sponsored by 
+&gt; 
+&gt; Make an app they can't live without
+&gt; Enter the BlackBerry Developer Challenge
+&gt; <a href="http://p.sf.net/sfu/RIM-dev2dev" rel="nofollow">http://p.sf.net/sfu/RIM-dev2dev</a> 
+&gt; _______________________________________________
+&gt; Tcl-Core mailing list
+&gt; Tcl-Core@...
+&gt; <a href="https://lists.sourceforge.net/lists/listinfo/tcl-core" rel="nofollow">https://lists.sourceforge.net/lists/listinfo/tcl-core</a>
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25989166">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25989166/">Re: [TCLCORE] TIP #374: Stackless Vwait</a></b></div>
+      
+      <small>From: Thomas Perschak &lt;tombert@gm...&gt; - 2010-08-20 04:20:45</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>
+On 20/08/2010 04:38, Donald Arseneau wrote:
+&gt; "Perschak, Thomas"&lt;thomas.perschak@...&gt;  writes:
+&gt;
+&gt;&gt; Nobody asked for changing the behaviour of [vwait]
+&gt;
+&gt; I did.
+
+me too - but I misunderstood your writing - because I dont want to 
+change [vwait] - I'm suggesting a new option or command ...
+
+&gt;
+&gt;&gt; In other words, there will be an observable change. Arguably for the
+&gt;&gt; better (an "un-break my code" change)
+&gt;
+&gt; That is what I would like.  I think the TIP asks for parallel
+&gt; systems of old problem vwait with a new stackless vwait (triggered
+&gt; by an extra argument or maybe "vwaitnew") but I don't find it very
+&gt; clear.  Most of the emphasis seems on grouping sets of events.
+&gt;
+&gt; I like "un-break my code" but acknowledge that someone might actually
+&gt; rely on all vwaits being suspended while a dialog is popped up.
+&gt;
+&gt;
+
+I do not insist on gouping of events, only I think that it might be 
+necessary to distinguish between certain types of events that you don't 
+want to interfere - similar to mutexes or semaphores in C.
+
+ From my point of view, tcl is going to be thread-similar. With all this 
+parallel events happening there should be a kind of global control 
+mechanism like "this-has-to-run-before-that".
+
+Giving the event type a name and then assigning a behaviour (LIFO, FIFO, 
+EVENT=who-ever-comes-first) should provide most freedom.
+
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25989070">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25989070/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Andy Goth &lt;andrew.goth@gm...&gt; - 2010-08-20 03:36:45</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On 8/19/2010 3:51 PM, Tom Jackson wrote:
+&gt; In summary: there are two situations: yielding because a particular
+&gt; computation takes too long (or never completes), or yielding because
+&gt; the developer doesn't want to refactor their event code. Choose
+&gt; wisely.
+
+Wibble uses coroutines and fileevent together in a valid and gainful 
+way.  It takes advantage of the fact that Tcl coroutines are stackful, 
+meaning that [yield] works even when it's buried deep in the stack. 
+This allows the code that services each connection to be written simply, 
+in the style of straight-line blocking I/O code.  But behind the scenes, 
+the "blocking I/O" uses [yield] so that it only blocks the current 
+coroutine, yet allows coroutines for other connections to be started or 
+resumed by [socket -server] or [fileevent], respectively.  It's very 
+difficult to rewrite such stackful code to use explicit continuation 
+tracking, and the result of this process is code that's harder to 
+understand due to having been split up anywhere a [yield] could happen.
+
+You see, Wibble's coroutine is truly a long-running routine, not merely 
+an event handler.  Well, maybe it is an event handler, if the event is 
+"I got a connection" and the handler is "process all I/O for the 
+connection until it closes, even in the face of pipelining and 
+keepalive".  That's a large event, a super-event as you say, requiring a 
+large handler.  Therefore it's better to think of it as a routine.  But 
+multiple connections have to be serviced simultaneously, so the routine 
+has to be a coroutine.
+
+Instead, the event is simply "incoming data is available", and the 
+handler is simply "resume the coroutine".  Let me underscore:  The 
+coroutine is NOT the event handler, the event handler is NOT the 
+coroutine.  The event handler is: RESUME the coroutine.  That's 
+literally what it is.  [fileevent $chan readable [list [info 
+coroutine]]] says: when $chan is readable, resume the current coroutine. 
+  You will note that the coroutine already exists, before there ever was 
+a readable event.
+
+Think about what happens when you go to bed for the night, catch forty 
+winks, then wake up when the alarm clock rings.  Your life is a 
+coroutine, and going to sleep is yielding.  What's the handler for the 
+alarm-clock-ring event?  Is it to get out of bed, brush your teeth, put 
+on pants, and go to work?  No, all those steps are what's already 
+written into the coroutine of your life.  The event handler is to simply 
+[wake you up] so that [you will move on] to the next step of your life. 
+  It's a fine point; the computer can't tell the difference.  But such 
+philosophical distinctions can shift your perspective and enable you to 
+grasp the design of this admittedly complex system.
+
+In the words of ELP:
+
+No man yields who flies in my ship
+DANGER!
+Let the bridge computer speak
+STRANGER!
+LOAD YOUR PROGRAM. I AM YOURSELF.
+
+No computer stands in my way
+Only blood can cancel my thread [was: pain]
+Guardians of a new clear dawn
+Let the maps of war be drawn.
+
+:^)
+
+-- 
+Andy Goth | &lt;andrew.m.goth/at/gmail/dot/com&gt;
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25988914">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25988914/">Re: [TCLCORE] TIP #373: Improved Yielding Support for	Coroutines</a></b></div>
+      
+      <small>From: Andy Goth &lt;andrew.goth@gm...&gt; - 2010-08-20 02:50:43</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On 8/19/2010 8:26 AM, Andreas Leitgeb wrote:
+&gt; Wiki pages, that begin with a suggestion to distinguish single arguments
+&gt; (-&gt;  as is) and multi arguments (-&gt;  as list), utterly fail to convince
+&gt; me of anything.  Whoever wrote that (in a context that is not per se
+&gt; limited to numbers or barewords, of course) lacks understanding of tcl
+&gt; fundamentals and is no "authority" in these matters.
+
+I found this earlier today.  It's eerily similar to the discussion at hand.
+
+"multi-argument set"
+
+<a href="http://wiki.tcl.tk/15093" rel="nofollow">http://wiki.tcl.tk/15093</a>
+
+It starts with, "You know, in retrospect, I think [set x a b c] should 
+be equivalent to [set x [list a b c]]".
+
+-- 
+Andy Goth | &lt;andrew.m.goth/at/gmail/dot/com&gt;
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25988879">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25988879/">Re: [TCLCORE] TIP #374: Stackless Vwait</a></b></div>
+      
+      <small>From: Donald Arseneau &lt;asnd@tr...&gt; - 2010-08-20 02:38:35</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>"Perschak, Thomas" &lt;thomas.perschak@...&gt; writes:
+
+&gt; Nobody asked for changing the behaviour of [vwait] 
+
+I did.
+
+&gt; In other words, there will be an observable change. Arguably for the 
+&gt; better (an "un-break my code" change) 
+
+That is what I would like.  I think the TIP asks for parallel
+systems of old problem vwait with a new stackless vwait (triggered
+by an extra argument or maybe "vwaitnew") but I don't find it very
+clear.  Most of the emphasis seems on grouping sets of events.
+
+I like "un-break my code" but acknowledge that someone might actually
+rely on all vwaits being suspended while a dialog is popped up.
+
+
+-- 
+Donald Arseneau                          asnd@...
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+      
+
+<table id="msg25988832">
+<tbody><tr>
+  <td class="email-header">
+    <div>
+      <div><b><a href="https://sourceforge.net/p/tcl/mailman/message/25988832/">Re: [TCLCORE] TIP #373: Improved Yielding Support for Coroutines</a></b></div>
+      
+      <small>From: Colin McCormack &lt;colin@ch...&gt; - 2010-08-20 02:24:38</small>
+      <div class="attachments">
+        <small>
+          
+        </small>
+      </div>
+    </div>
+  </td>
+</tr>
+<tr>
+  <td class="email-body"><pre>On 20/08/10 09:37, Andreas Leitgeb wrote:
+&gt; Colin McCormack&lt;colin@...&gt;  wrote:
+&gt;    
+&gt;&gt; On 19/08/10 23:26, Andreas Leitgeb wrote:
+&gt;&gt;      
+&gt;&gt;&gt; Factory commands (those that create other commands) do *not* have any
+&gt;&gt;&gt; requirement to create any particular type or generality of commands.
+&gt;&gt;&gt; It is ok for factory commands to create no-args, "one optional"-arg,
+&gt;&gt;&gt; "at least 42"-args, or arbitrary args taking commands.
+&gt;&gt;&gt; If you're talking of factory commands that can create any types of
+&gt;&gt;&gt; commands, then it reduces the precedents to just "proc".
+&gt;&gt;&gt;        
+&gt;&gt; I've no idea what a 'factory command' is,
+&gt;&gt;      
+&gt; Short for "command-producing-command". The explanation followed in
+&gt; parentheses - seems like I should have added "i.e.:" before it.
+&gt;    
+
+Isn't this pure nominalism?  By giving something a name, one presumes 
+that by that act alone it shares properties with other things which 
+happen also to share that name?
+
+Let's see if I can sketch it:  there are things called factory commands, 
+they are things which create other commands.  Nothing in the definition 
+of factory command entails an arity of the commands produced.  Let 
+[coroutine] to be a factory command.  (now watch what I do here) Because 
+factory commands entail nothing of the arity of their product, it 
+follows that coroutine is free to implement any arity it wishes.
+
+It's argument by analogy, fragile at best.
+
+Try this:  There is a category of command called Tcl command, and a 
+subset of those produce commands.  All of the existing instances of that 
+category, but [coroutine], produce variadic commands.  The creation of a 
+Tcl command producing a command does not logically entail that the 
+command so produced must be variadic, but the general principle 'it is 
+best if things which do similar things do them in similar ways' suggests 
+that it ought.
+
+Or, if we tire of sterile scholasticism, how about an empirical 
+argument:  My code is cleaner and shorter if coroutines are variadic.  
+It is reasonable to suppose that others' code also might benefit.
+
+
+&gt;&gt; I'm also not sure what 'requirement' means in this context. Required by
+&gt;&gt; whom?
+&gt;&gt;      
+&gt; By nobody and nothing. That's the point. That's why the arity of commands
+&gt; produced by other factory commands bears *no importance at all* for
+&gt; coroutine's produced resumer command.
+&gt;    
+
+by 'produced resumer command' I presume we're talking about what is 
+commonly called 'the coroutine' ?
+
+I think your categorical use of 'requirement' is leading to some 
+category confusion.  I know I have a requirement for the arity of 
+coroutines.  Does this mean we're using 'requirement' in a different 
+sense, or that I'm categorically non-existent?
+
+I know I'm sullying your argument with mere usage, but using coroutines 
+happens to be more important to me than reasoning about them.
+
+&gt;&gt; There's a table on that page.  It enumerates each of the
+&gt;&gt; command-producing-commands I could find in Tcl, and it clearly
+&gt;&gt; demonstrates that
+&gt;&gt;      
+&gt; The total number of "e"s on that page couldn't be less relevant than
+&gt; that table.
+&gt;    
+
+Relevant usually implies the existence of an indirect object.  Perhaps 
+if you supplied it in this instance, your argument might be convincing 
+to others.
+
+Colin.
+
+
+
+</pre></td>
+</tr>
+</tbody></table>
+    
+  
+  
+
+  <div class="grid-19 mail-archive-style-switcher">
+    <div class="grid-8">
+      <form method="get">
+  
+    <input type="hidden" name="viewmonth" value="201008" tabindex="14">
+  
+    <input type="hidden" name="viewday" value="20" tabindex="15">
+  
+  
+  <p><strong>Showing
+  
+    23
+  
+  results of 23 </strong></p>
+  
+</form>
+    </div>
+    <div class="grid-4 thread-flat-switcher ">
+      <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=20&amp;style=flat">Flat</a> |
+      <a href="https://sourceforge.net/p/tcl/mailman/tcl-core/?viewmonth=201008&amp;viewday=20&amp;style=threaded">Threaded</a>
+    </div>
+    <div>
+  <div class="page_list">
+    
+  </div>
+  <div class="clear"></div>
+</div>
+  </div>
+  <div style="clear: both;"></div>
+
+                </div>
+                
+                
+            </div>
+        
+    </div>
+</section>
+  
+
+
+<footer id="site-footer">
+    <div class="wrapper">
+<nav>
+            <h5>SourceForge</h5>
+            <a href="https://sourceforge.net/about">About</a>
+            <a href="https://sourceforge.net/blog/category/sitestatus/">Site Status</a>
+            <a href="http://twitter.com/sfnet_ops">@sfnet_ops</a>
+            <a id="allura-notice" href="http://allura.apache.org/">
+                <p>Powered by</p>
+                <p>Apache Allura™</p>
+                <img src="./Tcl _ Mailing Lists_files/logo-black-svg_g.png">
+            </a>
+        </nav>
+        <nav>
+            <h5>Find and Develop Software</h5>
+            <a href="https://sourceforge.net/create/">Create a Project</a>
+            <a href="https://sourceforge.net/directory/">Software Directory</a>
+            <a href="https://sourceforge.net/top">Top Downloaded Projects</a>
+        </nav>
+        <nav>
+            <h5>Community</h5>
+            <a href="https://sourceforge.net/blog/">Blog</a>
+            <a href="http://twitter.com/sourceforge">@sourceforge</a>
+            <a href="https://library.slashdotmedia.com/">Resources</a>
+        </nav>
+        <nav>
+            <h5>Help</h5>
+            <a href="http://p.sf.net/sourceforge/docs">Site Documentation</a>
+            <a href="https://sourceforge.net/support">Support Request</a>
+        </nav>
+    </div>
+</footer>
+<footer id="site-copyright-footer">
+    <div class="wrapper">
+        <div id="copyright">
+            © 2016 Slashdot Media. All Rights Reserved.<br>
+        </div>
+        <nav>
+            <a href="http://slashdotmedia.com/terms-of-use">Terms</a>
+            <a href="http://slashdotmedia.com/privacy-statement/">Privacy</a>
+            <span id="teconsent"></span>
+            <a href="http://slashdotmedia.com/opt-out-choices">Opt Out Choices</a>
+            <a href="http://slashdotmedia.com/">Advertise</a>
+        </nav>
+    </div>
+</footer>
+
+
+
+    
+<div id="newsletter-floating" class="goth-form" style="bottom: 0px;">
+    <h2>Get latest updates about Open Source Projects, Conferences and News.</h2>
+    <p>Sign up for the SourceForge newsletter:</p>
+    
+<form action="https://sourceforge.net/user/newsletters/subscribe" method="post">
+    <div class="form">
+        <input type="email" name="XVhYYmo6zFduXriBTL0YtddwSQQU" placeholder="email@address.com" value="" tabindex="16">
+    <input type="submit" value="Subscribe" class="bt" tabindex="17">
+    </div>
+    <div class="fielderror"></div>
+
+    <p class="details">
+    <span class="fielderror"></span>
+    <label>
+        <input type="checkbox" required="" name="XVBAalZS6PEjvMU_6yQfNdKpRXTY" value="true" checked="" tabindex="18">I agree to receive quotes, newsletters and other information from sourceforge.net and its partners regarding IT services and products. I understand that I can withdraw my consent at any time. Please refer to our <a href="https://slashdotmedia.com/privacy-statement/">Privacy Policy</a> or <a href="https://sourceforge.net/support">Contact Us</a> for more details
+        <input type="hidden" name="XXh0QnoOsDV_HuAPn96I8A8O4LTU" value="true" tabindex="19">
+    </label>
+    </p>
+
+    <input type="hidden" name="source" value="floating" tabindex="20">
+    <input type="hidden" name="XXxAajomrIEX3tR_m_JGc24SQrFI" value="US" tabindex="21">
+    <input type="hidden" name="XQBAajomrIEX3tR_m_IkIi4myHoE" value="ip_address" tabindex="22">
+    <input type="hidden" name="XWB0QjJSzN0jcswLx3jFEnKwRy3Q" value="sitewide" tabindex="23">
+    <input type="hidden" name="XWB0QjJSzN0jcswLx3jFEnKwRy3Q" value="research" tabindex="24">
+    <input type="hidden" name="XWB0QjJSzN0jcswLx3jFEnKwRy3Q" value="events" tabindex="25">
+    <input type="hidden" name="XWB0QjJSzN0jcswLx3jFEnKwRy3Q" value="thirdparty" tabindex="26">
+    <input type="hidden" name="XWB0QjJSzN0jcswLx3jFEnKwRy3Q" value="all" tabindex="27">
+    <input type="hidden" name="XUBgYjqA4bUT4B8YSz0dbNsAhQ-0" value="" tabindex="28">
+    
+  <input type="hidden" name="_visit_cookie" value="5744b76543a74e5c93dffd2b" tabindex="29">
+    <input id="w-5a3" name="timestamp" type="hidden" value="1470591173" tabindex="30">
+    <input id="w-5a4" name="spinner" type="hidden" value="XU3N1--ffUjyo1nCCmdZ75PzAfeQ" tabindex="31">
+    <p class="XTysgyKnufxHOsCXoLlKirDEIA">
+    <label for="XVBsalYKmYwzvMU_6yQfNdKpRXTY">You seem to have CSS turned off.
+        Please don't fill out this field.</label><br>
+    <input id="XVBsalYKmYwzvMU_6yQfNdKpRXTY" name="XVRsalYKmYntP6QjSSGDrsm3gr9g" type="text" tabindex="32"><br></p>
+    <p class="XTysgyKnufxHOsCXoLlKirDEIA">
+    <label for="XVBsalYKmYw3vMU_6yQfNdKpRXTY">You seem to have CSS turned off.
+        Please don't fill out this field.</label><br>
+    <input id="XVBsalYKmYw3vMU_6yQfNdKpRXTY" name="XVRsalYKmY3tP6QjSSGDrsm3gr9g" type="text" tabindex="33"><br></p>
+</form>
+
+    <a id="btn-float-close">No, thanks</a>
+</div>
+
+
+<div id="messages" style="position: fixed; top: 20px;">
+    
+</div>
+
+
+    <!-- ew:body_js -->
+
+
+    <script type="text/javascript" src="./Tcl _ Mailing Lists_files/js(1)"></script>
+
+    
+<!-- /ew:body_js -->
+
+
+
+    <!-- ew:body_js_tail -->
+
+
+    <script type="text/javascript">$(function () {
+            $('select.results_per_page').change(function () {
+                this.form.submit();});});</script>
+
+    
+<!-- /ew:body_js_tail -->
+
+
+
+
+    
+
+
+    
+        <script type="text/javascript" src="./Tcl _ Mailing Lists_files/get" id="truste_0.5120717929416851"></script><script src="./Tcl _ Mailing Lists_files/notice" async="async"></script>
+    
+    
+
+<script>
+    $(document).ready(function () {
+        $(".tooltip").tooltipster({
+            animation: 'fade',
+            delay: 200,
+            theme: 'tooltipster-light',
+            trigger: 'hover',
+            position: 'right',
+            iconCloning: false,
+            maxWidth: 300
+        }).focus(function () {
+            $(this).tooltipster('show');
+        }).blur(function () {
+            $(this).tooltipster('hide');
+        });
+    });
+</script>
+
+</body></html>

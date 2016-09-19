@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/www
+END
+decimal.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/www/decimal.tcl
+END
+sequence-new.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/www/sequence-new.tcl
+END
+wsdl-to-api.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/www/wsdl-to-api.tcl
+END
+schema.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/www/schema.tcl
+END
+wsdl-definitions.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/www/wsdl-definitions.tcl
+END
+schema2.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/www/schema2.tcl
+END
+wsdl-to-api.xsl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/www/wsdl-to-api.xsl
+END
+wsdl-xml.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/www/wsdl-xml.tcl
+END
+validate.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/www/validate.tcl
+END
+wsdl.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 61
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/www/wsdl.tcl
+END

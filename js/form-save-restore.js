@@ -380,17 +380,17 @@ Data.saveInput = function (inputIdList, restoreFunction, arg2, arg3) {
 	var inputIdArray = inputIdList.split(',');
 	for (var j = 0; j < inputIdArray.length; j++ ) {
 		inputId = inputIdArray[j];
-  	var inputSelector = "#" + inputId;
-  	var value = $(inputSelector).val();
-  	if (value || value == 0) {
-    	var call = restoreFunction + "('" + inputId  + "'";
-    	for (var i = 2; i<arguments.length; i++) {
-      	call =  call + ",'" + arguments[i] + "'";
-    	}
-    	call += ");"
-    	localStorage.setItem(document.URL + '-ANIMATION-VALUE-' + inputId, value);
-    	localStorage.setItem(document.URL + '-ANIMATION-RESTORE-' + inputId, call);
-  	}
+		var inputSelector = "#" + inputId;
+		var value = $(inputSelector).val();
+		if (value || value == 0) {
+		    var call = restoreFunction + "('" + inputId  + "'";
+		    for (var i = 2; i<arguments.length; i++) {
+		        call =  call + ",'" + arguments[i] + "'";
+		    }
+		    call += ");"
+		    localStorage.setItem(document.URL + '-ANIMATION-VALUE-' + inputId, value);
+		    localStorage.setItem(document.URL + '-ANIMATION-RESTORE-' + inputId, call);
+  	    }
 	}
 };
 

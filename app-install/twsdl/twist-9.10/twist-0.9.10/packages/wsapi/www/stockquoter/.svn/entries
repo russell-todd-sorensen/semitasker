@@ -1,0 +1,40 @@
+8
+
+dir
+66
+http://twsdl.googlecode.com/svn/tags/twist-0.9.10/packages/wsapi/www/stockquoter
+http://twsdl.googlecode.com/svn
+
+
+
+2007-05-27T00:38:27.844198Z
+47
+tom.rmadilo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+45e038e7-871e-0410-ab0a-b1edb26ebeb7
+
+index.tcl
+file
+
+
+
+
+2007-09-21T21:31:12.000000Z
+e94be6e025f2fbc6eda336f7ed166f09
+2007-05-27T00:38:27.844198Z
+47
+tom.rmadilo
+

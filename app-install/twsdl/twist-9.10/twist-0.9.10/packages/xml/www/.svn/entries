@@ -1,0 +1,52 @@
+8
+
+dir
+66
+http://twsdl.googlecode.com/svn/tags/twist-0.9.10/packages/xml/www
+http://twsdl.googlecode.com/svn
+
+
+
+2006-10-04T23:42:21.831493Z
+2
+tom.rmadilo
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+45e038e7-871e-0410-ab0a-b1edb26ebeb7
+
+tolist.tcl
+file
+
+
+
+
+2007-09-21T21:31:10.000000Z
+b43b706c18a5cde168310dd40bff4520
+2006-10-04T23:42:21.831493Z
+2
+tom.rmadilo
+
+doc.tcl
+file
+
+
+
+
+2007-09-21T21:31:10.000000Z
+46906bc4515e94da44cf67d55b2ce493
+2006-10-04T23:42:21.831493Z
+2
+tom.rmadilo
+

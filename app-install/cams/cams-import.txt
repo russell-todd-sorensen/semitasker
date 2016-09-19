@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export CVS_RSH=ssh
+export CVSROOT=rmadilo.com:/cvsweb
+
+cvs -z3 import -m "Initial Content Application Management System import" cams Junom cams-1 >> \
+	~/cams-import.txt 2>> ~/cams-import.txt
+

@@ -1,0 +1,71 @@
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl
+END
+util-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl/util-init.tcl
+END
+tws-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl/tws-init.tcl
+END
+package-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl/package-procs.tcl
+END
+nvlist-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl/nvlist-init.tcl
+END
+tws-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl/tws-procs.tcl
+END
+util-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl/util-procs.tcl
+END
+log-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl/log-init.tcl
+END
+nvlist-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl/nvlist-procs.tcl
+END
+log-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl/log-procs.tcl
+END
+tws-local-conf.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl/tws-local-conf.tcl
+END
+package-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/tws/tcl/package-init.tcl
+END

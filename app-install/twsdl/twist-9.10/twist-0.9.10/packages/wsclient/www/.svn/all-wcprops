@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 56
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsclient/www
+END
+ssl.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsclient/www/ssl.tcl
+END
+get-wsdl.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsclient/www/get-wsdl.tcl
+END
+wsclient-2.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsclient/www/wsclient-2.tcl
+END
+fetch.html
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsclient/www/fetch.html
+END

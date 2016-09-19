@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html><head>
+ <title>Participant Interview Checklist</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/css/main.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/example-library.js"></script>
+
+<style>
+
+.page8366 {
+	width:  8.5in;
+	height: 11in;
+	fill: white;
+	stroke-width: .5;
+	stroke: black;
+	
+}
+
+.label8366 {
+	display: inline-block;
+	height: .6667in;
+	width: 3.4375in;
+	fill: white;
+	stroke: tan;
+	stroke-width: .5;
+	rx: 10;
+	ry: 10;
+	
+}
+
+.house {
+	text-anchor: middle;
+	font-weight: normal;
+	font-size: 14px;
+	stroke: none;
+	fill: black;
+}
+
+.pname {
+	text-anchor: start;
+	font-weight: bold;
+	font-size: 22px;
+	stroke: none;
+	fill: black;
+}
+
+.docid {
+	text-anchor: end;
+	font-weight: bold;
+	font-size: 22px;
+	stroke: none;
+	fill: black;
+}
+
+/* form input styles */
+
+#form1 {
+    background-color: rgb(192,192,192);
+    padding: 10px;
+    position: absolute;
+    top: 100px;
+    right: 5px;
+}
+
+.input-button {
+    color: #666;
+    float: right;
+    font-weight: bold;
+    border: 3px solid;
+    cursor: pointer;
+}
+#label-12-pname {
+	font-size: 20px;
+}
+
+/* what not to show when printing */
+
+#notice {
+	color: red;
+	font-style: bold;
+	width: 300px;
+	position: absolute;
+	right: 0;
+	top: 10px;
+	text-align: center;
+}
+
+@media print {
+	.page8366 {
+		display:none;
+	}
+	#form1 {
+		display:none;
+	}
+	#notice {
+		display:none;
+	}
+	.label8366 {
+		stroke: black;
+	}
+	.null {
+		display: none;
+	}
+}
+
+#checkbox {
+    width: 30px;
+    height: 30px;
+    stroke: black;
+    stroke-width: 1px;
+    fill: none;
+    rx: 3px;
+    ry: 3px;
+}
+.text-item {
+    font-style: bold;
+    font-size: 35px;
+}
+.smaller {
+    font-size: 25px;
+    transform: skew(.5,.5);
+}
+#document-title {
+    font-size: 35px;
+    font-weight: bold;
+	text-anchor: middle;
+	fill: #C00;
+}
+
+.name-doc {
+    font-size: 18px;
+    font-weight: bold;
+	alignment-baseline: hanging;
+	fill: black;
+}
+
+#applicant-name {
+	text-anchor: start;
+
+}
+
+#applicant-doc {
+	text-anchor: end;
+
+}
+</style>
+
+</head>
+<body>
+<div id="notice">When printing, remove headers, footers and margins</div>
+<div id="form1">
+<form id="controls">
+<input type="text" name="data" id="data" value="">
+<fieldset>
+<legend onClick="togglePanel('panel','panel-4','panel-2');" style="cursor: pointer" title="Click to Minimize/Expand">Participant Data</legend>
+<ul id="panel">
+ <li><label for="editIndex">Edit Index:</label>
+     <input type="number" min="0" max="29" step="1" name="editIndex" id="editIndex" onChange=""/>
+ </li>
+ </ul>
+</fieldset>
+</form>
+
+</div> 
+
+  
+<svg id="svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink" 
+   version="1.0" 
+   x="0" 
+   y="0"
+   height="1040"
+   width="800"
+   style="cursor: pointer;">
+<defs>
+<rect id="checkbox" />
+</defs>
+<g transform="translate(0,0)">
+<text id="applicant-name" class="name-doc" x="30" y="15">Name:____________________________________________________</text>
+<text id="applicant-doc" class="name-doc" x="800" y="15">DOC:__________________</text>
+<text id="document-title" x="400" y="70">Applicant Interview Checklist</text>
+</g>
+
+
+<g transform="translate(20,50) scale(.80,.80)">
+
+ <g transform="translate(650,0)"><!-- Side Bar -->
+  <use xlink:href="#checkbox" x="15" y="50" />
+  <text id="t1" class="text-item" x="52" y="78" >Approved</text>
+ 
+  <use xlink:href="#checkbox" x="15" y="100" />
+  <text id="t1" class="text-item" x="52" y="128" >Denied</text>
+  
+  <use xlink:href="#checkbox" x="15" y="150" />
+  <text id="t1" class="text-item" x="52" y="178" >Housing Roster</text>
+ </g>
+<use xlink:href="#checkbox" x="15" y="50" />
+<text id="t1" class="text-item" x="52" y="78" >Point of Contact</text>
+
+<use xlink:href="#checkbox" x="15" y="100" />
+<text id="t1" class="text-item" x="52" y="128" >County Applied For</text>
+
+<use xlink:href="#checkbox" x="15" y="150" />
+<text id="t1" class="text-item" x="52" y="178" >Out of County</text>
+
+<use xlink:href="#checkbox" x="15" y="200" />
+<text id="t1" class="text-item" x="52" y="228" >Level</text>
+
+<use xlink:href="#checkbox" x="15" y="250" />
+<text id="t1" class="text-item" x="52" y="278" >Location Being Housed</text>
+
+<use xlink:href="#checkbox" x="15" y="300" />
+<text id="t1" class="text-item" x="52" y="328" >Age</text>
+
+<use xlink:href="#checkbox" x="15" y="350" />
+<text id="t1" class="text-item" x="52" y="378" >Time in Prison</text>
+
+<use xlink:href="#checkbox" x="15" y="400" />
+<text id="t1" class="text-item" x="52" y="428" >Criminal History</text>
+
+<use xlink:href="#checkbox" x="15" y="450" />
+<text id="t1" class="text-item" x="52" y="478" >Drug &amp; Alcohol Use</text>
+
+<use xlink:href="#checkbox" x="15" y="500" />
+<text id="t1" class="text-item" x="52" y="528" >Clean Days</text>
+
+<use xlink:href="#checkbox" x="15" y="550" />
+<text id="t1" class="text-item" x="52" y="578" >SOTP</text>
+
+<use xlink:href="#checkbox" x="15" y="600" />
+<text id="t1" class="text-item" x="52" y="628" >Infractions</text>
+
+<use xlink:href="#checkbox" x="15" y="650" />
+<text id="t1" class="text-item" x="52" y="678" >Application in Agreement</text>
+
+<use xlink:href="#checkbox" x="15" y="700" />
+<text id="t1" class="text-item" x="52" y="728" >Mandatory Meetings</text>
+
+<use xlink:href="#checkbox" x="15" y="750" />
+<text id="t1" class="text-item" x="52" y="778" >Participation</text>
+
+<use xlink:href="#checkbox" x="15" y="800" />
+<text id="t1" class="text-item" x="52" y="828" >Curfew</text>
+
+<use xlink:href="#checkbox" x="15" y="850" />
+<text id="t1" class="text-item" x="52" y="878" >Shared Rooms</text>
+
+<use xlink:href="#checkbox" x="15" y="900" />
+<text id="t1" class="text-item smaller" x="52" y="928" >House Leaders, Structured Living Environment, HOM</text>
+
+<use xlink:href="#checkbox" x="15" y="950" />
+<text id="t1" class="text-item" x="52" y="978" >Triggers</text>
+
+<use xlink:href="#checkbox" x="15" y="1000" />
+<text id="t1" class="text-item smaller" x="52" y="1028" >What have you done to keep from continuing behavior</text>
+
+<use xlink:href="#checkbox" x="15" y="1050" />
+<text id="t1" class="text-item" x="52" y="1078" >Travel Arrangements</text>
+
+<use xlink:href="#checkbox" x="15" y="1100" />
+<text id="t1" class="text-item" x="52" y="1128" >Photos</text>
+
+<use xlink:href="#checkbox" x="15" y="1150" />
+<text id="t1" class="text-item" x="52" y="1178" >Method of Payment</text>
+</g>
+</svg>
+<script>
+</script>
+
+</body>
+</html>

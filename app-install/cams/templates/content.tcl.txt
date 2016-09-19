@@ -1,0 +1,49 @@
+ad_page_contract {
+
+    One Cams Content 
+
+    @author Tom Jackson (tom@rmadilo.com)
+    @creation-date 28 August 2003
+    @cvs-id $Id: content.tcl,v 1.1.1.1 2003/10/05 04:35:38 tom Exp $
+
+}
+
+set content_id $cams_content(content_id)
+
+
+db_multirow attributes attributes "
+select
+ f.*,
+ d.*
+from
+ cams_attributes f,
+ cams_attribute_values d
+where
+ content_id = :content_id
+and
+ f.attribute_id = d.attribute_id
+order by
+ d.attribute_id,
+ d.attr_order" {
+     set ${attribute}:${attr_order} $attr_value
+ }
+set content [ns_adp_parse -string $cams_content(content)]
+
+if {[info exists show_user_p] && $show_user_p} {
+        set user_id $cams_content(user_id)
+        set user_name [db_string user_name "
+select
+ (first_names || last_name) as user_name
+from
+ persons
+where
+ person_id = :user_id"]
+} else {
+        set show_user_p 0
+	set user_name "Unknown"
+	set user_id "0"
+}
+
+
+
+ad_return_template $cams_content(template)

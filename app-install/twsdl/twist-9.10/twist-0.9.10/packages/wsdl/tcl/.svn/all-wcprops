@@ -1,0 +1,113 @@
+K 25
+svn:wc:ra_dav:version-url
+V 52
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl
+END
+wsdl-types-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-types-procs.tcl
+END
+wsdl-doc-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-doc-procs.tcl
+END
+wsdl-server-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-server-procs.tcl
+END
+wsdl-ports-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-ports-procs.tcl
+END
+wsdl-messages-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-messages-procs.tcl
+END
+wsdl-porttypes-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-porttypes-procs.tcl
+END
+wsdl-definitions-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-definitions-procs.tcl
+END
+wsdl-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-init.tcl
+END
+wsdl-types-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-types-init.tcl
+END
+wsdl-doc-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-doc-init.tcl
+END
+wsdl-services-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-services-procs.tcl
+END
+wsdl-operations-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-operations-procs.tcl
+END
+wsdl-server-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-server-init.tcl
+END
+wsdl-messages-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-messages-init.tcl
+END
+wsdl-bindings-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 76
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-bindings-procs.tcl
+END
+wsdl-bindings-soap-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-bindings-soap-procs.tcl
+END
+wsdl-schema-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 74
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-schema-procs.tcl
+END
+wsdl-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsdl/tcl/wsdl-procs.tcl
+END

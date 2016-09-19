@@ -1,0 +1,65 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/inspect/www
+END
+simple-api.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/inspect/www/simple-api.tcl
+END
+ns.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/inspect/www/ns.tcl
+END
+sa1.txt
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/inspect/www/sa1.txt
+END
+sa2.txt
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/inspect/www/sa2.txt
+END
+proc.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/inspect/www/proc.tcl
+END
+index.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/inspect/www/index.tcl
+END
+ad_proc.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/inspect/www/ad_proc.tcl
+END
+proc_doc.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/inspect/www/proc_doc.tcl
+END
+test-calls.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 70
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/inspect/www/test-calls.tcl
+END
+args.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 64
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/inspect/www/args.tcl
+END

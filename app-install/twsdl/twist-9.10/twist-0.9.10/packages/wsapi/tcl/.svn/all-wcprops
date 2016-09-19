@@ -1,0 +1,29 @@
+K 25
+svn:wc:ra_dav:version-url
+V 53
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsapi/tcl
+END
+wsapi-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 68
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsapi/tcl/wsapi-init.tcl
+END
+wsapi-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsapi/tcl/wsapi-procs.tcl
+END
+ws-init.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsapi/tcl/ws-init.tcl
+END
+ws-procs.tcl
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/66/tags/twist-0.9.10/packages/wsapi/tcl/ws-procs.tcl
+END
