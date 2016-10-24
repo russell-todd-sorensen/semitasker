@@ -42,9 +42,10 @@ body {
     cursor: pointer;
     width: 450px;
 }
-.cust:hover {
+.cust:focus {
     background-color: lightgreen;
 }
+
 #container {
     vertical-align: top;
 }
@@ -68,6 +69,44 @@ body {
     display: inline-block;
 }
 
+.active {
+    font-weight: normal;
+}
+
+.notActive {
+    font-weight: bold;
+    color: #FF0000;
+}
+.notActive:before {
+    content: 'Not Active:';
+    color: black;
+}
+
+@media only screen and (max-device-width: 480px) {
+		#container {
+			width: 450px;
+		}
+
+		div#header {
+			background-image: url(media-queries-phone.jpg);
+			height: 93px;
+			position: relative;
+		}
+
+		div#header h1 {
+			font-size: 140%;
+		}
+
+		#content {
+			float: none;
+			width: 100%;
+		}
+
+		#navigation {
+			float:none;
+			width: auto;
+		}
+	}
 </style>
 
 <script type="text/javascript" src="https://d3js.org/d3.v4.js"></script>
@@ -79,160 +118,61 @@ body {
 <script type="text/javascript" src="http://github.semitasker.com/js/binary-hex-conversions.js"></script>
 <script type="text/javascript" src="http://github.semitasker.com/js/example-library.js"></script>
 <script type="text/javascript" src="http://github.semitasker.com/js/svg-transform.js"></script>
-<script type="text/javascript" src="load-2.js"></script>
+<script type="text/javascript" src="load-customer-data.js"></script>
 
 <script>
-
-
-var Customer = {
-    configureSearchField: function (selectId) {
-        fieldToSearch = $('#' + selectId + ' option:selected').val();
-        Data.saveSelect(selectId,'Customer.restoreSearchField');
-    },
-    restoreSearchField: function (selectId) {
-        Data.restoreSelect(selectId);
-        fieldToSearch = $('#' + selectId + ' option:selected').val();
-    },
-    configureSearchList: function (selectId) {
-        searchList = $('#' + selectId + ' option:selected').val();
-        tmpSearchList = searchLists[searchList].list;
-        Data.saveSelect(selectId,'Customer.restoreSearchList');
-    },
-    restoreSearchList: function (selectId) {
-        Data.restoreSelect(selectId);
-        searchList = $('#' + selectId + ' option:selected').val();
-        tmpSearchList = searchLists[searchList].list;
-    },
-    restore: function (inputId) {
-        Data.restoreInput(inputId);
-        var searchString = $('#' + inputId).val();
-        searchLength = searchString.length;
-    },
-    search: function (inputId, outputSelector) {
-        evt = event;
-        var searchString = $('#' + inputId).val();
-        var searchRegExp = new RegExp(searchString,"i");
- 
-        if (tmpSearchList.length == 0) {
-            tmpSearchList = searchLists[searchList].list;   
-        }
-        if (evt.key == "Backspace") {
-            tmpSearchList = searchLists[searchList].list;
-        }
-        if (searchString.length <= searchLength) {
-            tmpSearchList = searchLists[searchList].list;
-        }
-        
-        searchLength = searchString.length;
-        var match = [];
-        var tmpTmpSearchList = [];
-        for (var i = 0;i<tmpSearchList.length;i++) {
-            customer = tmpSearchList[i];
-            match = customer[fieldToSearch].match(searchRegExp);
-            if (match) {
-                tmpTmpSearchList.push(customer);
-            }
-        }
-        if (tmpTmpSearchList.length > 0) {
-            tmpSearchList = tmpTmpSearchList;
-            $(outputSelector).html('');
-            for (var i = 0;i<tmpSearchList.length;i++) {
-                customer = tmpSearchList[i];
-                $(outputSelector).append('<li class="cust" onclick="Customer.show(' + customer.id + ')">' + customer.name + '</li>\n');
-            }
-            Data.saveInput(inputId,'Customer.restore');
-        } else {
-            // restore previous search term
-            if (evt.key == "Backspace") return;
-            var newSearchString = searchString.substring(0,searchString.length-1)
-            $('#' + inputId).val(newSearchString);
-            searchLength = newSearchString.length;
-        }
-    },
-    find: function (list, id) { // returns index of participant in list, with given id
-        var customer;
-        id = parseInt(id);
-        for (var i = 0; i<list.length;i++) {
-            customer = list[i];
-            if (customer.id == id) {
-                return i;
-            }
-        }
-        return -1;
-    },
-    show: function (id) {
-        var index = Customer.find(tmpSearchList,id);
-        if (index == -1) {
-            $('#profile').html('');
-        } else {
-            var customer = tmpSearchList[index];
-            var html = '\n<div id="panel">';
-            html += '\n<ul>';
-            html += '\n<li><label>Participant</label>';
-            html += customer.firstName + ' ' + customer.lastName + '</li>';
-            html += '\n<li><label>DOC</label>' + customer.doc + '</li>';
-            html += '\n<li><label>CCO</label>' + customer.cco + '</li>';
-            html += '\n<li><label>SOTP</label>' 
-            html +=  customer.sotp + '</label>';
-            html += '\n<li><label>Active</label>';
-            html += (customer.sotp ? 'Yes' : 'No') + '</li>';;
-            html += '\n<li><label>Birthday</label>' + customer.dob + '</li>';
-            html += '\n<li><label>Arrived</label>' + customer.startDate + '</li>';
-            html += '\n<li><label>Address</label>' + '<pre>' + customer.address + '</pre></li>';
-    
-            html += '\n</ul></div>'
-            
-            $('#profile').html(html);
-        }
-        return index;
-    },
-  
-};
-
-
 
 $(document).ready(function() {
 
     console.log("Starting to get data");
-    loadIntuitInterchangeFormatFile("all-customer-data-2016-09-19-1");
-    //Data.restoreSelect('fieldToSearch');
-    
+    loadXHRFile("./all-customer-data-2016-09-22-1.IIF",getIIF);
+    Log.Hide();
 });
-
-
-
 </script>
 
 </head>
 <body>
 
-<form id="panel" onSubmit="javascript:return false">
+<form id="panel" onSubmit="javascript:return false;">
 <fieldset>
 <legend>Participant Search</legend>
 <ul>
  <li><label for="fieldToSearch">Search Field:</label>
- <select id="fieldToSearch"
+ <select id="fieldToSearch" tabIndex="7"
   onChange="Customer.configureSearchField('fieldToSearch')">
    <option value="search">All Fields</option>
    <option value="name">Name</option>
    <option value="doc">DOC #</option>
    <option value="cco">CCO</option>
    <option value="house">House</option>
+   <option value="voucher">Voucher</option>
+   <option value="ctype">Program Role</option>
+   <option value="dob">Birthdate</option>
   </select>
   </li>
  <li><label for="searchList">List:</label>
- <select id="searchList" name="searchList"
+ <select id="searchList" name="searchList"  tabIndex="8"
   onChange="Customer.configureSearchList('searchList')">
    <option value="active" selected="selected">Active</option>
    <option value="all">All</option>
+   <!--
    <option value="leaders">House Leaders</option>
    <option value="terminated">Terminated</option>
    <option value="left">Left Program</option>
+   -->
+  </select>
+  </li>
+  <li><label for="outputType">Output Type</label>
+  <select id="outputType" name="outputType" tabIndex="7"
+   onChange="Customer.configureOutputType('outputType')">
+    <option value="list" selected>Link List</option>
+    <option value="csv">CSV/Database</option>
   </select>
   </li>
   <li><label for="searchTerms">Search For:</label>
-  <input type="text" id="searchTerms" name="searchTerms"
+  <input type="text" id="searchTerms" name="searchTerms" tabIndex="9"
    onKeyUp="Customer.search('searchTerms','#selection');" />
+  </li>
  </ul>
  </fieldset>
 

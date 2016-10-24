@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<meta base="http://hom1:8000/" />
+<title>Participants</title>
+
+<link rel="stylesheet" type="text/css" media="all" href="http://github.semitasker.com/css/log.css">
+<link rel="stylesheet" type="text/css" media="all" href="http://github.semitasker.com/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" type="text/css" media="all" href="http://github.semitasker.com/css/logo-maker-1.css">
+<link rel="stylesheet" type="text/css" media="all" href="http://github.semitasker.com/css/green-form.css" >
+
+<style type="text/css">
+/* place any page unique styles here */
+body {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+/* override #panel  styles */
+#panel fieldset {
+    width: 400px;
+}
+
+#panel input,
+#panel input[type="range"] {
+    display: inline-block;
+    width: 196px;
+    height: 1.7em;
+}
+
+#panel li.expand span {
+    display: inline-block;
+    width: 4em;
+    text-align: right;
+}
+
+#panel select {
+    width: 200px;
+}
+</style>
+
+<script type="text/javascript" src="https://d3js.org/d3.v4.js"></script>
+<script type="text/javascript" src="http://github.semitasker.com/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="http://github.semitasker.com/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="http://github.semitasker.com/js/log-2.js"></script>
+<script type="text/javascript" src="http://github.semitasker.com/js/data.js"></script>
+<script type="text/javascript" src="http://github.semitasker.com/js/form-save-restore.js"></script>
+<script type="text/javascript" src="http://github.semitasker.com/js/binary-hex-conversions.js"></script>
+<script type="text/javascript" src="http://github.semitasker.com/js/example-library.js"></script>
+<script type="text/javascript" src="http://github.semitasker.com/js/svg-transform.js"></script>
+<script type="text/javascript" src="load.js"></script>
+<script>
+
+
+</script>
+<script>
+$(document).ready(function() {
+
+    console.log("Starting to get data");
+    loadIntuitInterchangeFormatFile("all-customer-data-2016-09-18-1");
+    
+});
+
+</script>
+
+</head>
+<body>
+
+<form id="panel">
+<fieldset>
+<legend>Participant Search</legend>
+<ul>
+ <li><label for="fieldToSearch">Search Field:</label>
+ <select id="fieldToSearch"
+  onChange="Customer.configure('fieldToSearch', '#selection')">
+   <option value="all">All Fields</option>
+   <option value="name">Name</option>
+   <option value="doc">DOC #</option>
+   <option value="cco">CCO</option>
+   <option value="house">House</option>
+  </select>
+  </li>
+ <li><label for="searchList">Status:</label>
+ <select id="searchList"
+  onChange="Customer.configure('searchList', '#selection')">
+   <option value="active" selected="selected">Active</option>
+   <option value="all">Any</option>
+   <option value="leaders">House Leaders</option>
+   <option value="terminated">Terminated</option>
+   <option value="left">Left Program</option>
+  </select>
+  </li>
+  <li><label for="searchTerms">Search For:</label>
+  <input type="text" id="searchTerms" name="searchTerms"
+   onChange="Customer.search('searchTerms','#selection');" />
+ </ul>
+ </fieldset>
+
+</form>
+<div id="selection"></div>
+
+</body>
+</html>
