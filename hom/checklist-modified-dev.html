@@ -72,8 +72,8 @@ var showAddress = function (id) {
 }
 
 $(document).ready(function() {
-    Log.Remove();
-    //Log.Show();
+    //Log.Remove();
+    Log.Show();
     initForm('#form1 #panel');
     Data.saveSelect('location','showAddress');
     $('#location').attr('onchange','Data.saveSelect("location","showAddress");');

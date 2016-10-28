@@ -2,16 +2,16 @@
 <html lang="en_US">
 <head>
 <meta charset="utf-8">
-<meta base="http://hom1:8080/" />
+<meta base="http://leaders.hom.church/" />
 <meta name="viewport" content="width=device-width, initial-scale=0.775 maximum-scale=1.0">
 <title>Participants</title>
-<link rel="stylesheet" type="text/css" media="all" href="http://github.semitasker.com/css/reset.css">
+<link rel="stylesheet" type="text/css" media="all" href="/css/reset.css">
 
-<link rel="stylesheet" media="all" href="http://github.semitasker.com/css/log.css">
-<link rel="stylesheet" media="all" href="http://github.semitasker.com/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
-<link rel="stylesheet" media="all" href="http://github.semitasker.com/css/logo-maker-1.css">
-<link rel="stylesheet" media="all" href="http://github.semitasker.com/css/green-form.css" >
-<link rel="stylesheet" media="all" href="https://file.myfontastic.com/xXW5U9UCxPBxcUuaZGbBJP/icons.css">
+<link rel="stylesheet" media="all" href="/css/log.css">
+<link rel="stylesheet" media="all" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" media="all" href="/css/logo-maker-1.css">
+<link rel="stylesheet" media="all" href="/css/green-form.css" >
+<!--<link rel="stylesheet" media="all" href="https://file.myfontastic.com/xXW5U9UCxPBxcUuaZGbBJP/icons.css">-->
 <style type="text/css">
 
 body, html {
@@ -200,16 +200,17 @@ body, html {
 }
 </style>
 
-<script type="text/javascript" src="https://d3js.org/d3.v4.js"></script>
-<script type="text/javascript" src="http://github.semitasker.com/js/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="http://github.semitasker.com/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
-<script type="text/javascript" src="http://github.semitasker.com/js/log-2.js"></script>
-<script type="text/javascript" src="http://github.semitasker.com/js/data.js"></script>
-<script type="text/javascript" src="http://github.semitasker.com/js/form-save-restore.js"></script>
-<script type="text/javascript" src="http://github.semitasker.com/js/binary-hex-conversions.js"></script>
-<script type="text/javascript" src="http://github.semitasker.com/js/example-library.js"></script>
-<script type="text/javascript" src="http://github.semitasker.com/js/svg-transform.js"></script>
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+<script type="text/javascript" src="/js/data.js"></script>
+<script type="text/javascript" src="/js/form-save-restore.js"></script>
+<script type="text/javascript" src="/js/binary-hex-conversions.js"></script>
+<script type="text/javascript" src="/js/example-library.js"></script>
+<script type="text/javascript" src="/js/svg-transform.js"></script>
 <script type="text/javascript" src="participants.js"></script>
+<script type="text/javascript" src="json-test.js"></script>
 
 <script>
 
@@ -258,7 +259,9 @@ $(document).ready(function() {
    onChange="Customer.configureOutputType('outputType')">
     <option value="list" selected>Link List</option>
     <option value="csv">CSV/Database</option>
-    <option value="csv-all">CSV/Database for Web</option>
+    <option value="csv-all">CSV/All</option>
+    <option value="csv-website">CVS/Website</option>
+    <option value="json">JSON</option>
   </select>
   </li>
   <li><label for="searchTerms">Search For:</label>

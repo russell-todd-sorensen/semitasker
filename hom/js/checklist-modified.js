@@ -30,7 +30,9 @@ var newQuestion = function (id,name,descr,notes_p,notes_length,type,data) {
 
 var initForm = function (selector) {
     var handle = $(selector);
+    var today = new Date();
     var id,inputType,question,dataList,optionHtml;
+ 
     for (var i = 0; i<QuestionList.length;i++) {
         question = QuestionList[i];
         inputType = question.type;
@@ -236,6 +238,70 @@ var initForm = function (selector) {
                 + "' step='1'"
                 + "></li>\n");
             Data.restoreInput(id);
+            break;
+        case 'date':
+            Log.Notice('text ' + question.name);
+            handle.append("<li><label for='" 
+                + id
+                + "' title='"
+                + question.descr
+                + "'>"
+                + question.name
+                + "</label><input type='date'"
+                + " name='"
+                + id
+                + "' id='"
+                + id
+                + "' maxlength='"
+                + question.notes_length
+                + "' size='"
+                + parseInt(question.notes_length/2)
+                + "' onChange='Data.saveInput(\""
+                + id 
+                + "\",\"Log.Notice\");"
+                + "'></li>\n");
+            Data.restoreInput(id);
+            if ($('#' + id).val() == '') {
+                var year = today.getUTCFullYear();
+                var day = today.getUTCDate();
+                var month = parseInt(today.getUTCMonth()) + 1;
+                if (month < 10) {
+                    month = '0' + month;
+                }
+                var dateString = '' + year + '-' + month + '-' + day;
+                
+                $('#' + id).val(dateString);
+                Data.saveInput(id,'Log.Notice');
+            }
+            break;
+        case 'time':
+            Log.Notice('text ' + question.name);
+            handle.append("<li><label for='" 
+                + id
+                + "' title='"
+                + question.descr
+                + "'>"
+                + question.name
+                + "</label><input type='time'"
+                + " name='"
+                + id
+                + "' id='"
+                + id
+                + "' maxlength='"
+                + question.notes_length
+                + "' size='"
+                + parseInt(question.notes_length/2)
+                + "' onChange='Data.saveInput(\""
+                + id 
+                + "\",\"Log.Notice\");"
+                + "'></li>\n");
+            Data.restoreInput(id);
+            if ($('#' + id).val() == '') {
+                time = today.toTimeString().substring(0,8);
+                $('#' + id).val(time);
+                Data.saveInput(id,'Log.Notice');
+            }
+            break;
         default:
             break;
     

@@ -259,6 +259,10 @@ parseCustomerIIF = function (iif) {
             address2: d.BADDR1 + ' ' + d.BADDR2 + ' '
                    + d.BADDR3 + ' ' + d.BADDR4,
             email: d.EMAIL,
+            baddr1: d.BADDR1,
+            baddr2: d.BADDR2,
+            baddr3: d.BADDR3,
+            baddr4: d.BADDR4,
             phone1: d.PHONE1,
             phone2: d.PHONE2,
             fax: d.FAX,
@@ -401,14 +405,28 @@ var Customer = {
         searchLength = searchString.length;
     },
     write: function (tmpList,outputSelector,type) {
+            var customer;
             tmpSearchList = tmpList;
             $(outputSelector).html('');
+            
+            // outputType is global variable
+            if (!type) {
+                type = outputType;
+            }
+            
+            if (type == 'json') {
+                var re = new RegExp(/<br>/,'g');
+                var re2 = new RegExp(/\'/,'g');
+                var json = JSON.stringify(tmpSearchList);
+                json =  json.replace(re, '*****');
+                json =  "'" + json.replace(re2,"+++++") + "'";
+                $(outputSelector).html(json);
+                return;
+            }
+            
             for (var i = 0;i<tmpSearchList.length;i++) {
                 customer = tmpSearchList[i];
-                // outputType is global variable
-                if (!type) {
-                    type = outputType;
-                }
+ 
                 switch (type) {
   
                 case 'csv':
@@ -433,8 +451,28 @@ var Customer = {
                           '"' + customer.phone1    + '"'  +
                           '<br>');
                       break;
-                case 'list':
-                default:
+                  case 'csv-website':
+                      if (i==0) {
+                          // put header file
+                          $(outputSelector)
+                            .append('id,type,firstName,lastName,doc,arrived,house,address1,address2,address3,active<br>');
+                      }
+                      $(outputSelector)
+                        .append(  customer.id        +  ','  +
+                            '"' + customer.ctype     + '",'  +
+                            '"' + customer.firstName + '",'  +
+                            '"' + customer.lastName  + '",'  +
+                            '"' + customer.doc       + '",'  +
+                            '"' + customer.startDate + '",'  +
+                                  customer.house     +  ','  +
+                            '"' + customer.baddr2    + '",'  +
+                            '"' + customer.baddr3    + '",'  +
+                            '"' + customer.baddr4    + '",'  +
+                                  customer.active    + '<br>'
+                      );
+                      break;
+                  case 'list':
+                  default:
                     $(outputSelector)
                       .append('<li class="cust icon-people" onclick="Customer.show('
                         + customer.id + ')" onfocus="Customer.show('
