@@ -2,6 +2,7 @@ set form [ns_conn form]
 
 # set default values for each field
 set db [ns_db gethandle pool1]
+
 set requiredFieldsSql "select 
  column_name,
  column_type,

@@ -132,7 +132,7 @@ $requiredFieldsValue(counselor),
 
 Thank you for the applicant and for your time.
 
-We have accepted Mr. $firstName '$lastName' into our program.  His release address is as follows:
+We have accepted Mr. $firstName $lastName into our program.  His release address is as follows:
 
 $formatted_address
 

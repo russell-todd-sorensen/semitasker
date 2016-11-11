@@ -20,6 +20,7 @@ var activeCustomerBalances = [];
 var salesRepData;
 var activeSalesReps = [];
 var customerTransactionsData;
+var allTransactionsData;
 
 function loadCsvFile(filename) {
   var urlBase = "./";
@@ -56,20 +57,18 @@ function loadXHRFile(url,callback) {
 }
 
 function getCSV(evt) {
-  
   if (evt.currentTarget.readyState < 4) {
     return;
   }
 
-  var csv = evt.currentTarget.responseText;
-  parseCustomerCSV(csv);
+  parseCustomerCSV(evt.currentTarget.responseText);
 }
 
 function getCustomerIIF(evt) {
-  
   if (evt.currentTarget.readyState < 4) {
     return;
   }
+  
   parseCustomerIIF(convertIIF(evt.currentTarget));
 }
 
@@ -77,6 +76,7 @@ function getOtherNamesIIF(evt) {
   if (evt.currentTarget.readyState < 4) {
     return;
   }
+  
   parseOtherNamesIIF(convertIIF(evt.currentTarget));
 }
 
@@ -84,6 +84,7 @@ function getSalesRepsIIF(evt) {
   if (evt.currentTarget.readyState < 4) {
     return;
   }
+  
   parseSalesRepsIIF(convertIIF(evt.currentTarget));
 }
 
@@ -91,15 +92,26 @@ function getCustomerWithBalancesCSV(evt) {
   if (evt.currentTarget.readyState < 4) {
     return;
   }
+  
   parseCustomerWithBalancesCSV(evt.currentTarget.responseText);
 }
+
 function getCustomerTransactionsCSV(evt) {
   if (evt.currentTarget.readyState < 4) {
     return;
   }
-  parseCustomerTransactionsCSV(evt.currentTarget.responseText);
-    
+  
+  parseCustomerTransactionsCSV(evt.currentTarget.responseText); 
 }
+
+function getAllTransactionsCSV(evt) {
+  if (evt.currentTarget.readyState < 4) {
+    return;
+  }
+  
+  parseAllTransactionsCSV(evt.currentTarget.responseText);
+}
+
 function convertIIF (xhr) {
   var tabRegexp = /[\t]/gi;
   return xhr.responseText.replace(tabRegexp, ',');
@@ -175,6 +187,77 @@ parseCustomerTransactionsCSV = function (csv) {
     
     console.log("done loading customerTransactions csv file");
     //trimData(customerTransactionsData,activeCustomerBalances);
+};
+
+  
+parseAllTransactionsCSV = function (csv) {
+    
+    allTransactionsData = d3.csvParse(csv, function(d,i) {
+        if (d["Account"] == "") {
+            return;
+        }
+        
+        var accountNumber = "", accountName = "";
+        var reg = /([0-9]+) (.) ([a-zA-Z0-9 -]+)/;
+        var matchArray = d["Account"].match(reg);
+        
+        if (matchArray && matchArray.length == 4) {
+            accountNumber = matchArray[1];
+            accountName   = matchArray[3];
+        }
+        var split = d["Split"];
+        var splitAccount = "",splitAccountName = "";
+        
+        if (split != "-SPLIT-") {
+           var splitArray = split.match(reg);
+           if (splitArray && splitArray.length == 4) {
+               splitAccount = splitArray[1];
+               splitAccountName = splitArray[3];
+           }
+        }
+        
+        var search = d["Account"]  +' '+
+                     d["Name"]     +' '+
+                     d["Trans #"]  +' '+
+                     d["Num"]      +' '+
+                     d["Memo"]     +' '+
+                     d["Amount"];
+        return {
+            transId: d["Trans #"],
+            type: d["Type"],
+            enteredDate: d["Entered/Last Modified"],
+            modifiedBy: d["Last modified by"],
+            date: d["Date"],
+            num: d["Num"],
+            name: d["Name"],
+            sourceName: d["Source Name"],
+            nameStreet1: d["Name Street1"],
+            nameStreet2: d["Name Street2"],
+            nameCity: d["Name City"],
+            nameState: d["Name State"],
+            nameZip: d["Name Zip"],
+            memo: d["Memo"],
+            dueDate: d["Due Date"],
+            item: d["Item"],
+            account: d["Account"],
+            accountNumber: accountNumber,
+            accountName: accountName,
+            rep: d["Rep"],
+            clr: d["Clr"],
+            splitAccount: d["Split"],
+            debit: d["Debit"],
+            credit: d["Credit"],
+            amount: d["Amount"],
+            balance: d["Balance"],
+            accountType: d["Account Type"],
+            splitAccountNumber: splitAccount,
+            splitAccountName: splitAccountName,
+            search: search
+        };
+
+    });
+    
+    console.log("done loading allTransactions csv file");
 };
 
 parseCustomerCSV = function (csv) {
@@ -430,6 +513,12 @@ var Customer = {
                 switch (type) {
   
                 case 'csv':
+                    if (i==0) {
+                        // put csv header
+                        $(outputSelector)
+                            .append("Date,Comment,Participant,Violation,House<br>");
+                    }
+
                     $(outputSelector)
                       .append(',,"' + customer.lastName 
                         + ', ' + customer.firstName
@@ -455,8 +544,9 @@ var Customer = {
                       if (i==0) {
                           // put header file
                           $(outputSelector)
-                            .append('id,type,firstName,lastName,doc,arrived,house,address1,address2,address3,active<br>');
+                              .append('id,type,firstName,lastName,doc,arrived,house,address1,address2,address3,active<br>');
                       }
+                      
                       $(outputSelector)
                         .append(  customer.id        +  ','  +
                             '"' + customer.ctype     + '",'  +
