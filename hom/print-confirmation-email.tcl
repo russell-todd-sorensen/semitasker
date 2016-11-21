@@ -161,13 +161,23 @@ switch -exact -nocase -- $requiredFieldsValue(travel) {
     }
 }
 
+switch -exact -nocase -- $requiredFieldsValue(pay_method) {
+    "Voucher Pending" {
+        set pay_method_reminder "when his DOC Voucher is approved and "
+    }
+    default {
+        set pay_method_reminder ""
+    }
+}
+    
+
 append email_message $pickup_text
 
 append email_message "
 
 Can we please get a photo of Mr. $lastName for our file?
 
-Just a reminder if you can contact us when you have a confirmation PRD.
+Just a reminder if you can contact us ${pay_method_reminder}when you have a confirmation PRD.
 
 Thank you."
 

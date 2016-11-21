@@ -307,7 +307,7 @@ Data.changeFontMultipleSVG = function(selectId) {
 };
 
 Data.saveSelect = function (selectId, restoreFunction) {
-  var selectedOption = "#" + selectId + " " + "option:selected";
+  var selectedOption = "#" + selectId + " option:selected";
   var value = $(selectedOption).val();
   if (value || value == 0) {
     var call = restoreFunction + "('" + selectId  + "'";
@@ -336,6 +336,30 @@ Data.restoreSelect = function (selectId) {
     //setTimeout("Data.Restored['" + selectId + "']= true;", 10);
   }
 };
+
+// Set the select to the passed in value. If the value doesn't exist,
+// all options will be cleared, none selected.
+
+Data.setSelect = function (selectId,value,restoreFunction) {
+    var selectedOptions = '#' + selectId + " option:selected";
+    $(selectedOptions).each(function(i,e) {
+        Log.Notice('for ' + selectedOptions + ' removing option ' + i );
+        $(this).removeAttr('selected');
+    });
+    var valueOption = "#" + selectId + " option[value='" + value + "']";
+    $(valueOption)
+        .attr('selected','selected');
+    
+    if (restoreFunction) {
+    } else {
+        var restoreFunction = "Log.Notice";
+    }
+    
+    Data.saveSelect(selectId,restoreFunction);
+    return false;
+}
+
+
 
 Data.saveSelectMultiple = function (selectId, restoreFunction) {
   var selectedOptions = "#" + selectId + " " + "option:selected";
@@ -376,16 +400,22 @@ Data.restoreSelectMultiple = function (selectId) {
   }
 };
 
-Data.saveCheckbox = function (checkboxId, restoreFunction) {
-  var checkboxSelector = "input[name='" + checkboxId + "']";
-  var value = [];
-  Log.Notice('saveCheckbox id=' + checkboxId + ' selector=' + checkboxSelector);
-  $(checkboxSelector).each(function(i,e) {
-    Log.Notice('saveCheckbox = val=' + $(this).val());
-    if ($(this).attr('checked') == 'checked') {
+Data.getCheckboxValues = function (checkboxId) {
+    var value = [];
+    var checkedBoxes = '#' + checkboxId + ":checked";
+    
+    $(checkedBoxes).each(function(i,e) {
+        Log.Notice('getCheckboxValues val=' + $(this).val());
         value[value.length] = $(this).val();
-    }
-  });
+    });
+    return value;
+};
+
+Data.saveCheckbox = function (checkboxId, restoreFunction) {
+    
+  Log.Notice('saveCheckbox id=' + checkboxId );
+
+  var value = Data.getCheckboxValues(checkboxId);
   valueString = value.join(",");
 
   var call = restoreFunction + "('" + checkboxId  + "'";
@@ -403,8 +433,9 @@ Data.restoreCheckbox = function (checkboxId) {
   var call = localStorage.getItem(document.URL + '-CHECKBOX-RESTORE-' + checkboxId);
   if (valueString) {
     var checkboxSelector = "input[name='" + checkboxId + "']";
+    //var checkboxSelector = '#' + checkboxId + ":checked";
     $(checkboxSelector).each(function(i,e) {
-      $(this).removeAttr('checked');
+        $(this).removeAttr('checked');
     });
     var values = valueString.split(",");
     var valueOption;
@@ -412,6 +443,7 @@ Data.restoreCheckbox = function (checkboxId) {
     for (var i = 0; i < values.length; i++) {
       Log.Notice('valueOption = ' + values[i]);
       valueOption  = "input[name='" + checkboxId + "']";
+      //valueOption = '#' + checkboxId;
       $(valueOption).each(function(i,e) {
           var val = $(this).val();
           for (var j = 0;j<values.length;j++) {
@@ -426,6 +458,53 @@ Data.restoreCheckbox = function (checkboxId) {
     setTimeout(call, 10);
   }
 };
+
+// set the checkbox group to the passed in value, if the value
+// doesn't exist, no checkboxes will be checked after the operation
+// new checkbox configuration is saved 
+
+Data.setCheckbox = function (checkboxId,value,restoreFunction) {
+    var checkedBoxes = '#' + checkboxId + ":checked";
+    $(checkedBoxes).each(function(i,e) {
+        Log.Notice('for ' + checkedBoxes + ' removing check ' + i );
+        $(this).removeAttr('checked');
+    });
+    
+    var valueOption = "#" + checkboxId + "[value='" + value + "']";
+    
+    $(valueOption)
+        .attr('checked','checked');
+    
+    if (restoreFunction) {
+    } else {
+        var restoreFunction = "Log.Notice";
+    }
+    
+    Data.saveCheckbox(checkboxId,restoreFunction);
+    return false;
+};
+
+
+Data.setCheckboxes = function (checkboxId,values,restoreFunction) {
+    var value,valueSelector;
+    var valueList = values.split(',');
+    var checkedBoxes = '#' + checkboxId + ":checked";
+    
+    $(checkedBoxes).each(function(i,e) {
+        Log.Notice('for ' + checkedBoxes + ' removing check ' + i );
+        $(this).removeAttr('checked');
+    });
+    
+    for (var i = 0;i<valueList.length;i++) {
+        value = valueList[i];
+        valueSelector = "#" + checkboxId + "[value='" + value + "']";
+        $(valueSelector)
+            .attr('checked','checked');
+    }
+    
+    Data.saveCheckbox(checkboxId,restoreFunction);
+};
+
 
 Data.saveInput = function (inputIdList, restoreFunction, arg2, arg3) {
 	var inputIdArray = inputIdList.split(',');
@@ -450,7 +529,6 @@ Data.restoreInput = function (inputId) {
   var value = localStorage.getItem(document.URL + '-ANIMATION-VALUE-' + inputId);
   var call = localStorage.getItem(document.URL + '-ANIMATION-RESTORE-' + inputId);
   if (value || value == 0) {
-    //d3.select("#" + inputId).attr('value',value);
 	$('#' + inputId).val(value);
      setTimeout(call, 10);
   }

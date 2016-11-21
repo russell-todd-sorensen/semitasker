@@ -209,8 +209,8 @@ body, html {
 <script type="text/javascript" src="/js/binary-hex-conversions.js"></script>
 <script type="text/javascript" src="/js/example-library.js"></script>
 <script type="text/javascript" src="/js/svg-transform.js"></script>
-<script type="text/javascript" src="participants.js"></script>
-<script type="text/javascript" src="json-test.js"></script>
+<script type="text/javascript" src="participant-transactions.js"></script>
+
 
 <script>
 
@@ -223,6 +223,7 @@ $(document).ready(function() {
     loadXHRFile("./data/sales-reps.IIF",getSalesRepsIIF);
     loadXHRFile("./data/customer-transactions.csv",getCustomerTransactionsCSV);
     loadXHRFile("./data/all-transactions.csv",getAllTransactionsCSV);
+    //setTimeout('Customer.setup();',15);
     Log.Hide();
 });
 </script>
@@ -232,20 +233,18 @@ $(document).ready(function() {
 
 <form id="panel" onSubmit="javascript:return false;">
 <fieldset>
-<h3><span>Participant Search</span></h3>
+<legend><span>Transaction Search</span></legend>
 <ul>
  <li><label for="fieldToSearch">Search Field:</label>
  <select id="fieldToSearch" tabIndex="7"
   onChange="Customer.configureSearchField('fieldToSearch')">
    <option value="search">All Fields</option>
    <option value="name">Name</option>
-   <option value="doc">DOC #</option>
-   <option value="cco">CCO</option>
-   <option value="house">House</option>
-   <option value="voucher">Voucher</option>
-   <option value="ctype">Program Role</option>
-   <option value="dob">Birthdate</option>
-   <option value="notes">Notes</option>
+   <option value="account">Account Name/Number</option>
+   <option value="type">Transaction Type</option>
+   <option value="amount">Amount</option>
+   <option value="transId">TransactionId</option>
+   <option value="accountType">Account Type</option>
   </select>
   </li>
  <li><label for="searchList">List:</label>
@@ -260,8 +259,6 @@ $(document).ready(function() {
    onChange="Customer.configureOutputType('outputType')">
     <option value="list" selected>Link List</option>
     <option value="csv">CSV/Database</option>
-    <option value="csv-all">CSV/All</option>
-    <option value="csv-website">CVS/Website</option>
     <option value="json">JSON</option>
   </select>
   </li>

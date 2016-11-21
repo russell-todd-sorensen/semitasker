@@ -6200,6 +6200,7 @@ function shimCloneNode( elem ) {
 
 jQuery.extend({
 	clone: function( elem, dataAndEvents, deepDataAndEvents ) {
+	    //console.log("jQuery.extend: elem.valueOf()='" + elem.valueOf() + "'");
 		var srcElements,
 			destElements,
 			i,

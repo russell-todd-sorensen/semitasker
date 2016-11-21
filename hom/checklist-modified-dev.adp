@@ -15,6 +15,7 @@
 <script src="/js/data.js"></script>
 <script src="/js/form-save-restore.js"></script>
 <script src="/js/example-library.js"></script>
+<script src="/js/html-utilities.js"></script>
 <script src="/hom/js/checklist-modified.js"></script>
 
 <style>
@@ -25,7 +26,7 @@
 <%
 set db [ns_db gethandle pool1]
 
-set result [ns_db select $db "select * from hom_houses order by house_name"]
+set result [ns_db select $db "select * from hom_house_address_view order by house_name"]
 set westernHeader "-- Western Washington --"
 set easternHeader "-- Eastern Washington --"
 set westernHouseList [list $westernHeader ]
@@ -37,12 +38,12 @@ set formattedAddresses ""
 
 while {[ns_db getrow $db $result]} {
     set house [ns_set get $result house_name]
-    set city  [ns_set get $result house_city]
-    set house_addr1 [ns_set get $result house_addr1]
-    set house_addr2 [ns_set get $result house_addr2]
-    set house_addr3 [ns_set get $result house_addr3]
-    set state [ns_set get $result house_state]
-    set zip [ns_set get $result house_zip]
+    set city  [ns_set get $result city]
+    set house_addr1 [ns_set get $result addr1]
+    set house_addr2 [ns_set get $result addr2]
+    set house_addr3 [ns_set get $result addr3]
+    set state [ns_set get $result state]
+    set zip [ns_set get $result postal_code]
     set formattedAddress($house) "\n<pre>$house_addr1\n$house_addr2\n$city, $state $zip</pre>"
     set formattedAddressJavascript "$house_addr1\\n$house_addr2\\n$city, $state $zip"
     append formattedAddresses $formattedAddress($house)
@@ -67,7 +68,8 @@ set sqlQuestions "select
  column_enabled as enabled,
  column_length as \"length\",
  column_type as \"type\",
- column_data as \"data\"
+ column_data as \"data\",
+ column_default as \"default\"
 from 
  hom_interview_questions
 where
@@ -93,10 +95,11 @@ while {[ns_db getrow $db $result2]} {
    set length [ns_set get $result2 length]
    set type [ns_set get $result2 type]
    set data [ns_set get $result2 data]
+   set default [ns_set get $result2 default]
    if {$name ne "location" } {
         set data "'$data'"
    }
-   append questions "newQuestion('$name','$title','$help',$enabled,$length,'$type',$data);\n"
+   append questions "newQuestion('$name','$title','$help',$enabled,$length,'$type',$data,'$default');\n"
 }
 
  
@@ -111,30 +114,6 @@ var formattedAddresses = new Array();
 var houseOptionString = "<%= $houseOptionString %>"
 <%= $questions %>
 
-var showAddress = function (id) {
-    var selector = '#' + id + " option:selected";
-    var house = $(selector).val();
-    Log.Notice('house =' + house);
-    var address = formattedAddresses[house];
-    Log.Notice('address=' + address);
-    $('#' + id + "-address").html(address);
-    
-}
-
-var submitForm = function (id) {
-    var selector = '#' + id
-    $(selector).attr('action','interview-add.tcl');
-    $(selector).submit();
-    $(selector).attr('action','return false;');
-}
-
-var printConfirmationEmail = function (id) {
-    var selector = '#' + id
-    $(selector).attr('action','print-confirmation-email.tcl');
-    $(selector).submit();
-    $(selector).attr('action','return false;');
-}
-
 $(document).ready(function() {
     Log.Remove();
     //Log.Show();
@@ -142,15 +121,35 @@ $(document).ready(function() {
     // to show the address associated with the selected location,
     // we must modify the default code path and add a container for the address
     Data.saveSelect('location','showAddress');
-    $('#location').attr('onchange','Data.saveSelect("location","showAddress");showAddress("location");');
+    $('#location')
+        .attr(
+            'onchange',
+            'Data.saveSelect("location","showAddress");showAddress("location");'
+        );
+    
     var parent = $('#location').parent();
     parent.append("<pre id='location-address'></pre>");
     
     // setup the following: when SO level is N/A, choose SOTP: N/A also. ....
     // Better yet: make the input hidden so it can't be changed, just show N/A
     // in that field.
+    
+    $('#level')
+        .attr('onchange','updateSOTPRequirement("level","sotp_required");');
+    
+    $('#isrb_releasable, #date_of_interview, #notifier')
+        .attr('onchange','updateEstimatedReleaseDate("est_release_date")');
+    $('#age')
+        .attr('onchange','convertBirthdateToAge("age","birthdate")');
+    $('#age')
+        .attr('onclick','convertPlaceholderTextToAge("age","birthdate")');
+    var hiddenBirthdate = $('#birthdate').val();
+    if (hiddenBirthdate) {
+        $('#age').attr('placeholder',hiddenBirthdate);
+        convertPlaceholderTextToAge("age","birthdate");
+    }
+    
 });
-
 
 </script>
 <div id="container">

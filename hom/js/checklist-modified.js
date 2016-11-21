@@ -1,7 +1,7 @@
 
 var QuestionList = new Array();
 
-var Questions = function (id,name,descr,notes_p,notes_length,type,data) {
+var Questions = function (id,name,descr,notes_p,notes_length,type,data,default_value) {
     this.id = id;
     this.name = name;
     this.descr = descr;
@@ -9,10 +9,14 @@ var Questions = function (id,name,descr,notes_p,notes_length,type,data) {
     this.notes_length = notes_length;
     this.type = type;
     this.data = data;
+    this.default_value = default_value;
     return this;
 }
 
-var newQuestion = function (id,name,descr,notes_p,notes_length,type,data) {
+var newQuestion = function (id,name,descr,notes_p,notes_length,type,data,default_value) {
+    if (arguments.length < 8 ) {
+        var default_value = "";
+    }
     if (arguments.length < 7 ) {
         var data = null;
     }
@@ -25,20 +29,37 @@ var newQuestion = function (id,name,descr,notes_p,notes_length,type,data) {
     if (arguments.length < 4 ) {
         var notes_p = false;
     }
-    QuestionList[QuestionList.length] = new Questions(id,name,descr,notes_p,notes_length,type,data);
+    QuestionList[QuestionList.length] = new Questions(id,name,descr,notes_p,notes_length,type,data,default_value);
 }
 
 var initForm = function (selector) {
     var handle = $(selector);
     var today = new Date();
-    var id,inputType,question,dataList,optionHtml;
+    var id,inputType,question,dataList,
+        optionHtml,checked,selected,valueAttribute;
  
     for (var i = 0; i<QuestionList.length;i++) {
         question = QuestionList[i];
         inputType = question.type;
         //id = 'f-' + i;
         id = question.id;
-        switch (inputType) {
+        switch (inputType) {          
+        case 'hidden':
+            Log.Notice('hidden ' + question.name);
+            handle.append("<!- hide -->     <input type='hidden'"
+                + " name='"
+                + id
+                + "' id='"
+                + id
+                + "' maxlength='"
+                + question.notes_length
+                + "' size='"
+                + parseInt(question.notes_length/2)
+                + "' value='"
+                + escapeQuotes(question.default_value)
+                + "'>\n");
+            Data.restoreInput(id);
+            break;  
         case 'text':
             Log.Notice('text ' + question.name);
             handle.append("<li><label for='" 
@@ -56,6 +77,8 @@ var initForm = function (selector) {
                 + question.notes_length
                 + "' size='"
                 + parseInt(question.notes_length/2)
+                + "' value='"
+                + escapeQuotes(question.default_value)
                 + "' onKeyUp='Data.saveInput(\""
                 + id 
                 + "\",\"Log.Notice\");"
@@ -106,14 +129,22 @@ var initForm = function (selector) {
                 + dataList[0]
                 + "' cols='"
                 + dataList[1]
-                + "'></textarea></li>\n");
+                + "'>"
+                + question.default_value
+                + "</textarea></li>\n");
             Data.restoreInput(id);
             break;
         case 'radio':           
             Log.Notice('radio ' + question.name);
             dataList = question.data.split(',');
             optionHtml = "";
+
             for (var j = 0; j<dataList.length;j++) {
+                if (dataList[j].trim() == question.default_value) {
+                    checked = " checked='checked' ";
+                } else {
+                    checked = "";
+                }
                 optionHtml += ("<span class='radio-option'>"
                     + dataList[j].trim()
                     + "</span>"
@@ -127,7 +158,9 @@ var initForm = function (selector) {
                     + "\",\"Log.Notice\");"
                     + "' value='"
                     + dataList[j].trim()
-                    + "'> ");
+                    + "'" 
+                    + checked 
+                    + "> ");
             }
  
             handle.append("<li><label for='" 
@@ -148,6 +181,11 @@ var initForm = function (selector) {
             dataList = question.data.split(',');
             optionHtml = "";
             for (var j = 0; j<dataList.length;j++) {
+               if (dataList[j].trim() == question.default_value) {
+                    checked = " checked='checked' ";
+                } else {
+                    checked = "";
+                }
                 optionHtml += ("<span class='radio-option'>"
                     + dataList[j].trim()
                     + "</span>"
@@ -161,7 +199,9 @@ var initForm = function (selector) {
                     + "\",\"Log.Notice\");"
                     + "' value='"
                     + dataList[j].trim()
-                    + "'> ");
+                    + "'"
+                    + checked
+                    + "> ");
             }
  
             handle.append("<li><label for='" 
@@ -190,9 +230,16 @@ var initForm = function (selector) {
                     + "\",\"Log.Notice\");"
                     + "'>\n"
             for (var j = 0; j<dataList.length;j++) {
+                if (dataList[j].trim() == question.default_value) {
+                    selected = " selected='selected' ";
+                } else {
+                    selected = "";
+                }
                 optionHtml += ("  <option value='"
                     + dataList[j].trim()
-                    + "'>"
+                    + "'"
+                    + selected
+                    + ">"
                     + dataList[j].trim()
                     + "</option>\n");
             }
@@ -206,11 +253,19 @@ var initForm = function (selector) {
                 + "</label>"
                 + optionHtml
                 +"</li>\n");
-            Data.restoreInput(id);
+            //Data.restoreInput(id);
+            Data.restoreSelect(id);
             break;
         case 'integer':
             Log.Notice('integer ' + question.name);
             dataList = question.data.split(',');
+            if (isNaN(parseInt(question.default_value))) {
+                valueAttribute = ""
+            } else {
+                valueAttribute = " value='" 
+                + parseInt(question.default_value) 
+                + "' "
+            }
             handle.append("<li><label for='" 
                 + id
                 + "' title='"
@@ -231,11 +286,12 @@ var initForm = function (selector) {
                 + "' size='"
                 + parseInt(question.notes_length)
                 + "'"
-                + "' min='"
+                + " min='"
                 + dataList[0]
                 + "' max='"
                 + dataList[1]
                 + "' step='1'"
+                + valueAttribute
                 + "></li>\n");
             Data.restoreInput(id);
             break;
@@ -259,6 +315,8 @@ var initForm = function (selector) {
                 + "' onChange='Data.saveInput(\""
                 + id 
                 + "\",\"Log.Notice\");"
+                + "' value='"
+                + question.default_value
                 + "'></li>\n");
             Data.restoreInput(id);
             if ($('#' + id).val() == '') {
@@ -294,6 +352,8 @@ var initForm = function (selector) {
                 + "' onChange='Data.saveInput(\""
                 + id 
                 + "\",\"Log.Notice\");"
+                + "' value='"
+                + question.default_value
                 + "'></li>\n");
             Data.restoreInput(id);
             if ($('#' + id).val() == '') {
@@ -310,3 +370,167 @@ var initForm = function (selector) {
         // Data Save
     }
 }
+
+
+var showAddress = function (id) {
+    var selector = '#' + id + " option:selected";
+    var house = $(selector).val();
+    Log.Notice('house =' + house);
+    var address = formattedAddresses[house];
+    Log.Notice('address=' + address);
+    $('#' + id + "-address").html(address);
+    
+}
+
+var submitForm = function (id) {
+    var selector = '#' + id
+    $(selector).attr('action','interview-add.tcl');
+    $(selector).submit();
+    $(selector).attr('action','return false;');
+}
+
+var printConfirmationEmail = function (id) {
+    var selector = '#' + id
+    $(selector).attr('action','print-confirmation-email.tcl');
+    $(selector).submit();
+    $(selector).attr('action','return false;');
+}
+
+var updateSOTPRequirement = function (id,sotp_id) {
+ 
+    Data.saveSelect(id,"Log.Notice");
+    var selector = '#' + id + ' option:selected';
+    var level = $(selector).val();
+    if (level == "N/A") {
+        Data.setCheckbox(sotp_id,"N/A","Log.Notice");
+    } else {
+        
+        var sotp = Data.getCheckboxValues(sotp_id)[0];
+        if (sotp == "N/A") { // Clear SOTP 
+            Data.setCheckbox(sotp_id,"","Log.Notice");
+        }
+    }
+    Log.Notice('level="' + level + '" sotp_id="' + sotp_id + '"' );
+    return false;
+}
+
+var updateEstimatedReleaseDate = function (releaseId) {
+    
+    var est_release_date = $('#est_release_date').val();
+    var notifier = Data.getCheckboxValues('notifier')[0];
+    var isrb_releasable = Data.getCheckboxValues('isrb_releasable')[0];
+    var date_of_interview = $('#date_of_interview').val();
+    
+    var oneDay = 24*60*60*1000; // milliseconds per day
+    var currentDate = new Date(date_of_interview);
+    var currentMilliseconds = currentDate.valueOf();
+    var daysToAdd = 0;
+    
+    
+    if (isrb_releasable == "Yes") { // ISRB
+        daysToAdd = 35+30+15;
+    } else if (notifier == "Yes") { // 35 Day Notifier
+        daysToAdd = 35+30;
+    } else {
+        daysToAdd = 30;
+    }
+    
+    var new_release_date_ms = currentMilliseconds + ( daysToAdd * oneDay );
+    var new_release_date = new Date(new_release_date_ms);
+    
+    var year = new_release_date.getUTCFullYear();
+    var day = new_release_date.getUTCDate();
+    var month = parseInt(new_release_date.getUTCMonth()) + 1;
+    if (month < 10) {
+        month = '0' + month;
+    }
+    if (day < 10) {
+        day = '0' + day;
+    }
+    
+    var dateString = '' + year + '-' + month + '-' + day;
+
+    $('#est_release_date').val(dateString);
+    
+    Data.saveCheckbox('notifier','Log.Notice');
+    Data.saveCheckbox('isrb_releasable','Log.Notice');
+    Data.saveInput('est_release_date','Log.Notice');
+};
+
+var convertBirthdateToAge = function (inputId,hiddenTextId) {
+    
+    var inputSelector = '#' + inputId;
+    var age = $(inputSelector).val();
+    
+    if (age.length != 8) {
+        return false;
+    }
+        
+    var month = age.substring(0,2);
+    var day = age.substring(2,4);
+    var year = age.substring(4,8);
+    var dateString = '' + year + '-' + month + '-' + day;
+    
+    var today = new Date();
+    var todayYear  = today.getUTCFullYear();
+    var todayDay   = today.getUTCDate();
+    var todayMonth = parseInt(today.getUTCMonth()) + 1;
+    var baseAge    = parseInt(todayYear) - parseInt(year);
+    
+    while (1) {
+        if (parseInt(todayMonth) > parseInt(month) ) {
+            break;
+        }
+        if (parseInt(todayMonth) < parseInt(month) ) {
+            baseAge--;
+            break;
+        }
+        // todayMonth == month
+        if ( parseInt(todayDay) >= parseInt(day) ) {
+            break;
+        }
+        baseAge--;
+        break;
+    }
+    
+    // baseAge is now correct age
+    $(inputSelector).val(baseAge);
+    $(inputSelector).attr('placeholder',dateString);
+    $(inputSelector).attr('title',dateString);
+    
+   
+    Data.saveInput(inputId,'Log.Notice');
+    
+    if (arguments.length < 2) {
+        var hiddenTextId = null;
+    }
+    
+    if (hiddenTextId) {
+        $('#' + hiddenTextId).val(dateString);
+        Data.saveInput(hiddenTextId,'Log.Notice');
+    }
+    
+    return false;
+};
+
+var convertPlaceholderTextToAge = function (inputId,hiddenTextId) {
+    var inputSelector = '#' + inputId;
+    Log.Notice('convertPlaceholderTextToAge');
+    var placeholder = $(inputSelector).attr('placeholder');
+    
+    if (placeholder && placeholder.length == 10) {
+        var year  = placeholder.substring(0,4);
+        var month = placeholder.substring(5,7);
+        var day   = placeholder.substring(8,10);
+        $(inputSelector).val('' + month + day + year);
+        
+        if (arguments.length <2) {
+            var hiddenTextId = null;
+        }
+        
+        convertBirthdateToAge(inputId,hiddenTextId);
+    }
+    
+    return false;
+};
+
