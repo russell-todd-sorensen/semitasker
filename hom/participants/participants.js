@@ -547,7 +547,8 @@ var Customer = {
                               .append('id,type,firstName,lastName,doc,arrived,house,address1,address2,address3,active<br>');
                       }
                       
-                      $(outputSelector)
+
+                        $(outputSelector)
                         .append(  customer.id        +  ','  +
                             '"' + customer.ctype     + '",'  +
                             '"' + customer.firstName + '",'  +
@@ -561,6 +562,24 @@ var Customer = {
                                   customer.active    + '<br>'
                       );
                       break;
+                  case 'csv-pastor-james': 
+                      if (i==0) {
+                          // put header file
+                          $(outputSelector)
+                              .append('<pre id="csvpre">house,lastName,firstName,doc,address,startDate\n</pre>');
+                          outputSelector = $('#csvpre');
+                      }
+                      $(outputSelector)
+                        .append(
+                                  customer.house     +  ','  +
+                            '"' + customer.lastName  + '",'  +
+                            '"' + customer.firstName + '",'  +
+                            '"' + customer.doc       + '",'  +
+                            '"' + customer.baddr3    + ' '   +
+                                  customer.baddr4    + '",'  +
+                                  customer.startDate    + '\n'
+                      );
+                      break;
                   case 'list':
                   default:
                     $(outputSelector)
@@ -569,11 +588,18 @@ var Customer = {
                         + customer.id + ')" tabIndex="' + (i+10)
                         + '">' + customer.name + '</li>\n');
                     break;
-                }
- 
+                } // end switch
+            } // end for
+            
+            if (type == 'csv-pastor-james') {
+                var subWindow = window.open(
+                    "",
+                    "csv-pastor-james",
+                    "height=500,width=700,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,chrome=true,titlebar=true", // options
+                    "true" // replace
+                    );
+                subWindow.document.write(document.getElementById('csvpre').innerText);
             }
-        
-        
     },
     search: function (inputId, outputSelector) {
         evt = event;

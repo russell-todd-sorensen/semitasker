@@ -222,7 +222,6 @@ $(document).ready(function() {
     loadXHRFile("./data/customer-data-with-balances.csv",getCustomerWithBalancesCSV);
     loadXHRFile("./data/sales-reps.IIF",getSalesRepsIIF);
     loadXHRFile("./data/customer-transactions.csv",getCustomerTransactionsCSV);
-    //loadXHRFile("./data/all-transactions.csv",getAllTransactionsCSV);
     Log.Hide();
 });
 </script>
@@ -242,6 +241,7 @@ $(document).ready(function() {
    <option value="doc">DOC #</option>
    <option value="cco">CCO</option>
    <option value="house">House</option>
+   <option value="address2">Address</option>
    <option value="voucher">Voucher</option>
    <option value="ctype">Program Role</option>
    <option value="dob">Birthdate</option>
@@ -260,6 +260,7 @@ $(document).ready(function() {
    onChange="Customer.configureOutputType('outputType')">
     <option value="list" selected>Link List</option>
     <option value="csv">CSV/Database</option>
+    <option value="csv-pastor-james">CSV for Pastor James</option>
     <option value="csv-all">CSV/All</option>
     <option value="csv-website">CVS/Website</option>
     <option value="json">JSON</option>
@@ -276,7 +277,7 @@ $(document).ready(function() {
 <div id="container">
 <div id="selection"></div>
 <div id="profile"></div>
-<a href="javascript:location.reload(true)">Refresh Page</a>
+<a href="javascript:location.reload(true)">Refresh Page</a> <a href="csv-pastor-james-2.tcl">CSV File</a>
 </div>
 </body>
 </html>
