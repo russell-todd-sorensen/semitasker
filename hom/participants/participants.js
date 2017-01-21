@@ -540,6 +540,27 @@ var Customer = {
                           '"' + customer.phone1    + '"'  +
                           '<br>');
                       break;
+                case 'csv-mike':
+                    if (i==0) {
+                        // put csv header
+                        $(outputSelector)
+                            .append("ParticipantId,HouseID,FirstName,LastName,Phone,Email,IsActive,ProgramEndDate,ProgramStartDate,DOCNumber,BirthDate<br>");
+                    }
+
+                    $(outputSelector)
+                      .append(  customer.id        +  ',' +
+                                customer.house     +  ',' +
+                          '"' + customer.firstName + '",' +
+                          '"' + customer.lastName  + '",' +
+                          '"' + customer.phone1    + '",'  +
+                          '"' + customer.email     + '",' +
+                                customer.active    +  ',' +
+                          '"' + customer.endDate   + '",' +
+                          '"' + customer.startDate + '",' +
+                          '"' + customer.doc       + '",' +
+                          '"' + customer.dob       + '"'  +
+                          '<br>');
+                      break;
                   case 'csv-website':
                       if (i==0) {
                           // put header file

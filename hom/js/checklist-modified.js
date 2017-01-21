@@ -81,7 +81,7 @@ var initForm = function (selector) {
                 + escapeQuotes(question.default_value)
                 + "' onKeyUp='Data.saveInput(\""
                 + id 
-                + "\",\"Log.Notice\");"
+                + "\",\"LogInput\");"
                 + "'></li>\n");
             Data.restoreInput(id);
             break;
@@ -124,7 +124,7 @@ var initForm = function (selector) {
                 + id
                 + "' onKeyUp='Data.saveInput(\""
                 + id 
-                + "\",\"Log.Notice\");"
+                + "\",\"LogInput\");"
                 + "' rows='"
                 + dataList[0]
                 + "' cols='"
@@ -155,7 +155,7 @@ var initForm = function (selector) {
                     + id
                     + "' onChange='Data.saveCheckbox(\""
                     + id 
-                    + "\",\"Log.Notice\");"
+                    + "\",\"LogChbox\");"
                     + "' value='"
                     + dataList[j].trim()
                     + "'" 
@@ -196,7 +196,7 @@ var initForm = function (selector) {
                     + id
                     + "' onChange='Data.saveCheckbox(\""
                     + id 
-                    + "\",\"Log.Notice\");"
+                    + "\",\"LogChbox\");"
                     + "' value='"
                     + dataList[j].trim()
                     + "'"
@@ -280,7 +280,7 @@ var initForm = function (selector) {
                 + id
                 + "' onChange='Data.saveInput(\""
                 + id 
-                + "\",\"Log.Notice\");"
+                + "\",\"LogInput\");"
                 + "' maxlength='"
                 + question.notes_length
                 + "' size='"
@@ -314,7 +314,7 @@ var initForm = function (selector) {
                 + parseInt(question.notes_length/2)
                 + "' onChange='Data.saveInput(\""
                 + id 
-                + "\",\"Log.Notice\");"
+                + "\",\"LogInput\");"
                 + "' value='"
                 + question.default_value
                 + "'></li>\n");
@@ -329,7 +329,7 @@ var initForm = function (selector) {
                 var dateString = '' + year + '-' + month + '-' + day;
                 
                 $('#' + id).val(dateString);
-                Data.saveInput(id,'Log.Notice');
+                Data.saveInput(id,'LogInput');
             }
             break;
         case 'time':
@@ -351,7 +351,7 @@ var initForm = function (selector) {
                 + parseInt(question.notes_length/2)
                 + "' onChange='Data.saveInput(\""
                 + id 
-                + "\",\"Log.Notice\");"
+                + "\",\"LogInput\");"
                 + "' value='"
                 + question.default_value
                 + "'></li>\n");
@@ -359,7 +359,7 @@ var initForm = function (selector) {
             if ($('#' + id).val() == '') {
                 time = today.toTimeString().substring(0,8);
                 $('#' + id).val(time);
-                Data.saveInput(id,'Log.Notice');
+                Data.saveInput(id,'LogInput');
             }
             break;
         default:
@@ -452,9 +452,10 @@ var updateEstimatedReleaseDate = function (releaseId) {
 
     $('#est_release_date').val(dateString);
     
-    Data.saveCheckbox('notifier','Log.Notice');
-    Data.saveCheckbox('isrb_releasable','Log.Notice');
-    Data.saveInput('est_release_date','Log.Notice');
+    Data.saveCheckbox('notifier','LogChbox');
+    Data.saveCheckbox('isrb_releasable','LogChbox');
+    Data.saveInput('est_release_date','LogInput');
+    Data.saveInput('date_of_interview','LogInput');
 };
 
 var convertBirthdateToAge = function (inputId,hiddenTextId) {
@@ -507,7 +508,7 @@ var convertBirthdateToAge = function (inputId,hiddenTextId) {
     
     if (hiddenTextId) {
         $('#' + hiddenTextId).val(dateString);
-        Data.saveInput(hiddenTextId,'Log.Notice');
+        Data.saveInput(hiddenTextId,'LogInput');
     }
     
     return false;

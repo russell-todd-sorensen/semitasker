@@ -310,6 +310,7 @@ Data.saveSelect = function (selectId, restoreFunction) {
   var selectedOption = "#" + selectId + " option:selected";
   var value = $(selectedOption).val();
   if (value || value == 0) {
+    Log.Notice('saveSelect id=' + selectId + ' value="' + value + '"');
     var call = restoreFunction + "('" + selectId  + "'";
     for (var i = 2; i<arguments.length; i++) {
       call =  call + ",'" + arguments[i] + "'";
@@ -343,7 +344,7 @@ Data.restoreSelect = function (selectId) {
 Data.setSelect = function (selectId,value,restoreFunction) {
     var selectedOptions = '#' + selectId + " option:selected";
     $(selectedOptions).each(function(i,e) {
-        Log.Notice('for ' + selectedOptions + ' removing option ' + i );
+        //Log.Notice('for ' + selectedOptions + ' removing option ' + i );
         $(this).removeAttr('selected');
     });
     var valueOption = "#" + selectId + " option[value='" + value + "']";
@@ -405,7 +406,7 @@ Data.getCheckboxValues = function (checkboxId) {
     var checkedBoxes = '#' + checkboxId + ":checked";
     
     $(checkedBoxes).each(function(i,e) {
-        Log.Notice('getCheckboxValues val=' + $(this).val());
+        //Log.Notice('getCheckboxValues val=' + $(this).val());
         value[value.length] = $(this).val();
     });
     return value;
@@ -413,11 +414,11 @@ Data.getCheckboxValues = function (checkboxId) {
 
 Data.saveCheckbox = function (checkboxId, restoreFunction) {
     
-  Log.Notice('saveCheckbox id=' + checkboxId );
+  //
 
   var value = Data.getCheckboxValues(checkboxId);
   valueString = value.join(",");
-
+  Log.Notice('saveCheckbox id=' + checkboxId + ' value="' + valueString + '"' );
   var call = restoreFunction + "('" + checkboxId  + "'";
   for (var i = 2; i<arguments.length; i++) {
       call =  call + ",'" + arguments[i] + "'";
@@ -441,7 +442,7 @@ Data.restoreCheckbox = function (checkboxId) {
     var valueOption;
     var handle;
     for (var i = 0; i < values.length; i++) {
-      Log.Notice('valueOption = ' + values[i]);
+      //Log.Notice('valueOption = ' + values[i]);
       valueOption  = "input[name='" + checkboxId + "']";
       //valueOption = '#' + checkboxId;
       $(valueOption).each(function(i,e) {
@@ -452,7 +453,7 @@ Data.restoreCheckbox = function (checkboxId) {
                   break;
               }
           }
-          Log.Notice('what values=' + values[i]);
+          //Log.Notice('what values=' + values[i]);
       });
     }
     setTimeout(call, 10);
@@ -466,7 +467,7 @@ Data.restoreCheckbox = function (checkboxId) {
 Data.setCheckbox = function (checkboxId,value,restoreFunction) {
     var checkedBoxes = '#' + checkboxId + ":checked";
     $(checkedBoxes).each(function(i,e) {
-        Log.Notice('for ' + checkedBoxes + ' removing check ' + i );
+        //Log.Notice('for ' + checkedBoxes + ' removing check ' + i );
         $(this).removeAttr('checked');
     });
     
@@ -491,7 +492,7 @@ Data.setCheckboxes = function (checkboxId,values,restoreFunction) {
     var checkedBoxes = '#' + checkboxId + ":checked";
     
     $(checkedBoxes).each(function(i,e) {
-        Log.Notice('for ' + checkedBoxes + ' removing check ' + i );
+        //Log.Notice('for ' + checkedBoxes + ' removing check ' + i );
         $(this).removeAttr('checked');
     });
     
@@ -513,6 +514,7 @@ Data.saveInput = function (inputIdList, restoreFunction, arg2, arg3) {
 		var inputSelector = "#" + inputId;
 		var value = $(inputSelector).val();
 		if (value || value == 0) {
+		    Log.Notice('saveInput id=' + inputId + ' value="' + value + '"');
 		    var call = restoreFunction + "('" + inputId  + "'";
 		    for (var i = 2; i<arguments.length; i++) {
 		        call =  call + ",'" + arguments[i] + "'";

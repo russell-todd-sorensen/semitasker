@@ -13,7 +13,7 @@
 <script src="/js/data.js"></script>
 <script src="/js/form-save-restore.js"></script>
 <script src="/js/example-library.js"></script>
-<script src="js/folder-labels-with-input-3.js" ></script>
+<script src="js/folder-labels-with-input-4.js" ></script>
 <style>
 .page8366 {
 	width:  8.5in;
@@ -60,6 +60,14 @@
 	fill: black;
 }
 
+
+.role {
+	text-anchor: middle;
+	font-weight: normal;
+	font-size: 14px;
+	stroke: none;
+	fill: #AA0000;
+}
 /* form input styles */
 
 #form1 {
@@ -138,12 +146,19 @@
     <option value="1 Timothy">1 Timothy</option>
     <option value="2 Timothy">2 Timothy</option>
     <option value="Barnabas">Barnabas</option>
+    <option value="Daniel">Daniel</option>
     <option value="Genesis 3">Genesis 3</option>
+    <option value="Genesis 1">Genesis 1</option>
+    <option value="Genesis 2">Genesis 2</option>
+    <option value="Genesis 4">Genesis 4</option>
+    <option value="Genesis 5">Genesis 5</option>
+    <option value="Genesis 6">Genesis 6</option>
     <option value="Galatians">Galatians</option>
     <option value="Gideon">Gideon (Yakima)</option>
     <option value="Isaiah">Isaiah</option>
     <option value="Israel">Israel</option>
     <option value="James">James</option>
+    <option value="1 John">1 John</option>
     <option value="John">John</option>
     <option value="Joshua">Joshua</option>
     <option value="Light">Light</option>
@@ -155,6 +170,14 @@
     <option value="Philippians">Philippians</option>
     <option value="Romans">Romans</option>
     <option value="Zion">Zion</option>
+   </select>
+ </li>
+  <li>
+   <label for="role" >Role:</label>
+   <select id="role" name="role" onChange="">
+    <option value="" selected="selected">Participant</option>
+    <option value="House Leader">House Leader</option>
+    <option value="Non-Transitional Housing">Non-Transitional Housing</option>
    </select>
  </li>
  <li>
@@ -194,13 +217,15 @@ var Labels = {
 		this.house = null;
 		this.pname = null;
 		this.docid = null;
+		this.role  = null;
 		this.extra = null;
 		return this;
 	},
-	participant: function (house,pname,docid,extra) {
+	participant: function (house,pname,docid,role,extra) {
 		this.house = house;
 		this.pname = pname;
 		this.docid = docid;
+		this.role  = role;
 		this.extra = extra;
 		return this;
 	},
@@ -226,6 +251,7 @@ var formIds = {
 	house: 'house',
 	docid: 'docid',
 	pname: 'pname',
+	role: 'role',
 	extra: 'extra'
 };
 
@@ -273,11 +299,13 @@ function updateLabel() {
 	var pname = $('#' + formIds.pname).val();
 	var docid = $('#' + formIds.docid).val();
 	var house = $('#' + formIds.house + " option:selected").val();
+	var role = $('#' + formIds.role + " option:selected").val();
 	
 	Labels.participants[id] = {
 		pname:pname,
 		docid:docid,
 		house:house,
+		role:role,
 		extra:null
 	};
 
@@ -297,6 +325,7 @@ function clearLabel() {
 		pname:null,
 		docid:null,
 		house:null,
+		role:null,
 		extra:null
 	};
 	reloadLabels();
