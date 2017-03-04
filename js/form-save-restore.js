@@ -411,6 +411,18 @@ Data.getCheckboxValues = function (checkboxId) {
     });
     return value;
 };
+// The following form deprecates previous function
+Data.getNamedCheckboxValues = function (checkboxName) {
+    var value = [];
+    var checkboxSelector = "input[name='" + checkboxName + "']";
+    $(checkboxSelector).each(function(i,e) {
+        if ($(this).attr('checked') == 'checked') {
+            value[value.length] = $(this).val();
+        }
+    });
+    return value;
+};
+
 
 Data.saveCheckbox = function (checkboxId, restoreFunction) {
     

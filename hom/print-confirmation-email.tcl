@@ -98,7 +98,7 @@ if {1} {
     set sql "select 
  * 
 from 
- hom_houses 
+ hom_house_address_view
 where
  house_name = '[string map {' ''} $requiredFieldsValue(location)]';"
 
@@ -109,10 +109,10 @@ where
         return -code return
     }
     
-    set address [ns_set get $result house_addr2]
-    set city    [ns_set get $result house_city]
-    set state   [ns_set get $result house_state]
-    set zip     [ns_set get $result house_zip]
+    set address [ns_set get $result addr2]
+    set city    [ns_set get $result city]
+    set state   [ns_set get $result state]
+    set zip     [ns_set get $result postal_code]
     set paddingSize 8
     set padding [string repeat " " $paddingSize]
     set formatted_address "$padding$address\n$padding$city, $state $zip"
@@ -156,6 +156,9 @@ switch -exact -nocase -- $requiredFieldsValue(travel) {
     "DOC Transport" {
         set pickup_text "Mr. $lastName will be transported by DOC on the day of his release."
     }
+    "Pending" {
+        set pickup_text "Please advise us of Mr. $lastName's travel arrangements as soon as you know."
+    }
     default {
         set pickup_text "ERROR HERE UNABLE TO MATCH METHOD IN SWITCH print-confirmation-email.tcl"
     }
@@ -169,7 +172,7 @@ switch -exact -nocase -- $requiredFieldsValue(pay_method) {
         set pay_method_reminder ""
     }
 }
-    
+
 
 append email_message $pickup_text
 
@@ -178,6 +181,8 @@ append email_message "
 Can we please get a photo of Mr. $lastName for our file?
 
 Just a reminder if you can contact us ${pay_method_reminder}when you have a confirmation PRD.
+
+Can you please let Mr. $lastName know he can JayPay us at office@houseofmercyministries.net if he has any questions.
 
 Thank you."
 

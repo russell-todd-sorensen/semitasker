@@ -514,6 +514,51 @@ var convertBirthdateToAge = function (inputId,hiddenTextId) {
     return false;
 };
 
+
+var convertBirthdateToAge = function (ageId,birthdateId) {
+    
+    var birthdaySelector = '#' + birthdateId;
+    var ageSelector = '#' + ageId;
+    
+    var dateString = $(birthdaySelector).val() + ' GMT-0700' ;
+    var birthdate = new Date(dateString);
+    
+    var year = birthdate.getUTCFullYear();
+    var day = birthdate.getUTCDate();
+    var month = parseInt(birthdate.getUTCMonth()) + 1;
+    
+    var today = new Date();
+    var todayYear  = today.getUTCFullYear();
+    var todayDay   = today.getUTCDate();
+    var todayMonth = parseInt(today.getUTCMonth()) + 1;
+    var baseAge    = parseInt(todayYear) - parseInt(year);
+    
+    while (1) {
+        if (parseInt(todayMonth) > parseInt(month) ) {
+            break;
+        }
+        if (parseInt(todayMonth) < parseInt(month) ) {
+            baseAge--;
+            break;
+        }
+        // todayMonth == month
+        if ( parseInt(todayDay) >= parseInt(day) ) {
+            break;
+        }
+        baseAge--;
+        break;
+    }
+    
+    // baseAge is now correct age
+    $(ageSelector).val(baseAge);
+    
+    Data.saveInput(ageId,'Log.Notice');
+    Data.saveInput(birthdateId,'LogInput');
+    
+    return false;
+};
+
+
 var convertPlaceholderTextToAge = function (inputId,hiddenTextId) {
     var inputSelector = '#' + inputId;
     Log.Notice('convertPlaceholderTextToAge');

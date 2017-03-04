@@ -245,19 +245,30 @@ $(document).ready(function() {
    <option value="amount">Amount</option>
    <option value="transId">TransactionId</option>
    <option value="accountType">Account Type</option>
+   <option value="date">Date</option>
+   <option value="dueDate">Due Date</option>
+   <option value="enteredDate">Date Entered</option>
+   <option value="memo">Memo</option>
+   <option value="accountName">Account Name</option>
+   <option value="accountNumber">Account Number</option>
+   <option value="nameCity">City</option>
+   <option value="nameZip">Zipcode</option>
+   <option value="sourceName">Source Name</option>
+   <option value="item">Item</option>
+   <option value="modifiedBy">Modified By</option>
   </select>
   </li>
  <li><label for="searchList">List:</label>
  <select id="searchList" name="searchList"  tabIndex="8"
   onChange="Customer.configureSearchList('searchList')">
-   <option value="active" selected="selected">Active</option>
-   <option value="all">All</option>
+   <option value="customerTrans" selected="selected">Customer Transactions</option>
+   <option value="all">All Transactions</option>
   </select>
   </li>
   <li><label for="outputType">Output Type</label>
   <select id="outputType" name="outputType" tabIndex="7"
    onChange="Customer.configureOutputType('outputType')">
-    <option value="list" selected>Link List</option>
+    <option value="transactionList" selected>Transaction List</option>
     <option value="csv">CSV/Database</option>
     <option value="json">JSON</option>
   </select>

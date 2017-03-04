@@ -21,7 +21,9 @@
 <style>
 #location-address {
     margin-left: 252px;
+    
 }
+
 </style>
 <%
 set db [ns_db gethandle pool1]
@@ -114,12 +116,21 @@ var formattedAddresses = new Array();
 var houseOptionString = "<%= $houseOptionString %>"
 <%= $questions %>
 
+function LogInput(inputId) {
+    Log.Notice('LogInput ' + inputId + '="' + $('#' + inputId).val() + '"');
+}
+
+function LogChbox(inputId) {
+    Log.Notice('LogChbox ' + inputId + '="' + Data.getCheckboxValues(inputId) + '"');
+}
+
 $(document).ready(function() {
     Log.Remove();
     //Log.Show();
     initForm('#form1 #panel');
-    // to show the address associated with the selected location,
+    /* to show the address associated with the selected location,
     // we must modify the default code path and add a container for the address
+     */
     Data.saveSelect('location','showAddress');
     $('#location')
         .attr(
@@ -139,16 +150,8 @@ $(document).ready(function() {
     
     $('#isrb_releasable, #date_of_interview, #notifier')
         .attr('onchange','updateEstimatedReleaseDate("est_release_date")');
-    $('#age')
+    $('#birthdate')
         .attr('onchange','convertBirthdateToAge("age","birthdate")');
-    $('#age')
-        .attr('onclick','convertPlaceholderTextToAge("age","birthdate")');
-    var hiddenBirthdate = $('#birthdate').val();
-    if (hiddenBirthdate) {
-        $('#age').attr('placeholder',hiddenBirthdate);
-        convertPlaceholderTextToAge("age","birthdate");
-    }
-    
 });
 
 </script>
@@ -163,6 +166,6 @@ $(document).ready(function() {
 </form>
 
 </div>
-
+<a href="javascript:location.reload(true)">Refresh Page</a> 
 </body>
 </html>

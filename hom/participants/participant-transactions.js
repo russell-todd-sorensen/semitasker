@@ -21,6 +21,7 @@ var salesRepData;
 var activeSalesReps = [];
 var customerTransactionsData;
 var allTransactionsData;
+var indexCounter = 0;
 
 function loadCsvFile(filename) {
   var urlBase = "./";
@@ -187,10 +188,9 @@ parseCustomerTransactionsCSV = function (csv) {
     });
     
     console.log("done loading customerTransactions csv file");
-    //trimData(customerTransactionsData,activeCustomerBalances);
 };
 
-  
+
 parseAllTransactionsCSV = function (csv) {
     
     allTransactionsData = d3.csvParse(csv, function(d,i) {
@@ -216,7 +216,7 @@ parseAllTransactionsCSV = function (csv) {
                splitAccountName = splitArray[3];
            }
         }
-        
+        var index = indexCounter++;
         var search = d["Account"]  +' '+
                      d["Name"]     +' '+
                      d["Trans #"]  +' '+
@@ -224,6 +224,7 @@ parseAllTransactionsCSV = function (csv) {
                      d["Memo"]     +' '+
                      d["Amount"];
         return {
+            index: index,
             transId: d["Trans #"],
             type: d["Type"],
             enteredDate: d["Entered/Last Modified"],
@@ -562,13 +563,14 @@ var Customer = {
                                   customer.active    + '<br>'
                       );
                       break;
-                  case 'list':
+                  case 'transactionList':
                   default:
+                    index = customer.index;
                     $(outputSelector)
-                      .append('<li class="cust icon-people" onclick="Customer.show('
-                        + customer.id + ')" onfocus="Customer.show('
-                        + customer.id + ')" tabIndex="' + (i+10)
-                        + '">' + customer.name + '</li>\n');
+                      .append('<li class="cust icon-people" onclick="Customer.showTransaction('
+                        + index + ')" onfocus="Customer.showTransaction('
+                        + index + ')" tabIndex="' + (i+10)
+                        + '">' + customer.name + ' (' + index + ') </li>\n');
                     break;
                 }
  
@@ -606,7 +608,7 @@ var Customer = {
             Customer.write(tmpTmpSearchList,outputSelector);
             
             if (tmpTmpSearchList.length == 1) {
-                Customer.show(customer.id);
+                Customer.showTransaction(customer.index);
             }
             
             Data.saveInput(inputId,'Customer.restore');
@@ -618,12 +620,12 @@ var Customer = {
             searchLength = newSearchString.length;
         }
     },
-    find: function (list, id) { // returns index of participant in list, with given id
+    find: function (list, ind) { // returns index of participant in list, with given id
         var customer;
-        id = parseInt(id);
+        ind = parseInt(ind);
         for (var i = 0; i<list.length;i++) {
             customer = list[i];
-            if (customer.id == id) {
+            if (customer.index == ind) {
                 return i;
             }
         }
@@ -695,9 +697,46 @@ var Customer = {
         html += '</table>';
         elem.append(html);
     },
-    showTransaction: function (id) {
-        
-        
+    showTransaction: function (ind) {
+        console.log('id=' + ind);
+        var index = Customer.find(tmpSearchList,ind);
+        console.log('index=' + index);
+        var activeClass = "active";
+        if (index == -1) {
+            $('#profile').html('');
+        } else {
+            var customer = tmpSearchList[index];
+            if (!customer.active) {
+                activeClass = 'notActive';
+            }
+
+            var accountBalanceHtml = "<button id='accountBalanceButton' ";
+            accountBalanceHtml += "onClick='Customer.showTransaction(\"" 
+                                + customer.transId + "\",\"#lastTransaction\",true);'>"
+ 
+                                + "</button>";
+            
+            var html = '\n<div id="panel">';
+            html += '\n<ul>';
+            html += '\n<li><label>Transaction Id</label>' + customer.transId + '</li>';
+            html += '\n<li ><label>Account</label>' + customer.accountNumber 
+            html += ' ' + customer.accountName + '</li>';
+            html += '\n<li><label>Type</label>' + customer.accountType + '</li>';
+            html += '\n<li><label>Amount</label>' + customer.amount + '</li>';
+            html += '\n<li><label>Balance</label>' + customer.balance + '</li>';
+            html += '\n<li><label>Last Transaction</label>' + '<span id="lastTransaction"></span></li>'
+            html += '\n<li><label>Date</label>' + customer.date + '</li>';
+            html += '\n<li><label>Date Entered</label>' + customer.enteredDate + '</li>';
+            html += '\n<li><label>Date Due</label>' + customer.dueDate + '</li>';
+            html += '\n<li><label>Memo</label>' + customer.memo + '</label>';
+            html += '\n<li><label>Name</label>' + customer.name + '<br>';
+            html += customer.nameStreet1 + '<br>' + customer.nameStreet2 + '<br>';
+            html += customer.nameCity + ' ' + customer.nameState + ' ' + customer.nameZip + '</li>';
+            html += '\n</ul></div>'
+            
+            $('#profile').html(html);
+        }
+        return index
         
     },
     show: function (id) {
@@ -765,7 +804,7 @@ var Customer = {
     },
     setup: function setup () {
     
-        searchLists['active'] = {
+        searchLists['customerTrans'] = {
             list: customerTransactionsData,
             name: 'active',
             fields: {}
@@ -797,180 +836,3 @@ var Customer = {
   
 };
 
-var Cust = {
-    configureSearchField:  function (selectId) {
-        fieldToSearch = $('#' + selectId + ' option:selected').val();
-        Data.saveSelect(selectId,'Data.restoreSelect');
-    },
-    configureSearchList: function (selectId) {
-        searchList = $('#' + selectId + ' option:selected').val();
-        tmpSearchList = searchLists[searchList].list;
-        Data.saveSelect(selectId,'Data.restoreSelect');
-    },
-    configureOutputType: function (selectId) {
-        outputType = $('#' + selectId + ' option:selected').val();
-        Data.saveSelect(selectId,'Data.restoreSelect');
-    },
-    restore: function (inputId) {
-        Data.restoreInput(inputId);
-        var searchString = $('#' + inputId).val();
-        searchLength = searchString.length;
-    },
-    setup: function setup () {
-    
-        searchLists['active'] = {
-            list: customerTransactionsData,
-            name: 'active',
-            fields: {}
-        }
-        searchLists['all'] = {
-            list: allTransactionsData,
-            name: 'all',
-            fields: {}
-        }
-        searchLists['tmp'] = {
-            list: tmpSearchList,
-            name: 'tmp',
-            fields: {}
-        }
-        
-        Data.restoreSelect('fieldToSearch');
-        Data.restoreSelect('searchList');
-        Data.restoreSelect('outputType');
-    
-        tmpSearchList = searchLists[searchList].list;
-        searchLists['tmp'].list = tmpSearchList;
-    },
-}
-// Participant Object
-
-var Participant = function () {
- 
-    this.write = function (tmpList, outputSelector) {
-            tmpSearchList = tmpList;
-            $(outputSelector).html('');
-            for (var i = 0;i<tmpSearchList.length;i++) {
-                customer = tmpSearchList[i];
-                // outputType is global variable
-                switch (outputType) {
-  
-                case 'csv':
-                    $(outputSelector).append(',,"' + customer.lastName 
-                        + ', ' + customer.firstName
-                        + '",,' + customer.house + '<br>');
-                    break;
-                case 'list':
-                default:
-                    $(outputSelector)
-                      .append('<li class="cust" onclick="Customer.show('
-                        + customer.id + ')" onfocus="Customer.show('
-                        + customer.id + ')" tabIndex="' + (i+10)
-                        + '">' + customer.name + '</li>\n');
-                    break;
-                }
-            }
-    };
-    this.search = function (inputId, outputSelector) {
-        evt = event;
-        var searchString = $('#' + inputId).val();
-        var searchRegExp = new RegExp(searchString,"i");
- 
-        if (tmpSearchList.length == 0) {
-            tmpSearchList = searchLists[searchList].list;   
-        }
-        if (evt.key == "Backspace") {
-            tmpSearchList = searchLists[searchList].list;
-        }
-        if (searchString.length <= searchLength) {
-            tmpSearchList = searchLists[searchList].list;
-        }
-        
-        searchLength = searchString.length;
-        var match = [];
-        var tmpTmpSearchList = [];
-        for (var i = 0;i<tmpSearchList.length;i++) {
-            customer = tmpSearchList[i];
-            match = customer[fieldToSearch].match(searchRegExp);
-            if (match) {
-                tmpTmpSearchList.push(customer);
-            }
-        }
-        if (tmpTmpSearchList.length > 0) {
-            
-            Customer.write(tmpTmpSearchList,outputSelector);
-            
-            if (tmpTmpSearchList.length == 1) {
-                Customer.show(customer.id);
-            }
-            
-            Data.saveInput(inputId,'Customer.restore');
-        } else {
-            // restore previous search term
-            if (evt.key == "Backspace") return;
-            var newSearchString = searchString.substring(0,searchString.length-1)
-            $('#' + inputId).val(newSearchString);
-            searchLength = newSearchString.length;
-        }
-    };
-    this.find = function (list, id) { // returns index of participant in list, with given id
-        var customer;
-        id = parseInt(id);
-        for (var i = 0; i<list.length;i++) {
-            customer = list[i];
-            if (customer.id == id) {
-                return i;
-            }
-        }
-        return -1;
-    };
-    this.show = function (id) {
-        var index = Customer.find(tmpSearchList,id);
-        var activeClass = "active";
-        if (index == -1) {
-            $('#profile').html('');
-        } else {
-            var customer = tmpSearchList[index];
-            if (!customer.active) {
-                activeClass = 'notActive';
-            }
-            var html = '\n<div id="panel">';
-            html += '\n<ul>';
-            html += '\n<li ><label>Participant</label><span class="';
-            html += activeClass + '">' + customer.firstName + ' ' 
-            html += customer.lastName + '</span></li>';
-            html += '\n<li><label>House</label>' + customer.house + ' House</li>';
-            if (customer.voucher.length) {
-                html +=  '\n<li><label>Voucher</label>' + customer.voucher + '</li>';
-            }
-            html += '\n<li><label>DOC</label>' + customer.doc + '</li>';
-            html += '\n<li><label>CCO</label>' + customer.cco + '</li>';
-            html += '\n<li><label>SOTP</label>' 
-            html +=  customer.sotp + '</label>';
-            html += '\n<li><label>Active</label>';
-            html += (customer.active ? 'Yes' : 'No') + '</li>';;
-            html += '\n<li><label>Birthday</label>' + customer.dob + '</li>';
-            html += '\n<li><label>Arrived</label>' + customer.startDate + '</li>';
-            if (!customer.active) {
-                html += '\n<li><label>End Date</label>' + customer.endDate + '</li>';
-                html += '\n<li><label>Reason Left</label>' + customer.ctype + '</li>';
-            } else {
-                html += '\<li><label>Program Role</label>' + customer.ctype + '</li>';
-            }
-            html += '\n<li><label>Address</label>' + '<pre>' + customer.address + '</pre></li>';
-    
-            html += '\n</ul></div>'
-            
-            $('#profile').html(html);
-        }
-        return index;
-    };
-
-    this.merge = function () {
-        
-        
-        
-    };
-
-    return this;     
-  
-};
