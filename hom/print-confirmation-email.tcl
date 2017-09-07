@@ -123,23 +123,6 @@ set nameList [split $requiredFieldsValue(applicant_name) ,]
 set firstName [string trim [lindex $nameList 1]]
 set lastName [string trim [lindex $nameList 0]]
 
-set email_message "
-To: $requiredFieldsValue(counselor) <$requiredFieldsValue(counselor_email)>
-Subject: Accepting $requiredFieldsValue(applicant_name) $requiredFieldsValue(doc)
-
-
-$requiredFieldsValue(counselor),
-
-Thank you for the applicant and for your time.
-
-We have accepted Mr. $firstName $lastName into our program.  His release address is as follows:
-
-$formatted_address
-
-Point of contact James Valela 206-856-0013
-
-"
-
 switch -exact -nocase -- $requiredFieldsValue(travel) {
     "HOM Pickup" {
         set pickup_text "We will be picking up Mr. $lastName at $requiredFieldsValue(applicant_location) on his day of release."
@@ -167,12 +150,35 @@ switch -exact -nocase -- $requiredFieldsValue(travel) {
 switch -exact -nocase -- $requiredFieldsValue(pay_method) {
     "Voucher Pending" {
         set pay_method_reminder "when his DOC Voucher is approved and "
+        set copy_of_voucher_worksheet " Can we please get a copy of Mr. $lastName's ERD Housing Voucher Program Worksheet."
+    }
+    "Voucher" {
+        set pay_method_reminder ""
+        set copy_of_voucher_worksheet " Can we please get a copy of Mr. $lastName's ERD Housing Voucher Program Worksheet."
     }
     default {
         set pay_method_reminder ""
+        set copy_of_voucher_worksheet ""
     }
 }
 
+
+set email_message "
+To: $requiredFieldsValue(counselor) <$requiredFieldsValue(counselor_email)>
+Subject: Accepting $requiredFieldsValue(applicant_name) $requiredFieldsValue(doc)
+
+
+$requiredFieldsValue(counselor),
+
+Thank you for the applicant and for your time.$copy_of_voucher_worksheet
+
+We have accepted Mr. $firstName $lastName into our program.  His release address is as follows:
+
+$formatted_address
+
+Point of contact James Valela 206-651-7840
+
+"
 
 append email_message $pickup_text
 

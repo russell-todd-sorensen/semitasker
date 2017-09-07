@@ -1,0 +1,56 @@
+/* CSS Document */
+
+* {
+    border: solid black 2px;
+    padding: 3px;
+}
+
+*:hover {
+    background-color: #eea;
+}
+
+* * {
+    border: solid blue 2px;
+    padding: 3px;
+}
+
+* *:hover {
+    background-color: #eaa;
+}
+
+* * * {
+    border: dashed red 2px;
+    padding: 3px;
+}
+
+* * *:hover {
+    background-color: #ccc;
+}
+
+* * * * {
+    border: solid green 2px;
+    padding: 3px;
+    
+}
+
+* * * *:hover {
+    background-color: tan;
+}
+
+* * * * * {
+    border: dashed gold 2px;
+    padding: 3px;
+}
+
+* * * * *:hover {
+    background-color: #aaa;
+}
+
+* * * * * * {
+    border: solid brown 2px;
+    padding: 3px;
+}
+
+* * * * * *:hover {
+    background-color: #999;
+}

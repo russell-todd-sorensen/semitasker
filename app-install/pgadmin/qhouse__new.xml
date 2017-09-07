@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<report>
+
+  <header>
+    <generated>3/13/2017 1:20:13 PM</generated>
+    <server>PostgreSQL 9.5 (localhost:5432)</server>
+    <database>openacs</database>
+    <schema>public</schema>
+    <title>Function properties report - qhouse__new</title>
+  </header>
+
+  <section id="s1" number="1" name="Function properties">
+    <table>
+      <columns>
+        <column id="c1" number="1" name="Property" />
+        <column id="c2" number="2" name="Value" />
+      </columns>
+      <rows>
+        <row id="r1" number="1" c1="Name" c2="qhouse__new" />
+        <row id="r2" number="2" c1="OID" c2="237255" />
+        <row id="r3" number="3" c1="Owner" c2="postgres" />
+        <row id="r4" number="4" c1="Argument count" c2="2" />
+        <row id="r5" number="5" c1="Arguments" c2="character varying, integer" />
+        <row id="r6" number="6" c1="Signature arguments" c2="character varying, integer" />
+        <row id="r7" number="7" c1="Return type" c2="integer" />
+        <row id="r8" number="8" c1="Language" c2="plpgsql" />
+        <row id="r9" number="9" c1="Returns a set?" c2="No" />
+        <row id="r10" number="10" c1="Source" c2="declare ..." />
+        <row id="r11" number="11" c1="Estimated cost" c2="100" />
+        <row id="r12" number="12" c1="Volatility" c2="VOLATILE" />
+        <row id="r13" number="13" c1="Leak proof?" c2="No" />
+        <row id="r14" number="14" c1="Security of definer?" c2="No" />
+        <row id="r15" number="15" c1="Strict?" c2="No" />
+        <row id="r16" number="16" c1="Window?" c2="No" />
+        <row id="r17" number="17" c1="ACL" c2="" />
+        <row id="r18" number="18" c1="System function?" c2="No" />
+        <row id="r19" number="19" c1="Comment" c2="" />
+      </rows>
+    </table>
+    <sql>-- Function: public.qhouse__new(character varying, integer)
+
+-- DROP FUNCTION public.qhouse__new(character varying, integer);
+
+CREATE OR REPLACE FUNCTION public.qhouse__new(
+    character varying,
+    integer)
+  RETURNS integer AS
+$BODY$ 
+declare 
+  p_house_name alias for $1;
+  p_address_type_id alias for $2;
+  v_house_id hom_houses.house_id%TYPE;
+begin
+  v_house_id := qhouse__new (null::integer, null::integer,
+    p_address_type_id, p_house_name, 
+    null::varchar, null::varchar, null::varchar, null::varchar, &#39;WA&#39;::varchar,
+    &#39;9&#39;::varchar, &#39;US&#39;::varchar, null::varchar, null::varchar,
+    null::varchar, null::varchar);
+    
+  return v_house_id;
+  
+end;$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100;
+ALTER FUNCTION public.qhouse__new(character varying, integer)
+  OWNER TO postgres;
+</sql>
+  </section>
+
+</report>

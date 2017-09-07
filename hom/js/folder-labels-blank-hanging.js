@@ -76,10 +76,10 @@ function generateLabel (index,svgId,data) {
 	 	  var labelId = match[0];
 	 	  $('#' + formIds.editIndex).val(match[2]);
 	
-	 	  getLabelData(labelId,formIds.docid);	
+	 	  getLabelData(labelId,formIds.docid);
 	 	  getLabelData(labelId,formIds.pname);
 	 	  getLabelData(labelId,formIds.house);
-	 	  getFieldSize(i,formIds.docidSize);	
+	 	  getFieldSize(i,formIds.docidSize);
 	 	  getFieldSize(i,formIds.pnameSize);
 	 	  getFieldSize(i,formIds.houseSize);
 	 	  
@@ -120,7 +120,7 @@ function generateLabel (index,svgId,data) {
 	  .attr('x',getItemX('docid',index))
 	  .attr('y',getItemY('docid',index))
 	  .attr('style','font-size:' + data.docidSize + 'px;')
-	  .text(data.docid); 
+	  .text(data.docid);
 }
 
 // Generate all labels from given starting point

@@ -1,0 +1,97 @@
+@charset "utf-8";
+
+body {
+    font-family: DecimaMono, Consolas, Monaco, monospace;
+    /*font-family: "ff-tisa-web-pro",Georgia,Times,"Times New Roman",serif; */
+}
+
+#outer-container {
+    width: 1250px;
+    background-color: #ddd;
+    padding: 10px;
+}
+
+#accounts a:link,
+#accounts a:visited {
+    font-weight: bold;
+    display: inline-block;
+    text-decoration: none;
+    color: #444;
+}
+
+#accounts a:hover, 
+#accounts a:active {
+    text-decoration: underline;
+    color: #a44;
+    background-color: ‎#960018;
+}
+
+#accounts th, 
+#accounts, 
+#accounts td {
+    padding: 2px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+#accounts nobr {
+    border: none;
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+    font-weight: bold;
+}
+
+#accounts {
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+#accounts th {
+    font-weight: bold;
+    text-align: center;
+    background-color: tan;
+    font-size: larger;
+}
+
+#accounts tr:nth-child(odd) {
+    background-color: #eee;
+}
+
+#accounts .green {
+    color: forestgreen;
+}
+
+#accounts .red {
+    color: #c00;
+}
+
+#accounts .yellow {
+    color: #33f;
+}
+
+#accounts .black {
+    color: #333;
+}
+
+#accounts .gap {
+    text-align: center;
+    font-weight: bold;
+}
+
+#accounts .date {
+    text-align: center;
+    font-weight: bold;
+}
+#accounts .acct_no {
+    text-align: right;
+}
+
+
+#received_on,
+#actual_due,
+#receive_bill_button {
+    font-size: 25px;
+}

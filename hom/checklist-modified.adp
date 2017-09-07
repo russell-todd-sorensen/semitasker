@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
- <title>Participant Interview Checklist</title>
+ <title>House of Mercy: Participant Interview Checklist</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="/css/main.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">

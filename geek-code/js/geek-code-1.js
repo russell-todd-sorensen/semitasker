@@ -358,8 +358,15 @@ function unescapeHTML(html) {
     .replace(regNBSP, " ");
 }
 
-function removePNodes(html) {
+function removePNodesOLD(html) {
   var regPNodes = /(<(?:p|\/p|div|\/div|br|span|\/span)(?:\/>|>))+/gi;
+  
+  return html
+    .replace(regPNodes, "\n");
+}
+
+function removePNodes(html) {
+  var regPNodes = /(<(?:p|\/p|div|\/div|br|span|\/span)(?:\/>|>))+|(<(?:p|\/p|div|\/div|br|span|\/span)( )([^>])*(?:\/>|>))+/gi;
   
   return html
     .replace(regPNodes, "\n");

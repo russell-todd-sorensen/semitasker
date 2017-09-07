@@ -117,7 +117,7 @@ var initForm = function (selector) {
                 + "'>"
                 + question.name
                 + "</label>"
-                + "<textarea "
+                + "<textarea data-min-rows='3'"
                 + " name='"
                 + id
                 + "' id='"

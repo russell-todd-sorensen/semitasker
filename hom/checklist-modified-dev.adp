@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
- <title>Participant Interview Checklist</title>
+ <title>House of Mercy: Participant Interview Checklist</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="/css/main.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
@@ -21,8 +21,22 @@
 <style>
 #location-address {
     margin-left: 252px;
-    
 }
+textarea{  
+  display:block;
+  box-sizing: padding-box;
+  overflow:hidden;
+
+  padding:10px;
+  
+  width:100px;
+  font-size:14px;
+  margin:50px auto;
+  border-radius:6px;
+  box-shadow:2px 2px 8px rgba(0,0,0,.3);
+  border:0;
+}
+
 
 </style>
 <%
@@ -125,8 +139,8 @@ function LogChbox(inputId) {
 }
 
 $(document).ready(function() {
-    Log.Remove();
-    //Log.Show();
+    //Log.Remove();
+    Log.Show();
     initForm('#form1 #panel');
     /* to show the address associated with the selected location,
     // we must modify the default code path and add a container for the address
@@ -152,6 +166,26 @@ $(document).ready(function() {
         .attr('onchange','updateEstimatedReleaseDate("est_release_date")');
     $('#birthdate')
         .attr('onchange','convertBirthdateToAge("age","birthdate")');
+        
+    // add autoexpand class to textareas
+    $('textarea').addClass('autoexpand');
+    
+    // Applied globally on all textareas with the "autoExpand" class
+    $(document)
+        .one('focus.autoExpand', 'textarea.autoExpand', function(){
+            Log.Notice('running autoexpand one');
+            var savedValue = this.value;
+            this.value = '';
+            this.baseScrollHeight = this.scrollHeight;
+            this.value = savedValue;
+        })
+        .on('input.autoExpand', 'textarea.autoExpand', function(){
+            Log.Notice('running autoexpand on');
+            var minRows = this.getAttribute('data-min-rows')|0, rows;
+            this.rows = minRows;
+            rows = Math.ceil((this.scrollHeight - this.baseScrollHeight) / 17);
+            this.rows = minRows + rows;
+        });
 });
 
 </script>
