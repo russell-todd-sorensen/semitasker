@@ -1,2 +1,3 @@
 *.IIF
 *.csv
+./signatures/*
