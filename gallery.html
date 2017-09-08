@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+ <title>Geek Code 1</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="http://semitasker.com/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://semitasker.com/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<script src="http://semitasker.com/js/jquery-1.7.1.js"></script>
+<script src="http://semitasker.com/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="http://semitasker.com/js/d3.v3.js"></script>
+<script src="http://semitasker.com/js/log-2.js"></script>
+<script src="http://semitasker.com/js/example-library.js"></script>
+
+
+</head>
+<body>
+
+<style>
+#gallery, #viewer {
+display: inline-block;
+vertical-align: top;
+}
+#gallery {
+width: 440px;
+background-color: white;
+padding: 20px;
+}
+#gallery > div {
+width: 100px;
+height: 100px;
+background-color: white;
+border: 1px solid silver;
+text-align: center;
+vertical-align: top;
+margin-bottom: 10px;
+margin-right: 5px;
+background-image: url(/images/swan-1.jpg);
+background-size: 120px 100px;
+cursor: pointer;
+}
+#gallery a {
+display: inline-block;
+height: 100px;
+width: 100px;
+}
+#viewer {
+margin-top: 15px;
+height: 550px;
+width: 875px;
+}
+
+</style>
+<div id="main">
+ <div id="gallery"></div>
+ <div id="viewer"></div>
+</div>
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" x="0" y="0" width="1000" height="1200" viewBox="0 0 1000 1200">
+</svg>
+<script>
+var imageDirectory = "/images/desktop-background-images/";
+var imageNameTemplate = "hsb-";
+var imageType = "png";
+var imageIds = [6,7,8,9];
+function loadImages(thumbDivId,viewerDivId) {
+   var gallery,div,image;
+   gallery = d3.select('#' + thumbDivId);
+   data = [];
+   for (var i in imageIds) {
+   	  data[i] = [];
+      data[i].image = imageDirectory + imageNameTemplate + imageIds[i] + '.' + imageType;
+      data[i].viewerId = viewerDivId;
+   }
+   gallery.selectAll('div')
+      .data(data)
+      .enter()
+      .append('div')
+      .style('background-image',function(d,i) {
+          return 'url(' + d.image + ')';
+       })
+      .on('click', displayImage);
+}
+function displayImage(d,i) {
+  Log.Notice("image=" + d.image);
+  d3.select('#' + d.viewerId)
+    .html('')
+    .style('background-image', 'url(' + d.image + ')')
+    .attr('target', 'myViewer')
+    .attr('href', d.image);
+}
+loadImages('gallery','viewer');
+
+</script>
+</div>
+</body>
+</html>
