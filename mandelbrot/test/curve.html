@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+
+<title>Gradient Testing Underway</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<style>
+#controls input[type="number"] {
+    width: 50px;
+  
+}
+
+</style>
+
+<script src="/js/d3.v3.js" type="application/javascript" language="javascript"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+
+<script src="/js/mouse-events.js"></script>
+<script src="/js/example-library.js"></script>
+
+<script>
+
+function logStartMove(evt) {
+	Log.Notice('logStartMove was called evt.offsetX='
+		+ evt.offsetX 
+		+ ' evt.offsetY=' 
+		+ evt.offsetY); 
+}
+
+function captureMouseUp(evt) {
+	obj = evt.data;
+	$('#' + obj.boxId)
+		.bind('mouseup',obj,endMove);
+}
+
+function unbindMouseUp(evt) {
+	obj = evt.data;
+	$('#' + obj.boxId)
+		.unbind('mouseup');
+}
+
+function logDragMove(evt) {
+	Log.Notice('logDragMove was called evt.offsetX='
+		+ evt.offsetX
+		+ ' evt.offsetY='
+		+ evt.offsetY);
+}
+
+function logEndMove(evt) {
+	Log.Notice('logEndMove was called evt.offsetX='
+		+ evt.offsetX
+		+ ' evt.offsetY='
+		+ evt.offsetY) ;
+}
+
+
+var setControl = function (pathId, controlId, controlIndex, newX, newY) {
+	var path = $('#' + pathId).attr('d');
+	//parse path into actions and points
+	
+	Log.Notice('pathD =' + path);
+}
+
+
+var updateCurve = function (pathId, startId, control1Id, control2Id,
+  endId,control1LineId,control2LineId) 
+{
+  var x1 = parseFloat($('#x1').val());
+  var y1 = parseFloat($('#y1').val());
+  var x2 = parseFloat($('#x2').val());
+  var y2 = parseFloat($('#y2').val());
+  var c1x = parseFloat($('#c1x').val());
+  var c1y = parseFloat($('#c1y').val());
+  var c2x = parseFloat($('#c2x').val());
+  var c2y = parseFloat($('#c2y').val());
+  
+  var d = 'M ' + x1 + ' ' + y1
+          + ' C ' + c1x + ' ' + c1y
+          + ' ' + c2x + ' ' + c2y 
+          + ' ' + x2 + ' ' + y2;
+          
+  $('#' + pathId).attr('d',d);
+  $('#' + startId).attr('cx',x1).attr('cy',y1);
+  $('#' + control1Id).attr('cx',c1x).attr('cy',c1y);
+  $('#' + control2Id).attr('cx',c2x).attr('cy',c2y);
+  $('#' + endId).attr('cx',x2).attr('cy',y2);
+  $('#' + control1LineId).attr('x1',x1).attr('y1',y1).attr('x2',c1x).attr('y2',c1y);
+  $('#' + control2LineId).attr('x1',c2x).attr('y1',c2y).attr('x2',x2).attr('y2',y2);
+  
+  traceCurve(pathId);
+  
+}
+
+var svgNS = "http://www.w3.org/2000/svg";
+var svgElement;
+var traceGroupId;
+var traceGroup;
+
+
+var traceCurve = function(pathId) {
+	var d3curve = d3.select('#' + pathId);
+	var curve = d3curve[0][0];
+	var d3traceGroup = d3.select('#' + traceGroupId);
+	var numPoints = 20;
+	var point;
+	var circleElement;
+	var totalLength = curve.getTotalLength();
+	var doc = document;
+	
+	d3traceGroup.html('');
+	for (var i = 0; i<=numPoints; i++) 
+	{
+		point = curve.getPointAtLength(totalLength/numPoints * i);
+		d3traceGroup.append('circle')
+		  .attr('cx',point.x)
+		  .attr('cy',point.y)
+		  .attr('class','midpoints')
+		  .attr('r',5)
+		;
+		/*
+		circleElement = svgElement.createElementNS(svgNS,'circle');
+		circleElement.setAttributeNS(null,'cx',point.x);
+		circleElement.setAttributeNS(null,'cy',point.y);
+		circleElement.setAttributeNS(null,'class','midpoints');
+		circleElement.setAttributeNS(null,'r',5);
+	  traceGroup.appendChild(circleElement);*/
+	}
+	
+
+}
+
+$(document).ready(function() {
+
+	Log.Notice("jQuery Ready!");
+	//Log.Hide();
+	Log.Remove();
+	
+	
+	traceGroupId = 	'trace';
+	svgElement = document.getElementById('svg1');
+  traceGroup = svgElement.getElementById(traceGroupId);
+
+});
+
+
+
+</script>
+</head>
+<body>
+<form id="controls" onsubmit="return false;" onchange="updateCurve('path1','circle1','circle2','circle3','circle4','control1','control2')">
+Start: 
+X:<input id="x1" name="x1" value="0" type="number" step="1" />
+Y:<input id="y1" name="y1" value="0" type="number" step="1" />
+Control1:
+X:<input id="c1x" name="c1x" value="700" type="number" step="1" />
+Y:<input id="c1y" name="c1y" value="0" type="number" step="1" />
+Control2:
+X:<input id="c2x" name="c2x" value="0" type="number" step="1" />
+Y:<input id="c2y" name="c2y" value="250" type="number" step="1" />
+End:
+X:<input id="x2" name="x2" value="700" type="number" step="1" />
+Y:<input id="y2" name="y2" value="250" type="number" step="1" />
+<button form="controls" onclick="updateCurve('path1','circle1','circle2','circle3','circle4','control1','control2')" />Update</button>
+</form>
+<svg
+   id="svg1"
+	 height="1000" 
+	 width="90%"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+	 >
+<defs>
+<style>
+svg {
+	background-color: white;
+}
+
+#c1, 
+#rect1 {
+	fill: url(#grad1);
+	stroke: silver;
+	stroke-width: 4;
+}
+
+#rect-brt {
+	fill: url(#grad-brt-vert);
+	stroke: silver;
+	stroke-width: 4;
+}
+
+#rect-sat {
+	fill: url(#grad-sat-vert);
+	stroke: silver;
+	stroke-width: 4;
+}
+
+
+#b1 {
+	fill: #abc;
+}
+
+.endpoints {
+  fill: none;
+  stroke: black;
+  stroke-width: 1;
+  
+}
+
+.midpoints {
+  fill:none;
+  stroke: black;
+  stroke-width: 1;
+  
+}
+
+.lines {
+  stroke: grey;
+  stroke-width: 1;
+  
+}
+
+</style>
+
+<linearGradient id="grad1">
+ <stop offset="0%" stop-color="#ffcc00" stop-opacity="1.0" />
+ <stop offset="50%" stop-color="#ff2200" stop-opacity="1.0" />
+ <stop offset="100%" stop-color="#0099cc" stop-opacity="1.0"  />
+</linearGradient>
+<linearGradient id="grad3" xlink:href="#grad1" x1="0%" y1="0%" x2="100%" y2="100%" />
+<use xlink:href="#grad1" id="grad2" x1="0%" y1="0%" x2="100%" y2="100%" />
+<linearGradient id="grad-brt-vert" x1="0%" y1="0%" x2="0%" y2="100%" >
+ <stop offset="0%" stop-color="white" stop-opacity="1.0" />
+ <stop offset="100%" stop-color="white" stop-opacity="0.0"  />
+</linearGradient>
+<linearGradient id="grad-sat-vert" x1="0%" y1="0%" x2="0%" y2="100%" >
+ <stop offset="0%" stop-color="black" stop-opacity="0.0" />
+ <stop offset="25%" stop-color="black" stop-opacity="0.6" />
+ <stop offset="50%" stop-color="black" stop-opacity="0.2" />
+ <stop offset="75%" stop-color="black" stop-opacity="0.4" />
+ <stop offset="100%" stop-color="black" stop-opacity="1.0"  />
+</linearGradient>
+
+</defs>
+<g id="g1" transform="translate(100, 100)" >
+	<rect x="-50" y="-50" height="850" width="800" id="b1" />
+	
+	<rect x="0" y="0" height="250" width="700" id="rect1" />
+	<rect x="0" y="0" height="250" width="700" id="rect-brt" />
+	
+	<rect x="0" y="250" height="250" width="700" id="rect1" />
+	<rect x="0" y="250" height="250" width="700" id="rect-brt" />
+	<rect x="0" y="250" height="250" width="700" id="rect-sat" />
+	
+	<rect x="0" y="500" height="250" width="700" id="rect1" />
+	<rect x="0" y="500" height="250" width="700" id="rect-sat" />
+
+  
+  <path d="M 0 0 C 700 0 0 250 700 250" fill="none" stroke="orange" id="path1" /> 
+  <circle cx="0" cy="0" r="5" class="endpoints" id="circle1" /> 
+  <circle cx="700" cy="0" r="5" class="endpoints" id="circle2" />
+  <line x1="0" y1="0" x2="700" y2="0" class="lines" id="control1" />
+  
+  
+  <path d="M 0 0 C 700 0 0 250 700 250" fill="none" stroke="orange" id="path1" transform="translate(0,250)"/> 
+  <circle cx="0" cy="250" r="5" class="endpoints" id="circle3" />
+  <circle cx="700" cy="250" r="5" class="endpoints" id="circle4" />
+  
+  <line x1="0" y1="250" x2="700" y2="250" class="lines" id="control2" />
+
+</g>
+
+<g id="trace" transform="translate(100, 100)"></g>
+<g id="trace2" transform="translate(100, 350)"></g>
+</svg>
+
+</body>
+</html>
