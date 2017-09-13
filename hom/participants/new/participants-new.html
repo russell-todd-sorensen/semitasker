@@ -251,12 +251,12 @@ var toggleExtraInfo = function(id,ref) {
 $(document).ready(function() {
 
     console.log("Starting to get data");
-    loadXHRFile("./data/all-customer-data.IIF",getCustomerIIF);
+    loadXHRFile("../data/all-customer-data.IIF",getCustomerIIF);
     //loadXHRFile("./data/other-name-list.IIF",getOtherNamesIIF);
-    loadXHRFile("./data/customer-data-with-balances.csv",getCustomerWithBalancesCSV);
+    loadXHRFile("../data/customer-data-with-balances.csv",getCustomerWithBalancesCSV);
     //loadXHRFile("./data/sales-reps.IIF",getSalesRepsIIF);
-    loadXHRFile("./data/customer-transactions.csv",getCustomerTransactionsCSV);
-    loadXHRFile("./data/tblExtContInfo.csv",getExternalContactsCSV);
+    loadXHRFile("../data/customer-transactions.csv",getCustomerTransactionsCSV);
+    loadXHRFile("../data/tblExtContInfo.csv",getExternalContactsCSV);
     Log.Remove();
     
     searchList = 'all';
