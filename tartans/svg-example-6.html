@@ -1,0 +1,139 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Generate Tartans</title>
+<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css" >
+<script src="js/tartan-6.js"></script>
+<script src="js/tartan-data.js"></script>
+<style>
+#svg1 {
+    position: absolute;
+    top: 175px;
+    left: 10px;
+    border: solid black 1px;
+    zoom: 1.0;
+    overflow: visible;
+}
+
+#tartans fieldset {
+    width: 400px;
+    background-color: #aaa;
+    color: #033;
+    border: 2px solid #222;
+}
+
+#tartans legend {
+    padding: 2px 5px;
+    font-size: larger;
+    font-weight: bolder;
+    color: #033;
+    background-color: #bbb;
+    border: 2px solid #222;
+}
+
+#tartans ul {
+    list-style: none;
+    margin-left: -25px;
+}
+
+#tartans select#tartan {
+    display: inline-block;
+}
+
+#tartans label {
+    display: inline-block;
+    width: 100px;
+}
+
+#tartans label::after {
+    content: ':';
+}
+
+#tartans label.inline {
+    display: inline;
+}
+
+#tartans input#submit {
+    float: right;
+    border: 1px solid #222;
+}
+
+#tartans input#submit:hover {
+    border: 1px solid red;
+}
+
+</style>
+<script type="text/javascript" src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" 
+ src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="http://ic00408/js/log-2.js"></script>
+<script src="http://ic00408/js/d3.v3.js"></script>
+<script>
+
+$(document).ready(function() {
+
+  //Tartan.init(dataset10, datasetExp, dsStyleArray, 450);
+	var body = d3.select(document.body);
+	var select = body.select('form#tartans select#tartan');
+	select.selectAll('#tartan option')
+		.data(dataset)
+		.enter()
+		.append("option")
+			.attr("value", function(d,i) {
+				return i;
+			})
+			.text(function(d,i) {
+				return dataset[i][0];
+			});
+
+});
+
+ Log.Hide();
+</script>
+
+</head>
+<body>
+
+
+<form id="tartans">
+<fieldset>
+ <legend>Tartan Options</legend>
+ <ul>
+  <li><label for="tartan">Tartan</label>
+  <select name="tartan" id="tartan" onChange="//doTartan();">
+ 
+  </select>
+  </li>
+  <li>
+  <label for="threads">Threads</label> <input id="threads" name="threads" 
+  type="number" pattern="[0-9]{1,4}" size="4" value="100" onChange="//doTartan();"> 
+  </li>
+  <li>
+  <label>For Export</label> 
+   <input id="forExportYes" class="forExport" name="forExport" type="radio" value="yes">
+    <label class="inline" for="forExportYes">Yes</label>
+   <input id="forExportNo" name="forExport" class="forExport" type="radio" value="no">
+    <label class="inline" for="forExportNo">No</label>
+  </li>
+  <li>
+  <label>Reverse</label> 
+   <input id="reverseYes" class="reverse" name="reverse" type="radio" value="yes">
+    <label class="inline" for="reverseYes">Yes</label>
+   <input id="reverseNo" name="reverse" class="reverse" type="radio" value="no">
+    <label class="inline" for="reverseNo">No</label>
+  </li>
+
+  <li>
+   <input type="button" value="Generate Tartan" id="submit" onClick="doTartan();">
+  </li>
+ </ul>
+ </fieldset>
+</form>
+<input type="button" value="Generate SVG Document" onClick="writeSvgImage();">
+<div id="svg-container">
+<svg id="svg1"><!--comment--></svg>
+</div>
+</body>
+</html>

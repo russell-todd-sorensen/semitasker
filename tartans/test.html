@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+
+<script>
+
+var myObject = {
+	a: 5,
+	b: "hello",
+	getOptions: function (tartanOptions) {
+		// nothing here yet
+		for (option in tartanOptions) {
+			this[option] = tartanOptions[option];
+		}
+	},
+	init: function (tartanOptions) {
+		
+		this.getOptions(tartanOptions);
+	}
+}
+
+</script>
+</head>
+
+<body>
+
+</body>
+</html>
