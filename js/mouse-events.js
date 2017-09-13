@@ -44,8 +44,8 @@ function startMove(evt) {
     .bind('mousemove',obj,dragMove)
     .bind('mouseup',obj,endMove);
 
-  for (var i = 0; i< evt.data.callStartMove.length; i++) {
-    evt.data.callStartMove[i](evt);
+  for (var i = 0; i< obj.callStartMove.length; i++) {
+    obj.callStartMove[i](evt);
   }
 }
 
@@ -55,19 +55,25 @@ function dragMove(evt) {
   obj.dragCurrent.x = evt.clientX;
   obj.dragCurrent.y = evt.clientY; 
  
-  for (var i = 0; i< evt.data.callDragMove.length; i++) {
-    evt.data.callDragMove[i](evt);
+  for (var i = 0; i< obj.callDragMove.length; i++) {
+    obj.callDragMove[i](evt);
   }
 }
 
 function endMove(evt) {
   
-  $(evt.data.mouseBox)
+  var obj = evt.data;
+  obj.dragEnd.x = evt.clientX;
+  obj.dragEnd.y = evt.clientY;
+  
+  $(obj.mouseBox)
     .unbind('mousemove')
     .unbind('mouseup');
+  
   dragMove(evt);
-  for (var i = 0; i< evt.data.callEndMove.length; i++) {
-    evt.data.callEndMove[i](evt);
+  
+  for (var i = 0; i< obj.callEndMove.length; i++) {
+    obj.callEndMove[i](evt);
   }
 }
 

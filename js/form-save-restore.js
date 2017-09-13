@@ -622,3 +622,59 @@ Data.changeText = function(inputId) {
   setTimeout(call, 10);
   return false;
 }
+
+Data.toggleFormInputType = function (evt) {
+	var id = '#' + $(this).attr('for');
+	Log.Notice("toggleFormInputType for id=" + id);
+	var parent = $(this).parent();
+	var input = d3.select(id);
+	var type = $(id).attr('type');
+	var numberStyle = "width: 75px;";
+	var rangeStyle = "width: 150px;";
+	if (evt.data) {
+	  numberStyle = evt.data.numberStyle;
+	  rangeStyle = evt.data.rangeStyle;
+	}
+	switch (type) {
+	case 'number':
+		var maximum = input.attr('max');
+		var minimum = input.attr('min');
+		
+	  input
+		  .attr('type','range');
+
+		d3.select(id + '-min')
+		     .html(minimum);
+		 
+		d3.select(id + '-max')
+		     .html(maximum);
+		 
+		d3.select(id)
+		 .transition()
+		 .ease('linear')
+		 .delay(0)
+		 .duration(1000)
+		 .attr('style',rangeStyle);
+		 
+		break;
+	case 'range':
+				
+	  input
+		  .attr('type',"number");
+	
+		d3.select(id + '-min')
+			.html('');
+			
+		d3.select(id + '-max')
+			.html('');
+
+		d3.select(id)
+		 .transition()
+		 .ease('linear')
+		 .delay(0)
+		 .duration(1000)
+		 .attr('style', numberStyle);
+		 
+		break;
+	}
+};
