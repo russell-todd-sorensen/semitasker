@@ -5,12 +5,12 @@
 <meta base="http://leaders.hom.church/" />
 <meta name="viewport" content="width=device-width, initial-scale=0.775 maximum-scale=1.0">
 <title>House of Mercy: Participants</title>
-<link rel="stylesheet" type="text/css" media="all" href="/css/reset.css">
+<link rel="stylesheet" type="text/css" media="all" href="./css/reset.css">
 
-<link rel="stylesheet" media="all" href="/css/log.css">
-<link rel="stylesheet" media="all" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
-<link rel="stylesheet" media="all" href="/css/logo-maker-1.css">
-<link rel="stylesheet" media="all" href="/css/green-form.css" >
+<link rel="stylesheet" media="all" href="./css/log.css">
+<link rel="stylesheet" media="all" href="./js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" media="all" href="./css/logo-maker-1.css">
+<link rel="stylesheet" media="all" href="./css/green-form.css" >
 <link rel="stylesheet" media="all" href="https://file.myfontastic.com/xXW5U9UCxPBxcUuaZGbBJP/icons.css">
 <style type="text/css">
 
@@ -218,15 +218,15 @@ body, html {
 }
 </style>
 
-<script type="text/javascript" src="/js/d3.v4.js"></script>
-<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
-<script type="text/javascript" src="/js/log-2.js"></script>
-<script type="text/javascript" src="/js/data.js"></script>
-<script type="text/javascript" src="/js/form-save-restore.js"></script>
-<script type="text/javascript" src="/js/binary-hex-conversions.js"></script>
-<script type="text/javascript" src="/js/example-library.js"></script>
-<script type="text/javascript" src="/js/svg-transform.js"></script>
+<script type="text/javascript" src="./js/d3.v4.js"></script>
+<script type="text/javascript" src="./js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="./js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="./js/log-2.js"></script>
+<script type="text/javascript" src="./js/data.js"></script>
+<script type="text/javascript" src="./js/form-save-restore.js"></script>
+<script type="text/javascript" src="./js/binary-hex-conversions.js"></script>
+<script type="text/javascript" src="./js/example-library.js"></script>
+<script type="text/javascript" src="./js/svg-transform.js"></script>
 <script type="text/javascript" src="participants-new.js"></script>
 
 <script>
@@ -251,12 +251,12 @@ var toggleExtraInfo = function(id,ref) {
 $(document).ready(function() {
 
     console.log("Starting to get data");
-    loadXHRFile("../data/all-customer-data.IIF",getCustomerIIF);
+    loadXHRFile("./data/all-customer-data.IIF",getCustomerIIF);
     //loadXHRFile("./data/other-name-list.IIF",getOtherNamesIIF);
-    loadXHRFile("../data/customer-data-with-balances.csv",getCustomerWithBalancesCSV);
+    loadXHRFile("./data/customer-data-with-balances.csv",getCustomerWithBalancesCSV);
     //loadXHRFile("./data/sales-reps.IIF",getSalesRepsIIF);
-    loadXHRFile("../data/customer-transactions.csv",getCustomerTransactionsCSV);
-    loadXHRFile("../data/tblExtContInfo.csv",getExternalContactsCSV);
+    loadXHRFile("./data/customer-transactions.csv",getCustomerTransactionsCSV);
+    loadXHRFile("./data/tblExtContInfo.csv",getExternalContactsCSV);
     Log.Remove();
     
     searchList = 'all';
@@ -319,7 +319,7 @@ $(document).ready(function() {
 <div id="container">
 <div id="selection"></div>
 <div id="profile"></div>
-<a href="javascript:location.reload(true)">Refresh Page</a> <a href="csv-pastor-james-2.tcl">CSV File</a>
+<a href="javascript:location.reload(true)">Refresh Page</a>
 </div>
 </body>
 </html>
