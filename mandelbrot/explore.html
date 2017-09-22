@@ -9,7 +9,7 @@
 
 
 <style>
- 
+
 body,html {
   background-color: black;
   margin:0;
@@ -61,7 +61,7 @@ body,html {
 
 #currentColors {
 
-    
+
 }
 
 #controls ul {
@@ -81,7 +81,7 @@ body,html {
     display: inline-block;
     font-family: sans serif, "Tw Cen MT Bold";
     font-size: 15px;
-    margin-left: 0px; 
+    margin-left: 0px;
 }
 
 #controls li select option {
@@ -135,10 +135,10 @@ body,html {
     letter-spacing: 1px;
 }
 
-#timeout, 
-#colorOffsetAmount, 
+#timeout,
+#colorOffsetAmount,
 #fractalImageId {
-    
+
 }
 
 #drawImage,
@@ -166,7 +166,7 @@ body,html {
 #b4 {
   display: none;
 }
-  
+
 </style>
 
 <script src="/js/jquery-1.7.1.js"></script>
@@ -233,14 +233,14 @@ panelHidden["controls"] = [{
 ];
 
 $(document).ready(function() {
-  
+
   Log.Notice('Document Ready');
-  
+
   // this must be run before doing the restoreInput code below
   $('#controls .expand label')
     .click({rangeStyle:"width: 150px;",numberStyle:"width: 75px;"},
            Data.toggleFormInputType);
- 
+
   // restore form values
   Data.restoreSelect('animationFunctionId');
   Data.restoreInput('fractalImageId');
@@ -259,18 +259,18 @@ $(document).ready(function() {
   Data.restoreInput('maxSat');
   Data.restoreInput('minBrt');
   Data.restoreInput('maxBrt');
-  
+
   myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
 	            'box',500,1000,{colorCanvasId:'currentColors'});
   myFractalImages[myFractalImageId].initColorArray();
 
   $(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',
 	             myFractalImages[myFractalImageId],startMove);
-	
+
   //Log.Remove();
 });
 </script>
- 
+
 
 </head>
 <body>
@@ -282,7 +282,7 @@ $(document).ready(function() {
 <li>
  <label for="b1" id="buttonControl">Image:</label>
  <div id="drawImage">
-  <button id="b1" onClick="drawImagePre('b4','b1');" 
+  <button id="b1" onClick="drawImagePre('b4','b1');"
           value="Draw Image" >Draw</button>
   <button id="b4" onClick="reDrawImage();"
           value="ReDraw Image" >ReDraw</button>
@@ -291,13 +291,13 @@ $(document).ready(function() {
 <li>
  <label for="fractalImageId">ImageId:</label>
  <input type="number" value="0" min="0" max="1"
-        step="1" id="fractalImageId" name="fractalImageId" 
+        step="1" id="fractalImageId" name="fractalImageId"
         onChange="Data.saveInput('fractalImageId','Log.Notice')" />
 </li>
 <li>
  <label for="b1">Animation:</label>
- <select id="animationFunctionId" 
-         name="animationFunctionId" 
+ <select id="animationFunctionId"
+         name="animationFunctionId"
          onChange="Data.saveSelect('animationFunctionId','Log.Notice')">
   <option value="1">1</option>
   <option value="2">2</option>
@@ -331,9 +331,9 @@ $(document).ready(function() {
   <option value="30">30: 3D 8 polygons by row 4</option>
   <option value="31">31: 3D 9 polygons by row 5</option>
   <option value="32">32: 3D 9 polygons by row 5</option>
-  
+
   <option value="33">33</option>
-  
+
   <option value="34">34</option>
   <option value="35">One Enhanced</option>
   <option value="36">One Enhanced2</option>
@@ -352,7 +352,7 @@ $(document).ready(function() {
  <div class="min-max">
  <span id="timeout-min"></span>
  <input type="number" value="70" min="10" max="200"
-        step="10" id="timeout" name="timeout" 
+        step="10" id="timeout" name="timeout"
         onChange="Data.saveInput('timeout','Log.Notice');" />
  <span id="timeout-max"></span>
  </div>
@@ -388,6 +388,7 @@ $(document).ready(function() {
    <option value="4">4</option>
    <option value="5">5</option>
    <option value="6">6</option>
+   <option value="7">7</option>
   </select>
 </li>
 <li>
@@ -437,8 +438,8 @@ $(document).ready(function() {
  <label for="hueFactor">HueFactor:</label>
  <div class="min-max">
  <span id="hueFactor-min"></span>
- <input type="number" value="0.20" min="0.10" max="5.00"
-        step="0.10" id="hueFactor" name="hueFactor"
+ <input type="number" value="0.20" min="0.01" max="10.00"
+        step="0.01" id="hueFactor" name="hueFactor"
         onChange="Data.saveInput('hueFactor','Log.Notice');" />
  <span id="hueFactor-max"></span>
  </div>
@@ -447,8 +448,8 @@ $(document).ready(function() {
  <label for="rampFactor">RampFact:</label>
  <div class="min-max">
  <span id="rampFactor-min"></span>
- <input type="number" value="60" min="10" max="700"
-        step="10" id="rampFactor" name="rampFactor"
+ <input type="number" value="60" min="1" max="700"
+        step="1" id="rampFactor" name="rampFactor"
         onChange="Data.saveInput('rampFactor','Log.Notice');" />
  <span id="rampFactor-max"></span>
  </div>
@@ -524,7 +525,7 @@ $(document).ready(function() {
 <li>
  <label for="b2" id="buttonControl2">Animate:</label>
  <div id="animateImage">
-  <button id="b2" onClick="startAnimationPre()" 
+  <button id="b2" onClick="startAnimationPre()"
           value="Start Animation" >Start</button>
   <button id="b3" onClick="stopAnimation();"
          value="Stop Animation" >Stop</button>
