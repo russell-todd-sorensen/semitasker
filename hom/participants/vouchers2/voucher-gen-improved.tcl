@@ -117,8 +117,7 @@ set invoiceLines [list]
 
 set invoiceHeader1 [split [string map {\t ,} "!HDR	PROD	VER	REL	IIFVER	DATE	TIME	ACCNTNT	ACCNTNTSPLITTIME"] ,]
 set invoiceHeader2 [split [string map {\t ,} "HDR	QuickBooks Desktop Pro	Version 27.0D	Release R5P	1	2017-07-29	1501191278	N	0"] ,]
-#set invoiceHeader3 [split [string map {\t ,} "!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	TOPRINT	NAMEISTAXABLE	ADDR1  ADDR3	TERMS	SHIPVIA	SHIPDATE	DUEDATE"] ,]
- set invoiceHeader3 [split [string map {\t ,} "!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	TOPRINT	NAMEISTAXABLE	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	DUEDATE	TERMS	PAID	PAYMETH	SHIPVIA	SHIPDATE	OTHER1"] ,]
+set invoiceHeader3 [split [string map {\t ,} "!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	TOPRINT	NAMEISTAXABLE	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	DUEDATE	TERMS	PAID	PAYMETH	SHIPVIA	SHIPDATE	OTHER1"] ,]
 set invoiceHeader4 [split [string map {\t ,} "!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	QNTY	PRICE	INVITEM	TAXABLE	OTHER2	YEARTODATE	WAGEBASE"] ,]
 set invoiceHeader5 [split [string map {\t ,} "!ENDTRNS"] ,]
 
@@ -142,9 +141,9 @@ proc programFeePerHouse {house company monthNumber} {
     return $fees
 }
 
-set invoiceDate "09/01/2017"
-set monthNumber 9
-set month "Sept"
+set invoiceDate "10/01/2017"
+set monthNumber 10
+set month "Oct"
 set year "2017"
 set invoiceNumber 1
 set terms "Due by the 1st of Month"
@@ -224,7 +223,7 @@ foreach participant [lsort [array names CUST]] {
         		} else {
         			set fees [programFeePerHouse $house $company $monthNumber]
         		}
-        		lappend exceptionList "RENT=$fees"
+        		lappend exceptionList "RENT=$fees for '[set $nameField]'"
         	}
         	"*DOC VOUCHER*" {
         	    if {[regexp -nocase {(DOC Voucher) ([0-1]*[0-9]{1,2})/([0-3]*[0-9]{1,2})/(20[1-2][0-9])} $company allX voucherX monthX dayX yearX]} {
@@ -254,6 +253,10 @@ foreach participant [lsort [array names CUST]] {
 	        "HEN" {
 		        set fees [programFeePerHouse $house $company $monthNumber]
 	        }
+	        "*ELECHA*" -
+	        "*ELECCAR*" {
+	            set fees [programFeePerHouse $house $company $monthNumber]
+	        }
         	default {
         		lappend exceptionList "[set $nameField] not handled"
         		set skipFurtherProcessing 1
@@ -280,19 +283,18 @@ foreach participant [lsort [array names CUST]] {
         incr invoiceNumber
 	    
         set houseAccountName $house
-        if {[string match "*Timothy*" "$houseAccountName"]} {
-            set houseAccountName "1 & 2 Timothy"
-        }
+
         if {[llength $feeList] == 0} {
-	    if {[set $ctypeField] eq "Non Transitional Housing"} {
-		set invItem "Rent"
-		set invAcct "Rental Fees Non Transitional"
-		set memo    "$month $year Rent"
-	    } else {
-		set invAcct "Program Fees:Program Fees - $houseAccountName"
-		set invItem "Program Fee:. $houseAccountName"
-	    }
-	    lappend invoiceLines [list SPL "" INVOICE $invoiceDate "$invAcct" "" "" -$fees "" "$memo" N -1 $fees "$invItem" N "" 0 0]
+            if {[set $ctypeField] eq "Non Transitional Housing"} {
+                set invItem "Rent"
+                set invAcct "Rental Fees Non Transitional"
+                set memo    "$month $year Rent"
+            } else {
+                set invAcct "Program Fees:Program Fees - $houseAccountName"
+                set invItem "Program Fee:. $houseAccountName"
+            }
+	    
+            lappend invoiceLines [list SPL "" INVOICE $invoiceDate "$invAcct" "" "" -$fees "" "$memo" N -1 $fees "$invItem" N "" 0 0]
         } else {
         	set voucherList [lindex $feeList 1]
         	set nonVoucherList [lindex $feeList 2]
@@ -305,10 +307,10 @@ foreach participant [lsort [array names CUST]] {
 
         	lappend invoiceLines [list SPL	"" INVOICE $invoiceDate $invAcct "" "" -[lindex $voucherList 2] "" "Program Fee per day @ [lindex $voucherList 1]" N -[lindex $voucherList 0] [lindex $voucherList 1] $voucherInvItem N "" 0 0]
         	lappend invoiceLines [list SPL	"" INVOICE $invoiceDate $invAcct "" "" -[lindex $nonVoucherList 2] "" "Program Fee per day @ [lindex $nonVoucherList 1]" N -[lindex $nonVoucherList 0] [lindex $nonVoucherList 1] $nonVoucherInvItem N "" 0 0]
-         }
-        lappend invoiceLines [list ENDTRNS]
+       }
+       lappend invoiceLines [list ENDTRNS]
 
-        append data "[set $nameField] company='[set $companyField]' ctype='[set $ctypeField]' --FEE: $fees - \n"
+       append data "[set $nameField] company='[set $companyField]' ctype='[set $ctypeField]' --FEE: $fees - \n"
     }
 }
 
