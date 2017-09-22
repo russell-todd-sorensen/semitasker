@@ -616,7 +616,7 @@ var Customer = {
     },
     configureSearchList: function (selectId) {
         Customer.restoreSearchList(selectId);
-        Data.saveSelect(selectId,'Customer.restoreSearchList');
+        Data.saveCheckbox(selectId,'Customer.restoreSearchList');
     },
     restoreSearchList: function (selectId) {
         searchList = $('#' + selectId + ':checked').val();
@@ -1121,7 +1121,7 @@ var Customer = {
         }
         
         Data.restoreSelect('fieldToSearch');
-        Data.restoreSelect('searchList');
+        Data.restoreCheckbox('searchList');
         Data.restoreSelect('outputType');
     
         tmpSearchList = searchLists[searchList].list;
