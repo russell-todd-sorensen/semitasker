@@ -5,7 +5,7 @@ var myFractalImageId = myFractalImages.length;
 var colorCanvas;
 
 function logStartMove(evt) {
-	Log.Notice('logStartMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY) 
+	Log.Notice('logStartMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
 }
 
 function captureMouseUp(evt) {
@@ -21,11 +21,11 @@ function unbindMouseUp(evt) {
 }
 
 function logDragMove(evt) {
-	Log.Notice('logDragMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY) 
+	Log.Notice('logDragMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
 }
 
 function logEndMove(evt) {
-	Log.Notice('logEndMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY) 
+	Log.Notice('logEndMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
 }
 
 //////////////////// THIS IS THE FRACTAL IMAGE OBJECT  /////////////////////////////////////////////
@@ -73,31 +73,31 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 	this.dx = 2.0;
 	this.dy = 2.0;
 	this.heightToWidthRatio = 1.0;
-	this.calculateHeightAndWidth = function (newFactor) 
+	this.calculateHeightAndWidth = function (newFactor)
 	{
 		if (newFactor <= 2 || newFactor >= .2) {
 			this.factor = newFactor;
 		}
-		
+
 		this.dx = this.rect.end.x - this.rect.start.x;
 		this.dy = this.rect.end.y - this.rect.start.y;
 		this.heightToWidthRatio = this.dy/this.dx;
-		
+
 		Log.Debug('heightToWidthRatio=' + this.heightToWidthRatio);
-		
-		if (this.heightToWidthRatio >=1 ) 
+
+		if (this.heightToWidthRatio >=1 )
 		{
 			this.width = 500*this.factor;
 		} else {
 			this.width = 1000*this.factor;
 		}
-		
+
 		this.height = Math.round(this.width * this.heightToWidthRatio);
 		this.width = Math.round(this.width);
-		
+
 		Log.Debug('width=' + this.width + ' height=' + this.height);
 	};
-	
+
 	this.canvas = null;
 	this.context = null;
 	this.imageData = null;
@@ -136,13 +136,13 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 		var counter,value;
 		var counterIndexStart;
 		this.rowPolygons = new Array();
-		
-		for (var row = 0;row<this.height;row++) 
+
+		for (var row = 0;row<this.height;row++)
 		{
 			rowArray = new Array();
 			counterIndexStart = 4*row*this.width;
-			
-			for (var col = 0;col<this.width;col++) 
+
+			for (var col = 0;col<this.width;col++)
 			{
 				counter = this.counters[counterIndexStart + 4*col];
 				if (col == 0 || col == this.width-1) {
@@ -152,31 +152,31 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 				}
 				counterLast = counter;
 			}
-			
+
 			this.rowPolygons[row] = rowArray;
 		}
 	};
-	
+
 	this.initColorArray = function () {
 		this.colorCanvas = document.getElementById(this.colorCanvasId);
 		this.colorCanvas.setAttribute('height',this.pixelImageHeight);
 		this.colorCanvas.setAttribute('width',this.pixelImageWidth);
-		
-		if (!this.colorCanvas || !this.colorCanvas.getContext) 
+
+		if (!this.colorCanvas || !this.colorCanvas.getContext)
 		{
 			Log.Debug('initColorArray: canvas or canvas.getContext not found');
 			return;
 		}
-		
+
 		this.colorCanvasContext = this.colorCanvas.getContext('2d');
-		
-		if (!this.colorCanvasContext || !this.colorCanvasContext.putImageData) 
+
+		if (!this.colorCanvasContext || !this.colorCanvasContext.putImageData)
 		{
 			Log.Debug('initColorArray: context or context.putImageData not found');
 			return;
 		}
-		
-		if (!this.colorCanvasContext.createImageData) 
+
+		if (!this.colorCanvasContext.createImageData)
 		{
 			Log.Debug('initColorArray: context.createImage exists');
 			this.colorCanvasImageData = this.colorCanvasContext.createImageData(
@@ -185,25 +185,25 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 		else if (this.colorCanvasContext.getImageData) {
 			this.colorCanvasImageData = this.colorCanvasContext.getImageData(
 				0, 0, this.pixelImageWidth, this.pixelImageHeight);
-			Log.Notice('initColorArray: context.getImageData exists length=' 
+			Log.Notice('initColorArray: context.getImageData exists length='
 				+ this.colorCanvasImageData.data.length);
 		}
 		else {
 			Log.Debug('initColorArray: using default image creation method');
 			this.colorCanvasImageData = {
-				'width': this.pixelImageWidth, 
-				'height': this.pixelImageHeight, 
+				'width': this.pixelImageWidth,
+				'height': this.pixelImageHeight,
 				'data':new Array(this.pixelImageWidth*this.pixelImageHeight*4)
 			};
 		}
-	
+
 		this.colorCanvasPixels = this.colorCanvasImageData.data;
-		
-		for (var i=0, n=this.colorCanvasPixels.length; i<n; i++) 
+
+		for (var i=0, n=this.colorCanvasPixels.length; i<n; i++)
 		{
 			this.colorCanvasPixels[i] = 255;
 		}
-	
+
 	};
 
 	this.drawImage = function (data) {
@@ -211,50 +211,50 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 		this.canvas = document.getElementById(this.id);
 		this.canvas.setAttribute('height',this.height);
 		this.canvas.setAttribute('width',this.width);
-		
-		if (!this.canvas || !this.canvas.getContext) 
+
+		if (!this.canvas || !this.canvas.getContext)
 		{
 			Log.Debug('doImageStuff: canvas or canvas.getContext not found');
 			return;
 		}
-		
+
 		this.context = this.canvas.getContext('2d');
-		
-		if (!this.context || !this.context.putImageData) 
+
+		if (!this.context || !this.context.putImageData)
 		{
 			Log.Debug('doImageStuff: context or context.putImageData not found');
 			return;
 		}
-		
-		if (!this.context.createImageData) 
+
+		if (!this.context.createImageData)
 		{
 			Log.Debug('doImageStuff: context.createImage exists');
 			this.imageData = this.context.createImageData (this.height, this.width);
-		} 
+		}
 		else if (this.context.getImageData) {
 			this.imageData = this.context.getImageData(0, 0, this.width, this.height);
-			Log.Notice('doImageStuff: context.getImageData exists length=' 
+			Log.Notice('doImageStuff: context.getImageData exists length='
 				+ this.imageData.data.length);
-		} 
+		}
 		else {
 			Log.Debug('doImageStuff: using default image creation method');
 			this.imageData = {
 				'width': this.width,
-				'height': this.height, 
+				'height': this.height,
 				'data':new Array(this.width*this.height*4)
 			};
 		}
-		
+
 		this.pixels = this.imageData.data;
-		
-		for (var i=0, n=this.pixels.length; i<n; i++) 
+
+		for (var i=0, n=this.pixels.length; i<n; i++)
 		{
 			this.pixels[i] = 255;
 			this.counters[i] = this.counterMax;
 		}
-		
+
 		this.clearProfile();
-		
+
 		var counter;
 		var finite;
 		var value;
@@ -264,7 +264,7 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 		var index = 0;
 		var currentIndex;
 		var tmpXSquared, tmpYSquared, tmpXxtmpY;
-		
+
 		for (var x = this.rect.start.x, col = 0;
 			col<this.width && x < this.rect.end.x;
 			x+=Math.abs((this.rect.end.x-this.rect.start.x)/this.width), col++)
@@ -284,9 +284,9 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 				tmpXSquared = tmpX * tmpX;
 				tmpYSquared = tmpY * tmpY;
 				tmpYbyTmpX = tmpX * tmpY;
-				
-				while (counter <= this.counterMax && finite) 
-				{				
+
+				while (counter <= this.counterMax && finite)
+				{
 					newY = cY +  2 * tmpYbyTmpX;
 					newX = cX - tmpYSquared + tmpXSquared;
 					tmpX = newX;
@@ -294,25 +294,25 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 					tmpXSquared = tmpX * tmpX;
 					tmpYSquared = tmpY * tmpY;
 					tmpYbyTmpX = tmpY * tmpX;
-					
+
 					//if (Math.abs(tmpYbyTmpX) > this.finiteMeasure) {
-					if (tmpXSquared + tmpYSquared > this.finiteMeasure) 
+					if (tmpXSquared + tmpYSquared > this.finiteMeasure)
 					{
 						finite = false;
 					}
-					
+
 					counter++;
 				}
-				
+
 				counter--;
 				// profile counters
-				if (this.profile.counts[counter]) 
+				if (this.profile.counts[counter])
 				{
 					this.profile.counts[counter]++;
 				}
 				else {
 					this.profile.counts[counter] = 1;
-					if (counter > this.profile.maximum) 
+					if (counter > this.profile.maximum)
 					{
 						this.profile.maximum = counter;
 					}
@@ -320,64 +320,64 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 						this.profile.minimum = counter;
 					}
 				}
-				
+
 				value = Math.abs(255-8*counter)%255;
-				
+
 				currentIndex = 4*(this.width*row + col);
-				
+
 				this.counters[currentIndex] = counter;
-				this.pixels[currentIndex++] = (128+value)%255; 
+				this.pixels[currentIndex++] = (128+value)%255;
 				this.pixels[currentIndex++] = (128+value)%255;
 				this.pixels[currentIndex++] = Math.abs(value%8*counter);
 				this.pixels[currentIndex  ] = 255;
-				
+
 				index++;
 			}
 		}
-		
+
 		// Finish profile
 		this.profile.total = 0;
 		this.profile.percents = new Array();
-		
-		for (var i = 0; i < this.counterMax; i++) 
+
+		for (var i = 0; i < this.counterMax; i++)
 		{
-			if (this.profile.counts[i]) 
+			if (this.profile.counts[i])
 			{
 				this.profile.total = this.profile.total + this.profile.counts[i];
-			} 
+			}
 			else {
 				this.profile.counts[i] = 0;
 			}
 		}
-		
+
 		// calculate percentages
 		var value;
-		
-		for (var i = 0; i < this.profile.counts.length; i++) 
+
+		for (var i = 0; i < this.profile.counts.length; i++)
 		{
 			//Log.Notice('profile.counts i=' + i);
 			value = Math.round(100*this.scale*this.profile.counts[i]/this.profile.total);
 			this.profile.percents[i] = (value < 100 ? value : 100);
 		}
-		
+
 		this.calculatePolygonRows();
 		addToPixels[data.animationFunctionId](data);
 		this.context.putImageData(this.imageData, 0, 0);
 	};
-	
+
 	this.continueAnimation = false;
-	
+
 	this.animationModulus = 360*100;
 	this.animationIndex = 0;
-	
-	if (arguments.length == 5) 
+
+	if (arguments.length == 5)
 	{
-		for (var prop in startUpData) 
+		for (var prop in startUpData)
 		{
 			this[prop] = startUpData[prop];
 		}
 	}
-	
+
 	this.calculateHeightAndWidth(this.factor);
 	this.callStartMove = [logStartMove,captureMouseUp,setupRect];
 	this.callDragMove  = [drawBox, logDragMove];
@@ -391,20 +391,20 @@ var profileCounters = function (counters) {
 	var minimum = 1024;
 	var counts = new Array();
 	var count;
-	
+
 	for (var i = 0; i<length;i++) {
 		count = counters[i];
-		if (counts[count]) 
+		if (counts[count])
 		{
 			counts[count]++;
-		} 
+		}
 		else {
 			counts[count] = 1;
-			if (count > maximum) 
+			if (count > maximum)
 			{
 				maximum = count;
-			} 
-			if (count < minimum) 
+			}
+			if (count < minimum)
 			{
 				minimum = count;
 			}
@@ -426,77 +426,77 @@ var setupRect = function(evt) {
 
 var drawBox = function(evt) {
 	var obj = evt.data;
-	
-	if (obj.dragCurrent.y-obj.dragStart.y > 0) 
+
+	if (obj.dragCurrent.y-obj.dragStart.y > 0)
 	{
 		obj.minY = obj.dragStart.y;
 		obj.maxY = obj.dragCurrent.y;
-	} 
+	}
 	else {
 		obj.minY = obj.dragCurrent.y;
 		obj.maxY = obj.dragStart.y;
 	}
-	
-	if (obj.dragCurrent.x-obj.dragStart.x > 0) 
+
+	if (obj.dragCurrent.x-obj.dragStart.x > 0)
 	{
 		obj.minX = obj.dragStart.x;
 		obj.maxX = obj.dragCurrent.x;
-	} 
+	}
 	else {
 		obj.minX = obj.dragCurrent.x;
 		obj.maxX = obj.dragStart.x;
 	}
-	
-	var msg = 'drawBox top=' + (obj.minY-obj.offsetTop) 
-			+ ' left = ' + (obj.minX-obj.offsetLeft) 
-			+ ' height=' + (obj.maxY-obj.minY) 
+
+	var msg = 'drawBox top=' + (obj.minY-obj.offsetTop)
+			+ ' left = ' + (obj.minX-obj.offsetLeft)
+			+ ' height=' + (obj.maxY-obj.minY)
 			+ ' width=' + (obj.maxX-obj.minX);
-	
+
 	Log.Warning(msg);
-	
+
 	$('#' + obj.boxId).css({
 		top:obj.minY-obj.offsetTop,
 		left:obj.minX-obj.offsetLeft,
 		height:obj.maxY-obj.minY,
 		width:obj.maxX-obj.minX}
 	);
-	
+
 	Log.Debug('drawBox finished');
 };
 
 var calculateRect = function (evt)  {
-	
+
 	var obj = evt.data;
 	var dxCurrent = obj.rect.end.x - obj.rect.start.x;
 	var dyCurrent = obj.rect.end.y - obj.rect.start.y;
 	var heightToWidthRatio = dyCurrent/dxCurrent;
 	var height = obj.height*1.0;
 	var width =  obj.width*1.0;
-	
+
 	var dxNew = (obj.maxX-obj.minX)/width*dxCurrent;
 	var dyNew = (obj.maxY-obj.minY)/height*dyCurrent;
-	
-	var rectMinX = obj.rect.start.x 
+
+	var rectMinX = obj.rect.start.x
 		+ (obj.minX-obj.offsetLeft)*(obj.rect.end.x-obj.rect.start.x)/width;
-	
-	var rectMinY = (obj.rect.start.y 
+
+	var rectMinY = (obj.rect.start.y
 		+ (height-(obj.maxY-obj.offsetTop))*(obj.rect.end.y-obj.rect.start.y)/height) ;
-	var rectMaxX = obj.rect.end.x 
+	var rectMaxX = obj.rect.end.x
 		- (width-(obj.maxX-obj.offsetLeft))*(obj.rect.end.x-obj.rect.start.x)/width;
-	var rectMaxY = obj.rect.end.y 
+	var rectMaxY = obj.rect.end.y
 		- (obj.minY-obj.offsetTop)*(obj.rect.end.y-obj.rect.start.y)/height;
-	
-	Log.Debug('calculateRect \nwidth=' + width 
-		+ '\nheight=' + height + '\nminX =' + obj.minX 
-		+ '\nminY=' + obj.minY + '\nmaxX=' + obj.maxX 
-		+ '\nmaxY=' + obj.maxY 
-		+ '\nrectMinX=' + rectMinX + '\nrectMinY=' + rectMinY 
+
+	Log.Debug('calculateRect \nwidth=' + width
+		+ '\nheight=' + height + '\nminX =' + obj.minX
+		+ '\nminY=' + obj.minY + '\nmaxX=' + obj.maxX
+		+ '\nmaxY=' + obj.maxY
+		+ '\nrectMinX=' + rectMinX + '\nrectMinY=' + rectMinY
 		+ '\nrectMaxX=' + rectMaxX + '\nrectMaxY=' + rectMaxY);
-	
+
 	Log.Debug('calculateRect dxNew=' + dxNew + ' dyNew=' + dyNew);
-	
+
 	var rectTmp = obj.rectTmp;
-	
+
 	rectTmp.start.x = rectMinX;
 	rectTmp.start.y = rectMinY;
 	rectTmp.end.x = rectMaxX;
@@ -549,7 +549,7 @@ var startAnimationPre = function() {
 };
 
 var drawImagePre = function(redrawId,drawId) {
-	
+
 	var formData = processForm(formData);
 	$('#' + redrawId).css({display:'inline-block'});
 	$('#' + drawId).css({display:'none'});
@@ -565,8 +565,8 @@ var startAnimation = function (animationFunctionId,timeout, data) {
 	if (timeout < 10) timeout = 10;
 	scheduleFunction(animationFunction, timeout, true, true, data);
 };
-	
-var stopAnimation = function() { 
+
+var stopAnimation = function() {
 	var formData = processForm();
 	var data = formData.data;
 	var objId = data.objId;
@@ -574,7 +574,7 @@ var stopAnimation = function() {
 	fractal.continueAnimation = false;
 };
 
-var reDrawImage = function () { 
+var reDrawImage = function () {
 	var formData = processForm();
 	var data = formData.data
 	var objId = data.objId;
@@ -588,85 +588,3 @@ var reDrawImage = function () {
 	fractal.drawImage(data);
 	return fractal.continueAnimation;
 };
-
-var hsl2rgb = function (h, s, l) {
-	
-	var m1, m2;
-	h = isNaN(h) ? 0 : (h %= 360) < 0 ? h + 360 : h;
-	s = isNaN(s) ? 0 : s < 0 ? 0 : s > 1 ? 1 : s;
-	l = l < 0 ? 0 : l > 1 ? 1 : l;
-	m2 = l <= .5 ? l * (1 + s) : l + s - l * s;
-	m1 = 2 * l - m2;
-	
-	function v(h) {
-		if (h > 360) h -= 360; else if (h < 0) h += 360;
-		if (h < 60) return m1 + (m2 - m1) * h / 60;
-		if (h < 180) return m2;
-		if (h < 240) return m1 + (m2 - m1) * (240 - h) / 60;
-		return m1;
-	}
-	
-	function vv(h) {
-		return Math.round(v(h) * 255);
-	}
-	
-	var d3rgb = d3.rgb(vv(h + 120), vv(h), vv(h - 120));
-	d3rgb.rgb = 'rgb(' + d3rgb.r + ',' + d3rgb.g + ',' + d3rgb.b + ')';
-	d3rgb.hex = '#' + toHex(d3rgb.r) + toHex(d3rgb.g) + toHex(d3rgb.b);
-
-	return d3rgb;
-}
-
-var hsb2rgb = function (hue, sat, brt) {
-	while (hue < 0) {
-		hue += 360;
-	}
-	
-	var buckets = 2;
-	var red = 0, green = 0, blue = 0;
-	hue %= 360;
-	var rgbHue = hueToRgbComponents(hue);
-	
-	red = (rgbHue.red * sat + 255 * (1-sat)) * brt;
-	green = (rgbHue.green * sat + 255 * (1-sat)) * brt;
-	blue = (rgbHue.blue * sat + 255 * (1-sat)) * brt;
-	
-	red = Math.round(Math.round(red*buckets)/buckets);
-	green = Math.round(Math.round(green*buckets)/buckets);
-	blue = Math.round(Math.round(blue*buckets)/buckets);
-	
-	return {r:red,g:green,b:blue,h:hue,sat:sat,brt:brt,
-		rgb:'rgb(' + red + ',' + green + ',' + blue + ')',
-		hex:'#' + toHex(red) + toHex(green) + toHex(blue)
-	};
-}
-
-function hueToRgbComponents(hue) {
-	var norm = 255/60; /// 4.25
-	var red, green, blue;
-	
-	if (hue >= 0 && hue < 60) 
-	{
-		red = 255; blue = 0; green = hue * norm;
-	} 
-	else if (hue >= 60 && hue < 120) {
-		green = 255; blue = 0; red = (120 - hue) * norm;
-	} 
-	else if (hue >= 120 && hue < 180) {
-		green = 255; red = 0; blue = (hue - 120) * norm;
-	} 
-	else if (hue >= 180 && hue < 240) {
-		blue = 255; red = 0; green = (240 - hue) * norm;
-	} 
-	else if (hue >= 240 && hue < 300) {
-		blue = 255; green = 0; red = (hue - 240) * norm;
-	}
-	else if (hue >= 300 && hue <= 360) {
-		red = 255; green = 0; blue = (360 - hue) * norm;
-	} 
-	else {
-		red = NaN; green = NaN; blue = NaN;
-	}
-	
-	return {red:red,green:green,blue:blue};
-}

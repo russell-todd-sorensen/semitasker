@@ -182,11 +182,13 @@ body,html {
 <script src="/js/mouse-events.js"></script>
 <script src="/js/panel-show-hide.js"></script>
 <script src="js/mset.js"></script>
+<script src="js/color-conversion.js"></script>
 <script src="js/scale-counters.js"></script>
 <script src="js/reference-colors.js"></script>
 <script src="js/pixel-colors.js"></script>
 <script src="js/pixel-functions.js"></script>
 <script src="js/add-text.js"></script>
+<script src="js/draw-colors.js"></script>
 <script language="javascript">
 
 var myCounters = [1,2,3,4,5,6,1,4,6,7,2,5,1,4,9];
@@ -351,7 +353,7 @@ $(document).ready(function() {
  <label for="timeout">Timer:</label>
  <div class="min-max">
  <span id="timeout-min"></span>
- <input type="number" value="70" min="10" max="200"
+ <input type="number" value="70" min="10" max="400"
         step="10" id="timeout" name="timeout"
         onChange="Data.saveInput('timeout','Log.Notice');" />
  <span id="timeout-max"></span>
@@ -361,7 +363,7 @@ $(document).ready(function() {
  <label for="colorOffsetAmount">Step:</label>
  <div class="min-max">
  <span id="colorOffsetAmount-min"></span>
- <input type="number" value="1" min="-10" max="10"
+ <input type="number" value="1" min="-20" max="20"
         step="1" id="colorOffsetAmount" name="colorOffsetAmount"
         onChange="Data.saveInput('colorOffsetAmount','Log.Notice');" />
  <span id="colorOffsetAmount-max"></span>
@@ -371,7 +373,7 @@ $(document).ready(function() {
  <label for="pixelJump">Jump:</label>
  <div class="min-max">
  <span id="pixelJump-min"></span>
- <input type="number" value="4" min="4" max="512"
+ <input type="number" value="4" min="4" max="2000"
         step="4" id="pixelJump" name="pixelJump"
         onChange="Data.saveInput('pixelJump','Log.Notice');" />
  <span id="pixelJump-max"></span>
@@ -438,7 +440,7 @@ $(document).ready(function() {
  <label for="hueFactor">HueFactor:</label>
  <div class="min-max">
  <span id="hueFactor-min"></span>
- <input type="number" value="0.20" min="0.01" max="10.00"
+ <input type="number" value="0.20" min="0.01" max="20.00"
         step="0.01" id="hueFactor" name="hueFactor"
         onChange="Data.saveInput('hueFactor','Log.Notice');" />
  <span id="hueFactor-max"></span>
@@ -448,7 +450,7 @@ $(document).ready(function() {
  <label for="rampFactor">RampFact:</label>
  <div class="min-max">
  <span id="rampFactor-min"></span>
- <input type="number" value="60" min="1" max="700"
+ <input type="number" value="60" min="1" max="1500"
         step="1" id="rampFactor" name="rampFactor"
         onChange="Data.saveInput('rampFactor','Log.Notice');" />
  <span id="rampFactor-max"></span>
