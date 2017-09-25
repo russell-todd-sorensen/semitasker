@@ -616,10 +616,10 @@ var Customer = {
     },
     configureSearchList: function (selectId) {
         Customer.restoreSearchList(selectId);
-        Data.saveSelect(selectId,'Customer.restoreSearchList');
+        Data.saveCheckbox(selectId,'Customer.restoreSearchList');
     },
     restoreSearchList: function (selectId) {
-        searchList = $('#' + selectId + ' option:selected').val();
+        searchList = $('#' + selectId + ':checked').val();
         tmpSearchList = searchLists[searchList].list;
     },
     configureOutputType: function (selectId) {
@@ -1121,7 +1121,7 @@ var Customer = {
         }
         
         Data.restoreSelect('fieldToSearch');
-        Data.restoreSelect('searchList');
+        Data.restoreCheckbox('searchList');
         Data.restoreSelect('outputType');
     
         tmpSearchList = searchLists[searchList].list;
@@ -1141,10 +1141,10 @@ var Cust = {
         fieldToSearch = $('#' + selectId + ' option:selected').val();
         Data.saveSelect(selectId,'Data.restoreSelect');
     },
-    configureSearchList: function (selectId) {
-        searchList = $('#' + selectId + ' option:selected').val();
+    configureSearchList: function (checkboxId) {
+        searchList = $('#' + checkboxId + ':checked').val();
         tmpSearchList = searchLists[searchList].list;
-        Data.saveSelect(selectId,'Data.restoreSelect');
+        Data.saveCheckbox(checkboxId,'Log.Notice');
     },
     configureOutputType: function (selectId) {
         outputType = $('#' + selectId + ' option:selected').val();
@@ -1174,7 +1174,7 @@ var Cust = {
         }
         
         Data.restoreSelect('fieldToSearch');
-        Data.restoreSelect('searchList');
+        Data.restoreCheckbox('searchList');
         Data.restoreSelect('outputType');
     
         tmpSearchList = searchLists[searchList].list;
@@ -1313,3 +1313,12 @@ var Participant = function () {
     return this;     
   
 };
+
+
+
+Cust.configureSearchList = function (checkboxId) {
+        searchList = $('#' + checkboxId + ' option:selected').val();
+        tmpSearchList = searchLists[searchList].list;
+        Data.saveCheckbox(checkboxId,'Data.restoreCheckbox');
+};
+

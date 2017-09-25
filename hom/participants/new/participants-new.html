@@ -182,11 +182,43 @@ body, html {
     width: 440px;
     font-size: .9em;
 }
-
+/*
 #extra-info {
     display: none;
 }
 
+#panel #list .radio-option {
+    display: inline-block;
+    width: 100px;
+    vertical-align: top;
+}
+#panel #list label {
+    display: inline-block;
+    width: 150px;
+}
+
+*/
+
+#panel input#searchList {
+    width: 20px;
+    height: 20px;
+}
+
+#panel #list label {
+    display: inline-block;
+    vertical-align: top;
+}
+#panel #list span.radio-container {
+   /* display: inline-block;
+    vertical-align: top; */
+    text-align: left;
+    width: 315px;
+}
+#panel #list span.radio-option {
+    display: inline-block;
+    width: 100px;
+    height: 15px;
+}
 @media only screen and ((max-device-width: 450px) or (max-width: 450px)) {
         /*body, html, #container {
             width: 450px;
@@ -217,6 +249,9 @@ body, html {
 		}
 }
 </style>
+<script >
+
+</script>
 
 <script type="text/javascript" src="./js/d3.v4.js"></script>
 <script type="text/javascript" src="./js/jquery-1.7.1.js"></script>
@@ -230,6 +265,8 @@ body, html {
 <script type="text/javascript" src="participants-new.js"></script>
 
 <script>
+
+
 var extraInfo = false;
 
 var toggleExtraInfo = function(id,ref) {
@@ -245,8 +282,7 @@ var toggleExtraInfo = function(id,ref) {
         extraInfo = true;
     }
     return false;
-}
-    
+} 
 
 $(document).ready(function() {
 
@@ -257,10 +293,12 @@ $(document).ready(function() {
     //loadXHRFile("./data/sales-reps.IIF",getSalesRepsIIF);
     loadXHRFile("./data/customer-transactions.csv",getCustomerTransactionsCSV);
     loadXHRFile("./data/tblExtContInfo.csv",getExternalContactsCSV);
-    Log.Remove();
+    Log.Show();
     
     searchList = 'all';
+    Customer.setup();
 });
+
 </script>
 
 </head>
@@ -284,16 +322,14 @@ $(document).ready(function() {
    <option value="dob">Birthdate</option>
    <option value="notes">Notes</option>
   </select>
-  </li>  <!--
-  <input type="hidden" value="all" id="searchList" name="searchList" />
-  <input type="hidden" value="list" id="outputType" name="outputType" />
-  -->
- <li style="display:none;"><label for="searchList">List:</label>
- <select id="searchList" name="searchList"  tabIndex="8"
-  onChange="Customer.configureSearchList('searchList')">
-   <option value="active" selected="selected">Active</option>
-   <option value="all">All</option>
-  </select>
+  </li>
+ <li id='list'><label for="searchList">Participants:</label>
+  <span class='radio-container'>
+   <span class='radio-option'><input
+    type='radio' name='searchList' id='searchList' onChange='Customer.configureSearchList("searchList")' value='active'> Active</span>
+   <span class='radio-option'><input 
+   type='radio' name='searchList' id='searchList' onChange='Customer.configureSearchList("searchList")' value='all'> All</span>
+  </span>
   </li>
   <li style="display:none;"><label for="outputType">Output Type</label>
   <select id="outputType" name="outputType" tabIndex="7"

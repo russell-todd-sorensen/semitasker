@@ -678,3 +678,12 @@ Data.toggleFormInputType = function (evt) {
 		break;
 	}
 };
+
+
+function LogInput(inputId) {
+    Log.Notice('LogInput ' + inputId + '="' + $('#' + inputId).val() + '"');
+}
+
+function LogChbox(inputId) {
+    Log.Notice('LogChbox ' + inputId + '="' + Data.getCheckboxValues(inputId) + '"');
+}
