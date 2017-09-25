@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>test hsl vs rgb</title>
+<style>
+svg {
+  background-color: purple;
+  width: 150px;
+}
+.box {
+  height: 150px;
+  width: 150px;
+  border: none;
+}
+
+#b1 {
+  fill: hsl(0,0.0%,39.2%);
+}
+
+#b1 {
+  fill: url('#gradient-main-hsl');
+}
+#b2 {
+  background-color: rgb(100,100,100);
+}
+
+</style>
+</head>
+<body>
+<svg>
+  <defs>
+    <linearGradient id="gradient-main-hsl" gradientUnits="objectBoundingBox"
+    x1="50%" y1="0%" x2="50%" y2="100%" color-interpolation="sRGB">
+     <stop id="stop-1" offset="0%" stop-color="#000000" stop-opacity="1.0" />
+     <stop id="stop-2" offset="0%" stop-color="#000000" stop-opacity="0.0" />
+     <stop id="stop-3" offset="100%" stop-color="#000000" stop-opacity="1.00" />
+    </linearGradient>
+  </defs>
+
+  <rect id='b1' class='box' /></svg>
+<div class='box' id='b2'></div>
+</body>
+</html>
