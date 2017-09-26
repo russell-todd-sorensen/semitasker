@@ -261,6 +261,8 @@ $(document).ready(function() {
   Data.restoreInput('maxSat');
   Data.restoreInput('minBrt');
   Data.restoreInput('maxBrt');
+  Data.restoreInput('minInt');
+  Data.restoreInput('maxInt');
 
   myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
 	            'box',500,1000,{colorCanvasId:'currentColors'});
@@ -457,11 +459,12 @@ $(document).ready(function() {
  </div>
 </li>
 <li>
- <label for="hslOrHsb">HSL/B:</label>
+ <label for="hslOrHsb">HSL/B/I:</label>
  <select id="hslOrHsb" name="hslOrHsb"
          onChange="Data.saveSelect('hslOrHsb','Log.Notice');" >
   <option value="hsl">HSL</option>
   <option value="hsb" selected="selected">HSB</option>
+  <option value="hsi">HSI</option>
  </select>
 </li>
 <li class="expand">
@@ -522,6 +525,26 @@ $(document).ready(function() {
         step="0.05" id="maxBrt" name="maxBrt"
         onChange="Data.saveInput('maxBrt','Log.Notice');" />
  <span id="maxBrt-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="minInt">MinInt:</label>
+ <div class="min-max">
+ <span id="minInt-min"></span>
+ <input type="number" value="0.85" min="0.05" max="1.00"
+        step="0.05" id="minInt" name="minInt"
+        onChange="Data.saveInput('minInt','Log.Notice');" />
+ <span id="minInt-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="maxInt">MaxInt:</label>
+ <div class="min-max">
+ <span id="maxInt-min"></span>
+ <input type="number" value="0.95" min="0.05" max="1.00"
+        step="0.05" id="maxInt" name="maxInt"
+        onChange="Data.saveInput('maxInt','Log.Notice');" />
+ <span id="maxInt-max"></span>
  </div>
 </li>
 <li>

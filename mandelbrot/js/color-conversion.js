@@ -192,48 +192,6 @@ var rgb2allColorModels = function (r, g, b) {
 	return model;
 };
 
-
-var hsi2rgb = function (H, s, i) {
-
-		var r, g, b;
-		var h = 1*H;
-		var hueUpperLimit = 360;
-		var twoPi = 2*Math.PI;
-		var buckets = 1000;
-		if (h >= 0 && h<= hueUpperLimit/3)
-	  {
-			b = i*(1-s);
-			r = i*(1 + (s*Math.cos(h/twoPi)/Math.cos((60-h)/twoPi)));
-			g = 3*i - (b+r);
-		}
-		else if (h> hueUpperLimit/3 && h <= 2*hueUpperLimit/3)
-		{
-			r = i*(1-s);
-			g = i*(1 + s*Math.cos((h-120)/twoPi)/Math.cos((180-h)/twoPi));
-			b = 3*i - (g + r);
-		}
-		else
-		{
-			g = i*(1-s);
-			b = i*(1 +(s*Math.cos((h-240)/twoPi))/Math.cos((300-h)/twoPi));
-			r = 3*i - (g + b);
-		}
-
-		r *= 256.0;
-		g *= 256.0;
-		b *= 256.0;
-
-		while (r<0) r += 256;
-		while (g<0) g += 256;
-		while (b<0) b += 256;
-
-		r = Math.round(Math.round(r*buckets)/buckets);
-		g = Math.round(Math.round(g*buckets)/buckets);
-		b = Math.round(Math.round(b*buckets)/buckets);
-
-		return {h:H,s:s,i:i,r:r,g:g,b:b};
-};
-
 var hsi2rgb = function (H, s, i) {
 
 		var r, g, b, x, y, z;
@@ -241,10 +199,7 @@ var hsi2rgb = function (H, s, i) {
 
 		var buckets = 10000;
 
-		//x = i * (1 - s);
-		//y = i * (1 + s*(Math.cos(h)/Math.cos(Math.PI/3-h)));
-		//z = 3*i - (x + y);
-		if (h < 2*Math.PI/3)
+		if (h < 2*Math.PI/3) // 0 <= h < 120
 	  {
 		  x = i * (1 - s);
 			y = i * (1 + s*(Math.cos(h)/Math.cos(Math.PI/3-h)));
@@ -253,7 +208,7 @@ var hsi2rgb = function (H, s, i) {
 			r = y;
 			g = z;
 		}
-		else if ((2*Math.PI/3 <= h) && h < 4*Math.PI/3)
+		else if ((2*Math.PI/3 <= h) && h < 4*Math.PI/3) // 120 < h < 240
 		{
 			h = h - 2*Math.PI/3;
 			x = i * (1 - s);
@@ -263,7 +218,7 @@ var hsi2rgb = function (H, s, i) {
 			g = y;
 			b = z;
 		}
-		else
+		else // 240 <= h < 360
 		{
 			h = h - 4*Math.PI/3;
 			x = i * (1 - s);

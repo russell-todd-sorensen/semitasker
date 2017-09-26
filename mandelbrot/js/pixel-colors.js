@@ -564,6 +564,11 @@ pixelColors[7] = function (data) {
 	minBrt = minBrt > maxBrt ? maxBrt : minBrt;
 	maxBrt = maxBrt < minBrt ? minBrt : maxBrt;
 
+  var minInt = data.minInt ? data.minInt : 0.0;
+  var maxInt = data.maxInt ? data.maxInt : 1.0;
+  minInt = minInt > maxInt ? maxInt : minInt;
+  maxInt = maxInt < minInt ? minInt : maxInt;
+
 	var hslOrHsb = data.hslOrHsb ? data.hslOrHsb : "hsl";
 
 	var rampFactor = data.rampFactor;
@@ -573,10 +578,12 @@ pixelColors[7] = function (data) {
 	var satFactor = Math.round(rampFactor*(maxSat-minSat));
 	var brtFactor = Math.round(rampFactor*(maxBrt-minBrt));
 	var levFactor = Math.round(rampFactor*(maxLevel-minLevel));
+  var intFactor = Math.round(rampFactor*(maxInt-minInt));
 
 	satFactor = satFactor == 0 ? 1 : satFactor;
 	brtFactor = brtFactor == 0 ? 1 : brtFactor;
 	levFactor = levFactor == 0 ? 1 : levFactor;
+  intFactor = intFactor == 0 ? 1 : intFactor;
 
 	for (var i = 0; i<fractal.counterMax+1; i++) {
 	//for (var i = fractal.counterMax; i>-1; i--) { no worke
@@ -586,7 +593,8 @@ pixelColors[7] = function (data) {
 			hue = ((Math.round(i*hueFactor+fractal.animationIndex))%3600)/10;
 			sat = maxSat   - ((i*satFactor+fractal.animationIndex)%200)*.005;
 			brt = maxBrt   - ((i*brtFactor+fractal.animationIndex)%200)*.005;
-			lev = maxLevel - ((i*levFactor+fractal.animationIndex)%200)*.005 ;
+			lev = maxLevel - ((i*levFactor+fractal.animationIndex)%200)*.005;
+      int = maxInt   - ((i*intFactor+fractal.animationIndex)%200)*.005;
 			if (lev < minLevel) {
 				lev = minLevel;
 			}
@@ -605,11 +613,20 @@ pixelColors[7] = function (data) {
 			else if (brt > maxBrt) {
 				brt = maxBrt;
 			}
+			if (int < minInt) {
+				int = minInt;
+			}
+			else if (int > maxInt) {
+				int = maxInt;
+			}
 
 			switch (hslOrHsb) {
 			case 'hsb':
 				rgb = hsb2rgb(hue,sat,brt);
 				break;
+  		case 'hsi':
+  			rgb = hsi2rgb(hue,sat,int);
+  			break;
 			case 'hsl':
 			default:
 				rgb = hsl2rgb(hue, sat, lev);
