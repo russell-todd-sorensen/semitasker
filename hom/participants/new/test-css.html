@@ -1,8 +1,6 @@
-<!DOCTYPE HTML>
-<html lang="en_US">
-<head>
+<html lang="en_US"><head>
 <meta charset="utf-8">
-<meta base="http://leaders.hom.church/" />
+<meta base="http://leaders.hom.church/">
 <meta name="viewport" content="width=device-width, initial-scale=0.775 maximum-scale=1.0">
 <title>House of Mercy: Participants</title>
 <link rel="stylesheet" type="text/css" media="all" href="./css/reset.css">
@@ -10,33 +8,52 @@
 <link rel="stylesheet" media="all" href="./css/log.css">
 <link rel="stylesheet" media="all" href="./js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
 <link rel="stylesheet" media="all" href="./css/logo-maker-1.css">
-<link rel="stylesheet" media="all" href="./css/green-form.css" >
+<link rel="stylesheet" media="all" href="./css/green-form.css">
 <link rel="stylesheet" media="all" href="https://file.myfontastic.com/xXW5U9UCxPBxcUuaZGbBJP/icons.css">
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed|Roboto">
 <style type="text/css">
 
 body, html {
     padding: 0;
     margin: -3px;
     width: 450px;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
 }
 
 /* override #panel  styles */
 #panel {
     padding: 0;
-    margin: 0;
+    margin: 5px;
 }
 #panel fieldset {
-    border-width: 2px;
     width: 458px;
-    font-family:  "Arial Narrow", Calibri, "Agency FB", "Browallia New", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
     font-size: 1.4em;
-    /*letter-spacing: 0.03em;*/
+    color: rgba(0,0,0,.95);
+    background-color: #d3d3d3;
+    width: 550px;
+    border-radius: 5px;
 }
+
+#panel fieldset legend {
+    border-radius: 6px;
+}
+
+#panel #search-form {
+    margin: 10px;
+}
+
+#panel #search-form ul {
+    margin-top: 4px;   
+}
+
 #panel h3 {
     width: 99%;
     padding: 3px;
     background-color: rgba(0,0,0,.1);
+    border-radius: 6px;
 }
 
 #panel h3 span {
@@ -52,7 +69,8 @@ body, html {
     width: 280px;
     height: 1.0em;
     font-size: 1.5em;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
     color: darkolivegreen;
 }
 
@@ -60,14 +78,18 @@ body, html {
     display: inline-block;
     width: 4em;
     text-align: right;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
 }
 
 #panel select {
     width: 283px;
     height: 1.5em;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family:  'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
 }
+
+/* .cust is the matched participant list items. */
 
 .cust {
     list-style: none;
@@ -80,8 +102,9 @@ body, html {
 
 .cust:focus {
     background-color: #d3d3d3;
-    border: 2px solid darkolivegreen;
-    outline-color: darkolivegreen;
+    border: none;
+    border-radius: 6px;
+    outline-color: transparent;
 }
 
 .icon-people:before {
@@ -102,9 +125,13 @@ body, html {
     display: inline-block;
     width: 450px;
     vertical-align: top;
-    padding-left: 8px;
+    padding-left: 0px;
     margin-left: 5px;
     margin-top: 3px;
+}
+
+#selection {
+    padding-left: 8px;
 }
 
 #profile {
@@ -182,22 +209,6 @@ body, html {
     width: 440px;
     font-size: .9em;
 }
-/*
-#extra-info {
-    display: none;
-}
-
-#panel #list .radio-option {
-    display: inline-block;
-    width: 100px;
-    vertical-align: top;
-}
-#panel #list label {
-    display: inline-block;
-    width: 150px;
-}
-
-*/
 
 #panel input#searchList {
     width: 20px;
@@ -248,8 +259,28 @@ body, html {
 		    width:450px;
 		}
 }
+
+
+ 
+#panel fieldset {
+    border: none /*solid 3px darkolivegreen*/;
+}
+ 
+#search-form #list .radio-option {
+    font-family:  'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
+}
+
+#panel #participant-info button {
+    border: 1px solid rgba(0,0,0,.5);
+    border-radius: 6px;
+    font-family:  'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
+    margin: 2px;
+    outline-color: transparent;
+}
 </style>
-<script >
+<script>
 
 </script>
 
@@ -305,15 +336,14 @@ $(document).ready(function() {
 </head>
 <body>
 
-<form id="panel" onSubmit="javascript:return false;">
-<fieldset>
+<form id="panel" onsubmit="javascript:return false;">
+<fieldset id='search-form'>
 <h3><span>Participant Search</span></h3>
 <ul>
  <li><label for="fieldToSearch">Search Field:</label>
- <select id="fieldToSearch" tabIndex="7"
-  onChange="Customer.configureSearchField('fieldToSearch')">
+ <select id="fieldToSearch" tabindex="7" onchange="Customer.configureSearchField('fieldToSearch')">
    <option value="search">All Fields</option>
-   <option value="name">Name</option>
+   <option value="name" selected="selected">Name</option>
    <option value="doc">DOC #</option>
    <option value="cco">CCO</option>
    <option value="house">House</option>
@@ -324,17 +354,14 @@ $(document).ready(function() {
    <option value="notes">Notes</option>
   </select>
   </li>
- <li id='list'><label for="searchList">Participants:</label>
-  <span class='radio-container'>
-   <span class='radio-option'><input
-    type='radio' name='searchList' id='searchList' onChange='Customer.configureSearchList("searchList")' value='active'> Active</span>
-   <span class='radio-option'><input 
-   type='radio' name='searchList' id='searchList' onChange='Customer.configureSearchList("searchList")' value='all'> All</span>
+ <li id="list"><label for="searchList">Participants:</label>
+  <span class="radio-container">
+   <span class="radio-option"><input type="radio" name="searchList" id="searchList" onchange="Customer.configureSearchList(&quot;searchList&quot;)" value="active" checked="checked"> Active</span>
+   <span class="radio-option"><input type="radio" name="searchList" id="searchList" onchange="Customer.configureSearchList(&quot;searchList&quot;)" value="all"> All</span>
   </span>
   </li>
   <li style="display:none;"><label for="outputType">Output Type</label>
-  <select id="outputType" name="outputType" tabIndex="7"
-   onChange="Customer.configureOutputType('outputType')">
+  <select id="outputType" name="outputType" tabindex="7" onchange="Customer.configureOutputType('outputType')">
     <option value="list" selected="selected">Link List</option>
     <option value="csv">CSV/Database</option>
     <option value="csv-pastor-james">CSV for Pastor James</option>
@@ -346,17 +373,67 @@ $(document).ready(function() {
 
   </li>
   <li><label for="searchTerms">Search For:</label>
-  <input type="text" id="searchTerms" name="searchTerms" tabIndex="9"
-   onKeyUp="Customer.search('searchTerms','#selection');" />
+  <input type="text" id="searchTerms" name="searchTerms" tabindex="9" onkeyup="Customer.search('searchTerms','#selection');">
   </li>
  </ul>
  </fieldset>
 
 </form>
 <div id="container">
-<div id="selection"></div>
-<div id="profile"></div>
+<div id="selection"><li class="cust icon-people" onclick="Customer.show(748)" onfocus="Customer.show(748)" tabindex="10">Matthew -- Sorensen, Russell</li>
+</div>
+<div id="profile">
+<div id="panel">
+<fieldset id="participant-info">
+<legend>Participant Information</legend>
+<ul>
+<li><label>Participant</label><span class="active">Russell Sorensen</span></li>
+<li><label>DOC</label>353159</li>
+<li><label>Arrival Date</label>4/4/2016</li>
+<li><label>End Date</label>Still Active</li>
+<li><label>Program Role</label>House Leader</li>
+<li><label>Phone</label>253-478-0314</li>
+<li><label>Email Address</label>russell.sorensen@hom.church</li>
+<li><label>Address</label><pre>Russell Sorensen<br>Matthew House<br>22426 30th Ave S<br>Des Moines, WA 98198<br></pre></li>
+</ul>
+<button id="toggle-extra-info" class="hidden" onclick="toggleExtraInfo('extra-info',this);">Show More</button>
+<ul id="extra-info" style="display:none">
+<li><label>Birthday</label>04/09/62</li>
+<li><label>Voucher</label>House Leader, 250 PROGRAM FEES</li>
+<li><label>House</label>Matthew House</li>
+<li><label>Balance</label><button id="accountBalanceButton" onclick="Customer.showAccount(&quot;Matthew -- Sorensen, Russell&quot;,&quot;#lastTransaction&quot;,true);">0.00</button></li>
+<li><label>Last Transaction</label><span id="lastTransaction"></span></li>
+</ul>
+</fieldset>
+<fieldset id="sotp-info">
+<legend>SOTP</legend>
+<ul>
+<li><label>SOTP Therapist</label>Jeff Bailey</li>
+<li><label>Phone</label>Not on file</li>
+<li><label>Cell</label>(253) 345-0690</li>
+<li><label>Email</label>jrbailey@doc1.wa.gov</li>
+</ul>
+</fieldset>
+<fieldset id="cco-info">
+<legend>Corrections Officer</legend>
+<ul>
+<li><label>CCO</label>Jermaine Castillo</li>
+<li><label>CCO Phone</label>(206) 835-7484 ext.       </li>
+<li><label>CCO Cell</label>(206) 450-9807</li>
+<li><label>CCO Email</label>jocastillo@doc1.wa.gov</li>
+</ul>
+</fieldset>
+<fieldset id="emergency-contact-info">
+<legend>Emergency Contact</legend>
+<ul>
+<li><label>Name</label>Mike Newitt</li>
+<li><label>Address</label>3035 S 224th Pl</li>
+<li><label>City, State, Zip</label>Des Moines WA 98198</li>
+<li><label>Phone Number</label>253-250-3167</li>
+<li><label>Email</label>mike.newitt@hom.church</li>
+</ul>
+</fieldset>
+</div></div>
 <a href="javascript:location.reload(true)">Refresh Page</a>
 </div>
-</body>
-</html>
+</body></html>

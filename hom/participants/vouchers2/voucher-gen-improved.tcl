@@ -229,7 +229,7 @@ foreach participant [lsort [array names CUST]] {
         	    if {[regexp -nocase {(DOC Voucher) ([0-1]*[0-9]{1,2})/([0-3]*[0-9]{1,2})/(20[1-2][0-9])} $company allX voucherX monthX dayX yearX]} {
         	        set currentMonth $monthNumber
         	        ns_log Notice "month=$monthX day=$dayX year=$yearX currentMonth=$currentMonth c-m=[expr {$currentMonth-$monthX < 0}]"
-        	        if {$monthX > 10 || $yearX == 2018} {
+        	        if {$monthX >= 10 || $yearX == 2018} {
         	            set skipFurtherProcessing 1
         	            set continue 1
         	            lappend exceptionList "[set $nameField] voucher invoice handled elsewhere"

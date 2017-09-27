@@ -276,33 +276,6 @@ parseExternalContactsCSV = function (csv) {
         if (d["LastName"] == "") {
             return;
         }
-        /*
-        var accountNumber = "", accountName = "";
-        var reg = /([0-9]+) (.) ([a-zA-Z0-9 -]+)/;
-        var matchArray = d["Account"].match(reg);
-        
-        if (matchArray && matchArray.length == 4) {
-            accountNumber = matchArray[1];
-            accountName   = matchArray[3];
-        }
-        var split = d["Split"];
-        var splitAccount = "",splitAccountName = "";
-        
-        if (split != "-SPLIT-") {
-           var splitArray = split.match(reg);
-           if (splitArray && splitArray.length == 4) {
-               splitAccount = splitArray[1];
-               splitAccountName = splitArray[3];
-           }
-        }
-        
-        var search = d["Account"]  +' '+
-                     d["Name"]     +' '+
-                     d["Trans #"]  +' '+
-                     d["Num"]      +' '+
-                     d["Memo"]     +' '+
-                     d["Amount"];
-        */
         
         return {
             contactId: d["ExtUnique"],
@@ -866,7 +839,7 @@ var Customer = {
                 cssClass="positive"
             }
                 
-            console.log('transId=' + transaction.transId);
+            //console.log('transId=' + transaction.transId);
             
             detail = '\n <tr>\n  <td>' + transaction.transId + '</td>';
             detail += '\n  <td>' + transaction.date + '</td>';
@@ -1033,6 +1006,7 @@ var Customer = {
                 html += '\n<li><label>End Date</label>' + customer.endDate + '</li>';
                 html += '\n<li><label>Reason Left</label>' + customer.ctype + '</li>';
             } else {
+                html += '\n<li><label>End Date</label>Still Active</li>';
                 html += '\n<li><label>Program Role</label>' + customer.ctype + '</li>';
             }
             html += '\n<li><label>Phone</label>' + customer.phone1 + '</li>';
@@ -1042,7 +1016,7 @@ var Customer = {
             html += '\n</ul>';
             html += '\n<button id="toggle-extra-info" class="hidden"' ;
             html += ' onClick="toggleExtraInfo(\'extra-info\',this);">Show More</button>';
-            html += '\n<ul id="extra-info">';
+            html += '\n<ul id="extra-info" style="display:none">';
             html += '\n<li><label>Birthday</label>' + customer.dob + '</li>';
             
             if (customer.voucher.length) {
