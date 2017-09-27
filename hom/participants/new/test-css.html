@@ -33,7 +33,6 @@ body, html {
     font-size: 1.4em;
     color: rgba(0,0,0,.95);
     background-color: #d3d3d3;
-    width: 550px;
     border-radius: 5px;
 }
 
@@ -278,6 +277,30 @@ body, html {
     font-family: 'Encode Sans Condensed', sans-serif;
     margin: 2px;
     outline-color: transparent;
+}
+ 
+#panel label {
+    display: inline-block;
+    width: 100px;
+}
+
+#panel #search-form label {
+    width: 150px;
+}
+
+#panel #participant-info {
+    position: relative;
+}
+
+#panel #participant-info img#photo {
+    display: inline-block;
+    position: absolute;
+    right: 6px;
+    top: 22px;
+    border: none;
+    border-radius: 6px;
+    height: 150px;
+    width: 120px;
 }
 </style>
 <script>

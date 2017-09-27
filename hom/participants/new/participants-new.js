@@ -991,28 +991,41 @@ var Customer = {
                                 + customer.name + "\",\"#lastTransaction\",true);'>"
                                 + owesMessage + customerBalance 
                                 + "</button>";
-            
+            var customerInitial = customer.lastName.substring(0,1).toLowerCase();
+            var customerFilename = customer.lastName.toLowerCase();
+                customerFilename += '-';
+                customerFilename += customer.firstName.toLowerCase();
+            var customerImage = customerInitial;
+                customerImage += '/';
+                customerImage += customerFilename;
+                customerImage += '/'
+                customerImage += customerFilename;
+                customerImage += '.jpg';
+                                
             var html = '\n<div id="panel">';
-            html += '\n<fieldset id="participant-info">'
+            html += '\n<fieldset id="participant-info">';
+            html += '\n<img id="photo" src="/test/';
+            html += customerImage;
+            html += '">';
             html += '\n<legend>Participant Information</legend>';
             html += '\n<ul>';
-            html += '\n<li ><label>Participant</label><span class="';
+            html += '\n<li ><label>Name</label><span class="';
             html += activeClass + '">' + customer.firstName + ' ' 
             html += customer.lastName + '</span></li>';
             html += '\n<li><label>DOC</label>' + customer.doc + '</li>';
             
-            html += '\n<li><label>Arrival Date</label>' + customer.startDate + '</li>';
+            html += '\n<li><label>Arrived</label>' + customer.startDate + '</li>';
             if (!customer.active) {
-                html += '\n<li><label>End Date</label>' + customer.endDate + '</li>';
-                html += '\n<li><label>Reason Left</label>' + customer.ctype + '</li>';
+                html += '\n<li><label>Status</label>' + customer.endDate + '</li>';
+                html += '\n<li><label>Reason</label>' + customer.ctype + '</li>';
             } else {
-                html += '\n<li><label>End Date</label>Still Active</li>';
-                html += '\n<li><label>Program Role</label>' + customer.ctype + '</li>';
+                html += '\n<li><label>Status</label>Still Active</li>';
+                html += '\n<li><label>Role</label>' + customer.ctype + '</li>';
             }
             html += '\n<li><label>Phone</label>' + customer.phone1 + '</li>';
-            html += '\n<li><label>Email Address</label>' + customer.email + '</li>';
             
             html += '\n<li><label>Address</label>' + '<pre>' + customer.address + '</pre></li>';
+            html += '\n<li><label>Email</label>' + customer.email + '</li>';
             html += '\n</ul>';
             html += '\n<button id="toggle-extra-info" class="hidden"' ;
             html += ' onClick="toggleExtraInfo(\'extra-info\',this);">Show More</button>';
@@ -1024,7 +1037,7 @@ var Customer = {
             }
             html += '\n<li><label>House</label>' + customer.house + ' House</li>';
             html += '\n<li><label>Balance</label>' + accountBalanceHtml + '</li>';
-            html += '\n<li><label>Last Transaction</label>' + '<span id="lastTransaction"></span></li>';
+            html += '\n<li><label>Last Trans</label>' + '<span id="lastTransaction"></span></li>';
             html += '\n</ul>';
             html += '\n</fieldset>';
             
@@ -1033,7 +1046,7 @@ var Customer = {
                 html += '\n<fieldset id="sotp-info">';
                 html += '\n<legend>SOTP</legend>';
                 html += '\n<ul>';
-                html += '\n<li><label>SOTP Therapist</label>';
+                html += '\n<li><label>Therapist</label>';
                 html +=  sotp.name + '</li>';
                 html += '\n<li><label>Phone</label>' + sotp.phone + '</li>';
                 html += '\n<li><label>Cell</label>' + sotp.cell + '</li>';
@@ -1049,9 +1062,9 @@ var Customer = {
                 html += '\n<ul>';
                
                 html += '\n<li><label>CCO</label>' + cco.name + '</li>';
-                html += '\n<li><label>CCO Phone</label>' + cco.phone + '</li>';
-                html += '\n<li><label>CCO Cell</label>' + cco.cell + '</li>';
-                html += '\n<li><label>CCO Email</label>' + cco.email + '</li>';
+                html += '\n<li><label>Phone</label>' + cco.phone + '</li>';
+                html += '\n<li><label>Cell</label>' + cco.cell + '</li>';
+                html += '\n<li><label>Email</label>' + cco.email + '</li>';
                 html += '\n</ul>';
                 html += '\n</fieldset>';
             }
@@ -1063,8 +1076,8 @@ var Customer = {
                 html += '\n<ul>';
                 html += '\n<li><label>Name</label>' + customer.saddr1 + '</li>';
                 html += '\n<li><label>Address</label>' + customer.saddr2 + '</li>';
-                html += '\n<li><label>City, State, Zip</label>' + customer.saddr3 + '</li>';
-                html += '\n<li><label>Phone Number</label>' + customer.saddr4 + '</li>';
+                html += '\n<li><label>C,S,Z</label>' + customer.saddr3 + '</li>';
+                html += '\n<li><label>Phone</label>' + customer.saddr4 + '</li>';
                 html += '\n<li><label>Email</label>' + customer.saddr5 + '</li>';
                 html += '\n</ul>';
                 html += '\n</fieldset>';
@@ -1248,7 +1261,7 @@ var Participant = function () {
             }
             var html = '\n<div id="panel">';
             html += '\n<ul>';
-            html += '\n<li ><label>Participant</label><span class="';
+            html += '\n<li ><label>Name</label><span class="';
             html += activeClass + '">' + customer.firstName + ' ' 
             html += customer.lastName + '</span></li>';
             html += '\n<li><label>House</label>' + customer.house + ' House</li>';
