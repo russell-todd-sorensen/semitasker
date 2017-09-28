@@ -12,31 +12,51 @@
 <link rel="stylesheet" media="all" href="./css/logo-maker-1.css">
 <link rel="stylesheet" media="all" href="./css/green-form.css" >
 <link rel="stylesheet" media="all" href="https://file.myfontastic.com/xXW5U9UCxPBxcUuaZGbBJP/icons.css">
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed|Roboto">
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed:500">
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed:600">
 <style type="text/css">
 
 body, html {
     padding: 0;
     margin: -3px;
     width: 450px;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
 }
 
 /* override #panel  styles */
 #panel {
     padding: 0;
-    margin: 0;
+    margin: 5px;
 }
 #panel fieldset {
-    border-width: 2px;
     width: 458px;
-    font-family:  "Arial Narrow", Calibri, "Agency FB", "Browallia New", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
     font-size: 1.4em;
-    /*letter-spacing: 0.03em;*/
+    color: rgba(0,0,0,.95);
+    background-color: #d3d3d3;
+    border-radius: 5px;
 }
+
+#panel fieldset legend {
+    border-radius: 6px;
+}
+
+#panel #search-form {
+    margin: 10px;
+}
+
+#panel #search-form ul {
+    margin-top: 4px;
+}
+
 #panel h3 {
     width: 99%;
     padding: 3px;
     background-color: rgba(0,0,0,.1);
+    border-radius: 6px;
 }
 
 #panel h3 span {
@@ -52,7 +72,8 @@ body, html {
     width: 280px;
     height: 1.0em;
     font-size: 1.5em;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
     color: darkolivegreen;
 }
 
@@ -60,14 +81,18 @@ body, html {
     display: inline-block;
     width: 4em;
     text-align: right;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
 }
 
 #panel select {
     width: 283px;
     height: 1.5em;
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family:  'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
 }
+
+/* .cust is the matched participant list items. */
 
 .cust {
     list-style: none;
@@ -80,8 +105,9 @@ body, html {
 
 .cust:focus {
     background-color: #d3d3d3;
-    border: 2px solid darkolivegreen;
-    outline-color: darkolivegreen;
+    border: none;
+    border-radius: 6px;
+    outline-color: transparent;
 }
 
 .icon-people:before {
@@ -96,15 +122,23 @@ body, html {
     margin: 0;
 }
 
-#selection, 
+#selection,
 #profile {
     padding: 0;
     display: inline-block;
     width: 450px;
     vertical-align: top;
-    padding-left: 8px;
+    padding-left: 0px;
     margin-left: 5px;
     margin-top: 3px;
+}
+
+#selection {
+    padding-left: 8px;
+}
+
+#selection li {
+    padding-bottom: 2.5px;
 }
 
 #profile {
@@ -112,8 +146,9 @@ body, html {
     border: solid darkolivegreen 2px; */
 }
 
-#profile label {
-    font-weight: bold;
+#profile label,
+#search-form label {
+    font-weight: 500;
     vertical-align: top;
 }
 
@@ -182,22 +217,6 @@ body, html {
     width: 440px;
     font-size: .9em;
 }
-/*
-#extra-info {
-    display: none;
-}
-
-#panel #list .radio-option {
-    display: inline-block;
-    width: 100px;
-    vertical-align: top;
-}
-#panel #list label {
-    display: inline-block;
-    width: 150px;
-}
-
-*/
 
 #panel input#searchList {
     width: 20px;
@@ -243,10 +262,53 @@ body, html {
 			float:none;
 			width: auto;
 		}
-		
+
 		@-ms-viewport {
 		    width:450px;
 		}
+}
+
+#panel fieldset {
+    border: none /*solid 3px darkolivegreen*/;
+}
+
+#search-form #list .radio-option {
+    font-family:  'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
+}
+
+#panel #participant-info button {
+    border: 1px solid rgba(0,0,0,.5);
+    border-radius: 6px;
+    font-family:  'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
+    margin: 2px;
+    outline-color: transparent;
+}
+
+#panel label {
+    display: inline-block;
+    width: 100px;
+}
+
+#panel #search-form label {
+    width: 150px;
+}
+
+#panel #participant-info {
+    position: relative;
+}
+
+#panel #participant-info img#photo {
+    display: inline-block;
+    position: absolute;
+    right: 6px;
+    top: 22px;
+    border: none;
+    border-color: transparent;
+    border-radius: 6px;
+    height: 150px;
+    width: 120px;
 }
 </style>
 <script >
@@ -270,7 +332,7 @@ body, html {
 var extraInfo = false;
 
 var toggleExtraInfo = function(id,ref) {
-    
+
     buttonId = ref.id;
     if (extraInfo) {
         $('#' + id).hide();
@@ -282,7 +344,7 @@ var toggleExtraInfo = function(id,ref) {
         extraInfo = true;
     }
     return false;
-} 
+}
 
 $(document).ready(function() {
 
@@ -294,7 +356,7 @@ $(document).ready(function() {
     loadXHRFile("./data/customer-transactions.csv",getCustomerTransactionsCSV);
     loadXHRFile("./data/tblExtContInfo.csv",getExternalContactsCSV);
     Log.Remove();
-    
+
     searchList = 'all';
     //Customer.setup();
 
@@ -306,7 +368,7 @@ $(document).ready(function() {
 <body>
 
 <form id="panel" onSubmit="javascript:return false;">
-<fieldset>
+<fieldset id='search-form'>
 <h3><span>Participant Search</span></h3>
 <ul>
  <li><label for="fieldToSearch">Search Field:</label>
@@ -328,7 +390,7 @@ $(document).ready(function() {
   <span class='radio-container'>
    <span class='radio-option'><input
     type='radio' name='searchList' id='searchList' onChange='Customer.configureSearchList("searchList")' value='active'> Active</span>
-   <span class='radio-option'><input 
+   <span class='radio-option'><input
    type='radio' name='searchList' id='searchList' onChange='Customer.configureSearchList("searchList")' value='all'> All</span>
   </span>
   </li>

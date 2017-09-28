@@ -45,7 +45,7 @@ body, html {
 }
 
 #panel #search-form ul {
-    margin-top: 4px;   
+    margin-top: 4px;
 }
 
 #panel h3 {
@@ -118,7 +118,7 @@ body, html {
     margin: 0;
 }
 
-#selection, 
+#selection,
 #profile {
     padding: 0;
     display: inline-block;
@@ -253,18 +253,18 @@ body, html {
 			float:none;
 			width: auto;
 		}
-		
+
 		@-ms-viewport {
 		    width:450px;
 		}
 }
 
 
- 
+
 #panel fieldset {
     border: none /*solid 3px darkolivegreen*/;
 }
- 
+
 #search-form #list .radio-option {
     font-family:  'Roboto', sans-serif;
     font-family: 'Encode Sans Condensed', sans-serif;
@@ -278,7 +278,7 @@ body, html {
     margin: 2px;
     outline-color: transparent;
 }
- 
+
 #panel label {
     display: inline-block;
     width: 100px;
@@ -324,7 +324,7 @@ body, html {
 var extraInfo = false;
 
 var toggleExtraInfo = function(id,ref) {
-    
+
     buttonId = ref.id;
     if (extraInfo) {
         $('#' + id).hide();
@@ -336,7 +336,7 @@ var toggleExtraInfo = function(id,ref) {
         extraInfo = true;
     }
     return false;
-} 
+}
 
 $(document).ready(function() {
 
@@ -348,7 +348,7 @@ $(document).ready(function() {
     loadXHRFile("./data/customer-transactions.csv",getCustomerTransactionsCSV);
     loadXHRFile("./data/tblExtContInfo.csv",getExternalContactsCSV);
     Log.Remove();
-    
+
     searchList = 'all';
     //Customer.setup();
 

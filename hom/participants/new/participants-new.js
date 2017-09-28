@@ -69,7 +69,7 @@ function getCustomerIIF(evt) {
   if (evt.currentTarget.readyState < 4) {
     return;
   }
-  
+
   parseCustomerIIF(convertIIF(evt.currentTarget));
 }
 
@@ -77,7 +77,7 @@ function getOtherNamesIIF(evt) {
   if (evt.currentTarget.readyState < 4) {
     return;
   }
-  
+
   parseOtherNamesIIF(convertIIF(evt.currentTarget));
 }
 
@@ -85,7 +85,7 @@ function getSalesRepsIIF(evt) {
   if (evt.currentTarget.readyState < 4) {
     return;
   }
-  
+
   parseSalesRepsIIF(convertIIF(evt.currentTarget));
 }
 
@@ -93,7 +93,7 @@ function getCustomerWithBalancesCSV(evt) {
   if (evt.currentTarget.readyState < 4) {
     return;
   }
-  
+
   parseCustomerWithBalancesCSV(evt.currentTarget.responseText);
 }
 
@@ -101,15 +101,15 @@ function getCustomerTransactionsCSV(evt) {
   if (evt.currentTarget.readyState < 4) {
     return;
   }
-  
-  parseCustomerTransactionsCSV(evt.currentTarget.responseText); 
+
+  parseCustomerTransactionsCSV(evt.currentTarget.responseText);
 }
 
 function getAllTransactionsCSV(evt) {
   if (evt.currentTarget.readyState < 4) {
     return;
   }
-  
+
   parseAllTransactionsCSV(evt.currentTarget.responseText);
 }
 
@@ -117,7 +117,7 @@ function getExternalContactsCSV(evt) {
   if (evt.currentTarget.readyState < 4) {
     return;
   }
-  
+
   parseExternalContactsCSV(evt.currentTarget.responseText);
 }
 
@@ -125,9 +125,9 @@ function convertIIF (xhr) {
   var tabRegexp = /[\t]/gi;
   return xhr.responseText.replace(tabRegexp, ',');
 }
-  
+
 parseCustomerWithBalancesCSV = function (csv) {
-    
+
     customerBalancesData = d3.csvParse(csv, function(d,i) {
         var search = d["Customer"]     +' '+
                      d["Customer Type"] +' '+
@@ -157,13 +157,13 @@ parseCustomerWithBalancesCSV = function (csv) {
         };
 
     });
-    
+
     console.log("done loading customerBalances csv file");
     trimData(customerBalancesData,activeCustomerBalances)
 };
-  
+
 parseCustomerTransactionsCSV = function (csv) {
-    
+
     customerTransactionsData = d3.csvParse(csv, function(d,i) {
         var search = d["Name"]     +' '+
                      d["Trans #"]  +' '+
@@ -193,30 +193,30 @@ parseCustomerTransactionsCSV = function (csv) {
         };
 
     });
-    
+
     console.log("done loading customerTransactions csv file");
     //trimData(customerTransactionsData,activeCustomerBalances);
 };
 
-  
+
 parseAllTransactionsCSV = function (csv) {
-    
+
     allTransactionsData = d3.csvParse(csv, function(d,i) {
         if (d["Account"] == "") {
             return;
         }
-        
+
         var accountNumber = "", accountName = "";
         var reg = /([0-9]+) (.) ([a-zA-Z0-9 -]+)/;
         var matchArray = d["Account"].match(reg);
-        
+
         if (matchArray && matchArray.length == 4) {
             accountNumber = matchArray[1];
             accountName   = matchArray[3];
         }
         var split = d["Split"];
         var splitAccount = "",splitAccountName = "";
-        
+
         if (split != "-SPLIT-") {
            var splitArray = split.match(reg);
            if (splitArray && splitArray.length == 4) {
@@ -224,7 +224,7 @@ parseAllTransactionsCSV = function (csv) {
                splitAccountName = splitArray[3];
            }
         }
-        
+
         var search = d["Account"]  +' '+
                      d["Name"]     +' '+
                      d["Trans #"]  +' '+
@@ -265,18 +265,18 @@ parseAllTransactionsCSV = function (csv) {
         };
 
     });
-    
+
     console.log("done loading allTransactions csv file");
 };
 
-  
+
 parseExternalContactsCSV = function (csv) {
-    
+
     externalContactsData = d3.csvParse(csv, function(d,i) {
         if (d["LastName"] == "") {
             return;
         }
-        
+
         return {
             contactId: d["ExtUnique"],
             type: d["ExtContType"],
@@ -290,18 +290,18 @@ parseExternalContactsCSV = function (csv) {
             location: d["Location"],
         };
     });
-    
+
     console.log("done loading external-contacts csv file");
 };
 
 parseCustomerCSV = function (csv) {
-    
+
     customerData = d3.csvParse(csv, function(d,i) {
         var search = d.NAME     +' '+
                      d.CUSTFLD5 +' '+
                      d.CUSTFLD6 +' '+
                      d.CUSTFLD9 ;
-               
+
         return {
             name: d.NAME,
             firstName: d.FIRSTNAME,
@@ -330,14 +330,14 @@ parseCustomerCSV = function (csv) {
 };
 
 parseCustomerIIF = function (iif) {
-    
+
     console.log('parseCustomerIIF starting');
     var start = iif.search('!CUST,NAME');
     iif = iif.substring(start, iif.length-1);
     console.log('start = ' + start);
     console.log('length = ' + iif.length);
     console.log('substring start =' + iif.substring(0,15));
-    
+
     customerData = d3.csvParse(iif, function(d,i) {
         var search = d.NAME     +' '+
                      d.CUSTFLD5 +' '+
@@ -352,7 +352,7 @@ parseCustomerIIF = function (iif) {
             rep = repArray[1];
             repInitials = repArray[5];
         }
-        
+
         var custInfo  = {
             jobdesc: d.JOBDESC,
             jobtype: d.JOBTYPE,
@@ -361,12 +361,12 @@ parseCustomerIIF = function (iif) {
             jobprojend: d.JOBPROGEND,
             jobend: d.JOBEND,
         }
-        
+
         var programStatus = custInfo.jobdesc.toLowerCase().trim();
         var programRole = false;
         var progStartDate = false;
         var custBirthday = false;
-        
+
         if (programStatus == 'program status') {
             var progStatusReg = new RegExp(/(program status):([a-z0-9\'-])+/,'i');
             var progStatusArray = custInfo.jobtype.match(progStatusReg);
@@ -375,12 +375,12 @@ parseCustomerIIF = function (iif) {
                 if (programRole.trim() != '') {
                     d.CUSTROLE = programRole;
                 }
-             } 
+             }
         }
-        
-        
+
+
         var dateRegexp = new RegExp(/([0-2]?[0-9])[\/]([0-1]?[0-9])[\/]((19|20)?[0-9]{2})/);
-        
+
         var custStartDate;
         if (custInfo.jobstart) {
             var custStartDateArray = custInfo.jobstart.match(dateRegexp);
@@ -388,7 +388,7 @@ parseCustomerIIF = function (iif) {
                 custStartDate = custStartDateArray[0];
             }
         }
-        
+
         var custBirthday;
         if (custInfo.jobprogend) {
             var custBirthdayArray = custInfo.jobprogend.match(dateRegexp);
@@ -396,7 +396,7 @@ parseCustomerIIF = function (iif) {
                 custBirthday = custBirthdayArray[0];
             }
         }
-        
+
         var custEndDate;
         if (custInfo.jobend) {
             var custEndDateArray = custInfo.jobend.match(dateRegexp);
@@ -425,7 +425,7 @@ parseCustomerIIF = function (iif) {
             ctype: d.CTYPE,
             custRole: d.CUSTROLE,
             voucher: d.COMPANYNAME,
-            // bad form below, remove html 
+            // bad form below, remove html
             address: d.BADDR1 + '<br>' + d.BADDR2 + '<br>'
                    + d.BADDR3 + '<br>' + d.BADDR4 + '<br>',
             address2: d.BADDR1 + ' ' + d.BADDR2 + ' '
@@ -473,21 +473,21 @@ parseCustomerIIF = function (iif) {
         };
 
     });
-    
+
     console.log("done loading customer iif file.");
     trimData(customerData,activeCustomers);
     Customer.setup();
 };
 
 parseSalesRepsIIF = function (iif) {
-    
+
     console.log('parseSalesRepsIIF starting');
     var start = iif.search('!SALESREP,INITIALS');
     iif = iif.substring(start, iif.length-1);
     console.log('start = ' + start);
     console.log('length = ' + iif.length);
     console.log('substring start =' + iif.substring(0,15));
-    
+
     salesRepData = d3.csvParse(iif, function(d,i) {
         var search = d.ASSOCIATEDNAME +' '+
                      d.INITIALS;
@@ -502,21 +502,21 @@ parseSalesRepsIIF = function (iif) {
         };
 
     });
-    
+
     console.log("done loading customer iif file.");
     trimData(salesRepData,activeSalesReps);
     Customer.setup();
 };
 
 parseOtherNamesIIF = function (iif) {
-    
+
     console.log('parseOtherNamesIIF starting');
     var start = iif.search('!OTHERNAME,NAME');
     iif = iif.substring(start, iif.length-1);
     console.log('start = ' + start);
     console.log('length = ' + iif.length);
     console.log('substring start =' + iif.substring(0,10));
-    
+
     otherNamesData = d3.csvParse(iif, function(d,i) {
         var search = d.NAME +' '+
                      d.COMPANYNAME +' '+
@@ -537,14 +537,14 @@ parseOtherNamesIIF = function (iif) {
             phone1: d.PHONE1,
             phone2: d.PHONE2,
             fax: d.FAXNUM,
-            notes: d.NOTE    +'<br>'+ 
+            notes: d.NOTE    +'<br>'+
                    d.NOTEPAD +'<br>'+
                    d.CONT1   +'<br>'+
                    d.CONT2,
         };
 
     });
-    
+
     console.log("done loading other names iif file.");
     trimData(otherNamesData,activeOtherNames);
     //Customer.merge();
@@ -552,13 +552,13 @@ parseOtherNamesIIF = function (iif) {
 
 
 function trimData(inputArray,outputArray) {
-  
+
     var item = {};
-    
+
     for (var i = 0;i<inputArray.length;i++) {
-        
+
         item = inputArray[i];
-        
+
         if (item.active) {
             outputArray.push(item);
         }
@@ -575,7 +575,7 @@ var CustomerBalances = {
             }
         }
         return -1;
-    },  
+    },
 };
 
 
@@ -611,12 +611,12 @@ var Customer = {
             var customer;
             tmpSearchList = tmpList;
             $(outputSelector).html('');
-            
+
             // outputType is global variable
             if (!type) {
                 type = outputType;
             }
-            
+
             if (type == 'json') {
                 var re = new RegExp(/<br>/,'g');
                 var re2 = new RegExp(/\'/,'g');
@@ -626,12 +626,12 @@ var Customer = {
                 $(outputSelector).html(json);
                 return;
             }
-            
+
             for (var i = 0;i<tmpSearchList.length;i++) {
                 customer = tmpSearchList[i];
- 
+
                 switch (type) {
-  
+
                 case 'csv':
                     if (i==0) {
                         // put csv header
@@ -640,7 +640,7 @@ var Customer = {
                     }
 
                     $(outputSelector)
-                      .append(',,"' + customer.lastName 
+                      .append(',,"' + customer.lastName
                         + ', ' + customer.firstName
                         + '",,' + customer.house + '<br>');
                     break;
@@ -687,7 +687,7 @@ var Customer = {
                           $(outputSelector)
                               .append('id,type,firstName,lastName,doc,arrived,house,address1,address2,address3,active<br>');
                       }
-                      
+
 
                         $(outputSelector)
                         .append(  customer.id        +  ','  +
@@ -703,7 +703,7 @@ var Customer = {
                                   customer.active    + '<br>'
                       );
                       break;
-                  case 'csv-pastor-james': 
+                  case 'csv-pastor-james':
                       if (i==0) {
                           // put header file
                           $(outputSelector)
@@ -731,7 +731,7 @@ var Customer = {
                     break;
                 } // end switch
             } // end for
-            
+
             if (type == 'csv-pastor-james') {
                 var subWindow = window.open(
                     "",
@@ -746,9 +746,9 @@ var Customer = {
         evt = event;
         var searchString = $('#' + inputId).val();
         var searchRegExp = new RegExp(searchString,"i");
- 
+
         if (tmpSearchList.length == 0) {
-            tmpSearchList = searchLists[searchList].list;   
+            tmpSearchList = searchLists[searchList].list;
         }
         if (evt.key == "Backspace") {
             tmpSearchList = searchLists[searchList].list;
@@ -756,7 +756,7 @@ var Customer = {
         if (searchString.length <= searchLength) {
             tmpSearchList = searchLists[searchList].list;
         }
-        
+
         searchLength = searchString.length;
         var match = [];
         var tmpTmpSearchList = [];
@@ -768,13 +768,13 @@ var Customer = {
             }
         }
         if (tmpTmpSearchList.length > 0) {
-            
+
             Customer.write(tmpTmpSearchList,outputSelector);
-            
+
             if (tmpTmpSearchList.length == 1) {
                 Customer.show(customer.id);
             }
-            
+
             Data.saveInput(inputId,'Customer.restore');
         } else {
             // restore previous search term
@@ -804,7 +804,7 @@ var Customer = {
             }
         }
         return -1;
-        
+
     },
     showAccount: function (name,outputSelector,justLastTransaction) {
         console.log("showAccount for " + name);
@@ -812,13 +812,13 @@ var Customer = {
         var success = false;
         var foundLast = false;
         var transaction;
-        
+
         elem.html('');
         var html = '<table id="accountTable">';
         html += '\n<!--<legend>Account Details for: ' + name + '</legend>-->';
         html += '\n <tr><th>Id</th><th>Date</th><th>Type</th><th>Credit</th><th>Debit</th><th>Balance</th>';
         var detail = "";
-        
+
         for (var i = 0; i<customerTransactionsData.length;i++) {
             if (customerTransactionsData[i].name == name) {
                 success = true;
@@ -833,14 +833,14 @@ var Customer = {
             }
             var tb = parseFloat(transaction.balance).toFixed(2);
             var cssClass = "";
-            if (tb > 0) { 
+            if (tb > 0) {
                 cssClass="negative"
             } else {
                 cssClass="positive"
             }
-                
+
             //console.log('transId=' + transaction.transId);
-            
+
             detail = '\n <tr>\n  <td>' + transaction.transId + '</td>';
             detail += '\n  <td>' + transaction.date + '</td>';
             detail += '\n  <td>' + transaction.type + '</td>';
@@ -853,11 +853,11 @@ var Customer = {
                 html += detail;
             }
         }
-        
+
         if (justLastTransaction && justLastTransaction == true) {
              html += detail;
         }
-        
+
         html += '</table>';
         elem.append(html);
     },
@@ -927,11 +927,11 @@ var Customer = {
                     cco.email = 'Not on file';
                 }
             }
-            
+
             if (customer.sotp != '' && customer.sotp != 'N') {
-                
+
                 fullName = customer.sotp;
-               
+
                 for (var i = 0;i<externalContactsData.length;i++) {
                     if (externalContactsData[i].fullName == fullName) {
                         externalContact = externalContactsData[i];
@@ -939,11 +939,11 @@ var Customer = {
                         break;
                     }
                 }
-                
+
                 if (fullName.trim() == 'Y') {
                     foundExternalContact = false;
                 }
-                
+
                 if (foundExternalContact == true) {
                     sotp.insotp = true;
                     sotp.name = fullName;
@@ -987,9 +987,9 @@ var Customer = {
                 owesMessage = "Owes ";
             }
             var accountBalanceHtml = "<button id='accountBalanceButton' ";
-            accountBalanceHtml += "onClick='Customer.showAccount(\"" 
+            accountBalanceHtml += "onClick='Customer.showAccount(\""
                                 + customer.name + "\",\"#lastTransaction\",true);'>"
-                                + owesMessage + customerBalance 
+                                + owesMessage + customerBalance
                                 + "</button>";
             var customerInitial = customer.lastName.substring(0,1).toLowerCase();
             var customerFilename = customer.lastName.toLowerCase();
@@ -1001,29 +1001,29 @@ var Customer = {
                 customerImage += '/'
                 customerImage += customerFilename;
                 customerImage += '.jpg';
-                                
+
             var html = '\n<div id="panel">';
             html += '\n<fieldset id="participant-info">';
-            html += '\n<img id="photo" src="/test/';
+            html += '\n<img id="photo" onerror="this.style.display=\'none\'" src="/test/';
             html += customerImage;
             html += '">';
             html += '\n<legend>Participant Information</legend>';
             html += '\n<ul>';
             html += '\n<li ><label>Name</label><span class="';
-            html += activeClass + '">' + customer.firstName + ' ' 
+            html += activeClass + '">' + customer.firstName + ' '
             html += customer.lastName + '</span></li>';
             html += '\n<li><label>DOC</label>' + customer.doc + '</li>';
-            
+
             html += '\n<li><label>Arrived</label>' + customer.startDate + '</li>';
             if (!customer.active) {
-                html += '\n<li><label>Status</label>' + customer.endDate + '</li>';
+                html += '\n<li><label>Left On</label>' + customer.endDate + '</li>';
                 html += '\n<li><label>Reason</label>' + customer.ctype + '</li>';
             } else {
                 html += '\n<li><label>Status</label>Still Active</li>';
                 html += '\n<li><label>Role</label>' + customer.ctype + '</li>';
             }
             html += '\n<li><label>Phone</label>' + customer.phone1 + '</li>';
-            
+
             html += '\n<li><label>Address</label>' + '<pre>' + customer.address + '</pre></li>';
             html += '\n<li><label>Email</label>' + customer.email + '</li>';
             html += '\n</ul>';
@@ -1031,7 +1031,7 @@ var Customer = {
             html += ' onClick="toggleExtraInfo(\'extra-info\',this);">Show More</button>';
             html += '\n<ul id="extra-info" style="display:none">';
             html += '\n<li><label>Birthday</label>' + customer.dob + '</li>';
-            
+
             if (customer.voucher.length) {
                 html +=  '\n<li><label>Voucher</label>' + customer.voucher + '</li>';
             }
@@ -1040,7 +1040,7 @@ var Customer = {
             html += '\n<li><label>Last Trans</label>' + '<span id="lastTransaction"></span></li>';
             html += '\n</ul>';
             html += '\n</fieldset>';
-            
+
             //////////////// SOTP INFORMATION /////////////////////////
             if (sotp.insotp) {
                 html += '\n<fieldset id="sotp-info">';
@@ -1054,13 +1054,13 @@ var Customer = {
                 html += '\n</ul>';
                 html += '\n</fieldset>';
             }
-            
+
             ///////////////////// DOC INFORMATION //////////////////////
             if (cco.ondoc) {
                 html += '\n<fieldset id="cco-info">';
                 html += '\n<legend>Corrections Officer</legend>';
                 html += '\n<ul>';
-               
+
                 html += '\n<li><label>CCO</label>' + cco.name + '</li>';
                 html += '\n<li><label>Phone</label>' + cco.phone + '</li>';
                 html += '\n<li><label>Cell</label>' + cco.cell + '</li>';
@@ -1068,7 +1068,7 @@ var Customer = {
                 html += '\n</ul>';
                 html += '\n</fieldset>';
             }
-            
+
             ////////////////// EMERGENCY CONTACT INFORMATION ///////////
             if (customer.econtact) {
                 html += '\n<fieldset id="emergency-contact-info">';
@@ -1082,15 +1082,15 @@ var Customer = {
                 html += '\n</ul>';
                 html += '\n</fieldset>';
             }
-            
+
             html += '\n</ul></div>'
-            
+
             $('#profile').html(html);
         }
         return index;
     },
     setup: function setup () {
-    
+
         searchLists['active'] = {
             list: activeCustomers,
             name: 'active',
@@ -1106,21 +1106,21 @@ var Customer = {
             name: 'tmp',
             fields: {}
         }
-        
+
         Data.restoreSelect('fieldToSearch');
         Data.restoreCheckbox('searchList');
         Data.restoreSelect('outputType');
-    
+
         tmpSearchList = searchLists[searchList].list;
         searchLists['tmp'].list = tmpSearchList;
     },
     merge: function () {
-        
-        
-        
+
+
+
     },
 
-  
+
 };
 
 var Cust = {
@@ -1143,7 +1143,7 @@ var Cust = {
         searchLength = searchString.length;
     },
     setup: function setup () {
-    
+
         searchLists['active'] = {
             list: activeCustomers,
             name: 'active',
@@ -1159,11 +1159,11 @@ var Cust = {
             name: 'tmp',
             fields: {}
         }
-        
+
         Data.restoreSelect('fieldToSearch');
         Data.restoreCheckbox('searchList');
         Data.restoreSelect('outputType');
-    
+
         tmpSearchList = searchLists[searchList].list;
         searchLists['tmp'].list = tmpSearchList;
     },
@@ -1171,7 +1171,7 @@ var Cust = {
 // Participant Object
 
 var Participant = function () {
- 
+
     this.write = function (tmpList, outputSelector) {
             tmpSearchList = tmpList;
             $(outputSelector).html('');
@@ -1179,9 +1179,9 @@ var Participant = function () {
                 customer = tmpSearchList[i];
                 // outputType is global variable
                 switch (outputType) {
-  
+
                 case 'csv':
-                    $(outputSelector).append(',,"' + customer.lastName 
+                    $(outputSelector).append(',,"' + customer.lastName
                         + ', ' + customer.firstName
                         + '",,' + customer.house + '<br>');
                     break;
@@ -1200,9 +1200,9 @@ var Participant = function () {
         evt = event;
         var searchString = $('#' + inputId).val();
         var searchRegExp = new RegExp(searchString,"i");
- 
+
         if (tmpSearchList.length == 0) {
-            tmpSearchList = searchLists[searchList].list;   
+            tmpSearchList = searchLists[searchList].list;
         }
         if (evt.key == "Backspace") {
             tmpSearchList = searchLists[searchList].list;
@@ -1210,7 +1210,7 @@ var Participant = function () {
         if (searchString.length <= searchLength) {
             tmpSearchList = searchLists[searchList].list;
         }
-        
+
         searchLength = searchString.length;
         var match = [];
         var tmpTmpSearchList = [];
@@ -1222,13 +1222,13 @@ var Participant = function () {
             }
         }
         if (tmpTmpSearchList.length > 0) {
-            
+
             Customer.write(tmpTmpSearchList,outputSelector);
-            
+
             if (tmpTmpSearchList.length == 1) {
                 Customer.show(customer.id);
             }
-            
+
             Data.saveInput(inputId,'Customer.restore');
         } else {
             // restore previous search term
@@ -1262,7 +1262,7 @@ var Participant = function () {
             var html = '\n<div id="panel">';
             html += '\n<ul>';
             html += '\n<li ><label>Name</label><span class="';
-            html += activeClass + '">' + customer.firstName + ' ' 
+            html += activeClass + '">' + customer.firstName + ' '
             html += customer.lastName + '</span></li>';
             html += '\n<li><label>House</label>' + customer.house + ' House</li>';
             if (customer.voucher.length) {
@@ -1270,7 +1270,7 @@ var Participant = function () {
             }
             html += '\n<li><label>DOC</label>' + customer.doc + '</li>';
             html += '\n<li><label>CCO</label>' + customer.cco + '</li>';
-            html += '\n<li><label>SOTP</label>' 
+            html += '\n<li><label>SOTP</label>'
             html +=  customer.sotp + '</label>';
             html += '\n<li><label>Active</label>';
             html += (customer.active ? 'Yes' : 'No') + '</li>';;
@@ -1283,22 +1283,22 @@ var Participant = function () {
                 html += '\<li><label>Program Role</label>' + customer.ctype + '</li>';
             }
             html += '\n<li><label>Address</label>' + '<pre>' + customer.address + '</pre></li>';
-    
+
             html += '\n</ul></div>'
-            
+
             $('#profile').html(html);
         }
         return index;
     };
 
     this.merge = function () {
-        
-        
-        
+
+
+
     };
 
-    return this;     
-  
+    return this;
+
 };
 
 
@@ -1308,4 +1308,3 @@ Cust.configureSearchList = function (checkboxId) {
         tmpSearchList = searchLists[searchList].list;
         Data.saveCheckbox(checkboxId,'Data.restoreCheckbox');
 };
-
