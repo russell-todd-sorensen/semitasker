@@ -1004,9 +1004,9 @@ var Customer = {
 
             var html = '\n<div id="panel">';
             html += '\n<fieldset id="participant-info">';
-            html += '\n<img id="photo" onerror="this.style.display=\'none\'" src="/test/';
+            html += '\n<div id="photo" onerror="this.style.display=\'none\'" style="background-image: url(/test/';
             html += customerImage;
-            html += '">';
+            html += '");"></div>';
             html += '\n<legend>Participant Information</legend>';
             html += '\n<ul>';
             html += '\n<li ><label>Name</label><span class="';
@@ -1086,6 +1086,24 @@ var Customer = {
             html += '\n</ul></div>'
 
             $('#profile').html(html);
+            $('#photo').resizable({
+                    alsoResize: null,
+                    animate: false,
+                    animateDuration: "slow",
+                    animateEasing: "swing",
+                    aspectRatio: false,
+                    autoHide: false,
+                    containment: false,
+                    ghost: false,
+                    grid: false,
+                    handles: "s,w,sw",
+                    helper: false,
+                    maxHeight: null,
+                    maxWidth: null,
+                    minHeight: 10,
+                    minWidth: 40,
+                    zIndex: 1000
+            });
         }
         return index;
     },
