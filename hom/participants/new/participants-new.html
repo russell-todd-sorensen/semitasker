@@ -53,7 +53,7 @@ body, html {
 }
 
 #panel h3 {
-    width: 99%;
+    width: 98.7%;
     padding: 3px;
     background-color: rgba(0,0,0,.1);
     border-radius: 6px;
@@ -71,10 +71,12 @@ body, html {
     display: inline-block;
     width: 280px;
     height: 1.0em;
-    font-size: 1.5em;
+    font-size: 1.0em;
+    font-weight: normal;
     font-family: 'Roboto', sans-serif;
     font-family: 'Encode Sans Condensed', sans-serif;
     color: darkolivegreen;
+    outline-color: transparent;
 }
 
 #panel li.expand span {
@@ -87,11 +89,17 @@ body, html {
 
 #panel select {
     width: 283px;
-    height: 1.5em;
+    height: 1.35em;
     font-family:  'Roboto', sans-serif;
     font-family: 'Encode Sans Condensed', sans-serif;
+    outline-color: transparent;
 }
-
+#panel label[for="searchTerms"] {
+    padding-top: 0.5px;
+}
+#panel label[for="fieldToSearch"] {
+    padding-top: 2px;
+}
 /* .cust is the matched participant list items. */
 
 .cust {
