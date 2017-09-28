@@ -1004,7 +1004,7 @@ var Customer = {
 
             var html = '\n<div id="panel">';
             html += '\n<fieldset id="participant-info">';
-            html += '\n<div id="photo" onerror="this.style.display=\'none\'" style="background-image: url(/test/';
+            html += '\n<div id="photo" onerror="this.style.display=\'none\'" style="background-image: url(images/';
             html += customerImage;
             html += '");"></div>';
             html += '\n<legend>Participant Information</legend>';
