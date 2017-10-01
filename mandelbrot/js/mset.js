@@ -518,6 +518,8 @@ var processForm = function () {
 	var maxSat = parseFloat($('#maxSat').val());
 	var minBrt = parseFloat($('#minBrt').val());
 	var maxBrt = parseFloat($('#maxBrt').val());
+	var minInt = parseFloat($('#minInt').val());
+	var maxInt = parseFloat($('#maxInt').val());
 	var id = parseInt($('#animationFunctionId option:selected').val())
 	return {
 		id:id,
@@ -538,6 +540,8 @@ var processForm = function () {
 			maxSat:maxSat,
 			minBrt:minBrt,
 			maxBrt:maxBrt,
+			minInt:minInt,
+			maxInt:maxInt,
 			hslOrHsb:$('#hslOrHsb option:selected').val()
 		}
 	};

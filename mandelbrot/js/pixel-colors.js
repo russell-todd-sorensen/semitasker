@@ -560,7 +560,7 @@ pixelColors[7] = function (data) {
 
   var objId = data.objId;
   var fractal = myFractalImages[objId];
-  var hue,sat,brt,rgb,lev;
+  var hue,sat,brt,rgb,lev,int;
 	fractal.colors = new Array();
 
 	var minLevel = data.minLevel ? data.minLevel : .05;
