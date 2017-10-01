@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Boss of Workers</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+
+<style>
+
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="/js/schedule-function.js"></script>
+<script src="/js/mouse-events.js"></script>
+
+<script>
+
+var worker = new Worker('worker-test.js');
+
+worker.addEventListener('message', function(e) {
+  $('#output').html(e.data);
+});
+
+var doIt = function(id) {
+  var value = $('#' + id).val();
+  worker.postMessage(value);
+}
+
+$(document).ready(function (e) {
+  Log.Notice('Document Ready');
+});
+
+</script>
+</head>
+<body>
+<form onsubmit="return false;" id='form1'>
+ <input type='text' size='30' id='input' name='input' /><br/>
+ <button onClick="doIt('input')">Refresh</button><br/>
+ Output: <div id='output'></div>
+</form>
+
+
+</body>
+</html>
