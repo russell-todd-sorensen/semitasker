@@ -143,6 +143,9 @@ body, html {
 
 #selection {
     padding-left: 8px;
+    max-height: 150px;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 #selection li {
@@ -246,6 +249,7 @@ body, html {
     width: 100px;
     height: 15px;
 }
+
 @media only screen and ((max-device-width: 450px) or (max-width: 450px)) {
         /*body, html, #container {
             width: 450px;
@@ -307,7 +311,7 @@ body, html {
     position: relative;
 }
 
-#panel #participant-info img#photo {
+#panel #participant-info div#photo {
     display: inline-block;
     position: absolute;
     right: 6px;
@@ -317,6 +321,11 @@ body, html {
     border-radius: 6px;
     height: 150px;
     width: 120px;
+    background-repeat:no-repeat;
+    background-position:top;
+    background-size:contain;
+    background-size:cover;
+    
 }
 </style>
 <script >
