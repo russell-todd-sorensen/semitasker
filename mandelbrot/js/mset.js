@@ -97,7 +97,6 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 
 		Log.Debug('width=' + this.width + ' height=' + this.height);
 	};
-
 	this.canvas = null;
 	this.context = null;
 	this.imageData = null;
@@ -206,6 +205,20 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 
 	};
 
+	this.calculateCounters = function (data) {
+		var objectInfo = {};
+		objectInfo.startX = this.rect.start.x*1;
+		objectInfo.startY = this.rect.start.y*1;
+		objectInfo.endX = this.rect.end.x*1;
+		objectInfo.endY = this.rect.end.y*1;
+		objectInfo.height = this.height*1;
+		objectInfo.width = this.width*1;
+		objectInfo.finiteMeasure = this.finiteMeasure*1;
+		objectInfo.counterMax = this.counterMax*1;
+		data.objectInfo = objectInfo;
+		this.worker.postMessage(data);
+	};
+
 	this.drawImage = function (data) {
 
 		this.canvas = document.getElementById(this.id);
@@ -246,94 +259,15 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 		}
 
 		this.pixels = this.imageData.data;
+		// This is where the new data should be used
 
 		for (var i=0, n=this.pixels.length; i<n; i++)
 		{
 			this.pixels[i] = 255;
-			this.counters[i] = this.counterMax;
 		}
 
-		this.clearProfile();
-
-		var counter;
-		var finite;
-		var value;
-		var col = 0;
-		var row = this.height-1;
-		var print = 0;
-		var index = 0;
-		var currentIndex;
-		var tmpXSquared, tmpYSquared, tmpXxtmpY;
-
-		for (var x = this.rect.start.x, col = 0;
-			col<this.width && x < this.rect.end.x;
-			x+=Math.abs((this.rect.end.x-this.rect.start.x)/this.width), col++)
-		{
-			for (var y = this.rect.start.y, row=this.height-1;
-				row >= 0 && y < this.rect.end.y;
-				y+=Math.abs((this.rect.end.y-this.rect.start.y)/this.height), row-- )
-			{
-				counter = 0;
-				finite = true;
-				newX = x;
-				newY = y;
-				tmpX = x;
-				tmpY = y;
-				cY = y;
-				cX = x;
-				tmpXSquared = tmpX * tmpX;
-				tmpYSquared = tmpY * tmpY;
-				tmpYbyTmpX = tmpX * tmpY;
-
-				while (counter <= this.counterMax && finite)
-				{
-					newY = cY +  2 * tmpYbyTmpX;
-					newX = cX - tmpYSquared + tmpXSquared;
-					tmpX = newX;
-					tmpY = newY;
-					tmpXSquared = tmpX * tmpX;
-					tmpYSquared = tmpY * tmpY;
-					tmpYbyTmpX = tmpY * tmpX;
-
-					//if (Math.abs(tmpYbyTmpX) > this.finiteMeasure) {
-					if (tmpXSquared + tmpYSquared > this.finiteMeasure)
-					{
-						finite = false;
-					}
-
-					counter++;
-				}
-
-				counter--;
-				// profile counters
-				if (this.profile.counts[counter])
-				{
-					this.profile.counts[counter]++;
-				}
-				else {
-					this.profile.counts[counter] = 1;
-					if (counter > this.profile.maximum)
-					{
-						this.profile.maximum = counter;
-					}
-					if (counter < this.profile.minimum) {
-						this.profile.minimum = counter;
-					}
-				}
-
-				value = Math.abs(255-8*counter)%255;
-
-				currentIndex = 4*(this.width*row + col);
-
-				this.counters[currentIndex] = counter;
-				this.pixels[currentIndex++] = (128+value)%255;
-				this.pixels[currentIndex++] = (128+value)%255;
-				this.pixels[currentIndex++] = Math.abs(value%8*counter);
-				this.pixels[currentIndex  ] = 255;
-
-				index++;
-			}
-		}
+		this.profile = data.profile;
+		this.counters = data.counters;
 
 		// Finish profile
 		this.profile.total = 0;
@@ -355,7 +289,6 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 
 		for (var i = 0; i < this.profile.counts.length; i++)
 		{
-			//Log.Notice('profile.counts i=' + i);
 			value = Math.round(100*this.scale*this.profile.counts[i]/this.profile.total);
 			this.profile.percents[i] = (value < 100 ? value : 100);
 		}
@@ -364,6 +297,10 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 		addToPixels[data.animationFunctionId](data);
 		this.context.putImageData(this.imageData, 0, 0);
 	};
+
+	// Web Worker to calculate counters
+	this.worker = new Worker('js/mset-web-worker-code.js');
+	this.worker.addEventListener('message', drawImageFromWorker)
 
 	this.continueAnimation = false;
 
@@ -383,6 +320,13 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 	this.callDragMove  = [drawBox, logDragMove];
 	this.callEndMove   = [logEndMove,unbindMouseUp,calculateRect];
 	return this;
+};
+
+var drawImageFromWorker = function (evt) {
+	var data = evt.data;
+	var objId = data.objId;
+	var fractal = myFractalImages[objId];
+	fractal.drawImage(data);
 };
 
 var profileCounters = function (counters) {
@@ -557,7 +501,7 @@ var drawImagePre = function(redrawId,drawId) {
 	var formData = processForm(formData);
 	$('#' + redrawId).css({display:'inline-block'});
 	$('#' + drawId).css({display:'none'});
-	myFractalImages[formData.data.objId].drawImage(formData.data);
+	myFractalImages[formData.data.objId].calculateCounters(formData.data);
 
 };
 
@@ -589,6 +533,6 @@ var reDrawImage = function () {
 	fractal.rect.end.x = fractal.rectTmp.end.x;
 	fractal.rect.end.y = fractal.rectTmp.end.y;
 	fractal.calculateHeightAndWidth(newFactor);
-	fractal.drawImage(data);
+	fractal.calculateCounters(data);
 	return fractal.continueAnimation;
 };

@@ -1,0 +1,91 @@
+// web worker mandelbrot calculation
+self.addEventListener('message',  function(evt) {
+  var data = evt.data;
+  var objectInfo = data.objectInfo;
+  var col = 0;
+  var row = objectInfo.height-1;
+  var print = 0;
+  var index = 0;
+  var counter;
+  var finite;
+  var value;
+  var currentIndex;
+  var tmpXSquared,tmpYSquared,tmpYbyTmpX,newX,newY,tmpX,tmpY,cY,cX;
+  var profile = {
+    counts: [],
+    maximum: 0,
+    minimum: objectInfo.counterMax,
+    infinite: 0
+  };
+  var counters = [];
+
+  for (var x = objectInfo.startX, col = 0;
+    col<objectInfo.width && x < objectInfo.endX;
+    x+=Math.abs((objectInfo.endX-objectInfo.startX)/objectInfo.width), col++)
+  {
+    for (var y = objectInfo.startY, row=objectInfo.height-1;
+      row >= 0 && y < objectInfo.endY;
+      y+=Math.abs((objectInfo.endY-objectInfo.startY)/objectInfo.height), row-- )
+    {
+      counter = 0;
+      finite = true;
+      newX = x;
+      newY = y;
+      tmpX = x;
+      tmpY = y;
+      cY = y;
+      cX = x;
+      tmpXSquared = tmpX * tmpX;
+      tmpYSquared = tmpY * tmpY;
+      tmpYbyTmpX = tmpX * tmpY;
+
+      while (counter <= objectInfo.counterMax && finite)
+      {
+        newY = cY +  2 * tmpYbyTmpX;
+        newX = cX - tmpYSquared + tmpXSquared;
+        tmpX = newX;
+        tmpY = newY;
+        tmpXSquared = tmpX * tmpX;
+        tmpYSquared = tmpY * tmpY;
+        tmpYbyTmpX = tmpY * tmpX;
+
+        //if (Math.abs(tmpYbyTmpX) > this.finiteMeasure) {
+        if (tmpXSquared + tmpYSquared > objectInfo.finiteMeasure)
+        {
+          finite = false;
+        }
+
+        counter++;
+      }
+
+      counter--;
+      // profile counters
+      if (profile.counts[counter])
+      {
+        profile.counts[counter]++;
+      }
+      else {
+        profile.counts[counter] = 1;
+        if (counter > profile.maximum)
+        {
+          profile.maximum = counter;
+        }
+        if (counter < profile.minimum) {
+          profile.minimum = counter;
+        }
+      }
+
+      value = Math.abs(255-8*counter)%255;
+      currentIndex = 4*(objectInfo.width*row + col);
+
+      counters[currentIndex] = counter;
+
+      index++;
+    }
+  }
+
+  data.profile = profile;
+  data.counters = counters;
+
+  self.postMessage(data);
+});
