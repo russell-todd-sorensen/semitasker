@@ -991,10 +991,42 @@ var Customer = {
                                 + customer.name + "\",\"#lastTransaction\",true);'>"
                                 + owesMessage + customerBalance
                                 + "</button>";
+
             var customerInitial = customer.lastName.substring(0,1).toLowerCase();
             var customerFilename = customer.lastName.toLowerCase();
                 customerFilename += '-';
                 customerFilename += customer.firstName.toLowerCase();
+            // CODE TO MATCH UP WITH WHAT TCL IS DOING TO THE NAME
+            var participantDirectory = '';
+            var participantDirectoryTmp =  customerFilename;
+            var allowedCharacters = 'abcdefghijklmnopqrstuvwzyz-'.split('');
+            var substitutedCharacters = ['\t', ' ', '\r', '\n', '_'];
+            var errors;
+            var letter;
+            var pdArray = participantDirectoryTmp.split('');
+            for (var index in pdArray ) {
+                letter = pdArray[index];
+                errors = 0;
+                if (allowedCharacters.indexOf(letter) == -1) {
+                    if (substitutedCharacters.indexOf(letter) > -1) {
+                        participantDirectory += '-';
+                        continue;
+                    } 
+                    if (letter == '.') {
+                        continue;
+                    }
+                    errors++;
+                }
+                else {
+                    participantDirectory += letter;
+                }
+            }
+            if (errors > 0) {
+                Log.Notice('Errors for ' + participantDirectory);
+            }
+            
+            customerFilename = participantDirectory;
+            
             var customerImage = customerInitial;
                 customerImage += '/';
                 customerImage += customerFilename;
