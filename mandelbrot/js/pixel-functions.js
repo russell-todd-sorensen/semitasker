@@ -1047,7 +1047,7 @@ addToPixels[21] = function (data) {
 		}
 		else {
 			// use filler
-			console.log('color[' + counter + '] does not exits');
+			console.log('color[' + counter + '] does not exist for p=['  + p + ']');
 			fractal.pixels[p+0] = 255;
 			fractal.pixels[p+1] = 255;
 			fractal.pixels[p+2] = 255;
