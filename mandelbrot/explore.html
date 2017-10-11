@@ -267,6 +267,7 @@ $(document).ready(function() {
   Data.restoreInput('maxInt');
   Data.restoreInput('finiteMeasure');
   Data.restoreSelect('finiteMeasureFunction');
+  Data.restoreInput('counterMax');
 
   myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
 	            'box',500,1000,{colorCanvasId:'currentColors'});
@@ -307,6 +308,12 @@ $(document).ready(function() {
  <input type="number" value="256" min="2" max="512"
         step=".1" id="finiteMeasure" name="finiteMeasure"
         onChange="Data.saveInput('finiteMeasure','Log.Notice')" />
+</li>
+<li>
+ <label for="counterMax">Counter Max:</label>
+ <input type="number" value="256" min="2" max="8192"
+        step="1" id="counterMax" name="counterMax"
+        onChange="Data.saveInput('counterMax','Log.Notice')" />
 </li>
 <li>
  <label for="finiteMeasureFunction">F Function:</label>

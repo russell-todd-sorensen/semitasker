@@ -214,9 +214,9 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 		objectInfo.endY = this.rect.end.y*1;
 		objectInfo.height = this.height*1;
 		objectInfo.width = this.width*1;
-		objectInfo.finiteMeasure = data.finiteMeasure*1;
-		objectInfo.finiteMeasureFunction = data.finiteMeasureFunction*1;
-		objectInfo.counterMax = this.counterMax*1;
+		this.finiteMeasure = objectInfo.finiteMeasure = data.finiteMeasure*1;
+		this.finiteMeasureFunction = objectInfo.finiteMeasureFunction = data.finiteMeasureFunction*1;
+		this.counterMax = objectInfo.counterMax = data.counterMax*1;
 		data.objectInfo = objectInfo;
 		this.worker.postMessage(data);
 	};
@@ -468,6 +468,7 @@ var processForm = function () {
 	var maxInt = parseFloat($('#maxInt').val());
 	var finiteMeasure = parseFloat($('#finiteMeasure').val());
 	var finiteMeasureFunction = parseInt($('#finiteMeasureFunction option:selected').val());
+	var counterMax = parseInt($('#counterMax').val());
 	var id = parseInt($('#animationFunctionId option:selected').val())
 	return {
 		id:id,
@@ -492,6 +493,7 @@ var processForm = function () {
 			maxInt:maxInt,
 			finiteMeasure:finiteMeasure,
 			finiteMeasureFunction:finiteMeasureFunction,
+			counterMax:counterMax,
 			hslOrHsb:$('#hslOrHsb option:selected').val()
 		}
 	};
