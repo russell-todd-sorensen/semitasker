@@ -49,11 +49,27 @@ self.addEventListener('message',  function(evt) {
         tmpYSquared = tmpY * tmpY;
         tmpYbyTmpX = tmpY * tmpX;
 
-        //if (Math.abs(tmpYbyTmpX) > this.finiteMeasure) {
-        if (tmpXSquared + tmpYSquared > objectInfo.finiteMeasure)
-        {
-          finite = false;
+        switch (objectInfo.finiteMeasureFunction) {
+        case 1:
+            if ((tmpXSquared + tmpYSquared) > objectInfo.finiteMeasure)
+            {
+              finite = false;
+            }
+            break;
+        case 2:
+            if (Math.sqrt( tmpXSquared + tmpYSquared) > objectInfo.finiteMeasure)
+            {
+              finite = false;
+            }
+            break;
+        case 3:
+            if (Math.abs(tmpYbyTmpX) > objectInfo.finiteMeasure)
+            {
+              finite = false;
+            }
+            break;
         }
+        //if (Math.abs(tmpYbyTmpX) > this.finiteMeasure) {
 
         counter++;
       }
