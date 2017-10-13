@@ -103,7 +103,8 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 	this.pixels = null;
 	this.colors = new Array();
 	this.counterMax = 255;
-	this.finiteMeasure = 256.0;
+	this.finiteMeasure = 256.0; //256.0;
+	this.finiteMeasureFunction = 2;
 	this.counters = [];
 	this.profile = {};
 	this.scale = 5;
@@ -213,8 +214,9 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 		objectInfo.endY = this.rect.end.y*1;
 		objectInfo.height = this.height*1;
 		objectInfo.width = this.width*1;
-		objectInfo.finiteMeasure = this.finiteMeasure*1;
-		objectInfo.counterMax = this.counterMax*1;
+		this.finiteMeasure = objectInfo.finiteMeasure = data.finiteMeasure*1;
+		this.finiteMeasureFunction = objectInfo.finiteMeasureFunction = data.finiteMeasureFunction*1;
+		this.counterMax = objectInfo.counterMax = data.counterMax*1;
 		data.objectInfo = objectInfo;
 		this.worker.postMessage(data);
 	};
@@ -464,6 +466,9 @@ var processForm = function () {
 	var maxBrt = parseFloat($('#maxBrt').val());
 	var minInt = parseFloat($('#minInt').val());
 	var maxInt = parseFloat($('#maxInt').val());
+	var finiteMeasure = parseFloat($('#finiteMeasure').val());
+	var finiteMeasureFunction = parseInt($('#finiteMeasureFunction option:selected').val());
+	var counterMax = parseInt($('#counterMax').val());
 	var id = parseInt($('#animationFunctionId option:selected').val())
 	return {
 		id:id,
@@ -486,6 +491,9 @@ var processForm = function () {
 			maxBrt:maxBrt,
 			minInt:minInt,
 			maxInt:maxInt,
+			finiteMeasure:finiteMeasure,
+			finiteMeasureFunction:finiteMeasureFunction,
+			counterMax:counterMax,
 			hslOrHsb:$('#hslOrHsb option:selected').val()
 		}
 	};

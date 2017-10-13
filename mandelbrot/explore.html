@@ -107,7 +107,8 @@ body,html {
 #b1,
 #b2,
 #b3,
-#b4
+#b4,
+#finiteMeasureFunction
 { /* select id */
     width: 78.75px;
     padding-top: 3px;
@@ -123,7 +124,8 @@ body,html {
 #pixelColorsId option,
 #refColorId option,
 #scaleCounterId option,
-#hslOrHsb option {
+#hslOrHsb option,
+#finiteMeasureFunction option {
     padding-left: 10px;
     width: 72px;
     display: inline-block;
@@ -263,6 +265,9 @@ $(document).ready(function() {
   Data.restoreInput('maxBrt');
   Data.restoreInput('minInt');
   Data.restoreInput('maxInt');
+  Data.restoreInput('finiteMeasure');
+  Data.restoreSelect('finiteMeasureFunction');
+  Data.restoreInput('counterMax');
 
   myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
 	            'box',500,1000,{colorCanvasId:'currentColors'});
@@ -297,6 +302,28 @@ $(document).ready(function() {
  <input type="number" value="0" min="0" max="1"
         step="1" id="fractalImageId" name="fractalImageId"
         onChange="Data.saveInput('fractalImageId','Log.Notice')" />
+</li>
+<li>
+ <label for="finiteMeasure">F Measure:</label>
+ <input type="number" value="256" min="2" max="512"
+        step=".1" id="finiteMeasure" name="finiteMeasure"
+        onChange="Data.saveInput('finiteMeasure','Log.Notice')" />
+</li>
+<li>
+ <label for="counterMax">Counter Max:</label>
+ <input type="number" value="256" min="2" max="8192"
+        step="1" id="counterMax" name="counterMax"
+        onChange="Data.saveInput('counterMax','Log.Notice')" />
+</li>
+<li>
+ <label for="finiteMeasureFunction">F Function:</label>
+ <select id="finiteMeasureFunction"
+         name="finiteMeasureFunction"
+         onChange="Data.saveSelect('finiteMeasureFunction','Log.Notice')">
+  <option value='1'>X^2 + Y^2</option>
+  <option value='2'>SQRT(X^2 + Y^2)</option>
+  <option value='3'>ABS(X*Y)</option>
+ </select>
 </li>
 <li>
  <label for="b1">Animation:</label>
