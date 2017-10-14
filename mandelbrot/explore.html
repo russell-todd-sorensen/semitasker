@@ -270,7 +270,7 @@ $(document).ready(function() {
   Data.restoreInput('counterMax');
 
   myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
-	            'box',500,1000,{colorCanvasId:'currentColors'});
+	            'box',1000,2000,{colorCanvasId:'currentColors'});
   myFractalImages[myFractalImageId].initColorArray();
 
   $(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',
@@ -305,7 +305,7 @@ $(document).ready(function() {
 </li>
 <li>
  <label for="finiteMeasure">F Measure:</label>
- <input type="number" value="256" min="2" max="512"
+ <input type="number" value="256" min=".5" max="8192"
         step=".1" id="finiteMeasure" name="finiteMeasure"
         onChange="Data.saveInput('finiteMeasure','Log.Notice')" />
 </li>
@@ -375,6 +375,9 @@ $(document).ready(function() {
   <option value="41">41</option>
   <option value="42">42</option>
   <option value="43">43</option>
+  <option value="44">44 binary divide</option>
+  <option value="45">45 binary divide 2</option>
+  <option value="46">Binary Divide with color</option>
  </select>
 </li>
 

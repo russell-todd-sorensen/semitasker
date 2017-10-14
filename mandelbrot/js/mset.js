@@ -102,6 +102,7 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 	this.imageData = null;
 	this.pixels = null;
 	this.colors = new Array();
+	this.polarity = new Array();
 	this.counterMax = 255;
 	this.finiteMeasure = 256.0; //256.0;
 	this.finiteMeasureFunction = 2;
@@ -328,6 +329,8 @@ var drawImageFromWorker = function (evt) {
 	var data = evt.data;
 	var objId = data.objId;
 	var fractal = myFractalImages[objId];
+	fractal.counters = data.counters;
+	fractal.polarity = data.polarity;
 	fractal.drawImage(data);
 };
 

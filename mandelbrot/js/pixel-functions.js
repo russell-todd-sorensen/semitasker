@@ -2676,3 +2676,133 @@ addToPixels[43] = function (data) {
 	fractal.animationRow++;
 	return fractal.continueAnimation;
 };
+
+
+addToPixels[44] = function (data) {
+	var objId = data.objId;
+	var amount = data.amount;
+	var fractal = myFractalImages[objId];
+	var modulus;
+	var hue,brt,sat;
+	var rgbFixed = {r:0,g:0,b:0,a:255,hex:'#FFFFFF'};
+	var rgb = {r:0,g:0,b:0,a:255,hex:'#FFFFFF'};
+	var pixelJump = data.pixelJump;
+	var colors = new Array(fractal.counterMax);
+	var counter, polarity, grayscale;
+
+	for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+	{
+		counter = data.counters[p];
+		polarity = data.polarity[p];
+
+		if (counter == fractal.counterMax || counter < 3) {
+			grayscale = 0;
+			rgb = {r:grayscale,g:grayscale,b:grayscale};
+		}
+		else if (polarity)
+		{
+			grayscale = counter*5;
+			rgb = {r:grayscale,g:grayscale,b:grayscale};
+		}
+		else
+		{
+			rgb = {r:255,g:255,b:255};
+		}
+		fractal.pixels[p] = rgb.r;
+		fractal.pixels[p+1] = rgb.g;
+		fractal.pixels[p+2] = rgb.b;
+		fractal.pixels[p+3] = 255;
+
+	}
+
+	//fractal.colors = colors;
+	//drawColors(data);
+	fractal.context.putImageData(fractal.imageData,0,0);
+	fractal.animationIndex += amount;
+	return fractal.continueAnimation;
+};
+
+addToPixels[45] = function (data) {
+	var objId = data.objId;
+	var amount = data.amount;
+	var fractal = myFractalImages[objId];
+	var modulus;
+	var hue,brt,sat;
+	var pixelJump = data.pixelJump;
+	var colors = new Array(fractal.counterMax);
+	var counter, polarity, grayscale;
+
+	for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+	{
+		counter = data.counters[p];
+		polarity = data.polarity[p];
+
+		if (counter == fractal.counterMax || counter < 3) {
+			grayscale = 0;
+			rgb = {r:grayscale,g:grayscale,b:grayscale};
+		}
+		else if (polarity)
+		{
+			grayscale = ((counter*5) + fractal.animationIndex)%256;
+			rgb = {r:grayscale,g:grayscale,b:grayscale};
+		}
+		else
+		{
+			rgb = {r:255,g:255,b:255};
+		}
+		fractal.pixels[p] = rgb.r;
+		fractal.pixels[p+1] = rgb.g;
+		fractal.pixels[p+2] = rgb.b;
+		fractal.pixels[p+3] = 255;
+
+	}
+
+	//fractal.colors = colors;
+	//drawColors(data);
+	fractal.context.putImageData(fractal.imageData,0,0);
+	fractal.animationIndex += amount;
+	return fractal.continueAnimation;
+};
+
+addToPixels[46] = function (data) {
+	var objId = data.objId;
+	var amount = data.amount;
+	var fractal = myFractalImages[objId];
+	var modulus;
+	var hue,brt,sat;
+	var pixelJump = data.pixelJump;
+	var colors = new Array(fractal.counterMax);
+	var counter, polarity, grayscale;
+
+	for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+	{
+		counter = fractal.counters[p];
+		polarity = fractal.polarity[p];
+
+		if (counter == fractal.counterMax || counter < 3) {
+			grayscale = 0;
+			rgb = {red:grayscale,green:grayscale,blue:grayscale};
+		}
+		else if (polarity)
+		{
+			hue = ((counter*5) + fractal.animationIndex)%360;
+			//rgb = {r:grayscale,g:grayscale,b:grayscale};
+			rgb = hueToRgbComponents(hue);
+		}
+		else
+		{
+			rgb = {red:255,green:255,blue:255};
+		}
+		fractal.pixels[p] = rgb.red;
+		fractal.pixels[p+1] = rgb.green;
+		fractal.pixels[p+2] = rgb.blue;
+		fractal.pixels[p+3] = 255;
+
+	}
+
+	//fractal.colors = colors;
+	//drawColors(data);
+	fractal.context.putImageData(fractal.imageData,0,0);
+	fractal.animationIndex += amount;
+	return fractal.continueAnimation;
+};

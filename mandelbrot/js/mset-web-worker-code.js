@@ -10,7 +10,7 @@ self.addEventListener('message',  function(evt) {
   var finite;
   var value;
   var currentIndex;
-  var tmpXSquared,tmpYSquared,tmpYbyTmpX,newX,newY,tmpX,tmpY,cY,cX;
+  var tmpXSquared,tmpYSquared,tmpYbyTmpX,newX,newY,tmpX,tmpY,cY,cX,lastImaginaryPolarity;
   var profile = {
     counts: [],
     maximum: 0,
@@ -18,6 +18,7 @@ self.addEventListener('message',  function(evt) {
     infinite: 0
   };
   var counters = [];
+  var polarity = [];
 
   for (var x = objectInfo.startX, col = 0;
     col<objectInfo.width && x < objectInfo.endX;
@@ -54,6 +55,7 @@ self.addEventListener('message',  function(evt) {
             if ((tmpXSquared + tmpYSquared) > objectInfo.finiteMeasure)
             {
               finite = false;
+
             }
             break;
         case 2:
@@ -75,6 +77,12 @@ self.addEventListener('message',  function(evt) {
       }
 
       counter--;
+
+      // record if last imaginary part is positive or negative.
+      lastImaginaryPolarity = (newY > 0) ? true : false;
+      // quick hack ()
+
+      //if (lastImaginaryPolarity) counter++;
       // profile counters
       if (profile.counts[counter])
       {
@@ -91,17 +99,17 @@ self.addEventListener('message',  function(evt) {
         }
       }
 
-      value = Math.abs(255-8*counter)%255;
       currentIndex = 4*(objectInfo.width*row + col);
 
       counters[currentIndex] = counter;
-
+      polarity[currentIndex] = lastImaginaryPolarity;
       index++;
     }
   }
 
   data.profile = profile;
   data.counters = counters;
+  data.polarity = polarity;
 
   self.postMessage(data);
 });
