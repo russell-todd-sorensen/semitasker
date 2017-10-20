@@ -56,9 +56,11 @@ set fields {
 	{JobEnd jend date null}
 	{Hidden hidden char(1) 'N'} 
 	Delcount
-	Pricelevel}
+	Pricelevel
+	{last_modified lmod date '2000-01-01'}
+}
 
-set sql "create table hom_part (\n"
+set sql "create table hom_part_qb (\n"
 set field_name ""
 set field_abbrev ""
 set field_type ""
@@ -80,13 +82,13 @@ foreach field $fields {
 		set field_type "varchar(31)"
 		set default_value "''"
 	}
-	if {"$default_value" ne {""}} {
-		set default_value "default $default_value"
+	if {"$default_value" ne ""} {
+		set default_value " default $default_value"
 	}
 	
 
-	set final_field_name part_[string tolower $field]
-	lappend fieldsList "  $final_field_name $field_type $default_value"
+	set final_field_name part_[string tolower $field_name]
+	lappend fieldsList "  $final_field_name $field_type$default_value"
 	ns_log Notice "count='$count' ffn='$final_field_name' ft='$field_type' dv='$default_value' abbrev='$field_abbrev'\n"
 	incr count
 	
