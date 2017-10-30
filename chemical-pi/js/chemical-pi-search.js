@@ -62,96 +62,6 @@ var ChemicalPi = {
                 chemicalPi = tmpSearchList[i];
 
                 switch (type) {
-
-                case 'csv':
-                    if (i==0) {
-                        // put csv header
-                        $(outputSelector)
-                            .append("Date,Comment,Participant,Violation,House<br>");
-                    }
-
-                    $(outputSelector)
-                      .append(',,"' + chemicalPi.lastName
-                        + ', ' + chemicalPi.firstName
-                        + '",,' + chemicalPi.house + '<br>');
-                    break;
-                case 'csv-all':
-                    $(outputSelector)
-                      .append(  chemicalPi.id        +  ',' +
-                          '"' + chemicalPi.doc       + '",' +
-                          '"' + chemicalPi.name      + '",' +
-                          '"' + chemicalPi.startDate + '",' +
-                          '"' + chemicalPi.address2  + '",' +
-                                chemicalPi.house     +  ',' +
-                                chemicalPi.active    +  ',' +
-                          '"' + chemicalPi.ctype     + '",' +
-                          '"' + chemicalPi.firstName + '",' +
-                          '"' + chemicalPi.lastName  + '",' +
-                          '"' + chemicalPi.email     + '",' +
-                          '"' + chemicalPi.phone1    + '"'  +
-                          '<br>');
-                      break;
-                case 'csv-mike':
-                    if (i==0) {
-                        // put csv header
-                        $(outputSelector)
-                            .append("ParticipantId,HouseID,FirstName,LastName,Phone,Email,IsActive,ProgramEndDate,ProgramStartDate,DOCNumber,BirthDate<br>");
-                    }
-
-                    $(outputSelector)
-                      .append(  chemicalPi.id        +  ',' +
-                                chemicalPi.house     +  ',' +
-                          '"' + chemicalPi.firstName + '",' +
-                          '"' + chemicalPi.lastName  + '",' +
-                          '"' + chemicalPi.phone1    + '",'  +
-                          '"' + chemicalPi.email     + '",' +
-                                chemicalPi.active    +  ',' +
-                          '"' + chemicalPi.endDate   + '",' +
-                          '"' + chemicalPi.startDate + '",' +
-                          '"' + chemicalPi.doc       + '",' +
-                          '"' + chemicalPi.dob       + '"'  +
-                          '<br>');
-                      break;
-                  case 'csv-website':
-                      if (i==0) {
-                          // put header file
-                          $(outputSelector)
-                              .append('id,type,firstName,lastName,doc,arrived,house,address1,address2,address3,active<br>');
-                      }
-
-
-                        $(outputSelector)
-                        .append(  chemicalPi.id        +  ','  +
-                            '"' + chemicalPi.ctype     + '",'  +
-                            '"' + chemicalPi.firstName + '",'  +
-                            '"' + chemicalPi.lastName  + '",'  +
-                            '"' + chemicalPi.doc       + '",'  +
-                            '"' + chemicalPi.startDate + '",'  +
-                                  chemicalPi.house     +  ','  +
-                            '"' + chemicalPi.baddr2    + '",'  +
-                            '"' + chemicalPi.baddr3    + '",'  +
-                            '"' + chemicalPi.baddr4    + '",'  +
-                                  chemicalPi.active    + '<br>'
-                      );
-                      break;
-                  case 'csv-pastor-james':
-                      if (i==0) {
-                          // put header file
-                          $(outputSelector)
-                              .append('<pre id="csvpre">house,lastName,firstName,doc,address,startDate\n</pre>');
-                          outputSelector = $('#csvpre');
-                      }
-                      $(outputSelector)
-                        .append(
-                                  chemicalPi.house     +  ','  +
-                            '"' + chemicalPi.lastName  + '",'  +
-                            '"' + chemicalPi.firstName + '",'  +
-                            '"' + chemicalPi.doc       + '",'  +
-                            '"' + chemicalPi.baddr3    + ' '   +
-                                  chemicalPi.baddr4    + '",'  +
-                                  chemicalPi.startDate    + '\n'
-                      );
-                      break;
                   case 'list':
                   default:
                     $(outputSelector)
@@ -190,12 +100,13 @@ var ChemicalPi = {
                 tmpTmpSearchList.push(chemicalPi);
             }
         }
+
         if (tmpTmpSearchList.length > 0) {
 
             ChemicalPi.write(tmpTmpSearchList,outputSelector);
 
             if (tmpTmpSearchList.length == 1) {
-                ChemicalPi.show(chemicalPi.id);
+                ChemicalPi.show(tmpTmpSearchList[0].id);
             }
 
             Data.saveInput(inputId,'ChemicalPi.restore');
