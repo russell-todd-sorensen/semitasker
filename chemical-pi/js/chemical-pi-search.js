@@ -162,15 +162,6 @@ var ChemicalPi = {
                 } // end switch
             } // end for
 
-            if (type == 'csv-pastor-james') {
-                var subWindow = window.open(
-                    "",
-                    "csv-pastor-james",
-                    "height=500,width=700,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,chrome=true,titlebar=true", // options
-                    "true" // replace
-                    );
-                subWindow.document.write(document.getElementById('csvpre').innerText);
-            }
     },
     search: function (inputId, outputSelector) {
         evt = event;
@@ -238,79 +229,25 @@ var ChemicalPi = {
         return -1;
 
     },
-    showAccount: function (name,outputSelector,justLastTransaction) {
-        console.log("showAccount for " + name);
-        var elem = $(outputSelector);
-        var success = false;
-        var foundLast = false;
-        var transaction;
-
-        elem.html('');
-        var html = '<table id="accountTable">';
-        html += '\n<!--<legend>Account Details for: ' + name + '</legend>-->';
-        html += '\n <tr><th>Id</th><th>Date</th><th>Type</th><th>Credit</th><th>Debit</th><th>Balance</th>';
-        var detail = "";
-
-        for (var i = 0; i<chemicalPiTransactionsData.length;i++) {
-            if (chemicalPiTransactionsData[i].name == name) {
-                success = true;
-                transaction = chemicalPiTransactionsData[i];
-            } else {
-                if (success) {
-                    foundLast = true;
-                    break;
-                } else {
-                    continue;
-                }
-            }
-            var tb = parseFloat(transaction.balance).toFixed(2);
-            var cssClass = "";
-            if (tb > 0) {
-                cssClass="negative"
-            } else {
-                cssClass="positive"
-            }
-
-            //console.log('transId=' + transaction.transId);
-
-            detail = '\n <tr>\n  <td>' + transaction.transId + '</td>';
-            detail += '\n  <td>' + transaction.date + '</td>';
-            detail += '\n  <td>' + transaction.type + '</td>';
-            detail += '\n  <td>' + transaction.credit + '</td>';
-            detail += '\n  <td>' + transaction.debit + '</td>';
-            detail += '\n  <td><span class="' + cssClass + '">'  + transaction.balance + '</span></td>';
-            //html += '\n  <td>' + transaction.date + '</td>';
-            detail += '\n </tr>';
-            if (!justLastTransaction) {
-                html += detail;
-            }
-        }
-
-        if (justLastTransaction && justLastTransaction == true) {
-             html += detail;
-        }
-
-        html += '</table>';
-        elem.append(html);
-    },
     show: function (id) {
-        var index = ChemicalPi.find(tmpSearchList,id);
+        var index = ChemicalPi.find(chemicalPiData,id);
         var startPiIndex, endPiIndex, elementPiDigits, digitString = '';
         var activeClass = "active";
         if (index == -1) {
             $('#profile').html('');
         } else {
-            var chemicalPi = tmpSearchList[index];
+            var chemicalPi = chemicalPiData[index];
             startPiIndex = parseInt(chemicalPi.atomicNumber) * 10;
             endPiIndex = startPiIndex + 10;
             for (var i = startPiIndex; i < endPiIndex; i++) {
               digitString += ' '
               digitString += piDigits[i];
             }
+            Log.Notice('show(' + id + ') index="' + index + '"' + ' index+1="' + (index+1) + '"');
             var nextElement = chemicalPiData[index+1].symbol;
             var chemicalPiImage = '';
             var mouthful = '<nobr><b>' + chemicalPi.symbol + '</b> - ' + digitString + ' - <b>' + nextElement + '</b></nobr>';
-            var html = '\n<div id="panel">';
+            var html = '\n<div id="panel">...';
             html += '\n<fieldset id="element-info">';
             html += '\n<div id="photo" onerror="this.style.display=\'none\'" style="background-image: url(images/';
             html += chemicalPiImage;
