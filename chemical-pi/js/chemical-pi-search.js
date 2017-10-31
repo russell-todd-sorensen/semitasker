@@ -158,6 +158,8 @@ var ChemicalPi = {
             var nextElement = chemicalPiData[index+1].symbol;
             var chemicalPiImage = '';
             var mouthful = '<nobr><b>' + chemicalPi.symbol + '</b> - ' + digitString + ' - <b>' + nextElement + '</b></nobr>';
+            var mouthfulTitle = chemicalPi.symbol + ' ' + digitString + ' ' + nextElement;
+            $('title').html(mouthfulTitle);
             var html = '\n<div id="panel">';
             html += '\n<fieldset id="element-info">';
             html += '\n<div id="photo" onerror="this.style.display=\'none\'" style="background-image: url(images/';
