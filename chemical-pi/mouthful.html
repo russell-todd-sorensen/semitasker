@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<meta base="http://github.semitasker.com/" />
+<meta name="viewport" content="width=device-width, initial-scale=0.775 maximum-scale=1.0">
+<title>Chemical &pi; One Mouthful</title>
+<link rel="stylesheet" type="text/css" media="all" href="/css/reset.css">
+
+<style>
+#current::before {
+  content: "<";
+}
+#next::after {
+  content: ">";
+}
+
+</style>
+
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="./js/pi-digits.js"></script>
+<script type="text/javascript" src="./js/mouthful.js"></script>
+<script type="text/javascript" src="./js/mouthful-search.js"></script>
+
+<script>
+var currentIndex;
+var nextIndex;
+var currentElement;
+var nextElement;
+var next;
+
+var current = document.URL.split('?')[1];
+
+//if (current === undefined || current == '') {
+  //current = 'Nn'
+//}
+if (current === undefined) {
+  current = ''
+}
+
+function setQueryString(value) {
+  var sym = $('#'+ value).val();
+  var prevElem;
+  if (value == 'current') {
+    var elem = getElement('symbol', sym);
+    if (parseInt(elem.atomicNumber) == -1) {
+      return false;
+    }
+    var prevElem = getElement('atomicNumber',(parseInt(elem.atomicNumber)-1));
+    sym = prevElem.symbol;
+  }
+
+  $('#bite-form').attr('action','?'+sym);
+  $('#bite-form').submit();
+}
+
+function setup() {
+    currentElement = getElement('symbol', current);
+    currentIndex = currentElement.atomicNumber;
+    nextIndex = currentIndex+1;
+    nextElement = getElement('atomicNumber', nextIndex);
+    next = nextElement.symbol;
+
+    $('#current').val(current);
+    $('#next').val(next);
+    mouthfulTitleString = currentElement.symbol + ' ' + getMouthful(currentIndex) + nextElement.symbol;
+    mouthfulString = currentElement.element + ' ' + getMouthful(currentIndex) + nextElement.element
+    $('title').html(mouthfulTitleString);
+    $('#mouthful').html(mouthfulString);
+    $('#bite-form').attr('action','?'+current);
+
+}
+
+$(document).ready(function() {
+
+  loadXHRFile("./data/periodic-table-data.csv",getPeriodicTableCSV);
+
+});
+
+</script>
+
+</head>
+<body>
+
+<form id="bite-form" action="" method="POST">
+  <input type="button" value="" onclick="setQueryString('current')" id="current" name="current">
+  <span id="mouthful"></span>
+  <input type="button" value="&gt;" onclick="setQueryString('next')" id="next" name="next">
+</form>
+
+</body>
+</html>
