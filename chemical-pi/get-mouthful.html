@@ -34,7 +34,7 @@ if (current === undefined) {
 function pixelAdjust (string) {
     var charArray = string.split('');
     var length = charArray.length;
-    var baseChars = Math.round((14-length)/2);
+    var baseChars = (13.5-length)/2;
 
     //if (length >= 12) {
         //charArray = [];
@@ -49,8 +49,9 @@ function pixelAdjust (string) {
         case 'i':
         case 'l':
         case 'I':
-          adjust -= 2;
+          adjust -= 3;
           break;
+        case 'f':
         case 't':
         case 'r':
           adjust -= 1;
@@ -61,6 +62,7 @@ function pixelAdjust (string) {
           break;
         case 'W':
         case 'M':
+        case 'G':
         //case 'C':
           adjust += 3;
           break;
@@ -69,6 +71,12 @@ function pixelAdjust (string) {
       }
     }
     return base -= adjust;
+}
+
+function atomicNumberPixels (atomicNumber) {
+
+    return  (-.1 + .70 * (  '' + atomicNumber).split('').length);
+
 }
 
 function setup() {
@@ -94,91 +102,31 @@ function setup() {
     mouthfulTitleString = currentElement.symbol + ' ' + mouthfulString + nextElement.symbol;
 
 
-    var curElemChars = currentElement.element.split('');
-    var curElemCharsLength = curElemChars.length;
-    var nbspCurToAdd = Math.round((14-curElemCharsLength)/2);
-    var nbspCur = '&nbsp;'.repeat(nbspCurToAdd);
-    if (curElemCharsLength >= 12) {
-      nbspCur = '';
-    }
-    nbspCur = '';
-    var curPixels = nbspCurToAdd * 8;
-    var cpTotal = 0;
-    for (var i = 0; i<curElemCharsLength; i++) {
-      switch (curElemChars[i]) {
-        case 'i':
-        case 'l':
-          cpTotal -= 2;
-          break;
-        case 'I':
-          npTotal -= 2;
-          break;
-        case 't':
-        case 'r':
-          cpTotal -= 1;
-          break;
-        case 'w':
-        case 'm':
-          cpTotal += 2;
-          break;
-        case 'W':
-        case 'M':
-        //case 'C':
-          cpTotal += 3;
-          break;
-        default:
-          break;
-      }
-    }
+    var curPixels = pixelAdjust(currentElement.element) +1;
+    var nxtPixels = pixelAdjust(nextElement.element) +1;
+    console.log('curPixels=' + curPixels + ' nsxPixels=' + nxtPixels);
 
-    curPixels -= cpTotal;
-    var compareCP = pixelAdjust(currentElement.element);
-    console.log('curPixels=' + curPixels + ' compareCP=' + compareCP);
+    var curANwidth =  atomicNumberPixels(currentElement.atomicNumber);
 
-    var nxtElemChars = nextElement.element.split('');
-    var nxtElemCharsLength = nxtElemChars.length;
-    var nbspNxtToAdd = Math.round((14-nxtElemCharsLength)/2);
-    var nbspNxt = '&nbsp;'.repeat(nbspNxtToAdd);
-    if (nxtElemCharsLength >= 12) {
-      nbspNxt = '';
-    }
-    nbspNxt = '';
-    var nxtPixels = nbspNxtToAdd * 8;
+    $('#current-form').attr('href','?'+previous).html('<span style="padding-left:'
+      + curPixels +'px;">'
+      + currentElement.element
+      + '</span><span class="an" style="width:'
+      + curANwidth
+      + 'em;">'
+      + currentElement.atomicNumber
+      + '</span>');
 
-    var npTotal = 0;
-    for (var i = 0; i<nxtElemCharsLength; i++) {
-      switch (nxtElemChars[i]) {
-        case 'i':
-        case 'l':
-          npTotal -= 2;
-          break;
-        case 'I':
-          npTotal -= 2;
-          break;
-        case 't':
-        case 'r':
-          npTotal -= 1;
-          break;
-        case 'w':
-        case 'm':
-          npTotal += 2;
-          break;
-        case 'W':
-        case 'M':
-        //case 'C':
-          npTotal += 3;
-          break;
-        default:
-          break;
-      }
-    }
-    nxtPixels -= npTotal;
+    var nxtANwidth =  atomicNumberPixels(nextElement.atomicNumber);
 
-    var compareNP = pixelAdjust(nextElement.element);
-    console.log('nxtPixels=' + nxtPixels + ' compareNP=' + compareNP);
-
-    $('#current-form').attr('href','?'+previous).html('<span style="padding-left:' + curPixels +'px;">' + nbspCur + currentElement.element + '</span><span class="an">' + currentElement.atomicNumber + '</span>');
-    $('#next-form').attr('href','?'+next).html('<span style="padding-left:' + nxtPixels +'px;">' + nbspNxt + nextElement.element + '</span><span class="an">' + nextElement.atomicNumber + '</span>');
+    $('#next-form').attr('href','?'+next).html('<span style="padding-left:'
+      + nxtPixels +'px;">'
+      + nextElement.element
+      + '</span><span class="an" style="width:'
+      + nxtANwidth
+      +'em;" >'
+      + nextElement.atomicNumber
+      + '</span>');
     $('title').html(mouthfulTitleString);
     $('#mouthful').html('<span class="an">&nbsp;' + mouthfulString + '</span>');
 }
@@ -240,7 +188,7 @@ a:link {
 #next-form span.an {
   display: block;
   vertical-align: middle;
-  width: 1em;
+  /*width: 2.0em; */
   margin: auto;
   /* height: 1em; */
   /*border: 1px dashed tan;*/

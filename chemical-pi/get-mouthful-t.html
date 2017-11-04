@@ -1,0 +1,155 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<meta base="http://github.semitasker.com/" />
+<meta name="viewport" content="width=device-width, initial-scale=0.775 maximum-scale=1.0">
+<title>Chemical &pi; One Mouthful</title>
+<link rel="stylesheet" type="text/css" media="all" href="/css/reset.css">
+
+<style>
+
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+#current-form,
+#next-form {
+  display: inline-block;
+  width: 120px;
+  border: 2px solid black;
+  vertical-align: middle;
+}
+
+#mouthful-form {
+  display:inline-block;
+  border: 2px solid black;
+  vertical-align: middle;
+}
+
+#current-table,
+#next-table {
+  width: 120px;
+}
+
+#current-table td,
+#next-table td,
+#mouthful-table td {
+  text-align: center;
+}
+
+#mouthful {
+  display: inline-block;
+  width: 140px;
+  vertical-align: middle;
+  padding-top: 11.1px;
+  padding-bottom: 11.1px;
+}
+
+#current-form span,
+#next-form span {
+  display: block;
+  margin: auto;
+  padding: 0;
+}
+
+#mouthful span.an {
+  display: block;
+  height: 1.05em;
+  font-size: 1em;
+  vertical-align: middle;
+  margin: auto;
+}
+
+#current-form span.an,
+#next-form span.an {
+  display: block;
+  vertical-align: middle;
+  margin: auto;
+}
+
+</style>
+
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="./js/pi-digits.js"></script>
+<script type="text/javascript" src="./js/mouthful.js"></script>
+<script type="text/javascript" src="./js/mouthful-search.js"></script>
+
+<script>
+var previousIndex;
+var currentIndex;
+var nextIndex;
+
+var previousElement;
+var currentElement;
+var nextElement;
+
+var previous;
+var current = document.URL.split('?')[1];
+var next;
+
+if (current === undefined) {
+    current = ''
+}
+
+function setup() {
+    currentElement = getElement('symbol', current);
+    currentIndex = currentElement.atomicNumber;
+
+    if (currentIndex == -1) {
+      previousIndex = -1;
+    } else {
+      previousIndex = currentIndex-1;
+    }
+    previousElement = getElement('atomicNumber', previousIndex);
+    previous = previousElement.symbol;
+
+    nextIndex = currentIndex+1;
+    if (nextIndex >= getPeriodicTableLength()) {
+      nextIndex = -1;
+    }
+    nextElement = getElement('atomicNumber', nextIndex);
+    next = nextElement.symbol;
+
+    mouthfulString =  getMouthful(currentIndex);
+    mouthfulTitleString = currentElement.symbol + ' ' + mouthfulString + nextElement.symbol;
+
+    $('#current-form').attr('href','?'+previous).html('<table id="current-table">'
+      + '<tr><td>'
+      + currentElement.element
+      + '</td></tr>'
+      + '<tr><td>'
+      + currentElement.atomicNumber
+      + '</td></tr></table>');
+
+    $('#next-form').attr('href','?'+next).html('<table id="next-table">'
+      + '<tr><td>'
+      + nextElement.element
+      + '</td></tr>'
+      + '<tr><td>'
+      + nextElement.atomicNumber
+      + '</td></tr></table>');
+
+    $('title').html(mouthfulTitleString);
+    $('#mouthful').html( mouthfulString);
+}
+
+$(document).ready(function() {
+
+    loadXHRFile("./data/periodic-table-data.csv",getPeriodicTableCSV);
+
+});
+
+</script>
+</head>
+<body>
+<a id="current-form" href=""></a>
+<a id="mouthful-form"><table id="mouthful-table"><tr><td rowspan="2"id="mouthful"></td></tr></table></a>
+<a id="next-form" href=""></a>
+</body>
+</html>

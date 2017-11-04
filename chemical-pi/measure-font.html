@@ -14,8 +14,6 @@
 
 $(document).ready(function() {
 
-    loadXHRFile("./data/periodic-table-data.csv",getPeriodicTableCSV);
-
 });
 
 </script>
@@ -23,24 +21,40 @@ $(document).ready(function() {
 <style>
 
 body {
+  position: relative;
   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
 }
+
 svg {
   fill: orange;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
 }
 
 #test {
   display: inline-block;
 }
+
+#container {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+}
+
 #test-svg {
-  x: 100;
-  y: 100;
+  top: 100px;
+  left: 100px;
+  transform-origin: 100px 50px;
+  text-anchor: middle;
 }
 </style>
 
 <body>
 <span id="test">Test String</span>
 <br>
-<svg><text id='test-svg'>Test String</text></svg>
+<div id="container">
+<svg><text id='test-svg' transform='translate(100,100)'>Test String</text></svg>
+</div>
 </body>
 </html>
