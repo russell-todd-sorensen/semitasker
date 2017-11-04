@@ -27,3 +27,12 @@ function getMouthful(atomicNumber) {
   }
   return mouthful;
 }
+
+function getPeriodicTableLength() {
+  if (chemicalPiData) {
+    return chemicalPiData.length;
+  } else {
+    return -1
+  }
+
+}

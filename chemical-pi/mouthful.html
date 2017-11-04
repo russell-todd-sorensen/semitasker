@@ -41,9 +41,9 @@ if (current === undefined) {
 
 function setQueryString(value) {
   var sym = $('#'+ value).val();
+  var elem = getElement('symbol', sym);
   var prevElem;
   if (value == 'current') {
-    var elem = getElement('symbol', sym);
     if (parseInt(elem.atomicNumber) == -1) {
       return false;
     }
@@ -52,6 +52,8 @@ function setQueryString(value) {
   }
 
   $('#bite-form').attr('action','?'+sym);
+  // Remove form variables so they are not submitted
+  $('#bite-form').html(getMouthful(elem.atomicNumber));
   $('#bite-form').submit();
 }
 
@@ -84,9 +86,11 @@ $(document).ready(function() {
 <body>
 
 <form id="bite-form" action="" method="POST">
+  <span id="currentValue"></span>
   <input type="button" value="" onclick="setQueryString('current')" id="current" name="current">
   <span id="mouthful"></span>
-  <input type="button" value="&gt;" onclick="setQueryString('next')" id="next" name="next">
+  <input type="button" value="" onclick="setQueryString('next')" id="next" name="next">
+  <span id="nextValue"></span>
 </form>
 
 </body>

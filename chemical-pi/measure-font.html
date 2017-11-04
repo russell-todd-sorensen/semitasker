@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<meta base="http://github.semitasker.com/" />
+<meta name="viewport" content="width=device-width, initial-scale=0.775 maximum-scale=1.0">
+<title>Chemical &pi; One Mouthful</title>
+<link rel="stylesheet" type="text/css" media="all" href="/css/reset.css">
+
+
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script>
+
+$(document).ready(function() {
+
+    loadXHRFile("./data/periodic-table-data.csv",getPeriodicTableCSV);
+
+});
+
+</script>
+
+<style>
+
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+svg {
+  fill: orange;
+}
+
+#test {
+  display: inline-block;
+}
+#test-svg {
+  x: 100;
+  y: 100;
+}
+</style>
+
+<body>
+<span id="test">Test String</span>
+<br>
+<svg><text id='test-svg'>Test String</text></svg>
+</body>
+</html>
