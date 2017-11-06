@@ -36,3 +36,17 @@ function getPeriodicTableLength() {
   }
 
 }
+
+function getMouthfulDigits(atomicNumber) {
+    mouthfulDigits = '';
+    var value = '';
+    var index = parseInt(atomicNumber);
+    for (var i = 10*index; i< (10*index+10); i++) {
+      value = piDigits[i];
+      if (value === undefined) {
+        return '3';
+      }
+      mouthfulDigits += value;
+    }
+    return mouthfulDigits;
+}
