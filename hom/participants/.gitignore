@@ -1,3 +1,9 @@
 *.IIF
 *.csv
 ./signatures/*
+./images/*
+*.zip
+*.tar.gz
+*.gz
+./website-data/*
+./website-data/

@@ -116,3 +116,4 @@ $javascriptArray
 	return $selectHtml
 }
 
+ns_return 200 text/plain $data

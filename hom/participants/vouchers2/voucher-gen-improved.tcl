@@ -25,7 +25,7 @@ set data [chan read $fd]
 close $fd
 set data [string map {\t ,} $data]
 
-set csvFileName "doc-invoice-temp.csv"
+set csvFileName "doc-invoice-november-temp.csv"
 
 set fdout [open [file join $dataDirectory $csvFileName] w+]
 puts -nonewline $fdout $data
@@ -141,12 +141,12 @@ proc programFeePerHouse {house company monthNumber} {
     return $fees
 }
 
-set invoiceDate "10/01/2017"
-set monthNumber 10
-set month "Oct"
+set invoiceDate "11/01/2017"
+set monthNumber 11
+set month "Nov"
 set year "2017"
 set invoiceNumber 1
-set terms "Due by the 1st of Month"
+set terms "Due by the 1st of Mo"
 ns_log Notice "what is up"
 
 proc programFeeVoucher {house company fees monthNumber} {
@@ -319,7 +319,7 @@ foreach dataLine $invoiceLines {
 	append iifFile [join $dataLine \t]\n
 }
 
-set finalIIFfileName "invoices-final.iif"
+set finalIIFfileName "invoices-final-november.iif"
 
 set fdout2 [open [file join $dataDirectory $finalIIFfileName] w+]
 puts -nonewline $fdout2 $iifFile
