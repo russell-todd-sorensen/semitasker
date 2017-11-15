@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="100%"
+    height="100%">
+
+<defs>
+       <!-- viewBox="0 0 1500 1200" -->
+
+   <filter id="image1" x="0" y="0" width="100%" height="100%">
+    <feImage xlink:href="circle-3.svg" result="image1" height="100%" width="100%" />
+    <feImage in="image2" result="image2" xlink:href="circle-3.svg" height="100%" width="100%" />
+    <feComposite in2="image1" in="image2"  operation="atop" />
+   </filter>
+</defs>
+
+<script type="javascript" src="/js/d3.v3.js" charset="utf-8"></script>
+<script type="javascript" src="/js/jquery-1.7.1.js" charset="utf-8"></script>
+<script type="javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" charset="utf-8"></script>
+<script type="javascript" src="/js/log-2.js" charset="utf-8"></script>
+<script type="javascript" src="/js/data.js"></script>
+<script type="javascript" src="/js/form-save-restore.js"></script>
+<script type="javascript" src="/js/binary-hex-conversions.js"></script>
+<script type="javascript" src="/js/example-library.js"></script>
+<script type="javascript" src="/js/svg-transform.js"></script>
+
+<script>
+<![CDATA[
+
+var changefont = function(size,id) {
+    var elem = document.getElementById(id)
+    elem.style['fontSize']=size;
+};
+
+setTimeout('changefont("10em","text1")',5000);
+
+]]>
+</script>
+<style>
+#text1 {
+    fill: orange;
+    stroke: black;
+    stroke-width: 1px;
+    font-size: 3em;
+    font-family: Arial;
+}
+</style>
+<image
+    id="imageFilter"
+    xlink:href="../images/Butterfly%206.jpg" />
+    <text x="100" y="200" id="text1" style="font-size: 3em;">Some Text</text>
+</svg>

@@ -1,0 +1,60 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<meta base="http://github.semitasker.com/" />
+<meta name="viewport" content="width=device-width, initial-scale=0.775 maximum-scale=1.0">
+<title>Chemical &pi; One Mouthful</title>
+<link rel="stylesheet" type="text/css" media="all" href="/css/reset.css">
+
+
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script>
+
+$(document).ready(function() {
+
+});
+
+</script>
+
+<style>
+
+body {
+  position: relative;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+svg {
+  fill: orange;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+}
+
+#test {
+  display: inline-block;
+}
+
+#container {
+  position: absolute;
+  top: 100px;
+  left: 100px;
+}
+
+#test-svg {
+  top: 100px;
+  left: 100px;
+  transform-origin: 100px 50px;
+  text-anchor: middle;
+}
+</style>
+
+<body>
+<span id="test">Test String</span>
+<br>
+<div id="container">
+<svg><text id='test-svg' transform='translate(100,100)'>Test String</text></svg>
+</div>
+</body>
+</html>

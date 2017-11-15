@@ -1,0 +1,265 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<meta base="http://github.semitasker.com/" />
+<meta name="viewport" content="width=device-width, initial-scale=0.775 maximum-scale=1.0">
+<title>Chemical &pi; One Mouthful</title>
+<link rel="stylesheet" type="text/css" media="all" href="/css/reset.css">
+
+<style>
+
+body {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+a:link {
+    text-decoration: none;
+}
+
+#current-form,
+#next-form {
+    display: inline-block;
+    width: 120px;
+    border: 2px solid black;
+    vertical-align: middle;
+}
+
+#mouthful-form {
+    display:inline-block;
+    border: 2px solid black;
+    vertical-align: middle;
+}
+
+#current-table,
+#next-table {
+    width: 120px;
+}
+
+#current-table td,
+#next-table td,
+#mouthful-table td {
+    text-align: center;
+}
+
+#mouthful {
+    display: inline-block;
+    width: 140px;
+    vertical-align: middle;
+    padding-top: 11.1px;
+    padding-bottom: 11.1px;
+}
+
+#current-form span,
+#next-form span {
+    display: block;
+    margin: auto;
+    padding: 0;
+}
+
+#mouthful span.an {
+    display: block;
+    height: 1.05em;
+    font-size: 1em;
+    vertical-align: middle;
+    margin: auto;
+}
+
+#current-form span.an,
+#next-form span.an {
+    display: block;
+    vertical-align: middle;
+    margin: auto;
+}
+
+#currentElementInput,
+#nextElementInput,
+#mouthful {
+    height: 1em;
+    background-color: #abc;
+}
+
+#mouthful {
+    letter-spacing: .3em;
+}
+</style>
+
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="./js/pi-digits.js"></script>
+<script type="text/javascript" src="./js/mouthful.js"></script>
+<script type="text/javascript" src="./js/mouthful-search.js"></script>
+
+<script>
+var mouthfulString;
+
+var previousIndex;
+var currentIndex = document.URL.split('?')[1];
+var nextIndex;
+
+var previousElement;
+var currentElement;
+var nextElement;
+
+var previous;
+var current;
+var next;
+
+if (currentIndex === undefined || currentIndex == '') {
+    currentIndex = -1
+}
+
+if (parseInt(currentIndex) || parseInt(currentIndex) == 0) {
+    currentIndex = parseInt(currentIndex);
+} else {
+    currentIndex = -1;
+}
+
+function gradeInput(e) {
+    var me = this;
+    var id = this.id;
+    var contentNode;
+    var content;
+    var contentList;
+    var newContent = '';
+    var numbers = ['0','1','2','3','4','5','6','7','8','9'];
+    contentNode = document.getSelection();
+    content = contentNode.focusNode.textContent;
+
+    switch (id) {
+    case 'currentElementInput':
+        if (current == content) {
+            this.style['background-color'] = 'green';
+        }
+        break;
+    case 'nextElementInput':
+        if (next == content) {
+            this.style['background-color'] = 'green';
+        }
+        break;
+    case 'mouthful':
+        if (mouthfulDigits == content) {
+            this.style['background-color'] = 'green';
+        }
+    default:
+        break;
+    }
+
+    //this.cancelBubble = true;
+    //return false;
+}
+
+function handleInput(e) {
+    var me = this;
+    var id = this.id;
+    var contentNode;
+    var content;
+    var contentList;
+    var newContent = '';
+    var numbers = ['0','1','2','3','4','5','6','7','8','9'];
+    contentNode = document.getSelection();
+    content = contentNode.focusNode.textContent;
+
+    switch (id) {
+    case 'currentElementInput':
+        if (current == content) {
+            this.style['background-color'] = 'green';
+        }
+        break;
+    case 'nextElementInput':
+
+        break;
+    default:
+        for (var i = 0;i<content.length;i++) {
+            if(numbers.find(char => char == content[i]) != undefined) {
+                newContent = newContent + content[i] + ' ';
+            }
+        }
+        contentNode.focusNode.replaceData(0,newContent.length,newContent);
+        contentNode.collapse(contentNode.focusNode,newContent.length);
+        break;
+    }
+
+    this.cancelBubble = true;
+    return false;
+}
+
+function cancelEventBubble(e) {
+    this.cancelBubble = true;
+    return false;
+}
+
+function setupInputElements(elementIdList,finalElement) {
+    var id,element;
+    var tabindex = 1;
+
+    for (var i = 0;i<elementIdList.length;i++) {
+        id = elementIdList[i];
+        element = document.getElementById(id);
+        element.contentEditable = true;
+        element.tabIndex = tabindex;
+        tabindex++;
+        //element.onkeyup = handleInput;
+        element.onclick = cancelEventBubble;
+        element.onblur = gradeInput;
+    }
+    document.getElementById(finalElement).tabIndex=tabindex;
+    document.getElementById(elementIdList[0]).focus();
+}
+
+function setup() {
+    currentElement = getElement('atomicNumber', currentIndex);
+    current = currentElement.symbol;
+
+    if (currentIndex == -1) {
+        previousIndex = -1;
+    } else {
+        previousIndex = currentIndex-1;
+    }
+    previousElement = getElement('atomicNumber', previousIndex);
+    previous = previousElement.symbol;
+
+    nextIndex = currentIndex+1;
+    if (nextIndex >= getPeriodicTableLength()) {
+        nextIndex = -1;
+    }
+    nextElement = getElement('atomicNumber', nextIndex);
+    next = nextElement.symbol;
+
+    mouthfulDigits =  getMouthfulDigits(currentIndex);
+
+
+    $('#current-form').attr('href','?'+previousIndex).html('<table id="current-table">'
+        + '<tr><td id="currentElementInput">'
+        //  + currentElement.element
+        + '</td></tr>'
+        + '<tr><td id="currentAtomicNumber">'
+        + currentElement.atomicNumber
+        + '</td></tr></table>');
+
+    $('#next-form').attr('href','?'+nextIndex).html('<table id="next-table">'
+        + '<tr><td id="nextElementInput">'
+        //  + nextElement.element
+        + '</td></tr>'
+        + '<tr><td id="nextElementAtomicNumber">'
+        + nextElement.atomicNumber
+        + '</td></tr></table>');
+
+    setupInputElements(['currentElementInput','mouthful','nextElementInput'],'next-form');
+}
+
+$(document).ready(function() {
+
+    loadXHRFile("./data/periodic-table-data.csv",getPeriodicTableCSV);
+
+});
+
+</script>
+</head>
+<body>
+<a id="current-form" href=""></a>
+<div id="mouthful-form"><table id="mouthful-table"><tr><td rowspan="2" id="mouthful"></td></tr></table></div>
+<a id="next-form" href=""></a>
+<div id="hint"></div>
+</body>
+</html>

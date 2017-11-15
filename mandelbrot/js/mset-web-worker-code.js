@@ -70,6 +70,18 @@ self.addEventListener('message',  function(evt) {
               finite = false;
             }
             break;
+        case 4:
+            if ((Math.abs(tmpY)+Math.abs(tmpX)) > objectInfo.finiteMeasure)
+            {
+              finite = false;
+            }
+            break;
+        case 5:
+            if ((Math.abs(tmpY + tmpX)) > objectInfo.finiteMeasure)
+            {
+              finite = false;
+            }
+            break;
         }
         //if (Math.abs(tmpYbyTmpX) > this.finiteMeasure) {
 

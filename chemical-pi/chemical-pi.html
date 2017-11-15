@@ -1,0 +1,458 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<meta base="http://github.semitasker.com/" />
+<meta name="viewport" content="width=device-width, initial-scale=0.775 maximum-scale=1.0">
+<title>Chemical &pi;</title>
+<link rel="stylesheet" type="text/css" media="all" href="/css/reset.css">
+
+<link rel="stylesheet" media="all" href="/css/log.css">
+<link rel="stylesheet" media="all" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" media="all" href="/css/logo-maker-1.css">
+<link rel="stylesheet" media="all" href="/css/green-form.css" >
+<link rel="stylesheet" media="all" href="https://file.myfontastic.com/xXW5U9UCxPBxcUuaZGbBJP/icons.css">
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed|Roboto">
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed:500">
+<link rel="stylesheet" media="all" href="https://fonts.googleapis.com/css?family=Encode+Sans+Condensed:600">
+<style type="text/css">
+
+body, html {
+    padding: 0;
+    margin: -3px;
+    width: 450px;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
+}
+
+/* override #panel  styles */
+#panel {
+    padding: 0;
+    margin: 5px;
+}
+#panel fieldset {
+    width: 458px;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
+    font-size: 1.4em;
+    color: rgba(0,0,0,.95);
+    background-color: #d3d3d3;
+    border-radius: 5px;
+}
+
+#panel fieldset legend {
+    border-radius: 6px;
+}
+
+#panel #search-form {
+    margin: 10px;
+}
+
+#panel #search-form ul {
+    margin-top: 4px;
+}
+
+#panel h3 {
+    width: 98.7%;
+    padding: 3px;
+    background-color: rgba(0,0,0,.1);
+    border-radius: 6px;
+}
+
+#panel h3 span {
+    margin: auto;
+    padding: 0;
+    display: block;
+    width: 40%;
+}
+
+#panel input,
+#panel input[type="range"] {
+    display: inline-block;
+    width: 280px;
+    height: 1.0em;
+    font-size: 1.0em;
+    font-weight: normal;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
+    color: darkolivegreen;
+    outline-color: transparent;
+}
+
+#panel li.expand span {
+    display: inline-block;
+    width: 4em;
+    text-align: right;
+    font-family: 'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
+}
+
+#panel select {
+    width: 283px;
+    height: 1.35em;
+    font-family:  'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
+    outline-color: transparent;
+}
+#panel label[for="searchTerms"] {
+    padding-top: 0.5px;
+}
+#panel label[for="fieldToSearch"] {
+    padding-top: 2px;
+}
+/* .cust is the matched participant list items. */
+
+.cust {
+    list-style: none;
+    cursor: pointer;
+    width: 445px;
+    padding-top: 2px;
+    padding-left: 3px;
+    color: #202b0d; /*#364817; */
+}
+
+.cust:focus {
+    background-color: #d3d3d3;
+    border: none;
+    border-radius: 6px;
+    outline-color: transparent;
+}
+
+.icon-people:before {
+  content: "\65\09\09 ";
+  vertical-align: -2px;
+  color: darkolivegreen;
+}
+
+#container {
+    vertical-align: top;
+    padding: 0;
+    margin: 0;
+}
+
+#selection,
+#profile {
+    padding: 0;
+    display: inline-block;
+    width: 450px;
+    vertical-align: top;
+    padding-left: 0px;
+    margin-left: 5px;
+    margin-top: 3px;
+}
+
+#selection {
+    padding-left: 8px;
+    max-height: 150px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+#selection li {
+    padding-bottom: 2.5px;
+}
+
+#profile {
+   /* background-color: #d3d3d3;
+    border: solid darkolivegreen 2px; */
+}
+
+#profile label,
+#search-form label {
+    font-weight: 500;
+    vertical-align: top;
+}
+
+#profile pre {
+    display: inline-block;
+}
+
+.active {
+    font-weight: normal;
+}
+
+.notActive {
+    font-weight: bold;
+    color: #FF0000;
+}
+
+.notActive:before {
+    content: 'Not Active:';
+    color: black;
+}
+
+#accountTable {
+    margin-left: 4px;
+    width: 440px;
+    border-collapse: collapse;
+
+}
+
+#accountTable td,
+#accountTable th {
+    border: 1px solid black;
+}
+
+#accountTable span.positive {
+    color: darkgreen;
+    font-weight: bold;
+}
+
+#accountTable legend {
+    background-color: silver;
+}
+
+#accountTable span.negative {
+    color: darkred;
+    font-weight: bold;
+}
+
+#accountTable th {
+    background-color: #aaa;
+}
+
+#accountTable td {
+    text-align: right;
+}
+
+#accountTable tr:nth-child(odd) {
+    background-color: #ccc;
+}
+
+#lastTransaction #accountTable {
+    width: 440px;
+    font-size: .9em;
+}
+
+.notes {
+    width: 440px;
+    font-size: .9em;
+}
+
+#panel input#searchList {
+    width: 20px;
+    height: 20px;
+}
+
+#panel #list label {
+    display: inline-block;
+    vertical-align: top;
+}
+#panel #list span.radio-container {
+   /* display: inline-block;
+    vertical-align: top; */
+    text-align: left;
+    width: 315px;
+}
+#panel #list span.radio-option {
+    display: inline-block;
+    width: 100px;
+    height: 15px;
+}
+
+@media only screen and ((max-device-width: 450px) or (max-width: 450px)) {
+        /*body, html, #container {
+            width: 450px;
+        } */
+
+		div#header {
+			background-image: url(media-queries-phone.jpg);
+			height: 93px;
+			position: relative;
+		}
+
+		div#header h1 {
+			font-size: 140%;
+		}
+
+		#content {
+			float: none;
+			width: 100%;
+		}
+
+		#navigation {
+			float:none;
+			width: auto;
+		}
+
+		@-ms-viewport {
+		    width:450px;
+		}
+}
+
+#panel fieldset {
+    border: none /*solid 3px darkolivegreen*/;
+}
+
+#search-form #list .radio-option {
+    font-family:  'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
+}
+
+#panel #element-info button {
+    border: 1px solid rgba(0,0,0,.5);
+    border-radius: 6px;
+    font-family:  'Roboto', sans-serif;
+    font-family: 'Encode Sans Condensed', sans-serif;
+    margin: 2px;
+    outline-color: transparent;
+}
+
+#panel label {
+    display: inline-block;
+    width: 100px;
+}
+
+#panel #search-form label {
+    width: 150px;
+}
+
+#panel #element-info {
+    position: relative;
+}
+#panel #element-info label {
+    width: 200px;
+}
+
+#panel #element-info div#photo {
+    display: inline-block;
+    position: absolute;
+    right: 6px;
+    top: 22px;
+    border: none;
+    border-color: transparent;
+    border-radius: 6px;
+    height: 150px;
+    width: 120px;
+    background-repeat:no-repeat;
+    background-position:top;
+    background-size:contain;
+    background-size:cover;
+
+}
+#panel #links {
+  padding: 5px;
+}
+#panel #links a,
+#panel #links a:visited,
+#panel #links a:active,
+#panel #links a:link {
+    font-size: .7em;
+    padding-top: 2px;
+}
+</style>
+<script >
+
+</script>
+
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+<script type="text/javascript" src="/js/data.js"></script>
+<script type="text/javascript" src="/js/form-save-restore.js"></script>
+<script type="text/javascript" src="/js/binary-hex-conversions.js"></script>
+<script type="text/javascript" src="/js/example-library.js"></script>
+<script type="text/javascript" src="/js/svg-transform.js"></script>
+<script type="text/javascript" src="./js/pi-digits.js"></script>
+<script type="text/javascript" src="./js/chemical-pi-search.js"></script>
+<script type="text/javascript" src="./js/chemical-pi.js"></script>
+
+<script>
+
+
+var extraInfo = false;
+
+var toggleExtraInfo = function(id,ref) {
+
+    buttonId = ref.id;
+    if (extraInfo) {
+        $('#' + id).hide();
+        $('#' + buttonId).html("Show More");
+        extraInfo = false;
+    } else {
+        $('#' + id).show();
+        $('#' + buttonId).html("Show Less");
+        extraInfo = true;
+    }
+    return false;
+}
+
+searchList = 'all';
+
+$(document).ready(function() {
+
+    Log.Notice("Starting to get data");
+    loadXHRFile("./data/periodic-table-data.csv",getPeriodicTableCSV);
+    Log.Remove();
+});
+
+</script>
+
+</head>
+<body>
+
+<form id="panel" onSubmit="javascript:return false;">
+<fieldset id='search-form'>
+<h3><span>Chemical &pi;</span></h3>
+<ul>
+ <li><label for="fieldToSearch">Search Field:</label>
+ <select id="fieldToSearch" tabIndex="7"
+  onChange="ChemicalPi.configureSearchField('fieldToSearch')">
+   <option value="search">All Fields</option>
+   <option value="element">Element Name</option>
+   <option value="symbol">Symbol</option>
+   <option value="atomicNumber">Atomic Number</option>
+   <option value="period">Period</option>
+   <option value="group">Group</option>
+   <option value="yearOfDiscovery">Year of Discovery</option>
+   <option value="discoverer">Discoverer</option>
+   <option value="type">Type</option>
+   <option value="phase">Phase</option>
+   <option value="ElectronConfiguration">Electron Configuration</option>
+   <option value="displayColumn">Display Column</option>
+   <option value="displayRow">Display Row</option>
+   <option value="density">Density</option>
+   <option value="meltingPointK">Melting Point (K)</option>
+   <option value="boilingPointK">Boiling Point (K)</option>
+   <option value="specificHeatCapacity">Specific Heat</option>
+   <option value="ionicRadius">Ionic Radius</option>
+   <option value="atomicRadius">Atomic Radius</option>
+   <option value="firstIonizationPotential">First Ion Potential</option>
+   <option value="mostStableCrystal">Most Stable Crystal</option>
+  </select>
+  </li>
+  <li style="display:none;"><label for="outputType">Output Type</label>
+  <select id="outputType" name="outputType" tabIndex="8"
+   onChange="Customer.configureOutputType('outputType')">
+    <option value="list" selected="selected">Link List</option>
+  </select>
+
+  </li>
+  <li><label for="searchTerms">Search For:</label>
+  <input type="text" id="searchTerms" name="searchTerms" tabIndex="9"
+   onKeyUp="ChemicalPi.search('searchTerms','#selection');" />
+  </li>
+ </ul>
+ </fieldset>
+
+</form>
+<div id="container">
+<div id="selection"></div>
+<div id="profile"></div>
+&nbsp;&nbsp;&nbsp;<a href="javascript:location.reload(true)">Refresh Page</a>
+</div>
+<ul id="panel">
+  <fieldset id="links">
+  <legend>Links to References</legend>
+  <li><a href="http://kcvs.ca/isotopesmatter/iupacMaterials/javascript/Interactive%20Periodic%20Table%20of%20the%20Isotopes/HTML5/index.html">Interactive IUPAC Periodic Table of Elements and Isotopes</a></li>
+  <li><a href="images/iupac-periodic-table-2016-11-28.jpg">IUPAC Periodic Table Nov 28, 2016</a></li>
+  <li><a href="images/john-conway-chemical-pi-paper.png">John Conway&apos;s Chemical &pi; Paper (Page 1)</a></li>
+  <li><a href="./data/10000.txt">First 9,999 Digits of &pi; After Decimal</a></li>
+  <li><a href="./data/periodic-table-data.csv">Periodic Table Data Used Here</a></li>
+  <li><a href="https://www.youtube.com/watch?v=ywbhG3NdTL0">Youtube Video of John Conway Exlpaining</a></li>
+</fieldset>
+</ul>
+
+</body>
+</html>

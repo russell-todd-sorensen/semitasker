@@ -1,0 +1,207 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<meta base="http://github.semitasker.com/" />
+<meta name="viewport" content="width=device-width, initial-scale=0.775 maximum-scale=1.0">
+<title>Chemical &pi; One Mouthful</title>
+<link rel="stylesheet" type="text/css" media="all" href="/css/reset.css">
+
+
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="./js/pi-digits.js"></script>
+<script type="text/javascript" src="./js/mouthful.js"></script>
+<script type="text/javascript" src="./js/mouthful-search.js"></script>
+
+<script>
+var previousIndex;
+var currentIndex;
+var nextIndex;
+
+var previousElement;
+var currentElement;
+var nextElement;
+
+var previous;
+var current = document.URL.split('?')[1];
+var next;
+
+if (current === undefined) {
+    current = ''
+}
+
+function pixelAdjust (string) {
+    var charArray = string.split('');
+    var length = charArray.length;
+    var baseChars = (13.5-length)/2;
+
+    //if (length >= 12) {
+        //charArray = [];
+        //length = 0;
+      //  baseChars = 0;
+    //}
+    var adjust = 0;
+    var base = baseChars * 8;
+
+    for (var i = 0; i<length; i++) {
+      switch (charArray[i]) {
+        case 'i':
+        case 'l':
+        case 'I':
+          adjust -= 3;
+          break;
+        case 'f':
+        case 't':
+        case 'r':
+          adjust -= 1;
+          break;
+        case 'w':
+        case 'm':
+          adjust += 2;
+          break;
+        case 'W':
+        case 'M':
+        case 'G':
+        //case 'C':
+          adjust += 3;
+          break;
+        default:
+          break;
+      }
+    }
+    return base -= adjust;
+}
+
+function atomicNumberPixels (atomicNumber) {
+
+    return  (-.1 + .70 * (  '' + atomicNumber).split('').length);
+
+}
+
+function setup() {
+    currentElement = getElement('symbol', current);
+    currentIndex = currentElement.atomicNumber;
+
+    if (currentIndex == -1) {
+      previousIndex = -1;
+    } else {
+      previousIndex = currentIndex-1;
+    }
+    previousElement = getElement('atomicNumber', previousIndex);
+    previous = previousElement.symbol;
+
+    nextIndex = currentIndex+1;
+    if (nextIndex >= getPeriodicTableLength()) {
+      nextIndex = -1;
+    }
+    nextElement = getElement('atomicNumber', nextIndex);
+    next = nextElement.symbol;
+
+    mouthfulString =  getMouthful(currentIndex);
+    mouthfulTitleString = currentElement.symbol + ' ' + mouthfulString + nextElement.symbol;
+
+
+    var curPixels = pixelAdjust(currentElement.element) +1;
+    var nxtPixels = pixelAdjust(nextElement.element) +1;
+    console.log('curPixels=' + curPixels + ' nsxPixels=' + nxtPixels);
+
+    var curANwidth =  atomicNumberPixels(currentElement.atomicNumber);
+
+    $('#current-form').attr('href','?'+previous).html('<span style="padding-left:'
+      + curPixels +'px;">'
+      + currentElement.element
+      + '</span><span class="an" style="width:'
+      + curANwidth
+      + 'em;">'
+      + currentElement.atomicNumber
+      + '</span>');
+
+    var nxtANwidth =  atomicNumberPixels(nextElement.atomicNumber);
+
+    $('#next-form').attr('href','?'+next).html('<span style="padding-left:'
+      + nxtPixels +'px;">'
+      + nextElement.element
+      + '</span><span class="an" style="width:'
+      + nxtANwidth
+      +'em;" >'
+      + nextElement.atomicNumber
+      + '</span>');
+    $('title').html(mouthfulTitleString);
+    $('#mouthful').html('<span class="an">&nbsp;' + mouthfulString + '</span>');
+}
+
+$(document).ready(function() {
+
+    loadXHRFile("./data/periodic-table-data.csv",getPeriodicTableCSV);
+
+});
+
+</script>
+
+<style>
+
+body {
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+#current-form,
+#next-form {
+  display: inline-block;
+  width: 120px;
+  border: 2px solid black;
+  vertical-align: middle;
+}
+
+#mouthful {
+  display: inline-block;
+  width: 140px;
+  border: 2px solid black;
+  vertical-align: middle;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+#current-form span,
+#next-form span {
+  display: block;
+  margin: auto;
+  padding: 0;
+  /*  height: 1em;
+      width: 120px;*/
+  /*border: 1px dashed tan;*/
+}
+
+#mouthful span.an {
+  display: block;
+  height: 1.05em;
+  font-size: 1em;
+  vertical-align: middle;
+  margin: auto;
+  /*border: 1px dashed tan; */
+}
+
+#current-form span.an,
+#next-form span.an {
+  display: block;
+  vertical-align: middle;
+  /*width: 2.0em; */
+  margin: auto;
+  /* height: 1em; */
+  /*border: 1px dashed tan;*/
+}
+
+
+</style>
+
+</head>
+<body>
+<a id="current-form" href=""></a>
+<span id="mouthful"></span>
+<a id="next-form" href=""></a>
+
+</body>
+</html>

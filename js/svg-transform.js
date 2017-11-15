@@ -1,7 +1,6 @@
 // JavaScript Document
 
 var SvgTransform = {};
-SvgTransform.Images = new Array();
 
 SvgTransform.skewX = function(inputId) {
 
@@ -16,16 +15,16 @@ SvgTransform.skewX = function(inputId) {
 	for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
 }
 
-// hard coded inputIds 
+// hard coded inputIds
 SvgTransform.matrixTransform = function (inputId) {
 	var matrix = {a:1.0,b:1.0,c:1.0,d:1.0,e:0.0,f:0.0,r:1.0,s:1.0,φ:0.0,ψ:0.0};
-	
+
 };
 
 SvgTransform.skewY = function(inputId) {
@@ -41,7 +40,7 @@ SvgTransform.skewY = function(inputId) {
 	for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
@@ -59,7 +58,7 @@ SvgTransform.SvgText = function(inputId) {
 	for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
@@ -68,7 +67,7 @@ SvgTransform.SvgText = function(inputId) {
 SvgTransform.changeImage = function (selectId) {
   var imageSelector = '#' + selectId + " option::selected";
   var imageUrl = $(imageSelector).val();
-  
+
   var imageSelector, imageId;
   for (var i = 1; i < arguments.length; i++) {
     imageSelector = arguments[i];
@@ -81,7 +80,7 @@ SvgTransform.changeImage = function (selectId) {
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
@@ -92,18 +91,18 @@ SvgTransform.adjustImage = function (filterImageId, ellipseId) {
 	var xlink = 'http://www.w3.org/1999/xlink';
 	node = document.getElementById(filterImageId);
 	var imageSource = node.getAttributeNS(xlink,'href');
-	
+
 	if (this.Images[imageSource] == undefined) {
 		this.Images[imageSource] = new Image();
 		this.Images[imageSource].src = imageSource;
-	
-	
+
+
 		this.Images[imageSource].onload = function ( ) {
-			var height = SvgTransform.Images[imageSource].height;
-			var width =  SvgTransform.Images[imageSource].width;
+			var height = Data.Images[imageSource].height;
+			var width =  Data.Images[imageSource].width;
 			//node.setAttribute('height', height);
 			//node.setAttribute('width',width);
-	
+
 			node2 = document.getElementById(ellipseId);
 			node2.setAttribute('rx', parseInt(width)/2);
 			node2.setAttribute('ry', parseInt(height)/2);
@@ -115,7 +114,7 @@ SvgTransform.adjustImage = function (filterImageId, ellipseId) {
 			var width =  this.Images[imageSource].width;
 			//node.setAttribute('height', height);
 			//node.setAttribute('width',width);
-	
+
 			node2 = document.getElementById(ellipseId);
 			node2.setAttribute('rx', parseInt(width)/2);
 			node2.setAttribute('ry', parseInt(height)/2);
@@ -129,19 +128,20 @@ SvgTransform.adjustObjectHeightWidth = function (filterImageId) {
 	var xlink = 'http://www.w3.org/1999/xlink';
 	var node = document.getElementById(filterImageId);
 	var imageSource = node.getAttributeNS(xlink,'href');
-	
-	if (SvgTransform.Images[imageSource] == undefined) {
-		SvgTransform.Images[imageSource] = new Image();
-		SvgTransform.Images[imageSource].src = imageSource;
+
+	if (Data.Images[imageSource] == undefined) {
+		Data.Images[imageSource] = new Image();
+		Data.Images[imageSource].src = imageSource;
 		Log.Notice("defining new image src=" + imageSource);
-	
-		SvgTransform.Images[imageSource].onload = function ( ) {
-			var height = SvgTransform.Images[imageSource].height;
-			var width =  SvgTransform.Images[imageSource].width;
+		var args = arguments;
+
+		Data.Images[imageSource].onload = function ( ) {
+			var height = Data.Images[imageSource].height;
+			var width =  Data.Images[imageSource].width;
 			var rectNode;
 			Log.Notice('image function img=' + imageSource + ' height=' + height + ' width=' + width);
-			for (var i = 1; i<arguments.length; i++) {
-				rectNode = document.getElementById(arguments[i]);
+			for (var i = 1; i<args.length; i++) {
+				rectNode = document.getElementById(args[i]);
 				rectNode.setAttribute('height', height*1.2);
 				rectNode.setAttribute('width', width*1.2);
 			}
@@ -150,7 +150,7 @@ SvgTransform.adjustObjectHeightWidth = function (filterImageId) {
 			var height = this.Images[imageSource].height;
 			var width =  this.Images[imageSource].width;
 			var rectNode;
-			
+
 			Log.Notice('image inline img=' + imageSource + ' height=' + height + ' width=' + width);
 			for (var i = 1; i<arguments.length; i++) {
 				rectNode = document.getElementById(arguments[i]);
@@ -161,10 +161,10 @@ SvgTransform.adjustObjectHeightWidth = function (filterImageId) {
 }
 
 
-SvgTransform.changeFilter = function (selectId) { 
+SvgTransform.changeFilter = function (selectId) {
   var filterSelector = '#' + selectId + " option::selected";
   var filterUrl = $(filterSelector).val();
-  
+
 
   var elementSelector, elementId, node;
   for (var i = 1; i < arguments.length; i++) {
@@ -178,7 +178,7 @@ SvgTransform.changeFilter = function (selectId) {
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
@@ -198,19 +198,19 @@ SvgTransform.rotate = function(inputId) {
 	$('.center')
 		.attr('cx', rotateCx)
 		.attr('cy', rotateCy);
-		
+
 	var call = "Data.saveInput('" + inputId + "','SvgTransform.rotate'";
 	for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
 }
 
 SvgTransform.translateX = function(xInputId) {
-	
+
 	var charX;
 	var yInputId = "";
 	// get yInputId by synthesis from xInputId
@@ -226,7 +226,7 @@ SvgTransform.translateX = function(xInputId) {
 			yInputId += charX;
 		}
 	}
-	
+
 	var x = parseInt($('#' + xInputId).val());
 	var y = parseInt($('#' + yInputId).val());
 
@@ -235,19 +235,19 @@ SvgTransform.translateX = function(xInputId) {
     selector = arguments[i];
     $(selector).attr('transform','translate(' + x + ',' + y + ')');
   }
-	
+
 	var call = "Data.saveInput('" + xInputId + "','SvgTransform.translateX'";
 	for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
 }
 
 SvgTransform.translateY = function(yInputId) {
-	
+
 	var charY;
 	var xInputId = "";
 	// get yInputId by synthesis from xInputId
@@ -263,7 +263,7 @@ SvgTransform.translateY = function(yInputId) {
 			xInputId += charY;
 		}
 	}
-	
+
 	var x = parseInt($('#' + xInputId).val());
 	var y = parseInt($('#' + yInputId).val());
 
@@ -272,22 +272,22 @@ SvgTransform.translateY = function(yInputId) {
     selector = arguments[i];
     $(selector).attr('transform','translate(' + x + ',' + y + ')');
   }
-	
+
 	var call = "Data.saveInput('" + yInputId + "','SvgTransform.translateY'";
 	for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
 }
-	
+
 SvgTransform.changeFill = function (selectId, graphicId, graphicAttribute) {
-	
+
 	var fillSelector = '#' + selectId + " option::selected";
   var fill = $(fillSelector).val();
-  
+
   var selector,attribute;
   for (var i = 1; i < arguments.length; i++) {
     selector = arguments[i++];
@@ -298,19 +298,19 @@ SvgTransform.changeFill = function (selectId, graphicId, graphicAttribute) {
 		node.setAttribute(attribute,fill);
     //$(selector).attr("href",imageUrl);
   }
- 
-  
+
+
   var call = "Data.saveSelect('" + selectId + "','SvgTransform.changeFill'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
-	
+
 }
-	
+
 function toggleFormInputType (evt) {
 	var id = '#' + $(this).attr('for');
 	Log.Notice("toggleFormInputType for id=" + id);
@@ -368,8 +368,8 @@ function enlargeCell (evt) {
 	var cell = $(this);
 	cell
 		.attr('transform', 'scale(1.5)')
-		.css('display','block');	
-		
+		.css('display','block');
+
 	$(this).unbind('click').bind('click',shrinkCell);
 	return false;
 }
@@ -388,21 +388,21 @@ SvgTransform.changeFillColor = function (inputId) {
 	var r = document.getElementById(inputId).value;
 	backgroundColor = 'rgb(' + r + ',' + r + ',' + r + ')';
 
-	
+
 	var selector;
   for (var i = 1; i < arguments.length; i++) {
     selector = arguments[i];
     d3.selectAll(selector).style('fill',backgroundColor);
   }
-  
-  
+
+
   //saveInput(inputId, 'Data.changeBackgroundColor', '#svg');
-  
+
   var call = "Data.saveInput('" + inputId + "','SvgTransform.changeFillColor'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;

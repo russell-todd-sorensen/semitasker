@@ -12,7 +12,6 @@
 
 header h1 {
 	text-align: center;
-	background-color: #ddd;
 	padding: 15px;
 	color: #69F;
 	border: none;
@@ -22,10 +21,13 @@ header h1 {
 article,section {
 	margin: 0;
 }
+section {
+	width: 2000px;
+}
 
 #main nav {
 	display: inline-block;
-	background-color: #ddd;
+	/*background-color: #ddd;*/
 	color: #69F;
 	margin: 0;
 	padding: 5px;
@@ -66,23 +68,63 @@ footer {
 	width: 100%;
 }
 
+#content {
+	display: inline-block;
+	position: relative;
+	vertical-align: top;
+	width: 80%;
+	height: 1000px;
+}
+
 </style>
 
 <script src="/js/d3.v3.js" charset="utf-8"></script>
 <script src="/js/jquery-1.7.1.js" charset="utf-8"></script>
 <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" charset="utf-8"></script>
 <script src="/js/log-2.js" charset="utf-8"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
 
 <script>
 
+var rotation = 0;
+
+function rotateImage(imageIdList) {
+	var imageChoice,clickChoice;
+	if (imageIndex >= Data.Images.length) {
+		imageIndex = 0;
+	}
+
+	imageUrl = Data.Images[imageIndex++].url;
+
+    imageChoice = (rotation%2 ? imageIdList[0] : imageIdList[1]);
+	clickChoice = (rotation%2 ? 'imageRectOne' : 'imageRectTwo');
+
+	var node = document.getElementById(imageChoice);
+	node.setAttributeNS('http://www.w3.org/1999/xlink','href',imageUrl);
+	$('#' + clickChoice).click();
+	rotation++;
+}
+
+var imageIndex = Math.round(Math.random()*Data.Images.length);
+
+//setInterval('rotateImage(["imageOne","imageTwo"])',15000);
+
+
 $(document).ready(function() {
 	Log.Notice("jQuery Ready!");
-	//Log.Hide();
+	rotateImage(['imageOne','imageTwo'])
+	rotateImage(['imageOne','imageTwo'])
+	Log.Remove();
 });
 
 </script>
 </head>
 <body>
+
  <article>
  <header>
  <h1>SemiTasker: Divide and Conquer!</h1>
@@ -93,19 +135,23 @@ $(document).ready(function() {
   <li><a href="/">Home</a></li>
   <li><a href="/doc/toc.html">Naviserver Documentation</a></li>
  </ul>
+ <h2>Learn Digits of &pi; in Mouthfuls</h2>
+ <ul>
+	 <li><a href="/chemical-pi/">Chemical &pi;</a></li>
+ </ul>
 <h2>Live Edit HTML/CSS/JS</h2>
 <ul>
  <li><a href="/geek-code/geek-code-2.html">Learn HTML Editor</a></li>
 </ul>
 <h2>SVG Apps</h2>
 <ul>
- <li><a href="/learn-html/color-mixer/color-mixer-17.html" 
+ <li><a href="/learn-html/color-mixer/color-mixer-17.html"
          title="Interactive Color Pallet Tool">Color Mixer</a></li>
- <li><a href="/learn-html/color-mixer/rgb-hsl-conversion-5.html" 
+ <li><a href="/learn-html/color-mixer/rgb-hsl-conversion-5.html"
          title="RGB to HSL/HSB Conversion Animation">RGBtoHSL Conversion</a></li>
- <li><a href="/svg/image-deform-7.html" 
+ <li><a href="/svg/image-deform-7.html"
          title="Affine Transform of Image in SVG">Image Deform</a></li>
-         
+
  <li><a href="/svg/svg-index.html">More SVG Apps</a></li>
 </ul>
 
@@ -159,9 +205,38 @@ $(document).ready(function() {
 </ul>
  </nav>
  <div id="content">
+	 	<svg
+	 	    xmlns:svg="http://www.w3.org/2000/svg"
+	 	    xmlns="http://www.w3.org/2000/svg"
+	 	    xmlns:xlink="http://www.w3.org/1999/xlink"
+	 	    version="1.0"
+	 	    x="0"
+	 	    y="0"
+	 	    width="100%"
+	 	    height="1500">
+
+	 	<defs>
+	 	   <filter id="image5" x="0" y="0" width="100%" height="100%">
+	 	    <feImage id="imageOne" xlink:href="/images/Ladybug%206.jpg" result="image1" height="100%" width="100%" />
+	 	    <feImage id="imageTwo" in="image2" result="image2" xlink:href="/images/EgyptianTomb.jpg" height="100%" width="100%" />
+	 	    <feComposite in2="image1" in="image2" operator="arithmetic" result="output3" k1="0" k2="1" k3="0" k4="0" >
+              <animate id="oneToTwo" dur="5s" begin="0s;intervalTwo.end" repeatCount="1" attributeName="k2" from="1.0" to="0.0" fill="freeze" />
+              <animate id="oneToTwoX" dur="5s" begin="0s;intervalTwo.end" onend="rotateImage(['imageOne','imageTwo'])" repeatCount="1" attributeName="k3" from="0.0" to="1.0" fill="freeze" />
+			  <animate id="intervalOne" dur="10s" begin="oneToTwo.end" repeatCount="1" attributeName="k3" from="1.0" to="1.0" fill="freeze"/>
+              <animate id="twoToOne" dur="5s" begin="intervalOne.end" repeatCount="1" attributeName="k3" from="1.0" to="0.0" fill="freeze" />
+              <animate id="twoToOneX" dur="5s" begin="intervalOne.end" onend="rotateImage(['imageOne','imageTwo'])" repeatCount="1" attributeName="k2" from="0.0" to="1.0" fill="freeze" />
+			  <animate id="intervalTwo" dur="10s" begin="twoToOne.end" repeatCount="1" attributeName="k3" from="0.0" to="0.0" fill="freeze" />
+		    </feComposite>
+	 	   </filter>
+	 	</defs>
+
+	 	<rect id="imageRectOne" filter="url(#image5)" fill="none" height="100%" width="100%" x="0" y="0" fill="rgba(0,0,0,.01)" />
+		<rect id="imageRectTwo" height="0" width="0" />
+	 	</svg>
+
  </div>
  </section>
- 
+
  </article>
 <footer>
 
