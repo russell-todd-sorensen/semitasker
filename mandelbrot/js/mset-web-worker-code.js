@@ -82,6 +82,12 @@ self.addEventListener('message',  function(evt) {
               finite = false;
             }
             break;
+        case 6:
+            if (Math.pow( Math.abs(tmpYbyTmpX),.6) > objectInfo.finiteMeasure)
+            {
+              finite = false;
+            }
+            break;
         }
         //if (Math.abs(tmpYbyTmpX) > this.finiteMeasure) {
 
