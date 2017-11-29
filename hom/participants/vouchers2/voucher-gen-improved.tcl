@@ -9,7 +9,7 @@ set directory [ns_normalizepath $urlDirectory]/
 set pageroot [ns_info pageroot]
 set absolutePath [file join $pageroot [string trimleft $directory /]]/
 ns_log Notice "absolutePath='$absolutePath' dir='[file dirname $absolutePath]'"
-set dataDirectory [file join [file dirname $absolutePath] data]/
+set dataDirectory [file join [file dirname $absolutePath] website-data data]
 ns_log Notice "dataDirector='$dataDirectory'"
 set iifFile [file join $dataDirectory "EVERYTHING.IIF"]
 set patternList [split $requestedFile ".-_ "]
@@ -25,7 +25,7 @@ set data [chan read $fd]
 close $fd
 set data [string map {\t ,} $data]
 
-set csvFileName "doc-invoice-november-temp.csv"
+set csvFileName "doc-invoice-december-temp.csv"
 
 set fdout [open [file join $dataDirectory $csvFileName] w+]
 puts -nonewline $fdout $data
@@ -91,17 +91,17 @@ set table "<table id='customers' cellspacing='0' cellpadding='3' border='1'>"
 append table "\n</table>"
 
 set data ""
-set arriveField "CUSTFLD1"
-set endField    "CUSTFLD2"
+set arriveField "JOBSTART"
+set endField    "JOBEND"
 set companyField "COMPANYNAME"
 set houseField  "CUSTFLD5"
-set dobField    "CUSTFLD7"
+set dobField    "JOBPROJEND"
 set docField    "CUSTFLD6"
 set ccoField    "CUSTFLD8"
 set sotpField   "CUSTFLD9"
 set firstNameField "FIRSTNAME"
 set lastNameField "LASTNAME"
-set ctypeField  "CTYPEX"
+set ctypeField  "CTYPEX" ;# CTYPEX
 set termsField  "TERMSX"
 set emailField  "EMAIL"
 set addrNameField "BADDR1"
@@ -141,9 +141,9 @@ proc programFeePerHouse {house company monthNumber} {
     return $fees
 }
 
-set invoiceDate "11/01/2017"
-set monthNumber 11
-set month "Nov"
+set invoiceDate "12/01/2017"
+set monthNumber 12
+set month "Dec"
 set year "2017"
 set invoiceNumber 1
 set terms "Due by the 1st of Mo"
@@ -151,8 +151,10 @@ ns_log Notice "what is up"
 
 proc programFeeVoucher {house company fees monthNumber} {
 
-	if {[regexp -nocase {(DOC Voucher) ([0-1]*[0-9]{1,2})/([0-3]*[0-9]{1,2})/(20[1-2][0-9])} $company all voucher month day year]} {
+	if {[regexp -nocase {(DOC Voucher) (19[0-9][0-9]|20[0-9][0-9])-([0-1][0-9])-([0-2][0-9])} $company all voucher year month day]} {
 		set currentMonth $monthNumber
+		set month [string trimleft $month "0"]
+		set day   [string trimleft $day "0"]
 		ns_log Notice "month=$month day=$day year=$year currentMonth=$currentMonth c-m=[expr {$currentMonth-$month < 0}]"
 		if {[expr {$currentMonth - $month < 0}]} {
 			return 500
@@ -184,6 +186,9 @@ proc programFeeVoucher {house company fees monthNumber} {
 	}
 }
 
+ns_log Notice "what is up again..."
+ns_log Notice "{*}$nameList2(CUST)"
+
 foreach participant [lsort [array names CUST]] {
     lassign $CUST($participant) {*}$nameList2(CUST)
 
@@ -191,8 +196,10 @@ foreach participant [lsort [array names CUST]] {
     set continue 0
     if {[set $houseField] ne "Office"} {
         set ctype [set $ctypeField]
+        set ctype [lindex [split [set $jobtypeField] :] 1]
 
         if {[lsearch -exact [list "Program Participant" "House Leader" "Assistant House Leader" "Non Transitional Housing"] $ctype] == -1} {
+        	ns_log Notice "ctype='$ctype'"
         	continue
         }
 
@@ -226,8 +233,11 @@ foreach participant [lsort [array names CUST]] {
         		lappend exceptionList "RENT=$fees for '[set $nameField]'"
         	}
         	"*DOC VOUCHER*" {
-        	    if {[regexp -nocase {(DOC Voucher) ([0-1]*[0-9]{1,2})/([0-3]*[0-9]{1,2})/(20[1-2][0-9])} $company allX voucherX monthX dayX yearX]} {
+        	    if {[regexp -nocase {(DOC Voucher) (19[0-9][0-9]|20[0-9][0-9])-([0-1][0-9])-([0-2][0-9])} $company allX voucherX yearX monthX dayX]} {
         	        set currentMonth $monthNumber
+        	        set monthX [string trimleft $monthX "0"]
+        	        set dayX   [string trimleft $dayX "0"]
+        	        
         	        ns_log Notice "month=$monthX day=$dayX year=$yearX currentMonth=$currentMonth c-m=[expr {$currentMonth-$monthX < 0}]"
         	        if {$monthX >= 10 || $yearX == 2018} {
         	            set skipFurtherProcessing 1
@@ -319,7 +329,7 @@ foreach dataLine $invoiceLines {
 	append iifFile [join $dataLine \t]\n
 }
 
-set finalIIFfileName "invoices-final-november.iif"
+set finalIIFfileName "invoices-final-december.iif"
 
 set fdout2 [open [file join $dataDirectory $finalIIFfileName] w+]
 puts -nonewline $fdout2 $iifFile
