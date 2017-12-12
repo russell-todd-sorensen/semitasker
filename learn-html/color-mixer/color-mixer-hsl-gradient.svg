@@ -12,9 +12,9 @@
     width="1500"
     height="1200" 
     viewBox="0 0 1500 1200">
-<script xlink:href="http://ic00408/js/jquery-1.7.1.js"></script>
-<script xlink:href="http://ic00408/js/d3.v3.js" ></script>
-<script xlink:href="http://ic00408/js/log-2.js"></script>
+<script xlink:href="/js/jquery-1.7.1.js"></script>
+<script xlink:href="/js/d3.v3.js" ></script>
+<script xlink:href="/js/log-2.js"></script>
 <script type="javascript">
 // <![CDATA[ 
 
@@ -45,7 +45,7 @@ svg {
 }
 </style>
 <defs>
-<link rel="stylesheet" type="text/css" xlink:href="http://ic00408/css/log.css" media="all" />
+<link rel="stylesheet" type="text/css" xlink:href="/css/log.css" media="all" />
 <path id="triangle-1" d="M 50 50 L 100 100 L 0 100 Z"  />
 		
 <linearGradient id="gradient-1" gradientUnits="objectBoundingBox" color-interpolation="sRGB" >

@@ -11,7 +11,7 @@
     height="10" 
     viewBox="0 0 10 10">
 <defs>
-<link rel="stylesheet" type="text/css" xlink:href="http://ic00408/css/log.css" media="all" />
+<link rel="stylesheet" type="text/css" xlink:href="/css/log.css" media="all" />
 <linearGradient id="gradient-1" gradientUnits="objectBoundingBox" color-interpolation="sRGB" >
  <stop offset="0%" stop-color="#000" stop-opacity="1.0" />
  <stop offset="100%" stop-color="#F00" stop-opacity="1.0" />

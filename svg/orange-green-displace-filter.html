@@ -89,15 +89,15 @@
 }
 
 </style>
-<script src="http://ic00408/js/jquery-1.7.1.js"></script>
-<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
-<script src="http://ic00408/js/d3.v3.js"></script>
-<script src="http://ic00408/js/log-2.js"></script>
-<script src="http://ic00408/js/data.js"></script>
-<script src="http://ic00408/js/form-save-restore.js"></script>
-<script src="http://ic00408/js/binary-hex-conversions.js"></script>
-<script src="http://ic00408/js/example-library.js"></script>
-<script src="http://ic00408/js/svg-transform.js"></script>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
 <script src="logo-maker/js/logo-maker-1.js" ></script>
 
 <script>
@@ -185,7 +185,7 @@ SvgTransform.changeFilter = function (selectId) {
 }
 
 $(document).ready(function () {
-	setStartImage('http://ic00408/images/Butterfly%2062.jpg');
+	setStartImage('/images/Butterfly%2062.jpg');
 	Log.Hide();
 });
 
@@ -267,45 +267,45 @@ $(document).ready(function () {
   </li>
  <li><label for="imageChoice">Select Image</label> <select id="imageChoice" name="imageChoice" onChange="SvgTransform.changeImage('imageChoice', '#image1','#image2'); SvgTransform.adjustObjectHeightWidth('image1', 'image2', 'RGRect', 'linear-displace-rect-1', 'linear-displace-rect-2'); ">
 
-<option value="http://ic00408/images/Butterfly%206.jpg" selected="selected">Butterfly 6</option>
-<option value="http://ic00408/images/Butterfly%2017a.jpg">Butterfly 17a</option>
-<option value="http://ic00408/images/Butterfly%2028.jpg">Butterfly 28</option>
-<option value="http://ic00408/images/Butterfly%2057.jpg">Butterfly 57</option>
-<option value="http://ic00408/images/Butterfly%2062.jpg">Butterfly 62</option>
-<option value="http://ic00408/images/Butterfly%2086.jpg">Butterfly 86</option>
-<option value="http://ic00408/images/Grasshopper%201.JPG">Grasshopper 1</option>
-<option value="http://ic00408/images/Ladybug%206.jpg">Ladybug 6</option>
-<option value="http://ic00408/images/building-1.jpg">Building 1</option>
-<option value="http://ic00408/images/sphinx5.jpg">Sphinx 5</option>
-<option value="http://ic00408/images/egypt-2.jpg">Egypt 2</option>
-<option value="http://ic00408/images/EgyptianTomb.jpg">Egyptian Tomb</option>
-<option value="http://ic00408/images/stone-hut-1.jpg">Stone Hut 1</option>
-<option value="http://ic00408/images/stone-wall-1.jpg">Stone Wall 1</option>
-<option value="http://ic00408/images/stone-arch-1.jpg">Stone Arch 1</option>
-<option value="http://ic00408/images/igloo2.jpg">Igloo 2</option>
-<option value="http://ic00408/images/rotunda-statue.jpg">Rotunda Statue</option>
-<option value="http://ic00408/images/staircase-1.jpg">Spiral Staircase 1</option>
-<option value="http://ic00408/images/red-fence-1.jpg">Red Fence 1</option>
-<option value="http://ic00408/images/palace-1.jpg">Palace 1</option>
-<option value="http://ic00408/images/london-plaza-1.jpg">London Plaza 1</option>
-<option value="http://ic00408/images/glass-pyramids.jpg">Glass Pyramid</option>
-<option value="http://ic00408/images/old-man-with-hat.jpg">Old Man with Hat</option>
-<option value="http://ic00408/images/Woman-183.jpg">Woman 183</option>
-<option value="http://ic00408/images/Woman-214.jpg">Woman 214</option>
-<option value="http://ic00408/images/jelly-fish-1.jpg">Jelly Fish 1</option>
-<option value="http://ic00408/images/jelly-fish-2.jpg">Jelly Fish 2</option>
-<option value="http://ic00408/images/fishes-3.gif">Fishes3</option>
-<option value="http://ic00408/images/parrot-1.jpg">Parrot 1</option>
-<option value="http://ic00408/images/parrot-2.jpg">Parrot 2</option>
-<option value="http://ic00408/images/feathers-1.jpg">Peacock Feathers</option>
-<option value="http://ic00408/images/feathers-2.jpg">Peacock</option>
-<option value="http://ic00408/images/Butterfly%2011.jpg">Butterfly 11</option>
-<option value="http://ic00408/images/Butterfly%2017.jpg">Butterfly 17</option>
-<option value="http://ic00408/images/Butterfly%2022.jpg">Butterfly 22</option>
-<option value="http://ic00408/images/Butterfly%2036.png">Butterfly 36</option>
-<option value="http://ic00408/images/Butterfly%2069.png">Butterfly 69</option>
-<option value="http://ic00408/images/desert-1.jpg">Desert 1</option>
-<option value="http://ic00408/images/swan-1.jpg">Swan 1</option>
+<option value="/images/Butterfly%206.jpg" selected="selected">Butterfly 6</option>
+<option value="/images/Butterfly%2017a.jpg">Butterfly 17a</option>
+<option value="/images/Butterfly%2028.jpg">Butterfly 28</option>
+<option value="/images/Butterfly%2057.jpg">Butterfly 57</option>
+<option value="/images/Butterfly%2062.jpg">Butterfly 62</option>
+<option value="/images/Butterfly%2086.jpg">Butterfly 86</option>
+<option value="/images/Grasshopper%201.JPG">Grasshopper 1</option>
+<option value="/images/Ladybug%206.jpg">Ladybug 6</option>
+<option value="/images/building-1.jpg">Building 1</option>
+<option value="/images/sphinx5.jpg">Sphinx 5</option>
+<option value="/images/egypt-2.jpg">Egypt 2</option>
+<option value="/images/EgyptianTomb.jpg">Egyptian Tomb</option>
+<option value="/images/stone-hut-1.jpg">Stone Hut 1</option>
+<option value="/images/stone-wall-1.jpg">Stone Wall 1</option>
+<option value="/images/stone-arch-1.jpg">Stone Arch 1</option>
+<option value="/images/igloo2.jpg">Igloo 2</option>
+<option value="/images/rotunda-statue.jpg">Rotunda Statue</option>
+<option value="/images/staircase-1.jpg">Spiral Staircase 1</option>
+<option value="/images/red-fence-1.jpg">Red Fence 1</option>
+<option value="/images/palace-1.jpg">Palace 1</option>
+<option value="/images/london-plaza-1.jpg">London Plaza 1</option>
+<option value="/images/glass-pyramids.jpg">Glass Pyramid</option>
+<option value="/images/old-man-with-hat.jpg">Old Man with Hat</option>
+<option value="/images/Woman-183.jpg">Woman 183</option>
+<option value="/images/Woman-214.jpg">Woman 214</option>
+<option value="/images/jelly-fish-1.jpg">Jelly Fish 1</option>
+<option value="/images/jelly-fish-2.jpg">Jelly Fish 2</option>
+<option value="/images/fishes-3.gif">Fishes3</option>
+<option value="/images/parrot-1.jpg">Parrot 1</option>
+<option value="/images/parrot-2.jpg">Parrot 2</option>
+<option value="/images/feathers-1.jpg">Peacock Feathers</option>
+<option value="/images/feathers-2.jpg">Peacock</option>
+<option value="/images/Butterfly%2011.jpg">Butterfly 11</option>
+<option value="/images/Butterfly%2017.jpg">Butterfly 17</option>
+<option value="/images/Butterfly%2022.jpg">Butterfly 22</option>
+<option value="/images/Butterfly%2036.png">Butterfly 36</option>
+<option value="/images/Butterfly%2069.png">Butterfly 69</option>
+<option value="/images/desert-1.jpg">Desert 1</option>
+<option value="/images/swan-1.jpg">Swan 1</option>
 
 </select>
  </li>

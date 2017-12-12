@@ -110,8 +110,8 @@ SvgTransform.adjustImage = function (filterImageId, ellipseId) {
 			node2.setAttribute('cy', parseInt(height)/2);
 		};
 	} else {
-			var height = this.Images[imageSource].height;
-			var width =  this.Images[imageSource].width;
+			var height = Data.Images[imageSource].height;
+			var width =  Data.Images[imageSource].width;
 			//node.setAttribute('height', height);
 			//node.setAttribute('width',width);
 
@@ -147,8 +147,8 @@ SvgTransform.adjustObjectHeightWidth = function (filterImageId) {
 			}
 		};
 	} else {
-			var height = this.Images[imageSource].height;
-			var width =  this.Images[imageSource].width;
+			var height = Data.Images[imageSource].height;
+			var width =  Data.Images[imageSource].width;
 			var rectNode;
 
 			Log.Notice('image inline img=' + imageSource + ' height=' + height + ' width=' + width);
