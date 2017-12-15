@@ -132,7 +132,7 @@ proc programFeePerHouse {house company monthNumber} {
             set fees 375.00
         }
         default {
-            return 500.00
+            return 550.00
         }
     }
     if {[string match "*DOC Voucher*" $company]} {
@@ -141,10 +141,10 @@ proc programFeePerHouse {house company monthNumber} {
     return $fees
 }
 
-set invoiceDate "12/01/2017"
-set monthNumber 12
-set month "Dec"
-set year "2017"
+set invoiceDate "01/01/2018"
+set monthNumber 1
+set month "Jan"
+set year "2018"
 set invoiceNumber 1
 set terms "Due by the 1st of Mo"
 ns_log Notice "what is up"
@@ -157,7 +157,7 @@ proc programFeeVoucher {house company fees monthNumber} {
 		set day   [string trimleft $day "0"]
 		ns_log Notice "month=$month day=$day year=$year currentMonth=$currentMonth c-m=[expr {$currentMonth-$month < 0}]"
 		if {[expr {$currentMonth - $month < 0}]} {
-			return 500
+			return 550
 		} else {
 
 			set voucherDays $day
@@ -167,7 +167,7 @@ proc programFeeVoucher {house company fees monthNumber} {
 			}
 
 			set nonVoucherDays [expr {30 - $voucherDays}]
-			set voucherRate 16.66667
+			set voucherRate 18.33333
 
 			switch -exact -nocase -- $house {
 				Jeremiah - James - Galatians - Philippians {
@@ -289,7 +289,7 @@ foreach participant [lsort [array names CUST]] {
         }
         set fees [format %2.2f $fees]
         set fInvNumber "$month-[format %0.4d $invoiceNumber]"
-        lappend invoiceLines [list TRNS "" INVOICE $invoiceDate "Accounts Receivable" [set $nameField] "" $fees $fInvNumber $memo N Y N "$FIRSTNAME $LASTNAME" "$BADDR2" "$BADDR3" "$BADDR4" "" "$invoiceDate" "$terms" "PAID" "" "" $invoiceDate "OTHER1"]
+        lappend invoiceLines [list TRNS "" INVOICE $invoiceDate "Accounts Receivable" [set $nameField] "" $fees $fInvNumber $memo N Y N "$FIRSTNAME $LASTNAME" "$BADDR2" "$BADDR3" "$BADDR4" "" "$invoiceDate" "$terms" "Unpaid" "" "" $invoiceDate ""]
         incr invoiceNumber
 	    
         set houseAccountName $house
@@ -311,9 +311,6 @@ foreach participant [lsort [array names CUST]] {
 	        set voucherInvItem "Pro-Rated Program Fees:. $houseAccountName Voucher"
 	        set nonVoucherInvItem "Pro-Rated Program Fees:. $houseAccountName"
 	        set invAcct "Program Fees:Program Fees - $houseAccountName"
-
-        	#lappend invoiceLines [list SPL	"" INVOICE $invoiceDate "Pro-Rated Program Fees:. $houseAccountName Voucher" "" "" -[lindex $voucherList 2] "" "Program Fee per day @ [lindex $voucherList 1]" N -[lindex $voucherList 0] [lindex $voucherList 1] "Program Fee:. $house" N "" 0 0]
-        	#lappend invoiceLines [list SPL	"" INVOICE $invoiceDate "Pro-Rated Program Fees:. $houseAccountName" "" "" -[lindex $nonVoucherList 2] "" "Program Fee per day @ [lindex $nonVoucherList 1]" N -[lindex $nonVoucherList 0] [lindex $nonVoucherList 1] "Program Fee:. $house" N "" 0 0]
 
         	lappend invoiceLines [list SPL	"" INVOICE $invoiceDate $invAcct "" "" -[lindex $voucherList 2] "" "Program Fee per day @ [lindex $voucherList 1]" N -[lindex $voucherList 0] [lindex $voucherList 1] $voucherInvItem N "" 0 0]
         	lappend invoiceLines [list SPL	"" INVOICE $invoiceDate $invAcct "" "" -[lindex $nonVoucherList 2] "" "Program Fee per day @ [lindex $nonVoucherList 1]" N -[lindex $nonVoucherList 0] [lindex $nonVoucherList 1] $nonVoucherInvItem N "" 0 0]
