@@ -10,8 +10,8 @@ var subWindow; // used to create saveable document or lesson
 // Used to save then restore minimized widgets
 var WidgetDimensions = {};
 
-var newXHR3; 
-// headers used in creating a new document 
+var newXHR3;
+// headers used in creating a new document
 var headers = [
 '<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >',
 '<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">',
@@ -32,7 +32,7 @@ MyStorage = {
      var js =      $('#builder-js').html();
      var svg =     $('#builder-svg').html();
      var display = $('#display').html();
-    
+
     localStorage.setItem(this.template + length + ".html", html);
     localStorage.setItem(this.template + length + ".css", css);
     localStorage.setItem(this.template + length + ".js", js);
@@ -49,7 +49,7 @@ MyStorage = {
     $('#builder-css').html(localStorage.getItem(this.template + i + ".css"));
     $('#builder-js').html(localStorage.getItem(this.template + i + ".js"));
     $('#builder-svg').html(localStorage.getItem(this.template + i + ".svg"));
-    
+
     $('#display').html(localStorage.getItem(this.template + i + ".display"));
   },
   saveCurrent: function () {
@@ -58,7 +58,7 @@ MyStorage = {
     var js =      $('#builder-js').html();
     var svg =      $('#builder-svg').html();
     var display = $('#display').html();
-    
+
     localStorage.setItem(this.template  + "current.html", html);
     localStorage.setItem(this.template  + "current.css", css);
     localStorage.setItem(this.template  + "current.js", js);
@@ -85,31 +85,31 @@ function writeDocument () {
    "true" // replace (removes current document)
    );
 
-  
+
   var html = "<!DOCTYPE HTML>\n";
   html += "<html>\n<head>\n <title>";
   html += document.title;
   html += "</title>\n";
-  
+
   for (var i = 0; i< headers.length; i++) {
     html += headers[i];
     html += "\n";
   }
-  
-  html =  html 
-    + "<style>\n" 
-    + unescapeHTML(removePNodes( $('#builder-css').html())) + "\n</style>\n"; 
-  
+
+  html =  html
+    + "<style>\n"
+    + unescapeHTML(removePNodes( $('#builder-css').html())) + "\n</style>\n";
+
   var inputJavascript = $('#builder-js').html();
   if (inputJavascript == null) {
     inputJavascript = "";
   }
-  
+
   var inputSVG = $('#builder-svg').html();
   if (inputSVG == null) {
     inputSVG = "";
   } else {
-    inputSVG = "<svg\n" 
+    inputSVG = "<svg\n"
      + "    xmlns:svg=\"http://www.w3.org/2000/svg\"\n"
     + "    xmlns=\"http://www.w3.org/2000/svg\"\n"
     + "    xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n"
@@ -122,21 +122,21 @@ function writeDocument () {
     + unescapeHTML(removePNodes( inputSVG ))
     + "\n</svg>";
   }
-  
-  html = html 
+
+  html = html
     + "\n</head>\n<body>\n"
     + unescapeHTML(removePNodes( $('#builder-html').html()))
     + "\n"
     + inputSVG
     + "\n<!-- here comes the script    -->\n<"   // note script tag must be broke up
     + "script" + ">\n"                            // because javascript parser is weak
-    + unescapeHTML(removePNodes(inputJavascript)) 
-     + "\n\n<" 
-    + "/" 
-    + "script" 
+    + unescapeHTML(removePNodes(inputJavascript))
+     + "\n\n<"
+    + "/"
+    + "script"
     + ">\n";
     + "\n</body>\n</html>";
-  
+
   Log.Notice("html is written");
   subWindow.document.write(html);
 }
@@ -148,7 +148,7 @@ function writeLesson () {
    "height=500,width=700,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,chrome=true,titlebar=true", // options
    "true" // replace (removes current document)
    );
-  
+
   var html = "<!DOCTYPE HTML>\n";
   html += "<html>\n<head>\n <title>";
   // get lesson title
@@ -161,15 +161,15 @@ function writeLesson () {
 
   rebuildSavedExamples();
   var tags, css, name, exampleCss, exampleHtml;
-  
+
   for (var i = 0; i< savedExamples.length; i++) {
-  
+
     name = savedExamples[i].name;
     exampleCss = localStorage.getItem("Example-" + name + ".css");
     exampleHtml = localStorage.getItem("Example-" + name + ".html");
     exampleJs = localStorage.getItem("Example-" + name + ".js");
     exampleSVG = localStorage.getItem("Example-" + name + ".svg");
-    
+
     html = html + "<example id='Example-" + name + "'>\n";
     html += " <tags>\n";
     html += unescapeHTML(removePNodes(exampleHtml));
@@ -180,18 +180,18 @@ function writeLesson () {
     html += "\n </js>\n";
     html += " <graphics>\n";
     html += unescapeHTML(removePNodes(exampleSVG));
-    
+
     html += "\n </graphics>\n <comment></comment>\n</example>\n";
   }
-  
+
   html += "\n</examples>\n</body>\n</html>";
-  
+
   subWindow.document.write(html);
   Log.Notice("html is written");
 }
 
 
-// open and closeWidget call minimizeWidget 
+// open and closeWidget call minimizeWidget
 function closeWidget(evt) {
   var wid = evt.data.id;
   var height = evt.data.height;
@@ -215,7 +215,7 @@ function openWidget(evt) {
 
 
 function getXML(evt) {
-  
+
   if (newXHR3.readyState < 4) {
     return;
   }
@@ -223,30 +223,30 @@ function getXML(evt) {
   var me, cssNode, tagsNode, scriptNode, svgNode, commentNode;
   var id = "", css = "", tags = "", script = "", svg = "", comment = "";
   var svgAttributes = {}; // store all attributes of passed in graphics node
-  
+
   $('#examples-from-external').html(newXHR3.responseText);
-  
-  // fix-up responseText 
+
+  // fix-up responseText
   examplesHTML = $('#examples-from-external examples').html();
-  
+
   $('#examples-from-external').html(examplesHTML);
-  
+
   exampleNodes = d3.selectAll('#examples-from-external example')
    .each(function(d,i) {
     me = d3.select(this);
     id = me.attr("id");
     id = id.trim();
-    
-    cssNode = me.select('css'); 
-    
+
+    cssNode = me.select('css');
+
     if (cssNode[0][0] != null) {
       css = cssNode.html();
       css = css.trim();
     } else {
       css = "";
     }
-    
-    tagsNode = me.select('tags'); 
+
+    tagsNode = me.select('tags');
 
     if (tagsNode[0][0] != null) {
       tags = tagsNode.html();
@@ -254,57 +254,57 @@ function getXML(evt) {
     } else {
       tags = "";
     }
-    
+
     scriptNode = me.select('js');
-    
+
     if (scriptNode[0][0] != null) {
       script = scriptNode.html();
       script = script.trim();
     } else {
       script = "";
     }
-    
+
     svgNode = me.select('graphics');
-    
+
     if (svgNode[0][0] != null) {
       svg = svgNode.html();
       svg = svg.trim();
       var attributes = svgNode[0][0].attributes;
-      for (var i=0; i< attributes.length; i++) {        
+      for (var i=0; i< attributes.length; i++) {
         svgAttributes[attributes[i].name] = attributes[i].value;
       }
     } else {
       svg = "";
     }
-    
+
     commentNode = me.select('comment');
-  
+
     if (commentNode[0][0] != null) {
       comment = commentNode.html();
       comment = comment.trim();
     } else {
       comment = "";
     }
-    
-    
+
+
     examples[examples.length] = {
       id: id,
-      css: css, 
+      css: css,
       html: tags,
       script: script,
       svg: svg,
       svgAttributes: svgAttributes,
       comment: comment
     };
-    
+
   });
 
   Log.Notice('examples.length=' + examples.length);
-  
-   
-   
+
+
+
   var exampleBar = d3.select('#example-bar');
-  
+
   exampleBar.selectAll("div")
     .data(examples)
     .enter()
@@ -312,14 +312,14 @@ function getXML(evt) {
     .attr("id", function(d,i) { return "eg-" + (parseInt(i) + 1);})
     .attr("class", "example-button")
     .text(function(d,i) { return (parseInt(i) + 1) + "";});
-    
+
   exampleBar.selectAll("div")
     .data(examples)
     .on("click", function(d,i) {
       loadExample(i);
     });
 
-  finalizeHtml();    
+  finalizeHtml();
   loadExample(0);
 }
 
@@ -327,12 +327,12 @@ function escapeHTML (html) {
   regUnLT = /</g;
   regUnGT = />/g;
   regUnAmp = /&/g;
-  
+
   if (html == undefined || html == null) {
     html = "";
     return html;
   }
-  
+
   return html
     .replace(regUnAmp, "&amp;")
     .replace(regUnGT, "&gt;")
@@ -340,17 +340,17 @@ function escapeHTML (html) {
 }
 
 function unescapeHTML(html) {
-  
+
   var regLT = /&lt;/gi;
   var regGT = /&gt;/gi;
   var regNBSP = /&nbsp;/gi;
   var regAmp = /&amp;/gi;
-  
+
   if (html == undefined || html == null) {
     html = "";
     return html;
   }
-  
+
   return html
     .replace(regLT, "<")
     .replace(regGT, ">")
@@ -359,7 +359,7 @@ function unescapeHTML(html) {
 
 function removePNodes(html) {
   var regPNodes = /(<(?:p|\/p|div|\/div|br|span|\/span)(?:\/>|>))+/gi;
-  
+
   return html
     .replace(regPNodes, "\n");
 }
@@ -414,7 +414,7 @@ function insertSVG(node, svg) {
 
 
 function loadExamples(inputId) {
-  
+
   examples = [];
   var exampleBar = d3.select('#example-bar');
   exampleBar.html("");
@@ -430,7 +430,7 @@ function loadExamples(inputId) {
 }
 
 function loadExample(whichExample) {
-  
+
   if ( whichExample < examples.length && whichExample >= 0 ) {
     exampleIndex = whichExample;
     var example = examples[exampleIndex];
@@ -460,7 +460,7 @@ function disablePaste() {
      evt.preventDefault();
      Log.Notice("Prevented pasting! Try typing.");
   });
-  
+
 }
 
 function disableFeature(id) {
@@ -472,7 +472,7 @@ function disableStorage() {
 }
 
 function finalizeHtml() {
-  
+
   $('#builder-html')
     .attr("contentEditable", true)
     .html('');
@@ -487,13 +487,13 @@ function finalizeHtml() {
     .html('');
 
   $('#display').html('');
-  
+
   // jQuery doesn't have a preventDefault function, so use D3
   disablePaste();
 }
 
 function enableResizableElements() {
-    
+
   $('#input-html-container').resizable({
     alsoResize: '#input-html',
     animate: false,
@@ -548,7 +548,7 @@ function enableResizableElements() {
     minWidth: 40,
     zIndex: 1000
   });
-  
+
   $('#input-svg-container').resizable({
     alsoResize: '#input-svg',
     animate: false,
@@ -586,7 +586,7 @@ function enableResizableElements() {
     minWidth: 80,
     zIndex: 1000
   });
-  
+
   $('#builder-css-container').resizable({
     alsoResize: '#builder-css',
     animate: false,
@@ -650,9 +650,9 @@ var copiesBarInitialized = false;
 var copybar;
 
 function rebuildSavedExamples() {
-  
+
   savedExamples = new Array();
-  
+
   for (p in localStorage) {
     var match;
     if ( match = p.match(/^Example-([0-9]+)/i) ) {
@@ -672,7 +672,7 @@ function rebuildSavedExamples() {
       Log.Notice ('p did not match ' + p);
     }
   }
-  
+
   savedExamples[savedExamples.length] = {
     name: "current"
   };
@@ -680,9 +680,9 @@ function rebuildSavedExamples() {
 }
 
 function addSavedCopies() {
-  
+
   d3.selectAll('.saved-copy').remove();
-  
+
   rebuildSavedExamples();
 
   copybar.selectAll('.saved-copy')
@@ -697,7 +697,7 @@ function addSavedCopies() {
       .text(function(d,i) {
         return d.name;
       });
-  
+
   copybar.selectAll('.saved-copy')
     .data(savedExamples)
     .on('click', function(d,i) {
@@ -711,11 +711,11 @@ function addSavedCopies() {
       d3.select(this)
        .remove();
     });
-  
+
 }
 
 function buildSavedCopiesBar () {
-  
+
   Log.Notice("starting buildSavedCopiesBar");
   var doc = d3.select(document.body);
   var wholeCopyBar = doc.select('#copy-bar');
@@ -724,7 +724,7 @@ function buildSavedCopiesBar () {
       .attr('id','saved-copies');
 
   addSavedCopies();
-  
+
   if (!copiesBarInitialized) {
     wholeCopyBar.append('div')
       .attr("id","create-document")
@@ -761,7 +761,7 @@ function minimizeWidget(id,minHeight,minWidth) {
 function restoreWidget(id) {
   var widget = $("#" + id);
   var parent = widget.parent();
-  
+
   widget
     .height(WidgetDimensions[id].height)
     .width(WidgetDimensions[id].width);
@@ -782,7 +782,7 @@ function enableOptionById(id, newState) {
 }
 
 function enableOptionGroup(optionGroup, newState) {
-  
+
   for (var i = 0; i< appOptions.length; i++) {
     var option = appOptions[i];
     if (option.group == optionGroup) {
@@ -791,16 +791,16 @@ function enableOptionGroup(optionGroup, newState) {
   }
 }
 
-function enableOption(option, newState) {  
+function enableOption(option, newState) {
   if (newState === option.currentState) {return;}
-  
+
   if (newState === "on" || newState === "off") {
     // continue execution
   } else {
     Log.Error('Unknown state ' + newState + " for option '" + option.id + "'" );
     return;
   }
-  
+
   if (typeof option.fn === "function") {
     option.fn(option.data, newState);
   } else {
@@ -808,7 +808,7 @@ function enableOption(option, newState) {
       $(option.id).show();
     } else if (newState == "off") {
       $(option.id).hide();
-    } 
+    }
   }
   option.currentState = newState;
 }
@@ -931,7 +931,7 @@ function createOptionCheckboxes () {
 
   var d3body = d3.select(document.body);
   var formTag = d3body.select('#select-options');
-  
+
   for (var i = 0; i< appOptions.length; i++) {
     var option = appOptions[i];
     if (option.group === 'main') {
@@ -947,31 +947,31 @@ function createOptionCheckboxes () {
         .text(option.label);
     }
   }
-  
+
 }
 
 function toggleOption ( optionIndex ) {
-  
-    
+
+
   var option = appOptions[parseInt(optionIndex)];
   var currentState = option.currentState;
-  
+
   var newState;
   if (currentState === 'on') { // toggle off
     newState = 'off';
 
   } else {
     newState = 'on';
-  }  	
-  Log.Notice('option index=' + optionIndex 
-    + ' currentState=' + currentState 
-    + ' checked=' 
-    + $(this).attr('checked') 
+  }
+  Log.Notice('option index=' + optionIndex
+    + ' currentState=' + currentState
+    + ' checked='
+    + $(this).attr('checked')
     + ' newState=' + newState);
 
   option.fn(option.data, newState);
   option.currentState = newState;
-  Log.Notice("after option.fn currentState=" 
+  Log.Notice("after option.fn currentState="
     + option.currentState);
 }
 
@@ -981,12 +981,12 @@ function toggleOptionGroup(optionGroup) {
 
 // change this to do statistics
 function updateDisplay(what) {
-  
-  var data = "&lt;style&gt;\n"     
-    + $('#builder-css').html()      
-    + "\n&lt;/style&gt;\n"     
-    + $('#builder-html').html()        
-    + "&lt;svg\n" 
+
+  var data = "&lt;style&gt;\n"
+    + $('#builder-css').html()
+    + "\n&lt;/style&gt;\n"
+    + $('#builder-html').html()
+    + "&lt;svg\n"
      + "    xmlns:svg=\"http://www.w3.org/2000/svg\"\n"
     + "    xmlns=\"http://www.w3.org/2000/svg\"\n"
     + "    xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n"
@@ -998,23 +998,23 @@ function updateDisplay(what) {
     + "    viewBox=\"0 0 1000 1200\">\n"
     + $('#builder-svg').html()
     + "&lt;/svg&gt;"
-    + "\n&lt;" + "script" + "&gt;\n"  
-    + $('#builder-js').html()        
+    + "\n&lt;" + "script" + "&gt;\n"
+    + $('#builder-js').html()
     + "\n&lt;/" + "script" + "&gt;\n";
-  
+
   $('#display')
     .html(unescapeHTML(removePNodes(data)));
-    
+
   MyStorage.saveCurrent();
 }
 
 function previewExample() {
   var example = examples[currentExample];
-  var data = "&lt;style&gt;\n"     
-    + example.css 
-    + "\n&lt;/style&gt;\n"     
+  var data = "&lt;style&gt;\n"
+    + example.css
+    + "\n&lt;/style&gt;\n"
     + example.html
-    + "&lt;svg\n" 
+    + "&lt;svg\n"
      + "    xmlns:svg=\"http://www.w3.org/2000/svg\"\n"
     + "    xmlns=\"http://www.w3.org/2000/svg\"\n"
     + "    xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n"
@@ -1025,16 +1025,46 @@ function previewExample() {
     + "    height=\"1200\"\n"
     + "    viewBox=\"0 0 1000 1200\">\n"
     + example.svg
-    + "&lt;/svg&gt;" 
-    + "\n&lt;" + "script" + "&gt;\n" 
+    + "&lt;/svg&gt;"
+    + "\n&lt;" + "script" + "&gt;\n"
     + example.script
     + "\n&lt;/" + "script" + "&gt;\n";
-  
+
   $('#display').html(unescapeHTML(data));
   //eval(example.js);
-    
+
 }
 
+function loadAndEditExample() {
+  var example = examples[currentExample];
+  $('#builder-css').html(example.css);
+  $('#builder-html').html(escapeHTML(example.html));
+  $('#builder-svg').html(example.svg);
+  $('#builder-js').html(example.script);
+  var data = "&lt;style&gt;\n"
+    + example.css
+    + "\n&lt;/style&gt;\n"
+    + example.html
+    + "&lt;svg\n"
+    + "    xmlns:svg=\"http://www.w3.org/2000/svg\"\n"
+    + "    xmlns=\"http://www.w3.org/2000/svg\"\n"
+    + "    xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n"
+    + "    version=\"1.0\"\n"
+    + "    x=\"0\"\n"
+    + "    y=\"0\"\n"
+    + "    width=\"1000\"\n"
+    + "    height=\"1200\"\n"
+    + "    viewBox=\"0 0 1000 1200\">\n"
+    + example.svg
+    + "&lt;/svg&gt;"
+    + "\n&lt;" + "script" + "&gt;\n"
+    + example.script
+    + "\n&lt;/" + "script" + "&gt;\n";
+
+  $('#display').html(unescapeHTML(data));
+  //eval(example.js);
+
+}
 
 $(document).ready(function() {
 

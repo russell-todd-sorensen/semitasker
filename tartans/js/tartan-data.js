@@ -16,7 +16,7 @@ var yellow = "yellow";
 var blue = "blue";
 var gray = "gray";
 var dkolivegr = "darkolivegreen";
-var greygreen = "#667777"; 
+var greygreen = "#667777";
 var lightgrey = "lightgray";
 var lightgray = "lightgray";
 var vlightgray = "#cccccc";
@@ -50,16 +50,40 @@ var gold = "gold";
 var limegreen = "limegreen";
 var midnightblue = "midnightblue";
 
+var MacFarlaneDress_DB = "#202060";
+var MacFarlaneDress_K = "#101010";
+var MacFarlaneDress_CW = "#FCFCFC";
+var MacFarlaneDress_DG = "#003820";
+var MacFarlaneDress_R = "#C80000";
+
+var MacFarlaneLordLyon_K = "#101010";
+var MacFarlaneLordLyon_C = "#A00048";
+var MacFarlaneLordLyon_HG = "#285800";
+var MacFarlaneLordLyon_P = "#780078";
+var MacFarlaneLordLyon_W = "#E0E0E0";
+
 
 dataset[dataset.length] = ["Choose a Tartan Pattern", []];
-dataset[dataset.length] = ["TEST 1", [["green", 2], ["grey", 2], ["red", 4], ["grey", 2], ["tan", 6]]];		
+
+dataset[dataset.length] = ["MacFarlane Dress", [[MacFarlaneDress_DB, 8], [MacFarlaneDress_CW, 4], [MacFarlaneDress_R, 12],
+ 	[MacFarlaneDress_K, 2], [MacFarlaneDress_DB, 24], [MacFarlaneDress_DG, 8], [MacFarlaneDress_DB, 4], [MacFarlaneDress_R, 12],
+	[MacFarlaneDress_DB, 2], [MacFarlaneDress_R, 12], [MacFarlaneDress_CW, 4], [MacFarlaneDress_DG, 16], [MacFarlaneDress_R, 4],
+	[MacFarlaneDress_CW, 32], [MacFarlaneDress_R, 8]]
+ ];
+
+dataset[dataset.length] = ["MacFarlane Lord Lyon", [[MacFarlaneLordLyon_HG, 6 ],[MacFarlaneLordLyon_W, 8],[MacFarlaneLordLyon_C, 6], [MacFarlaneLordLyon_K, 8],
+	[MacFarlaneLordLyon_P, 24], [MacFarlaneLordLyon_HG, 4], [MacFarlaneLordLyon_W, 4], [MacFarlaneLordLyon_C, 6], [MacFarlaneLordLyon_K, 2], [MacFarlaneLordLyon_C, 6],
+ 	[MacFarlaneLordLyon_W, 4], [MacFarlaneLordLyon_HG, 24], [MacFarlaneLordLyon_K, 2], [MacFarlaneLordLyon_C, 42]]
+];
+
+dataset[dataset.length] = ["TEST 1", [["green", 2], ["grey", 2], ["red", 4], ["grey", 2], ["tan", 6]]];
 dataset[dataset.length] = ["TEST 2", [["blue", 2], ["grey", 2], ["red", 4], ["grey", 8], ["green", 8]]];
 dataset[dataset.length] = ["TEST 3", [
 	[purple, 2], [white, 4], [ltsteelblue, 12], [black, 2], [ltsteelblue, 34], [white, 2], [ltsteelblue, 12], [dkolivegr, 8], [black, 2],
 	[dkolivegr, 4], [navy, 4], [lightpurple, 24], [white, 4], [lightpink, 2], [black, 3]
 ]
  ];
-// ABERDEEN 
+// ABERDEEN
 dataset[dataset.length] = ["ABERDEEN", [
 	[white, 2], [dkorange, 54], [white, 4], [dkorange, 54], [white, 4], [black, 32],
 	[dkolivegr, 8], [white, 4], [dkorange, 16], [white, 2], [dkorange, 16], [white, 4],
@@ -74,18 +98,18 @@ dataset[dataset.length] = ["AMERICAN ST. ANDREWS", [
 	[navy, 14], [slategray, 4], //[ltsteelblue, 14], removed for now
 	// changing dkpeach to orangered
   [vlightpink, 4],
-	[slategray, 4], [navy, 40], [black, 36], [orangered, 32], [white, 8], 
+	[slategray, 4], [navy, 40], [black, 36], [orangered, 32], [white, 8],
 	[orangered, 6], [white, 6], [orangered, 6], [white, 6], [orangered, 5]
 ]
 ];
-// CORNWALL 
+// CORNWALL
 dataset[dataset.length] = ["CORNWALL", [
   // changing dkyellow/goldenrod to gold dkorange to orange
-	[dkorange, 3], [black, 6], [ltsteelblue, 14], [dkyellow, 52], [black, 52], 
+	[dkorange, 3], [black, 6], [ltsteelblue, 14], [dkyellow, 52], [black, 52],
 	[white, 5]
 ]
 ];
-// DUNDAS 
+// DUNDAS
 dataset[dataset.length] = ["DUNDAS", [
   // green to dkgreen, darkblue to dkpurple, orange to dkorange
 	[black, 2], [dkgreen, 4], [dkorange, 2], [dkgreen, 24], [black, 12],
@@ -94,7 +118,7 @@ dataset[dataset.length] = ["DUNDAS", [
 // DUNCAN
 dataset[dataset.length] = ["DUNCAN", [
   // orange to dkorange, darkblue to midnightblue
-	[midnightblue, 4], [dkgreen, 20], [white, 6], [dkgreen, 20], 
+	[midnightblue, 4], [dkgreen, 20], [white, 6], [dkgreen, 20],
 	[purpleblue, 20], [dkorange, 2]]
 ];
 // MACFARLANE
@@ -113,7 +137,7 @@ dataset[dataset.length] = ["CHRISTIE", [
 	[peach, 16]
 	]
 ];
-// CLARK 
+// CLARK
 dataset[dataset.length] = ["CLARK", [
 	[black, 4], [lightgray, 8], [slateblue, 36], [black, 36], [lightgray, 8],
 	[slateblue, 12], [lightgray, 8], [slateblue, 20], [lightgray, 4]
@@ -165,15 +189,15 @@ dataset[dataset.length] = ["DUNDEE 2", [
 	[ddBlue, 14], [ddWhite, 3], [ddPurple, 12], [ddWhite, 6]]
 ];
 
-// DUNLOP 
+// DUNLOP
 dataset[dataset.length] = ["DUNLOP", [
 	[black, 3], [dkorange, 2], [black, 64], [white, 2], [slateblue, 64],
 	[orange, 2], [slateblue, 2], [white, 3]]
 ];
-// DUNBAR 
+// DUNBAR
 dataset[dataset.length] = ["DUNBAR", [
 	[white, 1], [slateblue, 4], [dkorange, 30], [white, 2], [dkgreen, 4],
-	[white, 2], [dkgreen, 12], [white, 2], [dkgreen, 4], [white, 2], 
+	[white, 2], [dkgreen, 12], [white, 2], [dkgreen, 4], [white, 2],
 	[yellow, 12], [dkgreen, 6]]
 ];
 
@@ -187,7 +211,7 @@ var dbOrange = "#d75c37";
 
 dataset[dataset.length] = ["DUNBAR 2", [
 	[dbWhite, 1], [dbBlue, 4], [dbOrange, 30], [dbWhite, 2], [dbGreen, 4],
-	[dbWhite, 2], [dbGreen, 12], [dbWhite, 2], [dbGreen, 4], [dbWhite, 2], 
+	[dbWhite, 2], [dbGreen, 12], [dbWhite, 2], [dbGreen, 4], [dbWhite, 2],
 	[dbYellow, 12], [dbGreen, 6]]
 ];
 
@@ -200,13 +224,13 @@ dataset[dataset.length] = ["DOUGLAS CLAN", [
 	[lightgrey, 6], [greygreen, 3]]
 ];
 
-// for douglas clan 2 
+// for douglas clan 2
 var dcOrange = "#d74f34";
 var dcLtGray = "#c6c3c1";
 var dcDkLimeGreen = "#cfcd4b";
 var dcDarkGray = "#808579";
 
-// DOUGLAS CLAN 2 
+// DOUGLAS CLAN 2
 dataset[dataset.length] = ["DOUGLAS CLAN 2", [
 	[dcOrange, 6], [black, 12], [dcDarkGray, 2], [black, 12], [dcDarkGray, 2],
 	[black, 4], [dcDarkGray, 8], [black, 2], [dcDarkGray, 8], [dcOrange, 6],
@@ -229,9 +253,9 @@ dataset[dataset.length] = ["GRANDFATHER GAMES N. AMERICA", [
 ];
 // KINNI ESON
 dataset[dataset.length] = ["KINNI ESON", [
-	[purple, 6], [black, 64], [lightgray, 38], [dkgreen, 4], [lightgray, 38], 
+	[purple, 6], [black, 64], [lightgray, 38], [dkgreen, 4], [lightgray, 38],
 	[dkgreen, 4], [lightgray, 38], [black, 64], [dkorange, 8], [black, 64],
-	[lightgray, 38], [limegreen, 4], [lightgray, 19] 
+	[lightgray, 38], [limegreen, 4], [lightgray, 19]
 ]
 ];
 // ST. ANDREWS
@@ -252,4 +276,4 @@ dataset[dataset.length] = ["ULSTER", [
 ];
 
 
-	// expand datasets 
+	// expand datasets

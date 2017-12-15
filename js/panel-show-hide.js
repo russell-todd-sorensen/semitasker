@@ -45,24 +45,25 @@ function togglePanel(key) {
 	for (var i = 0;i<panelArray.length;i++) {
 		panelObject = panelArray[i];
 		id = '#' + panelObject.id;
+
 		if (panelObject.visible) {
 			$(id).hide();
 		} else {
 			$(id).show();
 		}
-    panelObject.visible = !panelObject.visible;
-    if (panelObject.css[panelObject.visible]) {
-      $(id).css(panelObject.css[panelObject.visible]);
-    }
-    if (panelObject.extra) {
-      for(var j = 0;j<panelObject.extra.length;j++) {
-        extraObject = panelObject.extra[j];
-        extraId = '#' + extraObject.id;
-        if (extraObject.css[panelObject.visible]) {
-          $(extraId).css(extraObject.css[panelObject.visible]);
-        }
-      }
-    }
-          
+
+    	panelObject.visible = !panelObject.visible;
+    	if (panelObject.css[panelObject.visible]) {
+      		$(id).css(panelObject.css[panelObject.visible]);
+    	}
+    	if (panelObject.extra) {
+      		for(var j = 0;j<panelObject.extra.length;j++) {
+        		extraObject = panelObject.extra[j];
+        		extraId = '#' + extraObject.id;
+        		if (extraObject.css[panelObject.visible]) {
+          			$(extraId).css(extraObject.css[panelObject.visible]);
+        		}
+      		}
+    	}
 	}
 }

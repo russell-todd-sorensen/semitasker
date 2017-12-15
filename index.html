@@ -157,8 +157,8 @@ $(document).ready(function() {
 
 <h2>HTML 5 Canvas Apps</h2>
 <ul>
- <li><a href="/fractal/mset.html"
-         title="Mandelbrot Set Explorer">Fractal Browser</a></li>
+ <li><a href="/mandelbrot/explore.html"
+         title="Mandelbrot Set Explorer">Fractal Explorer</a></li>
  <li><a href="/fractal/mrcm-affine.html"
          title="Multiple Reduction Copy Machine Using Affine Transforms">MRCM Fractal</a></li>
 </ul>
@@ -225,8 +225,13 @@ $(document).ready(function() {
 			  <animate id="intervalOne" dur="10s" begin="oneToTwo.end" repeatCount="1" attributeName="k3" from="1.0" to="1.0" fill="freeze"/>
               <animate id="twoToOne" dur="5s" begin="intervalOne.end" repeatCount="1" attributeName="k3" from="1.0" to="0.0" fill="freeze" />
               <animate id="twoToOneX" dur="5s" begin="intervalOne.end" onend="rotateImage(['imageOne','imageTwo'])" repeatCount="1" attributeName="k2" from="0.0" to="1.0" fill="freeze" />
-			  <animate id="intervalTwo" dur="10s" begin="twoToOne.end" repeatCount="1" attributeName="k3" from="0.0" to="0.0" fill="freeze" />
+			  <animate id="intervalTwo" dur="10s" begin="twoToOne.end" repeatCount="1"
+			  	       attributeName="k3" from="0.0" to="0.0" fill="freeze" repeat="indefinite" />
 		    </feComposite>
+			<!-- <feColorMatrix type="hueRotate" values="0">
+			  <animate id="hue-rotate" attributeName="values" begin="0s"
+			  values="0;90;180;270;360" fill="freeze" dur="10s" in="output3" result="output4"  repeatCount="indefinite" />
+		  </feColorMatrix> -->
 	 	   </filter>
 	 	</defs>
 

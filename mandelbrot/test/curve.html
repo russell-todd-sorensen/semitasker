@@ -9,7 +9,7 @@
 <style>
 #controls input[type="number"] {
     width: 50px;
-  
+
 }
 
 </style>
@@ -26,9 +26,9 @@
 
 function logStartMove(evt) {
 	Log.Notice('logStartMove was called evt.offsetX='
-		+ evt.offsetX 
-		+ ' evt.offsetY=' 
-		+ evt.offsetY); 
+		+ evt.offsetX
+		+ ' evt.offsetY='
+		+ evt.offsetY);
 }
 
 function captureMouseUp(evt) {
@@ -61,13 +61,24 @@ function logEndMove(evt) {
 var setControl = function (pathId, controlId, controlIndex, newX, newY) {
 	var path = $('#' + pathId).attr('d');
 	//parse path into actions and points
-	
+
 	Log.Notice('pathD =' + path);
 }
 
 
+var controlPoint = function (id, startX, startY) {
+    this.id = id;
+    this.x = startX;
+    this.y = startY;
+    this.callStartMove = [logStartMove[id],captureMouseUp[id],setupStartMove[id]];
+    this.callDragMove  = [updateControlPoint[id]];
+    this.callEndMove   = [logEndMove[id],unBindMouseUp[id],finalizeMove[id]];
+
+};
+
+
 var updateCurve = function (pathId, startId, control1Id, control2Id,
-  endId,control1LineId,control2LineId) 
+  endId,control1LineId,control2LineId)
 {
   var x1 = parseFloat($('#x1').val());
   var y1 = parseFloat($('#y1').val());
@@ -77,12 +88,12 @@ var updateCurve = function (pathId, startId, control1Id, control2Id,
   var c1y = parseFloat($('#c1y').val());
   var c2x = parseFloat($('#c2x').val());
   var c2y = parseFloat($('#c2y').val());
-  
-  var d = 'M ' + x1 + ' ' + y1
-          + ' C ' + c1x + ' ' + c1y
-          + ' ' + c2x + ' ' + c2y 
-          + ' ' + x2 + ' ' + y2;
-          
+
+  var d =    'M ' + x1  + ' ' + y1
+          + ' L ' + c1x + ' ' + c1y
+          +   ' ' + c2x + ' ' + c2y
+          +   ' ' + x2  + ' ' + y2;
+
   $('#' + pathId).attr('d',d);
   $('#' + startId).attr('cx',x1).attr('cy',y1);
   $('#' + control1Id).attr('cx',c1x).attr('cy',c1y);
@@ -90,9 +101,9 @@ var updateCurve = function (pathId, startId, control1Id, control2Id,
   $('#' + endId).attr('cx',x2).attr('cy',y2);
   $('#' + control1LineId).attr('x1',x1).attr('y1',y1).attr('x2',c1x).attr('y2',c1y);
   $('#' + control2LineId).attr('x1',c2x).attr('y1',c2y).attr('x2',x2).attr('y2',y2);
-  
+
   traceCurve(pathId);
-  
+
 }
 
 var svgNS = "http://www.w3.org/2000/svg";
@@ -110,9 +121,9 @@ var traceCurve = function(pathId) {
 	var circleElement;
 	var totalLength = curve.getTotalLength();
 	var doc = document;
-	
+
 	d3traceGroup.html('');
-	for (var i = 0; i<=numPoints; i++) 
+	for (var i = 0; i<=numPoints; i++)
 	{
 		point = curve.getPointAtLength(totalLength/numPoints * i);
 		d3traceGroup.append('circle')
@@ -129,7 +140,7 @@ var traceCurve = function(pathId) {
 		circleElement.setAttributeNS(null,'r',5);
 	  traceGroup.appendChild(circleElement);*/
 	}
-	
+
 
 }
 
@@ -138,8 +149,8 @@ $(document).ready(function() {
 	Log.Notice("jQuery Ready!");
 	//Log.Hide();
 	Log.Remove();
-	
-	
+
+
 	traceGroupId = 	'trace';
 	svgElement = document.getElementById('svg1');
   traceGroup = svgElement.getElementById(traceGroupId);
@@ -152,7 +163,7 @@ $(document).ready(function() {
 </head>
 <body>
 <form id="controls" onsubmit="return false;" onchange="updateCurve('path1','circle1','circle2','circle3','circle4','control1','control2')">
-Start: 
+Start:
 X:<input id="x1" name="x1" value="0" type="number" step="1" />
 Y:<input id="y1" name="y1" value="0" type="number" step="1" />
 Control1:
@@ -168,8 +179,8 @@ Y:<input id="y2" name="y2" value="250" type="number" step="1" />
 </form>
 <svg
    id="svg1"
-	 height="1000" 
-	 width="90%"
+	 height="1000"
+	 width="1200"
      xmlns:svg="http://www.w3.org/2000/svg"
      xmlns="http://www.w3.org/2000/svg"
      xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -180,7 +191,7 @@ svg {
 	background-color: white;
 }
 
-#c1, 
+#c1,
 #rect1 {
 	fill: url(#grad1);
 	stroke: silver;
@@ -208,20 +219,20 @@ svg {
   fill: none;
   stroke: black;
   stroke-width: 1;
-  
+
 }
 
 .midpoints {
   fill:none;
   stroke: black;
   stroke-width: 1;
-  
+
 }
 
 .lines {
   stroke: grey;
   stroke-width: 1;
-  
+
 }
 
 </style>
@@ -248,28 +259,28 @@ svg {
 </defs>
 <g id="g1" transform="translate(100, 100)" >
 	<rect x="-50" y="-50" height="850" width="800" id="b1" />
-	
+
 	<rect x="0" y="0" height="250" width="700" id="rect1" />
 	<rect x="0" y="0" height="250" width="700" id="rect-brt" />
-	
+
 	<rect x="0" y="250" height="250" width="700" id="rect1" />
 	<rect x="0" y="250" height="250" width="700" id="rect-brt" />
 	<rect x="0" y="250" height="250" width="700" id="rect-sat" />
-	
+
 	<rect x="0" y="500" height="250" width="700" id="rect1" />
 	<rect x="0" y="500" height="250" width="700" id="rect-sat" />
 
-  
-  <path d="M 0 0 C 700 0 0 250 700 250" fill="none" stroke="orange" id="path1" /> 
-  <circle cx="0" cy="0" r="5" class="endpoints" id="circle1" /> 
+
+  <path d="M 0 0 C 700 0 0 250 700 250" fill="none" stroke="orange" id="path1" />
+  <circle cx="0" cy="0" r="5" class="endpoints" id="circle1" />
   <circle cx="700" cy="0" r="5" class="endpoints" id="circle2" />
   <line x1="0" y1="0" x2="700" y2="0" class="lines" id="control1" />
-  
-  
-  <path d="M 0 0 C 700 0 0 250 700 250" fill="none" stroke="orange" id="path1" transform="translate(0,250)"/> 
+
+
+  <path d="M 0 0 C 700 0 0 250 700 250" fill="none" stroke="orange" id="path1" transform="translate(0,250)"/>
   <circle cx="0" cy="250" r="5" class="endpoints" id="circle3" />
   <circle cx="700" cy="250" r="5" class="endpoints" id="circle4" />
-  
+
   <line x1="0" y1="250" x2="700" y2="250" class="lines" id="control2" />
 
 </g>
