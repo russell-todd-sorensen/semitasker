@@ -75,7 +75,7 @@
 	font-size:700px;
     font-style:normal;
     font-weight:normal;
-    fill:rgba(0,0,0,.85); 
+    fill:rgba(0,0,0,.85);
     fill-opacity:.85;
     stroke:none;
     stroke-width:1px;
@@ -89,14 +89,14 @@
 <script src="/js/jquery-1.7.1.js"></script>
 <script src="/js/d3.v3.js"></script>
 <script src="/js/log.js"></script>
-<script src="hex-2.js"></script>
+<script src="js/hex.js"></script>
 
 <script>
 
 
 $(document).ready(function() {
 		Log.Notice("jQuery in ready!");
-	
+
 		playHex();
 
 		Log.Notice("Done");
@@ -109,22 +109,22 @@ $(document).ready(function() {
 <body>
 
 <div id="svg">
-<svg version="1.1" 
-     id="hexgame" 
-     xmlns="http://www.w3.org/2000/svg" 
-     xmlns:xlink="http://www.w3.org/1999/xlink" 
-     x="0px" 
+<svg version="1.1"
+     id="hexgame"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     x="0px"
      y="0px"
-	 width="1500px" 
-     height="700px" 
-     viewBox="0 0 1500 700" 
-     enable-background="new 0 0 1000 700" 
+	 width="1500px"
+     height="700px"
+     viewBox="0 0 1500 700"
+     enable-background="new 0 0 1000 700"
      fill="transparent"
      xml:space="preserve"
      >
-     <text 
+     <text
        x="-60"
-       y="600" 
+       y="600"
        id="hex-background"
        xml:space="preserve">HEX</text>
 </svg>

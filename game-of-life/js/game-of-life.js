@@ -1,124 +1,7 @@
-<!DOCTYPE html>
-<html lang="en_US">
-<head>
-<meta charset="utf-8" />
-<title>Game of Life 2</title>
-<link rel="stylesheet" href="main.css" type="text/css">
-<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
-<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
 
 
-<style>
-
-svg {
-    fill: white;
-}
-#gameBoard rect2 {
-    stroke: #555;
-    stroke-width: .5px;
-}
-.cell-alive {
-    /*fill: black; */
-    fill: url(#rg1);
-}
-
-.cell-dead {
-    fill: white;
-}
-
-#boardBoundary {
-    stroke: #666;
-    stroke-width: 2px;
-    fill: none;
-}
-
-
-
-#controls {
-    font-family: "Consolas Bold";
-    letter-spacing: -1px;
-    color: black;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-#controls ul {
-    font-family: inherit;
-    list-style: none;
-    padding: 0;
-    width: 200px;
-}
-
-
-#controls input, 
-#controls select {
-    display: inline-block;
-    font-family: "Consolas Bold";
-    font-size: 15px;
-    width: 162px;
-    margin-left: 12px;
-    align: right;
-}
-
-#controls input[type=range],
-#controls input[type=number] {
-    width: 130px;
-}
-
-/* this is how you change the font of select options!!! */
-#theory { /* select id */
-    font-family: "Consolas Bold";
-    font-size: 16px;
-}
-
-#mode-controls {
-    letter-spacing: 1px;
-}
-
-#controls input[type=number] {
-    width: 60px;
-}
-
-#timeout, 
-#colorOffsetAmount, 
-#fractalImageId {
-
-}
-
-#controls #pixelJump input[type=number] {
-    width: 50px;
-}
-
-#controls select {
-    width: 100px;
-}
-
-#controls #randomSeedValue {
-    width: 35px;
-}
-
-</style>
-
-<script src="/js/jquery-1.7.1.js"></script>
-<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
-<script src="/js/d3.v3.js"></script>
-<script src="/js/log-2.js"></script>
-<script src="/js/data.js"></script>
-<script src="/js/form-save-restore.js"></script>
-<script src="/js/binary-hex-conversions.js"></script>
-<script src="/js/example-library.js"></script>
-<script src="/js/svg-transform.js"></script>
-<script src="/js/schedule-function.js"></script>
-<script src="/js/mouse-events.js"></script>
-
-<script language="javascript">
-
-var height = 40;
-var width = 80;
-var cellDim = 15;
-var xOffset = 20;
-var yOffset = 30;
+var Games = new Array();
+var animationFunctions = new Array();
 
 var gameOfLife = function (width, height, initData) {
 	this.width = width;
@@ -129,7 +12,7 @@ var gameOfLife = function (width, height, initData) {
 	this.neighborhood;// = new Array(this.cellCount);
 	this.cellNeighbors;// = new Array(this.cellCount);
 	this.continueAnimation = false;
-	
+
 	this.init = function () {
 		var cellIndex = 0;
 		this.cellState = new Array(this.cellCount);
@@ -144,14 +27,14 @@ var gameOfLife = function (width, height, initData) {
 				if (row>0) {
 					if (col>0) {
 						nb.nw = cellIndex-width-1;
-					} 
+					}
 					else {
 						nb.nw = null;
 					}
 					nb.n = cellIndex-width;
 					if (col<width-1) {
 						nb.ne = cellIndex-width+1;
-					} 
+					}
 					else {
 						nb.ne = null;
 					}
@@ -161,27 +44,27 @@ var gameOfLife = function (width, height, initData) {
 				}
 				if (col>0) {
 					nb.w = cellIndex-1;
-				} 
+				}
 				else {
 					nb.w = null;
 				}
 				if (col<width-1) {
 					nb.e = cellIndex+1;
-				} 
+				}
 				else {
 					nb.e = null;
 				}
 				if (row<height-1) {
 					if (col>0) {
 						nb.sw = cellIndex+width-1;
-					} 
-					else { 
+					}
+					else {
 						nb.sw = null;
 					}
 					nb.s = cellIndex+width;
 					if (col<width-1) {
 						nb.se = cellIndex+width+1;
-					} 
+					}
 					else {
 						nb.se = null;
 					}
@@ -230,15 +113,15 @@ var gameOfLife = function (width, height, initData) {
 		for (var i=0;i<this.cellCount;i++) {
 			cell = this.cellNeighbors[i];
 			total = this.cellState[i];
-			if (cell['s'] != null) 
+			if (cell['s'] != null)
 				total += this.cellState[cell['s']];
-			if (cell['w'] != null) 
+			if (cell['w'] != null)
 				total += this.cellState[cell['w']];
-			if (cell['n'] != null) 
+			if (cell['n'] != null)
 				total += this.cellState[cell['n']];
-			if (cell['e'] != null) 
+			if (cell['e'] != null)
 				total += this.cellState[cell['e']];
-				
+
 			parity = total%2;
 			this.neighborhood[i] = parity;
 		}
@@ -248,15 +131,15 @@ var gameOfLife = function (width, height, initData) {
 		for (var i=0;i<this.cellCount;i++) {
 			cell = this.cellNeighbors[i];
 			total = this.cellState[i];
-			if (cell['sw'] != null) 
+			if (cell['sw'] != null)
 				total += this.cellState[cell['sw']];
-			if (cell['nw'] != null) 
+			if (cell['nw'] != null)
 				total += this.cellState[cell['nw']];
-			if (cell['ne'] != null) 
+			if (cell['ne'] != null)
 				total += this.cellState[cell['ne']];
-			if (cell['se'] != null) 
+			if (cell['se'] != null)
 				total += this.cellState[cell['se']];
-				
+
 			parity = total%2;
 			this.neighborhood[i] = parity;
 		}
@@ -266,16 +149,16 @@ var gameOfLife = function (width, height, initData) {
 		for (var i=0;i<this.cellCount;i++) {
 			cell = this.cellNeighbors[i];
 			totalNorthSouth = this.cellState[i];
-			if (cell['s'] != null) 
+			if (cell['s'] != null)
 				totalNorthSouth += this.cellState[cell['s']];
-			if (cell['n'] != null) 
+			if (cell['n'] != null)
 				totalNorthSouth += this.cellState[cell['n']];
 			totalEastWest = this.cellState[i];
-			if (cell['e'] != null) 
+			if (cell['e'] != null)
 				totalEastWest += this.cellState[cell['e']];
-			if (cell['w'] != null) 
+			if (cell['w'] != null)
 				totalEastWest += this.cellState[cell['w']];
-				
+
 			parity = (totalNorthSouth-totalEastWest)%2;
 			this.neighborhood[i] = parity;
 		}
@@ -285,16 +168,16 @@ var gameOfLife = function (width, height, initData) {
 		for (var i=0;i<this.cellCount;i++) {
 			cell = this.cellNeighbors[i];
 			totalNorthSouth = this.cellState[i];
-			if (cell['s'] != null) 
+			if (cell['s'] != null)
 				totalNorthSouth += this.cellState[cell['s']];
-			if (cell['n'] != null) 
+			if (cell['n'] != null)
 				totalNorthSouth += this.cellState[cell['n']];
 			totalEastWest = this.cellState[i];
-			if (cell['e'] != null) 
+			if (cell['e'] != null)
 				totalEastWest += this.cellState[cell['e']];
-			if (cell['w'] != null) 
+			if (cell['w'] != null)
 				totalEastWest += this.cellState[cell['w']];
-				
+
 			parity = (totalEastWest-totalNorthSouth)%2;
 			this.neighborhood[i] = parity;
 		}
@@ -310,18 +193,18 @@ var gameOfLife = function (width, height, initData) {
 				continue;
 			}
 			total += this.cellState[cell[dir]];
-			//Log.Notice("dir=" + dir + " neighbor=" 
+			//Log.Notice("dir=" + dir + " neighbor="
 			//+ cell[dir] + " state=" + this.cellState[cell[dir]] + " total=" + total);
 		}
     return total;
-		
+
 	};
 }
 
 function createGameBoard(id,gameId) {
 	document.getElementById(id).nodeValue="";
 	var g = d3.select('#' + id);
-  
+
 
 	g.selectAll('rect')
 	 .data(Games[gameId].cellNeighbors)
@@ -360,7 +243,7 @@ function createGameBoard(id,gameId) {
 			var formData = processGameOfLifeForm();
 			var objId = formData.data.objId;
 			var myGame = Games[objId];
-			
+
 			if (myGame.cellState[i] == 1) {
 					//cellDie(Games[gameId],i);
 					cellDie(formData.data,i);
@@ -371,8 +254,8 @@ function createGameBoard(id,gameId) {
 	 })
 
 	 .on('mouseout', function (d,i) {
-		 
-	 });	
+
+	 });
 
 	 g.append('rect')
 	 .attr('x',xOffset)
@@ -380,13 +263,8 @@ function createGameBoard(id,gameId) {
 	 .attr('height',cellDim*height)
 	 .attr('width',cellDim*width)
 	 .attr('id','boardBoundary');
-	 
+
 }
-
-var Games = new Array();
-var animationFunctions = new Array();
-Games[0] = new gameOfLife(width,height,{});
-
 
 
 
@@ -394,7 +272,7 @@ Games[0] = new gameOfLife(width,height,{});
 ////////////////// LIVE AND DIE FUNCTIONS ////////////
 
 function cellDie (data,id) {
-	
+
   var objId = data.objId;
   var myGame = Games[objId];
 	d3.select('#c-' + id)
@@ -422,7 +300,7 @@ function cellDie (data,id) {
 }
 
 function cellAlive (data,id) {
-	
+
   var objId = data.objId;
   var myGame = Games[objId];
 	d3.select('#c-' + id)
@@ -435,7 +313,7 @@ function cellAlive (data,id) {
 }
 
 animationFunctions[0] = function (data) {
-	
+
   var objId = data.objId;
   var myGame = Games[objId];
 	myGame.pollNeighbors();
@@ -451,7 +329,7 @@ animationFunctions[0] = function (data) {
 			 cellDie(data,i);
 			 break;
 			}
-		} 
+		}
 		else { // dead
 			switch (myGame.neighborhood[i]) {
 			case 3:
@@ -464,12 +342,12 @@ animationFunctions[0] = function (data) {
 			}
 		}
 	}
-	
+
   return myGame.continueAnimation;
 }
 
 animationFunctions[1] = function (data) {
-	
+
   var objId = data.objId;
   var myGame = Games[objId];
 	myGame.pollNeighbors();
@@ -501,7 +379,7 @@ animationFunctions[1] = function (data) {
 }
 
 animationFunctions[2] = function (data) { // one-out-of-eight
-	
+
   var objId = data.objId;
   var myGame = Games[objId];
 	myGame.pollNeighbors();
@@ -521,7 +399,7 @@ animationFunctions[2] = function (data) { // one-out-of-eight
 }
 
 animationFunctions[3] = function (data) { // parity rule
-	
+
   var objId = data.objId;
   var myGame = Games[objId];
 	myGame.pollNeighborParity();
@@ -542,7 +420,7 @@ animationFunctions[3] = function (data) { // parity rule
 }
 
 animationFunctions[4] = function (data) { // parity rule 2
-	
+
   var objId = data.objId;
   var myGame = Games[objId];
 	myGame.pollNeighborParity2();
@@ -563,7 +441,7 @@ animationFunctions[4] = function (data) { // parity rule 2
 }
 
 animationFunctions[5] = function (data) { // north south 1
-	
+
   var objId = data.objId;
   var myGame = Games[objId];
 	myGame.pollNeighborNorthSouth1();
@@ -583,7 +461,7 @@ animationFunctions[5] = function (data) { // north south 1
 		return myGame.continueAnimation;
 }
 animationFunctions[6] = function (data) { // north south 2
-	
+
   var objId = data.objId;
   var myGame = Games[objId];
 	myGame.pollNeighborNorthSouth2();
@@ -606,9 +484,9 @@ animationFunctions[6] = function (data) { // north south 2
 
 
 var startAnimationPre = function() {
-	
+
   var formData = processGameOfLifeForm();
-	
+
 	startAnimation(formData.id,formData.timeout,formData.data);
 }
 
@@ -621,7 +499,7 @@ var startAnimation = function (animationFunctionId,timeout, data) {
   scheduleFunction(animationFunction, timeout, true, true, data);
 };
 
-var stopAnimation = function() { 
+var stopAnimation = function() {
   var formData = processGameOfLifeForm();
   var data = formData.data;
   var objId = data.objId;
@@ -649,131 +527,14 @@ var processGameOfLifeForm = function () {
 }
 
 function gameInit() {
-	
+
   var formData = processGameOfLifeForm();
   var data = formData.data;
   var objId = data.objId;
   var myGame = Games[objId];
-	
+
 	myGame.init();
 	myGame.randomSeed(data.randomSeedValue);
 	//myGame.pollNeighbors();
 	createGameBoard('gameBoard',objId);
 }
-
-$(document).ready(function() {
-  
-  Log.Notice('Game of Life: Ready');
-	
-  Log.Notice('game of life game.cellCount=' + Games[0].cellCount);
-  //Log.Remove();
-});
-</script>
-
-</head>
-<body>
-<div id="controls">
-<form onSubmit="return false;" id="controlsForm">
-<input type="hidden" name="gameId" id="gameId" value="0" />
-<ul>
-<fieldset>
-<legend>Game of Life Options</legend>
-<li>
- <label for="animationFunctionId">Anim Fn:</label>
- <select name="animationFunctionId" id="animationFunctionId">
-  <option value="0">Game Of Life</option>
-  <option value="1">Majority Rule</option>
-  <option value="2">One Out of Eight</option>
-  <option value="3">Parity Rule</option>
-  <option value="4">Parity Rule 2</option>
-  <option value="5">North South 1</option>
-  <option value="6">North South 2</option>
- </select>
-</li>
-<li>
-<label for="">Step Time:</label>
-<input type="number" name="timeout" id="timeout" value="500" min="10" step="10" max="2000" />
-</li>
-<li>
-<label for="">Fade In:</label>
-<input type="number" name="fadeIn" id="fadeIn" value="1000" min="0" step="10" max="5000" />
-</li>
-<li>
-<label for="">Fade Out:</label>
-<input type="number" name="fadeOut" id="fadeOut" value="1000" min="0" step="10" max="5000" />
-</li>
-<li>
-<label for="">Fade End:</label>
-<input type="number" name="fadeEnd" id="fadeEnd" value="1000" min="0" step="10" max="5000" />
-</li>
-<li>
-<label for="">Persist:</label>
-<input type="checkbox" name="persist" id="persist" value="true" checked="checked"/>
-</li>
-<li>
-<label for="">Ease:</label>
-<select id="ease" name="ease" >
- <option value="linear">Linear</option>
- <option value="bounce">Bounce</option>
- <option value="bounce-in">Bounce In</option>
- <option value="bounce-out">Bnc Out</option>
- <option value="bounce-in-out">Bnc I/O</option>
-</select>
-</li>
-<li>
-<label for="">Living %:</label>
-<input type="text" name="randomSeedValue" id="randomSeedValue"  
-       value="0.00"/>
-</li>
-<li>
-<button onClick="gameInit();">Init Game</button>
-</li>
-<li>
-<button onClick="startAnimationPre();" >Start</button>
-</li>
-<li>
-<button onClick="stopAnimation();">Stop</button>
-</li>
-</fieldset>
-</ul>
-</form>
-</div>
-<div id="board">
-<svg 
-    xmlns:svg="http://www.w3.org/2000/svg" 
-    xmlns="http://www.w3.org/2000/svg" 
-    xmlns:xlink="http://www.w3.org/1999/xlink" 
-    version="1.0" 
-    x="0" 
-    y="0" 
-    width="2500" 
-    height="1250" 
-    viewBox="0 0 2500 1250">
-<defs>
-<radialGradient id="rg1" color-interpolation="sRGB" spreadMethod="repeat">
- <stop stop-color="#444" offset="0%" ></stop>
- <stop stop-color="#abc" offset="0%" >
-  <animate attributeName="offset" from=".0" to=".2" dur="3s" repeatCount="indefinite" />
- </stop>
- <stop stop-color="#37a" offset="100%" >
-  <animate attributeName="offset" from="1.0" to="0.5" dur="7s" repeatCount="indefinite" />
- </stop>
-</radialGradient>
-</defs>
-<g id="info" x="200" y="0" >
-<text x="400" y="10" fill="black" stroke="black">
-  <tSpan>Cell:</tSpan>
-  <tSpan id="cellNumber" dx="0" dy="0">0</tSpan>
-  <tSpan>Neighbors:</tSpan>
-  <tSpan id="cellNeighbors" dx="0" dy="0">0</tSpan>
-</text>
-</g>
-<g id="gameBoard">
-
-</g>
-
-</svg>
-</div><!-- end of board -->
-
-</body>
-</html>

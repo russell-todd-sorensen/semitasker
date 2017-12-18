@@ -39,7 +39,7 @@ namespace eval ::MyCoroutines {
 
             puts -->$result;
             if {[string length $result] > 2} {
-                Detach "The End"
+                Detach {The End}
             } else {
                 puts "$result is [string length $result] chars long."
             }
