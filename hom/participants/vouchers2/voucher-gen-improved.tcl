@@ -9,7 +9,7 @@ set directory [ns_normalizepath $urlDirectory]/
 set pageroot [ns_info pageroot]
 set absolutePath [file join $pageroot [string trimleft $directory /]]/
 ns_log Notice "absolutePath='$absolutePath' dir='[file dirname $absolutePath]'"
-set dataDirectory [file join [file dirname $absolutePath] data]/
+set dataDirectory [file join [file dirname $absolutePath] website-data data]
 ns_log Notice "dataDirector='$dataDirectory'"
 set iifFile [file join $dataDirectory "EVERYTHING.IIF"]
 set patternList [split $requestedFile ".-_ "]
@@ -25,7 +25,7 @@ set data [chan read $fd]
 close $fd
 set data [string map {\t ,} $data]
 
-set csvFileName "doc-invoice-november-temp.csv"
+set csvFileName "doc-invoice-december-temp.csv"
 
 set fdout [open [file join $dataDirectory $csvFileName] w+]
 puts -nonewline $fdout $data
@@ -91,17 +91,17 @@ set table "<table id='customers' cellspacing='0' cellpadding='3' border='1'>"
 append table "\n</table>"
 
 set data ""
-set arriveField "CUSTFLD1"
-set endField    "CUSTFLD2"
+set arriveField "JOBSTART"
+set endField    "JOBEND"
 set companyField "COMPANYNAME"
 set houseField  "CUSTFLD5"
-set dobField    "CUSTFLD7"
+set dobField    "JOBPROJEND"
 set docField    "CUSTFLD6"
 set ccoField    "CUSTFLD8"
 set sotpField   "CUSTFLD9"
 set firstNameField "FIRSTNAME"
 set lastNameField "LASTNAME"
-set ctypeField  "CTYPEX"
+set ctypeField  "CTYPEX" ;# CTYPEX
 set termsField  "TERMSX"
 set emailField  "EMAIL"
 set addrNameField "BADDR1"
@@ -132,7 +132,7 @@ proc programFeePerHouse {house company monthNumber} {
             set fees 375.00
         }
         default {
-            return 500.00
+            return 550.00
         }
     }
     if {[string match "*DOC Voucher*" $company]} {
@@ -141,21 +141,23 @@ proc programFeePerHouse {house company monthNumber} {
     return $fees
 }
 
-set invoiceDate "11/01/2017"
-set monthNumber 11
-set month "Nov"
-set year "2017"
+set invoiceDate "01/01/2018"
+set monthNumber 1
+set month "Jan"
+set year "2018"
 set invoiceNumber 1
 set terms "Due by the 1st of Mo"
 ns_log Notice "what is up"
 
 proc programFeeVoucher {house company fees monthNumber} {
 
-	if {[regexp -nocase {(DOC Voucher) ([0-1]*[0-9]{1,2})/([0-3]*[0-9]{1,2})/(20[1-2][0-9])} $company all voucher month day year]} {
+	if {[regexp -nocase {(DOC Voucher) (19[0-9][0-9]|20[0-9][0-9])-([0-1][0-9])-([0-2][0-9])} $company all voucher year month day]} {
 		set currentMonth $monthNumber
+		set month [string trimleft $month "0"]
+		set day   [string trimleft $day "0"]
 		ns_log Notice "month=$month day=$day year=$year currentMonth=$currentMonth c-m=[expr {$currentMonth-$month < 0}]"
 		if {[expr {$currentMonth - $month < 0}]} {
-			return 500
+			return 550
 		} else {
 
 			set voucherDays $day
@@ -165,7 +167,7 @@ proc programFeeVoucher {house company fees monthNumber} {
 			}
 
 			set nonVoucherDays [expr {30 - $voucherDays}]
-			set voucherRate 16.66667
+			set voucherRate 18.33333
 
 			switch -exact -nocase -- $house {
 				Jeremiah - James - Galatians - Philippians {
@@ -184,6 +186,9 @@ proc programFeeVoucher {house company fees monthNumber} {
 	}
 }
 
+ns_log Notice "what is up again..."
+ns_log Notice "{*}$nameList2(CUST)"
+
 foreach participant [lsort [array names CUST]] {
     lassign $CUST($participant) {*}$nameList2(CUST)
 
@@ -191,8 +196,10 @@ foreach participant [lsort [array names CUST]] {
     set continue 0
     if {[set $houseField] ne "Office"} {
         set ctype [set $ctypeField]
+        set ctype [lindex [split [set $jobtypeField] :] 1]
 
         if {[lsearch -exact [list "Program Participant" "House Leader" "Assistant House Leader" "Non Transitional Housing"] $ctype] == -1} {
+        	ns_log Notice "ctype='$ctype'"
         	continue
         }
 
@@ -226,8 +233,11 @@ foreach participant [lsort [array names CUST]] {
         		lappend exceptionList "RENT=$fees for '[set $nameField]'"
         	}
         	"*DOC VOUCHER*" {
-        	    if {[regexp -nocase {(DOC Voucher) ([0-1]*[0-9]{1,2})/([0-3]*[0-9]{1,2})/(20[1-2][0-9])} $company allX voucherX monthX dayX yearX]} {
+        	    if {[regexp -nocase {(DOC Voucher) (19[0-9][0-9]|20[0-9][0-9])-([0-1][0-9])-([0-2][0-9])} $company allX voucherX yearX monthX dayX]} {
         	        set currentMonth $monthNumber
+        	        set monthX [string trimleft $monthX "0"]
+        	        set dayX   [string trimleft $dayX "0"]
+        	        
         	        ns_log Notice "month=$monthX day=$dayX year=$yearX currentMonth=$currentMonth c-m=[expr {$currentMonth-$monthX < 0}]"
         	        if {$monthX >= 10 || $yearX == 2018} {
         	            set skipFurtherProcessing 1
@@ -279,7 +289,7 @@ foreach participant [lsort [array names CUST]] {
         }
         set fees [format %2.2f $fees]
         set fInvNumber "$month-[format %0.4d $invoiceNumber]"
-        lappend invoiceLines [list TRNS "" INVOICE $invoiceDate "Accounts Receivable" [set $nameField] "" $fees $fInvNumber $memo N Y N "$FIRSTNAME $LASTNAME" "$BADDR2" "$BADDR3" "$BADDR4" "" "$invoiceDate" "$terms" "PAID" "" "" $invoiceDate "OTHER1"]
+        lappend invoiceLines [list TRNS "" INVOICE $invoiceDate "Accounts Receivable" [set $nameField] "" $fees $fInvNumber $memo N Y N "$FIRSTNAME $LASTNAME" "$BADDR2" "$BADDR3" "$BADDR4" "" "$invoiceDate" "$terms" "Unpaid" "" "" $invoiceDate ""]
         incr invoiceNumber
 	    
         set houseAccountName $house
@@ -302,9 +312,6 @@ foreach participant [lsort [array names CUST]] {
 	        set nonVoucherInvItem "Pro-Rated Program Fees:. $houseAccountName"
 	        set invAcct "Program Fees:Program Fees - $houseAccountName"
 
-        	#lappend invoiceLines [list SPL	"" INVOICE $invoiceDate "Pro-Rated Program Fees:. $houseAccountName Voucher" "" "" -[lindex $voucherList 2] "" "Program Fee per day @ [lindex $voucherList 1]" N -[lindex $voucherList 0] [lindex $voucherList 1] "Program Fee:. $house" N "" 0 0]
-        	#lappend invoiceLines [list SPL	"" INVOICE $invoiceDate "Pro-Rated Program Fees:. $houseAccountName" "" "" -[lindex $nonVoucherList 2] "" "Program Fee per day @ [lindex $nonVoucherList 1]" N -[lindex $nonVoucherList 0] [lindex $nonVoucherList 1] "Program Fee:. $house" N "" 0 0]
-
         	lappend invoiceLines [list SPL	"" INVOICE $invoiceDate $invAcct "" "" -[lindex $voucherList 2] "" "Program Fee per day @ [lindex $voucherList 1]" N -[lindex $voucherList 0] [lindex $voucherList 1] $voucherInvItem N "" 0 0]
         	lappend invoiceLines [list SPL	"" INVOICE $invoiceDate $invAcct "" "" -[lindex $nonVoucherList 2] "" "Program Fee per day @ [lindex $nonVoucherList 1]" N -[lindex $nonVoucherList 0] [lindex $nonVoucherList 1] $nonVoucherInvItem N "" 0 0]
        }
@@ -319,7 +326,7 @@ foreach dataLine $invoiceLines {
 	append iifFile [join $dataLine \t]\n
 }
 
-set finalIIFfileName "invoices-final-november.iif"
+set finalIIFfileName "invoices-final-december.iif"
 
 set fdout2 [open [file join $dataDirectory $finalIIFfileName] w+]
 puts -nonewline $fdout2 $iifFile
