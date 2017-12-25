@@ -3,22 +3,6 @@ source coroutine-library.tcl;
 # This version of Shared handles initialization
 # of the variable to the empty string.
 
-proc Shared {args} {
-    if {[llength $args] == 2} {
-        uplevel 1 [list variable {*}$args]
-    } else {
-        uplevel 1 variable [lindex $args 0]
-    }
-}
-
-proc Share {list} {
-    if {[llength $list]} {
-        foreach {varName value} $list {
-            uplevel 1 [list variable $varName $value]
-        }
-    }
-}
-
 
 namespace eval ::ns1 {
     Shared a 10

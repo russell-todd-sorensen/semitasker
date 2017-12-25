@@ -939,6 +939,15 @@ Data.Images = [
               { url:'/images/mset/mset-5642.png', alt:'mset-5642.png'},
               { url:'/images/mset/mset-5645.png', alt:'mset-5645.png'},
               { url:'/images/mset/mset-5646.png', alt:'mset-5646.png'},
+              { url:'/images/christmas/christmas-1-small.webp', alt:'Christmas 1 WebP'},
+              { url:'/images/christmas/christmas-2-small.webp', alt:'Christmas 2 WebP'},
+              { url:'/images/christmas/christmas-3-small.webp', alt:'Christmas 3 WebP'},
+              { url:'/images/christmas/christmas-4-small.webp', alt:'Christmas 4 WebP'},
+              { url:'/images/christmas/christmas-5-small.webp', alt:'Christmas 5 WebP'},
+              { url:'/images/christmas/christmas-6-small.webp', alt:'Christmas 6 WebP'},
+              { url:'/images/christmas/christmas-7-small.webp', alt:'Christmas 7 WebP'},
+              { url:'/images/christmas/christmas-8-small.webp', alt:'Christmas 8 WebP'},
+              { url:'/images/christmas/christmas-8-1-small.webp', alt:'Christmas 8 PNG->WebP'},
 
 ];
 
