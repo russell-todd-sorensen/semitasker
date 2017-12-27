@@ -547,3 +547,53 @@ var reDrawImage = function () {
 	fractal.calculateCounters(data);
 	return fractal.continueAnimation;
 };
+
+var captureCanvas = function (type) {
+	var formData = processForm();
+	var data = formData.data;
+	var objId = data.objId;
+	var fractal = myFractalImages[objId];
+
+	var resolve = function(imageData) {
+		$('#imageGallery').append('<img height="20" src="' + imageData + '">');
+		return imageData.length;
+	}
+
+	var reject = function (msg) {
+		return msg;
+	}
+
+	var writeImage = new Promise(function(resolve, reject) {
+
+		var imageData = fractal.canvas.toDataURL(type,1.0)
+	});
+/*	});
+
+	writeImage.then(function(result) {
+		console.log(result);
+	}, function(err) {
+		console.log(err);
+	}); */
+
+};
+
+var imageData;
+var captureHandle;
+
+var resolve = function() {
+	if (imageData) {
+		$('#imageGallery').append('<img height="20" src="' + imageData + '">');
+		clearInterval(captureHandle);
+	}
+}
+
+var captureCanvas2 = function (type) {
+
+	var formData = processForm();
+	var data = formData.data;
+	var objId = data.objId;
+	var fractal = myFractalImages[objId];
+	imageData = fractal.canvas.toDataURL(type,1.0);
+	captureHandle = setInterval('resolve()', 1000);
+
+};

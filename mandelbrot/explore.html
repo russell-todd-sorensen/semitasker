@@ -110,6 +110,7 @@ body,html {
 #b2,
 #b3,
 #b4,
+#b5,
 #finiteMeasureFunction
 { /* select id */
     width: 78.75px;
@@ -119,6 +120,10 @@ body,html {
     font-family: sans serif, "Tw Cen MT Bold";
     margin-left: 0px;
     font-size: 16px;
+}
+
+#b4 {
+    display: none;
 }
 
 #animationFunctionId option,
@@ -146,7 +151,8 @@ body,html {
 }
 
 #drawImage,
-#animateImage {
+#animateImage,
+#captureCanvas {
   width: 75px;
   display: inline-block;
   vertical-align: top;
@@ -167,10 +173,17 @@ body,html {
     font-size: 15px;
 }
 
-#b4 {
-  display: none;
+#captureCanvas {
+    background-color: green;
 }
 
+#imageGallery {
+    padding: 3px;
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
+    background-color: silver;
+}
 </style>
 
 <script src="/js/jquery-1.7.1.js"></script>
@@ -278,7 +291,7 @@ $(document).ready(function() {
   $(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',
 	             myFractalImages[myFractalImageId],startMove);
 
-  //Log.Remove();
+  Log.Remove();
 });
 </script>
 
@@ -591,7 +604,13 @@ $(document).ready(function() {
          value="Stop Animation" >Stop</button>
  </div>
 </li>
-
+<li>
+ <label for="b5" id="buttonControl4">Capture:</label>
+ <div id="captureCanvas">
+ <button id="b5" name="b5" onClick="captureCanvas2('image/png')"
+        value="Canvas to PNG" >PNG</button>
+ </div>
+</li>
 
 </ul>
 </fieldset>
@@ -614,6 +633,6 @@ $(document).ready(function() {
  <canvas id="currentColors"
          height="0" width="0">Your browser doesn't support canvas</canvas>
 </div>
-
+<div id="imageGallery"></div>
 </body>
 </html>
