@@ -1,22 +1,22 @@
 source coroutine-library.tcl
 
 namespace eval ::textTransform {
-    variable CardLength 80;
-    variable LineLength 125;
-    variable Card [list];
-    variable Line [list];
-    variable c1;
-    variable c2;
-    variable fdin;
-    variable fdout;
+    Shared CardLength 80;
+    Shared LineLength 125;
+    Shared Card [list];
+    Shared Line [list];
+    Shared c1;
+    Shared c2;
+    Shared fdin;
+    Shared fdout;
 
 
     proc Reader {} {
-        variable CardLength;
-        variable Card;
-        variable fdin;
+        Shared CardLength;
+        Shared Card;
+        Shared fdin;
 
-        Detach
+        Pause
 
         while {"True"} {
             for {set i 0} {$i < $CardLength} {incr i} {
@@ -30,11 +30,11 @@ namespace eval ::textTransform {
     }
 
     proc Disassembler {} {
-        variable CardLength;
-        variable Card;
-        variable c1;
+        Shared CardLength;
+        Shared Card;
+        Shared c1;
 
-        Detach
+        Pause
 
         while {"True"} {
             puts stdout "Before the reader in Disassembler"
@@ -50,10 +50,10 @@ namespace eval ::textTransform {
     }
 
     proc Squasher {} {
-        variable c1;
-        variable c2;
+        Shared c1;
+        Shared c2;
 
-        Detach
+        Pause
 
         while {"True"} {
 
@@ -75,12 +75,12 @@ namespace eval ::textTransform {
     }
 
     proc Assembler {} {
-        variable LineLength;
-        variable Line;
-        variable c2;
-        variable fdout;
+        Shared LineLength;
+        Shared Line;
+        Shared c2;
+        Shared fdout;
 
-        Detach
+        Pause
 
         while {"True"} {
             for {set i 0} {$i < $LineLength} {incr i} {
@@ -92,7 +92,9 @@ namespace eval ::textTransform {
                     }
                     puts "Assembler before thePrinter"
                     Resume thePrinter;
-                    Detach; # back to main program
+                    puts "Assembler after thePrinter, Detaching..."
+                    #Detach; # back to main program
+                    Resume Main; # really back to main
                 }
                 puts "Assembler before theSquasher"
                 Resume theSquasher;
@@ -102,11 +104,11 @@ namespace eval ::textTransform {
     }
 
     proc Printer {} {
-        variable LineLength;
-        variable Line;
-        variable fdout;
+        Shared LineLength;
+        Shared Line;
+        Shared fdout;
 
-        Detach
+        Pause
 
         while {"True"} {
             for {set i 0} {$i < $LineLength} {incr i} {
@@ -119,15 +121,15 @@ namespace eval ::textTransform {
         }
     }
 
-    proc Main {} {
-        variable fdin  [open infile.txt r]
-        variable fdout [open outfile.txt w+]
+    proc MainCoroutine {} {
+        Shared fdin  [open infile.txt r]
+        Shared fdout [open outfile.txt w+]
         puts $fdout "Starting output"
         puts stdout "...starting in Main"
 
         Resume theDisassembler;
 
-        puts stdout "...finished with Main"
+        puts stdout "...finished with Main (This statement is never reached with Detach)"
     }
 
     coroutine theReader Reader;
@@ -135,8 +137,9 @@ namespace eval ::textTransform {
     coroutine theSquasher Squasher;
     coroutine theAssembler Assembler;
     coroutine thePrinter Printer;
-    coroutine theMainCoroutine Main;
+    coroutine Main MainCoroutine;
 
+    puts "Finished running Main..."
     flush $fdout
     close $fdout
     close $fdin

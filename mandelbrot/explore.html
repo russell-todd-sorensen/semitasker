@@ -1,11 +1,13 @@
 <!DOCTYPE HTML>
-<html lang="en_US">
+<html lang="en-US">
 <head>
 <meta charset="utf-8">
 <title>Mandelbrot Set Visualization</title>
 <link rel="stylesheet" href="main.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
-<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<!--<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">-->
+<link rel="stylesheet" media="all" href="./js/jquery-ui-1.12.1.custom/jquery-ui.css">
+<link rel="manifest" href="/manifest.json">
 
 
 <style>
@@ -108,6 +110,7 @@ body,html {
 #b2,
 #b3,
 #b4,
+#b5,
 #finiteMeasureFunction
 { /* select id */
     width: 78.75px;
@@ -117,6 +120,10 @@ body,html {
     font-family: sans serif, "Tw Cen MT Bold";
     margin-left: 0px;
     font-size: 16px;
+}
+
+#b4 {
+    display: none;
 }
 
 #animationFunctionId option,
@@ -144,7 +151,8 @@ body,html {
 }
 
 #drawImage,
-#animateImage {
+#animateImage,
+#captureCanvas {
   width: 75px;
   display: inline-block;
   vertical-align: top;
@@ -165,10 +173,17 @@ body,html {
     font-size: 15px;
 }
 
-#b4 {
-  display: none;
+#captureCanvas {
+    background-color: green;
 }
 
+#imageGallery {
+    padding: 3px;
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
+    background-color: silver;
+}
 </style>
 
 <script src="/js/jquery-1.7.1.js"></script>
@@ -276,7 +291,7 @@ $(document).ready(function() {
   $(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',
 	             myFractalImages[myFractalImageId],startMove);
 
-  //Log.Remove();
+  Log.Remove();
 });
 </script>
 
@@ -381,6 +396,7 @@ $(document).ready(function() {
   <option value="44">44 binary divide</option>
   <option value="45">45 binary divide 2</option>
   <option value="46">Binary Divide with color</option>
+  <option value="47">43.5 (Alpha Adjust)</option>
  </select>
 </li>
 
@@ -469,6 +485,7 @@ $(document).ready(function() {
    <option value="20">20</option>
    <option value="21">21</option>
    <option value="22">22</option>
+   <option value="23">23</option>
   </select>
 </li>
 <li class="expand">
@@ -589,7 +606,13 @@ $(document).ready(function() {
          value="Stop Animation" >Stop</button>
  </div>
 </li>
-
+<li>
+ <label for="b5" id="buttonControl4">Capture:</label>
+ <div id="captureCanvas">
+ <button id="b5" name="b5" onClick="captureCanvas2('image/png')"
+        value="Canvas to PNG" >PNG</button>
+ </div>
+</li>
 
 </ul>
 </fieldset>
@@ -612,6 +635,6 @@ $(document).ready(function() {
  <canvas id="currentColors"
          height="0" width="0">Your browser doesn't support canvas</canvas>
 </div>
-
+<div id="imageGallery"></div>
 </body>
 </html>

@@ -452,6 +452,9 @@ var calculateRect = function (evt)  {
 	rectTmp.end.y = rectMaxY;
 }
 
+
+var FormGlobal;
+
 var processForm = function () {
 	var colorOffsetAmount=parseInt($('#colorOffsetAmount').val());
 	var fractalImageId=parseInt($('#fractalImageId').val());
@@ -472,8 +475,9 @@ var processForm = function () {
 	var finiteMeasure = parseFloat($('#finiteMeasure').val());
 	var finiteMeasureFunction = parseInt($('#finiteMeasureFunction option:selected').val());
 	var counterMax = parseInt($('#counterMax').val());
-	var id = parseInt($('#animationFunctionId option:selected').val())
-	return {
+	var id = parseInt($('#animationFunctionId option:selected').val());
+
+	FormGlobal = {
 		id:id,
 		timeout:parseInt($('#timeout').val()),
 		data:{
@@ -500,6 +504,8 @@ var processForm = function () {
 			hslOrHsb:$('#hslOrHsb option:selected').val()
 		}
 	};
+	
+	return FormGlobal;
 };
 
 var startAnimationPre = function() {
@@ -546,4 +552,54 @@ var reDrawImage = function () {
 	fractal.calculateHeightAndWidth(newFactor);
 	fractal.calculateCounters(data);
 	return fractal.continueAnimation;
+};
+
+var captureCanvas = function (type) {
+	var formData = processForm();
+	var data = formData.data;
+	var objId = data.objId;
+	var fractal = myFractalImages[objId];
+
+	var resolve = function(imageData) {
+		$('#imageGallery').append('<img height="20" src="' + imageData + '">');
+		return imageData.length;
+	}
+
+	var reject = function (msg) {
+		return msg;
+	}
+
+	var writeImage = new Promise(function(resolve, reject) {
+
+		var imageData = fractal.canvas.toDataURL(type,1.0)
+	});
+/*	});
+
+	writeImage.then(function(result) {
+		console.log(result);
+	}, function(err) {
+		console.log(err);
+	}); */
+
+};
+
+var imageData;
+var captureHandle;
+
+var resolve = function() {
+	if (imageData) {
+		$('#imageGallery').append('<img height="20" src="' + imageData + '">');
+		clearInterval(captureHandle);
+	}
+}
+
+var captureCanvas2 = function (type) {
+
+	var formData = processForm();
+	var data = formData.data;
+	var objId = data.objId;
+	var fractal = myFractalImages[objId];
+	imageData = fractal.canvas.toDataURL(type,1.0);
+	captureHandle = setInterval('resolve()', 1000);
+
 };
