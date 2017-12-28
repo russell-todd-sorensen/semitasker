@@ -452,6 +452,9 @@ var calculateRect = function (evt)  {
 	rectTmp.end.y = rectMaxY;
 }
 
+
+var FormGlobal;
+
 var processForm = function () {
 	var colorOffsetAmount=parseInt($('#colorOffsetAmount').val());
 	var fractalImageId=parseInt($('#fractalImageId').val());
@@ -472,8 +475,9 @@ var processForm = function () {
 	var finiteMeasure = parseFloat($('#finiteMeasure').val());
 	var finiteMeasureFunction = parseInt($('#finiteMeasureFunction option:selected').val());
 	var counterMax = parseInt($('#counterMax').val());
-	var id = parseInt($('#animationFunctionId option:selected').val())
-	return {
+	var id = parseInt($('#animationFunctionId option:selected').val());
+
+	FormGlobal = {
 		id:id,
 		timeout:parseInt($('#timeout').val()),
 		data:{
@@ -500,6 +504,8 @@ var processForm = function () {
 			hslOrHsb:$('#hslOrHsb option:selected').val()
 		}
 	};
+	
+	return FormGlobal;
 };
 
 var startAnimationPre = function() {

@@ -2806,3 +2806,85 @@ addToPixels[46] = function (data) {
 	fractal.animationIndex += amount;
 	return fractal.continueAnimation;
 };
+
+addToPixels[47] = function (data) {
+	var objId = data.objId;
+	var animationSteps = data.amount;
+	var fractal = myFractalImages[objId];
+	var counter;
+	var pixelJump = data.pixelJump;
+	var context = fractal.context;
+	var lineCount = 0;
+	var x1,x2,height1,height2,pixelIndex,offset,counter1,counter2;
+	var Rows = fractal.rowPolygons;
+	var row,point;
+	var colors = new Array(fractal.counterMax);
+
+	for (var i = 0; i<=fractal.counterMax;i++)
+	{
+		colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
+	}
+
+	pixelColors[data.pixelColorsId](data);
+
+	if (fractal.animationRow%fractal.height == 0)
+	{ // clear the decks
+		for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+				 p+=pixelJump)
+		{
+			counter = fractal.counters[p];
+			fractal.pixels[p+0] = fractal.colors[counter].r;
+			fractal.pixels[p+1] = fractal.colors[counter].g;
+			fractal.pixels[p+2] = fractal.colors[counter].b;
+			fractal.pixels[p+3] = 255;
+
+		}
+
+		drawColors(data);
+
+		context.putImageData(fractal.imageData,0,0);
+	}
+
+	context.save();
+	context.lineWidth = 1;
+	context.globalAlpha = 0.45;
+	//context.globalCompositeOperation = 'destination-in';
+
+	for (var rowIndex = fractal.animationRow%fractal.height; rowIndex < Rows.length; rowIndex++)
+	{
+		row = Rows[rowIndex];
+		point = 0;
+
+		while (point < row.length-1) {
+			x1 = row[point][0];
+			x2 = row[point+1][0];
+			counter1 = row[point][1];
+			height1 = scaleCounter[data.scaleCounterId](counter1);
+			context.beginPath();
+			context.moveTo(x1,rowIndex-height1);
+
+			if ((x2-x1) > 1) {
+				context.lineTo(x1,rowIndex);
+				context.lineTo(x2,rowIndex);
+				context.lineTo(x2,rowIndex-height1);
+				context.strokeStyle = fractal.colors[counter1].hex;
+				context.closePath();
+				context.fillStyle = 'rgba(255,255,255,.75)';
+				context.fill();
+				context.stroke();
+			} else {
+				context.lineTo(x1,rowIndex);
+				context.strokeStyle = fractal.colors[counter1].hex;
+				context.stroke();
+			}
+
+			point++;
+		}
+		break;
+	}
+
+	context.restore();
+	fractal.animationIndex += animationSteps;
+	fractal.animationRow++;
+	return fractal.continueAnimation;
+};
