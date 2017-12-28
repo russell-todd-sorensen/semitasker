@@ -62,8 +62,24 @@ var MacFarlaneLordLyon_HG = "#285800";
 var MacFarlaneLordLyon_P = "#780078";
 var MacFarlaneLordLyon_W = "#E0E0E0";
 
+var Anderson_AL = "#48A4C0"; // Anderson Blue
+var Anderson_K  = "#101010"; // Black
+var Anderson_GO = "#BC8C00"; // Dark Gold
+var Anderson_DG = "#003820"; // Dark Green
+var Anderson_NB = "#003C64"; // Navy Blue
+var Anderson_R  = "#C80000"; // Red
+var Anderson_W  = "#E0E0E0"; // White
+var Anderson_DY = "#E8C000"; // Gold
+var Anderson_G  = "#006818"; // Green
+var Anderson_B  = "#2C2C80"; // Blue
+
 
 dataset[dataset.length] = ["Choose a Tartan Pattern", []];
+
+dataset[dataset.length] = ["Anderson", [[Anderson_R, 6], [Anderson_AL, 12], [Anderson_R, 4], [Anderson_K, 4], [Anderson_R, 4], [Anderson_AL, 36],
+	[Anderson_K, 6], [Anderson_W, 6], [Anderson_K, 6], [Anderson_DY, 4], [Anderson_K, 4], [Anderson_DY, 4], [Anderson_K, 8], [Anderson_R, 4], [Anderson_B, 8], [Anderson_R, 6], 
+	[Anderson_G, 12], [Anderson_R, 4], [Anderson_G, 12], [Anderson_R, 8]
+]];
 
 dataset[dataset.length] = ["MacFarlane Dress", [[MacFarlaneDress_DB, 8], [MacFarlaneDress_CW, 4], [MacFarlaneDress_R, 12],
  	[MacFarlaneDress_K, 2], [MacFarlaneDress_DB, 24], [MacFarlaneDress_DG, 8], [MacFarlaneDress_DB, 4], [MacFarlaneDress_R, 12],
