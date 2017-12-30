@@ -335,3 +335,213 @@ scaleCounter[24] = function (value) {
 	  return 1;
 	}
 };
+
+scaleCounter[25] = function (value) {
+
+	var remainder = value % 10;
+	var mappedValue;
+	switch (remainder) {
+	case 0:
+		mappedValue = 5;
+		break;
+	case 1:
+		mappedValue = 20;
+		break;
+	case 2:
+		mappedValue = 30;
+		break;
+	case 3:
+		mappedValue = 10;
+		break;
+	case 4:
+		mappedValue = 40;
+		break;
+	default:
+		mappedValue = 0;
+		break;
+	}
+	return mappedValue;
+
+};
+
+scaleCounter[26] = function (value) {
+
+	var remainder = value % 5;
+	var mappedValue;
+	var scale = 1;
+	var tmpValue = parseInt(value);
+
+	while (tmpValue/2 > 1) {
+		scale *= 2;
+		tmpValue /= 2;
+	}
+
+	switch (remainder) {
+	case 0:
+		mappedValue = 5;
+		break;
+	case 1:
+		mappedValue = 20;
+		break;
+	case 2:
+		mappedValue = 30;
+		break;
+	case 3:
+		mappedValue = 10;
+		break;
+	case 4:
+		mappedValue = 40;
+		break;
+	default:
+		mappedValue = 0;
+		break;
+	}
+
+	return parseInt(5*mappedValue/scale);
+};
+
+scaleCounter[27] = function (value) {
+
+	var remainder = value % 5;
+	var mappedValue;
+	var scale = 1;
+	var finalValue;
+	var tmpValue = parseInt(value);
+
+	while (tmpValue/2 > 1) {
+		scale += 2;
+		tmpValue /= 2;
+	}
+
+	switch (remainder) {
+	case 0:
+		mappedValue = 5;
+		break;
+	case 1:
+		mappedValue = 20;
+		break;
+	case 2:
+		mappedValue = 30;
+		break;
+	case 3:
+		mappedValue = 10;
+		break;
+	case 4:
+		mappedValue = 40;
+		break;
+	default:
+		mappedValue = 0;
+		break;
+	}
+
+	if (value < 20) {
+		finalValue = parseInt(mappedValue/scale);
+	} else if (value < 50) {
+	  	finalValue = parseInt(2*mappedValue/scale);
+	} else {
+		finalValue = parseInt(5*mappedValue/scale);
+	}
+	return finalValue;
+};
+
+scaleCounter[28] = function (value) {
+
+	var mappedValue;
+	var scale = 1;
+	var finalValue;
+	var tmpValue = parseInt(value);
+
+	mappedValue = 20;
+
+	while (tmpValue/2 > 1) {
+		scale += 2;
+		tmpValue /= 2;
+	}
+
+	mappedValue -= scale;
+
+	finalValue = mappedValue;
+	return finalValue;
+};
+
+scaleCounter[29] = function (value) {
+
+	var mappedValue;
+	var scale = 1;
+	var finalValue;
+	var tmpValue = parseInt(value);
+
+	mappedValue = 100;
+
+	if (value %2 == 0) {
+		mappedValue /= 2;
+	}
+
+	while (tmpValue/2 > 1) {
+		scale += 2;
+		tmpValue /= 2;
+	}
+
+	mappedValue -= scale;
+
+	finalValue = mappedValue;
+	return finalValue;
+};
+
+scaleCounter[30] = function (value) {
+
+	var mappedValue;
+	var scale = 1;
+	var finalValue;
+	var tmpValue = parseInt(value);
+
+	mappedValue = 70;
+
+	if (value %2 == 0) {
+		mappedValue /= 2;
+	}
+
+	while (tmpValue/2 > 1) {
+		scale *= 2;
+		tmpValue /= 2;
+	}
+
+	mappedValue -= scale;
+
+	finalValue = mappedValue;
+
+	return finalValue;
+};
+
+scaleCounter[31] = function (value) {
+
+	var mappedValue;
+	var scale = 1;
+	var finalValue;
+	var tmpValue = parseInt(value);
+
+	mappedValue = 70;
+
+	if (value %2 == 0) {
+		mappedValue /= 2;
+	}
+
+	while (tmpValue/2 > 1) {
+		scale *= 2;
+		tmpValue /= 2;
+	}
+
+	mappedValue -= scale;
+
+	finalValue = mappedValue;
+
+	if (finalValue < 0) {
+		if (value %2 == 0) {
+			finalValue = 0
+		} else {
+			finalValue = 5;
+		}
+	}
+
+	return finalValue;
+};
