@@ -25,7 +25,7 @@ set data [chan read $fd]
 close $fd
 set data [string map {\t ,} $data]
 
-set csvFileName "doc-invoice-december-temp.csv"
+set csvFileName "hom-invoices-january-2018-temp.csv"
 
 set fdout [open [file join $dataDirectory $csvFileName] w+]
 puts -nonewline $fdout $data
@@ -326,7 +326,7 @@ foreach dataLine $invoiceLines {
 	append iifFile [join $dataLine \t]\n
 }
 
-set finalIIFfileName "invoices-final-december.iif"
+set finalIIFfileName "invoices-final-january.iif"
 
 set fdout2 [open [file join $dataDirectory $finalIIFfileName] w+]
 puts -nonewline $fdout2 $iifFile
