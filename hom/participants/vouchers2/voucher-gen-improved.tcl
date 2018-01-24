@@ -115,6 +115,10 @@ set nameList2(CUST) [string map [list CTYPE $ctypeField TERMS $termsField JOBTYP
 
 set invoiceLines [list]
 
+ns_log Error "UPDATE voucher-gen-improved.tcl with the CLASS of each invoice"
+error "UPDATE INVOICE WITH CLASS"
+return -code return
+
 set invoiceHeader1 [split [string map {\t ,} "!HDR	PROD	VER	REL	IIFVER	DATE	TIME	ACCNTNT	ACCNTNTSPLITTIME"] ,]
 set invoiceHeader2 [split [string map {\t ,} "HDR	QuickBooks Desktop Pro	Version 27.0D	Release R5P	1	2017-07-29	1501191278	N	0"] ,]
 set invoiceHeader3 [split [string map {\t ,} "!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	TOPRINT	NAMEISTAXABLE	ADDR1	ADDR2	ADDR3	ADDR4	ADDR5	DUEDATE	TERMS	PAID	PAYMETH	SHIPVIA	SHIPDATE	OTHER1"] ,]

@@ -1,6 +1,6 @@
 set db [ns_db gethandle pool1]
 ns_log Notice "db = '$db'"
-set result [ns_db select $db "select * from hom_vehicles order by vehicle_id"]
+set result [ns_db select $db "select * from hom_vehicles where disp_on is null order by vehicle_id"]
 ns_log Notice "result = '$result'"
 set row 0
 set output "<table cellspacing='0' cellpadding='3' border='1'>\n"
