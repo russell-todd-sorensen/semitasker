@@ -545,3 +545,36 @@ scaleCounter[31] = function (value) {
 
 	return finalValue;
 };
+
+scaleCounter[32] = function (value) {
+
+	var mappedValue;
+	var scale = 1;
+	var finalValue;
+	var tmpValue = parseInt(value);
+
+	mappedValue = 70;
+
+	if (value %2 == 0) {
+		mappedValue /= 2;
+	}
+
+	while (tmpValue/2 > 1) {
+		scale *= 2;
+		tmpValue /= 2;
+	}
+
+	mappedValue -= scale;
+
+	finalValue = mappedValue;
+
+	if (finalValue < 0) {
+		if (value %2 == 0) {
+			finalValue = 0
+		} else {
+			finalValue = 5;
+		}
+	}
+
+	return finalValue;
+};
