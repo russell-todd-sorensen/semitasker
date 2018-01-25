@@ -11,53 +11,134 @@
 <script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
 <script>
 
+var ids = ['ↀ','ↁ','ↂ','Ↄ','ↄ','ↅ','ↆ','ↇ','ↈ']; //these dont always work
+
+var idString = '\u2180\u2181\u2182\u2183\u2184\u2185\u2186\u2187\u2188';
+var ids = idString.split("");
+
+function loadGliphs() {
+	$('#s1').text('');
+	for (var g in ids) {
+		console.log('g=' + g + ' gliph=' + ids[g]);
+		//$('#g' + g + '.s::before').css({'content': ids[g]});
+		//document.querySelector('#g' + g + ':before').style.content = ids[g];
+
+		$('#s1').append("\n#g" + g + "::before {content: '" + ids[g] + "'}");
+	}
+}
+
 $(document).ready(function() {
 		document.getElementById('t-1').text = '\u2188\u2180\u2181\u2187';
 		$('#r').html('\u2188\u2180\u2181\u2187');
+		$('#r2').html('\u2188\u2182\u2182\u2182\u2182\u2180\u2180\u2180\u2180')
 		console.log('\u2188');
+		console.log('\u8584');
 		console.log('\u2188\u2180\u2181\u2187.html')
 });
 </script>
+<style id="s0">
 
-<style>
 body {
 	font-family: unlock, fantasy;
 }
+
+#r {
+	font-size: 3em;
+	width: 125px;
+	margin: auto;
+}
+
+#r2 {
+	font-size: 3em;
+	width: 410px;
+	margin: auto;
+}
+
 td {
 	border: collapse;
 	padding: 5px;
+	font-size: 24px;
 }
+
 .s {
 	padding: 10px;
+}
+
+.s::before {
 	color: #444;
 	font-size: 35px;
+	font-family: unlock, fantasy;
+}
+
+</style>
+
+<style id='s1'>
+#g0::before {
+	content: 'ↀ';
+}
+
+#g1::before {
+	content: 'ↁ'
+}
+
+#g2::before {
+	content: 'ↂ'
+}
+
+#g3::before {
+	content: 'Ↄ'
+}
+
+#g4::before {
+	content: 'ↄ'
+}
+
+#g5::before {
+	content: 'ↅ'
+}
+
+#g6::before {
+	content: 'ↆ'
+}
+
+#g7::before {
+	content: 'ↇ'
+}
+
+#g8::before {
+	content: 'ↈ'
 }
 
 </style>
 
 </head>
 <body>
-<h2 id='r'></h2>
+
+<h2 id='r' title='14400'></h2>
+<h2 id='r2' title='14400'></h2>
+
 <table>
 <tr>
-<td class='s'>ↀ	<td>8576	<td class='s'>ↀ	<td>2180	<td>ROMAN NUMERAL ONE THOUSAND C D
+<td class='s' id='g0'>	<td>2180	<td>ROMAN NUMERAL ONE THOUSAND C D
 <tr>
-<td class='s'>ↁ	<td>8577	<td class='s'>ↁ	<td>2181	<td>ROMAN NUMERAL FIVE THOUSAND
+<td class='s' id='g1'>	<td>2181	<td>ROMAN NUMERAL FIVE THOUSAND
 <tr>
-<td class='s'>ↂ	<td>8578	<td class='s'>ↂ	<td>2182	<td>ROMAN NUMERAL TEN THOUSAND
+<td class='s' id='g2'>	<td>2182	<td>ROMAN NUMERAL TEN THOUSAND
 <tr>
-<td class='s'>Ↄ	<td>8579	<td class='s'>Ↄ	<td>2183	<td>ROMAN NUMERAL REVERSED ONE HUNDRED
+<td class='s' id='g3'>	<td>2183	<td>ROMAN NUMERAL REVERSED ONE HUNDRED
 <tr>
-<td class='s'>ↄ	<td>8580	<td class='s'>ↄ	<td>2184	<td>LATIN SMALL LETTER REVERSED C
+<td class='s' id='g4'>	<td>2184	<td>LATIN SMALL LETTER REVERSED C
 <tr>
-<td>ↅ	<td>8581	<td class='s'>ↅ	<td>2185	<td>ROMAN NUMERAL SIX LATE FORM
+<td class='s' id='g5'>	<td>2185	<td>ROMAN NUMERAL SIX LATE FORM
 <tr>
-<td class='s'>ↆ	<td>8582	<td class='s'>ↆ	<td>2186	<td>ROMAN NUMERAL FIFTY EARLY FORM
+<td class='s' id='g6'>	<td>2186	<td>ROMAN NUMERAL FIFTY EARLY FORM
 <tr>
-<td class='s'>ↇ	<td>8583	<td class='s'>ↇ	<td>2187	<td>ROMAN NUMERAL FIFTY THOUSAND
+<td class='s' id='g7'>	<td>2187	<td>ROMAN NUMERAL FIFTY THOUSAND
 <tr>
-<td class='s'>ↈ	<td>8584	<td class='s'>ↈ	<td>2188	<td>ROMAN NUMERAL ONE HUNDRED THOUSAND
+<td class='s' id='g8'>	<td>2188	<td>ROMAN NUMERAL ONE HUNDRED THOUSAND
 <tr>
 </table>
+<button onclick="loadGliphs()" value="Load Gliphs">Load Gliphs</button><br>
+<a href='%E2%86%88%E2%86%80%E2%86%81%E2%86%87.html'>%E2%86%88%E2%86%80%E2%86%81%E2%86%87.html</a>
 </body>
 </html>
