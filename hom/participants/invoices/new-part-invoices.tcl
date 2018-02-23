@@ -8,7 +8,7 @@ set absolutePath [file join $pageroot [string trimleft $directory /]]/
 ns_log Notice "absolutePath='$absolutePath' dir='[file dirname $absolutePath]'"
 set dataDirectory [file join [file dirname $absolutePath] website-data data]
 ns_log Notice "dataDirector='$dataDirectory'"
-set iifFile [file join $dataDirectory "EVERYTHING.IIF"]
+set csvFile [file join $dataDirectory "everything.csv"]
 set patternList [split $requestedFile ".-_ "]
 set firstPattern "*[lindex $patternList 0]*"
 set matchedFiles [list]
@@ -17,22 +17,13 @@ set statsHtml [list]
 set exceptionList [list]
 
 
-set fd [open $iifFile r ]
+set fd [open $csvFile r ]
 set data [chan read $fd]
-close $fd
-set data [string map {\t ,} $data]
-
-set csvFileName "hom-invoices-march-2018-temp.csv"
-
-set fdout [open [file join $dataDirectory $csvFileName] w+]
-puts -nonewline $fdout $data
-chan seek $fdout 0
-set dataFound 0
 
 set dataArrayList [list]
 set invoiceLines [list]
 
-while {[set cols [ns_getcsv $fdout line]] > -1} {
+while {[set cols [ns_getcsv $fd line]] > -1} {
 
     set continue 0
     set type [lindex $line 0]
@@ -235,6 +226,9 @@ foreach participant [lsort [array names CUST]] {
         set invItem "Program Fee:. $house"
 
         switch -glob -nocase -- $company {
+        	"*GENERATE INVOICES*" {
+        		
+        	}
         	"*NO PROGRAM FEES*" {
         		set fees "0.00"
         		set skipFurtherProcessing 1

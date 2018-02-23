@@ -8,7 +8,7 @@ while {[ns_db getrow $db $result]} {
     if {$row == 0} {
         append output "  <tr>\n"
         for {set i 0} {$i < [ns_set size $result]} {incr i} {
-            append output "    <th>[ns_set key $result $i]</th>\n"
+            append output "    <th><nobr>[ns_set key $result $i]</nobr></th>\n"
         }
         append output "  </tr>\n"
     }
@@ -19,9 +19,9 @@ while {[ns_db getrow $db $result]} {
     for {set i 0} {$i < [ns_set size $result]} {incr i} {
         if {[ns_set key $result $i] == "vehicle_id"} {
             append output "    <td><a href='one-vehicle.tcl?vehicle_id=[ns_set value $result $i]'>"
-            append output "[ns_set value $result $i]</a></td>\n"
+            append output "<nobr>[ns_set value $result $i]</nobr></a></td>\n"
         } else {
-            append output "    <td>[ns_set value $result $i]</td>\n"
+            append output "    <td><nobr>[ns_set value $result $i]</nobr></td>\n"
         }
     }
     
