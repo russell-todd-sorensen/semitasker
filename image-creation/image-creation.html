@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Image Creation in JavaScript</title>
+<link rel="stylesheet" href="main.css" type="text/css">
+<script language="javascript" src="../js/jquery-v141.js"></script>
+<script language="javascript">
+ 
+ var log;
+ var myImage = new Image();
+ var prop = myImage.toString();
+ 
+ myImage.src = "../images/rgb-5x5.png";
+ var height = myImage.height;
+ var width = myImage.width;
+ 
+ 
+ function doImageStuff () {
+	 
+	 var elem = document.getElementById('myCanvas');
+	 var imageData;
+	 
+	 if (!elem || !elem.getContext) {
+		 log.append('doImageStuff: elem or elem.getContext not found\n');
+		 return;
+	 }
+	 
+	 var context = elem.getContext('2d');
+	 
+	 if (!context || !context.putImageData) {
+		 log.append('doImageStuff: context or context.putImageData not found\n');
+		 return;
+	 }
+	 
+	 if (context.createImageData) {
+		 log.append('doImageStuff: context.createImage exists\n');
+		 imageData = context.createImageData (height, width);
+	 } else if (context.getImageData) {
+		 imageData = context.getImageData(0, 0, width, height);
+		 log.append('doImageStuff: context.getImageData exists\n');
+	 } else {
+		 log.append('doImageStuff: using default image creation method\n');
+		 imageData = {'width': width, 'height': height, 'data':new Array(width*height*4)};
+	 }
+	 
+	 var pixels = imageData.data;
+	 var rVal = Math.floor(255);
+	 var gVal = Math.floor(0);
+	 var bVal = Math.floor(0);
+	 var aVal = Math.floor(128);
+	 
+	 for (var i=0, n=pixels.length; i<n; i+=4) {
+		 
+		 pixels[parseInt(i)+parseInt(0)] = rVal;
+		 pixels[parseInt(i)+parseInt(1)] = gVal;
+		 pixels[parseInt(i)+parseInt(2)] = bVal;
+		 pixels[parseInt(i)+parseInt(3)] = aVal;
+		 log.append('pixels[' + parseInt(i+0) + '] - pixels[' + parseInt(i+3) + ']=' + 
+		 pixels[parseInt(i)+parseInt(0)] + ' ' + pixels[parseInt(i)+parseInt(1)] + ' ' + pixels[parseInt(i)+parseInt(2)] + ' ' + pixels[parseInt(i)+parseInt(3)] + '\n');
+	 }
+	 context.putImageData(imageData, 0, 0);
+ }
+ 
+  function doImageStuff2 (id) {
+	 
+	 var elem = document.getElementById(id);
+	 var imageData;
+	 
+	 if (!elem || !elem.getContext) {
+		 log.append('doImageStuff2: elem or elem.getContext not found\n');
+		 return;
+	 }
+	 
+	 var context = elem.getContext('2d');
+	 
+	 if (!context || !context.putImageData) {
+		 log.append('doImageStuff2: context or context.putImageData not found\n');
+		 return;
+	 }
+	 
+	 if (context.createImageData) {
+		 log.append('doImageStuff2: context.createImage exists\n');
+		 imageData = context.createImageData (height, width);
+	 } else if (context.getImageData) {
+		 imageData = context.getImageData(0, 0, width, height);
+		 log.append('doImageStuff2: context.getImageData exists\n');
+	 } else {
+		 log.append('doImageStuff2: using default image creation method\n');
+		 imageData = {'width': width, 'height': height, 'data':new Array(width*height*4)};
+	 }
+	 
+	 var pixels = imageData.data;
+	 var rVal = Math.floor(255);
+	 var gVal = Math.floor(0);
+	 var bVal = Math.floor(0);
+	 var aVal = Math.floor(128);
+	 
+	 for (var i=0, n=pixels.length; i<n; i+=4) {
+		 
+		 //pixels[parseInt(i)+parseInt(0)] = rVal;
+		 //pixels[parseInt(i)+parseInt(1)] = gVal;
+		 //pixels[parseInt(i)+parseInt(2)] = bVal;
+		 //pixels[parseInt(i)+parseInt(3)] = aVal;
+		 log.append('pixels[' + parseInt(i+0) + '] - pixels[' + parseInt(i+3) + ']=' + 
+		 pixels[parseInt(i)+parseInt(0)] + ' ' + pixels[parseInt(i)+parseInt(1)] + ' ' + pixels[parseInt(i)+parseInt(2)] + ' ' + pixels[parseInt(i)+parseInt(3)] + '\n');
+	 }
+	 context.putImageData(imageData, 0, 0);
+ }
+// This runs at after the document is 'ready'
+$(document).ready(function() {
+	log = $('#log');
+	log.append('Document Ready\n');
+	log.append('prop = ' + prop + '\n');
+	log.append('myImage.height=' + height + '\n');
+	log.append('myImage.width=' + width + '\n');
+	doImageStuff();
+	doImageStuff2('myImg');
+
+});
+</script>
+ 
+<style>
+ body {
+     background-color: silver;
+ }
+ 
+</style>
+</head>
+<body>
+<p>Canvas 1:</p>
+<canvas id="myCanvas" height="5" width="5">Your browser doesn't support canvas</canvas>
+
+<p>5x5 rgb:</p>
+<img id="myImg" src="../images/rgb-5x5.png">
+
+<p>Canvas 2:</p>
+<canvas id="myCanvas2" height="60" width="468"></canvas>
+<img src="../images/circle-2.svg">
+<p>Canvas 3:</p>
+<canvas id="myCanvas3" height="100" width="100" >
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   width="468"
+   height="60"
+   id="svg2454">
+  <defs
+     id="defs2456">
+    <linearGradient
+       id="linearGradient2502">
+      <stop
+         id="stop2504"
+         style="stop-color:#800000;stop-opacity:1"
+         offset="0" />
+      <stop
+         id="stop2506"
+         style="stop-color:#800000;stop-opacity:0"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       x1="48.333332"
+       y1="30.833334"
+       x2="109.16667"
+       y2="30.833334"
+       id="linearGradient2508"
+       xlink:href="#linearGradient2502"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     id="layer1">
+    <path
+       d="M 109.16667,30.833334 A 30.416668,29.166668 0 1 1 109.15984,30.215435"
+       id="path2464"
+       style="fill:url(#linearGradient2508);fill-opacity:1" />
+  </g>
+</svg>
+ </canvas>
+<img src="../images/3d-gradient-1.svg">
+<pre id="log">Log:</pre>
+
+
+</body>
+</html>

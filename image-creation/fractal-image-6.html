@@ -1,0 +1,138 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Fractal Image Creation in JavaScript</title>
+<link rel="stylesheet" href="main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+<style>
+
+body {
+
+}
+#myCanvas {
+    border: 1px solid black;
+}
+
+
+#mPoints rect {
+  height: .0033px;
+  width: .0033px;
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script language="javascript">
+
+var height = 100;
+var width = 100;
+var points = new Array();
+
+function calculatePoints () {
+
+	//var cX = -0.1;
+	//var cY =  0.1;
+	var rect = {
+		start: {
+			x: -1.5,
+			y: -1.0
+		},
+		end: {
+			x: 1.0,
+			y: 1.0
+		}
+	}
+
+	var counter;
+	var finite;
+	for (var x = rect.start.x; x < rect.end.x; x+=1/width) {
+		for (var y = rect.start.y; y < rect.end.y ; y+=1/height) {
+			counter = 0;
+			finite = true;
+			newX = x;
+			newY = y;
+			tmpX = x;
+			tmpY = y;
+			cY = y;
+			cX = x;
+			while (counter < 255 && finite) {
+
+				newY = cY +  2 * tmpX * tmpY;
+				newX = cX + (-1 * tmpY * tmpY) + tmpX * tmpX;
+        tmpX = newX;
+				tmpY = newY;
+				if (Math.abs(newX*newY) > 5) {
+					finite = false;
+				}
+				counter++;
+			}
+
+			points[points.length] = {x:x,y:y,counter:counter,finite:finite}
+			//Log.Notice('points.counter=' + points[points.length-1].counter +'points.x=' + points[points.length-1].x + 'points.y=' + points[points.length-1].y );
+		}
+	}
+
+}
+
+function animatePoints(id) {
+	var g = d3.select('#' + id);
+
+	g.selectAll('rect')
+	 .data(points)
+	 .enter()
+	 .append('rect')
+	 .attr('height',1/height)
+	 .attr('width',1/height)
+	 .attr('x', function(d,i) {return d.x})
+	 .attr('y', function(d,i) {return d.y})
+	 .attr('fill', function(d,i) {
+		 return 'rgb(' + Math.abs((255-40*d.counter)%255)
+		 		+ ',' + Math.abs((255-40*d.counter)%255)
+		 		+ ',' + Math.abs((255-40*d.counter)%255)
+				+ ')';
+	 })
+}
+
+// This runs at after the document is 'ready'
+$(document).ready(function() {
+
+	Log.Notice('Document Ready');
+ // calculatePoints();
+	//animatePoints('mPoints');
+
+});
+</script>
+
+
+
+</head>
+<body>
+
+<svg id="svg" x="0" y="0" height="2500" width="2500" viewBox="0 0 2500 2500">
+<defs>
+
+<circle id="c1" r="1" stroke="none" stroke-width="0" >
+
+</circle>
+</defs>
+
+<g transform="translate(200,200) scale(2000)" id="mPoints" >
+
+
+</g>
+
+</svg>
+
+</body>
+</html>

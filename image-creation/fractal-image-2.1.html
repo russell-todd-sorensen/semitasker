@@ -1,0 +1,173 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Fractal Image Creation in JavaScript</title>
+<link rel="stylesheet" href="main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+<style>
+
+body {
+
+}
+#myCanvas {
+    border: 1px solid black;
+}
+
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script language="javascript">
+
+function finalizeImage() {
+	prop = myImage.toString();
+	height = myImage.height;
+	width = myImage.width;
+	Log.Notice('prop = ' + prop + '');
+	Log.Notice('myImage.height=' + height + '');
+	Log.Notice('myImage.width=' + width + '');
+	doImageStuff();
+}
+
+var myImage = new Image(1001,1001);
+var prop;
+var height;
+var width;
+
+function doImageStuff () {
+
+	 var canvas = document.getElementById('myCanvas');
+	 var imageData;
+
+	 if (!canvas || !canvas.getContext) {
+		 Log.Notice('doImageStuff: canvas or canvas.getContext not found');
+		 return;
+	 }
+
+	 var context = canvas.getContext('2d');
+
+	 if (!context || !context.putImageData) {
+		 Log.Notice('doImageStuff: context or context.putImageData not found');
+		 return;
+	 }
+
+	 if (!context.createImageData) {
+		 Log.Notice('doImageStuff: context.createImage exists');
+		 imageData = context.createImageData (height, width);
+	 } else if (context.getImageData) {
+		 imageData = context.getImageData(0, 0, width, height);
+		 Log.Notice('doImageStuff: context.getImageData exists length=' + imageData.data.length);
+	 } else {
+		 Log.Notice('doImageStuff: using default image creation method');
+		 imageData = {'width': width, 'height': height, 'data':new Array(width*height*4)};
+	 }
+
+	 var pixels = imageData.data;
+	 var rVal = Math.floor(255);
+	 var gVal = Math.floor(0);
+	 var bVal = Math.floor(0);
+	 var aVal = Math.floor(128);
+
+	 for (var i=0, n=pixels.length; i<n; i+=4) {
+
+		 pixels[i+0] = 255;
+		 pixels[i+1] = 255;
+		 pixels[i+2] = 255;
+		 pixels[i+3] = 255;
+	 }
+	  var cX = .001;
+		var cY = .001;
+	  var newX, newY, newP;
+		for (var x = -1; x < 1; x+=1/width) {
+			for (var y = 1; y > -1 ; y-=1/height) {
+				newY = Math.round(height/2*(1 + cY +  2 * x * y));
+				newX = Math.round(width/2*(1 + cX + (-1 * y * y) + x * x));
+				newP = newY * width + newX;
+				currentIndex = 4*(width*newY + newX);
+				//pixels[newP] = 255;
+				pixels[currentIndex+0] = 0;
+				pixels[currentIndex+1] = 0;
+				pixels[currentIndex+2] = 0;
+				pixels[currentIndex+3] = 255;
+				//Log.Notice('x=' + x + ' newX=' + newX + ' y=' + y + ' newY=' + newY + ' newP=' + newP);
+			}
+		}
+
+		context.putImageData(imageData, 0, 0);
+ }
+
+  function doImageStuff2 (id) {
+
+	 var canvas = document.getElementById(id);
+	 var imageData;
+
+	 if (!canvas || !canvas.getContext) {
+		 Log.Notice('doImageStuff: canvas or canvas.getContext not found');
+		 return;
+	 }
+
+	 var context = canvas.getContext('2d');
+
+	 if (!context || !context.putImageData) {
+		 Log.Notice('doImageStuff: context or context.putImageData not found');
+		 return;
+	 }
+
+	 if (!context.createImageData) {
+		 Log.Notice('doImageStuff: context.createImage exists');
+		 imageData = context.createImageData (height, width);
+	 } else if (context.getImageData) {
+		 imageData = context.getImageData(0, 0, width, height);
+		 Log.Notice('doImageStuff: context.getImageData exists');
+	 } else {
+		 Log.Notice('doImageStuff: using default image creation method');
+		 imageData = {'width': width, 'height': height, 'data':new Array(width*height*4)};
+	 }
+
+	 var pixels = imageData.data;
+	 var rVal = Math.floor(255);
+	 var gVal = Math.floor(0);
+	 var bVal = Math.floor(0);
+	 var aVal = Math.floor(128);
+
+	 for (var i=0, n=pixels.length; i<n; i+=4) {
+
+		 pixels[i] = rVal;
+		 pixels[i+1] = gVal;
+		 pixels[i+2] = bVal;
+		 pixels[i+3] = aVal;
+	 }
+	 context.putImageData(imageData, 0, 0);
+ }
+// This runs at after the document is 'ready'
+$(document).ready(function() {
+
+	Log.Notice('Document Ready');
+
+	finalizeImage();
+
+});
+</script>
+
+
+
+</head>
+<body>
+
+<canvas id="myCanvas" height="1001" width="1001"><img id="myImg" src="../images/rgb-5x5.png">Your browser doesn't support canvas</canvas>
+
+
+<div id="regular-image"><img id="myImg" src="../images/rgb-5x5.png"></div>
+</body>
+</html>
