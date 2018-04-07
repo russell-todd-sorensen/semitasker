@@ -16,13 +16,12 @@ set matchingFileList [list]
 set statsHtml [list]
 set exceptionList [list]
 
-
 set fd [open $iifFile r ]
 set data [chan read $fd]
 close $fd
 set data [string map {\t ,} $data]
 
-set csvFileName "hom-invoices-march-2018-temp.csv"
+set csvFileName "hom-invoices-april-2018-temp.csv"
 
 set fdout [open [file join $dataDirectory $csvFileName] w+]
 puts -nonewline $fdout $data
@@ -164,14 +163,13 @@ proc classForHouse {house} {
 	return [list $CLASS $REFNUM]
 }
 
-set invoiceDate "03/01/2018"
-set monthNumber 3
-set month "Mar"
-set monthFull "March"
+set invoiceDate "04/01/2018"
+set monthNumber 4
+set month "Apr"
+set monthFull "April"
 set year "2018"
 set invoiceNumber 1
 set terms "Due by the 1st of Mo"
-ns_log Notice "what is up"
 
 proc programFeeVoucher {house company fees monthNumber} {
 
@@ -284,7 +282,8 @@ foreach participant [lsort [array names CUST]] {
         		set fees [programFeePerHouse $house $company $monthNumber]
         	}
 	        "*FARESTART*" -
-	        "HEN" {
+	        "HEN" -
+	        "RISE" {
 		        set fees [programFeePerHouse $house $company $monthNumber]
 	        }
 	        "*ELECHA*" -

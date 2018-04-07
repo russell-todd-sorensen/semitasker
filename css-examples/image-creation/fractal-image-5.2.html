@@ -1,0 +1,154 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Fractal Image Creation in JavaScript</title>
+<link rel="stylesheet" href="main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+<style>
+
+body {
+
+}
+#myCanvas {
+    border: 1px solid black;
+}
+
+#container {
+    border: 1px solid black;
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script language="javascript">
+
+var height = 100;
+var width = 100;
+var points = new Array();
+
+function calculatePoints () {
+
+	var cX = -0.1;
+	var cY =  0.1;
+	var rect = {
+		start: {
+			x: -2.025,
+			y: -1.25
+		},
+		end: {
+			x: 0.70,
+			y: 1.25
+		}
+	}
+
+	var counter;
+	var finite;
+	for (var x = rect.start.x; x < rect.end.x; x+=1/width) {
+		for (var y = rect.start.y; y < rect.end.y ; y+=1/height) {
+			counter = 0;
+			finite = true;
+			newX = x;
+			newY = y;
+			tmpX = x;
+			tmpY = y;
+			cY = y;
+			cX = x;
+			while (counter < 255 && finite) {
+				newY = cY +  2 * tmpX * tmpY;
+				newX = cX + (-1 * tmpY * tmpY) + tmpX * tmpX;
+                tmpX = newX;
+				tmpY = newY;
+				//if (Math.abs(newX*newY) > 5) {
+                if ((newX*newX + newY*newY) > 16) {
+					finite = false;
+				}
+				counter++;
+			}
+
+			points[points.length] = {cx:x,cy:y,counter:counter,finite:finite}
+			//Log.Notice('points.counter=' + points[points.length-1].counter +'points.cx=' + points[points.length-1].cx + 'points.cy=' + points[points.length-1].cy );
+		}
+	}
+
+}
+
+function animatePoints(id) {
+	var g = d3.select('#' + id);
+
+	g.selectAll('circle')
+	 .data(points)
+	 .enter()
+	 .append('circle')
+	 .attr('r',0.5/height)
+	 .attr('cx', function(d,i) {return d.cx})
+	 .attr('cy', function(d,i) {return d.cy})
+	 .attr('fill', function(d,i) {
+		 return 'rgb(' + Math.abs((255-40*d.counter)%255)
+		 		+ ',' + Math.abs((255-40*d.counter)%255)
+		 		+ ',' + Math.abs((255-40*d.counter)%255)
+				+ ')';
+	 })
+}
+
+var i = 0;
+function animatePoints2(id) {
+	var g = d3.select('#' + id);
+	var point;
+
+	for (var r = 0; i<points.length || r<10000; i++,r++) {
+		point = points[i];
+		g.append('circle')
+	 		.attr('r',0.5/height)
+	 		.attr('cx',point.cx)
+	 		.attr('cy', point.cy)
+	 		.attr('fill','rgb(' + Math.abs((255-40*point.counter)%255)
+		 		+ ',' + Math.abs((255-40*point.counter)%255)
+		 		+ ',' + Math.abs((255-40*point.counter)%255)
+				+ ')');
+	}
+}
+
+// This runs at after the document is 'ready'
+$(document).ready(function() {
+
+	Log.Notice('Document Ready');
+  calculatePoints();
+	Log.Notice('points calculated length ='  + points.length);
+	animatePoints('mPoints');
+
+});
+</script>
+
+
+
+</head>
+<body>
+<div id="container">
+<svg id="svg" x="-1000" y="-1000" height="2000" width="2000" viewBox="-2 -2 2 2">
+<defs>
+
+<circle id="c1" r="1" stroke="none" stroke-width="0" >
+
+</circle>
+</defs>
+
+<g transform="translate(-0.45,-1.00) scale(.25) translate(-4.0,-2.7)" id="mPoints" >
+
+
+</g>
+
+</svg>
+</div>
+</body>
+</html>

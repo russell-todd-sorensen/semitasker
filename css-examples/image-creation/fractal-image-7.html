@@ -1,0 +1,265 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Fractal Image Creation in JavaScript</title>
+<link rel="stylesheet" href="main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+<style>
+
+body {
+  font-family:"Lucida Console", Monaco, monospace;
+}
+#myCanvas {
+    border: 1px solid black;
+}
+#z {
+    zoom: 4;
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="js/fractal-image-7.js"></script>
+<script language="javascript">
+
+var rect2 = {
+	start: {
+		x: -2.0,
+		y: -1.5
+	},
+	end: {
+		x: 1.5,
+		y: 1.5
+	}
+};
+
+var rect3 = {
+	start: {
+		x: -0.7462,
+		y:  0.1229
+	},
+	end: {
+		x: -0.7458,
+		y:  0.1231
+	}
+};
+
+var rect = {
+	start: {
+		x: -0.750,
+		y:  0.120
+	},
+	end: {
+		x: -0.740,
+		y:  0.125
+	}
+};
+
+var rect = {
+	start: {
+		x: -0.9,
+		y:  0.1
+	},
+	end: {
+		x: -0.7,
+		y:  0.2
+	}
+};
+
+var rect = {
+	start: {
+		x: -2.0,
+		y: -0.2
+	},
+	end: {
+		x: -1.5,
+		y: 0.2
+	}
+};
+function finalizeImage() {
+  prop = myImage.toString();
+  Log.Notice('prop = ' + prop + '');
+  Log.Notice('myImage.height=' + height + '');
+  Log.Notice('myImage.width=' + width + '');
+  doImageStuff();
+}
+
+var width, height;
+var factor = 1.2
+
+function calculateHeightAndWidth (newFactor) {
+	if (newFactor <= 2 || newFactor >= .2) {
+		factor = newFactor;
+	}
+	var dx = rect.end.x - rect.start.x;
+	var dy = rect.end.y - rect.start.y;
+	var heightToWidthRatio = dy/dx;
+
+	if (heightToWidthRatio >=1 ) {
+
+		width = 1000*factor;
+		height = width * heightToWidthRatio;
+	} else {
+		height = 500*factor;
+		width = height / heightToWidthRatio;
+	}
+}
+
+calculateHeightAndWidth(1.2);
+
+
+var myImage = new Image(width,height);
+var prop;
+var canvas,imageData,context;
+
+function drawImage() {
+
+   canvas = document.getElementById('myCanvas');
+   canvas.setAttribute('height',height);
+   canvas.setAttribute('width',width);
+
+   if (!canvas || !canvas.getContext) {
+     Log.Notice('doImageStuff: canvas or canvas.getContext not found');
+     return;
+   }
+
+   context = canvas.getContext('2d');
+
+   if (!context || !context.putImageData) {
+     Log.Notice('doImageStuff: context or context.putImageData not found');
+     return;
+   }
+
+   if (!context.createImageData) {
+     Log.Notice('doImageStuff: context.createImage exists');
+     imageData = context.createImageData (height, width);
+   } else if (context.getImageData) {
+     imageData = context.getImageData(0, 0, width, height);
+     Log.Notice('doImageStuff: context.getImageData exists length=' + imageData.data.length);
+   } else {
+     Log.Notice('doImageStuff: using default image creation method');
+     imageData = {'width': width, 'height': height, 'data':new Array(width*height*4)};
+   }
+
+   var pixels = imageData.data;
+
+   for (var i=0, n=pixels.length; i<n; i++) {
+     pixels[i] = 255;
+   }
+
+  var counter;
+  var finite;
+  var value;
+  var col = 0;
+  var row = height-1;
+  var print = 0;
+  var index = 0;
+  var currentIndex;
+  var numbers = d3.select('#numbers');
+
+  for (var x = rect.start.x, col = 0; col<width && x < rect.end.x ; x+=Math.abs((rect.end.x-rect.start.x)/width), col++) {
+    for (var y = rect.start.y, row=height-1;row >= 0 && y < rect.end.y; y+=Math.abs((rect.end.y-rect.start.y)/height), row-- ) {
+      counter = 0;
+      finite = true;
+      newX = x;
+      newY = y;
+      tmpX = x;
+      tmpY = y;
+      cY = y;
+      cX = x;
+      while (counter < 255 && finite) {
+
+        newY = cY +  2 * tmpX * tmpY;
+        newX = cX + (-1 * tmpY * tmpY) + tmpX * tmpX;
+        tmpX = newX;
+        tmpY = newY;
+        if (Math.abs(tmpX*tmpY) > 5) {
+          finite = false;
+        }
+        counter++;
+      }
+
+      value = Math.abs(255-3*counter)%255;
+
+      currentIndex = 4*(width*row + col);
+      if (currentIndex%10000 == 0) {
+        //Log.Notice('index=' + index +  ' currentIndex=' + currentIndex + ' row=' + row + ' col=' + col );
+      }
+      //numbers.append('li').text(index + ' currentIndex=' + currentIndex +  ' row=' + row + ' col=' + col + ' counter=' + counter + ' x=' + x + ' y=' + y);
+
+      pixels[currentIndex++] = value;
+      pixels[currentIndex++] = value;
+      pixels[currentIndex++] = value%counter;
+      pixels[currentIndex] = 255
+      index++;
+    }
+  }
+  context.putImageData(imageData, 0, 0);
+}
+
+function addToPixels(amount) {
+
+  var pixels = imageData.data
+  var modulus
+  for (var p = 0;p<pixels.length; p++) {
+    modulus = (p+1)%4;
+    if (modulus == 0) continue;
+    pixels[p] = (255 + pixels[p] + amount*modulus)%255;
+  }
+
+  Log.Notice('addToPixels amount=' + amount);
+  context.putImageData(imageData,0,0);
+
+}
+
+
+var continueAnimation = true;
+
+function stopAnimation() {
+  continueAnimation = false;
+}
+
+function startAnimation(timeout, amount) {
+  continueAnimation = true;
+  if (timeout < 10) timeout = 10;
+  scheduleFunction(doAddToPixels, timeout, true, true, amount);
+}
+
+function doAddToPixels(amount) {
+  addToPixels(amount);
+  return continueAnimation;
+}
+
+// This runs at after the document is 'ready'
+$(document).ready(function() {
+
+  Log.Notice('Document Ready');
+
+  drawImage();
+
+});
+</script>
+
+
+
+</head>
+<body>
+<div id="zx">
+<canvas id="myCanvas" height="50" width="100"><img id="myImg" src="../images/rgb-5x5.png">Your browser doesn't support canvas</canvas>
+</div>
+
+<div id="regular-image"><img id="myImg" src="../images/rgb-5x5.png"></div>
+<ol id="numbers"></ol>
+</body>
+</html>

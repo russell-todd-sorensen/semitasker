@@ -1,0 +1,313 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Fractal Image Creation in JavaScript</title>
+<link rel="stylesheet" href="main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+<style>
+
+body {
+
+}
+#myCanvas {
+    border: 1px solid black;
+    border: none;
+}
+
+#container {
+    border: 1px solid black;
+    border: none;
+}
+
+#circle {
+    fill: green;
+
+}
+
+.ellip {
+    fill: url(#grad-1);
+}
+
+</style>
+
+<style id="s2">
+
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script language="javascript">
+
+var height = 50;
+var width = 60;
+var points = new Array();
+
+function calculatePoints () {
+
+	var cX = -0.1;
+	var cY =  0.1;
+	var rect = {
+		start: {
+			x: -2.10,
+			y: -1.22
+		},
+		end: {
+			x: 0.60,
+			y: 1.22
+		}
+	}
+/*    var rect = {
+        start: {
+            x: -1.50,
+            y: -.20
+        },
+        end: {
+            x: -1.40,
+            y: 0.20
+        }
+    }
+*/
+	var counter;
+	var finite;
+	for (var x = rect.start.x; x < rect.end.x; x+=1/width) {
+		for (var y = rect.start.y; y < rect.end.y ; y+=1/height) {
+			counter = 0;
+			finite = true;
+			newX = x;
+			newY = y;
+			tmpX = x;
+			tmpY = y;
+			cY = y;
+			cX = x;
+			while (counter < 256 && finite) {
+				newY = cY +  2 * tmpX * tmpY;
+				newX = cX + (-1 * tmpY * tmpY) + tmpX * tmpX;
+                tmpX = newX;
+				tmpY = newY;
+				//if (Math.abs(newX*newY) > 5) {
+				if (newX*newX+newY*newY > 256) {
+					finite = false;
+				}
+				counter++;
+			}
+            if (counter == 256) {
+				continue; // This makes the set points empty
+			}
+
+			points[points.length] = {cx:x,cy:y,counter:counter,finite:finite}
+			//Log.Notice('points.counter=' + points[points.length-1].counter +'points.cx=' + points[points.length-1].cx + 'points.cy=' + points[points.length-1].cy );
+		}
+	}
+
+    Log.Notice('-----point cx= = ' + points[points.length-1].cx + ' cy=' + points[points.length-1].cy );
+}
+
+function animatePoints(id) {
+	var g = d3.select('#' + id);
+
+	g.selectAll('circle')
+	 .data(points)
+	 .enter()
+	 .append('circle')
+	 .attr('r',0.5/height)
+     .attr('class',function(d,i) {return 'c-' + d.counter})
+	 .attr('cx', function(d,i) {return d.cx})
+	 .attr('cy', function(d,i) {return d.cy})
+	 .attr('fill', function(d,i) {
+		 return 'rgb(' + Math.abs((255-40*d.counter)%255)
+		 		+ ',' + Math.abs((255-40*d.counter)%255)
+		 		+ ',' + Math.abs((255-40*d.counter)%255)
+				+ ')';
+	 })
+}
+
+function animatePoints(id) {
+	var g = d3.select('#' + id);
+
+	g.selectAll('circle')
+	 .data(points)
+	 .enter()
+	 .append('circle')
+     .attr('class',function(d,i) {return 'c-' + d.counter})
+	 .attr('r',0.5/height)
+	 .attr('cx', function(d,i) {return Math.round(d.cx*1000000)/1000000})
+	 .attr('cy', function(d,i) {return Math.round(d.cy*1000000)/1000000})
+	 .attr('opacity', function(d,i) {
+		  return 1-Math.round((Math.abs((255-20*d.counter)%255)/255)*1000)/1000;
+	 })
+}
+
+function animatePoints(id) {
+	var g = d3.select('#' + id);
+
+	g.selectAll('ellipse')
+	 .data(points)
+	 .enter()
+	 .append('ellipse')
+     .attr('class',function(d,i) {return 'c-' + d.counter})
+	 .attr('ry',0.5/height)
+     .attr('rx',0.5/width)
+	 .attr('cx', function(d,i) {return Math.round(d.cx*1000000)/1000000})
+	 .attr('cy', function(d,i) {return Math.round(d.cy*1000000)/1000000})
+	 .attr('opacity', function(d,i) {
+		  return (1000-Math.round((Math.abs((255-20*d.counter)%255)/255)*1000))/1000;
+	 })
+}
+
+function animatePoints(id) {
+    var e = d3.select('#e1');
+    e;
+
+	var g = d3.select('#' + id);
+
+	g.selectAll('ellipse')
+	 .data(points)
+	 .enter()
+	 .append('ellipse')
+     .attr('ry',0.5/height)
+     .attr('rx',0.5/width)
+     //.attr('xlink:href','#e1')
+     .attr('class',function(d,i) {return 'ellip c-' + d.counter})
+	 .attr('cx', function(d,i) {return Math.round(d.cx*1000000)/1000000})
+	 .attr('cy', function(d,i) {return Math.round(d.cy*1000000)/1000000})
+	 .attr('opacity', function(d,i) {
+		  return (1000-Math.round((Math.abs((255-20*d.counter)%255)/255)*1000))/1000;
+	 })
+}
+
+var i = 0;
+
+function animatePoints2(id) {
+	var g = d3.select('#' + id);
+	var point;
+
+	for (var r = 0; i<points.length || r<10000; i++,r++) {
+		point = points[i];
+		g.append('circle')
+	 		.attr('r',0.5/height)
+	 		.attr('cx',point.cx)
+			.attr('opacity',(Math.round((1-point.counter/255)*1000))/1000);
+	 		//	+ ',' + Math.abs((255-40*point.counter)%255)
+		 	//	+ ',' + Math.abs((255-40*point.counter)%255)
+			//	+ ')');
+	}
+}
+
+
+function animateAgain(id) {
+	var g = d3.select('#' + id);
+
+	g.selectAll('circle')
+	 .data(points)
+	 .transition()
+	 .duration(4000)
+	 .delay(function (d,i) {
+	    return d.counter * 5;
+	 })
+	 .ease('bounce')
+	 .attr('r', function (d,i) {
+		 d.r = d3.select(this).attr('r');
+		 return .5*d.r;
+	 })
+	 .each('end', function (d,i) {
+		 var c = d3.select(this);
+		 d.r = c.attr('r');
+	   c
+		 	.transition()
+			.ease('bounce')
+			.delay(d.counter * 40)
+			.duration(4000)
+		 	.attr('r', d.r*2);
+	 });
+
+
+}
+// This runs at after the document is 'ready'
+$(document).ready(function() {
+
+	Log.Notice('Document Ready');
+    calculatePoints();
+	Log.Notice('points calculated length ='  + points.length);
+	animatePoints('mPoints');
+    //Log.Remove();
+});
+</script>
+
+<!--
+rgba(0,0,255,1);rgba(0,255,255,.7);rgba(0,255,0,.8);rgba(255,255,0,.9);rgba(255,0,0,.7);rbga(255,0,255,.8);rgba(0,0,255,1)
+-2.15 -2.15 .6 .6
+translate(-0.45,-1.00) scale(.20) translate(-4.65,-3.45)
+-->
+
+
+</head>
+<body>
+<div id="container">
+<svg
+    id="svg"
+    x="-1200"
+    y="-1500"
+    height="6000"
+    width="8000"
+    viewBox="-2.15 -2.15  .6 .6"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<animate attributeName="fill" begin="1s" steps="100" dur="20s"
+         values="rgba(0,0,255,1);rbga(0,255,0,.3);rgba(255,0,0,.7);rgba(0,0,255,1)"
+         repeatCount="indefinite" />
+<defs>
+
+
+<radialGradient id="grad-1" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop offset="0" stop-color="#FFFFFF" stop-opacity="1.0" />
+ <stop offset="0" stop-color="#000000" stop-opacity="0.1" >
+     <animate attributeName="offset" values="0;.7;0" dur="33s" repeatCount="indefinite" />
+     <animate attributeName="stop-color" begin="1s" steps="100" dur="21s"
+              values="rgba(0,0,255,1);rbga(0,255,0,.3);rgba(255,0,0,.7);rgba(0,0,255,1)"
+              repeatCount="indefinite" />
+     <animate attributeName="stop-opacity" values="0.1;1.0;0.1" dur="17s" repeatCount="indefinite" />
+</stop>
+ <stop offset="50%" stop-color="#000000" stop-opacity=".85" >
+     <animate attributeName="stop-color" begin="1s" steps="100" dur="35s"
+              values="rgba(100,0,255,1);rbga(0,255,0,.3);rgba(255,0,0,.7);rgba(100,0,255,1)"
+              repeatCount="indefinite" />
+     <animate attributeName="stop-opacity" values="0.85;0.2;0.85" dur="19s" repeatCount="indefinite" />
+</stop>
+ <stop offset="100%" stop-color="#000000" stop-opacity="0.3" >
+     <animate attributeName="offset" values="1;.3;1" dur="39s" repeatCount="indefinite" />
+     <animate attributeName="stop-color" begin="1s" steps="100" dur="43s"
+              values="rbga(0,255,0,.3);rgba(255,0,100,.7);rgba(0,0,255,1);rbga(0,255,0,.3)"
+              repeatCount="indefinite" />
+     <animate attributeName="stop-opacity" values="0.3;1.0;0.3" dur="23s" repeatCount="indefinite" />
+</stop>
+</radialGradient>
+
+
+<circle id="c1" r="1" stroke="none" stroke-width="0" >
+
+</circle>
+<ellipse id="e1" />
+
+</defs>
+
+<g transform="translate(-0.45,-1.00) scale(.20) translate(-6.65,-4.45)" id="mPoints" >
+
+</g>
+
+</svg>
+</div>
+</body>
+</html>
