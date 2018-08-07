@@ -1,0 +1,113 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Sudoku Test 8</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<style>
+
+#chars {
+    width: 1250px;
+}
+
+#chars div {
+    display: inline-block;
+    width: 100px;
+    height: 2em;
+    font-family: "consolas sans unicode";
+    font-size: 1.5em;
+    text-align: center;
+    border: .5px solid black;
+    border-collapse: collapse;
+    padding: 2px;
+    vertical-align: top;
+}
+
+.heading {
+    font-weight: bold;
+    text-align: center;
+}
+
+.detail {
+    font-weight: normal;
+    text-align: center;
+}
+
+</style>
+
+<style id="dynamic">
+
+</style>
+
+
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+
+<script>
+
+var showUnicodeChars = function(startId, endId) {
+    var startCode = parseInt($('#' + startId).val());
+    var endCode = parseInt($('#' + endId).val());
+    var tmpCode,char;
+
+    if (startCode > endCode) {
+        tmpCode = parseInt(0) + parseInt(endCode);
+        endCode = parseInt(0) + parseInt(startCode);
+        startCode = parseInt(0) + parseInt(tmpCode);
+    }
+
+    var charArray = new Array();
+
+    $('#chars').html("");
+
+    for (var i=startCode;i<=endCode;i++) {
+        charArray[i] = String.fromCharCode(i);
+    }
+
+    var startNumber = 10*Math.floor(startCode/10);
+
+    $('#chars').append("<div class='detail'>Base</div>");
+
+    for (var i=0;i<10;i++) {
+        $('#chars').append("<div class='heading'>" + i + "</div>");
+    }
+
+    $('#chars').append("<div class='heading'>" + startNumber + "</div>");
+
+    for (var i=startNumber;i < startCode;i++) {
+        $('#chars').append("<div class='detail'>&nbsp;</div>");
+    }
+
+    for (var i=startCode,j=(startCode-startNumber);i<=endCode;i++,j++) {
+        if ((j>0) && ((j%10) == 0)) {
+            $('#chars').append("<div class='heading'>" + (startNumber + j) + "</div>");
+        }
+        $('#chars').append("<div class='detail'>" + charArray[i] + "</div>");
+    }
+
+}
+
+$(document).ready(function() {
+  Log.Notice('Document Ready');
+  //Log.Remove();
+ });
+
+</script>
+
+</head>
+
+<body>
+
+<form id="form1" onSubmit="return false;">
+    <input type="number" id="start" name="start" size="10" placeholder="Enter starting unicode number">
+    <input type="number" id="end" name="end" size="10" placeholder="Enter ending unicode number">
+    <button id="doit" name="doit" onClick="showUnicodeChars('start','end')">Show Unicode Chars</button>
+</form>
+
+<div id="chars"></div>
+</body>
+</html>

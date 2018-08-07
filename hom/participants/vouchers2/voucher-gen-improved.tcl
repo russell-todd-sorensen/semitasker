@@ -163,10 +163,10 @@ proc classForHouse {house} {
 	return [list $CLASS $REFNUM]
 }
 
-set invoiceDate "04/01/2018"
-set monthNumber 4
-set month "Apr"
-set monthFull "April"
+set invoiceDate "05/01/2018"
+set monthNumber 5
+set month "May"
+set monthFull "May"
 set year "2018"
 set invoiceNumber 1
 set terms "Due by the 1st of Mo"
@@ -248,7 +248,7 @@ foreach participant [lsort [array names CUST]] {
         	"*RENT*"  {
         	    #lappend exceptionList "company='$company'"
         		if {[regexp {([0-9]+)( RENT)} $company all fees remain]} {
-        			ns_log Notice "!!!!!! company='$company' all='$all' pre='$pre' fees='$fees' remain-'$remain'"
+        			ns_log Notice "!!!!!! company='$company' all='$all' fees='$fees' remain-'$remain'"
         		} else {
         			set fees [programFeePerHouse $house $company $monthNumber]
         		}

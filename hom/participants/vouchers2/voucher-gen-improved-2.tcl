@@ -189,10 +189,10 @@ proc classForHouse {house} {
 	return [list $CLASS $REFNUM]
 }
 
-set invoiceDate "04/01/2018"
-set monthNumber 4
-set month "Apr"
-set monthFull "April"
+set invoiceDate "05/01/2018"
+set monthNumber 5
+set month "May"
+set monthFull "May"
 set year "2018"
 set invoiceNumber 1
 set terms "Due by the 1st of Mo"
@@ -236,7 +236,12 @@ proc programFeeVoucher {house company fees monthNumber} {
 
 proc get_gl_account_list {houseArrayName house ctype} {
 	upvar 1 $houseArrayName houses
-	array set myHouse $houses($house)
+	if {[info exists houses($house)]} {
+		array set myHouse $houses($house)
+	} else {
+		ns_log Error "Houses($house) does not exist..."
+		return
+	}
 	set owner $myHouse(owner)
 	set property $myHouse(property)
 	set account [list]
@@ -280,6 +285,11 @@ foreach participant [lsort [array names CUST]] {
 
         set company [set $companyField]
         set house [set $houseField]
+        if {![info exists House($house)]} {
+        	lappend exceptionList "<b style='color:red'>[set $nameField]</b> not handled House $house not mapped."
+        	continue
+        }
+        	
         #set splitAccount "Program Fees:Program Fees - $house"
         set account_list [get_gl_account_list House $house $ctype]
         set splitAccount [lindex $account_list 0]

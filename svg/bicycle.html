@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+
+<title>SemiTasker: Divide and Conquer!</title>
+
+<link rel="stylesheet" href="/css/main.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<style type="text/css">
+</style>
+
+<script src="/js/d3.v3.js" charset="utf-8"></script>
+<script src="/js/jquery-1.7.1.js" charset="utf-8"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" charset="utf-8"></script>
+<script src="/js/log-2.js" charset="utf-8"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+
+<script>
+
+
+$(document).ready(function() {
+	Log.Notice("jQuery Ready!");
+
+	//Log.Remove();
+});
+
+</script>
+<body>
+
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" x="0" y="0" width="1500" height="1700" viewBox="0 0 1500 1700">
+<defs>
+<linearGradient color-interpolation="sRGB" id="grad-1" spreadMethod="repeat">
+<stop stop-color="white" offset="0.0"></stop>
+<stop stop-color="brown" offset="0.5"></stop>
+<stop stop-color="yellow" offset="1.0"></stop>
+</linearGradient>
+<linearGradient id="grad-2" xlink:href="#grad-1" x1="0" y1="0" x2="100%" y2="100%"></linearGradient>
+<linearGradient id="grad-3" xlink:href="#grad-1" x1="0" y1="0" x2="0" y2="100%"></linearGradient>
+<path id="path-1" d="M 0 0 C 200 100 20 80 153 334 S-650 0 250 100 S280 200 0 400 Z" fill="none" stroke="orange"></path>
+</defs>
+
+<g transform="translate(250,80)"  id="meme">
+<text x="0" y="30" font-size="20" font-family="webdings" fill="url(#grad-3)" stroke="black" text-anchor="end" opacity="1.0">
+<textPath xlink:href="#path-1" startOffset="100%" transform="">
+ <animate attributeName="startOffset" from="1%" to="100%" begin="0s;move.end+10s" dur="20s" id="move"></animate>
+ b
+ <animate attributeName="font-size" from="50" to="300" begin="0s;move.end+10s" dur="6s" fill="freeze" id="fs1"></animate>
+ <animate attributeName="font-size" from="300" to="100" begin="fs1.end" dur="3s" fill="freeze" id="fs2"></animate>
+ <animate attributeName="font-size" from="100" to="520" begin="fs2.end" dur="9s" fill="freeze"></animate>
+ <animate attributeName="y" from="-50" to="0" dur="3s" fill="freeze" id="y" begin="0s"></animate>
+ <animate attributeName="opacity" values="1.0;0.0;1.0" dur="10s" begin="move.end" fill="freeze"></animate>
+ <animateTransform attributeName="transform" type="skewX" from="0.1" to="-1.0" dur="2s" begin="move.end"></animateTransform>
+ <animate attributeName="font-size" from="520" to="100" begin="move.end" dur="10s" fill="freeze"></animate>
+</textPath>
+</text>
+
+<use xlink:href="#path-1"></use>
+
+</g></svg>
+</body>
+</html>

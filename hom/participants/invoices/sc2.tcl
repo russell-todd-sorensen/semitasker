@@ -60,7 +60,7 @@ set path [file join $absolutePath $filename.IIF]
 ns_log Notice "PATH=$path"
 set custFd [open $path w+]
 
-puts -nonewline $custFd [join $invoiceLines \n]
+puts $custFd [join $invoiceLines \n]
 
 close $custFd
 

@@ -986,6 +986,7 @@ Data.Filters = [
   {url: "url(#posterize-000-1)", alt: "Posterize 000-1"},
   {url: "url(#posterize-000-2)", alt: "Posterize 000-2"},
   {url: "url(#posterize-000-3)", alt: "Posterize 000-3"},
+  {url: "url(#posterize-000-4)", alt: "Posterize 000-4 (T-Mobile)"},
   {url: "url(#posterize-0000)", alt: "Posterize 0000"},
   {url: "url(#posterize-1)", alt: "Posterize 1"},
   {url: "url(#posterize-2)", alt: "Posterize 2"},

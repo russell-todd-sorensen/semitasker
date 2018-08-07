@@ -1028,6 +1028,27 @@ $(document).ready(function () {
 </feComponentTransfer>
 </filter>
 
+<filter id="posterize-000-4">
+
+ <feColorMatrix type="saturate" values="0.0" />
+<feGaussianBlur stdDeviation=".75" >
+ <animate attributeName="stdDeviation"
+    values="1.0;2.0;1.0"
+    by="0.25"
+    dur="15s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>
+    <!--                         White ---------v
+                               Magenta---v v
+                                Black--v v v              -->
+ <feFuncR type="discrete" tableValues="0 0.755      1 0 0.755      1 0 0.755      1 0 0.755      1" />
+ <feFuncG type="discrete" tableValues="0 0          1 0 0          1 0 0          1 0 0          1" />
+ <feFuncB type="discrete" tableValues="0 0.17645   1 0 0.17645   1 0 0.17645   1 0 0.17645   1" />
+</feComponentTransfer>
+</filter>
+
 <filter id="posterize-0000">
  <feColorMatrix type="saturate" values="0.0" />
  <feGaussianBlur stdDeviation=".75" >

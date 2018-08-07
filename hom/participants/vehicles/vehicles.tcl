@@ -28,6 +28,6 @@ while {[ns_db getrow $db $result]} {
     append output "  </tr>\n"
 }
 
-append output "</table>\n"
+append output "</table>\n <a href='vehicles-to-csv.tcl'>CSV Output</a>"
 
 ns_return 200 text/html $output

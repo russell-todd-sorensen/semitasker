@@ -1,11 +1,13 @@
 <!DOCTYPE HTML>
-<html><head>
+<html lang="en-US">
+<head>
  <title>House of Mercy: Labels 8366</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link rel="stylesheet" href="/css/main.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<!--
 <link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
-
+-->
 <script src="/js/jquery-1.7.1.js"></script>
 <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
 <script src="/js/d3.v3.js"></script>
@@ -31,9 +33,12 @@
 	fill: white;
 	stroke: tan;
 	stroke-width: .5;
+	border-radius: 10px;
+}
+
+.label8366 {
 	rx: 10;
 	ry: 10;
-	
 }
 
 .house {
@@ -85,21 +90,22 @@
     border: 3px solid;
     cursor: pointer;
 }
+
 #label-12-pname {
 	font-size: 20px;
 }
 
-/* what not to show when printing */
-
 #notice {
 	color: red;
-	font-style: bold;
+	font-weight: bold;
 	width: 300px;
 	position: absolute;
 	right: 0;
 	top: 10px;
 	text-align: center;
 }
+
+/* what not to show when printing */
 
 @media print {
 	.page8366 {
@@ -112,14 +118,15 @@
 		display:none;
 	}
 	.label8366 {
-		stroke: black;
+		stroke: rgba(0,0,0,.5);
+		stroke-width: .25;
 	}
 	.null {
 		display: none;
 	}
 }
 </style>
-
+<!--<link rel="stylesheet" href="/css/box-model.css" />-->
 </head>
 <body>
 <div id="notice">When printing, remove headers, footers and margins</div>
@@ -143,6 +150,7 @@
    <label for="house" >House:</label>
    <select id="house" name="house" onChange="">
     <option value="">Blank</option>
+    <option value="1 Kings">1 Kings</option>
     <option value="Amos">Amos</option>
     <option value="Barnabas">Barnabas</option>
     <option value="Daniel">Daniel</option>
@@ -208,6 +216,7 @@
    height="1020"
    width="800"
    style="cursor: pointer;">
+
 <defs>
 
 </defs>

@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>One Cell</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" href="css/sudoku-max-2.css" media="all" type="text/css" >
+
+<style id="dynamic">
+
+#numberCell {
+    height: 100px;
+    width: 100px;
+    border: 5px solid rgba(0,0,0,.5);
+    position: relative;
+    display: inline-block;
+    background-color: yellow;
+}
+
+.optionCell {
+    display: inline-grid;
+    /*height: 33.33px;
+    width: 33.33px;*/
+    background-color: rgba(0,255,0,.5);
+    text-align: center;
+    border-top: 12px solid rgba(0,0,0,.1);
+    border-left: 20px solid rgba(0,0,0,0);
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+
+<script type="text/javascript" src="js/sudoku-max-2.js" ></script>
+<script type="text/javascript" src="js/controls.js"></script>
+
+<script>
+
+
+
+$(document).ready(function() {
+  Log.Notice('Document Ready');
+  //Log.Remove();
+ });
+</script>
+
+</head>
+
+<body>
+
+<div id="numberCell"><div
+     class="optionCell">1</div><div
+     class="optionCell">2</div><div
+     class="optionCell">3</div><div
+     class="optionCell">4</div><div
+     class="optionCell">5</div><div
+     class="optionCell">6</div><div
+     class="optionCell">7</div><div
+     class="optionCell">8</div><div
+     class="optionCell">9</div></div>
+
+</body>
+</html>

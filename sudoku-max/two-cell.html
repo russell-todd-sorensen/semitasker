@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>One Cell</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" href="css/sudoku-max-2.css" media="all" type="text/css" >
+
+<style id="dynamic">
+
+.numberCell {
+    height: 100px;
+    width: 100px;
+    border: 6px solid rgba(0,0,0,.2);
+    position: relative;
+    display: inline-block;
+    /*background-color: yellow;*/
+    vertical-align: top;
+    padding: 0;
+}
+
+.optionCell {
+    display: inline-grid;
+    /*height: 33.33px;
+    width: 33.33px;
+    border-top: 12px solid rgba(0,0,0,.1);
+    border-left: 20px solid rgba(0,0,0,0);
+    border: .5px solid black;
+    background-color: rgba(0,255,0,.5);*/
+    text-align: center;
+    width: 33.33%;
+    height: 26%;
+    padding-top: 7.33%;
+    padding-bottom: 0;
+    cursor: pointer;
+}
+.optionCell:hover {
+    background-color: rgba(0,128,0,.5);
+}
+.fixed {
+    font-size: 500%;
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+
+<script type="text/javascript" src="js/sudoku-max-2.js" ></script>
+<script type="text/javascript" src="js/controls.js"></script>
+<script type="text/javascript" src="js/ia-controls.js"></script>
+
+<script>
+
+$(document).ready(function() {
+  Log.Notice('Document Ready');
+  // Log.Remove();
+  setupSudoku();
+  setupOptionCells();
+ });
+</script>
+
+</head>
+
+<body>
+
+<div class="numberCell cell fixed box1 bold" id="C1">1</div>
+<div class="numberCell cell box1" id="C2"></div>
+<div class="numberCell cell box1" id="C3"
+     style="border-top-color: rgba(0, 0, 0, 1.0); border-right-color: rgba(0, 0, 0, 1.0);"></div>
+<div class="numberCell cell box2" id="C4"></div>
+<div class="numberCell cell box2" id="C5"></div>
+<div class="numberCell cell box2" id="C6"></div>
+<div class="numberCell cell fixed box3 bold" id="C7">5</div>
+<div class="numberCell cell box3" id="C8"></div>
+<div class="numberCell cell box3" id="C9"></div>
+
+<div class="numberCell cell box1" id="C10"></div>
+<div class="numberCell cell box1" id="C11"></div>
+<div class="numberCell cell box1" id="C12"></div>
+<div class="numberCell cell box2" id="C13"></div>
+<div class="numberCell cell box2" id="C14"></div>
+<div class="numberCell cell box2" id="C15"></div>
+<div class="numberCell cell fixed box3 bold" id="C16">8</div>
+<div class="numberCell cell box3" id="C17"></div>
+<div class="numberCell cell fixed box3 bold" id="C18">2</div>
+
+<div class="numberCell cell box1" id="C19"></div>
+<div class="numberCell cell box1" id="C20"></div>
+<div class="numberCell cell box1" id="C21"></div>
+<div class="numberCell cell fixed box2 bold" id="C22">9</div>
+<div class="numberCell cell box2" id="C23"></div>
+<div class="numberCell cell box2" id="C24"></div>
+<div class="numberCell cell box3" id="C25"></div>
+<div class="numberCell cell box3" id="C26"></div>
+<div class="numberCell cell box3" id="C27"></div>
+</body>
+</html>
