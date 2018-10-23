@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Frog Puzzle</title>
+<link rel="stylesheet" type="text/css" href="css/image-puzzle.css" media="all">
+<script type="text/javascript" src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="http://ic00408/js/log.js"></script>
+<script src="../../../../../../js/d3.v3.js"></script>
+<script type="text/javascript" src="js/image-puzzle.js"></script>
+<style type="text/css">
+/* place any page unique styles here */
+
+body {
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 1.2em;
+}
+
+th {
+    text-align: right;
+    text-transform: capitalize;
+}
+
+</style>
+<script>
+
+$(document).ready(function() {
+	
+	Log.Notice("jQuery Ready!");
+
+  Log.Hide();
+	
+});
+
+</script>
+</head>
+<body>
+
+<div id="picture"></div>
+<div id="puzzle"></div>
+
+
+
+<div id="form">
+<form>
+<table id="form-table">
+<tr>
+ <th>Image:</th>
+ <td><input id="image" name="image" value="images/frog-35.jpg" size="40" type="url"></td>
+</tr>
+<tr>
+ <th>Tile Size:</th>
+ <td><input id="tile-size" name="tileSize" value="75" type="number"></td>
+</tr>
+<tr>
+ <th>Rows &amp; Cols:</th>
+ <td><input id="rows-n-cols" name="rowsNCols" value="5" type="number"></td>
+</tr>
+<tr>
+ <th>Border:</th>
+ <td><input id="border" name="border" size="2" value="1" type="number"></td>
+</tr>
+<tr>
+<th colspan="2"><input id="button" onClick="processForm(this);" value="Click to Start Puzzle"></th>
+</tr>
+</table>
+</form>
+
+
+</div>
+</body>
+</html>

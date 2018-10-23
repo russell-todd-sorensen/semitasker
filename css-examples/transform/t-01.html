@@ -1,0 +1,57 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CSS Transforms Example 1</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<style>
+
+#chars {
+  background-color: tan;
+  height: 40px;
+  width: 40px;
+  transform-origin: 50% 50% 0;
+  transform: rotate(45deg) translateX(100px) scale(2.0, 2.0);
+  /*transform: scale(2.0,2.0) scale(3.0,3.0); */
+  font-size: 30px;
+  font-family: "Lucida Sans Unicode";
+  color: blue;
+}
+
+#chars:hover {
+  transition-duration: 3s;
+  transition-delay: 2s;
+  transition-property:
+  transform: translate(200px) rotate(30deg);
+  transform: translate(100px) rotate(0deg);
+}
+</style>
+
+<style id="dynamic">
+
+</style>
+
+
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+
+<script>
+
+
+$(document).ready(function() {
+  Log.Notice('Document Ready');
+  //Log.Remove();
+ });
+
+</script>
+
+</head>
+
+<body>
+<div id="chars">RS</div>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Frog Puzzle</title>
+<link rel="stylesheet" type="text/css" href="css/frog-puzzle.css" media="all">
+<script type="text/javascript" src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="http://ic00408/js/log.js"></script>
+<script src="../../../../../../js/d3.v3.js"></script>
+<style type="text/css">
+/* place any page unique styles here */
+
+#ll {
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    padding: 0px;
+    border: 5px solid #369;
+    background-color: tan;
+    background-image: url(images/frog-6.jpg);
+    background-origin:content-box;
+    background-position: 225px 200px; /* x y */
+    background-clip: padding-box;
+}
+
+#picture {
+    background-color: silver;
+    border: 6px solid #369;
+    padding: 0;
+    margin: 20px;
+    display: inline-block;
+    background-image: url(images/frog-6.jpg);
+    background-clip: padding-box;
+}
+
+#puzzle {
+    display: inline-block;
+    position: relative;
+    background-color: silver;
+    border: 6px solid #369;
+    padding: 0;
+    margin: 20px;
+}
+
+.tile {
+    position: absolute;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background-image: url(images/frog-6.jpg);
+    background-clip: padding-box;
+    border: 1px solid silver;
+}
+
+</style>
+<script>
+
+var frogImage = new Image();
+frogImage.src = "images/frog-6.jpg";
+
+var h = frogImage.height;
+var w = frogImage.width;
+
+function generatePuzzle (image) {
+	
+	var height = image.height;
+	var width = image.width;
+	var minDim = 50;
+	var rows = 5;
+	var cols = 5;
+	
+	var tileHeight, tileWidth;
+	var adjustedHeight, adjustedWidth;
+	
+	d3.select("#picture")
+		.style("width", width + "px")
+		.style("height", height + "px");
+	
+	// test out the puzzle dimensions vs minimum
+	while (cols > 0 && width/cols < minDim) {
+		Log.Notice("cols=" + cols + "width/cols=" + width/cols);
+		cols--;
+	}
+	
+	if (cols == 0) {
+		Log.Error("Cols is zero");
+		cols = 1;
+	}
+		
+	tileWidth = Math.floor(width/cols);
+	
+	while (rows > 0 && height/rows < minDim) {
+		rows--;
+	}
+	
+	if (rows == 0) {
+		Log.Error("Rows is zero");
+		rows = 1;
+	}
+	
+	tileHeight = Math.floor(height/rows);
+	
+	var puzzleWidth =  tileWidth * cols;
+	var puzzleHeight =  tileHeight * rows;
+	
+	Log.Notice("tileHeight=" + tileHeight + " tileWidth=" + tileWidth);
+	Log.Notice ("rows=" + rows + " cols=" + cols);
+	
+	var puzzle = d3.select('#puzzle')
+	 	.style("width",puzzleWidth + "px")
+		.style("height",puzzleHeight + "px");
+	var tileId;
+	var tileX, tileY;
+	
+	var tileData = new Array();
+	
+	
+	// create the tileData 
+	for (var row = 0; row<rows; row++) {
+		
+		for (var col = 0; col<cols; col++) {
+			var tmp = new Object();
+			tmp.row = row;
+			tmp.col = col;
+			tmp.tileId = "t-" + row + "-" + col;
+			tmp.class = "tile";
+			
+			tmp.tileX = tileWidth * col;
+			tmp.tileY = tileHeight * row;
+			
+			tileData[tileData.length] = tmp;
+		}
+	}
+	
+  puzzle.selectAll(".tile")
+	  .data(tileData)
+		.enter()
+		.append("div")
+		.attr("id", function(d,i) {return d.tileId;})
+		.attr("class", function(d,i) {return d.class;})
+		.style("bottom", function(d,i) {return d.tileY + "px";})
+		.style("right", function(d,i) {return d.tileX + "px";})
+		.style("height", function(d,i) {return tileHeight + "px";})
+		.style("width", function(d,i) {return tileWidth + "px";})
+		.style("background-position", function(d,i) {return "" + (d.tileX + tileWidth) + "px " + (d.tileY + tileHeight) + "px"; } );
+	
+
+	d3.selectAll(".tile")
+		.on("mousedown.drag", function(d,i,e) {
+			Log.Notice("dragging " + d3.select(this).attr("id") + "; i=" + i);
+			var me = d3.select(this);
+			return i;
+	  })
+		.on("mouseup", function(d,i,e) {
+			Log.Notice("dropping? " + d3.select(this).attr("id") + "; i=" + i + "; d=" + d);
+			var me = this;
+      return i;
+	  });
+}
+
+$(document).ready(function() {
+	Log.Notice("jQuery Ready!");
+	
+	var frogImage = new Image();
+  frogImage.src = "images/frog-6.jpg";
+
+  var h = frogImage.height;
+  var w = frogImage.width;
+  
+  Log.Notice("frogImage.src=" + frogImage.src);
+	Log.Notice("height =" + h + " width=" + w);
+	generatePuzzle(frogImage);
+	//Log.Hide();
+});
+
+</script>
+</head>
+<body>
+
+<div id="ll"></div>
+<div id="picture"></div>
+<div id="puzzle"></div>
+
+</body>
+</html>

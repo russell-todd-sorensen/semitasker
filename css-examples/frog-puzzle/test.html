@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<link rel="stylesheet" type="text/css" href="css/frog-puzzle.css" media="all">
+<script type="text/javascript" src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="http://ic00408/js/log.js"></script>
+<script src="../../../../../../js/d3.v3.js"></script>
+<style type="text/css">
+/* place any page unique styles here */
+
+#ll {
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    padding: 0px;
+    border: 5px solid #369;
+    background-color: tan;
+    background-image: url(images/frog-6.jpg);
+    background-origin:content-box;
+    background-position: 225px 200px; /* x y */
+    background-clip: padding-box;
+}
+
+#show {
+    height: 100px;
+    width: 200px;
+    background-color: #369;
+}
+</style>
+<script>
+
+var index = 0;
+var on = false;
+$(document).ready(function() {
+	Log.Notice("jQuery Ready!");
+	
+	var frogImage = new Image();
+  frogImage.src = "images/frog-6.jpg";
+
+  var h = frogImage.height;
+  var w = frogImage.width;
+  
+  Log.Notice("frogImage.src=" + frogImage.src);
+	Log.Notice("height =" + h + " width=" + w);
+
+ d3.select("#ll")
+ 	.data([ 
+		{ on:false, toDelete: [] }
+  ]);
+	
+
+  d3.select("#ll")
+	  .on("mouseover", function(d,i) {
+			
+			var evt = d3.event;
+
+			Log.Notice("event over #ll at x=" + evt.x + " y=" + evt.y + " index=" + index);
+			
+			if (on == true) {
+				Log.Notice("Already on index=" + index);
+				return;
+			} else {
+				Log.Notice("Turning On i=" + index);
+				on = true;
+			}
+			
+			d.toDelete[d.toDelete.length] = "#info" + index;
+			
+			d3.select("#show")
+			 .append("div")
+			  .attr("id", "info" + index)
+			  .style("background-color", "tan")
+				.style("height", "100px")
+				.style("width", "100px")
+				.text("x=" + evt.x + " y=" + evt.y  + " index=" + index);
+			
+			Log.Notice("div added index=" + index);
+			index++;
+		})
+		.on("mouseout", function(d,i) {
+			on = false;
+			Log.Notice("Turning off");
+			for (var j = 0; j<d.toDelete.length;j++) {
+				
+				d3.select(d.toDelete[j])
+				.transition()
+				.duration(1000)
+				.style("opacity", 0)
+				.remove();
+			}
+		});
+		
+});
+
+</script>
+</head>
+
+<body>
+
+<div id="ll"></div>
+
+<div id="show"></div>
+</body>
+</html>

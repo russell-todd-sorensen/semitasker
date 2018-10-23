@@ -1,0 +1,53 @@
+#picture {
+    display: inline-block;
+    margin: 20px;
+    padding: 0;
+    background-color: silver;
+    border: 6px solid #369;
+}
+
+#puzzle {
+    position: relative;
+    display: inline-block;
+    margin: 20px;
+    padding: 0;
+    background-color: silver;
+    border: 6px solid #369;
+}
+
+.tile {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    border-style: solid;
+    border-color: silver;
+    border-width: 1px;
+}
+
+#show {
+    height: 100px;
+    width: 200px;
+    background-color: #369;
+}
+
+#button {
+    width: 250px;
+    margin: auto;
+    margin-top: 25px;
+    padding: 5px;
+    border: 4px solid silver;
+    background-color: #369;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: tan;
+    color: red;
+    font-family: "Lucida Console", Monaco, monospace;
+    white-space: pre;
+    width: 100px;
+}

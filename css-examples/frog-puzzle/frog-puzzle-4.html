@@ -1,0 +1,278 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Frog Puzzle</title>
+<link rel="stylesheet" type="text/css" href="css/frog-puzzle.css" media="all">
+<script type="text/javascript" src="http://ic00408/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="http://ic00408/js/log.js"></script>
+<script src="../../../../../../js/d3.v3.js"></script>
+<style type="text/css">
+/* place any page unique styles here */
+
+#ll {
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    padding: 0px;
+    border: 5px solid #369;
+    background-color: tan;
+    background-image: url(images/frog-6.jpg);
+    background-origin:content-box;
+    background-position: 225px 200px; /* x y */
+    background-clip: padding-box;
+}
+
+#picture {
+    background-color: silver;
+    border: 6px solid #369;
+    padding: 0;
+    margin: 20px;
+    display: inline-block;
+    background-image: url(images/frog-6.jpg);
+    background-clip: padding-box;
+}
+
+#puzzle {
+    display: inline-block;
+    position: relative;
+    background-color: #555;
+    border: 6px solid #369;
+    padding: 0;
+    margin: 20px;
+}
+
+.tile {
+    position: absolute;
+    border: 0;
+    padding: 0;
+    margin: 0;
+    background-image: url(images/frog-6.jpg);
+    background-clip: padding-box;
+    border: 2px solid silver;
+}
+
+#show {
+    height: 100px;
+    width: 200px;
+    background-color: #369;
+}
+
+#button {
+    width: 250px;
+    border: 4px solid silver;
+    margin: auto;
+    margin-top: 25px;
+    padding: 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: #369;
+}
+</style>
+<script>
+
+var frogImage = new Image();
+frogImage.src = "images/frog-6.jpg";
+
+//var h = frogImage.height;
+//var w = frogImage.width;
+
+//var on = {showId: 0, showInfo: false, toDelete: []};
+
+
+function generatePuzzle (image) {
+	
+	var height = image.height;
+	var width = image.width;
+	var minDim = 75;
+	var rows = 4;
+	var cols = 4;
+	
+	var tileHeight, tileWidth;
+	var adjustedHeight, adjustedWidth;
+	
+	d3.select("#picture")
+		.style("width", width + "px")
+		.style("height", height + "px");
+	
+	// test out the puzzle dimensions vs minimum
+	while (cols > 0 && width/cols < minDim) {
+		Log.Notice("cols=" + cols + "width/cols=" + width/cols);
+		cols--;
+	}
+	
+	if (cols == 0) {
+		Log.Error("Cols is zero");
+		cols = 1;
+	}
+		
+	tileWidth = Math.floor(width/cols);
+	
+	while (rows > 0 && height/rows < minDim) {
+		rows--;
+	}
+	
+	if (rows == 0) {
+		Log.Error("Rows is zero");
+		rows = 1;
+	}
+	
+	tileHeight = Math.floor(height/rows);
+	
+	var puzzleWidth =  tileWidth * cols;
+	var puzzleHeight =  tileHeight * rows;
+	
+	Log.Notice("tileHeight=" + tileHeight + " tileWidth=" + tileWidth);
+	Log.Notice ("rows=" + rows + " cols=" + cols);
+	
+	var puzzle = d3.select('#puzzle')
+	 	.style("width",puzzleWidth + "px")
+		.style("height",puzzleHeight + "px");
+	var tileId;
+	var tileX, tileY;
+	
+	var tileData = new Array();
+	var puzzleDropzone = new Array();
+	
+	// create the tileData 
+	for (var row = 0; row<rows; row++) {
+		puzzleDropzone[row] = new Array();
+		for (var col = 0; col<cols; col++) {
+			var tmp = new Object();
+			tmp.row = row;
+			tmp.col = col;
+			tmp.tileId = "t-" + row + "-" + col;
+			tmp.class = "tile";
+			
+			tmp.tileX = tileWidth * col;
+			tmp.tileY = tileHeight * row;
+			
+			tileData[tileData.length] = tmp;
+			//puzzleDropzone[row][col] = {right: tmp.tileX + tileWidth, bottom: tmp.tileY + tileHeight, tileId: tmp.tileId};
+			puzzleDropzone[row][col] = {right: tmp.tileX, bottom: tmp.tileY, tileId: tmp.tileId};
+		}
+	}
+	
+  puzzle.selectAll(".tile")
+	  .data(tileData)
+		.enter()
+		.append("div")
+		.attr("id", function(d,i) {return d.tileId;})
+		.attr("class", function(d,i) {return d.class;})
+		.style("bottom", function(d,i) {return d.tileY + "px";})
+		.style("right", function(d,i) {return d.tileX + "px";})
+		.style("height", function(d,i) {return tileHeight + "px";})
+		.style("width", function(d,i) {return tileWidth + "px";})
+		.style("background-position", function(d,i) {return "" + (d.tileX + tileWidth) + "px " + (d.tileY + tileHeight) + "px"; } );
+	
+  // remove the empty piece
+	var empty = puzzleDropzone[0][cols-1];
+	d3.select("#" + empty.tileId).remove();
+	empty.tileId = "empty";
+
+	d3.selectAll(".tile")
+
+		.on("click", function(d,i,e) {
+			var event = d3.event;
+
+			origRow = d.row;
+			origCol = d.col;
+			
+			// figure out which direction the piece is going
+			var moveTo = [rows,cols];
+			var foundMoveTo = false;
+			while (true) {
+
+				if (d.row+1 < rows && puzzleDropzone[d.row+1][d.col].tileId == "empty") {
+					moveTo = [d.row+1, d.col];
+					foundMoveTo = true;
+					break;
+				}
+				if (d.row-1 >= 0 && puzzleDropzone[d.row-1][d.col].tileId == "empty"){
+					moveTo = [d.row-1, d.col];
+					foundMoveTo = true;
+					break;
+				}
+				if (d.col+1 < cols && puzzleDropzone[d.row][d.col+1].tileId == "empty") {
+					moveTo = [d.row, d.col+1];
+					foundMoveTo = true;
+					break;
+				}
+				if (d.col-1 >= 0 && puzzleDropzone[d.row][d.col-1].tileId == "empty") {
+					moveTo = [d.row, d.col-1];
+					foundMoveTo = true;
+					break;
+				}
+				// always exit
+				break;
+			}
+			
+			Log.Notice("Moving to " + moveTo);
+			
+			if (!foundMoveTo) {
+				Log.Notice("No place to move");
+				return event.stopPropagation();
+			}
+			
+			d.row = moveTo[0];
+			d.col = moveTo[1];
+			
+			var dropZone = puzzleDropzone[d.row][d.col];
+			
+			if (dropZone.tileId != "empty") {
+				// restore current tile
+				Log.Notice("trying to move tile into non-empty position row=" + d.row + " col=" + d.col);  
+				d.row = origRow;
+				d.col = origCol;
+				//puzzleDropzone[d.row][d.col].row = origRow;
+				//puzzleDropzone[d.row][d.col].col = origCol;
+				//return event.stopPropagation();
+			} else {
+			
+				Log.Notice("Move tile into empty position row=" + d.row + " col=" + d.col + " from row=" + origRow + " col=" + origCol);  
+				
+				d3.select(this)
+				  .transition()
+					.duration(500)
+					.style("bottom", dropZone.bottom + "px")
+					.style("right", dropZone.right + "px");
+				
+				// update the tileID stuff here as well
+				puzzleDropzone[d.row][d.col].tileId = d.tileId;
+				puzzleDropzone[origRow][origCol].tileId = "empty";
+				Log.Notice("From: dropzone[" + origRow + "][" + origCol + "].tileId="  + puzzleDropzone[origRow][origCol].tileId );
+				Log.Notice("To: dropzone[" + d.row + "][" + d.col + "].tileId="  + puzzleDropzone[d.row][d.col].tileId );
+
+			}
+	  });
+		return event.stopPropagation();
+}
+
+$(document).ready(function() {
+	Log.Notice("jQuery Ready!");
+	
+	//var frogImage = new Image();
+  //frogImage.src = "images/frog-6.jpg";
+  
+  var h = frogImage.height;
+  var w = frogImage.width;
+  
+  Log.Notice("frogImage.src=" + frogImage.src);
+	Log.Notice("height =" + h + " width=" + w);
+	
+	//generatePuzzle(frogImage);
+	
+	//Log.Hide();
+});
+
+</script>
+</head>
+<body>
+
+<div id="ll"></div>
+<div id="picture"></div>
+<div id="puzzle"></div>
+
+<div id="button" onClick="generatePuzzle(frogImage);">Click to start puzzzle</div>
+</body>
+</html>

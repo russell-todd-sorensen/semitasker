@@ -3,11 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>Figure Eight Boxes</title>
-
-<script src="../../../../../js/d3.v3.js"></script>
-<script src="../../../../../js/jquery-1.7.1.js" ></script>
-<script src="../../../../../js/log.js"></script>
-
+<link rel="stylesheet" href="/css/log.css" media="all">
 <style>
 
 div {
@@ -19,7 +15,7 @@ div {
 
 #container {
     position: relative;
-    background-color: #00F;
+    background-color: #0FF;
     height: 500px;
     width: 500px;
 }
@@ -108,9 +104,78 @@ div {
     bottom: 80px;
     right: 80px;
 }
-
+#c1, #c2 {
+    position: absolute;
+    background-color: #0FF;
+    height: 100px;
+    width: 100px;
+    opacity: 1.0;
+}
+#c1 {
+  top: 0;
+  right: 0;
+}
+#c2 {
+  bottom: 0;
+  left: 0;
+}
+#ci1, #ci2 {
+  position: relative;
+  height: 100px;
+  width: 100px;
+  opacity: 1.0;
+}
+#ii1, #ii2 {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  background-color: #CF0;
+  opacity: 0.7;
+}
+#im1, #im2 {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  background-color: #CF0;
+  opacity: 0.7;
+}
+#ii1 {
+  bottom: 0;
+  left: 0;
+}
+#ii2 {
+  top: 0;
+  right: 0;
+}
+#ic1, #ic2 {
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  background-color: #0FF;
+  opacity: 0.7;
+}
+#ic1 {
+  bottom: 20px;
+  left: 20px;
+}
+#ic2 {
+  top: 20px;
+  right: 20px;
+}
+#im1 {
+  bottom: 40px;
+  left: 40px;
+}
+#im2 {
+  top: 40px;
+  right: 40px;
+}
 </style>
 
+
+<script src="/js/d3.v3.js"></script>
+<script src="/js/jquery-1.7.1.js" ></script>
+<script src="/js/log-2.js"></script>
 
 <script>
 
@@ -143,6 +208,22 @@ div {
  <div id="b4"></div>
  <div id="a5"></div>
  <div id="a6"></div>
+ <div id="c1">
+    <div id="ci1">
+      <div id="ii1"></div>
+      <div id="ic1"></div>
+      <div id="im1"></div>
+
+    </div>
+ </div>
+ <div id="c2">
+    <div id="ci2">
+      <div id="ii2"></div>
+      <div id="ic2"></div>
+      <div id="im2"></div>
+
+    </div>
+ </div>
 </div>
 
 </body>
