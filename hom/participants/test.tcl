@@ -10,3 +10,4 @@ if {$row} {
 }
 
 ns_log Notice "Row = '$row'";
+ns_log Notice "Finished"
