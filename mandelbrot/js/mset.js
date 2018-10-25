@@ -325,8 +325,10 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 	return this;
 };
 
+var CurrentData;
 var drawImageFromWorker = function (evt) {
 	var data = evt.data;
+	CurrentData = data;
 	var objId = data.objId;
 	var fractal = myFractalImages[objId];
 	fractal.counters = data.counters;
@@ -504,7 +506,7 @@ var processForm = function () {
 			hslOrHsb:$('#hslOrHsb option:selected').val()
 		}
 	};
-	
+
 	return FormGlobal;
 };
 

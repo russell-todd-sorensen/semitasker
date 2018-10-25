@@ -1083,7 +1083,8 @@ addToPixels[22] = function (data) {
 		fractal.pixels[p+0] = fractal.colors[counter].r;
 		fractal.pixels[p+1] = fractal.colors[counter].g;
 		fractal.pixels[p+2] = fractal.colors[counter].b;
-		fractal.pixels[p+3] = 255-counter;
+		//fractal.pixels[p+3] = 255-counter;
+		fractal.pixels[p+3] = fractal.counterMax-counter;
 	}
 
 	drawColors(data);

@@ -5,10 +5,6 @@
 <title>Mandelbrot Set Visualization</title>
 <link rel="stylesheet" href="main.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
-<!--<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">-->
-<link rel="stylesheet" media="all" href="./js/jquery-ui-1.12.1.custom/jquery-ui.css">
-<link rel="manifest" href="/manifest.json">
-
 
 <style>
 
@@ -184,7 +180,25 @@ body,html {
     left: 3px;
     background-color: silver;
 }
+
+#pickContainer {
+    display: block;
+    width: 715px; /* 256*11/4 */
+    position: absolute;
+    bottom: 50px;
+}
+
+.cp {
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    border: .5px solid black;
+}
+
 </style>
+<style id="colorStyles"></style>
 
 <script src="/js/jquery-1.7.1.js"></script>
 <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
@@ -251,6 +265,76 @@ panelHidden["controls"] = [{
  ]}
 ];
 
+var writeColorPicker = function(pickerContainerId, styleId) {
+
+    var formData = processForm();
+	var data = formData.data;
+    var objId = data.objId;
+	var fractal = myFractalImages[objId];
+    var colors = fractal.colors;
+    //Log.Notice('writeColorPicker');
+    var container = d3.select('#pickContainer');
+    container.html("");
+
+    container.selectAll('.cp')
+        .data(colors)
+        .enter()
+        .append('div')
+        .attr('class','cp')
+        .attr('id',function(d,i) {
+            var hex = d.hex;
+            hex = hex.substr(1, hex.length-1)
+            return 'cp-' + hex;
+        })
+        .style("background-color", function(d,i) {
+            return  d.hex
+        });
+    container.selectAll('.cp')
+        .on('click', LogStuff);
+
+}
+
+var LogStuff = function(d,i,e) {
+    Log.Notice('LogStuff color=' + d.hex)
+}
+
+var bindMouseBox = function () {
+
+    $(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',
+    	             myFractalImages[myFractalImageId],startMove);
+
+}
+
+var bindClick = function () {
+    $(myFractalImages[myFractalImageId].mouseBox).unbind('mousedown').bind('click',
+    	             myFractalImages[myFractalImageId],captureClick);
+}
+
+var unbindClick = function () {
+    $(myFractalImages[myFractalImageId].mouseBox).unbind('click');
+}
+
+function captureClick(evt) {
+    var myEvent = evt;
+    var fractal = CurrentData;
+    var offsetX = myEvent.offsetX;
+    var offsetY = myEvent.offsetY;
+    Log.Notice('click captured offsetX=' + offsetX + ' offsetY=' + offsetY);
+    actualWidth  = fractal.objectInfo.endX - fractal.objectInfo.startX;
+    actualHeight = fractal.objectInfo.endY - fractal.objectInfo.startY;
+    pixelWidth  = fractal.objectInfo.width;
+    pixelHeight = fractal.objectInfo.height;
+    // Pixels Offsets are measured:
+    //                    from left to right for X
+    //                    from top to bottom for Y
+    // However we need to access the pixel array which is one dimensional
+    // So Pixel 0 is at:
+    // offsetX = 0 and offsetY = 0
+
+    unbindClick()
+    bindMouseBox()
+}
+
 $(document).ready(function() {
 
   Log.Notice('Document Ready');
@@ -282,16 +366,15 @@ $(document).ready(function() {
   Data.restoreInput('maxInt');
   Data.restoreInput('finiteMeasure');
   Data.restoreSelect('finiteMeasureFunction');
+  Data.restoreSelect('pickedColor');
   Data.restoreInput('counterMax');
 
   myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
 	            'box',1000,2000,{colorCanvasId:'currentColors'});
   myFractalImages[myFractalImageId].initColorArray();
 
-  $(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',
-	             myFractalImages[myFractalImageId],startMove);
-
-  Log.Remove();
+  bindMouseBox();
+  //Log.Remove();
 });
 </script>
 
@@ -615,6 +698,13 @@ $(document).ready(function() {
  </div>
 </li>
 <li>
+ <label for="pickedColor">Pick Color</label>
+ <select id="pickedColor" name="pickedColor"
+         onChange="Data.saveSelect('pickedColor','Log.Notice');" >
+
+ </select>
+</li>
+<li>
  <label for="b5" id="buttonControl4">Capture:</label>
  <div id="captureCanvas">
  <button id="b5" name="b5" onClick="captureCanvas2('image/png')"
@@ -643,6 +733,7 @@ $(document).ready(function() {
  <canvas id="currentColors"
          height="0" width="0">Your browser doesn't support canvas</canvas>
 </div>
+<div id="pickContainer"></div>
 <div id="imageGallery"></div>
 </body>
 </html>

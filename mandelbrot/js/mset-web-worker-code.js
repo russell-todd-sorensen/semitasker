@@ -19,6 +19,7 @@ self.addEventListener('message',  function(evt) {
   };
   var counters = [];
   var polarity = [];
+  var coord    = [];
 
   for (var x = objectInfo.startX, col = 0;
     col<objectInfo.width && x < objectInfo.endX;
@@ -121,6 +122,7 @@ self.addEventListener('message',  function(evt) {
 
       counters[currentIndex] = counter;
       polarity[currentIndex] = lastImaginaryPolarity;
+      coord[currentIndex] = [x,y,col,row];
       index++;
     }
   }
@@ -128,6 +130,7 @@ self.addEventListener('message',  function(evt) {
   data.profile = profile;
   data.counters = counters;
   data.polarity = polarity;
+  data.coord    = coord;
 
   self.postMessage(data);
 });
