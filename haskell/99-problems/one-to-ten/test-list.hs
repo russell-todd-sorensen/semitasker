@@ -1,0 +1,15 @@
+--('a' : 'a' : 'a' : []) : []
+-- produces ["aaa"]
+--'a' : 'a' : 'a' : []
+--produces "aaa"
+
+--('a' : 'a' : 'a' : []) : ('b' : 'b' : 'b' : []) : []
+--produces ["aaa","bbb"]
+--('a' : 'a' : 'a' : []) ++ ('b' : 'b' : 'b' : [])
+--produces "aaabbb"
+--('a' : 'a' : 'a' : []) ++ ('b' : 'b' : 'b' : []) : []
+--produces error
+--(('a' : 'a' : 'a' : []) ++ ('b' : 'b' : 'b' : [])) : []
+--produces ["aaabbb"]
+--(1 : 1 : 1 : []) : (2 : 2 : 2 : []) : []
+--produces [[1,1,1],[2,2,2]]
