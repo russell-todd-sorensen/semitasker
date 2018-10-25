@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<title>Photo Edit</title>
+
+<style>
+ @import url(main.css);
+</style>
+<!--<link rel="stylesheet" href="main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">-->
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="/js/schedule-function.js"></script>
+<script src="/js/mouse-events.js"></script>
+<script src="/js/panel-show-hide.js"></script>
+<script src="js/photo-edit.js"></script>
+
+<script language="javascript">
+
+panelHidden["controls"] = [{
+  id:'panel1',
+  visible:true,
+  css:{
+    true:{
+      position:'relative'
+    },
+    false:{
+      position:'absolute'
+    }
+  },
+  extra: [
+    {
+      id:'controls',
+      css:{
+        true: {
+          position:'relative',
+          zIndex:0,
+          "background-color":'transparent'
+        },
+        false: {
+          position:'absolute',
+          zIndex:100,
+          "background-color":'#444444'
+        }
+      }
+   },
+ ]}
+];
+
+$(document).ready(function() {
+
+  Log.Notice('Document Ready');
+
+  // this must be run before doing the restoreInput code below
+  $('#controls .expand label')
+    .click({rangeStyle:"width: 150px;",numberStyle:"width: 75px;"},
+           Data.toggleFormInputType);
+
+  // restore form values
+  Data.restoreInput('photoId');
+  Data.restoreInput('photoSrc');
+  Data.restoreSelect('photoOp');
+
+  myPhotos[myPhotoId] = new photo('myCanvas',
+	            'box',1000,2000,{colorCanvasId:'currentColors'});
+  $(myPhotos[myPhotoId].mouseBox).bind('mousedown',
+	             myPhotos[myPhotoId],startMove);
+  //Log.Remove();
+});
+</script>
+
+</head>
+<body>
+<div id="controls" >
+<form onSubmit="return false;">
+ <input type="hidden" value="0" min="0" max="1"
+        step="1" id="photoId" name="photoId"
+        onChange="Data.saveInput('photoId','Log.Notice')" />
+<fieldset>
+<legend onClick="togglePanel('controls');">Options</legend>
+<ul id="panel1">
+<li>
+ <label for="photoSrc" id="photoSrcControl">photo URL:</label>
+ <div id="photoSrcContainer">
+  <input type="text" id="photoSrc" name="photoSrc" size="30"
+         onChange="Data.saveInput('photoSrc','Log.Notice')">
+ </div>
+</li>
+<li>
+ <label for="b1" id="buttonControl">photo:</label>
+ <div id="loadPhoto">
+  <button id="b1" onClick="loadPhoto();"
+          value="Load Photo" >Load</button>
+  <button id="b4" onClick="cropPhoto();"
+          value="Mod Photo" >Modify</button>
+ </div>
+</li>
+<li>
+ <label for="photoOp" id="photoOpControl">Operation:</label>
+ <select id="photoOp"
+         name="photoOp"
+         onChange="Data.saveSelect('photoOp','Log.Notice')">
+  <option value="crop">Crop</option>
+</select>
+</li>
+</ul>
+</fieldset>
+</form>
+</div>
+
+<div id="main">
+ <canvas id="myCanvas"
+         height="50" width="100">Your browser doesn't support canvas</canvas>
+ <div id="box"></div>
+</div>
+
+</body>
+</html>

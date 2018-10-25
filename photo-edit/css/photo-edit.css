@@ -1,0 +1,180 @@
+
+body,html {
+  background-color: black;
+  margin:0;
+  padding:0;
+  border:0;
+}
+
+ul#panel1 {
+
+}
+div#photoSrcContainer {
+    display: inline-block;
+}
+
+#main,
+#main2 {
+    position: relative;
+    display: inline-block;
+    border: 3px solid black;
+    vertical-align: top;
+}
+
+#myCanvas,
+#myCanvas2 {
+    border: none;
+    background-clip:padding-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#box,
+#box2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255,0,0,.1);
+    border: 1px solid black;
+}
+
+#controls {
+    color: white;
+    display: inline-block;
+    position: relative;
+    left: 0;
+    top: 0;
+    padding: 2px;
+}
+
+#colors {
+    border: 2px solid #555;
+    position: absolute;
+    right: 5px;
+    top: 3px;
+}
+
+#currentColors {
+
+
+}
+
+#controls ul {
+    list-style: none;
+    padding: 0;
+}
+
+#controls li label {
+  width: 90px;
+  display: inline-block;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  font-family: sans serif, "Tw Cen MT Bold";
+}
+
+#controls li input {
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 15px;
+    margin-left: 0px;
+    width: 275px;
+}
+
+#controls li select option {
+    width: 175px;
+}
+
+
+
+
+
+#controls li input[type=range] {
+    width: 175px;
+}
+
+/* this is how you change the font of select options!!! */
+#animationFunctionId,
+#fractalImageId,
+#pixelColorsId,
+#refColorId,
+#scaleCounterId,
+#hslOrHsb,
+#b1,
+#b2,
+#b3,
+#b4,
+#b5,
+#finiteMeasureFunction
+{ /* select id */
+    width: 78.75px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    margin-left: 0px;
+    font-size: 16px;
+}
+
+#b4 {
+ /*    display: none;*/
+}
+
+#animationFunctionId option,
+#fractalImageId option,
+#pixelColorsId option,
+#refColorId option,
+#scaleCounterId option,
+#hslOrHsb option,
+#finiteMeasureFunction option {
+    padding-left: 10px;
+    width: 72px;
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 15px;
+}
+
+#mode-controls {
+    letter-spacing: 1px;
+}
+
+#timeout,
+#colorOffsetAmount,
+#fractalImageId {
+
+}
+
+#loadPhoto,
+#animateImage,
+#captureCanvas {
+  width: 205px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#buttonControl,
+#buttonControl2 {
+  vertical-align: top;
+}
+
+.min-max {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+#controls .expand .min-max > span {
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 15px;
+}
+
+#captureCanvas {
+    background-color: green;
+}
+
+#imageGallery {
+    padding: 3px;
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
+    background-color: silver;
+}
