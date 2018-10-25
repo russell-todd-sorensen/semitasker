@@ -6,14 +6,16 @@
 #t {
     float: left;
 }
+
 #t2 {
     clear: both;
 }
+
 body {
-	background-image:url(../My%20Pictures/OneIMLogo4.svg);
     background-size: auto;
 }
-pre, #target, #x {
+
+#target, #x {
     background-color: black;
     color: white;
     border-color: red;
@@ -21,6 +23,7 @@ pre, #target, #x {
     border-style: solid;
     font-family: "Courier New", Courier, monospace;
 }
+
 .data {
     /*padding-left: 4px;
     padding-rignt: 4px;*/
@@ -28,6 +31,7 @@ pre, #target, #x {
     background-color: green;
 
 }
+
 .top {
     display: inline-block;
     border: 1px;
@@ -37,19 +41,23 @@ pre, #target, #x {
     background-size:contain;
     cursor:pointer;
 }
+
 input {
     cursor: pointer;
 }
+
 .cell2 {
     font-size: 24px;
     padding: 4px;
     background-color: green;
     display: inline;
 }
+
 .rightbox, .leftbox {
     /*padding: 2px; */
     display: inline;
 }
+
 .row {
     padding: 5px;
    /* border: 1px;
@@ -57,6 +65,7 @@ input {
     border-color: yellow; */
     /*width: 500px; */
 }
+
 .boxrow {
     /*padding-bottom: 8px; */
 }
@@ -105,7 +114,7 @@ input {
     /*font-size: 24px; */
     text-shadow:#060;
     background-color:#996;
-    
+
     border: none;
     align: center;
     valign: center;
@@ -160,14 +169,6 @@ input {
 .box2 {
     /*background-color: #309; */
     background-color: #669;
-}
-
-#logger2 {
-    /*overflow: scroll;
-    max-height: 200px; 
-    overflow-style:marquee-block; */
-    min-height: 200px;
-    clear: both;
 }
 
 .leftPhone  {

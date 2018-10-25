@@ -5,15 +5,12 @@
 <title>Sudoku Test 5</title>
 
 <link rel="stylesheet" href="sudoku-test-5.css" media="all" type="text/css" >
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 
-</style>
-
-<script type="text/javascript" src="logger2.js"></script>
-
-<script type="text/javascript" >
-	//setup logging element id
-	Logger = "logger2";
-</script>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
 
 <script type="text/javascript" src="sudoku-lib-6.js" ></script>
 <script type="text/javascript" src="sudoku-puzzle-controls.js"></script>
@@ -27,7 +24,7 @@ var sudokuMoveIndex = 0;
 
 function grabNumber(elem) {
 	sNumber = elem.innerHTML;
-	Log("Notice", "Grabbed '" + sNumber + "'");
+	Log.Notice( "Grabbed '" + sNumber + "'");
 }
 
 function pasteNumber(id) {
@@ -39,11 +36,11 @@ function pasteNumber(id) {
 	sudokuMoves[sudokuMoveIndex] = [id, currValue, sNumber];
 	sudokuMoveIndex++;
 	document.getElementById(id).innerHTML = sNumber;
-	Log("Notice", "Dropped '" + sNumber + "' on " +  id);
+	Log.Notice( "Dropped '" + sNumber + "' on " +  id);
 }
 
 function goBackOneStep() {
-	
+
 	if (sudokuMoveIndex == 0) {
 		return null
 	} else {
@@ -51,14 +48,14 @@ function goBackOneStep() {
 	}
 	var move = sudokuMoves[sudokuMoveIndex];
 	document.getElementById(move[0]).innerHTML = move[1];
-	Log("Notice", "Back one step, restored " + move[0] + " to '" + move[1] + "'");
+	Log.Notice( "Back one step, restored " + move[0] + " to '" + move[1] + "'");
 }
 
 function goFwdOneStep() {
-	
+
 	var move = sudokuMoves[sudokuMoveIndex];
 	document.getElementById(move[0]).innerHTML = move[2];
-	Log("Notice", "Forward one step, restored " + move[0] + " to '" + move[2] + "'");
+	Log.Notice( "Forward one step, restored " + move[0] + " to '" + move[2] + "'");
 	sudokuMoveIndex++;
 }
 
@@ -86,10 +83,10 @@ function rewind() {
 
 function play() {
 	if (sudokuMoveIndex >= myPlayer.startIndex) {
-		Log("Notice", "Ending replay");
+		Log.Notice( "Ending replay");
 		return null;
 	} else {
-		Log("Notice", "Playing with sudokuMoveIndex = " + sudokuMoveIndex + " and startIndex = " + myPlayer.startIndex);
+		Log.Notice( "Playing with sudokuMoveIndex = " + sudokuMoveIndex + " and startIndex = " + myPlayer.startIndex);
 	}
 	goFwdOneStep();
 	setTimeout('myPlayer.play()',myPlayer.timeout)
@@ -102,7 +99,7 @@ function replayAll(timeout) {
 	this.rewind = rewind;
 	this.play = play;
 	this.startOver = startOver;
-	Log("Notice", "Created replayAll object with startIndex = " + this.startIndex);
+	Log.Notice( "Created replayAll object with startIndex = " + this.startIndex);
 }
 
 var myPlayer;
@@ -110,7 +107,7 @@ var myPlayer;
 </script>
 </head>
 
-<body onLoad='Log("Notice", "Page Loaded")'>
+<body onLoad='Log.Notice( "Page Loaded")'>
 <div id="puzzle">
  <div class="leftPhone"></div>
  <div class="Screen">
@@ -145,7 +142,7 @@ var myPlayer;
  <div class="rightPhone"></div>
 </div>
 <div class="spacer"></div>
-<pre id="logger2" onMouseOver='Log("Notice", "Mouse is over me now")'>
+<pre id="logger2" onMouseOver='Log.Notice( "Mouse is over me now")'>
 </pre>
 
 

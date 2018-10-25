@@ -6,20 +6,20 @@ var Log = {
 	LogIndex: 0,
 	DisplayLog: 100,
 	LogHistory: [],
-	
+
 	logMsg: function () {
 		document.getElementById(this.Logger).innerHTML = this.logText;
 	},
-	
+
 	msg: function msg(level, msg) {
 		var now = new Date();
-		var month = now.getMonth();
+		var month = now.getMonth()+1;
 		var day = now.getDate();
 		var hour = now.getHours();
 		var minute = now.getMinutes();
 		var second = now.getSeconds();
 		var milliseconds = now.getMilliseconds();
-	
+
 		if ( month.toString().length < 2) {
 			month = "0" + month;
 		}
@@ -38,9 +38,9 @@ var Log = {
 		while (milliseconds.toString().length < 3) {
 			milliseconds = "0" + milliseconds;
 		}
-	
+
 		var dateString = "[" + now.getFullYear() + "-" + month + "-" + day + "T" +  hour + ":" + minute + ":"  + second + "." + milliseconds + "] ";
-	
+
 		this.LogHistory[this.LogIndex] = [dateString, level, msg];
 		this.LogIndex++;
 		//var logText = "";
@@ -51,23 +51,23 @@ var Log = {
 
 		setTimeout('Log.logMsg()',10);
 	},
-	
+
 	Error: function ( message ) {
 		this.msg('Error', message);
 	},
-	
+
 	Notice: function ( message ) {
 		this.msg('Notice', message);
 	},
-	
+
   Warning: function ( message ) {
 		this.msg('Warning', message);
 	},
-	
+
 	Debug: function ( message ) {
 		this.msg('Debug', message);
 	},
-		
+
 	Hide: function () {
 		Log.Notice("Log.Hide() ... hiding logger.");
 		$('#' + Log.Logger).css("display", "none");
@@ -76,18 +76,18 @@ var Log = {
 		$('#' + Log.Logger).css("display", "block");
 		Log.Notice("Log.Show() ... showing logger.");
 	}
-		
+
 };
 
 Log.Logger = 'log2';
 
 function repositionLog (logTag) {
 	  logTag.css({'position':'absolute','bottom':5,'left':10,'background-color':'silver','border':'1px solid black','height':'150px','overflow-y':'scroll','width':'1000px','overflow-x':'visible', 'overflow-style':'marquee-block'});
-		
+
 }
 
 $(document).ready(function() {
-	
+
 try {
   document.createElement("div").style.setProperty("opacity", 0, "");
 } catch (error) {

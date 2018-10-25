@@ -8,20 +8,20 @@ var Log = {
 	LogIndex: 0,
 	DisplayLog: 100,
 	LogHistory: [],
-	
+
 	logMsg: function () {
 		document.getElementById(this.Logger).innerHTML = this.logText;
 	},
-	
+
 	msg: function msg(level, msg) {
 		var now = new Date();
-		var month = now.getMonth();
+		var month = now.getMonth()+1;
 		var day = now.getDate();
 		var hour = now.getHours();
 		var minute = now.getMinutes();
 		var second = now.getSeconds();
 		var milliseconds = now.getMilliseconds();
-	
+
 		if ( month.toString().length < 2) {
 			month = "0" + month;
 		}
@@ -40,9 +40,9 @@ var Log = {
 		while (milliseconds.toString().length < 3) {
 			milliseconds = "0" + milliseconds;
 		}
-	
+
 		var dateString = "[" + now.getFullYear() + "-" + month + "-" + day + "T" +  hour + ":" + minute + ":"  + second + "." + milliseconds + "] ";
-	
+
 		this.LogHistory[this.LogIndex] = [dateString, level, msg];
 		this.LogIndex++;
 		//var logText = "";
@@ -53,23 +53,23 @@ var Log = {
 
 		setTimeout('Log.logMsg()',10);
 	},
-	
+
 	Error: function ( message ) {
 		this.msg('Error', message);
 	},
-	
+
 	Notice: function ( message ) {
 		this.msg('Notice', message);
 	},
-	
+
   Warning: function ( message ) {
 		this.msg('Warning', message);
 	},
-	
+
 	Debug: function ( message ) {
 		this.msg('Debug', message);
 	},
-		
+
 	Hide: function () {
 		Log.Notice("Log.Hide() ... hiding logger.");
 		$('#' + this.LogParent)
@@ -116,7 +116,7 @@ var Log = {
 			});
 		Log.Notice("Log.Show() ... showing logger.");
 	}
-		
+
 };
 
 // Note: this must be log2 to match css in log.css
@@ -139,17 +139,17 @@ $(document).ready(function() {
   var logDiv = 'footer';
   if (x[0] == undefined) {
   	  logDiv = 'body';
-  } 
+  }
   $(logDiv)
-	.append("<div><pre id='" 
-			+ Log.Logger 
+	.append("<div><pre id='"
+			+ Log.Logger
 			+ "'>Log\n\n</pre><div id='log-close-button'><span>X</span></div></div>");
 
   log = $('#' + Log.Logger);
 
   Log.Show();
   repositionLog(log);
-	
+
   Log.Notice('Logging Started, Document Ready!');
 
 });

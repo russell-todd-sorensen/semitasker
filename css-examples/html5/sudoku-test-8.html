@@ -5,22 +5,28 @@
 <title>Sudoku Test 8</title>
 
 <link rel="stylesheet" href="sudoku-test-8.css" media="all" type="text/css" >
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 
-</style>
-
-<script type="text/javascript" src="logger2.js"></script>
-
-<script type="text/javascript" >
-	//setup logging element id
-	Logger = "logger2";
-</script>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
 
 <script type="text/javascript" src="sudoku-lib-8.js" ></script>
 <script type="text/javascript" src="sudoku-puzzle-controls.js"></script>
 
+<script>
+
+$(document).ready(function() {
+
+  Log.Notice('Document Ready');
+  //Log.Remove();
+ });
+</script>
+
 </head>
 
-<body onLoad='Log("Notice", "Page Loaded")'>
+<body>
 <div id="puzzle">
  <div class="leftPhone"></div>
  <div class="Screen">
@@ -71,11 +77,11 @@
  <div class="rightPhone"></div>
 </div>
 <div class="spacer"></div>
-<pre id="logger2" onMouseOver='Log("Notice", "Mouse is over me now")'>
+<pre id="logger2" onMouseOver='Log.Notice( "Mouse is over me now")'>
 </pre>
 
 
-<p id="target" onClick='Log("Notice", "boxMapString = " + boxMapString)' >Show BoxMapString (click here)</p>
+<p id="target" onClick='Log.Notice( "boxMapString = " + boxMapString)' >Show BoxMapString (click here)</p>
 
 </body>
 </html>

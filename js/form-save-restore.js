@@ -4,10 +4,10 @@
 
 
 Data.writeFontFamilySelect = function( selector ) {
-  
+
   var selection = $(selector);
   selection.html("");
-  
+
   for (var i = 0; i < this.fontFamily.length; i++) {
     var font = this.fontFamily[i];
     selection.append("\n <option value='" + font + "'>" + font + "</option>");
@@ -15,9 +15,9 @@ Data.writeFontFamilySelect = function( selector ) {
 };
 
 Data.changeFont = function(selectId) {
-  
+
   var font = $('#' + selectId + " option::selected").val();
-  
+
   if (arguments.length == 1) {
     $('body').css('font-family',"'" + font + "'");
   } else {
@@ -27,15 +27,15 @@ Data.changeFont = function(selectId) {
       $(selector).css('font-family',"'" + font + "'");
     }
   }
-  
-  
+
+
   var call = "Data.saveSelect('" + selectId + "','Data.changeFont'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
   call += ");";
   setTimeout(call, 10);
-  
+
   if (this.Restored[selectId]) { // this is a regular form change, not a restoration
     Log.Notice("Updating current font to " + font);
     $('#current').val(font);
@@ -44,14 +44,14 @@ Data.changeFont = function(selectId) {
 		this.Restored[selectId] = true;
     Log.Notice("Just restoring select font to " + font);
   }
-  
+
   return false;
 };
 
 Data.changeFontSize = function (inputId) {
-  
+
   var fontSize = parseInt($('#' + inputId).val());
-  
+
   if (arguments.length == 1) {
     $('body').css('font-size','' + fontSize + 'px');
   } else {
@@ -61,12 +61,12 @@ Data.changeFontSize = function (inputId) {
       $(selector).css('font-size','' + fontSize + 'px');
     }
   }
-  
+
   var call = "Data.saveInput('" + inputId + "','Data.changeFontSize'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
@@ -75,19 +75,19 @@ Data.changeFontSize = function (inputId) {
 Data.changeImage = function (selectId) {
   var imageSelector = '#' + selectId + " option::selected";
   var imageUrl = $(imageSelector).val();
-  
+
   var selector;
   for (var i = 1; i < arguments.length; i++) {
     selector = arguments[i];
     $(selector).attr("href",imageUrl);
   }
- 
-  
+
+
   var call = "Data.saveSelect('" + selectId + "','Data.changeImage'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
@@ -96,7 +96,7 @@ Data.changeImage = function (selectId) {
 
 // this must change to support color editing
 Data.changeStrokeWidth = function (inputId) {
-  
+
   var strokeWidth = parseInt($('#' + inputId).val()) ;
   strokeWidth = strokeWidth < 1 ? 0 : strokeWidth;
   var strokeColor, fillColor;
@@ -116,7 +116,7 @@ Data.changeStrokeWidth = function (inputId) {
       //  .css('stroke', 'none')
      //   .css('fill',fillColor);
     }
-  } 
+  }
 	else {
     var selector;
     for (var i = 1; i < arguments.length; i++) {
@@ -137,12 +137,12 @@ Data.changeStrokeWidth = function (inputId) {
       }
     }
   }
-  
+
   var call = "Data.saveInput('" + inputId + "','Data.changeStrokeWidth'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
@@ -152,9 +152,9 @@ Data.changeStrokeWidth = function (inputId) {
 // default is to switch the body fontFamily,
 // otherwise treat remaining arguments as selectors
 Data.changeFont2 = function (inputId) {
-  
+
   var font = $('#' + inputId).val();
-  
+
   if (arguments.length == 1) {
     $('body').css('font-family',"'" + font + "'");
   } else {
@@ -164,43 +164,43 @@ Data.changeFont2 = function (inputId) {
       $(selector).css('font-family',"'" + font + "'");
     }
   }
-  
+
   //saveInput(inputId, 'changeFont2', '#logo', 'body');
-  
+
   var call = "Data.saveInput('" + inputId + "','Data.changeFont2'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
 };
 
 Data.changeFontMultiple = function(selectId) {
-  
+
   var fontSelector = '#' + selectId + " option::selected";
   var fonts = [];
   $(fontSelector).each(function(i,e) {
     Log.Notice('font[' + fonts.length + '] =' + $(this).attr('value'));
     fonts[fonts.length] = $(this).attr('value');
   });
-  
+
   $('#font-compare').html(""); // zero out font-compare
-  
+
   for (var i = 0; i<fonts.length; i++) {
-    
-    $('#font-compare').append("<div class='font' style=\"font-family: '" + fonts[i] + "';\"><span>" + fonts[i] + "</span></div>"); 
-    
+
+    $('#font-compare').append("<div class='font' style=\"font-family: '" + fonts[i] + "';\"><span>" + fonts[i] + "</span></div>");
+
   }
-  
+
   var selector;
   for (var i = 1; i < arguments.length; i++) {
     selector = arguments[i];
     $(selector).css('font-family',"'" + font + "'");
   }
 
-  
+
   var call = "Data.saveSelectMultiple('" + selectId + "','Data.changeFontMultiple'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
@@ -209,30 +209,30 @@ Data.changeFontMultiple = function(selectId) {
   setTimeout(call, 10);
   setTimeout("Data.restoreInput('font-size')", 10);
 	setTimeout("Data.restoreInput('font-weight')",10);
-  
+
   return false;
 };
 
 Data.changeFontMultipleSVG = function(selectId) {
-  
+
   var fontSelector = '#' + selectId + " option::selected";
   var fonts = [];
   $(fontSelector).each(function(i,e) {
     Log.Notice('font[' + fonts.length + '] =' + $(this).attr('value'));
     fonts[fonts.length] = $(this).attr('value');
   });
-  
+
   $('#font-compare').html(""); // zero out font-compare
-  
+
   var UpperCase = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; \" \' | ~ \n";
   var LowerCase = "a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ?";
   var isoChars = "";
-  
+
   for (var i = 127; i< 256; i++) {
     isoChars = isoChars + " &#" + i + ";";
   }
   isoChars = isoChars.trim();
-  
+
   //var textTest = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z";
   //var textXHeightTest = "x";
   //var maxHeightText = "A B C D Q J R Y W T P G I a b c d e f g h i j k l p q t v y z";
@@ -244,10 +244,10 @@ Data.changeFontMultipleSVG = function(selectId) {
     var height = [];
     var width = []
     for (var j = 0; j <caseArray.length; j++ ) {
-      
+
       $('#font-test').html("");
       $('#font-test').append("<svg xmlns:xlink='http://www.w3.org/1999/xlink' width='1000' height='150' id='test-svg'>\n"
-        + "<text style=\"font-family: '" 
+        + "<text style=\"font-family: '"
         + fonts[i]
         + "'; font-size: " + fontSize + "px;\">"
         + "<tSpan x='30' dy='" + parseInt(fontSize * .8) + "' id='test-font-size'>" + caseArray[j] + "</tSpan>\n"
@@ -258,14 +258,14 @@ Data.changeFontMultipleSVG = function(selectId) {
         width[j] = $('#test-font-size').outerWidth();
         Log.Notice('Font ' + fonts[i] + ' height = ' + height[j] );
     }
-    
+
     var fontWidth = width[caseArray.length-1];
     var fontHeight = height[caseArray.length-1];
     var maxHeight = d3.max(height);
     var maxWidth = d3.max(width);
     Log.Notice('maxHeight for ' + fonts[i] + '='  + maxHeight);
-    
-    
+
+
     $('#font-compare').append("<svg xmlns:xlink='http://www.w3.org/1999/xlink' width='" + parseInt(maxWidth + 35) + "' height='" + parseInt(4.3 * maxHeight) + "' x='0' y='0'>"
       + "<rect class='bg' x='25' y='0' height='" + parseInt(4 * maxHeight + 9 ) + "' width='" + parseInt(maxWidth + 5) + "' />\n"
       + "<circle cx='30' cy='" + maxHeight + "' r='5' />\n"
@@ -273,7 +273,7 @@ Data.changeFontMultipleSVG = function(selectId) {
       + "<text x='30' y='" + maxHeight + "'"
       + " id='text-id-" + i + "'"
       + " style=\"font-family: '"
-      + fonts[i] 
+      + fonts[i]
       + "'; font-size: "
       + maxHeight + "px;"
       +"\"><tSpan class='norm' x='30' dy='-" + parseInt(maxHeight * .2 + 2) + "'>A B C D E F G H I J K L M N O P Q R S T U V W X Y Z ! @ # $ % ^ * ( ) _ + = : ; \" \' | ~ \n</tSpan>"
@@ -284,7 +284,7 @@ Data.changeFontMultipleSVG = function(selectId) {
       + "<tSpan class='norm' x='30' dy='" + parseInt(maxHeight + 4) + "'>a b c d e f g h i j k l m n o p q r s t u v w x y z 1 2 3 4 5 6 7 8 9 0 - ?</tspan>"
       + "</tSpan>\n<tSpan class='norm' x='30' dy='" + parseInt(maxHeight) + "'>" + isoChars + "</tspan>"
       + "</text>\n</svg>\n");
-    
+
   }
   var font = fonts[0];
   var selector;
@@ -293,7 +293,7 @@ Data.changeFontMultipleSVG = function(selectId) {
     $(selector).css('font-family',"'" + font + "'");
   }
 
-  
+
   var call = "Data.saveSelectMultiple('" + selectId + "','Data.changeFontMultipleSVG'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
@@ -302,7 +302,7 @@ Data.changeFontMultipleSVG = function(selectId) {
   setTimeout(call, 10);
   setTimeout("Data.restoreInput('font-size')", 10);
 	setTimeout("Data.restoreInput('stroke-width')",10);
-  
+
   return false;
 };
 
@@ -332,7 +332,7 @@ Data.restoreSelect = function (selectId) {
     var valueOption = "#" + selectId + " " + "option[value='" + value + "']";
     $(valueOption)
       .attr('selected', 'selected');
-      
+
     setTimeout(call, 10);
     //setTimeout("Data.Restored['" + selectId + "']= true;", 10);
   }
@@ -350,12 +350,12 @@ Data.setSelect = function (selectId,value,restoreFunction) {
     var valueOption = "#" + selectId + " option[value='" + value + "']";
     $(valueOption)
         .attr('selected','selected');
-    
+
     if (restoreFunction) {
     } else {
         var restoreFunction = "Log.Notice";
     }
-    
+
     Data.saveSelect(selectId,restoreFunction);
     return false;
 }
@@ -404,7 +404,7 @@ Data.restoreSelectMultiple = function (selectId) {
 Data.getCheckboxValues = function (checkboxId) {
     var value = [];
     var checkedBoxes = '#' + checkboxId + ":checked";
-    
+
     $(checkedBoxes).each(function(i,e) {
         //Log.Notice('getCheckboxValues val=' + $(this).val());
         value[value.length] = $(this).val();
@@ -425,7 +425,7 @@ Data.getNamedCheckboxValues = function (checkboxName) {
 
 
 Data.saveCheckbox = function (checkboxId, restoreFunction) {
-    
+
   //
 
   var value = Data.getCheckboxValues(checkboxId);
@@ -474,7 +474,7 @@ Data.restoreCheckbox = function (checkboxId) {
 
 // set the checkbox group to the passed in value, if the value
 // doesn't exist, no checkboxes will be checked after the operation
-// new checkbox configuration is saved 
+// new checkbox configuration is saved
 
 Data.setCheckbox = function (checkboxId,value,restoreFunction) {
     var checkedBoxes = '#' + checkboxId + ":checked";
@@ -482,17 +482,17 @@ Data.setCheckbox = function (checkboxId,value,restoreFunction) {
         //Log.Notice('for ' + checkedBoxes + ' removing check ' + i );
         $(this).removeAttr('checked');
     });
-    
+
     var valueOption = "#" + checkboxId + "[value='" + value + "']";
-    
+
     $(valueOption)
         .attr('checked','checked');
-    
+
     if (restoreFunction) {
     } else {
         var restoreFunction = "Log.Notice";
     }
-    
+
     Data.saveCheckbox(checkboxId,restoreFunction);
     return false;
 };
@@ -502,19 +502,19 @@ Data.setCheckboxes = function (checkboxId,values,restoreFunction) {
     var value,valueSelector;
     var valueList = values.split(',');
     var checkedBoxes = '#' + checkboxId + ":checked";
-    
+
     $(checkedBoxes).each(function(i,e) {
         //Log.Notice('for ' + checkedBoxes + ' removing check ' + i );
         $(this).removeAttr('checked');
     });
-    
+
     for (var i = 0;i<valueList.length;i++) {
         value = valueList[i];
         valueSelector = "#" + checkboxId + "[value='" + value + "']";
         $(valueSelector)
             .attr('checked','checked');
     }
-    
+
     Data.saveCheckbox(checkboxId,restoreFunction);
 };
 
@@ -539,7 +539,7 @@ Data.saveInput = function (inputIdList, restoreFunction, arg2, arg3) {
 };
 
 Data.restoreInput = function (inputId) {
-  
+
   var value = localStorage.getItem(document.URL + '-ANIMATION-VALUE-' + inputId);
   var call = localStorage.getItem(document.URL + '-ANIMATION-RESTORE-' + inputId);
   if (value || value == 0) {
@@ -549,8 +549,8 @@ Data.restoreInput = function (inputId) {
 };
 
 Data.restoreHiddenInput = function (inputId) {
-	
-	
+
+
 };
 
 Data.loadSelectOptions = function (selectId,data) {
@@ -562,44 +562,44 @@ Data.loadSelectOptions = function (selectId,data) {
 
 
 Data.changeOpacity = function (inputId) {
-  
+
   var opacity = document.getElementById(inputId).value;
   var selector;
   for (var i = 1; i < arguments.length; i++) {
     selector = arguments[i];
     d3.selectAll(selector).style('opacity',opacity);
   }
-  
-  
+
+
   //saveInput(inputId, 'Data.changeOpacity', '#points circle');
-  
+
   var call = "Data.saveInput('" + inputId + "','Data.changeOpacity'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
 };
 
 Data.changeStyle = function (inputId, styleName) {
-  
+
   var styleValue = document.getElementById(inputId).value;
   var selector;
   for (var i = 1; i < arguments.length; i++) {
     selector = arguments[i];
     d3.selectAll(selector).style(styleName,styleValue);
   }
-  
-  
+
+
   //saveInput(inputId, 'Data.changeOpacity', '#points circle');
-  
+
   var call = "Data.saveInput('" + inputId + "','Data.changeStyle'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
@@ -617,7 +617,7 @@ Data.changeText = function(inputId) {
 	for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
-  
+
   call += ");";
   setTimeout(call, 10);
   return false;
@@ -639,32 +639,32 @@ Data.toggleFormInputType = function (evt) {
 	case 'number':
 		var maximum = input.attr('max');
 		var minimum = input.attr('min');
-		
+
 	  input
 		  .attr('type','range');
 
 		d3.select(id + '-min')
 		     .html(minimum);
-		 
+
 		d3.select(id + '-max')
 		     .html(maximum);
-		 
+
 		d3.select(id)
 		 .transition()
 		 .ease('linear')
 		 .delay(0)
 		 .duration(1000)
 		 .attr('style',rangeStyle);
-		 
+
 		break;
 	case 'range':
-				
+
 	  input
 		  .attr('type',"number");
-	
+
 		d3.select(id + '-min')
 			.html('');
-			
+
 		d3.select(id + '-max')
 			.html('');
 
@@ -674,7 +674,7 @@ Data.toggleFormInputType = function (evt) {
 		 .delay(0)
 		 .duration(1000)
 		 .attr('style', numberStyle);
-		 
+
 		break;
 	}
 };

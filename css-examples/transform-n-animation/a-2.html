@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>CSS Animation Example 1</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<style>
+#notice {
+  position: absolute;
+  bottom: 50%;
+  left: 10px;
+  font-size: 2em;
+  font-weight: bold;
+}
+#block {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  height: 40px;
+  width: 40px;
+  background-color: yellow;
+  color: red;
+  font-size: 30px;
+  font-family: sans-serif;
+  border-radius: 20px;
+  border: 5px solid orange;
+  margin: auto;
+  text-align: center;
+  animation-name: simple-move;
+  animation-duration: 20s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@keyframes simple-move {
+
+  from {
+    height: 40px;
+    width: 40px;
+    background-color: yellow;
+    top: 10px;
+    left: 20px;
+  }
+  50% {
+    height: 30px;
+    width: 30px;
+    background-color: tan;
+    color: white;
+    top: 300px;
+    left: 400px;
+    /*animation-timing-function: cubic-bezier(0,100px,100px,100px,0); */
+  }
+  to {
+    height: 80px;
+    width: 120px;
+    top: 200px;
+    left: 800px;
+    background-color: blue;
+    font-size: 50px;
+    border-radius: 40px;
+  }
+}
+
+</style>
+
+<style id="dynamic">
+
+</style>
+
+
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+
+<script>
+
+var logIt = function (evt) {
+  var e = evt
+  Log.Notice("Animation '" + evt.animationName + "', Event Type='"
+    + evt.type + "', Elapsed Time='" + evt.elapsedTime + " seconds',"
+    + " Event Phase='" + evt.eventPhase + "'")
+}
+
+var cancelAnim = function (evt) {
+  var e = evt;
+  logIt(e);
+  this.style.display='none';
+  //this.style["animation-play-state"] = 'paused';
+}
+
+var togglePause = function (evt) {
+  var e = evt;
+  if (this.style["animation-play-state"]) {
+    if (this.style["animation-play-state"] == 'paused') {
+      this.style["animation-play-state"] = 'running'
+      e.animationName = 'Click to Resume'
+    } else {
+      this.style["animation-play-state"] = 'paused'
+      e.animationName = 'Click to Pause'
+    }
+  } else {
+    this.style["animation-play-state"] = 'paused'
+    e.animationName = 'Click to Pause'
+  }
+
+  logIt(e);
+}
+
+$(document).ready(function() {
+  Log.Notice('Document Ready');
+  //Log.Remove();
+  document.getElementById('block').addEventListener('animationstart',logIt,false)
+  document.getElementById('block').addEventListener('animationiteration',logIt,false);
+  document.getElementById('block').addEventListener('animationend',logIt,false);
+  document.getElementById('block').addEventListener('animationcancel',logIt,false)
+  document.getElementById('block').addEventListener('click',togglePause,false);
+ });
+
+</script>
+
+</head>
+
+<body>
+<div id="block">T</div>
+<div id="notice">Click on object to pause/resume animation.</div>
+</body>
+</html>

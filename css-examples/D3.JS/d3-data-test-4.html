@@ -8,7 +8,7 @@
 
 pre {
  	background-color: silver;
-    border: 1px solid black;   
+    border: 1px solid black;
 }
 
 .symbolContainer {
@@ -38,7 +38,7 @@ pre {
 .axis {
     padding-top: 450px;
 }
-.axis path, 
+.axis path,
 .axis line {
     fill: none;
     stroke: black;
@@ -53,9 +53,9 @@ pre {
 
 </style>
 
-<script language="javascript" src="d3.v3.js"></script>
-<script language="javascript" src="../js/jquery-1.7.1.js"></script>
-<script language="javascript" src="../js/log.js"></script>
+<script language="javascript" src="/js/d3.v3.js"></script>
+<script language="javascript" src="/js/jquery-1.7.1.js"></script>
+<script language="javascript" src="/js/log-2.js"></script>
 <script language="javascript" >
 
 var version = d3.version;
@@ -94,31 +94,31 @@ datasetMax["objects"] =    50;
 datasetSize = Math.round(datasetMax["objects"] *Math.random());
 
 for (var i = 0; i < datasetSize; i++) {
-	dataset[i] = { 
+	dataset[i] = {
 		x: Math.round(datasetMax["x"] * Math.random(Date.now()+i*23)),
 		y: Math.round(datasetMax["y"] * Math.random(Date.now()+i*19)),
 		a: Math.round(datasetMax["a"] * Math.random(Date.now()+i*7))
 	}
 }
-	
+
 function startD3 () {
-	
+
 	Log.Notice("Running startD3...");
 	index = 0;
-	
+
   var svg = d3.select(document.body)
   	.append("svg")
 		.style("position", "absolute")
 		.style("top", '100px')
 		.style("left", '50px')
 		.attr('id','svgBox1');
-	
+
 	svg.selectAll("g.circle")
 		.data(dataset)
 		.enter()
 		.append("g")
 			.attr("class","circle")		.append("circle")
-			.attr("r",function(d) { 
+			.attr("r",function(d) {
 			  var r = Math.round(Math.sqrt(d.a/Math.PI));
 				index++;
 				Log.Notice(index + ": creating circle with radius=" + r + ", x=" + d.x + ", y=" + d.y);
@@ -126,18 +126,18 @@ function startD3 () {
 			})
 			.attr("id", "circle" + index)
 			.attr("fill",'magenta');
-			
+
 	svg.selectAll("g.circle")
 		.data(dataset)
 		.append("ellipse")
-			.attr({ 
+			.attr({
 				rx: 30,
 				ry: 30,
 				cx: 0,
 				cy: 0,
 				fill: "#80a322"
 		 });
-	
+
 	// Add an axis:
 	var xScale = d3.scale.linear()
 		.domain( [0, d3.max(dataset, function (d) {return d.x;})] )
@@ -148,17 +148,17 @@ function startD3 () {
   var yScale = d3.scale.linear()
 		.domain( [0, d3.max(dataset, function (d) {return d.y;})] )
 		.range(  [d3.max(dataset, function (d) {return d.y;}),0] );
-		
+
   var cScale = d3.scale.ordinal() //["#569", "#832", "#a04", "#12a"]
 		.range(["#569", "#832", "#a04", "#12a", "#963", "olive", "#258", "#7af", "#5a9", "#f15", "#27a", "#663386", "#1a7391", "#ae1f4b", "#80a322"])
 		.domain(0, Math.round(d3.max(dataset, function (d) {return d.a;})));
-		
+
   var rotateScale = d3.scale.linear()
 		.domain([0,1])
 		.range([0,360]);
-  
+
 	Log.Notice("xScale max = " +  d3.max(dataset, function (d) {return d.x;} ) );
-	
+
 	var xAxisTransform = Math.round(
 	          d3.max(dataset, function (d) {
 								return d.y;
@@ -167,29 +167,29 @@ function startD3 () {
 						//		return Math.sqrt(d.a/Math.PI);
 						//});
   var yAxisTransform = 0;
-	
+
 	var xAxis = d3.svg.axis()
 		.scale(xScale)
 		.orient("bottom")
 		.ticks(10);
-		
+
 	var yAxis = d3.svg.axis()
 		.scale(yScale)
 		.orient("left")
 		.ticks(10);
-		
+
 	svg.append("g")
 		.attr("class","axis")
 		//.attr("y", Math.round(d3.max(dataset, function (d) {return d.y;})) + 50)
 		.call(yAxis)
 		.attr("transform", "translate(" + yAxisTransform + ",0)");
-	
+
 	svg.append("g")
 		.attr("class","axis")
 		//.attr("y", Math.round(d3.max(dataset, function (d) {return d.y;})) + 50)
 		.call(xAxis)
 		.attr("transform", "translate(0," + xAxisTransform + ")");
-		
+
 
 
 	svg.selectAll("g.circle circle")
@@ -215,7 +215,7 @@ function startD3 () {
 		.attr("r", function(d) {
 			return Math.sqrt(d.a/Math.PI);
 		})
-		.attr("fill", function(d) { 
+		.attr("fill", function(d) {
 		  Log.Notice("cScale(" + d.a + ")=" + cScale(d.a));
 			return cScale(d.a);
 		})
@@ -239,18 +239,18 @@ function startD3 () {
 			.ease("bounce-in-out")
 			.delay(function(d,i) { return i*100})
 			.duration(Math.round(5100 * datasetSize/datasetMax["objects"]))
-			.attr({ 
+			.attr({
 				rx: function(d,i) {
 					var r = Math.sqrt(d.a/Math.PI);
 					Log.Notice("creating ellipse " + index);
 					return Math.round(r * Math.random(r));
 				},
-				ry: function(d,i) { 
+				ry: function(d,i) {
 					return Math.round(Math.sqrt(d.a/Math.PI));
 				},
 				cx: function(d,i) { return d.x;},
 				cy: function(d,i) { return d.y;},
-				fill: function(d) { 
+				fill: function(d) {
 		  		Log.Notice("ellipse cScale(" + d.a + ")=" + cScale(d.a));
 					return cScale(d.a);
 				}//,
@@ -269,8 +269,8 @@ function startD3 () {
 					});
 			})
 		;
-		
-		
+
+
 		svg.selectAll("g.circle circle")
 			.on("click", function (d,i) {
 				Log.Notice("hi from " + i + " area=" + d.a)
@@ -294,7 +294,7 @@ function startD3 () {
 $(document).ready(function () {
 
   Log.Notice('d3.js version=' + version);
-	d3.csv("data4.csv", function(e,d) {
+	d3.csv("data2.csv", function(e,d) {
 		Log.Notice("running d3.csv");
 		if (e) {
 			// do nothing

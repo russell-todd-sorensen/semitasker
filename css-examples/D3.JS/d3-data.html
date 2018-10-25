@@ -4,11 +4,12 @@
 <meta charset="utf-8">
 <title>d3 data examples</title>
 <link rel="stylesheet" type="text/css" href="main.css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 <style>
 
 pre {
  	background-color: silver;
-    border: 1px solid black;   
+    border: 1px solid black;
 }
 
 .symbolContainer {
@@ -36,7 +37,7 @@ pre {
     padding: 5px;
 }
 
-.axis path, 
+.axis path,
 .axis line {
     fill: none;
     stroke: black;
@@ -51,18 +52,18 @@ pre {
 
 </style>
 
-<script language="javascript" src="d3.v3.js"></script>
-<script language="javascript" src="../js/jquery-1.7.1.js"></script>
-<script language="javascript" src="../js/log.js"></script>
+<script language="javascript" src="/js/d3.v3.js"></script>
+<script language="javascript" src="/js/jquery-1.7.1.js"></script>
+<script language="javascript" src="/js/log-2.js"></script>
 <script language="javascript" >
 
 var version = d3.version;
 var index = 0;
 function startD3 () {
-	
+
 	Log.Notice("Running startD3...");
 	index = 0;
-	
+
 	var dataset = [
 	{ x: 100, y: 200, a:   500},
 	{ x:  50, y:  30, a:  1000},
@@ -83,21 +84,21 @@ function startD3 () {
 	{ x: 150, y:  38, a:   390},
 	{ x: 333, y: 400, a:  7000}
 	];
-	
+
   var svg = d3.select(document.body)
   	.append("svg")
 		.style("position", "absolute")
 		.style("top", '50px')
 		.style("left", '200px')
 		.attr('id','svgBox1');
-	
+
 	svg.selectAll("circle")
 		.data(dataset)
 		.enter()
 		.append("circle")
 			//.attr("x",function(d) {return d.x})
 			//.attr("y",function(d) {return d.y})
-			.attr("r",function(d) { 
+			.attr("r",function(d) {
 			  var r = Math.round(Math.sqrt(d.a/Math.PI));
 				index++;
 				Log.Notice(index + ": creating circle with radius=" + r + ", x=" + d.x + ", y=" + d.y);
@@ -105,7 +106,7 @@ function startD3 () {
 			})
 			.attr("id", "circle" + index)
 			.attr("fill",'magenta');
-	
+
 	// Add an axis:
 	var xScale = d3.scale.linear()
 		.domain( [0, d3.max(dataset, function (d) {return d.x;})] )
@@ -115,7 +116,7 @@ function startD3 () {
 		.scale(xScale)
 		.orient("bottom")
 		.ticks(10);
-	
+
 	svg.append("g")
 		.attr("class","axis")
 		.call(xAxis)
@@ -150,7 +151,7 @@ function startD3 () {
 			d3.select(this).attr("r", Math.sqrt(d.a/Math.PI));
 			Log.Notice("circleid = " + d3.select(this).attr("id") + "radius = " + d3.select(this).attr("r"));
 		});
-		
+
 }
 
 $(document).ready(function () {

@@ -31,7 +31,14 @@
 //  this.callEndMove = [logEndMove,unbindMouseUp,calculateRect];
 //  return this;
 //};
-
+//
+// log callbacks are not required, but captureMouseUp and unbindMouseUp
+// are required. After drawing of the box starts, the pointer is over
+// the new box, so captureMouseUp binds the mouseUp event to the new box.
+//
+// setupRect and calculateRect are user defined functions. You can replace
+// them with anything requried for your application.
+//
 /////////////////// END EXAMPLE ///////////////////////////////////////////
 
 function startMove(evt) {
@@ -53,27 +60,52 @@ function dragMove(evt) {
 
   var obj =  evt.data;
   obj.dragCurrent.x = evt.clientX;
-  obj.dragCurrent.y = evt.clientY; 
- 
+  obj.dragCurrent.y = evt.clientY;
+
   for (var i = 0; i< obj.callDragMove.length; i++) {
     obj.callDragMove[i](evt);
   }
 }
 
 function endMove(evt) {
-  
+
   var obj = evt.data;
   obj.dragEnd.x = evt.clientX;
   obj.dragEnd.y = evt.clientY;
-  
+
   $(obj.mouseBox)
     .unbind('mousemove')
     .unbind('mouseup');
-  
+
   dragMove(evt);
-  
+
   for (var i = 0; i< obj.callEndMove.length; i++) {
     obj.callEndMove[i](evt);
   }
 }
 
+function captureMouseUp(evt) {
+	obj = evt.data;
+	$('#' + obj.boxId)
+		.bind('mouseup',obj,endMove);
+}
+
+function unbindMouseUp(evt) {
+	obj = evt.data;
+	$('#' + obj.boxId)
+		.unbind('mouseup');
+}
+
+// optional functions
+
+function logStartMove(evt) {
+	Log.Notice('logStartMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
+}
+
+function logDragMove(evt) {
+	Log.Notice('logDragMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
+}
+
+function logEndMove(evt) {
+	Log.Notice('logEndMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
+}

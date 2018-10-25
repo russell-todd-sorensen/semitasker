@@ -7,7 +7,7 @@ var sudokuMoveIndex = 0;
 
 function grabNumber(elem) {
 	sNumber = elem.innerHTML;
-	Log("Notice", "Grabbed '" + sNumber + "'");
+	Log.Notice("Grabbed '" + sNumber + "'");
 }
 
 function pasteNumber(id) {
@@ -19,11 +19,11 @@ function pasteNumber(id) {
 	sudokuMoves[sudokuMoveIndex] = [id, currValue, sNumber];
 	sudokuMoveIndex++;
 	document.getElementById(id).innerHTML = sNumber;
-	Log("Notice", "Dropped '" + sNumber + "' on " +  id);
+	Log.Notice("Dropped '" + sNumber + "' on " +  id);
 }
 
 function goBackOneStep() {
-	
+
 	if (sudokuMoveIndex == 0) {
 		return null
 	} else {
@@ -31,14 +31,14 @@ function goBackOneStep() {
 	}
 	var move = sudokuMoves[sudokuMoveIndex];
 	document.getElementById(move[0]).innerHTML = move[1];
-	Log("Notice", "Back one step, restored " + move[0] + " to '" + move[1] + "'");
+	Log.Notice("Back one step, restored " + move[0] + " to '" + move[1] + "'");
 }
 
 function goFwdOneStep() {
-	
+
 	var move = sudokuMoves[sudokuMoveIndex];
 	document.getElementById(move[0]).innerHTML = move[2];
-	Log("Notice", "Forward one step, restored " + move[0] + " to '" + move[2] + "'");
+	Log.Notice("Forward one step, restored " + move[0] + " to '" + move[2] + "'");
 	sudokuMoveIndex++;
 }
 
@@ -67,10 +67,10 @@ function rewind() {
 
 function play() {
 	if (sudokuMoveIndex >= myPlayer.startIndex) {
-		Log("Notice", "Ending replay");
+		Log.Notice("Ending replay");
 		return null;
 	} else {
-		Log("Notice", "Playing with sudokuMoveIndex = " + sudokuMoveIndex + " and startIndex = " + myPlayer.startIndex);
+		Log.Notice("Playing with sudokuMoveIndex = " + sudokuMoveIndex + " and startIndex = " + myPlayer.startIndex);
 	}
 	goFwdOneStep();
 	setTimeout('myPlayer.play()',myPlayer.timeout)
@@ -83,7 +83,7 @@ function replayAll(timeout) {
 	this.rewind = rewind;
 	this.play = play;
 	this.startOver = startOver;
-	Log("Notice", "Created replayAll object with startIndex = " + this.startIndex);
+	Log.Notice("Created replayAll object with startIndex = " + this.startIndex);
 }
 
 var myPlayer;

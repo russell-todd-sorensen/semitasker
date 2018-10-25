@@ -65,10 +65,10 @@ var setupComplete = false;
 
 
 function setupSudoku() {
-	
-	Log("Notice", "Running setupSudoku()...");
+
+	Log.Notice( "Running setupSudoku()...");
 	var doCellBox = true;
-	
+
 	if (setupSudoku.arguments.length > 1) {
 		args = setupSudoku.arguments;
 		boxCols = args[0];
@@ -90,8 +90,8 @@ function setupSudoku() {
 	}
 
 	puzzle[activeCells+1] = "P";
-	puzzle[activeCells+2] = "0"; 
-		
+	puzzle[activeCells+2] = "0";
+
 	// working arrays
 	cellRow = new Array(activeCells+2);
 	cellCol = new Array(activeCells+2);
@@ -114,7 +114,7 @@ function setupSudoku() {
 		symbols[i] = defaultSymbols.charAt(i);
 		symbol_index[parseInt(defaultSymbols.charCodeAt(i))] = i;
 	}
-	
+
 	symbols[puzzleDimension] = "0";
 
 
@@ -135,9 +135,9 @@ function setupSudoku() {
 		for (var i = 0; i<args[2].length; i++) {
 			cellBox[i] = args[2][i];
 		}
-		Log("Notice","Created Box Cell Map = " + cellBox);
+		Log.Notice("Created Box Cell Map = " + cellBox);
 	}
-	
+
   	for (var i = 1; i <= activeCells; i++) {
 		cellRow[i] = ( Math.floor((i-1) / puzzleDimension ) + 1);
 	  	cellCol[i] = ( ((i-1) % puzzleDimension ) + 1);
@@ -149,21 +149,21 @@ function setupSudoku() {
 	 	} else {
 			cellType[i] = 'F';
 			cellValue = symbol_index[puzzle[i].toString().charCodeAt()];
-			Log("Notice", "cellValue(" + i + ") = " + cellValue);
+			Log.Notice( "cellValue(" + i + ") = " + cellValue);
 			rowMask[cellRow[i]] &= ~(1<<cellValue);
 			colMask[cellCol[i]] &= ~(1<<cellValue);
 			boxMask[cellBox[i]] &= ~(1<<cellValue);
 	 	}
 
   	} // end cell setup
-	Log("Notice", "Start puzzle = " + puzzle);
+	Log.Notice( "Start puzzle = " + puzzle);
  	setupComplete = true;
 }
 
 function solveSudokuX () {
-	
-	Log("Notice", "Starting solveSudoku...");
-	
+
+	Log.Notice( "Starting solveSudoku...");
+
 	if (!setupComplete) {
 		if (boxMapString.length > 0) {
 		  	setupSudoku(boxCols,boxRows,boxMapString);
@@ -171,18 +171,18 @@ function solveSudokuX () {
 			setupSudoku(boxCols,boxRows);
 		}
 	}
-	
-	
-	
-	
+
+
+
+
 }
 
 
 
 function solveSudoku() {
-	
-	Log("Notice", "Starting solveSudoku...");
-	
+
+	Log.Notice( "Starting solveSudoku...");
+
 	if (!setupComplete) {
 		if (boxMapString.length > 0) {
 		  	setupSudoku(boxCols,boxRows,boxMapString);
@@ -190,26 +190,26 @@ function solveSudoku() {
 			setupSudoku(boxCols,boxRows);
 		}
 	}
-	
+
 	count = 0;
 	solutions = 0;
 	var AC = 1; // current cell
 	var Dir = 1; // direction -1 or 1
-	
+
 	// print puzzle before solving:
 	printPuzzleFormatted(6);
-	
+
 	bigLoop:
 	while (AC > 0 && count < MAX_COUNT && solutions < MAX_SOLUTIONS) {
-		
+
 		count++;
-		
+
 		if (cellType[AC] == "F") {
 			AC += Dir;
 			continue;
 		}
 		if (cellType[AC] == "P") {
-			Log("Notice", puzzle.toString());
+			Log.Notice( puzzle.toString());
 			solutions++;
 			printPuzzleFormatted(3);
 			Dir = -1;
@@ -217,16 +217,16 @@ function solveSudoku() {
 			continue;
 		}
 		if (cellType[AC] != "A") {
-			Log("Error", "Unexpected cellType = " + cellType[AC].toString());
+			Log.Error("Unexpected cellType = " + cellType[AC].toString());
 			break bigLoop;
 		}
-		
+
 		// cellType is A
-		
+
 		if (Dir == 1) {
 			cellMask[AC] = rowMask[cellRow[AC]] & colMask[cellCol[AC]] & boxMask[cellBox[AC]];
 			cellI[AC] = 0;
-			
+
 			while ( (cellI[AC] <= puzzleDimension) && ( (cellMask[AC] & (1<<cellI[AC])) == 0) )  {
 				cellI[AC]++;
 			}
@@ -241,42 +241,42 @@ function solveSudoku() {
 			rowMask[cellRow[AC]] &= ~(1<< cellI[AC]);
 			colMask[cellCol[AC]] &= ~(1<< cellI[AC]);
 			boxMask[cellBox[AC]] &= ~(1<< cellI[AC]);
-			
+
 			AC += Dir;
 			// end Dir = 1
-		} else { 
+		} else {
 			//Dir = -1
-		
+
 			cellValue = 1<<cellI[AC]; // always works
-			
+
 			// add old value back to masks
 			rowMask[cellRow[AC]] |= cellValue;
 			colMask[cellCol[AC]] |= cellValue;
 			boxMask[cellBox[AC]] |= cellValue;
-			
+
 			while (( ++cellI[AC] <= puzzleDimension) && ( (cellMask[AC] & (1<<cellI[AC])) == 0) ) {
 				//loop
 			}
 			if (cellI[AC] > puzzleDimension) {
 				puzzle[AC] = "0";
 				AC += Dir;
-				continue;	
+				continue;
 			}
-			
+
 			// try next value and reverse direction
 			puzzle[AC] = symbols[cellI[AC]];
 			rowMask[cellRow[AC]] &= ~(1<< cellI[AC]);
 			colMask[cellCol[AC]] &= ~(1<< cellI[AC]);
 			boxMask[cellBox[AC]] &= ~(1<< cellI[AC]);
-			
+
 			Dir = 1;
 			AC += Dir;
 			continue;
 		} // end Dir = -1
 	} // end while
-	Log ("Notice", "End count = " + count + " End puzzle = " + puzzle );
+	Log.Notice( "End count = " + count + " End puzzle = " + puzzle );
 }
- 
+
 //////////////////////////////// END SUDOKU SOLVER CODE ////////////////////
 //
 // Formatting Information
@@ -292,7 +292,7 @@ function makeFormatProfile(
 	this.beginBox = beginBox        || "";
 	this.beginCell = beginCell      || "";
 	this.endCell = endCell          || "";
-	this.endBox = endBox            || "";       
+	this.endBox = endBox            || "";
 	this.endRow = endRow            || "";
 	this.endBoxrow = endBoxrow      || "";
  	this.endBlock = endBlock        || "";
@@ -317,7 +317,7 @@ formatProfiles[7] = new makeFormatProfile("<div class='top'>\n"," <div class='bo
 formatProfiles[8] = new makeFormatProfile("<div class='top2'>\n"," <div class='boxrow2'>\n","  <div class='row2'>\n","    <div class='leftbox2'> </div>\n","    <div class='cell2 boxP","</div>\n","    <div class='rightbox2'> </div>\n","  </div>\n"," </div>\n","</div>\n");
 
 function printPuzzleFormatted(formatId) {
-	
+
 	var fObj = formatProfiles[formatId];
 	var BEGIN_BLOCK  = fObj.beginBlock;   // default ""
 	var BEGIN_BOXROW = fObj.beginBoxrow;  // default ""
@@ -326,7 +326,7 @@ function printPuzzleFormatted(formatId) {
 	var BEGIN_CELL =   fObj.beginCell;    // default ""
 	var END_CELL =     fObj.endCell;     // default " "
 	var END_BOX =      fObj.endBox;      // default " "
-	var END_ROW =      fObj.endRow;     // default "\n" 
+	var END_ROW =      fObj.endRow;     // default "\n"
 	var END_BOXROW =   fObj.endBoxrow;  // default "\n"
 	var END_BLOCK  =   fObj.endBlock;     // default ""
 	var FP = "#" + solutions + " Count = " + count +"\n";
@@ -340,7 +340,7 @@ function printPuzzleFormatted(formatId) {
 		}
 		if ( (i%puzzleDimension) == 1 ) {
 			if ( (puzzleDimension*(cellBox[i]-1)+1) == i) {
-				Log ("Notice", "cellBox[" + i + "] = " + cellBox[i]);
+				Log.Notice( "cellBox[" + i + "] = " + cellBox[i]);
 				TMP += BEGIN_BOXROW;
 			}
 			TMP += BEGIN_ROW;
@@ -348,7 +348,7 @@ function printPuzzleFormatted(formatId) {
 		if ( (i%boxRows) == 1 ) {
 			TMP += BEGIN_BOX;
 		}
-		
+
 		if (formatId == 4) {
 			TMP += BEGIN_CELL + " onClick='pasteNumber(\"C" + i + "\")'><span class='data'><span id='C" + i + "' class='input2 box" + cellBox[i] + "'>" + cellValue + END_CELL;
 		} else if (formatId == 6 || formatId == 8) {
@@ -360,7 +360,7 @@ function printPuzzleFormatted(formatId) {
 		} else {
 			TMP += BEGIN_CELL + puzzle[i] + END_CELL;
 		}
-		
+
 		if ( (i%boxRows ) == 0 ) {
 		   	TMP += END_BOX;
 	   	}
@@ -369,7 +369,7 @@ function printPuzzleFormatted(formatId) {
 		   	if ( (puzzleDimension*cellBox[i]) == i) {
 			  	TMP += END_BOXROW;
 		   	}
-	   	} 
+	   	}
 
 	}
 	TMP += END_BLOCK;
@@ -377,14 +377,14 @@ function printPuzzleFormatted(formatId) {
 	if (formatId == 4 || formatId == 6) {
 		document.getElementById("t").innerHTML = TMP;
 	} else {
-   		Log("SOLUTION" , FP);
+   		Log.Notice("Solution: " + FP);
 	}
 	return TMP;
 }
 
 // Toolbar (selects current drop value
 function printToolBar(formatId) {
-	
+
 	var fObj = formatProfiles[formatId];
 	var BEGIN_BLOCK  = fObj.beginBlock;   // default ""
 	var BEGIN_BOXROW = fObj.beginBoxrow;  // default ""
@@ -393,25 +393,25 @@ function printToolBar(formatId) {
 	var BEGIN_CELL =   fObj.beginCell;    // default ""
 	var END_CELL =     fObj.endCell;     // default " "
 	var END_BOX =      fObj.endBox;      // default " "
-	var END_ROW =      fObj.endRow;     // default "\n" 
+	var END_ROW =      fObj.endRow;     // default "\n"
 	var END_BOXROW =   fObj.endBoxrow;  // default "\n"
 	var END_BLOCK  =   fObj.endBlock;     // default ""
 	var FP = "";
 	//var FP = "#" + solutions + " Count = " + count +"\n";
 	var TMP = BEGIN_BLOCK;
 	var cellValue = "&nbsp;&nbsp;"
-	
+
    	for (var i = 1; i <= puzzleDimension+1; i++) {
-		
+
 		if (symbols[i-1] == "0") {
 			cellValue = "&nbsp;&nbsp;";
 		} else {
 			cellValue = symbols[i-1];
 		}
-		
+
 		if ( (i%puzzleDimension) == 1 ) {
 			if ( (puzzleDimension*(cellBox[i]-1)+1) == i) {
-				//Log ("Notice", "cellBox[" + i + "] = " + cellBox[i]);
+				//Log.Notice( "cellBox[" + i + "] = " + cellBox[i]);
 				TMP += BEGIN_BOXROW;
 				TMP += BEGIN_ROW;
 			}
@@ -420,13 +420,13 @@ function printToolBar(formatId) {
 		if ( (i%boxRows) == 1 ) {
 			TMP += BEGIN_BOX;
 		}
-		
+
 		if (formatId == 7) {
 			TMP += BEGIN_CELL + cellValue + END_CELL;
 		} else {
 			TMP += BEGIN_CELL + symbols[i-1] + END_CELL;
 		}
-		
+
 		if ( (i%boxRows ) == 0 ) {
 		   	TMP += END_BOX;
 	   	}
@@ -435,7 +435,7 @@ function printToolBar(formatId) {
 		   	if ( ((puzzleDimension+1)*cellBox[i]) == i) {
 			  	TMP += END_BOXROW;
 		   	}
-	   	} 
+	   	}
 
 	}
 	TMP += END_BLOCK
@@ -444,7 +444,7 @@ function printToolBar(formatId) {
 		document.getElementById("t2").innerHTML = TMP;
 		document.getElementById("t3").style.visibility = "visible";
 	} else {
-   		Log("TOOLBAR" , FP);
+   		Log.Notice(FP);
 	}
 }
 
