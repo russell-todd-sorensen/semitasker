@@ -4,51 +4,57 @@ var svg;
 var config4;
 
 var mainConfig = {
-	  filterId: '#wipeX',
-		feImageId: '#feImage-wipe-x',
-		heightTo: 40,
-		heightBack: 40,
-		widthTo: 40,
-		widthBack: 40,
-		
-		feRectId: '#rect40', //#rect4-wipe-x',
-		rectHeightTo: 40,
-		rectWidthTo: 40,
-		rectHeightBack: 40,
-		rectWidthBack: 40,
-		
-		feDisplacementMapId: '#displace-map-wipe-x',
-		scaleTo: 600,
-		scaleBack: 10,
-		
-		feDiffuseLightingId: '#diffuse-light-wipe-x',
-		colorTo: '#663',
-		surfaceScaleTo: 4,
-		diffuseConstantTo: 5,
-		
-		fePointLightId: '#point-light-wipe-x',
-		xTo: 900,
-		yTo: 800,
-		zTo: 2,
-		
-		durationTo: 5000, // 20000
-		durationBack: 5000, // 10000
-		
-		delayTo: 0,
-		delayBack: 0, // 3000
-		
-		easeTo: 'linear',
-		easeBack: 'linear'
-	
+	filterId: '#wipeX',
+	feImageId: '#feImage-wipe-x',
+	heightTo: 40,
+	heightBack: 40,
+	widthTo: 40,
+	widthBack: 40,
+
+	feRectId: '#rect40', //#rect4-wipe-x',
+	rectHeightTo: 40,
+	rectWidthTo: 40,
+	rectHeightBack: 40,
+	rectWidthBack: 40,
+
+	feDisplacementMapId: '#displace-map-wipe-x',
+	scaleTo: 600,
+	scaleBack: 10,
+
+	feDiffuseLightingId: '#diffuse-light-wipe-x',
+	colorTo: '#663',
+	colorBack: '#FFC',
+	surfaceScaleTo: 600,
+	surfaceScaleBack: 10,
+	diffuseConstantTo: 5,
+	diffuseConstantBack: 0.75,
+
+	fePointLightId: '#point-light-wipe-x',
+	xTo: 900,
+	yTo: 800,
+	zTo: 2,
+	xBack: 0,
+	yBack: 0,
+	zBack: 50,
+
+	durationTo: 5001, // 20000
+	durationBack: 5005, // 10000
+
+	delayTo: 0,
+	delayBack: 0, // 3000
+
+	easeTo: 'linear',
+	easeBack: 'linear'
+
 };
 
 
 //var dataset18,dataset19,dataset20,dataset21,dataset22;
 
 function meltX(config) {
-	
+
 	  var feDisplacementMapId  = config.feDisplacementMapId;
-		
+
 		if (config.dataDisplacementMap) {
 			var dataDisplacementMap  = config.dataDisplacementMap;
 		} else {
@@ -56,15 +62,15 @@ function meltX(config) {
 		}
 
 		var scaleTo    = config.scaleTo;
-		
+
 		if (config.scaleBack) {
 			var scaleBack  = config.scaleBack;
 		} else {
 			var scaleBack  = "return";
 		}
-		
+
 		var durationTo   = config.durationTo;
-		
+
 		if (config.durationBack) {
 			var durationBack  = config.durationBack;
 		} else {
@@ -76,20 +82,20 @@ function meltX(config) {
 		} else {
 			  var delayTo = 0;
 		}
-		
+
 		if (config.delayBack) {
 				var delayBack = parseInt(config.delayBack);
 		} else {
 			  var delayBack = 0;
 		}
-		
-		
+
+
 		if (config.easeTo) {
 			 var easeTo     = config.easeTo;
 		} else {
 			 var easeTo = 'linear';
 		}
-		
+
 		if (config.easeBack) {
 			 var easeBack = config.easeBack;
 		} else {
@@ -122,31 +128,31 @@ function meltX(config) {
 }
 
 function tileizeX (config) {
-	
+
 		var feImageId  = config.feImageId;
-		
+
 		if (config.data) {
 			var data = config.data;
 		} else {
 			var data = doc.selectAll(feImageId);
 		}
-		
+
 		var heightTo    = config.heightTo;
-		
+
 		if (config.heightBack) {
 			var heightBack  = config.heightBack;
 		} else {
 			var heightBack  = "return";
 		}
-		
+
 		var widthTo    = config.widthTo;
-		
+
 		if (config.widthBack) {
 			var widthBack  = config.widthBack;
 		} else {
 			var widthBack  = "return";
 		}
-				
+
 		var feRectId   = config.feRectId;
 
 		if (config.dataRect) {
@@ -154,26 +160,26 @@ function tileizeX (config) {
 		} else {
 			var dataRect = doc.selectAll(feRectId);
 		}
-		
+
 		rectHeightTo = config.rectHeightTo;
-		
+
 		if (config.rectHeightBack) {
 			var rectHeightBack  = config.rectHeightBack;
 		} else {
 			var rectHeightBack  = "return";
 		}
-		
+
 		var rectWidthTo    = config.rectWidthTo;
-		
+
 		if (config.rectWidthBack) {
 			var rectWidthBack  = config.rectWidthBack;
 		} else {
 			var rectWidthBack  = "return";
 		}
-		
+
 
 		var durationTo   = config.durationTo;
-		
+
 		if (config.durationBack) {
 			var durationBack  = config.durationBack;
 		} else {
@@ -185,30 +191,30 @@ function tileizeX (config) {
 		} else {
 			  var delayTo = 0;
 		}
-		
+
 		if (config.delayBack) {
 				var delayBack = parseInt(config.delayBack);
 		} else {
 			  var delayBack = 0;
 		}
-		
-		
+
+
 		if (config.easeTo) {
 			 var easeTo     = config.easeTo;
 		} else {
 			 var easeTo = 'linear';
 		}
-		
+
 		if (config.easeBack) {
 			 var easeBack = config.easeBack;
 		} else {
 			 var easeBack = easeTo;
 		}
-				
-	
+
+
 	doc
-		.selectAll(feImageId)
-	  .data(data)
+	  	.selectAll(feImageId)
+	  	.data(data)
 		.transition()
 		.delay(delayTo)
 		.duration(durationTo)
@@ -236,7 +242,7 @@ function tileizeX (config) {
 					return widthBack === "return" ? d1.width : parseFloat(widthBack);
 				})
 		});
-		
+
 	doc
 		.selectAll(feRectId)
 		.data(dataRect)
@@ -266,7 +272,7 @@ function tileizeX (config) {
 					Log.Notice("rectWidthBack=" + rectWidthBack + " d.width=" + d.width);
 					return rectWidthBack === "return" ? d.width : parseFloat(rectWidthBack);
 				})
-		});	
+		});
 }
 
 
@@ -274,66 +280,66 @@ function wipeX(config) {
 
 	  // diffuseLighting vars
 		var feDiffuseLightingId = config.feDiffuseLightingId;
-		
+
 		if (config.dataDiffuseLighting) {
 			var dataDiffuseLighting = config.dataDiffuseLighting;
 		} else {
 			var dataDiffuseLighting = doc.selectAll(feDiffuseLightingId);
 		}
-									 
+
 	  var colorTo = config.colorTo;
 		if (config.colorBack) {
 			var colorBack  = config.colorBack;
 		} else {
 			var colorBack  = "return";
 		}
-		
+
 		var surfaceScaleTo = config.surfaceScaleTo;
 		if (config.surfaceScaleBack) {
 			var surfaceScaleBack  = config.surfaceScaleBack;
 		} else {
 			var surfaceScaleBack  = "return";
 		}
-		
+
 		var diffuseConstantTo = config.diffuseConstantTo;
 		if (config.diffuseConstantBack) {
 			var diffuseConstantBack  = config.diffuseConstantBack;
 		} else {
 			var diffuseConstantBack  = "return";
 		}
-		
+
 		// pointLight vars
 		var fePointLightId = config.fePointLightId;
-		
+
 		if (config.dataPointLight) {
 			var dataPointLight = config.dataPointLight;
 		} else {
 			var dataPointLight = doc.selectAll(fePointLightId);
 		}
-	
+
 		var xTo = config.xTo;
 		if (config.xBack) {
 			var xBack  = config.xBack;
 		} else {
 			var xBack  = "return";
 		}
-		
+
 		var yTo = config.yTo;
 		if (config.yBack) {
 			var yBack  = config.yBack;
 		} else {
 			var yBack  = "return";
 		}
-		
+
 		var zTo = config.zTo;
 		if (config.zBack) {
 			var zBack  = config.zBack;
 		} else {
 			var zBack  = "return";
 		}
-		
+
 		var durationTo   = config.durationTo;
-		
+
 		if (config.durationBack) {
 			var durationBack  = config.durationBack;
 		} else {
@@ -345,26 +351,26 @@ function wipeX(config) {
 		} else {
 			  var delayTo = 0;
 		}
-		
+
 		if (config.delayBack) {
 				var delayBack = parseInt(config.delayBack);
 		} else {
 			  var delayBack = 0;
 		}
-		
-		
+
+
 		if (config.easeTo) {
 			 var easeTo     = config.easeTo;
 		} else {
 			 var easeTo = 'linear';
 		}
-		
+
 		if (config.easeBack) {
 			 var easeBack = config.easeBack;
 		} else {
 			 var easeBack = easeTo;
 		}
-	
+
 	doc
 	  .selectAll(feDiffuseLightingId)
 		.data(dataDiffuseLighting)
@@ -385,7 +391,7 @@ function wipeX(config) {
 			 return diffuseConstantTo;
 		})
 		.each('end', function(d,i) {
-			Log.Notice("running end on id=" + d3.select(this).attr('id')); 
+			Log.Notice("running end on id=" + d3.select(this).attr('id'));
 			d3.select(this)
 				.transition()
 				.delay(delayBack)
@@ -401,7 +407,7 @@ function wipeX(config) {
 					return  diffuseConstantBack === "return" ? d.diffuseConstant : diffuseConstantBack;
 				});
 		});
-		
+
 	doc
 	  .selectAll(fePointLightId)
 	 	.data(dataPointLight)
@@ -442,60 +448,60 @@ function wipeX(config) {
 
 
 function doAnimation(type) {
-	
+
 	// document defaults
 	var config = {};
-	
+
 	for (attr in mainConfig) {
 		config[attr] = mainConfig[attr];
 	}
-	
+
 	var colorTo =  $('#colorTo').val();
 	var colorBack = $('#colorBack').val();
-	
+
 	var heightTo = $('#heightTo').val();
 	var heightBack = $('#heightBack').val();
-	
+
 	var widthTo = $('#widthTo').val();
 	var widthBack = $('#widthBack').val();
-	
+
 	var rectHeightTo = $('#rectHeightTo').val();
 	var rectHeightBack = $('#rectHeightBack').val();
-	
+
 	var rectWidthTo = $('#rectWidthTo').val();
 	var rectWidthBack = $('#rectWidthBack').val();
-	
-	
+
+
 	var scaleTo = $('#scaleTo').val();
 	var scaleBack = $('#scaleBack').val();
 	Log.Notice('scaleTo=' + scaleTo + ' scaleBack=' + scaleBack);
 	var surfaceScaleTo = $('#surfaceScaleTo').val();
 	var surfaceScaleBack = $('#surfaceScaleBack').val();
-	
+
 	var diffuseConstantTo = $('#diffuseConstantTo').val();
 	var diffuseConstantBack = $('#diffuseConstantBack').val();
-	
+
 	var xTo = $('#xTo').val();
 	var xBack = $('#xBack').val();
-	
+
 	var yTo = $('#yTo').val();
 	var yBack = $('#yBack').val();
-	
+
 	var zTo = $('#zTo').val();
 	var zBack = $('#zBack').val();
-	
+
 	var durationTo = $('#durationTo').val();
 	var durationBack = $('#durationBack').val();
 	//var duration = $('#duration').val();
-	
+
 	var delayTo = $('#delayTo').val();
 	var delayBack = $('#delayBack').val();
-	
+
 	var easeTo = $('#easeTo').val();
 	var easeBack = $('#easeBack').val();
 	var feImageId = $('#feImageId').val();
 	var feRectId = $('#feRectId').val();
-	
+
 	config.colorBack = colorBack;
 	config.colorTo = colorTo;
 	config.heightTo = heightTo;
@@ -525,7 +531,7 @@ function doAnimation(type) {
 	config.easeBack = easeBack;
 	config.feImageId = feImageId;
 	config.feRectId = feRectId;
-	
+
 	switch (type) {
 	case 'wipe':
 		Log.Notice("doing wipeX");
@@ -541,7 +547,7 @@ function doAnimation(type) {
 		break;
 	case 'all':
 		Log.Notice("doing All");
-	  wipeX(config);
+	    wipeX(config);
 		tileizeX(config);
 		meltX(config);
 		break;
@@ -581,7 +587,7 @@ function changeRect (selectId,rectId) {
 		.attr('xlink:href', newRectValue)
 		.attr('height', newHeight)
 		.attr('width', newWidth);
-		
+
 	saveSelect(selectId, 'changeRect', rectId);
 }
 
@@ -608,80 +614,80 @@ function restoreSelect(selectId) {
 		var valueOption = "#" + selectId + " " + "option[value='" + value + "']";
 		$(valueOption)
 			.attr('selected', 'selected');
-			
+
 		setTimeout(call, 10);
 	}
-	
+
 }
 
 function setupForm (filterId) {
-	
-	mainConfig.colorBack = $(mainConfig.feDiffuseLightingId)
-		.attr('lighting-color');
+
+	//mainConfig.colorBack = $(mainConfig.feDiffuseLightingId)
+	//	.attr('lighting-color');
 	$('#colorBack').val(mainConfig.colorBack);
 	$('#colorTo').val(mainConfig.colorTo);
-	
-	mainConfig.heightBack = $(mainConfig.feImageId)
-		.attr('height');
-	mainConfig.widthBack = $(mainConfig.feImageId)
-		.attr('width');
-		
-	$('#heightBack').val(mainConfig.heightBack);	
+
+	//mainConfig.heightBack = $(mainConfig.feImageId)
+		//.attr('height');
+	//mainConfig.widthBack = $(mainConfig.feImageId)
+		//.attr('width');
+
+	$('#heightBack').val(mainConfig.heightBack);
 	$('#heightTo').val(mainConfig.heightTo);
 
 	$('#widthBack').val(mainConfig.widthBack);
 	$('#widthTo').val(mainConfig.widthTo);
-	
-	$('#feImageId').val(mainConfig.feImageId);
-	
-	mainConfig.feRectId = $(mainConfig.feImageId)
-		.attr('xlink:href');
-	
-	$('#feRectId').val(mainConfig.feRectId);
-	
-	mainConfig.rectHeightBack = $(mainConfig.feRectId)
-		.attr('height');
-	mainConfig.rectWidthBack = $(mainConfig.feRectId)
-		.attr('width');
 
-	$('#rectHeightBack').val(mainConfig.rectHeightBack);	
+	$('#feImageId').val(mainConfig.feImageId);
+
+	//mainConfig.feRectId = $(mainConfig.feImageId)
+	//	.attr('xlink:href');
+
+	$('#feRectId').val(mainConfig.feRectId);
+
+	//mainConfig.rectHeightBack = $(mainConfig.feRectId)
+		//.attr('height');
+	//mainConfig.rectWidthBack = $(mainConfig.feRectId)
+		//.attr('width');
+
+	$('#rectHeightBack').val(mainConfig.rectHeightBack);
 	$('#rectHeightTo').val(mainConfig.rectHeightTo);
 
 	$('#rectWidthBack').val(mainConfig.rectWidthBack);
 	$('#rectWidthTo').val(mainConfig.rectWidthTo);
-	
-	mainConfig.scaleBack = $(mainConfig.feDisplacementMapId)
-		.attr('scale');
+
+	//mainConfig.scaleBack = $(mainConfig.feDisplacementMapId)
+		//.attr('scale');
 	$('#scaleBack').val(mainConfig.scaleBack);
 	$('#scaleTo').val(mainConfig.scaleTo);
 
-	mainConfig.surfaceScaleBack = d3.select(mainConfig.feDiffuseLightingId)
-		.attr('surfaceScale');
+	//mainConfig.surfaceScaleBack = d3.select(mainConfig.feDiffuseLightingId)
+		//.attr('surfaceScale');
 	$('#surfaceScaleBack').val(mainConfig.surfaceScaleBack);
-		$('#surfaceScaleTo').val(mainConfig.surfaceScaleTo);
-		
-	mainConfig.diffuseConstantBack = d3.select(mainConfig.feDiffuseLightingId)
-		.attr('diffuseConstant');
+	$('#surfaceScaleTo').val(mainConfig.surfaceScaleTo);
+
+	//mainConfig.diffuseConstantBack = d3.select(mainConfig.feDiffuseLightingId)
+		//.attr('diffuseConstant');
 	$('#diffuseConstantBack').val(mainConfig.diffuseConstantBack);
 	$('#diffuseConstantTo').val(mainConfig.diffuseConstantTo);
 
-	mainConfig.xBack = $(mainConfig.fePointLightId)
-		.attr('x');
-	mainConfig.yBack = $(mainConfig.fePointLightId)
-		.attr('y');
-	mainConfig.zBack = $(mainConfig.fePointLightId)
-		.attr('z');
-	
+	//mainConfig.xBack = $(mainConfig.fePointLightId)
+		//.attr('x');
+	//mainConfig.yBack = $(mainConfig.fePointLightId)
+		//.attr('y');
+	//mainConfig.zBack = $(mainConfig.fePointLightId)
+		//.attr('z');
+
 	$('#xBack').val(mainConfig.xBack);
-	$('#yBack').val(mainConfig.yBack);	
+	$('#yBack').val(mainConfig.yBack);
 	$('#zBack').val(mainConfig.zBack);
 	$('#xTo').val(mainConfig.xTo);
-	$('#yTo').val(mainConfig.yTo);	
+	$('#yTo').val(mainConfig.yTo);
 	$('#zTo').val(mainConfig.zTo);
 
 	$('#durationTo').val(mainConfig.durationTo);
 	$('#durationBack').val(mainConfig.durationBack);
-	
+
 	$('#delayTo').val(mainConfig.delayTo);
 	$('#delayBack').val(mainConfig.delayBack);
 
@@ -710,14 +716,18 @@ function updateRect(filterImageId) {
 			break;
 		}
 	}
-	
+
 	if (success) {
 		// no trouble adjusting rect height and width
-		svg.select(filterRectId)
-			.attr('height', svg.select(value).attr('height'))
-			.attr('width', svg.select(value).attr('width'));
+		//svg.select(filterRectId)
+			//.attr('height', svg.select(value).attr('height'))
+		//	.attr('width', svg.select(value).attr('width'));
+		d3.select(filterRectId)
+			.attr('height', d3.select(value).attr('height'))
+			.attr('width', d3.select(value).attr('width'));
+		Data.saveSelect('feRectId','Log.Notice');
 	}
-	
+
 }
 
 
@@ -725,7 +735,7 @@ function buildTileOptions2 () {
 	Log.Notice('buildTileOptions2');
 	var rects = document.getElementsByClassName('rect');
 	Log.Notice('rects=' + rects);
-	
+
   var data = [];
 	for (var i = 0; i < rects.length; i++) {
 		data[data.length] = {
@@ -733,13 +743,13 @@ function buildTileOptions2 () {
 		}
 	}
 	var rectSelect = doc.select('#feRectId');
-	
+
   rectSelect.selectAll('option')
 		.data(data)
 		.enter()
 		.append('option')
 		.attr('value', function(d,i) { Log.Notice('id=' + d.id); return "#" + d.id})
 		.text(function(d,i) {return "#" + d.id});
-		
+
 
 }

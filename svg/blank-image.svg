@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg
+    x="0"
+    y="0"
+    height="300"
+    width="400"
+    viewport="0 0 300 400"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    >
+<defs>
+<style>
+<![CDATA[
+
+#background {
+    fill: #ABC;
+}
+
+#e1 {
+    stroke-width: 2px;
+    stroke: #000;
+    fill: none;
+}
+
+]]>
+</style>
+
+</defs>
+<g transform="scale(1.4)" id="preview">
+<rect x="0" y="0" id="background" height="100%" width="100%"  />
+<ellipse cx="24%" cy="25%" rx="20%" ry="20%" id="e1" />
+</g>
+</svg>
