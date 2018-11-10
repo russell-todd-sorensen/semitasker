@@ -7,9 +7,11 @@
 
 <link rel="stylesheet" href="/css/main.css" media="all">
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
-<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
 <style type="text/css">
 
+body {
+	position: relative;
+}
 header h1 {
 	text-align: center;
 	padding: 15px;
@@ -20,14 +22,18 @@ header h1 {
 
 article,section {
 	margin: 0;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
+
 section {
 	width: 2000px;
 }
 
 #main nav {
 	display: inline-block;
-	/*background-color: #ddd;*/
+	background-color: rgba(255,255,255,.90);
 	color: #69F;
 	margin: 0;
 	padding: 5px;
@@ -70,12 +76,10 @@ footer {
 
 #content {
 	display: inline-block;
-	position: relative;
 	vertical-align: top;
 	width: 80%;
 	height: 1000px;
 }
-
 </style>
 
 <script src="/js/d3.v3.js" charset="utf-8"></script>
@@ -89,7 +93,7 @@ footer {
 <script src="/js/svg-transform.js"></script>
 
 <script>
-
+/*
 var rotation = 0;
 
 function rotateImage(imageIdList) {
@@ -105,19 +109,18 @@ function rotateImage(imageIdList) {
 
 	var node = document.getElementById(imageChoice);
 	node.setAttributeNS('http://www.w3.org/1999/xlink','href',imageUrl);
-	$('#' + clickChoice).click();
+	//$('#' + clickChoice).click();
 	rotation++;
 }
 
 var imageIndex = Math.round(Math.random()*Data.Images.length);
 
 //setInterval('rotateImage(["imageOne","imageTwo"])',15000);
-
-
+*/
 $(document).ready(function() {
 	Log.Notice("jQuery Ready!");
-	rotateImage(['imageOne','imageTwo'])
-	rotateImage(['imageOne','imageTwo'])
+	//rotateImage(['imageOne','imageTwo'])
+	//rotateImage(['imageOne','imageTwo'])
 	Log.Remove();
 });
 
@@ -125,46 +128,53 @@ $(document).ready(function() {
 </head>
 <body>
 
- <article>
+<article>
  <header>
  <h1>SemiTasker: Divide and Conquer!</h1>
+ <div id="content">
+  <object onLoad="" id="bg" type="image/svg+xml" data="bg-image.svg" height="1000" width="1500"></object>
+ </div>
  </header>
- <section id="main">
- <nav>
- <ul>
-  <li><a href="/">Home</a></li>
-  <li><a href="/doc/toc.html">Naviserver Documentation</a></li>
- </ul>
- <h2>Learn Digits of &pi; in Mouthfuls</h2>
- <ul>
-	 <li><a href="/chemical-pi/">Chemical &pi;</a></li>
- </ul>
+<section id="main">
+<nav>
+
+<ul>
+ <li><a href="/">Home</a></li>
+</ul>
+
+<h2>Learn Digits of &pi; in Mouthfuls</h2>
+<ul>
+ <li><a href="/chemical-pi/">Chemical &pi;</a></li>
+</ul>
+
 <h2>Live Edit HTML/CSS/JS</h2>
 <ul>
  <li><a href="/geek-code/geek-code-2.html">Learn HTML Editor</a></li>
-</ul>
-<h2>SVG Apps</h2>
-<ul>
- <li><a href="/learn-html/color-mixer/color-mixer-17.html"
-         title="Interactive Color Pallet Tool">Color Mixer</a></li>
- <li><a href="/learn-html/color-mixer/rgb-hsl-conversion-5.html"
-         title="RGB to HSL/HSB Conversion Animation">RGBtoHSL Conversion</a></li>
- <li><a href="/svg/image-deform-7.html"
-         title="Affine Transform of Image in SVG">Image Deform</a></li>
-
- <li><a href="/svg/svg-index.html">More SVG Apps</a></li>
 </ul>
 
 <h2>HTML 5 Canvas Apps</h2>
 <ul>
  <li><a href="/mandelbrot/explore.html"
-         title="Mandelbrot Set Explorer">Fractal Explorer</a></li>
+        title="Mandelbrot Set Explorer">Fractal Explorer</a></li>
  <li><a href="/fractal/mrcm-affine.html"
-         title="Multiple Reduction Copy Machine Using Affine Transforms">MRCM Fractal</a></li>
+        title="Multiple Reduction Copy Machine Using Affine Transforms">MRCM Fractal</a></li>
 </ul>
-<h2>HTML 5 Simple Apps</h2>
+
+<h2>HTML 5 Apps</h2>
 <ul>
-  <li><a href="/gallery-2.html">Background Image Photo Gallery</a></li>
+ <li><a href="/sudoku-max/index-new.html">Sudoku Max</a></li>
+</ul>
+
+<h2>SVG Apps</h2>
+<ul>
+ <li><a href="/learn-html/color-mixer/rgb-hsl-conversion-5.html"
+        title="RGB to HSL/HSB Conversion Animation">RGBtoHSL Conversion</a></li>
+ <li><a href="/svg/filter-mania-improved-3.html"
+        title="Extensive Exploration of SVG Filters">SVG Filter Mania</a></li>
+ <li><a href="/learn-html/color-mixer/color-mixer-17.html"
+        title="Interactive Color Pallet Tool">Color Mixer</a></li>
+ <li><a href="/svg/svg-index.html"
+	    title="Additional SVG Experiments">More SVG Apps</a></li>
 </ul>
 
 <h2>Games</h2>
@@ -174,20 +184,7 @@ $(document).ready(function() {
  <li><a href="/games/hex/">Hex</a></li>
 </ul>
 
-<h2>D3.JS</h2>
-<ul>
- <li><a href="/css-examples/D3.JS/d3-data-2.html">D3.js Example 1</a></li>
- <li><a href="/css-examples/D3.JS/d3-data-test-8.html">D3.js Example 2</a></li>
- <li><a href="/css-examples/D3.JS/d3-data-test-1.html">D3.js Example 3</a></li>
- <li><a href="/css-examples/css-pointers/figure-eight-boxes-svg.html">D3.js Example 4</a></li>
- <li><a href="/css-examples/D3.JS/d3-data-2.html">D3.js Example 5</a></li>
-</ul>
-
-<h2>jQuery</h2>
-<ul>
- <li><a href="/css-examples/jQuery/jquery-example-4.html">jQuery Example 1</a></li>
-</ul>
-
+<!--
 <h2>Directory Browser</h2>
 <ul>
  <li><a href="/css/">/css/</a></li>
@@ -203,46 +200,13 @@ $(document).ready(function() {
  <li><a href="/svg/">/svg/</a></li>
 
 </ul>
- </nav>
- <div id="content">
-	 	<svg
-	 	    xmlns:svg="http://www.w3.org/2000/svg"
-	 	    xmlns="http://www.w3.org/2000/svg"
-	 	    xmlns:xlink="http://www.w3.org/1999/xlink"
-	 	    version="1.0"
-	 	    x="0"
-	 	    y="0"
-	 	    width="100%"
-	 	    height="1500">
+-->
+</nav>
 
-	 	<defs>
-	 	   <filter id="image5" x="0" y="0" width="100%" height="100%">
-	 	    <feImage id="imageOne" xlink:href="/images/Ladybug%206.jpg" result="image1" height="100%" width="100%" />
-	 	    <feImage id="imageTwo" in="image2" result="image2" xlink:href="/images/EgyptianTomb.jpg" height="100%" width="100%" />
-	 	    <feComposite in2="image1" in="image2" operator="arithmetic" result="output3" k1="0" k2="1" k3="0" k4="0" >
-              <animate id="oneToTwo" dur="5s" begin="0s;intervalTwo.end" repeatCount="1" attributeName="k2" from="1.0" to="0.0" fill="freeze" />
-              <animate id="oneToTwoX" dur="5s" begin="0s;intervalTwo.end" onend="rotateImage(['imageOne','imageTwo'])" repeatCount="1" attributeName="k3" from="0.0" to="1.0" fill="freeze" />
-			  <animate id="intervalOne" dur="10s" begin="oneToTwo.end" repeatCount="1" attributeName="k3" from="1.0" to="1.0" fill="freeze"/>
-              <animate id="twoToOne" dur="5s" begin="intervalOne.end" repeatCount="1" attributeName="k3" from="1.0" to="0.0" fill="freeze" />
-              <animate id="twoToOneX" dur="5s" begin="intervalOne.end" onend="rotateImage(['imageOne','imageTwo'])" repeatCount="1" attributeName="k2" from="0.0" to="1.0" fill="freeze" />
-			  <animate id="intervalTwo" dur="10s" begin="twoToOne.end" repeatCount="1"
-			  	       attributeName="k3" from="0.0" to="0.0" fill="freeze" repeat="indefinite" />
-		    </feComposite>
-			<!-- <feColorMatrix type="hueRotate" values="0">
-			  <animate id="hue-rotate" attributeName="values" begin="0s"
-			  values="0;90;180;270;360" fill="freeze" dur="10s" in="output3" result="output4"  repeatCount="indefinite" />
-		  </feColorMatrix> -->
-	 	   </filter>
-	 	</defs>
 
-	 	<rect id="imageRectOne" filter="url(#image5)" fill="none" height="100%" width="100%" x="0" y="0" fill="rgba(0,0,0,.01)" />
-		<rect id="imageRectTwo" height="0" width="0" />
-	 	</svg>
+</section>
 
- </div>
- </section>
-
- </article>
+</article>
 <footer>
 
 </footer>

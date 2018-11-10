@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!--Scalable Vector Graphic-->
+<svg
+    id="svg-background-image"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="100%"
+    height="100%"
+    onload='rotateImage(["imageOne","imageTwo"])'>
+
+    <script xlink:href="/js/d3.v3.js" charset="utf-8"></script>
+    <script xlink:href="/js/data.js"></script>
+    <script>
+    <![CDATA[
+
+    var rotation = 0;
+
+    function rotateImage(imageIdList) {
+    	var imageChoice,clickChoice;
+        if (imageIndex < 100) {
+            imageIndex = 100;
+        }
+    	if (imageIndex >= Data.Images.length) {
+    		imageIndex = 100;
+    	}
+
+    	imageUrl = Data.Images[imageIndex++].url;
+
+        imageChoice = (rotation%2 ? imageIdList[0] : imageIdList[1]);
+    	clickChoice = (rotation%2 ? 'imageRectOne' : 'imageRectTwo');
+
+    	var node = document.getElementById(imageChoice);
+    	node.setAttributeNS('http://www.w3.org/1999/xlink','href',imageUrl);
+    	//$('#' + clickChoice).click();
+    	rotation++;
+    }
+
+    var imageIndex = Math.round(Math.random()*Data.Images.length);
+
+    ]]>
+    </script>
+<defs>
+   <filter id="image5" x="0" y="0" width="100%" height="100%">
+    <feImage id="imageOne" result="image1" xlink:href="/images/mset/mset-5038.png" height="100%" width="100%" />
+    <feImage id="imageTwo" result="image2" xlink:href="/images/mset/mset-5039.png" height="100%" width="100%" />
+    <feComposite in="image2" in2="image1" operator="arithmetic" result="output3" k1="0" k2="1" k3="0" k4="0" >
+      <animate id="oneToTwo" dur="5s" begin="0s;intervalTwo.end" repeatCount="1" attributeName="k2" from="1.0" to="0.0" fill="freeze" />
+      <animate id="oneToTwoX" dur="5s" begin="intervalTwo.end" onend="rotateImage(['imageOne','imageTwo'])" repeatCount="1" attributeName="k3" from="0.0" to="1.0" fill="freeze" />
+      <animate id="intervalOne" dur="10s" begin="oneToTwo.end" repeatCount="1" attributeName="k3" from="1.0" to="1.0" fill="freeze"/>
+      <animate id="twoToOne" dur="5s" begin="intervalOne.end" repeatCount="1" attributeName="k3" from="1.0" to="0.0" fill="freeze" />
+      <animate id="twoToOneX" dur="5s" begin="intervalOne.end" onend="rotateImage(['imageOne','imageTwo'])" repeatCount="1" attributeName="k2" from="0.0" to="1.0" fill="freeze" />
+      <animate id="intervalTwo" dur="10s" begin="twoToOne.end" repeatCount="1"
+               attributeName="k3" from="0.0" to="0.0" fill="freeze" />
+    </feComposite>
+   </filter>
+</defs>
+
+<rect id="imageRectOne" filter="url(#image5)" height="100%" width="100%" x="0" y="0" fill="rgba(0,0,0,.01)" />
+<rect id="imageRectTwo" height="0" width="0" />
+</svg>
