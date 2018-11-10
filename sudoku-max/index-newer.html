@@ -69,10 +69,7 @@
     vertical-align: top;
     padding: 0;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
 .cell {
 
     height: 82px;
@@ -82,11 +79,7 @@
 }
 
 .fixed {
-<<<<<<< HEAD
     font-size: 72px;
-=======
-    font-size: 70px;
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
 }
 
 .hn {
@@ -119,7 +112,6 @@
 #puzzle-data {
     width: 120px;
 }
-<<<<<<< HEAD
 
 .symbol-input {
     font-size: 28px;
@@ -145,8 +137,6 @@
     background-color: black;
 }
 
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
 </style>
 
 <style id="dynamic">
@@ -159,9 +149,9 @@
 <script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
 <script type="text/javascript" src="/js/log-2.js"></script>
 
-<script type="text/javascript" src="js/sudoku-max-2.js" ></script>
+<script type="text/javascript" src="js/sudoku-max-3.js" ></script>
 <script type="text/javascript" src="js/controls.js"></script>
-<script type="text/javascript" src="js/ia-controls.js"></script>
+<script type="text/javascript" src="js/ia-controls-3.js"></script>
 
 <script>
 
@@ -175,7 +165,7 @@ function loadXHRFile(url,callback) {
   newXHR3.send(null);
 }
 
-<<<<<<< HEAD
+
 var placeholder = "0 to %d or -1 to enter puzzle"
 
 
@@ -188,16 +178,6 @@ $(document).ready(function() {
     //puzzleString="";
   toggleOptionMode('toggle-button',off);
   toggleMarkMode('toggle-mark',off);
-=======
-$(document).ready(function() {
-  Log.Notice('Document Ready');
-  //Log.Remove();
-    loadXHRFile("./data/sudoku-puzzles.csv",getSudokuPuzzlesCSV);
-    //boxCols=5;
-    //boxRows=5;
-    //puzzleString="";
-    toggleOptionMode('toggle-button',off);
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
 
  });
 
@@ -251,7 +231,6 @@ $(document).ready(function() {
 
  <div id="t2">
   <form onSubmit="return false;" id="bottom-controls">
-<<<<<<< HEAD
     <fieldset id="controls">
     <legend>Play Options</legend>
     <div id='legendCellOptions'></div>
@@ -261,13 +240,6 @@ $(document).ready(function() {
     <div class="inline-button"><label for="toggle-mark">Mark Mode:</label>
          <button id="toggle-mark" name="toggle-mark" onClick="toggleMarkMode('toggle-mark')"></button>
     </div>
-=======
-    <fieldset>
-    <legend>Play Options</legend>
-    <div class="inline-button"><label for="toggle-button">Option Mode:</label>
-         <button id="toggle-button" name="toggle-button" onClick="toggleOptionMode('toggle-button')"></button>
-    </div>
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
     <div class="inline-button"><label for="reset-options">Reset Options:</label>
          <button id="reset-options" name="reset-options" onClick="resetCellOptions()">Reset</button>
     </div>
@@ -276,12 +248,10 @@ $(document).ready(function() {
          <button id="choose-puzzle-1" name="choose-puzzle-1"  onClick="viewPuzzle('puzzle-data')" >View Puzzle</button>
          <button id="choose-puzzle-2" name="choose-puzzle-2"  onClick="choosePuzzle('puzzle-data')" >Load Puzzle</button>
     </div>
-<<<<<<< HEAD
     <div class="data-button"><label for="size-data">Symbol Size:</label>
         <input type="number" id="baseFontSize" name="baseFontSize" value="70" min="62" max="108" step="4" onChange="adjustBaseFontSize('baseFontSize');">
     </div>
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
+
     <div id="puzzle-info"></div>
  </fieldset>
  </form>

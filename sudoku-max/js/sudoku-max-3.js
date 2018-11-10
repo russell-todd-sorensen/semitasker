@@ -25,11 +25,9 @@ var boxRows = 3;
 var puzzleString = "";
 var boxMapString = "";
 var puzzleName = "No Name";
-<<<<<<< HEAD
-var symbolOptions; // symbol sets available in list of puzzles
-=======
 
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
+var symbolOptions; // symbol sets available in list of puzzles
+
 var xhrArray  = new Array();
 // next string uses box map
 //puzzleString =     "E00000000000091Y20050670000000000003Y900001000090000Y1070Y3000000600300000302607Y0P";
@@ -95,11 +93,8 @@ var colMask;
 var boxMask;
 var boxMapString;
 var setupComplete = false;
-<<<<<<< HEAD
-var	baseFontSize = 72; // variable from 72 to 108
-=======
 
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
+var	baseFontSize = 72; // variable from 72 to 108
 
 // No defined args, but setupSudoku will act
 // differently with supplied args:
@@ -272,8 +267,7 @@ var resetCellOptions = function() {
 	toggleOptionMode('toggle-button',off);
 	setupOptionCells();
 }
-<<<<<<< HEAD
-=======
+if (false) {
 var toggleExtraInfo = function(id,ref) {
 
     buttonId = ref.id;
@@ -288,7 +282,7 @@ var toggleExtraInfo = function(id,ref) {
     }
     return false;
 }
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
+}
 
 var toggleOptionMode = function(id) {
 	if (arguments.length == 2) {
@@ -303,7 +297,7 @@ var toggleOptionMode = function(id) {
 	}
 }
 
-<<<<<<< HEAD
+
 var toggleMarkMode = function(id) {
 	if (arguments.length == 2) {
 		markCell = arguments[1]
@@ -321,8 +315,6 @@ var toggleMarkMode = function(id) {
 
 }
 
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
 function solveSudokuX () {
 
 	Log.Notice( "Starting solveSudoku...");
@@ -338,11 +330,8 @@ function solveSudokuX () {
 	printPuzzleFormatted(6);
 	setupOptionCells();
 	boxDimensions('#dynamic');
-<<<<<<< HEAD
-	setupLegendCell();
 
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
+	setupLegendCell();
 }
 
 var boxStyle = function() {
@@ -375,33 +364,24 @@ var boxDimensions = function(cssSelector) {
 	var baseHeight, baseWidth,totahHeight, totalWidth,cellSpan,rowPaddingBottom;
 	baseHeight = 100;
 	baseWidth = 100;
-<<<<<<< HEAD
 	baseOptionHeight = 100;
-=======
-	baseOptionHeight = 84;
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
 	baseOptionWidth  = 100;
 	totalWidth = 108;
 	totalHeight = 108;
 	cellSpan = Math.ceil(Math.pow(puzzleDimension,.5));
 
-<<<<<<< HEAD
 	baseFontSize = parseInt($('#baseFontSize').val())
-=======
-	baseFontSize = 72;
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
 
 	if (puzzleDimension < 10) {
 		rowPaddingBottom = 4.4;
 	} else {
 		rowPaddingBottom = 4.0;
 	}
-<<<<<<< HEAD
+
 	if (puzzleDimension > 15) {
 		baseOptionHeight -= Math.pow(puzzleDimension,.5)
 	}
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
+
 	$(cssSelector).append(".cell \{\n\theight: "+baseHeight+"px;\n\twidth: "+baseWidth+"px;\n\}\n");
 	$(cssSelector).append(
 		".optionCell \{\n\tfont-size:"
@@ -756,12 +736,9 @@ function getSudokuPuzzlesCSV(evt) {
   }
 
   parseSudokuPuzzlesCSV(evt.currentTarget.responseText);
-<<<<<<< HEAD
 
   $('#puzzle-data').attr('max', sudokuData.length-1);
   $('#puzzle-data').attr('placeholder', '0 to ' + (sudokuData.length-1) + ' or -1 to enter puzzle');
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
 }
 
 var sudokuData;
@@ -781,15 +758,14 @@ var parseSudokuPuzzlesCSV = function (csv) {
 		var puzzle_dimension, dimension_root;
 
 		if (!(box_cols && box_rows)) {
-<<<<<<< HEAD
+
 			if (puzzle_length == 0) {
 				puzzle_string = "0"
 				puzzle_length = 1;
 				box_cols = 1;
 				box_rows = 1;
 			}
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
+
 			puzzle_dimension = Math.pow(puzzle_length,.5);
 			dimension_root = Math.pow(puzzle_dimension,.5);
 			if (dimension_root != Math.floor(dimension_root)) {
@@ -800,7 +776,7 @@ var parseSudokuPuzzlesCSV = function (csv) {
 				box_cols = box_rows = dimension_root;
 			}
 		}
-<<<<<<< HEAD
+
 		else if (parseInt(box_cols) && parseInt(box_rows)) {
 			var expected_length = (box_cols*box_cols*box_rows*box_rows)
 			if (puzzle_length < expected_length ) {
@@ -809,8 +785,6 @@ var parseSudokuPuzzlesCSV = function (csv) {
 				}
 			}
 		}
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
 
 		puzzle_string = "E" + puzzle_string + "P";
 

@@ -1,8 +1,4 @@
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
 var setupOptionCellsOriginal = function() {
     re = /C([1-9]+[0-9]*)/;
     $(".numberCell").each(function() {
@@ -41,7 +37,7 @@ var setupOptionCellsOriginal = function() {
 // toggleOption enables removing options manually.
 
 var toggleOption = false;
-<<<<<<< HEAD
+
 var markCell = false;
 
 var selectOption = function (cellNumber, sIndex) {
@@ -49,10 +45,6 @@ var selectOption = function (cellNumber, sIndex) {
         softSelectOption(cellNumber,sIndex);
         return false;
     }
-=======
-
-var selectOption = function (cellNumber, sIndex) {
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
     if (toggleOption) {
         removeCellOption(cellNumber, sIndex);
     } else {
@@ -66,7 +58,7 @@ var unSelectOption = function (cellNumber) {
     setupOptionCells();
 }
 
-<<<<<<< HEAD
+
 var selectLegendOption = function (targetId, sIndex) {
     $('#' + targetId).html(defaultSymbols[sIndex]);
 }
@@ -88,13 +80,6 @@ var softSelectOption = function(cellNumber, sIndex) {
 var setupOptionCells = function() {
     re = /C([1-9]+[0-9]*)/;
     $(" #t .cell").each(function() {
-=======
-
-
-var setupOptionCells = function() {
-    re = /C([1-9]+[0-9]*)/;
-    $(".cell").each(function() {
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
         var matchArray, cType, cellNumber, cMask, uMask, classAttVal;
         var html = "";//cType, rMask, cMask, bMask;
         var id= this.id;
@@ -140,15 +125,9 @@ var setupOptionCells = function() {
         uMask &= cMask;
         for (var i=0;i<puzzleDimension;i++) {
             if ( (uMask & (1<<i)) != 0) {
-<<<<<<< HEAD
                 html += "<div id='" + id + "-" + i + "' class='optionCell' onClick='selectOption(" + cellNumber + "," + i + ")'>" + defaultSymbols[i] + "</div>"
             } else {
                 html += "<div id='" + id + "-" + i + "' class='optionCell'  onClick='addCellOption(" + cellNumber + "," + i + ")'><span class='hn'>" + defaultSymbols[i] + "</span></div>"
-=======
-                html += "<div class='optionCell' onClick='selectOption(" + cellNumber + "," + i + ")'>" + defaultSymbols[i] + "</div>"
-            } else {
-                html += "<div class='optionCell'  onClick='addCellOption(" + cellNumber + "," + i + ")'><span class='hn'>" + defaultSymbols[i] + "</span></div>"
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
             }
         }
         $(this).html(html);
@@ -157,7 +136,6 @@ var setupOptionCells = function() {
     return false;
 };
 
-<<<<<<< HEAD
 var setupLegendCell = function() {
     var cellNumber = activeCells+2;
     var cId = 'C' + cellNumber;
@@ -177,8 +155,7 @@ var setupLegendCell = function() {
     $('#' + cId).html(html);
 };
 
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
+
 var choosePuzzle = function(id) {
 
     var rs = $('#remap-symbols-input').val();
@@ -189,10 +166,8 @@ var choosePuzzle = function(id) {
 var remapPuzzleSymbols = function(rs) {
     if (rs.length > 0) {
         remapSymbols = rs;
-<<<<<<< HEAD
+
         fillRemapSymbols();
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
     }
     if (remapSymbols.length > 0) {
         //for (var i=0;i<remapSymbols.length;i++) {
@@ -221,15 +196,12 @@ var updateSymbols = function(selectId, inputId) {
     $('#' + inputId).val(s);
 }
 
-<<<<<<< HEAD
 var fillRemapSymbols = function() {
     if (remapSymbols.length<boxCols*boxRows) {
         remapSymbols += defaultSymbolsProto.substring(remapSymbols.length,boxCols*boxRows);
     }
 }
 
-=======
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
 var viewPuzzle = function(id) {
     var value = $('#' + id).val();
     var puzzle;
@@ -263,43 +235,27 @@ var viewPuzzle = function(id) {
         $('#puzzle-info').append("<div id='box-map-string'>" + boxMapString + "</div>");
     }
 
-<<<<<<< HEAD
     //if (remapSymbols.length<boxCols*boxRows) {
     //    remapSymbols += defaultSymbolsProto.substring(remapSymbols.length,boxCols*boxRows);
     //}
     fillRemapSymbols();
 
     symbolOptions = [];
-=======
-    if (remapSymbols.length<boxCols*boxRows) {
-        remapSymbols += defaultSymbolsProto.substring(remapSymbols.length,boxCols*boxRows);
-    }
 
-    var symbolOptions = [];
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
     for (var i=0;i<sudokuData.length;i++) {
         symbolOptions[sudokuData[i].remap_symbols] = sudokuData[i].remap_symbols;
     }
 
-<<<<<<< HEAD
     $('#puzzle-info').append("<div id='remap-symbols'>Symbols: <input class='symbol-input' type='string' id='remap-symbols-input' value='" + remapSymbols + "' /></div>");
     $('#puzzle-info').append("<select class='symbol-input' id='remap-symbol-choices' name='remap-symbol-choices' onChange='updateSymbols(\"remap-symbol-choices\",\"remap-symbols-input\")'>"
         + "<option  class='symbol-input' selected value='" + remapSymbols + "'>" + remapSymbols + "</option>"  );
-=======
-    $('#puzzle-info').append("<div id='remap-symbols'>Symbols: <input type='string' id='remap-symbols-input' value='" + remapSymbols + "' /></div>");
-    $('#puzzle-info').append("<select id='remap-symbol-choices' name='remap-symbol-choices' onChange='updateSymbols(\"remap-symbol-choices\",\"remap-symbols-input\")'>"
-        + "<option selected value='" + remapSymbols + "'>" + remapSymbols + "</option>"  );
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
+
 
     var traditionalSymbols = defaultSymbolsProto.substring(0,boxCols*boxRows);
     $('#remap-symbol-choices').append("<option value='" + traditionalSymbols + "'>" + traditionalSymbols + "</option>");
 
     for (var s in symbolOptions) {
-<<<<<<< HEAD
         $('#remap-symbol-choices').append("<option class='symbol-input' value='" + s + "'>" + s + "</option>");
-=======
-        $('#remap-symbol-choices').append("<option value='" + s + "'>" + s + "</option>");
->>>>>>> 961c5ea423cd55ab7357db7676f94c212ccc21c5
     }
 
 }
