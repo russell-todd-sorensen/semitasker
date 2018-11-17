@@ -11,6 +11,8 @@
 
 body {
 	position: relative;
+/*	background-image: url('/images/mset/mset-5078.png'); */
+	background-size: cover;
 }
 header h1 {
 	text-align: center;
@@ -23,12 +25,14 @@ header h1 {
 article,section {
 	margin: 0;
 	position: absolute;
+	position: relative;
 	top: 0;
 	left: 0;
 }
 
 section {
 	width: 2000px;
+	width: 100%;
 }
 
 #main nav {
@@ -76,9 +80,44 @@ footer {
 
 #content {
 	display: inline-block;
+	display: none;
 	vertical-align: top;
 	width: 80%;
 	height: 1000px;
+}
+.shadow-x {
+	text-shadow: 1px 1px 1px rgba(255,255,255,.2),
+                -1px -1px 1px rgba(255,255,255,.2),
+                -1px 1px 1px rgba(255,255,255,.2),
+                 1px -1px 1px rgba(255,255,255,.2);
+				 /* 3px 3px 5px blue*/
+}
+.inner-shadow-z {
+	text-shadow: 1px 1px 3px rgba(255,255,255,.2),
+                -1px -1px 3px rgba(255,255,255,.2),
+                -1px 1px 3px rgba(255,255,255,.2),
+                 1px -1px 3px rgba(255,255,255,.2);
+				 /* 3px 3px 5px blue*/
+}
+.inner-shadow {
+	text-shadow:1px 1px 10px rgba(255,255,255,.9),
+                -1px -1px 10px rgba(255,255,255,.9),
+                -1px 1px 10px rgba(255,255,255,.9),
+                 1px -1px 10px rgba(255,255,255,.9);
+				/*   3px 3px 5px blue
+				  0 0 10px rgba(255,255,255,1.0);*/
+}
+.shadow {
+	/*background-color: rgba(255,255,255,.2); */
+	width: 800px;
+	margin: auto;
+}
+.inner-shadow-x {
+	/*background-color: rgba(255,255,255,.6);
+	background-image: url('gradient.svg');*/
+	background-image: radial-gradient(rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 40%, rgba(255,255,255,.2) 65%, rgba(255,255,255,0) 70%);
+	background-size: cover;
+	padding: 5px;
 }
 </style>
 
@@ -86,6 +125,7 @@ footer {
 <script src="/js/jquery-1.7.1.js" charset="utf-8"></script>
 <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" charset="utf-8"></script>
 <script src="/js/log-2.js" charset="utf-8"></script>
+<script src="/js/homepage-data.js"></script>
 <script src="/js/data.js"></script>
 <script src="/js/form-save-restore.js"></script>
 <script src="/js/binary-hex-conversions.js"></script>
@@ -93,47 +133,32 @@ footer {
 <script src="/js/svg-transform.js"></script>
 
 <script>
-/*
-var rotation = 0;
 
-function rotateImage(imageIdList) {
-	var imageChoice,clickChoice;
-	if (imageIndex >= Data.Images.length) {
-		imageIndex = 0;
-	}
+function selectImage(id) {
+	// avoid the first 100 images
+	var imageIndex = Math.round(Math.random()*HomepageData.Images.length);
 
-	imageUrl = Data.Images[imageIndex++].url;
-
-    imageChoice = (rotation%2 ? imageIdList[0] : imageIdList[1]);
-	clickChoice = (rotation%2 ? 'imageRectOne' : 'imageRectTwo');
-
-	var node = document.getElementById(imageChoice);
-	node.setAttributeNS('http://www.w3.org/1999/xlink','href',imageUrl);
-	//$('#' + clickChoice).click();
-	rotation++;
+	var imageData = HomepageData.Images[imageIndex];
+	var imageUrl  = imageData.url;
+	var imageAltText = imageData.alt;
+	var cssValue = "url('" + imageUrl + "')"
+	document.getElementById(id).style.backgroundImage = cssValue;
+	return cssValue;
 }
 
-var imageIndex = Math.round(Math.random()*Data.Images.length);
-
-//setInterval('rotateImage(["imageOne","imageTwo"])',15000);
-*/
 $(document).ready(function() {
 	Log.Notice("jQuery Ready!");
-	//rotateImage(['imageOne','imageTwo'])
-	//rotateImage(['imageOne','imageTwo'])
 	Log.Remove();
+	selectImage('body');
 });
 
 </script>
 </head>
-<body>
+<body id="body">
 
 <article>
  <header>
- <h1>SemiTasker: Divide and Conquer!</h1>
- <div id="content">
-  <object onLoad="" id="bg" type="image/svg+xml" data="bg-image.svg" height="1000" width="1500"></object>
- </div>
+ <h1 class="shadow"><span class="inner-shadow">SemiTasker: Divide and Conquer!</span></h1>
  </header>
 <section id="main">
 <nav>
@@ -184,25 +209,7 @@ $(document).ready(function() {
  <li><a href="/games/hex/">Hex</a></li>
 </ul>
 
-<!--
-<h2>Directory Browser</h2>
-<ul>
- <li><a href="/css/">/css/</a></li>
- <li><a href="/css-examples/">/css-examples/</a></li>
- <li><a href="/doc/">/doc/</a></li>
- <li><a href="/fractal/">/fractal/</a></li>
- <li><a href="/geek-code/">/geek-code/</a></li>
- <li><a href="/html5-mircodata/">/html5-mircodata/</a></li>
- <li><a href="/images/">/images/</a></li>
- <li><a href="/js/">/js/</a></li>
- <li><a href="/learn-html/">/learn-html/</a></li>
- <li><a href="/sudoku/">/sudoku/</a></li>
- <li><a href="/svg/">/svg/</a></li>
-
-</ul>
--->
 </nav>
-
 
 </section>
 
