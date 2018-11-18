@@ -40,6 +40,7 @@ section {
 	background-color: rgba(255,255,255,.90);
 	color: #69F;
 	margin: 0;
+	border-style: solid;
 	padding: 5px;
 }
 
@@ -112,13 +113,29 @@ footer {
 	width: 800px;
 	margin: auto;
 }
-.inner-shadow-x {
+#main .inner-shadow-x {
 	/*background-color: rgba(255,255,255,.6);
-	background-image: url('gradient.svg');*/
+	background-image: url('gradient.svg');
+	padding: 5px;
 	background-image: radial-gradient(rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 40%, rgba(255,255,255,.2) 65%, rgba(255,255,255,0) 70%);
 	background-size: cover;
-	padding: 5px;
+	border-image-source: linear-gradient(rgba(255,255,255,.5) 0%, rgba(255,255,255,.5) 40%, rgba(255,255,255,.2) 65%, rgba(255,255,255,0) 70%);*/
+	border-color: rgba(0,0,0,0);
+	border-image-source: url('/svg/5-color-square-5px.png');
+	border-image-source: url('/gradient.svg');
+	border-image-width: 15px;
+	border-image-slice: 2 2 2 2;
+	border-width: 15px;
+	border-left-width: 0;
+	background-clip: padding-box;
+	border-left-style: none;
+	padding-left: 25px;
 }
+
+section {
+	margin-left: -15px;
+}
+
 </style>
 
 <script src="/js/d3.v3.js" charset="utf-8"></script>
@@ -161,7 +178,7 @@ $(document).ready(function() {
  <h1 class="shadow"><span class="inner-shadow">SemiTasker: Divide and Conquer!</span></h1>
  </header>
 <section id="main">
-<nav>
+<nav class="inner-shadow-x">
 
 <ul>
  <li><a href="/">Home</a></li>
