@@ -1,0 +1,127 @@
+body {
+    background-image: url(../images/aberdeen-small-2.svg);
+    background-position: top 0px left 0px;
+}
+
+#main {
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #d2691e;
+}
+
+.transparent {
+    background-color: rgba(255,255,255,.8);
+}
+
+#header {
+    margin: 5px;
+    padding: 10px;
+    font-size: 7em;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1em;
+    min-width: 1050px;
+    text-shadow: 8px 8px 8px darkolivegreen;
+}
+
+#body {
+    margin: 5px;
+    margin-top: 10px;
+    padding: 0;
+    min-width: 1100px;
+}
+
+#nav {
+    display: inline-block;
+    width: 210px;
+    height: 620px;
+    vertical-align: top;
+}
+
+#nav ul {
+    list-style: none;
+    list-style-position: inside;
+}
+
+#nav ul li {
+    color: white;
+    width: 100%;
+    background-color: #d2691e;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-left: -25px;
+    padding: 5px;
+}
+
+#nav a:link, a:visited {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    width: 95%;
+}
+
+#nav a:hover, #nav a:active {
+    color: darkolivegreen;
+    text-shadow: 2px 2px 5px white;
+}
+
+#nav li:hover, #nav li:active {
+    box-shadow: 2px 2px 2px darkolivegreen;
+}
+
+
+#content {
+    display: inline-block;
+    margin-left: 10px;
+    width: 825px;
+    min-height: 600px;
+    vertical-align: top;
+    padding: 10px;
+    font-weight: bold;
+}
+
+#content h2 {
+    font-size: 2.5em;
+    color: darkolivegreen;
+    text-align: center;
+    line-height: .9em;
+}
+
+#content p::first-letter {
+    font-weight: bold;
+    font-size: 2em;
+    color: darkolivegreen;
+}
+
+#content p::first-line {
+    margin-left: 10px;
+    line-height: 1.3em;
+}
+
+#footer {
+    font-size: 3em;
+    line-height: 1em;
+    font-weight: bold;
+    padding: 10px;
+    margin: 5px;
+    min-width: 1050px;
+    text-align: center;
+    color: skyblue;
+    text-shadow: 0px 0px 15px purple;
+}
+
+#arrow {
+    display: inline-block;
+    height: 1px;
+    width: 1px;
+    border: 10px solid rgba(255, 255, 255, 0);
+    border-left-color: darkgreen;
+    vertical-align: bottom;
+}
+
+#nav ul li.current {
+    text-align: right;
+    color: darkgreen;
+    text-shadow: 0px 0px 5px white;
+
+}

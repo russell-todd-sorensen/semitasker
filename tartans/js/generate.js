@@ -14,7 +14,7 @@ var Tartan = {
   threadCount: 0,
   threadsToWeave: 0,
   svgData: "",
-  
+
   currentClass: null,
 
 
@@ -24,7 +24,7 @@ var Tartan = {
    svgContainer.html("");
    var width = this.threadsToWeave * this.end;
    var height = width;
-   
+
    svg = svgContainer
     .append("svg")
     .attr("version", "1.1")
@@ -35,17 +35,17 @@ var Tartan = {
     .attr('height', height)
     .attr('width', width)
     .attr('viewbox', "0 0 " + width + " " + height);
-    
+
     this.writeStyle(svg, styleArray);
-    
+
     var horizontalRows = svg
       .append("g")
       .attr("id","horizontal-rows")
       .attr("x", 0)
       .attr("y", 0);
-      
+
     var x1, x2, y1, y2, cssClass;
-    
+
     while (this.threadY < this.threadsToWeave) {
       //Log.Notice("threadY=" + this.threadY);
       x1 = (3 - (this.threadY + 3)%4)*this.end;
@@ -54,7 +54,7 @@ var Tartan = {
       x2 = this.threadsToWeave * this.end;
       y2 = y1;
       cssClass = colorArray[this.threadY%this.threadCount];
-      Log.Notice("horizontalRows threadY=" + this.threadY + ", x1=" + x1 + ", y1=" + y1); 
+      Log.Notice("horizontalRows threadY=" + this.threadY + ", x1=" + x1 + ", y1=" + y1);
       horizontalRows
         .append("line")
         .attr("class", cssClass)
@@ -64,18 +64,18 @@ var Tartan = {
         .attr("y2", y2);
       this.threadY++;
     }
-    
+
     var verticalCols = svg
       .append("g")
       .attr("id","vertical-cols")
       .attr("x", 0)
       .attr("y", 0);
-    
+
     this.threadX=0;
     this.threadY=0;
     this.currentPixelX = 0;
     this.currentPixelY = 0;
-    
+
     while (this.threadX < this.threadsToWeave) {
 
        x1 = (this.threadX + 0.5)*this.end;
@@ -83,7 +83,7 @@ var Tartan = {
        x2 = x1;
        y2 = this.threadsToWeave * this.end;
        cssClass = colorArray[this.threadX%this.threadCount];
-      
+
       verticalCols
         .append("line")
         .attr("class", cssClass)
@@ -93,7 +93,7 @@ var Tartan = {
         .attr("y2", y2)
       this.threadX++;
     }
-    
+
     Log.Notice("colorArray.length=" + colorArray.length);
 
     // de-initialize tartan
@@ -108,16 +108,16 @@ var Tartan = {
 
   },
   writeStyle: function (svg, styleArray) {
-    
+
     var style = "";
-    
+
     for (var i = 0; i<styleArray.length; i++) {
       var color = styleArray[i][1];
 
-      style = style 
+      style = style
         + "\n." + styleArray[i][0] + " \{\n"  // this is a CSS Class
         + "fill: none;\n"
-        + "stroke: " + color + ";\n" 
+        + "stroke: " + color + ";\n"
         + "stroke-dasharray: " + this.side + ", " + this.side + ";\n"
         + "stroke-width: " + this.end  + ";\n"
         + "\}\n";
@@ -142,13 +142,13 @@ var Tartan = {
     }
   },
   init: function (inputArray, outputArray, styleArray, threadsToWeave, tartanOptions) {
-    
+
     this.getOptions(tartanOptions);
-    
+
     expandColorArray(inputArray, outputArray, styleArray);
     Log.Notice("outputArray=" + outputArray);
     this.threadCount = outputArray.length;
-    if (arguments.length >= 4) { 
+    if (arguments.length >= 4) {
       this.threadsToWeave = threadsToWeave;
     } else {
       this.threadsToWeave = this.threadCount;
@@ -184,7 +184,7 @@ function expandColorArray(inArray, outArray, styleArray) {
       index++;
     }
   }
-  
+
   // add reversed array
   for (var i = outArray.length -1; i >= 0; i--) {
     outArray[index] = outArray[i];
@@ -192,7 +192,7 @@ function expandColorArray(inArray, outArray, styleArray) {
   }
   Log.Notice("finished expandColorArray");
 }
- 
+
 // calculate threads using tartan data
 function calculateTartanThreads(data) {
   var threadCount = 0;
@@ -218,28 +218,28 @@ function loadTartan(id, threads, forExport,reverseThreads, tartanOptions) {
   if (parseInt(id) == 0) {
     return false;
   }
-      
+
   var data = dataset[parseInt(id)][1];
   if (forExport === "yes") {
     threads = calculateTartanThreads(data);
-  }  
-  
+  }
+
   Log.Notice("forExport=" + forExport + " data=" + data);
   datasetExp = new Array();
   dsStyleArray = new Array();
-  
+
   if (reverseThreads === "yes") {
     var reverseData = new Array();
     for(var i = data.length-1; i >= 0; i--) {
       reverseData[reverseData.length] = data[i];
     }
     Tartan.init(reverseData, datasetExp, dsStyleArray, parseInt(threads), tartanOptions );
-    generateThreadSchedule(reverseData);
+    generateThreadSchedule2(reverseData);
   } else {
     Tartan.init(data, datasetExp, dsStyleArray, parseInt(threads), tartanOptions );
-    generateThreadSchedule(data);
+    generateThreadSchedule2(data);
   }
-  
+
 }
 
 function generateThreadSchedule(threadData) {
@@ -256,8 +256,35 @@ function generateThreadSchedule(threadData) {
     }
     threadTable
      .append("<div class='threadData' style='background-color: "
-     +  color + ";" + extraStyle + "' >" + color 
+     +  color + ";" + extraStyle + "' >" + color
      +  " (" + threadData[i][1] + ")</div>\n" );
+  }
+}
+
+function generateThreadSchedule2(threadData) {
+
+  var threadTable = $('#threadTable');
+  var extraStyle = "";
+  threadTable.html("<div class='threadDataHeader'>Thread Schedule</div>\n"); // clear out table
+  for (var i = 0; i<threadData.length;i++) {
+    color = threadData[i][0];
+    if (color == "white") {
+      extraStyle= " background-color: grey;";
+    } else {
+      extraStyle = " background-color: white;";
+    }
+    threadTable
+     .append("<div class='thread-color' style='color: "
+     + color + ";" + extraStyle
+     + " border-color:"
+     + color + ";' >"
+     + color
+     + "<br> (" + threadData[i][1] + ")"
+     + "</div><div class='threadData' style='background-color: "
+     + color + ";"
+     + " border-color: "
+     + color + ";' >"
+     + "</div>\n" );
   }
 }
 
@@ -273,7 +300,7 @@ function doTartan(evt) {
   }
   if (forExport == undefined) {
     forExport = "no";
-  } 
+  }
    if (parseInt(threads) > 50  && parseInt(threads) < 1200 ) {
     // do nothing
   } else {
@@ -295,7 +322,7 @@ function writeSvgImage() {
   subWindow = window.open(
    "#svg",  // url to open
    "example", // window name
-   "height=" 
+   "height="
      + height + ",width=" + width + ",toolbar=yes,menubar=yes,"
      + "scrollbars=yes,resizable=yes,chrome=true,titlebar=true", // options
    "true" // replace (removes current document)
@@ -304,7 +331,7 @@ function writeSvgImage() {
   var svgDoc = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
   + "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" "
   + "\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n";
-  
+
   svgDoc += Tartan.svgData;
 
   subWindow.document.write(svgDoc);
@@ -347,7 +374,7 @@ Tartan.weave2 = function (colorArray, styleArray) {
     y2 = y1;
     cssClass = colorArray[this.threadY%this.threadCount] + " ";
     cssClass += "hor-" + this.threadY % this.threadBox;
-    Log.Notice("horizontalRows threadY=" + this.threadY + ", x1=" + x1 + ", y1=" + y1); 
+    Log.Notice("horizontalRows threadY=" + this.threadY + ", x1=" + x1 + ", y1=" + y1);
     horizontalRows
       .append("line")
       .attr("class", cssClass)

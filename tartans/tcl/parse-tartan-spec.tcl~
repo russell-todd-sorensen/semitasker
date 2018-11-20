@@ -28,7 +28,9 @@ array set Tartan $Data
 
 set pallet [split $Tartan(Pallet) ";"]
 
-puts "Name=$Tartan(Name),
+set output ""
+
+append output "Name=$Tartan(Name),
 Threadcount=$Tartan(Threadcount)
 Pallet=$Tartan(Pallet)"
 
@@ -54,3 +56,5 @@ var Tartan = function ()
 
 
 }
+
+ns_return 200 text/plain "pallet = $"

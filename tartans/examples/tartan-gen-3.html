@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Tartan Generator 3</title>
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<style>
+body {
+    zoom: 1.0;
+}
+
+#tartans-container {
+    position: relative;
+    top: 20px;
+    left: 20px;
+    height: 600px;
+}
+
+#tartans {
+    overflow: hidden;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+#tartan-vert {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+.vert {
+    display: inline-block;
+    width: 2px;
+    margin-top: 0px;
+    vertical-align: top;
+}
+
+.vert div {
+    width: 2px;
+	
+}
+
+.vskip-minus-1 {
+    height: 1px;
+}
+
+.vskip-minus-2 {
+    height: 2px;
+}
+
+.vskip-minus-4 {
+    height: 4px;
+}
+
+.vskip-plus-1 {
+    height: 1px;
+    background-color: transparent;
+}
+
+.vskip-plus-2 {
+    height: 2px;
+    background-color: transparent;
+}
+
+.vskip-plus-4 {
+    height: 4px;
+    background-color: transparent;
+}
+
+.ht-1 {
+    height: 1px;
+    width: .5px;
+}
+
+.ht-2 {
+    height: 2px;
+    width: 1px;
+}
+
+.ht-4 {
+    height: 4px;
+    width: 2px;
+}
+
+</style>
+<script>
+//var Log = {
+//	Hide: function() {},
+//	Show: function() {},
+//	Notice: function() {}
+//}
+</script>
+<script src="js/tartan-gen-3.js"></script>
+<script src="js/tartan-data.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+<script src="/js/d3.v3.js"></script>
+
+
+
+<script>
+function loadTartan(id, threads) {
+	if (parseInt(id) == 0) {
+		return false;
+	}
+	var data = dataset[parseInt(id)][1];
+	Log.Notice("data=" + data);
+	datasetExp = new Array();
+	dsStyleArray = new Array();
+	Tartan.init(data, datasetExp, dsStyleArray, parseInt(threads) );
+}
+
+function doTartan(evt) {
+	var id = $('#tartan option:selected').attr("value");
+	var threads = $('#tartans input#threads').val();
+	Log.Notice("threads=" + threads);
+ 	if (threads && parseInt(threads) > 50  && parseInt(threads) < 1200 ) {
+		// do nothing
+	} else {
+			threads = 50;
+	}
+	Log.Notice("id= " + id + " threads='" + threads + "'");
+  loadTartan(id, threads);
+}
+
+
+
+
+$(document).ready(function() {
+
+  //Tartan.init(dataset10, datasetExp, dsStyleArray, 450);
+	var body = d3.select(document.body);
+	var select = body.select('form#tartans select#tartan');
+	select.selectAll('#tartan option')
+		.data(dataset)
+		.enter()
+		.append("option")
+			.attr("value", function(d,i) {
+				return i;
+			})
+			.text(function(d,i) {
+				return dataset[i][0];
+			});
+
+});
+
+ Log.Hide();
+</script>
+
+</head>
+<body>
+
+<form id="tartans">
+ <select name="tartan" id="tartan" onChange="doTartan();">
+ 
+ </select>
+  Threads: <input id="threads" name="threads" 
+  type="number" pattern="[0-9]{1,4}" size="4" value="100" onChange="doTartan();"> 
+</form>
+<div id="tartans-container"></div>
+
+
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Generate Tartans</title>
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css" >
+<style>
+
+#svg1 {
+    border: solid black 1px;
+    zoom: 1.0;
+    overflow: visible;
+    background-color: transparent;
+}
+
+#svg-container {
+    margin-top: 10px;
+}
+
+#vertical-rows {
+    display: inline;
+    fill: none;
+}
+
+#horizontal-rows {
+    display: inline;
+    fill: none;
+}
+
+#tartans fieldset {
+    width: 400px;
+    background-color: darkolivegreen;
+    /* color: #d2691e; */
+    color: white;
+    border: 2px solid #222;
+}
+
+#tartans legend {
+    padding: 2px 5px;
+    font-size: larger;
+    font-weight: bolder;
+    /* color: #033; */
+    color: white;
+    background-color: #d2691e;
+    border: 2px solid #222;
+}
+
+#tartans ul {
+    list-style: none;
+    margin-left: -25px;
+}
+
+#tartans select#tartan {
+    display: inline-block;
+}
+
+#tartans select#tartan option, #tartans input {
+    color: darkolivegreen;
+    font-weight: bold;
+}
+#tartans option[selected=selected] {
+    background-color: darkolivegreen;
+    color: white;
+    font-weight: bold;
+}
+
+#tartans label {
+    display: inline-block;
+    width: 100px;
+}
+
+#tartans label::after {
+    content: ':';
+}
+
+#tartans label.inline {
+    display: inline;
+}
+
+#tartans input#submit {
+    float: right;
+    border: 1px solid #222;
+}
+
+#tartans input#submit:hover {
+    border: 1px solid red;
+}
+
+/*************** wrap css **********************/
+body {
+    background-image: url(images/aberdeen-small-2.svg);
+    background-position: top 0px left 0px;
+}
+
+#main {
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #d2691e;
+}
+
+.transparent {  
+    background-color: rgba(255,255,255,.8);
+}
+
+#header {
+		margin: 5px;
+    padding: 10px;
+    font-size: 7em;
+    font-weight: bold;
+    text-align: center;
+    line-height: 1em;
+    min-width: 1050px;
+    text-shadow: 8px 8px 8px darkolivegreen;
+}
+
+#body {
+    margin: 5px;
+    margin-top: 10px;
+    padding: 10px;
+    min-width: 1100px;
+}
+
+#nav {
+    display: inline-block;
+    width: 210px;
+    height: 700px;
+    vertical-align: top;
+}
+
+#nav ul {
+    list-style: none;
+    list-style-position: inside;
+}
+
+#nav ul li {
+    color: white;
+    width: 100%;
+    background-color: #d2691e;
+    font-size: 1.3em;
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-left: -25px;
+    padding: 5px;
+}
+#nav a:link, a:visited {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    width: 95%;
+}
+
+#nav a:hover, #nav a:active {
+    color: darkolivegreen;
+    text-shadow: 2px 2px 5px white;
+}
+
+#nav li:hover, #nav li:active {
+    box-shadow: 2px 2px 2px darkolivegreen;
+}
+
+
+#content {
+   display: inline-block;
+   margin-left: 10px;
+   min-height: 700px;
+   min-width:  700px;
+   vertical-align: top;
+   padding: 10px;
+   font-weight: bold;
+}
+
+#content h2 {
+    font-size: 2.5em;
+    color: darkolivegreen;
+    text-align: center;
+    line-height: .9em;
+}
+
+#content p::first-letter {
+    font-weight: bold;
+    font-size: 2em;
+    color: darkolivegreen;
+}
+
+#content p::first-line {
+    margin-left: 10px;
+    line-height: 1.3em;
+}
+
+#footer {
+    font-size: 3em;
+    line-height: 1em;
+    font-weight: bold;
+    padding: 10px;
+    margin: 5px;
+    min-width: 1050px;
+    text-align: center;
+    color: skyblue;
+    text-shadow: 0px 0px 15px purple;
+}
+#arrow {
+    display: inline-block;
+    height: 1px;
+    width: 1px;
+    border: 10px solid rgba(255, 255, 255, 0);
+    border-left-color: darkgreen;
+    vertical-align: bottom;
+}
+
+#nav ul li.current {
+    text-align: right;
+    color: darkgreen;
+    text-shadow: 0px 0px 5px white;
+
+}
+
+#threadTable {
+    border: 1px solid black;
+    min-width: 150px;
+}
+
+#threadTable, #formContainer {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.threadData {
+    font-weight: bold;
+    color: black;
+}
+
+</style>
+
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" 
+ src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="js/tartan-7.js"></script>
+<script src="js/tartan-data.js"></script>
+
+<script>
+
+$(document).ready(function() {
+
+  //Tartan.init(dataset10, datasetExp, dsStyleArray, 450);
+	var body = d3.select(document.body);
+	var select = body.select('form#tartans select#tartan');
+	select.selectAll('#tartan option')
+		.data(dataset)
+		.enter()
+		.append("option")
+			.attr("value", function(d,i) {
+				return i;
+			})
+			.text(function(d,i) {
+				return dataset[i][0] + "(" + calculateThreadCount(i)[1] + ")";
+			});
+			
+  Log.Hide();
+});
+
+ 
+</script>
+
+</head>
+<body>
+
+<div id="main">
+ <h1 id="header" class="transparent">World Tartans!</h1>
+ <div id="body">
+  <div id="nav" class="transparent">
+   <ul>
+    <li><a href="all-world-tartans-home-page.html">History</a></li>
+    <li><a href="#">Scottish</a></li>
+    <li><a href="#">British &amp; Irish</a></li>
+    <li><a href="#">North American</a></li>
+    <li><a href="#">Canadian</a></li>
+    <li><a href="#">Other Countries</a></li>
+    <li><a href="#">Institutions</a></li>
+    <li><a href="#">People</a></li>
+    <li class="current">Generate Tartans <div id="arrow"></div></li>
+   </ul>
+  </div>
+  <div id="content" class="transparent">
+   <h2>Generate Tartans</h2>
+<div id="ioContainer">
+<div id="formContainer">
+<form id="tartans">
+<fieldset>
+ <legend>Tartan Options</legend>
+ <ul>
+  <li><label for="tartan">Tartan</label>
+  <select name="tartan" id="tartan" onChange="//doTartan();">
+ 
+  </select>
+  </li>
+  <li>
+  <label for="threads">Threads</label> <input id="threads" name="threads" 
+  type="number" pattern="[0-9]{1,4}" size="4" value="100" > 
+  </li>
+  <li>
+  <label>For Export</label> 
+   <input id="forExportYes" class="forExport" name="forExport" type="radio" value="yes">
+    <label class="inline" for="forExportYes">Yes</label>
+   <input id="forExportNo" name="forExport" class="forExport" type="radio" value="no">
+    <label class="inline" for="forExportNo">No</label>
+  </li>
+  <li>
+  <label>Reverse</label> 
+   <input id="reverseYes" class="reverse" name="reverse" type="radio" value="yes">
+    <label class="inline" for="reverseYes">Yes</label>
+   <input id="reverseNo" name="reverse" class="reverse" type="radio" value="no">
+    <label class="inline" for="reverseNo">No</label>
+  </li>
+
+  <li>
+   <input type="button" value="Generate Tartan" id="submit" onClick="doTartan();">
+  </li>
+ </ul>
+ </fieldset>
+</form>
+<input type="button" value="Generate SVG Document" onClick="writeSvgImage();">
+</div><!-- end formContainer -->
+
+<div id="threadTable"><!-- data auto-generated --></div><!-- end threadTable -->
+
+</div><!-- end ioContainer -->
+
+<div id="svg-container">
+<svg id="svg1"><!--comment--></svg>
+</div>
+
+
+  </div>
+ </div>
+ <div id="footer" class="transparent">
+ Content &amp; Ideas from Iain Zaczek
+ </div>
+</div>
+</body>
+</html>
