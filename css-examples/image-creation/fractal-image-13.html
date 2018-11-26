@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <title>Fractal Image Creation 13 in JavaScript</title>
 <link rel="stylesheet" href="main.css" type="text/css">
-<link rel="stylesheet" type="text/css" href="http://ic00408/css/log.css" media="all">
-<link rel="stylesheet" type="text/css" href="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
 
 
 <style>
- 
+
 body,html {
   font-family:"Lucida Console", Monaco, monospace;
   background-color: black;
@@ -84,7 +84,7 @@ body,html {
 }
 
 #timeout, #colorOffsetAmount, #fractalImageId {
-    
+
 }
 
 #controls #pixelJump input[type=number] {
@@ -96,17 +96,17 @@ body,html {
 }
 </style>
 
-<script src="http://ic00408/js/jquery-1.7.1.js"></script>
-<script src="http://ic00408/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
-<script src="http://ic00408/js/d3.v3.js"></script>
-<script src="http://ic00408/js/log-2.js"></script>
-<script src="http://ic00408/js/data.js"></script>
-<script src="http://ic00408/js/form-save-restore.js"></script>
-<script src="http://ic00408/js/binary-hex-conversions.js"></script>
-<script src="http://ic00408/js/example-library.js"></script>
-<script src="http://ic00408/js/svg-transform.js"></script>
-<script src="http://ic00408/js/schedule-function.js"></script>
-<script src="http://ic00408/js/mouse-events.js"></script>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="/js/schedule-function.js"></script>
+<script src="/js/mouse-events.js"></script>
 <script src="js/fractal-image-13.js"></script>
 <script src="js/pixel-functions-13.js"></script>
 <script language="javascript">
@@ -121,7 +121,7 @@ function profileCounters (counters) {
 	var minimum = 1024;
 	var counts = new Array();
 	var count;
-	
+
 	for (var i = 0; i<length;i++) {
 		count = counters[i];
 		if (counts[count]) {
@@ -130,14 +130,14 @@ function profileCounters (counters) {
 			counts[count] = 1;
 			if (count > maximum) {
 				maximum = count;
-			} 
+			}
 			if (count < minimum) {
 				minimum = count;
 			}
 		}
 	}
-	
-	
+
+
 	return {counts:counts,maximum:maximum,minimum:minimum};
 }
 
@@ -174,17 +174,17 @@ var processForm = function () {
 }
 
 var startAnimationPre = function() {
-	
+
   var formData = processForm(formData);
-	
+
 	startAnimation(formData.id,formData.timeout,formData.data);
 }
 
 var drawImagePre = function() {
-	
+
   var formData = processForm(formData);
 	myFractalImages[formData.data.objId].drawImage();
-	
+
 }
 
 var exampleRect = {
@@ -205,39 +205,39 @@ img.onLoad = function () {
   canvas.setAttribute('height',img.height);
   canvas.setAttribute('width',img.width);
   context.drawImage(img, 0, 0, context.width, context.height);
-	
+
 }
 
 function getAndDrawImage (url,width,height) {
 	canvas = document.getElementById('myCanvas3');
   canvas.setAttribute('height',height);
   canvas.setAttribute('width',width);
-  
+
   if (!canvas || !canvas.getContext) {
     Log.Debug('doImageStuff: canvas or canvas.getContext not found');
     return;
   }
-   
+
   context = canvas.getContext('2d');
 	img.src = url;
 }
 }
 $(document).ready(function() {
-  
+
   Log.Notice('Document Ready');
-	
+
   myFractalImages[myFractalImageId] = new fractalImage('myCanvas','box',500,1000);
 	//myFractalImages[myFractalImageId].rect = exampleRect;
 	//myFractalImages[myFractalImageId].rmpRect = exampleRect;
 	$(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',myFractalImages[myFractalImageId],startMove);
-	
+
 	// second image
 	myFractalImages[1] = new fractalImage('myCanvas2','box2',500,1000);
 	$(myFractalImages[1].mouseBox).bind('mousedown',myFractalImages[1],startMove);
   Log.Remove();
 });
 </script>
- 
+
 
 </head>
 <body>

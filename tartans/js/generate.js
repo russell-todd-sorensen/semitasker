@@ -301,10 +301,10 @@ function doTartan(evt) {
   if (forExport == undefined) {
     forExport = "no";
   }
-   if (parseInt(threads) > 50  && parseInt(threads) < 1200 ) {
+   if (parseInt(threads) > 50  && parseInt(threads) < 12000 ) {
     // do nothing
   } else {
-      threads = 50;
+      threads = 500;
   }
   Log.Notice("id= " + id + " threads='" + threads + "' weave =" + weave );
   loadTartan(id, threads, forExport, reverseThreads, {side: weave * 2, threadBox: weave * 2});
