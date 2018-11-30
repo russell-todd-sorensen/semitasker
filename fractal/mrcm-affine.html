@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en_US">
+<html lang="en-US">
 <head>
-<meta charset="utf-8" />
+<meta charset="utf-8">
 
 <title>Multiple Reduction Copy Machine using Affine Transforms</title>
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
@@ -9,7 +9,7 @@
 
 
 <style>
- 
+
 body,html {
   font-family:"Lucida Console", Monaco, monospace;
   background-color: white;
@@ -115,7 +115,7 @@ body,html {
 }
 
 #timeout, #colorOffsetAmount, #fractalImageId {
-    
+
 }
 
 #controls #pixelJump input[type=number],
@@ -154,7 +154,7 @@ function getRangeIndex (list) {
 	var r = Math.random();
 	var pct = 0;
 	var i = 0;
-	
+
 	while (i<list.length) {
 		pct = pct + list[i];
 		if (r<pct) break;
@@ -169,20 +169,20 @@ var MatrixPre = function (r,s,φ,ψ,e,f,pct) {
 	var b = -s * Math.sin(ψ);
 	var c = r * Math.sin(φ);
 	var d = s * Math.cos(ψ);
-  
+
 	if (a*1000000.0 < 1) {
 		a = 0;
-	}  
+	}
 	if (b*1000000.0 < 1) {
 		b = 0;
-	}  
+	}
 	if (c*1000000.0 < 1) {
 		c = 0;
-	}  
+	}
 	if (d*1000000.0 < 1) {
 		d = 0;
 	}
-	
+
 	return new Matrix(a,b,c,d,e,f,pct);
 }
 
@@ -203,46 +203,46 @@ var Matrix = function (a,b,c,d,e,f,pct) {
 			  / ((this.a-1)*(this.d-1)-this.b*this.c);
 		}
 	};
-	
+
 	this.transformPoint = function(x,y) {
-		
+
 		return {
 			x:this.a * x + this.b * y + this.e,
 			y:this.c * x + this.d * y + this.f,
 		};
 	};
-	
+
 	this.r = Math.sqrt(this.a*this.a+this.c*this.c);
 	this.s = Math.sqrt(this.b*this.b+this.d*this.d);
 	this.φ = 0.0;
 	this.ψ = 0.0;
-	
+
 	if (this.a != 0 && this.r != 0) {
 		this.φ = Math.acos(this.a/this.r);
 	} else if (this.c != 0 && this.r != 0) {
 		this.φ = Math.asin(this.c/this.r);
 	}
-	
+
 	if (this.b != 0 && this.s != 0) {
 		this.ψ = Math.asin(-this.b/this.s);
 	} else if (this.c != 0 && this.s != 0) {
 		this.ψ = Math.acos(this.d/this.s);
 	}
-	
+
 	this.ap = this.r * Math.cos(-this.φ);
 	this.bp = -this.s * Math.sin(-this.ψ);
 	this.cp = this.r * Math.sin(-this.φ);
 	this.dp = this.s * Math.cos(-this.ψ);
-	
+
 	this.pct = pct;
 	this.pctEst = 0;
 	this.p = this.a*this.a+this.b*this.b+this.c*this.c+this.d*this.d;
 	this.q = Math.pow(this.a*this.d - this.b*this.c,2);
-	this.contraction = Math.sqrt((this.p 
+	this.contraction = Math.sqrt((this.p
 		+ Math.sqrt(this.p*this.p - 4*this.q))/2);
 	this.toString = function ( ) {
 		return 'a=' + this.a + ' b=' + this.b + ' c=' + this.c
-		 + ' d=' + this.d + ' e=' + this.e + ' f=' + this.f 
+		 + ' d=' + this.d + ' e=' + this.e + ' f=' + this.f
 		 + ' r=' + this.r + ' s=' + this.s + ' φ=' + this.φ
 		 + ' ψ=' + this.ψ;
 	};
@@ -251,7 +251,7 @@ var Matrix = function (a,b,c,d,e,f,pct) {
 		 + ' ' + this.d + ' ' + ((this.e)) + ' ' + ((this.f)) + ')';
 	};
 	this.toMatrixP = function () {
-		return 'matrix(' + this.ap + ' ' + this.bp + ' ' + this.cp 
+		return 'matrix(' + this.ap + ' ' + this.bp + ' ' + this.cp
 		 + ' ' + this.dp + ' ' + this.e + ' ' + this.f + ')';
 	};
 	this.toPath = function () {
@@ -268,7 +268,7 @@ var Matrix = function (a,b,c,d,e,f,pct) {
 		point = this.transformPoint(600,0);
 		path += ' L ' + point.x + ' ' + point.y;
 		path += ' Z';
-		
+
 		return path;
 	};
 	this.toPolygonPoints = function () {
@@ -434,7 +434,7 @@ function generatePoints2(m,p,count) {
 
 function generateImage(id,points) {
 	var g = d3.select('#' + id);
-	
+
 	g.selectAll('circle')
 	 .data(points)
 	 .enter()
@@ -443,7 +443,7 @@ function generateImage(id,points) {
 	 .attr('cx', function(d,i) {return d.x})
 	 .attr('cy', function(d,i) {return d.y})
 	 .attr('fill', function(d,i) {
-		 return 'rgba(' + Math.abs((255-40*((d.r+1%3)))%255) 
+		 return 'rgba(' + Math.abs((255-40*((d.r+1%3)))%255)
 		 		+ ',' + Math.abs((255-40*(d.r%3))%255)
 		 		+ ',' + Math.abs((255-40*((d.r+2)%3))%255)
 				+ ',0.5'
@@ -465,7 +465,7 @@ function changeImage() {
 }
 
 function changeTransforms3(id) {
-	
+
 	var m = M[parseInt(id)];
 	for (var i = 0; i<6;i++) {
 		d3.select('#box-' +i).style('display','none');
@@ -493,11 +493,11 @@ function loadMatrixTransform() {
 	var ψ = parseFloat($('#u').val(matrix.ψ));
 	var e = parseFloat($('#e').val(matrix.e));
 	var f = parseFloat($('#f').val(matrix.f));
-	
+
 }
 
 function updateMatrixTransform() {
-	
+
 	var mrcmId = parseInt($('#matrixId option:selected').val());
 	var matrixIndex = parseInt($('#matrixIndex option:selected').val());
 	var matrix = M[mrcmId][matrixIndex];
@@ -519,13 +519,13 @@ function updateMatrixTransform() {
 }
 
 $(document).ready(function() {
-  
+
   Log.Notice('Document Ready');
 	//var matrix = M10
   //generatePoints(matrix,Points,100000);
 	//generateImage('mPoints',Points);
   //Log.Remove();
-	
+
 	//myImage = new fractalImage('myCanvas',600,600,Points);
 	//myImage.drawImage();
 	//imageContractionEstimate(matrix);
@@ -571,13 +571,13 @@ $(document).ready(function() {
  <option value="9">Matrix 9: Leaf</option>
  <option value="10">Matrix 10: Garbage (10)</option>
  <option value="11">Matrix 11: Garbage (5)</option>
- 
+
  <option value="13">Matrix 13: Garbage (12)</option>
  <option value="14">Matrix 13: Garbage (1)</option>
  </select>
  <button onClick="changeImage();" >Change Image</button>
  </form>
- 
+
 </div>
 </div>
 <div id="composite">
@@ -621,7 +621,7 @@ $(document).ready(function() {
  <option value="9">Matrix 9: Leaf</option>
  <option value="10">Matrix 10: Garbage (10)</option>
  <option value="11">Matrix 11: Garbage (5)</option>
- 
+
  <option value="13">Matrix 13: Garbage (12)</option>
  <option value="14">Matrix 13: Garbage (1)</option>
  </select>
