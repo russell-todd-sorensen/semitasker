@@ -79,233 +79,216 @@ var photo = function (canvasId, boxId, height, width, startUpData) {
     this.pixelImageWidth = 150 * 1.0;//this.factor;
 
 
-	this.drawImage = function (data) {
+    this.drawImage = function (data) {
 
-		this.canvas = document.getElementById(this.id);
-		this.canvas.setAttribute('height',this.height);
-		this.canvas.setAttribute('width',this.width);
+        this.canvas = document.getElementById(this.id);
+        this.canvas.setAttribute('height',this.height);
+        this.canvas.setAttribute('width',this.width);
 
-		if (!this.canvas || !this.canvas.getContext)
-		{
-			Log.Debug('doImageStuff: canvas or canvas.getContext not found');
-			return;
-		}
+        if (!this.canvas || !this.canvas.getContext)
+        {
+            Log.Debug('doImageStuff: canvas or canvas.getContext not found');
+            return;
+        }
 
-		this.context = this.canvas.getContext('2d');
+        this.context = this.canvas.getContext('2d');
 
-		if (!this.context || !this.context.putImageData)
-		{
-			Log.Debug('doImageStuff: context or context.putImageData not found');
-			return;
-		}
+        if (!this.context || !this.context.putImageData)
+        {
+            Log.Debug('doImageStuff: context or context.putImageData not found');
+            return;
+        }
 
-		if (!this.context.createImageData)
-		{
-			Log.Debug('doImageStuff: context.createImage exists');
-			this.imageData = this.context.createImageData (this.height, this.width);
-		}
-		else if (this.context.getImageData) {
-			this.imageData = this.context.getImageData(0, 0, this.width, this.height);
-			Log.Notice('doImageStuff: context.getImageData exists length='
-				+ this.imageData.data.length);
-		}
-		else {
-			Log.Debug('doImageStuff: using default image creation method');
-			this.imageData = {
-				'width': this.width,
-				'height': this.height,
-				'data':new Array(this.width*this.height*4)
-			};
-		}
+        if (!this.context.createImageData)
+        {
+            Log.Debug('doImageStuff: context.createImage exists');
+            this.imageData = this.context.createImageData (this.height, this.width);
+        }
+        else if (this.context.getImageData) {
+            this.imageData = this.context.getImageData(0, 0, this.width, this.height);
+            Log.Notice('doImageStuff: context.getImageData exists length='
+                + this.imageData.data.length);
+        }
+        else {
+            Log.Debug('doImageStuff: using default image creation method');
+            this.imageData = {
+                'width': this.width,
+                'height': this.height,
+                'data':new Array(this.width*this.height*4)
+            };
+        }
 
-		this.pixels = this.imageData.data;
-		// This is where the new data should be used
+        this.pixels = this.imageData.data;
+        // This is where the new data should be used
 
-		for (var i=0, n=this.pixels.length; i<n; i++)
-		{
-			this.pixels[i] = 255;
-		}
+        for (var i=0, n=this.pixels.length; i<n; i++)
+        {
+            this.pixels[i] = 255;
+        }
 
-		this.context.putImageData(this.imageData, 0, 0);
-	};
+        this.context.putImageData(this.imageData, 0, 0);
+    };
 
 
-	if (arguments.length == 5)
-	{
-		for (var prop in startUpData)
-		{
-			this[prop] = startUpData[prop];
-		}
-	}
+    if (arguments.length == 5)
+    {
+        for (var prop in startUpData)
+        {
+            this[prop] = startUpData[prop];
+        }
+    }
 
     this.callStartMove = [captureMouseUp,setupRect];
-	this.callDragMove  = [drawBox];
-	this.callEndMove   = [unbindMouseUp,calculateRect];
+    this.callDragMove  = [drawBox];
+    this.callEndMove   = [unbindMouseUp,calculateRect];
 
-	return this;
+    return this;
 }
 
 var setupRect = function(evt) {
-	var obj = evt.data;
-	obj.target = evt.target;
-	obj.height = evt.currentTarget.height;
-	obj.width  = evt.currentTarget.width;
-	obj.offsetLeft = evt.clientX - evt.offsetX;
-	obj.offsetTop  = evt.clientY - evt.offsetY;
-
+    var obj = evt.data;
+    obj.target = evt.target;
+    obj.height = evt.currentTarget.height;
+    obj.width  = evt.currentTarget.width;
+    obj.offsetLeft = evt.clientX - evt.offsetX;
+    obj.offsetTop  = evt.clientY - evt.offsetY;
 };
 
 var calculateMinMaxXY = function(evt) {
     var obj = evt.data;
 
-	if (obj.dragCurrent.y-obj.dragStart.y > 0)
-	{
-		obj.minY = obj.dragStart.y;
-		obj.maxY = obj.dragCurrent.y;
-	}
-	else {
-		obj.minY = obj.dragCurrent.y;
-		obj.maxY = obj.dragStart.y;
-	}
+    if (obj.dragCurrent.y-obj.dragStart.y > 0)
+    {
+        obj.minY = obj.dragStart.y;
+        obj.maxY = obj.dragCurrent.y;
+    }
+    else {
+        obj.minY = obj.dragCurrent.y;
+        obj.maxY = obj.dragStart.y;
+    }
 
-	if (obj.dragCurrent.x-obj.dragStart.x > 0)
-	{
-		obj.minX = obj.dragStart.x;
-		obj.maxX = obj.dragCurrent.x;
-	}
-	else {
-		obj.minX = obj.dragCurrent.x;
-		obj.maxX = obj.dragStart.x;
-	}
+    if (obj.dragCurrent.x-obj.dragStart.x > 0)
+    {
+        obj.minX = obj.dragStart.x;
+        obj.maxX = obj.dragCurrent.x;
+    }
+    else {
+        obj.minX = obj.dragCurrent.x;
+        obj.maxX = obj.dragStart.x;
+    }
 }
 
 var drawBox = function(evt) {
-	var obj = evt.data;
+    var obj = evt.data;
     calculateMinMaxXY(evt);
-if (false) {
-	if (obj.dragCurrent.y-obj.dragStart.y > 0)
-	{
-		obj.minY = obj.dragStart.y;
-		obj.maxY = obj.dragCurrent.y;
-	}
-	else {
-		obj.minY = obj.dragCurrent.y;
-		obj.maxY = obj.dragStart.y;
-	}
 
-	if (obj.dragCurrent.x-obj.dragStart.x > 0)
-	{
-		obj.minX = obj.dragStart.x;
-		obj.maxX = obj.dragCurrent.x;
-	}
-	else {
-		obj.minX = obj.dragCurrent.x;
-		obj.maxX = obj.dragStart.x;
-	}
-}
-	var msg = 'drawBox top=' + (obj.minY-obj.offsetTop)
-			+ ' left = ' + (obj.minX-obj.offsetLeft)
-			+ ' height=' + (obj.maxY-obj.minY)
-			+ ' width=' + (obj.maxX-obj.minX);
+    var msg = 'drawBox top=' + (obj.minY-obj.offsetTop)
+            + ' left = '     + (obj.minX-obj.offsetLeft)
+            + ' height='     + (obj.maxY-obj.minY)
+            + ' width='      + (obj.maxX-obj.minX);
 
-	Log.Warning(msg);
+    Log.Warning(msg);
 
-	$('#' + obj.boxId).css({
-		top:obj.minY-obj.offsetTop,
-		left:obj.minX-obj.offsetLeft,
-		height:obj.maxY-obj.minY,
-		width:obj.maxX-obj.minX}
-	);
+    $('#' + obj.boxId).css(
+        {
+            top:obj.minY-obj.offsetTop,
+            left:obj.minX-obj.offsetLeft,
+            height:obj.maxY-obj.minY,
+            width:obj.maxX-obj.minX
+        }
+    );
 
-	Log.Debug('drawBox finished');
+    Log.Debug('drawBox finished');
 };
 
 var resetBox = function(evt) {
-	obj = evt.data;
+    obj = evt.data;
 
-	$('#' + obj.boxId).css({
-		top:obj.offsetTop,
-		left:obj.offsetLeft,
-		height:0,
-		width:0}
-	);
+    $('#' + obj.boxId).css(
+        {
+            top:obj.offsetTop,
+            left:obj.offsetLeft,
+            height:0,
+            width:0
+        }
+    );
 };
 
 var calculateRect = function (evt)  {
 
-	var obj = evt.data;
-	var dxCurrent = obj.rect.end.x - obj.rect.start.x;
-	var dyCurrent = obj.rect.end.y - obj.rect.start.y;
+    var obj = evt.data;
+    var dxCurrent = obj.rect.end.x - obj.rect.start.x;
+    var dyCurrent = obj.rect.end.y - obj.rect.start.y;
 
     Log.Debug('calculateRect dxCurrent ="' + dxCurrent + '" dyCurrent="' + dyCurrent + '"');
 
-	var heightToWidthRatio = dyCurrent/dxCurrent;
-	var height = obj.height*1.0;
-	var width =  obj.width*1.0;
+    var heightToWidthRatio = dyCurrent/dxCurrent;
+    var height = obj.height*1.0;
+    var width =  obj.width*1.0;
 
-	var dxNew = (obj.maxX-obj.minX)/width*dxCurrent;
-	var dyNew = (obj.maxY-obj.minY)/height*dyCurrent;
+    var dxNew = (obj.maxX-obj.minX)/width*dxCurrent;
+    var dyNew = (obj.maxY-obj.minY)/height*dyCurrent;
 
-	var rectMinX = obj.rect.start.x
-		+ (obj.minX-obj.offsetLeft)*(obj.rect.end.x-obj.rect.start.x)/width;
+    var rectMinX = obj.rect.start.x
+        + (obj.minX-obj.offsetLeft)*(obj.rect.end.x-obj.rect.start.x)/width;
 
-	var rectMinY = (obj.rect.start.y
-		+ (height-(obj.maxY-obj.offsetTop))*(obj.rect.end.y-obj.rect.start.y)/height) ;
-	var rectMaxX = obj.rect.end.x
-		- (width-(obj.maxX-obj.offsetLeft))*(obj.rect.end.x-obj.rect.start.x)/width;
-	var rectMaxY = obj.rect.end.y
-		- (obj.minY-obj.offsetTop)*(obj.rect.end.y-obj.rect.start.y)/height;
+    var rectMinY = (obj.rect.start.y
+        + (height-(obj.maxY-obj.offsetTop))*(obj.rect.end.y-obj.rect.start.y)/height) ;
+    var rectMaxX = obj.rect.end.x
+        - (width-(obj.maxX-obj.offsetLeft))*(obj.rect.end.x-obj.rect.start.x)/width;
+    var rectMaxY = obj.rect.end.y
+        - (obj.minY-obj.offsetTop)*(obj.rect.end.y-obj.rect.start.y)/height;
 
-	Log.Debug('calculateRect \nwidth=' + width
-		+ '\nheight=' + height + '\nminX =' + obj.minX
-		+ '\nminY=' + obj.minY + '\nmaxX=' + obj.maxX
-		+ '\nmaxY=' + obj.maxY
-		+ '\nrectMinX=' + rectMinX + '\nrectMinY=' + rectMinY
-		+ '\nrectMaxX=' + rectMaxX + '\nrectMaxY=' + rectMaxY);
+    Log.Debug('calculateRect \nwidth=' + width
+        + '\nheight=' + height + '\nminX =' + obj.minX
+        + '\nminY=' + obj.minY + '\nmaxX=' + obj.maxX
+        + '\nmaxY=' + obj.maxY
+        + '\nrectMinX=' + rectMinX + '\nrectMinY=' + rectMinY
+        + '\nrectMaxX=' + rectMaxX + '\nrectMaxY=' + rectMaxY);
 
-	Log.Debug('calculateRect dxNew=' + dxNew + ' dyNew=' + dyNew);
+    Log.Debug('calculateRect dxNew=' + dxNew + ' dyNew=' + dyNew);
 
-	var rectTmp = obj.rectTmp;
+    var rectTmp = obj.rectTmp;
 
-	rectTmp.start.x = rectMinX;
-	rectTmp.start.y = rectMinY;
-	rectTmp.end.x = rectMaxX;
-	rectTmp.end.y = rectMaxY;
+    rectTmp.start.x = rectMinX;
+    rectTmp.start.y = rectMinY;
+    rectTmp.end.x = rectMaxX;
+    rectTmp.end.y = rectMaxY;
 };
 
 var FormGlobal;
 
 var processForm = function () {
-	var photoId=parseInt($('#photoId').val());
+    var photoId=parseInt($('#photoId').val());
     var photoSrc = $('#photoSrc').val();
-	FormGlobal = {
-		data:{
-			objId:photoId,
+    FormGlobal = {
+        data:{
+            objId:photoId,
             photoSrc:photoSrc,
-		}
-	};
+        }
+    };
 
-	return FormGlobal;
+    return FormGlobal;
 };
 
 var imageData;
 var captureHandle;
 
 var resolve = function() {
-	if (imageData) {
-		$('#imageGallery').append('<img height="20" src="' + imageData + '">');
-		clearInterval(captureHandle);
-	}
+    if (imageData) {
+        $('#imageGallery').append('<img height="20" src="' + imageData + '">');
+        clearInterval(captureHandle);
+    }
 }
 
 var captureCanvas2 = function (type) {
 
-	var formData = processForm();
-	var data = formData.data;
-	var objId = data.objId;
-	//var thisPhoto = myPhotos[objId];
-	imageData = fractal.canvas.toDataURL(type,1.0);
-	captureHandle = setInterval('resolve()', 1000);
+    var formData = processForm();
+    var data = formData.data;
+    var objId = data.objId;
+    //var thisPhoto = myPhotos[objId];
+    imageData = fractal.canvas.toDataURL(type,1.0);
+    captureHandle = setInterval('resolve()', 1000);
 
 };
 
@@ -329,45 +312,42 @@ var loadPhoto = function () {
 }
 
 var cropPhoto = function () {
-	var formData = processForm();
-	var data = formData.data;
-	var objId = data.objId;
-	var obj = myPhotos[objId];
-	var photoUrl = data.photoSrc;
 
+    var formData = processForm();
+    var data = formData.data;
+    var objId = data.objId;
+    var obj = myPhotos[objId];
+    var photoUrl = data.photoSrc;
+
+    // dummy event object so we can use calculateMinMaxXY
     var dummy = new Object();
-    dummy.data = obj
+    dummy.data = obj;
+
     calculateMinMaxXY(dummy);
 
-    if (false) {
-	var start = obj.dragStart;
-	var end   = obj.dragEnd;
+    var newWidth  = obj.maxX-obj.minX;
+    var newHeight = obj.maxY-obj.minY;
 
-	var newWidth  = end.x-start.x;
-	var newHeight = end.y-start.y;
-
-	var cropData = obj.context.getImageData(
-		start.x,start.y,newWidth,newHeight
-	);
-}
     var cropData = obj.context.getImageData(
         obj.minX-obj.offsetLeft,
         obj.minY-obj.offsetTop,
         obj.maxX-obj.minX,
         obj.maxY-obj.minY
-    )
-	$('#' + obj.boxId).css({
-		top:obj.offsetTop,
-		left:obj.offsetLeft,
-		height:0,
-		width:0}
-	);
+    );
 
+    $('#' + obj.boxId).css(
+        {
+            top:obj.offsetTop,
+            left:obj.offsetLeft,
+            height:0,
+            width:0
+        }
+    );
+    obj.height = newHeight;
+    obj.width  = newWidth;
+    obj.drawImage(cropData);
 
-
-	obj.context.putImageData(cropData,0,0);
-	//obj.canvas.width = newWidth;
-	//obj.canvas.height = newHeight;
+    obj.context.putImageData(cropData,0,0);
 }
 
 
