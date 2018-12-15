@@ -127,8 +127,54 @@
 }
 </style>
 
-<style id="label-0-css"></style>
+<script>
+// data to merge with labels:
 
+var Labels = {
+	participants: [],
+	template: function () {
+		this.house = null;
+		this.pname = null;
+		this.docid = null;
+		this.role  = null;
+		this.extra = null;
+		return this;
+	},
+	participant: function (house,pname,docid,role,extra) {
+		this.house = house;
+		this.pname = pname;
+		this.docid = docid;
+		this.role  = role;
+		this.extra = extra;
+		return this;
+	},
+	initialized: false,
+	initParticipants: function(size) {
+		if (!this.initialized) {
+			for (var i = 0; i < size; i++) {
+				this.participants[i] = new this.template();
+			}
+			this.initialized = true;
+		}
+		return this.initialized;
+	},
+
+};
+
+var size = 2;
+Labels.initParticipants(size)
+
+var formIds = {
+	editIndex: 'editIndex',
+	data: 'data',
+	house: 'house',
+	docid: 'docid',
+	pname: 'pname',
+	role: 'role',
+	extra: 'extra'
+};
+
+</script>
 </head>
 <body>
 <div id="notice">When printing, remove headers, footers and margins</div>
@@ -221,7 +267,6 @@
 
 </div>
 
-
 <svg id="svg"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -240,148 +285,15 @@
 
 </svg>
 <script>
-// data to merge with labels:
 
-var Labels = {
-	participants: [],
-	template: function () {
-		this.house = null;
-		this.pname = null;
-		this.docid = null;
-		this.role  = null;
-		this.extra = null;
-		return this;
-	},
-	participant: function (house,pname,docid,role,extra) {
-		this.house = house;
-		this.pname = pname;
-		this.docid = docid;
-		this.role  = role;
-		this.extra = extra;
-		return this;
-	},
-	initialized: false,
-	initParticipants: function(size) {
-		if (!this.initialized) {
-			for (var i = 0; i < size; i++) {
-				this.participants[i] = new this.template();
-			}
-			this.initialized = true;
-		}
-		return this.initialized;
-	},
-
-};
-
-var size = 30;
-Labels.initParticipants(size)
-
-var formIds = {
-	editIndex: 'editIndex',
-	data: 'data',
-	house: 'house',
-	docid: 'docid',
-	pname: 'pname',
-	role: 'role',
-	extra: 'extra'
-};
-
-function getLabelData(labelId, field) {
-	var val = $('#' + labelId + "-" + formIds[field]).text();
-	$('#' + formIds[field]).val(val);
-	Log.Notice(field + '="' + val + '"');
-	return val
-}
-
-function getLabelSelectData(labelId, field) {
-	var val = $('#' + labelId + "-" + formIds[field]).text();
-	Log.Notice(field + '="' + val + '"');
-
-	var selectedOption = "#" + formIds[field] + " " + "option:selected";
-    $(selectedOption).removeAttr('selected');
-    var valueOption = "#" + formIds[field] + " " + "option[value='" + val + "']";
-    $(valueOption).attr('selected', 'selected');
-	return val
-}
-
-function setEditLabelIndex ( evt ) {
-
-	var data = this.id;
-	var re = /(label-)([0-9]*)/;
-	var match =  data.match(re);
-	var labelId = match[0];
-
-	$('#' + formIds.editIndex).val(match[2]);
-
-	getLabelData(labelId,formIds.docid);
-	getLabelData(labelId,formIds.pname);
-	getLabelSelectData(labelId,formIds.house);
-}
-
-function restoreAll(inputId) {
-	var val = $('#' + inputId).val();
-	Labels.participants = JSON.parse(val);
-	Log.Notice("restoreAll('" + inputId + "')");
-}
-
-function updateLabel() {
-
-	var id = parseInt($('#' + formIds.editIndex).val());
-	var pname = $('#' + formIds.pname).val();
-	var docid = $('#' + formIds.docid).val();
-	var house = $('#' + formIds.house + " option:selected").val();
-	var role = $('#' + formIds.role + " option:selected").val();
-    var extra = $('#' + formIds.extra + " option:selected").val();
-
-	Labels.participants[id] = {
-		pname:pname,
-		docid:docid,
-		house:house,
-		role:role,
-		extra:extra
-	};
-
-	reloadLabels();
-}
-
-function reloadLabels() {
-
-    saveAll();
-	destroyLabels(0,'svg',Labels.participants);
-	createLabels(0,'svg',Labels.participants);
-}
-
-function clearLabel() {
-	var id = parseInt($('#' + formIds.editIndex).val());
-	Labels.participants[id] = {
-		pname:null,
-		docid:null,
-		house:null,
-		role:null,
-		extra:null
-	};
-	reloadLabels();
-}
-
-function saveAll() {
-	var id = formIds.data
-	var val = JSON.stringify(Labels.participants);
-	$('#' + id).val(val);
-	Data.saveInput(id,'restoreAll');
-	Log.Notice('saved all');
+var delayedCreate = function () {
+    createLabels(0,'svg',Labels.participants);
 }
 
 $(document).ready(function() {
 
   Data.restoreInput('data');
-  createLabels(0, 'svg',Labels.participants);
-
-  var labels = $('.label8366');
-  var node;
-  for (i=0; i< labels.length;i++) {
-  	  node = labels[i].id
-  	  $('#' + node).bind('click',i,setEditLabelIndex);
-  }
+  setTimeout('delayedCreate()', 10);
 });
 
 </script>
