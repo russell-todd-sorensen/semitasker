@@ -18,60 +18,60 @@
 <script src="js/folder-labels-with-color.js" ></script>
 <style>
 .page8366 {
-	width:  8.5in;
-	height: 11in;
-	fill: white;
-	stroke-width: .5;
-	stroke: black;
+    width:  8.5in;
+    height: 11in;
+    fill: white;
+    stroke-width: .5;
+    stroke: black;
 
 }
 
 .label8366 {
-	display: inline-block;
-	height: .6667in;
-	width: 3.4375in;
-	fill: white;
-	stroke: tan;
-	stroke-width: .5;
-	border-radius: 10px;
+    display: inline-block;
+    height: .6667in;
+    width: 3.4375in;
+    fill: white;
+    stroke: tan;
+    stroke-width: .5;
+    border-radius: 10px;
 }
 
 .label8366 {
-	rx: 10;
-	ry: 10;
+    rx: 10;
+    ry: 10;
 }
 
 .house {
-	text-anchor: middle;
-	font-weight: normal;
-	font-size: 14px;
-	stroke: none;
-	fill: black;
+    text-anchor: middle;
+    font-weight: normal;
+    font-size: 14px;
+    stroke: none;
+    fill: black;
 }
 
 .pname {
-	text-anchor: start;
-	font-weight: bold;
-	font-size: 22px;
-	stroke: none;
-	fill: black;
+    text-anchor: start;
+    font-weight: bold;
+    font-size: 22px;
+    stroke: none;
+    fill: black;
 }
 
 .docid {
-	text-anchor: end;
-	font-weight: bold;
-	font-size: 22px;
-	stroke: none;
-	fill: black;
+    text-anchor: end;
+    font-weight: bold;
+    font-size: 22px;
+    stroke: none;
+    fill: black;
 }
 
 
 .role {
-	text-anchor: middle;
-	font-weight: normal;
-	font-size: 14px;
-	stroke: none;
-	fill: #AA0000;
+    text-anchor: middle;
+    font-weight: normal;
+    font-size: 14px;
+    stroke: none;
+    fill: #AA0000;
 }
 /* form input styles */
 
@@ -92,38 +92,58 @@
 }
 
 #label-12-pname {
-	font-size: 20px;
+    font-size: 20px;
 }
 
 #notice {
-	color: red;
-	font-weight: bold;
-	width: 300px;
-	position: absolute;
-	right: 0;
-	top: 10px;
-	text-align: center;
+    color: red;
+    font-weight: bold;
+    width: 300px;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    text-align: center;
+}
+
+
+.fill-fbff45 {
+    background-color: #fbff45;
+}
+.fill-45ffdb {
+    background-color: #45ffdb;
+}
+.fill-ff9a45 {
+    background-color: #ff9a45;
+}
+.fill-ff45d3 {
+    background-color: #ff45d3;
+}
+.fill-91ff45 {
+    background-color: #91ff45;
+}
+.fill-ff4c45 {
+    background-color: #ff4c45;
 }
 
 /* what not to show when printing */
 
 @media print {
-	.page8366 {
-		display:none;
-	}
-	#form1 {
-		display:none;
-	}
-	#notice {
-		display:none;
-	}
-	.label8366 {
-		stroke: rgba(0,0,0,.5);
-		stroke-width: .25;
-	}
-	.null {
-		display: none;
-	}
+    .page8366 {
+        display:none;
+    }
+    #form1 {
+        display:none;
+    }
+    #notice {
+        display:none;
+    }
+    .label8366 {
+        stroke: rgba(0,0,0,.5);
+        stroke-width: .25;
+    }
+    .null {
+        display: none;
+    }
 }
 </style>
 
@@ -131,47 +151,46 @@
 // data to merge with labels:
 
 var Labels = {
-	participants: [],
-	template: function () {
-		this.house = null;
-		this.pname = null;
-		this.docid = null;
-		this.role  = null;
-		this.extra = null;
-		return this;
-	},
-	participant: function (house,pname,docid,role,extra) {
-		this.house = house;
-		this.pname = pname;
-		this.docid = docid;
-		this.role  = role;
-		this.extra = extra;
-		return this;
-	},
-	initialized: false,
-	initParticipants: function(size) {
-		if (!this.initialized) {
-			for (var i = 0; i < size; i++) {
-				this.participants[i] = new this.template();
-			}
-			this.initialized = true;
-		}
-		return this.initialized;
-	},
-
+    participants: [],
+    template: function () {
+        this.house = null;
+        this.pname = null;
+        this.docid = null;
+        this.role  = null;
+        this.extra = null;
+        return this;
+    },
+    participant: function (house,pname,docid,role,extra) {
+        this.house = house;
+        this.pname = pname;
+        this.docid = docid;
+        this.role  = role;
+        this.extra = extra;
+        return this;
+    },
+    initialized: false,
+    initParticipants: function(size) {
+        if (!this.initialized) {
+            for (var i = 0; i < size; i++) {
+                this.participants[i] = new this.template();
+            }
+            this.initialized = true;
+        }
+        return this.initialized;
+    },
 };
 
-var size = 2;
+var size = 30;
 Labels.initParticipants(size)
 
 var formIds = {
-	editIndex: 'editIndex',
-	data: 'data',
-	house: 'house',
-	docid: 'docid',
-	pname: 'pname',
-	role: 'role',
-	extra: 'extra'
+    editIndex: 'editIndex',
+    data: 'data',
+    house: 'house',
+    docid: 'docid',
+    pname: 'pname',
+    role: 'role',
+    extra: 'extra'
 };
 
 </script>
@@ -183,15 +202,16 @@ var formIds = {
 <fieldset>
 <legend onClick="togglePanel('panel','panel-4','panel-2');" style="cursor: pointer" title="Click to Minimize/Expand">Participant Data</legend>
 <ul id="panel">
- <li><label for="editIndex">Edit Index:</label>
+ <li>
+     <label for="editIndex">Edit Index:</label>
      <input type="number" min="0" max="29" step="1" name="editIndex" id="editIndex" onChange=""/>
  </li>
  <li><label for="pname">Name:</label>
-  <input type="text" name="pname" id="pname" onChange="" maxlength="45" />
+     <input type="text" name="pname" id="pname" onChange="" maxlength="45" />
  </li>
  <li>
-  <label for="docid" >DOC Id:</label>
-   <input id="docid" name="docid" type="text" maxlength="45" onChange="">
+     <label for="docid" >DOC Id:</label>
+     <input id="docid" name="docid" type="text" maxlength="45" onChange="">
   </li>
  <li>
    <label for="house" >House:</label>
@@ -238,16 +258,18 @@ var formIds = {
     <option value="Non-Transitional Housing">Non-Transitional Housing</option>
     <option value="Employee">Employee</option>
     <option value="Pastor">Pastor</option>
-
    </select>
  </li>
  <li>
    <label for="extra" >Style:</label>
    <select id="extra" name="extra" onChange="">
     <option value="" selected="selected">Default Style</option>
-    <option value="fill: #cc0;">Yellow Background</option>
-    <option value="fill: #00c;">Light Blue</option>
-    <option value="fill: #fcc;">What Color</option>
+    <option value="fill: #fbff45;" class="fill-fbff45">Light Yellow</option>
+    <option value="fill: #45ffdb;" class="fill-45ffdb">Light Blue</option>
+    <option value="fill: #ff9a45;" class="fill-ff9a45">Light Orange</option>
+    <option value="fill: #ff45d3;" class="fill-ff45d3">Light Fusha</option>
+    <option value="fill: #91ff45;" class="fill-91ff45">Light Green</span></option>
+    <option value="fill: #ff4c45;" class="fill-ff4c45">Light Red</option>
 
    </select>
  </li>
