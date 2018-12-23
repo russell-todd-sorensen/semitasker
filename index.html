@@ -134,6 +134,15 @@ section {
 
 </style>
 
+<script>
+if ('serviceWorker' in navigator) {
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+    });
+}
+</script>
+
 <script src="/js/d3.v3.js" charset="utf-8"></script>
 <script src="/js/jquery-1.7.1.js" charset="utf-8"></script>
 <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" charset="utf-8"></script>
