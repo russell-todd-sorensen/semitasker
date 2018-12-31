@@ -699,7 +699,8 @@ addToPixels[15] = function (data) {
 	  colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
 	}
 
-	for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+//	for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+	for (var p = (((fractal.animationIndex)%(pixelJump/4))*4);p<fractal.pixels.length; p+=pixelJump)
 	{
 
 		counter = fractal.counters[p];
@@ -729,6 +730,15 @@ addToPixels[15] = function (data) {
 	fractal.colors = colors;
 	drawColors(data);
 	fractal.context.putImageData(fractal.imageData,0,0);
+	var pixelSlice = [];
+	for (var i = 0;i < 20;i++) {
+		pixelSlice.push(fractal.imageData.data[i]);
+	}
+	console.log("animationIndex='" + fractal.animationIndex
+		+ "' p='" + ((fractal.animationIndex%pixelJump)*4)
+		+ "' p2='" + (pixelJump - 4)
+		+ "' p3='" + (((fractal.animationIndex)%(pixelJump/4))*4)
+		+  "' pixels=" + pixelSlice  );
 	fractal.animationIndex += amount;
 	return fractal.continueAnimation;
 };
@@ -2887,5 +2897,96 @@ addToPixels[47] = function (data) {
 	context.restore();
 	fractal.animationIndex += animationSteps;
 	fractal.animationRow++;
+	return fractal.continueAnimation;
+};
+
+
+addToPixels[48] = function (data) {
+	var objId = data.objId;
+	var amount = data.amount;
+	var fractal = myFractalImages[objId];
+	var counter;
+	var hue,sat,brt,rgb;
+	var maxBrt = data.maxBrt;
+	var minBrt = data.minBrt;
+	var maxSat = data.maxSat;
+	var minSat = data.minSat;
+	var maxInt = data.maxInt;
+	var minInt = data.minInt;
+	var maxLevel = data.maxLevel;
+	var minLevel = data.minLevel;
+	var colorModel = data.hslOrHsb;
+	var hueFactor = data.hueFactor;
+	var rampFactor = data.rampFactor;
+	var pixelJump = data.pixelJump;
+	var colors = new Array(fractal.counterMax);
+
+	var counterNormalized = 1;
+	var counterOffset = 0;
+	var hueNormalized = 3600;
+
+	for (var i = 0; i<=fractal.counterMax;i++)
+	{
+		colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
+		if (counter == fractal.profile.maximum+1)
+		{
+			 rgb = {r:0,g:0,b:0,a:255,hex:'#000000'}; // black;
+		}
+
+	}
+
+	for (var p = (((fractal.animationIndex)%(pixelJump/4))*4);p<fractal.pixels.length; p+=pixelJump)
+	{
+
+		counter = fractal.counters[p];
+
+		if (counter == fractal.profile.maximum+1)
+		{
+		  rgb = {r:0,g:0,b:0,a:255,hex:'#000000'}; // black;
+		}
+		else {
+			counterOffset = counter + fractal.animationIndex;
+			counterNormalized = counterOffset / fractal.profile.maximum;
+
+			hue = ((Math.round(counter*hueFactor+fractal.animationIndex))%3600)/10;
+			hueNormalized /= hueFactor
+			hue = ((counterNormalized * hueNormalized)%3600)/10
+			switch (colorModel) {
+			case	'hsl':
+					break;
+			case 	'hsi':
+					break;
+		    default:
+
+			}
+			sat = (counter%8)*.125 + .125;
+			brt = 1.200 - ((counter+fractal.animationIndex)%200)*.005 ;
+			rgb = hsl2rgb(hue, (sat>1?1:sat), (brt>1?1:brt));
+		}
+		fractal.pixels[p] = rgb.r;
+		fractal.pixels[p+1] = rgb.g;
+		fractal.pixels[p+2] = rgb.b;
+		fractal.pixels[p+3] = 255;
+
+		colors[counter].r = rgb.r;
+		colors[counter].g = rgb.g;
+		colors[counter].b = rgb.b;
+		colors[counter].hex = '#' + toHex(rgb.r) + toHex(rgb.g) + toHex(rgb.b);
+		colors[counter].a = 255;
+	}
+
+	fractal.colors = colors;
+	drawColors(data);
+	fractal.context.putImageData(fractal.imageData,0,0);
+	var pixelSlice = [];
+	for (var i = 0;i < 20;i++) {
+		pixelSlice.push(fractal.imageData.data[i]);
+	}
+	console.log("animationIndex='" + fractal.animationIndex
+		+ "' p='" + ((fractal.animationIndex%pixelJump)*4)
+		+ "' p2='" + (pixelJump - 4)
+		+ "' p3='" + (((fractal.animationIndex)%(pixelJump/4))*4)
+		+  "' pixels=" + pixelSlice  );
+	fractal.animationIndex += amount;
 	return fractal.continueAnimation;
 };

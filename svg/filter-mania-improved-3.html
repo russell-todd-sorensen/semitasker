@@ -610,6 +610,85 @@ $(document).ready(function () {
     edgeMode="duplicate" />
 </filter>
 
+<filter id="X2"  color-interpolation="sRGB">
+<feConvolveMatrix
+    order="3"
+    kernelMatrix="-1 -1 -1
+                  -1  10 -1
+                  -1 -1 -1"
+    edgeMode="duplicate" />
+</filter>
+<filter id="X2-Animate"  color-interpolation="sRGB">
+<feConvolveMatrix
+    order="3"
+    kernelMatrix="-1 -1 -1
+                  -1  10 -1
+                  -1 -1 -1"
+    edgeMode="duplicate" >
+ <animate
+    attributeName="kernelMatrix"
+    values="-1 -1 -1
+            -1  0 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1  0 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1 20 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1 20 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1  0 -1
+            -1 -1 -1;
+            -1  -1 -1
+            -1 -10 -1
+            -1  -1 -1;"
+    begin="0s;clickMe.click"
+    dur="24s"
+    repeatCount="indefinite" />
+</feConvolveMatrix>
+</filter>
+<filter id="X3-Animate"  color-interpolation="sRGB">
+<feConvolveMatrix
+    order="3"
+    kernelMatrix="-1 -1 -1
+                  -1  7 -1
+                  -1 -1 -1"
+    edgeMode="duplicate" >
+ <animate
+    attributeName="kernelMatrix"
+    values="-1 -1 -1
+            -1  7 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1  7.9 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1 7.99 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1 7.999 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1  8.001 -1
+            -1 -1 -1;
+            -1  -1 -1
+            -1 8.01 -1
+            -1  -1 -1;
+            -1  -1 -1
+            -1 8.1 -1
+            -1  -1 -1;
+            -1  -1 -1
+            -1   9 -1
+            -1  -1 -1"
+    begin="0s;clickMe.click"
+    dur="75s"
+    repeatCount="indefinite" />
+</feConvolveMatrix>
+</filter>
+
 <filter id="Y"  color-interpolation="sRGB">
 <feConvolveMatrix
     order="5"

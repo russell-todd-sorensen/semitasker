@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!--Scalable Vector Graphic-->
+<svg
+    id="svg-background-image"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="32"
+    height="32"
+    onload=''>
+
+    <script xlink:href="/js/d3.v3.js" charset="utf-8"></script>
+    <script xlink:href="/js/data.js"></script>
+    <script>
+    <![CDATA[
+
+    ]]>
+    </script>
+<style>
+#backdrop {
+    stroke: rgba(54,124,255,.95);
+    stroke-width: 2;
+
+}
+
+</style>
+<defs>
+
+</defs>
+
+<rect id="backdrop" filter=""
+      height="30"
+      width="30"
+      x="1"
+      y="1"
+      rx="10"
+      ry="6"
+      fill="rgba(255,255,255,.90)"
+      >
+
+</rect>
+
+</svg>

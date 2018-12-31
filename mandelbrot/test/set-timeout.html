@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+
+<title>SemiTasker: Divide and Conquer!</title>
+
+<link rel="stylesheet" href="/css/main.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<script src="/js/d3.v3.js" charset="utf-8"></script>
+<script src="/js/jquery-1.7.1.js" charset="utf-8"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" charset="utf-8"></script>
+<script src="/js/log-2.js" charset="utf-8"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+
+<script>
+var globalID;
+let start = Date.now();
+let times = [];
+function myfunction(timeout,id) {
+    if (arguments.length < 1) {
+        var timeout = 1000
+    }
+    if (arguments.length < 2) {
+        var id = 'STARTING UP'
+    } else {
+        id = globalID + 0;
+        //clearTimeout(id)
+    }
+    times.push(Date.now() - start);
+    console.log('PRE timeout=' + timeout + ' id=' + id + 'times=' + times)
+    globalID = setTimeout(myfunction, timeout, timeout, id);
+    console.log('AFT: timeout=' + timeout + ' globalID=' + globalID)
+}
+
+</script>
+
+</head>
+<body id="body">
+
+<script>
+
+$(document).ready(function() {
+    Log.Notice("jQuery Ready!");
+    //Log.Remove();
+
+});
+
+</script>
+</body>
+</html>

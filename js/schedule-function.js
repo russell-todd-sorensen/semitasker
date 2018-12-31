@@ -3,14 +3,14 @@
 //////############### SCHEDULE FUNCTION ###############///////////////
 
 /*    ################# EXAMPLE USAGE  ###############
-  // 1. Use a control variable, for example, continueAnimation to control 
+  // 1. Use a control variable, for example, continueAnimation to control
   // rescheduling of function:
 
   var continueAnimation = true;
 
   // 2. Start animation using a wrapper which calls scheduleFunction, passing
   // a single argument as a value, or multiple args as an object.
-  
+
   function startAnimation(timeout, amount) {
     continueAnimation = true;
     if (timeout < 10) timeout = 10;
@@ -19,7 +19,7 @@
 
   // 3. Stop animation by setting variable to false
 
-  function stopAnimation() { 
+  function stopAnimation() {
     continueAnimation = false;
   }
 
@@ -30,9 +30,9 @@
     addToPixels(amount);
     return continueAnimation;
   }
-  
+
   // Complete example using object as data containing the control variable:
-	  
+
 	var startAnimation = function (animationFunctionId, timeout, data) {
 	  var objId = data.objId;
 	  var animationFunction = addToPixels[animationFunctionId];
@@ -41,16 +41,16 @@
 	  if (timeout < 10) timeout = 10;
 	  scheduleFunction(animationFunction, timeout, true, true, data);
 	};
-	
-	var stopAnimation = function() { 
+
+	var stopAnimation = function() {
 	  var formData = processForm();
 	  var data = formData.data;
 	  var objId = data.objId;
 	  var fractal = myFractalImages[objId];
 	  fractal.continueAnimation = false;
 	};
-	
-	var reDrawImage = function () { 
+
+	var reDrawImage = function () {
 	  var formData = processForm();
 	  var data = formData.data
 	  var objId = data.objId;
@@ -63,45 +63,45 @@
 	  fractal.calculateHeightAndWidth(newFactor);
 	  fractal.drawImage(data);
 	  return fractal.continueAnimation;
-	}; 
-	  
-*/
+	};
 
+*/
 
 function scheduleFunction(funcRef, timeout, rescheduleOnSuccessP, passArgsP, args) {
 
-  if (arguments.length > 1) {
-    if (timeout <= 0 ) {
-      timeout = 10; //milliseconds
+    if (arguments.length > 1) {
+        if (timeout <= 0 ) {
+            timeout = 10; //milliseconds
+        }
     }
-  }
-  else {
-    var timeout = 10; //ms
-  }
-	
-  if (arguments.length < 3) {
-    var rescheduleOnSuccessP = false;
-  }
-	
-  if (arguments.length > 3) {
-    if (passArgsP) {
-      var funcArgs = args;
-    } else {
-      var funcArgs = {};
+    else {
+        var timeout = 10; //ms
     }
-  } 
-  else {
-    var passArgsP = false;
-    var funcArgs = {};
-  }
-  
-  var result = funcRef(funcArgs);
-	
-  if (rescheduleOnSuccessP && result) {
 
-    setTimeout(scheduleFunction, timeout, 
-               funcRef, timeout, 
-               rescheduleOnSuccessP, 
+    if (arguments.length < 3) {
+        var rescheduleOnSuccessP = false;
+    }
+
+    if (arguments.length > 3) {
+        if (passArgsP) {
+            var funcArgs = args;
+        }
+        else {
+            var funcArgs = {};
+        }
+    }
+    else {
+        var passArgsP = false;
+        var funcArgs = {};
+    }
+
+    var result = funcRef(funcArgs);
+
+    if (rescheduleOnSuccessP && result) {
+
+        setTimeout(scheduleFunction, timeout,
+               funcRef, timeout,
+               rescheduleOnSuccessP,
                passArgsP, funcArgs);
-  }
+    }
 }
