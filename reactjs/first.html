@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+
+<title>First exploration of ReactJS</title>
+
+<link rel="stylesheet" href="/css/main.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<script src="/js/d3.v3.js" charset="utf-8"></script>
+<script src="/js/jquery-1.7.1.js" charset="utf-8"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" charset="utf-8"></script>
+<script src="/js/log-2.js" charset="utf-8"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+
+<script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+</head>
+<body>
+
+<h2>Wow, ReactJS</h2>
+<div id="root"></div>
+<script>
+
+$(document).ready(function() {
+    Log.Notice("jQuery Ready!");
+    //Log.Remove();
+
+});
+</script>
+
+<script type="text/babel">
+// Display a "Like" <button>
+ReactDOM.render(
+  <button onClick={() => this.setState({ liked: true })}>Like</button>,
+  document.getElementById('root')
+);
+
+</script>
+
+</body>
+</html>
