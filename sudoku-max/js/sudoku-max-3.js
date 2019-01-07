@@ -379,7 +379,8 @@ var boxDimensions = function(cssSelector) {
 	}
 
 	if (puzzleDimension > 15) {
-		baseOptionHeight -= Math.pow(puzzleDimension,.5)
+		baseOptionHeight -= Math.pow(puzzleDimension,.5)+1;
+		baseOptionWidth  -= Math.pow(puzzleDimension,.5)+1;
 	}
 
 	$(cssSelector).append(".cell \{\n\theight: "+baseHeight+"px;\n\twidth: "+baseWidth+"px;\n\}\n");
