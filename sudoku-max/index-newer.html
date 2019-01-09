@@ -55,6 +55,7 @@
     cursor: pointer;
     font-size: 21px;
     color: rgba(255,255,255,.5);
+    /*background-color: rgba(255,255,255,0.1); */
 }
 .optionCell:hover {
     background-color: rgba(0,128,0,.5);
@@ -155,6 +156,8 @@
 
 <script>
 
+var placeholder = "0 to %d or -1 to enter puzzle"
+
 function loadXHRFile(url,callback) {
   var i = xhrArray.length;
   xhrArray[i] = new XMLHttpRequest();
@@ -165,8 +168,6 @@ function loadXHRFile(url,callback) {
   newXHR3.send(null);
 }
 
-
-var placeholder = "0 to %d or -1 to enter puzzle"
 
 
 $(document).ready(function() {
