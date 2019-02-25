@@ -1,36 +1,62 @@
 set url [ns_conn url]
 set splitUrl [split $url /]
 set requestedFile [lindex $splitUrl end]
-set urlDirectory [join [lrange $splitUrl 0 end-1] /] 
+set urlDirectory [join [lrange $splitUrl 0 end-1] /]
 set directory [ns_normalizepath $urlDirectory]/
 set pageroot [ns_info pageroot]
 set absolutePath [file join $pageroot [string trimleft $directory /]]/
 
-#source [file join $absolutePath load-customers.tcl]
 source [file join $absolutePath load-customers.tcl]
 
-proc createSelect {fieldName} {
+proc createSelect {fieldName {alias ""}} {
+	if {"$alias" eq ""} {
+		set alias $fieldName
+	}
 	upvar "TYPE-$fieldName" arrayName
-	set selectHtml " <select id='field_$fieldName' name='field_$fieldName'>"
+	ns_log Notice "createSelect upvar TYPE-$fieldName"
+	set selectHtml " <select id='field_$alias' name='field_$alias'>"
 	lappend selectOptions "  <option value='' selected='selected'>No Value</option>"
-	set javascriptArray "dataArray\['TYPE-$fieldName'\] = new Array();\n"
-	foreach name [lsort [array names arrayName]] {
-		lappend selectOptions "  <option value='$name'>$name</option>"
-		append javascriptArray "dataArray\['TYPE-$fieldName'\]\['$name'\] = '[string map {' \\'} $name]';\n"
+	set javascriptArray "dataArray\['TYPE-$alias'\] = new Array();\n"
+	ns_log Notice "createSelect arrayNames = '[array names arrayName]'"
+	if {"$fieldName" eq "SALESREP"} {
+		upvar TYPE-SALESREPArray sArray
+		foreach name [lsort [array names sArray]] {
+			ns_log Notice ">>>>--- name='$name'"
+			if {[array exists repArray]} {
+				array unset repArray
+			}
+			if {[array exists tmpArray]} {
+				array unset tmpArray
+			}
+			upvar $sArray($name) tmpArray
+			array set repArray [array get tmpArray]
+			set value $repArray(ASSOCIATEDNAME)
+			append value :
+			append value $repArray(NAMETYPE)
+			append value : $repArray(INITIALS)
+			lappend selectOptions "  <option value='$value'>$repArray(ASSOCIATEDNAME)</option>"
+			append javascriptArray "dataArray\['TYPE-$alias'\]\['$value'\] = '[string map {' \\'} $repArray(ASSOCIATEDNAME)]';\n"
+		}
+	} else {
+		foreach name [lsort [array names arrayName]] {
+			lappend selectOptions "  <option value='$name'>$name</option>"
+			append javascriptArray "dataArray\['TYPE-$alias'\]\['$name'\] = '[string map {' \\'} $name]';\n"
+		}
 	}
 	append selectHtml [join $selectOptions \n]
 	append selectHtml " </select>
 <script>
 $javascriptArray
 </script>\n"
-	
+
+	ns_log Notice "SELECT = '$selectHtml'"
 	return $selectHtml
 }
 
 set invoiceLines [list]
 
-set invoiceHeader1 [split [string map {\t ,} "!HDR	PROD	VER	REL	IIFVER	DATE	TIME	ACCNTNT	ACCNTNTSPLITTIME"] ,]									
-set invoiceHeader2 [split [string map {\t ,} "HDR	QuickBooks Desktop Pro	Version 27.0D	Release R5P	1	2017-07-29	1501191278	N	0"] ,]								
+set invoiceHeader1 [split [string map {\t ,} "!HDR	PROD	VER	REL	IIFVER	DATE	TIME	ACCNTNT	ACCNTNTSPLITTIME"] ,]
+set invoiceHeader2 [split [string map {\t ,} "HDR	QuickBooks Desktop Pro	Version 27.0D	Release R5P	1	2017-07-29	1501191278	N	0"] ,]
 set invoiceHeader3 [split [string map {\t ,} "!TRNS	TRNSID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	TOPRINT	NAMEISTAXABLE	ADDR1	ADDR3	TERMS	SHIPVIA	SHIPDATE"] ,]
 set invoiceHeader4 [split [string map {\t ,} "!SPL	SPLID	TRNSTYPE	DATE	ACCNT	NAME	CLASS	AMOUNT	DOCNUM	MEMO	CLEAR	QNTY	PRICE	INVITEM	TAXABLE	OTHER2	YEARTODATE	WAGEBASE"] ,]
 set invoiceHeader5 [split [string map {\t ,} "!ENDTRNS"] ,]
@@ -46,26 +72,17 @@ var customerData = new Array();\n"
 set logMsg ""
 
 foreach customerName [lsort [array names TYPE-CUST]] {
+
 	set customerNameEscape [string map {' &apos;} $customerName]
-	if {"$customerName" eq "Matthew -- Sorensen, Russell"} {
-		set log 1
-	} else {
-		set log 0
-	}
 	lappend customerOptionList "  <option value='$customerNameEscape'>$customerName</option>"
 	append javascriptData "customerData\['$customerName'\] = \{\n"
-	if {$log} {
-		append logMsg "fields: $customerFields\n"
-		append logMsg "values: [set TYPE-CUST($customerName)]"
-	}
+
 	foreach field $customerFields fieldValue [string map {' \\'} [set TYPE-CUST($customerName)]] {
 		append javascriptData " 'field_$field': '$fieldValue',\n"
-
 	}
+
 	append javascriptData "\};\n"
 }
-
-ns_log Notice "CUSTOMER RUSS: '$logMsg'"
 
 lappend invoiceLines $invoiceHeader1 $invoiceHeader2 $invoiceHeader3 $invoiceHeader4 $invoiceHeader5
 
@@ -90,11 +107,22 @@ foreach field $customerFields {
 		}
 	}
 	if {"$field" eq "NAME"} {
-		lappend formFields "  <li><label for='field_NAME'>Customer Name</label>
+		lappend formFields " <li><label for='newCust'>New Customer?</label>
+  <input type='button' id='newCust' name='newCust' onClick='newCustomer(\"field_NAME\");return false;' value='New Customer!' /></li>
+  <li><label for='field_NAME'>Customer Name</label>
   <select id='field_NAME' name='field_NAME' onchange='getCustomer(\"field_NAME\")'>
   [join $customerOptionList \n]
   </select>
   </li>"
+  	} elseif {"$field" eq "REP"} {
+  		ns_log Notice "\n\n>>>>>>>>>>>>::::FIELD = $field"
+  		if {[array exists TYPE-SALESREP]} {
+  			ns_log Notice "TYPE-SALESREP = '[array get TYPE-SALESREP]'"
+  		} else {
+  			ns_log Notice "NO ARRAY TYPE-SALESREP"
+  			#continue
+  		}
+  		lappend formFields "<li><label for='field_$field'>Supervision Type</label>\n[createSelect SALESREP REP]</li>"
   	} elseif {[array exists "TYPE-$field"]} {
 		lappend formFields "<li><label for='field_$field'>$fieldLabel</label>\n[createSelect $field]</li>"
 	} elseif {"$field" eq "!CUST"}  {
@@ -111,7 +139,7 @@ append form "[join $formFields \n]
  </fieldset>
 </form>\n"
 foreach arrayNode [lsort -integer [array names TYPE-CUSTNAMEDICT]] {
-	
+
 	ns_log Notice "$arrayNode = [set TYPE-CUSTNAMEDICT($arrayNode)]"
 }
 ns_return 200 text/html "<!DOCTYPE html>
@@ -137,10 +165,10 @@ ns_return 200 text/html "<!DOCTYPE html>
 <script type='text/javascript' src='sc.js'></script>
 <script >
 
+
 var customerFields =\['[join $customerFields ',']'\];
 var dataArray = new Array();
 </script>
-<script src='select-customer.js'></script>
 <style>
 #customers {
     border: 1px solid black;
@@ -215,10 +243,8 @@ $form
 $javascriptData
 
 \$(document).ready(function() {
-    Log.Remove();
+    //Log.Remove();
 });
 </script>
 </body>
 </html>"
-
-

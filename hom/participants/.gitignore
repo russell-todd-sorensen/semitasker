@@ -1,4 +1,5 @@
 *.IIF
+*.iif
 *.csv
 ./signatures/*
 ./images/*

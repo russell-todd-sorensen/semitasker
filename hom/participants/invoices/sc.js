@@ -1,3 +1,4 @@
+
 var getCustomer = function(id) {
 	var customer = $('#' + id + ' option:selected').val();
 	Log.Notice('customer=' + customer);
@@ -16,4 +17,11 @@ var getCustomer = function(id) {
 		}
 	}
 	Log.Notice('finished with customer ' + customer);
-}
+};
+
+
+var newCustomer = function (id) {
+	Log.Notice('id = ' + id);
+	document.getElementById(id).outerHTML = "<input id='" + id + "' name='" + id + "' value='' />"
+	Log.Notice('New Customer!');
+};

@@ -9,7 +9,7 @@ ns_log Notice "absolutePath='$absolutePath' dir='[file dirname $absolutePath]'"
 set dataDirectory [file join [file dirname $absolutePath] website-data data]
 set outputDataDirectory [file join $dataDirectory var]
 ns_log Notice "dataDirector='$dataDirectory'"
-ns_log Notice "outputDataDirector='$outputDataDirectory'"
+ns_log Notice "outputDataDirectory='$outputDataDirectory'"
 set iifFile [file join $dataDirectory "EVERYTHING.IIF"]
 set patternList [split $requestedFile ".-_ "]
 set firstPattern "*[lindex $patternList 0]*"
@@ -23,7 +23,7 @@ set data [chan read $fd]
 close $fd
 set data [string map {\t ,} $data]
 
-set csvFileName "hom-covenant-eyes-february-2018-temp.csv"
+set csvFileName "hom-invoices-february-2019-temp.csv"
 
 set propertyOwnerFileName "property-owners-to-houses-map.csv"
 set pfd [open [file join $dataDirectory $propertyOwnerFileName] r]
@@ -55,65 +55,6 @@ chan seek $fdout 0
 set dataFound 0
 
 
-set ceInvoiceFileName "ce-invoices-february-2019.csv"
-set cfd [open [file join $outputDataDirectory $ceInvoiceFileName] r]
-
-set cOutputList [list]
-set cExceptionList [list]
-
-set ccount -1
-set cnames [list]
-
-proc formatDate {input} {
-	set format "%b. %dth, %Y"
-	set tmp [clock format [clock scan $input] -format $format]
-	return [string map [list May. May " 01th" " 1st" " 02th" " 2nd" " 03th" " 3rd" " 04" " 4" " 05" " 5" " 06" " 6" " 07" " 7" " 08" " 8" " 09" " 9"] $tmp]
-}
-
-if {[array exists userNameArray]} {
-	array unset userNameArray
-}
-
-while {[set cols [ns_getcsv $cfd line]] > -1} {
-	incr ccount
-	if {"$cols" == 5} { #good
-
-	} else { #decide what to do
-		ns_log Notice "Malformed Col ${ccount}: '$line'"
-	}
-	if {[string match "*Accountability Adjustment*" [lindex $line 0]]} {
-		#accountability line
-		set aData [lindex $line 0]
-		set aD1 [string map {" - " % " to " %} $aData]
-		set aList [split $aD1 %]
-		set loginName [lindex $aList 0]
-		set chargeType [lindex $aList 1]
-		set startDate [lindex $aList 2]
-		set endDate [lindex $aList 3]
-		set charge [string trimleft [lindex $line 4] $]
-		set outputLine [list ($loginName) $chargeType "[formatDate $startDate] - [formatDate $endDate]" \$$charge]
-		if {[info exists userNameArray($loginName)]} {
-			set homName $userNameArray($loginName)
-			lappend cOutputList $homName,[join $outputLine ,],Adjustment
-			lappend qbName($homName) [concat [string trim $homName "\""] $outputLine Adjustment]
-			lappend ceName($loginName) [concat [string trim $homName "\""] $outputLine Adjustment]
-		} else {
-			set homName "No Name Found"
-			lappend cExceptionList $homName,[join $outputLine ,],Adjustment
-		}
-	} elseif {[regexp {(Accountability|Filter)( )(Monthly)} [lindex $line 2] match type ]} {
-		set fullname [lindex $line 0]
-		set splitName [split $fullname]
-		set homName "\"[lindex $splitName end], [join [lrange $splitName 0 end-1] " "]\""
-		set loginName [string trim [lindex $line 1] ()]
-		set userNameArray($loginName) $homName
-		lappend cOutputList $homName,[join [lrange $line 1 end] ,],$type
-		lappend qbName($homName) [concat [string trim $homName "\""] [lrange $line 1 end] $type]
-		lappend ceName($loginName) [concat [string trim $homName "\""] [lrange $line 1 end] $type]
-	}
-
-}
-
 
 set dataArrayList [list]
 set invoiceLines [list]
@@ -137,11 +78,14 @@ while {[set cols [ns_getcsv $fdout line]] > -1} {
     } else {
         # append data
         set currentName "-"
+        set currentHouse ""
+        set foundHouseField 0
+
         foreach name $nameList($type) value $line {
 
             if {("$name" eq "HIDDEN") && ("$value" eq "Y")} {
                 set continue 1
-                ns_log Notice "************ $type $value"
+                #ns_log Notice "************ $type $value"
                 unset ${type}$arrayIndex($type)
                 if {[info exists ${type}($currentName)]} {
                     unset ${type}($currentName)
@@ -154,14 +98,29 @@ while {[set cols [ns_getcsv $fdout line]] > -1} {
 
             if {"$name" eq "NAME"} {
                 set currentName $value
-                set ${type}($value) $line
-                set ${type}Index($value) $arrayIndex($type)
+                #set ${type}($value) $line
+                #set ${type}Index($value) $arrayIndex($type)
+            }
+            if {"$type" eq "CUST" && "$name" eq "CUSTFLD5"} {
+            	ns_log Notice "CUSTFLD5 = '$value'"
+            	set currentHouse $value
+            	set foundHouseField 1
             }
             set ${type}$arrayIndex($type)($name) $value
         }
 
         if {"$continue"} {
             continue
+        }
+
+        if {"$type" eq "CUST" && "$foundHouseField" == 1} {
+        	set wholeName "$currentHouse -- $currentName"
+        	ns_log Notice "WholeName = '$wholeName'"
+        	set ${type}($wholeName) $line
+        	set ${type}Index($wholeName) $arrayIndex($type)
+        } else {
+        	 set ${type}($currentName) $line
+             set ${type}Index($currentName) $arrayIndex($type)
         }
 
         set ${type}Array($arrayIndex($type)) ${type}$arrayIndex($type)
@@ -182,7 +141,6 @@ set dobField    "JOBPROJEND"
 set docField    "CUSTFLD6"
 set ccoField    "CUSTFLD8"
 set sotpField   "CUSTFLD9"
-set ceField "CUSTFLD10"
 set firstNameField "FIRSTNAME"
 set lastNameField "LASTNAME"
 set ctypeField  "CTYPEX" ;# CTYPEX
@@ -194,10 +152,15 @@ set nameField   "NAME"
 set jobtypeField "JOBTYPEX"
 set typeField   "!CUST"
 set pricelevelField "PRICELEVELX"
+set salestaxcodeField "SALESTAXCODEX"
 
-set nameList2(CUST) [string map [list CTYPE $ctypeField TERMS $termsField JOBTYPE $jobtypeField PRICELEVEL $pricelevelField] $nameList(CUST)]
+set nameList2(CUST) [string map [list CTYPE $ctypeField TERMS $termsField JOBTYPE $jobtypeField PRICELEVEL $pricelevelField SALESTAXCODE $salestaxcodeField] $nameList(CUST)]
 
 set invoiceLines [list]
+
+#ns_log Error "UPDATE voucher-gen-improved.tcl with the CLASS of each invoice"
+#error "UPDATE INVOICE WITH CLASS"
+#return -code return
 
 set invoiceHeader1 [split [string map {\t ,} "!HDR	PROD	VER	REL	IIFVER	DATE	TIME	ACCNTNT	ACCNTNTSPLITTIME"] ,]
 set invoiceHeader2 [split [string map {\t ,} "HDR	QuickBooks Desktop Pro	Version 27.0D	Release R5P	1	2017-07-29	1501191278	N	0"] ,]
@@ -210,13 +173,13 @@ lappend invoiceLines $invoiceHeader1 $invoiceHeader2 $invoiceHeader3 $invoiceHea
 proc programFeePerHouse {house company monthNumber} {
     switch -exact -nocase -- $house {
         Jeremiah - James - Galatians - Philippians {
+            set fees 450.00
+        }
+        Ezra - "1 Kings" {
             set fees 400.00
         }
-        Ezra {
-            set fees 375.00
-        }
         default {
-            return 550.00
+            set fees 600.00
         }
     }
     if {[string match "*DOC Voucher*" $company]} {
@@ -231,7 +194,7 @@ proc classForHouse {house} {
             set CLASS "Spokane County"
             set REFNUM 1
         }
-        Ezra {
+        Ezra - "1 Kings" {
             set CLASS "Yakima County"
             set REFNUM 4
         }
@@ -252,18 +215,14 @@ proc classForHouse {house} {
 }
 
 set invoiceDate "02/01/2019"
-set monthNumber "02"
+set monthNumber 2
+set monthFormatted "02"
 set month "Feb"
 set monthFull "February"
 set year "2019"
 set shortYear "19"
 set invoiceNumber 1
 set terms "Due by the 1st of Mo"
-set number_of_months "2"
-set month_fee "5.00"
-
-set item_description "Subscription from Febuary 5 2019 to March 5 2019"
-set memo $item_description
 
 proc programFeeVoucher {house company fees monthNumber} {
 
@@ -273,7 +232,7 @@ proc programFeeVoucher {house company fees monthNumber} {
 		set day   [string trimleft $day "0"]
 		ns_log Notice "month=$month day=$day year=$year currentMonth=$currentMonth c-m=[expr {$currentMonth-$month < 0}]"
 		if {[expr {$currentMonth - $month < 0}]} {
-			return 550
+			return 600
 		} else {
 
 			set voucherDays $day
@@ -283,14 +242,14 @@ proc programFeeVoucher {house company fees monthNumber} {
 			}
 
 			set nonVoucherDays [expr {30 - $voucherDays}]
-			set voucherRate 18.33333
+			set voucherRate 16.66667
 
 			switch -exact -nocase -- $house {
 				Jeremiah - James - Galatians - Philippians {
-					set nonVoucherRate 13.33333
+					set nonVoucherRate 15.00
 				}
-				Ezra {
-					set nonVoucherRate 12.50
+				Ezra - "1 Kings" {
+					set nonVoucherRate 13.33333
 				}
 			}
 			set voucherFee [format "%2.2f" [expr {$voucherDays*$voucherRate}]]
@@ -326,60 +285,35 @@ proc get_gl_account_list {houseArrayName house ctype} {
 	}
 	if {$property > 0} {
 		lappend account "$owner Properties"
-		lappend account "$house House"
+		#lappend account "$house House"
+		lappend account "$myHouse(invitem) House"
 	} else {
-		lappend account "$house House"
+		#lappend account "$house House"
+		lappend account "$myHouse(invitem) House"
 	}
 	set fullAccount [join $account :]
 	return [list $fullAccount $invitem $memo_end]
 }
 
-
-
 ns_log Notice "what is up again..."
-ns_log Notice "{*}$nameList2(CUST)"
+ns_log Notice "{*}$nameList2(CUST)+++++++++++++++++++++++++"
+ns_log Notice "[join [lsort [array names CUST]] \n]"
 
 foreach participant [lsort [array names CUST]] {
     lassign $CUST($participant) {*}$nameList2(CUST)
-
-    set quotedParticipant "\"$participant\"";#ok
-    set ceData [set $ceField]
-
-    if {![info exists qbName($quotedParticipant)]} {
-    	if {"$ceData" ne ""} {
-    		set ceDataList [split $ceData ,]
-    		set ceLoginName [string trim [lindex $ceDataList 0] ()]
-    		if {[info exists ceName($ceLoginName)]} {
-    			set qbName($quotedParticipant) $ceName($ceLoginName)
-    		} else {
-    			lappend cExceptionList "No charges for $participant name not found in CE or QB for $ceLoginName"
-    			continue
-    		}
-    	} else {
-    		lappend cExceptionList "No charges for $participant name not found in CE"
-    		continue
-    	}
-    }
-
-    if {"$ceData" ne ""} {
-    	set ceDataList [split $ceData ,]
-    	if {[lindex $ceDataList end] eq "0"} {
-    		lappend noChargesList "$participant Zero in CE Field [join $qbName($quotedParticipant) "\n    "]"
-    		unset qbName($quotedParticipant)
-    		continue
-    	}
-
-    } else {
-    	lappend noChargesList "$participant Empty CE Field [join $qbName($quotedParticipant) "\n    "]"
-    	unset qbName($quotedParticipant)
-    	continue
-    }
-
+    ns_log Notice "---->>>$participant"
     set skipFurtherProcessing 0
     set continue 0
-    if {1} {
+    if {[set $houseField] ne "Office"} {
         set ctype [set $ctypeField]
-        set jobType [lindex [split [set $jobtypeField] :] 1]
+        set ctype [lindex [split [set $jobtypeField] :] 1]
+        if {"$ctype" eq "Staff"} {
+        	set ctype [lindex [split [set $jobtypeField] :] 2]
+        }
+        if {[lsearch -exact [list "Program Participant" "House Leader" "Assistant House Leader" "Non Transitional Housing"] $ctype] == -1} {
+        	ns_log Notice "ctype='$ctype'"
+        	continue
+        }
 
         set company [set $companyField]
         set house [set $houseField]
@@ -388,53 +322,125 @@ foreach participant [lsort [array names CUST]] {
         	continue
         }
 
+        #set splitAccount "Program Fees:Program Fees - $house"
         set account_list [get_gl_account_list House $house $ctype]
         set splitAccount [lindex $account_list 0]
         set memo_end [lindex $account_list 2]
         set inv_item [lindex $account_list 1]
 
-        set memo $memo
-        set splitAccount "Communications Expense:Covenant Eyes"
+        set memo "$month $year $memo_end"
 
-        set invAcct $splitAccount
-        set invItem "Covenant Eyes"
+        #set invItem "Program Fee:. $house"
+        set invItem $inv_item
 
-        set itemLines [list]
-        set invoiceTotal 0.00
-        foreach item $qbName($quotedParticipant) {
-        	set ceyesType [lindex $item end]
-        	set ceyesName [lindex $item 2]
-        	set ceyesCharge [lindex $item end-1]
-        	set ceyesMemo [lindex $item end-2]
-
-        	if {"$ceyesType" eq "Adjustment" || "$ceyesType" eq "Accountability"} {
-        		set fees 5.00
-        	} else {
-        		set fees 2.50
+        switch -glob -nocase -- $company {
+        	"*NO PROGRAM FEES*" {
+        		set fees "0.00"
+        		lappend exceptionList "[set $nameField]: <b>No Program Fees</b> data='$company'"
+        		set skipFurtherProcessing 1
         	}
+        	"*PROGRAM FEES*" {
+        		if {[regexp {(.*), ([0-9]+)( PROGRAM FEES)} $company all pre fees remain]} {
+        			ns_log Notice "!!!!!! company='$company' all='$all' pre='$pre' fees='$fees' remain='$remain'"
+        		} elseif {[regexp {([0-9]+)( PROGRAM FEES)} $company all fees remain]} {
+        			lappend exceptionList "[set $nameField]: <b class='override'>OVERRIDE</b> fees='$fees' data='$company'"
+        		} else {
+        			set fees [programFeePerHouse $house $company $monthNumber]
+        			lappend exceptionList "[set $nameField]: <b class='warning'>WARNING CHECK</b> fees='$fees' data='$company'"
+        		}
+        	}
+        	"*RENT*"  {
+        	    #lappend exceptionList "company='$company'"
+        		if {[regexp {([0-9]+)( RENT)} $company all fees remain]} {
+        			ns_log Notice "!!!!!! company='$company' all='$all' fees='$fees' remain-'$remain'"
+        		} else {
+        			set fees [programFeePerHouse $house $company $monthNumber]
+        		}
+        		lappend exceptionList "[set $nameField] RENT=$fees data='$company'"
+        	}
+        	"*DOC VOUCHER*" {
+        	    if {[regexp -nocase {(DOC Voucher) (19[0-9][0-9]|20[0-9][0-9])-([0-1][0-9])-([0-3][0-9])} $company allX voucherX yearX monthX dayX]} {
+        	        set currentMonth $monthNumber
+        	        set monthX [string trimleft $monthX "0"]
+        	        set dayX   [string trimleft $dayX "0"]
 
-        	set fInvNumber "$shortYear$monthNumber-ce[format %0.4d $invoiceNumber]"
-        	set classList [classForHouse $house]
-        	set className [lindex $classList 0]
-        	set classRefnum [lindex $classList 1]
-
-        	lappend itemLines [list SPL "\"\"" INVOICE "\"$invoiceDate\"" "\"$invAcct\"" "\"\"" "\"$className\"" "\"-$fees\"" "\"\"" "\"$ceyesType $ceyesName $ceyesMemo\"" N -1 $fees "\"$invItem\"" N "\"\"" 0 0]
-					lappend itemLines [list SPL "\"\"" INVOICE "\"\"" "\"\"" "\"\"" "\"\"" "\"\"" "\"\"" "\"$ceyesType $ceyesName $ceyesMemo\"" "\"\"" "\"\"" "\"\"" "\"\"" "\"\"" "\"\"" 0 0]
-
-        	set invoiceTotal [expr {$invoiceTotal + $fees}]
+        	        ns_log Notice "month=$monthX day=$dayX year=$yearX currentMonth=$currentMonth c-m=[expr {$currentMonth-$monthX < 0}]"
+        	        if {$yearX > 2017} {
+        	            set skipFurtherProcessing 1
+        	            set continue 1
+        	            lappend exceptionList "[set $nameField] voucher invoice handled elsewhere"
+        	        } else {
+        	            set fees [programFeePerHouse $house $company $monthNumber ]
+        	        }
+        	    } else {
+        	        set skipFurtherProcessing 1
+        	        set continue 1
+        	        lappend exceptionList "[set $nameField] malformed Company field"
+        	    }
+        	}
+	        "*FARESTART*" -
+	        "HEN" -
+	        "RISE" -
+	        "*ELECHA*" -
+	        "*ELECCAR*" -
+	        "" {
+		        set fees [programFeePerHouse $house $company $monthNumber]
+	        }
+        	default {
+        		lappend exceptionList "[set $nameField] not handled"
+        		set skipFurtherProcessing 1
+        		set continue 1
+        	}
         }
-        unset qbName($quotedParticipant)
-        set invoiceTotal [format %2.2f $invoiceTotal]
 
-        lappend invoiceLines [list TRNS "\"\"" INVOICE "\"$invoiceDate\"" "\"Accounts Receivable\"" "\"[set $nameField]\"" "\"$className\"" "\"$invoiceTotal\"" "\"$fInvNumber\"" "\"Covenant Eyes\"" N Y N "\"$FIRSTNAME $LASTNAME\"" "\"$BADDR2\"" "\"$BADDR3\"" "\"$BADDR4\"" "\"\"" "\"$invoiceDate\"" "\"$terms\"" "\"Unpaid\"" "\"\"" "\"\"" "\"$invoiceDate\"" "\"\""]
+        if {$continue} {
+        	continue
+        }
+        if {$skipFurtherProcessing} {
+        	continue
+        }
+        set feeList [list]
 
+        if {[llength $fees] > 1} {
+        	# multiple split lines
+        	set feeList $fees
+        	set fees [lindex $feeList 0]
+        }
+        set fees [format %2.2f $fees]
+        set fInvNumber "$shortYear$monthFormatted-[format %0.4d $invoiceNumber]"
+        set classList [classForHouse $house]
+        set className [lindex $classList 0]
+        set classRefnum [lindex $classList 1]
+
+        lappend invoiceLines [list TRNS "" INVOICE $invoiceDate "Accounts Receivable" [set $nameField] "$className" $fees $fInvNumber $memo N Y N "$FIRSTNAME $LASTNAME" "$BADDR2" "$BADDR3" "$BADDR4" "" "$invoiceDate" "$terms" "Unpaid" "" "" $invoiceDate ""]
         incr invoiceNumber
+        set houseAccountName $house
 
-        foreach itemLine $itemLines {
-        	lappend invoiceLines $itemLine
-        }
+        if {[llength $feeList] == 0} {
+            if {[set $jobtypeField] eq "Program Status:Non Transitional Housing"} {
+                #set invItem "Rent"
+                #set invAcct "Rental Fees Non Transitional"
+                #set memo    "$month $year Rent"
+            } else {
+                #set invAcct "Program Fees:Program Fees - $houseAccountName"
+                #set invItem "Program Fee:. $houseAccountName"
+            }
+            set invAcct $splitAccount
 
-        lappend invoiceLines [list ENDTRNS]
+            lappend invoiceLines [list SPL "" INVOICE $invoiceDate "$invAcct" "" "$className" -$fees "" "$memo" N -1 $fees "$invItem" N "" 0 0]
+        } else {
+        	set voucherList [lindex $feeList 1]
+        	set nonVoucherList [lindex $feeList 2]
+	        set voucherInvItem "Pro-Rated Program Fees:. $houseAccountName Voucher"
+	        set nonVoucherInvItem "Pro-Rated Program Fees:. $houseAccountName"
+	        set invAcct "Program Fees:Program Fees - $houseAccountName"
+
+        	lappend invoiceLines [list SPL	"" INVOICE $invoiceDate $invAcct "" "$className" -[lindex $voucherList 2] "" "Program Fee per day @ [lindex $voucherList 1]" N -[lindex $voucherList 0] [lindex $voucherList 1] $voucherInvItem N "" 0 0]
+        	lappend invoiceLines [list SPL	"" INVOICE $invoiceDate $invAcct "" "$className" -[lindex $nonVoucherList 2] "" "Program Fee per day @ [lindex $nonVoucherList 1]" N -[lindex $nonVoucherList 0] [lindex $nonVoucherList 1] $nonVoucherInvItem N "" 0 0]
+       }
+       lappend invoiceLines [list ENDTRNS]
+
+       append data "[set $nameField] company='[set $companyField]' ctype='[set $ctypeField]' --FEE: $fees - \n"
     }
 }
 
@@ -443,7 +449,7 @@ foreach dataLine $invoiceLines {
 	append iifFile [join $dataLine \t]\n
 }
 
-set finalIIFfileName "covenanteyes-invoices-final-[string tolower $monthFull].iif"
+set finalIIFfileName "invoices-final-[string tolower $monthFull]-${year}.iif"
 
 set fdout2 [open [file join $outputDataDirectory $finalIIFfileName] w+]
 puts -nonewline $fdout2 $iifFile
@@ -457,10 +463,6 @@ foreach hs [lsort [array names House]] {
 	array unset tmpArray
 	array set tmpArray $House($hs)
 	append property_owners_data "[format $prop_owner_format $tmpArray(accnt) $tmpArray(house) $tmpArray(owner) $tmpArray(invitem) $tmpArray(property)]"
-}
-
-foreach unbilled [lsort [array names qbName]] {
-	lappend unbilledList [join $qbName($unbilled) "\n   "]
 }
 
 ns_return 200 text/html "<!DOCTYPE html>
@@ -496,20 +498,5 @@ exceptionList=
 </pre>
 <pre>
 $iifFile
-</pre>
-<pre>
-[join $cOutputList \n]
-</pre>
-<pre class='warning'>
-Exceptions:
-[join $cExceptionList \n]
-</pre>
-<pre>
-Not Billed:
-[join $noChargesList \n]
-</pre>
-<pre>
-Remaining Unbilled:
-[join $unbilledList \n]
 </pre>
 </html>"

@@ -42,7 +42,7 @@ workbox.routing.registerRoute(
 workbox.precaching.precacheAndRoute([
   {
     "url": "index.html",
-    "revision": "8c0062c68e68021b2a5edb4f607ff8d0"
+    "revision": "d3232039504b270f6234cdad5f24a842"
   },
   {
     "url": "favicon.ico",
@@ -78,7 +78,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "js/data.js",
-    "revision": "bb8432427e27a1401d36ee97fd26b78e"
+    "revision": "23b49f7bc6cd56ad0e14a97584ba382f"
   },
   {
     "url": "js/dynamic-pages-user-login.js",
@@ -154,7 +154,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "js/schedule-function.js",
-    "revision": "1b30ee62f49ee451e0f22457b06d989d"
+    "revision": "649bc57ee2efd393b9a03e896baac1d6"
   },
   {
     "url": "js/svg-transform.js",

@@ -43,12 +43,13 @@ while {[set cols [ns_getcsv $fdout line]] > -1} {
             set nameList(TYPE-$type) $line
             set arrayIndex(TYPE-$type) 0
             lappend dataArrayList TYPE-$type
+            ns_log Notice *****"Made type TYPE-$type"
         } else {
             continue
         }
     } elseif {[string match "END?*" "$type"]} {
         continue
-    } elseif {[string match "CUSTNAMEDICT" "$type"]} { 
+    } elseif {[string match "CUSTNAMEDICT" "$type"]} {
     	set currentName "-"
     	foreach name $nameList(TYPE-CUSTNAMEDICT) value $line {
     		if {"$name" eq "INDEX"} {
@@ -62,13 +63,14 @@ while {[set cols [ns_getcsv $fdout line]] > -1} {
         incr arrayIndex(TYPE-$type)
     } else {
         # append data
-        
+        #ns_log Notice "TYPE='$type' fields='$nameList(TYPE-$type)'"
+
         set currentName "-"
         foreach name $nameList(TYPE-$type) value $line {
 
             if {("$name" eq "HIDDEN") && ("$value" eq "Y")} {
                 set continue 1
-                ns_log Notice "************ $type $value"
+                #ns_log Notice "************ $type $value"
                 unset TYPE-${type}$arrayIndex(TYPE-$type)
                 if {[info exists TYPE-${type}($currentName)]} {
                     unset TYPE-${type}($currentName)
@@ -79,40 +81,29 @@ while {[set cols [ns_getcsv $fdout line]] > -1} {
                 break
             }
 
-            if {"$name" eq "NAME"} {
+            if {"$name" eq "NAME" || (("$type" eq "SALESREP" ) && ("$name" eq "INITIALS"))} {
                 set currentName $value
                 set TYPE-${type}($value) $line
                 set TYPE-${type}Index($value) $arrayIndex(TYPE-$type)
             }
+            #ns_log Notice "SETTING 'TYPE-${type}$arrayIndex(TYPE-$type)($name)' value '$value'"
             set TYPE-${type}$arrayIndex(TYPE-$type)($name) $value
         }
 
         if {"$continue"} {
             continue
         }
-
+        #ns_log Notice "setting 'TYPE-${type}Array($arrayIndex(TYPE-$type))' to 'TYPE-${type}$arrayIndex(TYPE-$type)'"
         set TYPE-${type}Array($arrayIndex(TYPE-$type)) TYPE-${type}$arrayIndex(TYPE-$type)
         incr arrayIndex(TYPE-$type)
     }
 }
 
+ns_log Notice ">>>---->>>> dataArrayList='$dataArrayList'"
+ns_log Notice ">>>---->>>> nameList(TYPE-SALESREP)='$nameList(TYPE-SALESREP)'"
 
-
-proc createSelect {fieldName} {
-	upvar "TYPE-$fieldName" arrayName
-	set selectHtml " <select id='field_$fieldName' name='field_$fieldName'>"
-	lappend selectOptions "  <option value='' selected='selected'>No Value</option>"
-	set javascriptArray "dataArray\['TYPE-$fieldName'\] = new Array();\n"
-	foreach name [lsort [array names arrayName]] {
-		lappend selectOptions "  <option value='$name'>$name</option>"
-		append javascriptArray "dataArray\['TYPE-$fieldName'\]\['$name'\] = '[string map {' \\'} $name]';\n"
-	}
-	append selectHtml [join $selectOptions \n]
-	append selectHtml " </select>
-<script>
-$javascriptArray
-</script>\n"
-	
-	return $selectHtml
+foreach arrayName $dataArrayList {
+    if {"$arrayName" eq "TYPE-SALESREP"} {
+        ns_log Notice ">>>---->>>> TYPE-SALESREP NAMES='[array names TYPE-SALESREP]'"
+    }
 }
-
