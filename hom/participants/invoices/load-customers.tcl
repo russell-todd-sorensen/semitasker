@@ -32,6 +32,56 @@ set dataFound 0
 set dataArrayList [list]
 set invoiceLines [list]
 
+
+proc createSelect {fieldName {alias ""}} {
+	if {"$alias" eq ""} {
+		set alias $fieldName
+	}
+	upvar "TYPE-$fieldName" arrayName
+	ns_log Notice "createSelect upvar TYPE-$fieldName"
+	set selectHtml " <select id='field_$alias' name='field_$alias'>"
+	lappend selectOptions "  <option value='' selected='selected'>No Value</option>"
+	set javascriptArray "dataArray\['TYPE-$alias'\] = new Array();\n"
+	ns_log Notice "createSelect arrayNames = '[array names arrayName]'"
+	if {"$fieldName" eq "SALESREP"} {
+		upvar TYPE-SALESREPArray sArray
+		foreach name [lsort [array names sArray]] {
+			ns_log Notice ">>>>--- name='$name'"
+			if {[array exists repArray]} {
+				array unset repArray
+			}
+			if {[array exists tmpArray]} {
+				array unset tmpArray
+			}
+			upvar $sArray($name) tmpArray
+			array set repArray [array get tmpArray]
+			set value $repArray(ASSOCIATEDNAME)
+			append value :
+			append value $repArray(NAMETYPE)
+			append value : $repArray(INITIALS)
+			lappend selectOptions "  <option value='$value'>$repArray(ASSOCIATEDNAME)</option>"
+			append javascriptArray "dataArray\['TYPE-$alias'\]\['$value'\] = '[string map {' \\'} $repArray(ASSOCIATEDNAME)]';\n"
+		}
+	} else {
+		foreach name [lsort [array names arrayName]] {
+			lappend selectOptions "  <option value='$name'>$name</option>"
+			append javascriptArray "dataArray\['TYPE-$alias'\]\['$name'\] = '[string map {' \\'} $name]';\n"
+		}
+	}
+	append selectHtml [join $selectOptions \n]
+	append selectHtml " </select>
+<script>
+$javascriptArray
+</script>\n"
+
+	ns_log Notice "SELECT = '$selectHtml'"
+	return $selectHtml
+}
+
+
+
+
+
 while {[set cols [ns_getcsv $fdout line]] > -1} {
 
     set continue 0
