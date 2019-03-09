@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Generalized Complex Multiplication</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/log.css" media="all" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css"
+    />
+
+    <style></style>
+
+    <script src="/js/jquery-1.7.1.js"></script>
+    <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+    <script src="/js/d3.v3.js"></script>
+    <script src="/js/log-2.js"></script>
+    <script src="/js/data.js"></script>
+    <script src="/js/form-save-restore.js"></script>
+    <script src="/js/binary-hex-conversions.js"></script>
+    <script src="/js/example-library.js"></script>
+    <script src="/js/svg-transform.js"></script>
+    <script src="/js/schedule-function.js"></script>
+    <script src="/js/mouse-events.js"></script>
+
+    <script>
+      $(document).ready(function(e) {
+        Log.Notice("Document Ready");
+      });
+
+      var r, s;
+      r = 4;
+      s = 5;
+      var complex = (r + s) * (r + s);
+      var complex2 = r * r + 2 * r * s + s * s;
+      var complex3 = complex2 * (r + s);
+      var complex4 =
+        r * r * r +
+        2 * r * s * r +
+        r * s * s * +r * r * s +
+        2 * r * s * s +
+        s * s * s;
+      var complex5 = r * r * r + 3 * r * r * s + 3 * r * s * s + s * s * s;
+      // (r +si) * (r + si) = r*r + rsi + rsi + s*s*i*i
+      // i*i = -1
+      // == r*r + 2*r*s*i - s*s
+      // (r*r + 2*r*s*i - s*s) * (r + si)
+      // == r*r*r + r*r*s*i + 2*r*r*s*i + 2*r*s*s*i*i - s*s*r - s*s*s*i
+      // == rrr + 3rrsi - 2rss - rss - sssi
+      // == rrr + 3rrsi - 3rss - sssi
+      // == (rrr - 3rss) + (3rrs - sss)i
+      // (rr + 2rsi - ss)(rr + 2rsi - ss)
+      // rrrr + 2rrrsi - rrss + 2rrrsi + 4rrssii - 2rsssi - rrss - 2rsssi + ssss
+      // rrrr + 4rrrsi -6rrss -4rsssi + ssss
+      // = (rrrr -6rrss + ssss) + 4(rrrs - rsss)i
+    </script>
+  </head>
+
+  <body>
+    <form onsubmit="return false;" id="form1">
+      <input type="text" size="30" id="input" name="input" /><br />
+      <button onClick="doIt('input')">Refresh</button><br />
+      Output:
+      <div id="output"></div>
+    </form>
+  </body>
+</html>

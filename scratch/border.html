@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+
+<title>SemiTasker: Divide and Conquer!</title>
+
+<link rel="stylesheet" href="/css/main.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<style type="text/css">
+
+#main nav {
+	display: inline-block;
+	background-color: rgba(0,255,255,.90);
+	color: #69F;
+	margin: 0;
+	padding: 5px;
+    border-width: 15px;
+    border-color: tan;
+}
+
+.shadow-x {
+	text-shadow: 1px 1px 1px rgba(255,255,255,.2),
+                -1px -1px 1px rgba(255,255,255,.2),
+                -1px 1px 1px rgba(255,255,255,.2),
+                 1px -1px 1px rgba(255,255,255,.2);
+				 /* 3px 3px 5px blue*/
+}
+.inner-shadow-z {
+	text-shadow: 1px 1px 3px rgba(255,255,255,.2),
+                -1px -1px 3px rgba(255,255,255,.2),
+                -1px 1px 3px rgba(255,255,255,.2),
+                 1px -1px 3px rgba(255,255,255,.2);
+				 /* 3px 3px 5px blue*/
+}
+.inner-shadow {
+	text-shadow:1px 1px 10px rgba(255,255,255,.9),
+                -1px -1px 10px rgba(255,255,255,.9),
+                -1px 1px 10px rgba(255,255,255,.9),
+                 1px -1px 10px rgba(255,255,255,.9);
+				/*   3px 3px 5px blue
+				  0 0 10px rgba(255,255,255,1.0);*/
+}
+.shadow {
+	/*background-color: rgba(255,255,255,.2); */
+	width: 800px;
+	margin: auto;
+}
+.inner-shadow-x {
+	/*background-color: rgba(255,255,255,.6);
+	background-image: url('gradient.svg');
+	padding: 5px;
+	background-image: radial-gradient(rgba(255,255,255,.7) 0%, rgba(255,255,255,.5) 40%, rgba(255,255,255,.2) 65%, rgba(255,255,255,0) 70%);
+	background-size: cover;
+	border-image: linear-gradient(rgba(255,255,255) 0%, rgba(255,255,255,.5) 40%, rgba(255,255,255,.2) 65%, rgba(255,255,255,0) 70%);
+   */
+	border-left-width: 0;
+    border-image-source: radial-gradient(rgba(255,255,255) 0%, rgba(255,255,255,.5) 40%, rgba(255,255,255,.2) 65%, rgba(255,255,255,0) 70%);
+    border-image-source: url('/gradient.svg');
+    border-image-width: 15px;
+    border-image-slice: 7.5 7.5;
+    border-style: solid;
+}
+
+</style>
+
+<script src="/js/d3.v3.js" charset="utf-8"></script>
+<script src="/js/jquery-1.7.1.js" charset="utf-8"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" charset="utf-8"></script>
+<script src="/js/log-2.js" charset="utf-8"></script>
+
+
+<script>
+
+$(document).ready(function() {
+	Log.Notice("jQuery Ready!");
+	Log.Remove();
+});
+
+</script>
+</head>
+<body id="body">
+<article>
+
+<section id="main">
+<nav class="inner-shadow-x">
+
+    <ul>
+     <li><a href="/">Home</a></li>
+    </ul>
+
+    <h2>Learn Digits of &pi; in Mouthfuls</h2>
+    <ul>
+     <li><a href="/chemical-pi/">Chemical &pi;</a></li>
+    </ul>
+
+</nav>
+
+</section>
+
+</article>
+<footer>
+<div id="test"></div>
+</footer>
+</body>
+</html>

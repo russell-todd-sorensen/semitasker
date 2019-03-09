@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Scroll Test</title>
+
+    <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+    <style>
+        #main {
+    height: 5000px;
+    width: 1000px;
+    background-color: tan;
+}
+</style>
+
+    <style id="dynamic">
+
+    </style>
+
+
+    <script type="text/javascript" src="/js/d3.v4.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+    <script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+    <script type="text/javascript" src="/js/log-2.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            Log.Notice('Document Ready');
+            //Log.Remove();
+
+        });
+    </script>
+
+</head>
+
+<body>
+
+    <div id="main"></div>
+
+</body>
+
+<script>
+    window.addEventListener('scroll', function () {
+        var offsetY = pageYOffset;
+        var offsetX = pageXOffset;
+        document.getElementById('main').innerHTML = offsetY + 'px';
+        if (offsetY >= 300) {
+            pageXOffset = (offsetX - 300)
+        } else if (offsetY >= 600) {
+            pageXOffset = (300 - offsetY)
+        }
+        Log.Notice('pageYOffset=' + offsetY);
+    });
+</script>
+
+</html>
