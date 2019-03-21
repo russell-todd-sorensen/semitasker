@@ -23,7 +23,7 @@ set data [chan read $fd]
 close $fd
 set data [string map {\t ,} $data]
 
-set csvFileName "hom-covenant-eyes-february-2018-temp.csv"
+set csvFileName "hom-covenant-eyes-april-2019-temp.csv"
 
 set propertyOwnerFileName "property-owners-to-houses-map.csv"
 set pfd [open [file join $dataDirectory $propertyOwnerFileName] r]
@@ -55,7 +55,7 @@ chan seek $fdout 0
 set dataFound 0
 
 
-set ceInvoiceFileName "ce-invoices-february-2019.csv"
+set ceInvoiceFileName "ce-invoices-april-2019.csv"
 set cfd [open [file join $outputDataDirectory $ceInvoiceFileName] r]
 
 set cOutputList [list]
@@ -251,10 +251,10 @@ proc classForHouse {house} {
 	return [list $CLASS $REFNUM]
 }
 
-set invoiceDate "02/01/2019"
-set monthNumber "02"
-set month "Feb"
-set monthFull "February"
+set invoiceDate "04/01/2019"
+set monthNumber "04"
+set month "Apr"
+set monthFull "April"
 set year "2019"
 set shortYear "19"
 set invoiceNumber 1
@@ -262,7 +262,7 @@ set terms "Due by the 1st of Mo"
 set number_of_months "2"
 set month_fee "5.00"
 
-set item_description "Subscription from Febuary 5 2019 to March 5 2019"
+set item_description "Subscription from April 5 2019 to May 5 2019"
 set memo $item_description
 
 proc programFeeVoucher {house company fees monthNumber} {
@@ -443,7 +443,7 @@ foreach dataLine $invoiceLines {
 	append iifFile [join $dataLine \t]\n
 }
 
-set finalIIFfileName "covenanteyes-invoices-final-[string tolower $monthFull].iif"
+set finalIIFfileName "covenanteyes-invoices-final-[string tolower $monthFull]-${year}.iif"
 
 set fdout2 [open [file join $outputDataDirectory $finalIIFfileName] w+]
 puts -nonewline $fdout2 $iifFile
