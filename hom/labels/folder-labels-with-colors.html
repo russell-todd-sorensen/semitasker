@@ -1,0 +1,363 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+ <title>House of Mercy: Labels 8366</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/css/main.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<!--
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+-->
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="js/folder-labels-with-color.js" ></script>
+<style>
+.page8366 {
+    width:  8.5in;
+    height: 11in;
+    fill: white;
+    stroke-width: .5;
+    stroke: black;
+
+}
+
+.label8366 {
+    display: inline-block;
+    height: .6667in;
+    width: 3.4375in;
+    fill: white;
+    stroke: tan;
+    stroke-width: .5;
+    border-radius: 10px;
+}
+
+.label8366 {
+    rx: 10;
+    ry: 10;
+}
+
+.house {
+    text-anchor: middle;
+    font-weight: normal;
+    font-size: 14px;
+    stroke: none;
+    fill: black;
+}
+
+.pname {
+    text-anchor: start;
+    font-weight: bold;
+    font-size: 22px;
+    stroke: none;
+    fill: black;
+}
+
+.docid {
+    text-anchor: end;
+    font-weight: bold;
+    font-size: 22px;
+    stroke: none;
+    fill: black;
+}
+
+
+.role {
+    text-anchor: middle;
+    font-weight: normal;
+    font-size: 14px;
+    stroke: none;
+    fill: #AA0000;
+}
+/* form input styles */
+
+#form1 {
+    background-color: rgb(192,192,192);
+    padding: 10px;
+    position: absolute;
+    top: 100px;
+    right: 5px;
+}
+
+.input-button {
+    color: #666;
+    float: right;
+    font-weight: bold;
+    border: 3px solid;
+    cursor: pointer;
+}
+
+#label-12-pname {
+    font-size: 20px;
+}
+
+#notice {
+    color: red;
+    font-weight: bold;
+    width: 300px;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    text-align: center;
+}
+
+
+.fill-fbff45 {
+    background-color: #fbff45;
+}
+.fill-45ffdb {
+    background-color: #45ffdb;
+}
+.fill-ff9a45 {
+    background-color: #ff9a45;
+}
+.fill-ff45d3 {
+    background-color: #ff45d3;
+}
+.fill-91ff45 {
+    background-color: #91ff45;
+}
+.fill-ff4c45 {
+    background-color: #ff4c45;
+}
+.fill-bd7cd7 {
+    background-color: #bd7cd7;
+}
+.fill-7c96d7 {
+    background-color: #7c96d7;
+}
+.fill-d77c96 {
+    background-color: #d77c96;
+}
+.fill-96d77c {
+    background-color: #96d77c;
+}
+.fill-d7bd7c {
+    background-color: #d7bd7c;
+}
+.fill-967cd7 {
+    background-color: #967cd7;
+}
+.fill-7cbdd7 {
+    background-color: #7cbdd7;
+}
+.fill- {
+    background-color: #;
+}
+.fill- {
+    background-color: #;
+}
+/* what not to show when printing */
+
+@media print {
+    .page8366 {
+        display:none;
+    }
+    #form1 {
+        display:none;
+    }
+    #notice {
+        display:none;
+    }
+    .label8366 {
+        stroke: rgba(0,0,0,.5);
+        stroke-width: .25;
+    }
+    .null {
+        display: none;
+    }
+}
+</style>
+
+<script>
+// data to merge with labels:
+
+var Labels = {
+    participants: [],
+    template: function () {
+        this.house = null;
+        this.pname = null;
+        this.docid = null;
+        this.role  = null;
+        this.extra = null;
+        return this;
+    },
+    participant: function (house,pname,docid,role,extra) {
+        this.house = house;
+        this.pname = pname;
+        this.docid = docid;
+        this.role  = role;
+        this.extra = extra;
+        return this;
+    },
+    initialized: false,
+    initParticipants: function(size) {
+        if (!this.initialized) {
+            for (var i = 0; i < size; i++) {
+                this.participants[i] = new this.template();
+            }
+            this.initialized = true;
+        }
+        return this.initialized;
+    },
+};
+
+var size = 30;
+Labels.initParticipants(size)
+
+var formIds = {
+    editIndex: 'editIndex',
+    data: 'data',
+    house: 'house',
+    docid: 'docid',
+    pname: 'pname',
+    role: 'role',
+    extra: 'extra'
+};
+
+</script>
+</head>
+<body>
+<div id="notice">When printing, remove headers, footers and margins</div>
+<div id="form1">
+<form id="controls">
+<fieldset>
+<legend onClick="togglePanel('panel','panel-4','panel-2');" style="cursor: pointer" title="Click to Minimize/Expand">Participant Data</legend>
+<ul id="panel">
+ <li>
+     <label for="editIndex">Edit Index:</label>
+     <input type="number" min="0" max="29" step="1" name="editIndex" id="editIndex" onChange=""/>
+ </li>
+ <li><label for="pname">Name:</label>
+     <input type="text" name="pname" id="pname" onChange="" maxlength="45" />
+ </li>
+ <li>
+     <label for="docid" >DOC Id:</label>
+     <input id="docid" name="docid" type="text" maxlength="45" onChange="">
+  </li>
+ <li>
+   <label for="house" >House:</label>
+   <select id="house" name="house" onChange="">
+    <option value="">Blank</option>
+    <option value="1 Kings">1 Kings</option>
+    <option value="Amos">Amos</option>
+    <option value="Barnabas">Barnabas</option>
+    <option value="Daniel">Daniel</option>
+    <option value="Exodus">Exodus</option>
+    <option value="Ezra">Ezra (Yakima)</option>
+    <option value="Genesis 1">Genesis 1</option>
+    <option value="Genesis 2">Genesis 2</option>
+    <option value="Genesis 3">Genesis 3</option>
+    <option value="Genesis 4">Genesis 4</option>
+    <option value="Genesis 5">Genesis 5</option>
+    <option value="Genesis 6">Genesis 6</option>
+    <option value="Genesis 7">Genesis 7</option>
+    <option value="Genesis 8">Genesis 8</option>
+    <option value="Galatians">Galatians</option>
+    <option value="Isaiah">Isaiah</option>
+    <option value="Israel">Israel</option>
+    <option value="James">James</option>
+    <option value="Jeremiah">Jeremiah</option>
+    <option value="John">John</option>
+    <option value="Joshua">Joshua</option>
+    <option value="Light">Light</option>
+    <option value="Luke">Luke</option>
+    <option value="Mark">Mark</option>
+    <option value="Matthew">Matthew</option>
+    <option value="Paul">Paul</option>
+    <option value="Peter">Peter</option>
+    <option value="Philippians">Philippians</option>
+    <option value="Timothy">Timothy</option>
+    <option value="Thomas">Thomas</option>
+    <option value="Romans">Romans</option>
+    <option value="Samuel">Samuel</option>
+    <option value="Sarah">Sarah</option>
+    <option value="Samuel">Samuel</option>
+    <option value="Zion">Zion</option>
+   </select>
+ </li>
+ <li>
+   <label for="role" >Role:</label>
+   <select id="role" name="role" onChange="">
+    <option value="" selected="selected">Participant</option>
+    <option value="House Leader">House Leader</option>
+    <option value="Non-Transitional Housing">Non-Transitional Housing</option>
+    <option value="Employee">Employee</option>
+    <option value="Pastor">Pastor</option>
+    <option value="FareStart">FareStart</option>
+    <option value="HEN">HEN</option>
+    <option value="SSI/SSDI">SSI/SSDI</option>
+   </select>
+ </li>
+ <li>
+   <label for="extra" >Style:</label>
+   <select id="extra" name="extra" onChange="">
+    <option value="" selected="selected">Default Style</option>
+    <option value="fill: #fbff45;" class="fill-fbff45">Light Yellow</option>
+    <option value="fill: #45ffdb;" class="fill-45ffdb">Light Blue</option>
+    <option value="fill: #ff9a45;" class="fill-ff9a45">Light Orange</option>
+    <option value="fill: #ff45d3;" class="fill-ff45d3">Light Fusha</option>
+    <option value="fill: #91ff45;" class="fill-91ff45">Light Green</span></option>
+    <option value="fill: #ff4c45;" class="fill-ff4c45">Light Red</option>
+    <option value="fill: #bd7cd7;" class="fill-bd7cd7">Light Purple</option>
+    <option value="fill: #7c96d7;" class="fill-7c96d7">Light </option>
+    <option value="fill: #d77c96;" class="fill-d77c96">Light </option>
+    <option value="fill: #96d77c;" class="fill-96d77c">Light </option>
+    <option value="fill: #d7bd7c;" class="fill-d7bd7c">Light </option>
+    <option value="fill: #967cd7;" class="fill-967cd7">Light </option>
+    <option value="fill: #7cbdd7;" class="fill-7cbdd7">Light </option>
+
+   </select>
+ </li>
+ <li>
+  <input type="button" value="Update" onClick="updateLabel()">
+  <input type="button" value="Save All" onClick="saveAll();">
+  <input type="button" value="Clear Label" onClick="clearLabel();">
+ </li>
+ </ul>
+ <li>
+     <label for="data">Data</label>
+     <textarea cols="70" rows="2" name="data" id="data" ></textarea>
+ </li>
+</fieldset>
+
+</form>
+
+</div>
+
+<svg id="svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   x="0"
+   y="0"
+   height="1020"
+   width="800"
+   style="cursor: pointer;">
+
+<defs>
+
+</defs>
+<rect id="page" x="0" y="0" class="page8366"></rect>
+
+</svg>
+<script>
+
+var delayedCreate = function () {
+    createLabels(0,'svg',Labels.participants);
+}
+
+$(document).ready(function() {
+
+  Data.restoreInput('data');
+  setTimeout('delayedCreate()', 10);
+});
+
+</script>
+</body>
+</html>
