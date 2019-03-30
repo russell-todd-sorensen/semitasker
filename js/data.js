@@ -1051,6 +1051,8 @@ Data.Filters = [
   {url: "url(#posterize-11)", alt: "Posterize 11"},
   {url: "url(#posterize-12)", alt: "Posterize 12"},
   {url: "url(#posterize-12-table)", alt: "Posterize 12 table"},
+  {url: "url(#duotone-peachypink)", alt: "Duotone PeachyPink"},
+  {url: "url(#direct-map-1)", alt: "Direct Map 1"},
   {url: "url(#sharpen-1)", alt: "Sharpen 1"},
   {url: "url(#sharpen-2)", alt: "Sharpen 2"},
   {url: "url(#sharpen-3)", alt: "Sharpen 3"},

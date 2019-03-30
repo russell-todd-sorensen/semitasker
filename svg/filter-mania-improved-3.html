@@ -204,7 +204,6 @@ $(document).ready(function () {
     Log.Remove();
 });
 
-
 </script>
 </head>
 <body>
@@ -1449,14 +1448,70 @@ $(document).ready(function () {
          0 0 0 1 0" />
 </filter>
 
+<!-- from https://css-tricks.com/using-svg-to-create-a-duotone-image-effect/ -->
+
+<filter id="duotone-peachypink">
+  <feColorMatrix type="matrix" result="grayscale"
+                 values="1 0 0 0 0
+                         1 0 0 0 0
+                         1 0 0 0 0
+                         0 0 0 1 0" >
+  </feColorMatrix>
+  <feComponentTransfer color-interpolation-filters="sRGB" result="duotone">
+    <feFuncR type="table" tableValues="0.7411764706 0.9882352941"></feFuncR>
+    <feFuncG type="table" tableValues="0.0431372549 0.7333333333"></feFuncG>
+    <feFuncB type="table" tableValues="0.568627451 0.05098039216"></feFuncB>
+    <feFuncA type="table" tableValues="0 1"></feFuncA>
+  </feComponentTransfer>
+</filter>
+
+<filter id="direct-map-1">
+
+  <feColorMatrix type="matrix" result="grayscale2"
+                 values="1 0 0 0 0
+                         1 0 0 0 0
+                         1 0 0 0 0
+                         0 0 0 1 0" >
+  </feColorMatrix>
+
+  <feComponentTransfer color-interpolation-filters="sRGB" result="duotone2">
+    <feFuncR id="dm1FuncR" type="table"></feFuncR>
+    <feFuncG id="dm1FuncG" type="table"></feFuncG>
+    <feFuncB id="dm1FuncB" type="table"></feFuncB>
+    <feFuncA id="dm1FuncA" type="table" tableValues="0 1"></feFuncA>
+  </feComponentTransfer>
+</filter>
+
+<script>
+
+var setComponentTransfer = function (selector, index, value) {
+    var tableValues = "";
+    for (var i = 0; i<2;i++) {
+        if (i == index) {
+            tableValues = tableValues + value + " ";
+        } else {
+            tableValues += "0.0 ";
+        }
+    }
+    $(selector).attr('tableValues',tableValues.trim())
+    //document.getElementById(selector.substr(1)).setAttributeNS('http://www.w3.org/2000/svg','tableValues', tableValues);
+};
+
+setComponentTransfer("#dm1FuncR", 1, 0.5);
+setComponentTransfer("#dm1FuncG", 1, 0.9);
+setComponentTransfer("#dm1FuncB", 1, 0.2);
+//setComponentTransfer("#dm1FuncA", 2, 1.0);
+
+</script>
+
 <filter id="sharpen-1" >
  <feGaussianBlur stdDeviation="1,2"/>
  <feConvolveMatrix order="5"
   kernelMatrix="1 1 1 1 1
-	              1 -2 -2 -2 1
-								1 -2 -.7 -2 1
-								1 -2 -2 -2 1
-								1 1 1 1 1" />
+	            1 -2 -2 -2 1
+				1 -2 -.7 -2 1
+				1 -2 -2 -2 1
+				1 1 1 1 1" />
 </filter>
 
 <filter id="sharpen-2" >
