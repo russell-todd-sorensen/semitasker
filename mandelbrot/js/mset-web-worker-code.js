@@ -89,8 +89,36 @@ self.addEventListener('message',  function(evt) {
               finite = false;
             }
             break;
+        case 7:
+            if (
+              (tmpX < -2.00000)  ||
+              (tmpX > .47118534) ||
+              (Math.abs(tmpY) > 1.227571))
+            {
+              finite = false;
+            }
+            break;
+        case 8:
+            if (
+              ((tmpX < -2.00000)  || (tmpX > .47118534))
+              &&
+              (Math.abs(tmpY) > 1.227571)
+            )
+            {
+              finite = false;
+            }
+            break;
+        case 9:
+            if (
+              (Math.abs(tmpX) > 2.0)
+              &&
+              (Math.abs(tmpY) > 1.227571)
+            )
+            {
+              finite = false;
+            }
+            break;
         }
-        //if (Math.abs(tmpYbyTmpX) > this.finiteMeasure) {
 
         counter++;
       }

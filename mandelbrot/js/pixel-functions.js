@@ -2982,11 +2982,11 @@ addToPixels[48] = function (data) {
 	for (var i = 0;i < 20;i++) {
 		pixelSlice.push(fractal.imageData.data[i]);
 	}
-	console.log("animationIndex='" + fractal.animationIndex
-		+ "' p='" + ((fractal.animationIndex%pixelJump)*4)
-		+ "' p2='" + (pixelJump - 4)
-		+ "' p3='" + (((fractal.animationIndex)%(pixelJump/4))*4)
-		+  "' pixels=" + pixelSlice  );
+	//console.log("animationIndex='" + fractal.animationIndex
+		//+ "' p='" + ((fractal.animationIndex%pixelJump)*4)
+		//+ "' p2='" + (pixelJump - 4)
+		//+ "' p3='" + (((fractal.animationIndex)%(pixelJump/4))*4)
+		//+  "' pixels=" + pixelSlice  );
 	fractal.animationIndex += amount;
 	return fractal.continueAnimation;
 };

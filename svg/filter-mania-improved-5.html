@@ -1,0 +1,2073 @@
+<!DOCTYPE html>
+<html lang="en_US">
+<head>
+<meta charset="utf-8" >
+
+<title>Filter Mania!</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css"
+      href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="/css/logo-maker-1.css">
+<link rel="stylesheet" href="/css/green-form.css" >
+
+
+<style>
+body {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+.cell {
+    display: none;
+}
+#bottom-middle-cell {
+    display: block;
+}
+
+.a {
+    color: #ed1c24;
+}
+.b {
+    color: #f68b1f;
+}
+.c {
+    color: #00a651;
+}
+.d {
+    color: #00abbd;
+}
+.e {
+    color: #ffa;
+    background-color: #aaa;
+}
+
+#font-form {
+    display: block;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.font-form-on {
+    /*position: absolute;
+    top: 10px;
+    right: 10px;*/
+}
+
+/* override #panel  styles */
+#panel fieldset {
+    width: 400px;
+}
+
+/* for the font-distort form */
+
+#distort-font ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: 400px;
+}
+
+#distort-font li {
+
+}
+
+#distort-font label {
+    cursor: pointer;
+}
+
+#distort-font li.expand {
+    width: 400;
+}
+
+#panel input,
+#panel input[type="range"] {
+    display: inline-block;
+}
+
+#panel li.expand span {
+    display: inline-block;
+    width: 4em;
+    text-align: right;
+}
+
+
+.c1 {
+    stroke: #000000;
+    stroke-opacity: .7;
+    stroke-width: 2;
+}
+
+.c2 {
+    stroke: #000000;
+    stroke-opacity: .3;
+    stroke-width: 2;
+}
+.c3 {
+    stroke: #000000;
+    stroke-opacity: .4;
+    stroke-width: 2;
+}
+.c4 {
+    stroke: #000000;
+    stroke-opacity: .5;
+    stroke-width: 2;
+}
+.c6 {
+    stroke: #000000;
+    stroke-opacity: .6;
+    stroke-width: 2;
+}
+
+.c12 {
+    stroke: #000000;
+    stroke-opacity: .7;
+    stroke-width: 2;
+}
+
+.c22 {
+    stroke: #000000;
+    stroke-opacity: .3;
+    stroke-width: 2;
+}
+.c32 {
+    stroke: #000000;
+    stroke-opacity: .4;
+    stroke-width: 2;
+}
+.c42 {
+    stroke: #000000;
+    stroke-opacity: .5;
+    stroke-width: 2;
+}
+.c62 {
+    stroke: #000000;
+    stroke-opacity: .6;
+    stroke-width: 2;
+}
+</style>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="/js/panel-show-hide.js"></script>
+<script>
+
+function setStartImage(imageSelectId) {
+	Data.loadSelectOptions(imageSelectId,Data.Images);
+	Data.restoreSelect('imageFilter');
+    Data.restoreSelect('imageFilter2');
+	Data.restoreSelect('imageChoice');
+	SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1');
+}
+
+panelHidden["controls"] = [{
+  id:'panel1',
+  visible:true,
+  css:{
+    true:{
+      position:'relative'
+    },
+    false:{
+      position:'absolute'
+    }
+  },
+  extra: [
+    {
+      id:'controls',
+      css:{
+        true: {
+          position:'relative',
+          zIndex:0,
+          "background-color":'transparent'
+        },
+        false: {
+          position:'absolute',
+          zIndex:100,
+          "background-color":'#444444'
+        }
+      }
+   },
+ ]}
+];
+
+$(document).ready(function () {
+	Data.loadSelectOptions('imageFilter',Data.Filters);
+	Data.loadSelectOptions('imageFilter2',Data.Filters);
+	setStartImage('imageChoice');
+	//Log.Hide();
+    Log.Remove();
+});
+
+</script>
+</head>
+<body>
+<div id="font-form" class="font-form-on">
+<div id="panel">
+<form id="distort-font">
+<fieldset>
+<legend onClick="togglePanel('controls');">General Animation Options</legend>
+<ul id="panel1">
+ <li><label for="imageFilter">Select Filter</label>
+ <select id="imageFilter"
+  onChange="SvgTransform.changeFilter('imageFilter', '#image2','#graphics-2' )">
+
+  </select>
+  </li>
+ <li><label for="imageFilter2">Select Filter 2</label>
+ <select id="imageFilter2"
+  onChange="SvgTransform.changeFilter('imageFilter2', '#clickMe', '#graphics-container')">
+  </select>
+  </li>
+ <li>
+  <label for="imageChoice">Select Image</label>
+  <select
+    id="imageChoice"
+    name="imageChoice"
+    onChange="SvgTransform.changeImage('imageChoice','#image2');
+         SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1'); ">
+
+ </select>
+ </li>
+ </ul>
+ </fieldset>
+</form>
+ </div>
+ </div>
+ <svg
+   id="iam-svg"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   x="0"
+   y="0"
+   width="1500"
+   height="2000"
+   viewBox="0 0 1500 2000"
+   style="cursor: pointer;">
+
+<defs>
+<linearGradient color-interpolation="sRGB" id="grad-1" spreadMethod="repeat">
+<stop stop-color="white" offset="0.0"></stop>
+<stop stop-color="brown" offset="0.5"></stop>
+<stop stop-color="yellow" offset="1.0"></stop>
+</linearGradient>
+<linearGradient id="grad-2" xlink:href="#grad-1" x1="0" y1="0" x2="100%" y2="100%"></linearGradient>
+<linearGradient id="grad-3" xlink:href="#grad-1" x1="0" y1="0" x2="0" y2="100%"></linearGradient>
+
+<linearGradient id="btw-1" color-interpolation="sRGB" >
+ <stop offset="0%" stop-color="#000" stop-opacity="1.0" />
+ <stop offset="100%" stop-color="#FFF" stop-opacity="1" />
+</linearGradient>
+
+<!-- white to black (reverse direction of base gradient -->
+<linearGradient id="btw-2" xlink:href="#btw-1" x1="100%" y1="0%" x2="0%" y2="0%" />
+<linearGradient id="btw-3" xlink:href="#btw-1" x1="0%" y1="0%" x2="0%" y2="100%" />
+<linearGradient id="btw-4" xlink:href="#btw-1" x1="0%" y1="100%" x2="0%" y2="0%" />
+<rect id="btw-rect-1" x="0" y="0" height="100%" width="100%"
+       style="fill: url(#btw-1); stroke: none;" />
+<rect id="btw-rect-2" x="0" y="0" height="100%" width="100%"
+       style="fill: url(#btw-2); stroke: none;" />
+<rect id="btw-rect-3" x="0" y="0" height="100%" width="100%"
+       style="fill: url(#btw-3); stroke: none;" />
+<rect id="btw-rect-4" x="0" y="0" height="100%" width="100%"
+       style="fill: url(#btw-4); stroke: none;" />
+
+
+<filter id="btw-fade-1-darken">
+ <feImage xlink:href="#btw-rect-1" result="btw" x="0" y="0" height="100%" width="100%" />
+ <feBlend in2="btw" in="SourceGraphic" mode="darken" />
+</filter>
+
+<filter id="btw-fade-1-lighten">
+ <feImage xlink:href="#btw-rect-1" result="btw" x="0" y="0" height="100%" width="100%" />
+ <feBlend in2="btw" in="SourceGraphic" mode="lighten" />
+</filter>
+
+<filter id="btw-fade-2-darken">
+ <feImage xlink:href="#btw-rect-2" result="btw" x="0" y="0" height="100%" width="100%" />
+ <feBlend in2="btw" in="SourceGraphic" mode="darken" />
+</filter>
+
+<filter id="btw-fade-2-lighten">
+ <feImage xlink:href="#btw-rect-2" result="btw" x="0" y="0" height="100%" width="100%" />
+ <feBlend in2="btw" in="SourceGraphic" mode="lighten" />
+</filter>
+
+<filter id="btw-fade-3-darken">
+ <feImage xlink:href="#btw-rect-3" result="btw" x="0" y="0" height="100%" width="100%" />
+ <feBlend in2="btw" in="SourceGraphic" mode="darken" />
+</filter>
+
+<filter id="btw-fade-3-lighten">
+ <feImage xlink:href="#btw-rect-3" result="btw" x="0" y="0" height="100%" width="100%" />
+ <feBlend in2="btw" in="SourceGraphic" mode="lighten" />
+</filter>
+
+<filter id="btw-fade-4-darken">
+ <feImage xlink:href="#btw-rect-4" result="btw" x="0" y="0" height="100%" width="100%" />
+ <feBlend in2="btw" in="SourceGraphic" mode="darken" />
+</filter>
+
+<filter id="btw-fade-4-lighten">
+ <feImage xlink:href="#btw-rect-4" result="btw" x="0" y="0" height="100%" width="100%" />
+ <feBlend in2="btw" in="SourceGraphic" mode="lighten" />
+</filter>
+
+<mask id="grad-1-mask">
+ <use xlink:href="#grad-1" />
+</mask>
+<mask id="grad-2-mask">
+ <use xlink:href="#grad-2" />
+</mask>
+<mask id="grad-3-mask">
+ <use xlink:href="#grad-3" />
+</mask>
+
+<linearGradient id="red-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop stop-color="#FF0000" offset="0%" />
+ <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<linearGradient id="green-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop stop-color="#00FF00" offset="0%" />
+ <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<linearGradient id="blue-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop stop-color="#0000FF" offset="0%" />
+ <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<rect id="rgb-grad-rect-1" x="0" y="0" height="25" width="250" stroke="#444" stroke-width=".5" />
+
+<linearGradient id="h-linear-distort" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop stop-color="#FFFFFF" offset="0%" />
+ <stop stop-color="#000000" offset="50%" />
+ <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<linearGradient id="h-linear-distort-2" color-interpolation="sRGB" spreadMethod="repeat" >
+ <stop stop-color="#FFFFFF" offset="0%" />
+ <stop stop-color="#000000" offset="50%" >
+  <animate attributeName="offset" begin="0s" values="0%;100%;0%" dur="15s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<linearGradient
+    id="v-linear-distort" color-interpolation="sRGB"
+    spreadMethod="reflect"  xlink:href="#h-linear-distort"
+    gradientTransform="rotate(90)" />
+
+<rect id="linear-displace-rect-1" x="0" y="0" height="100%" width="100%" style="fill: url(#h-linear-distort); stroke: none;" />
+
+<rect id="linear-displace-rect-2" x="0" y="0" height="100%" width="100%" style="fill: url(#h-linear-distort-2); stroke: none;" />
+
+<radialGradient color-interpolation="sRGB" id="RG" spreadMethod="reflect">
+ <stop stop-color="green" offset="0%" ></stop>
+ <stop stop-color="orange" offset="0%" >
+  <animate attributeName="offset" from=".0" to=".2" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="10%" id="g-1">
+  <animate attributeName="offset" from=".1" to=".3" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="20%" id="o-1">
+  <animate attributeName="offset" from=".2" to=".4" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="30%" id="g-2">
+  <animate attributeName="offset" from=".3" to=".5" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="40%" id="o-2">
+  <animate attributeName="offset" from=".4" to=".6" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="50%" id="g-3">
+  <animate attributeName="offset" from=".5" to=".7" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="60%" id="o-3">
+  <animate attributeName="offset" from=".6" to=".8" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="70%" id="g-4">
+  <animate attributeName="offset" from=".7" to=".9" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="80%" id="o-4">
+  <animate attributeName="offset" from=".8" to="1" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="90%" id="g-5">
+  <animate attributeName="offset" from=".9" to="1" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="100%" id="o-5">
+ </stop>
+</radialGradient>
+
+<!--<rect id="RGRect" x="0" y="0" height="800" width="600" style="fill: url(#RG); stroke: none;" />-->
+<rect id="RGRect" x="0" y="0" height="100%" width="100%" style="fill: url(#RG); stroke: none;" />
+
+<mask id="RG-mask" >
+ <use xlink:href="#RG" x="0" y="0" height="100%" width="100%" />
+</mask>
+
+<linearGradient color-interpolation="sRGB" id="LG" spreadMethod="reflect">
+ <stop stop-color="green" offset="0%" ></stop>
+ <stop stop-color="orange" offset="0%" >
+  <animate attributeName="offset" from=".0" to=".2" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="10%" id="g-1">
+  <animate attributeName="offset" from=".1" to=".3" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="20%" id="o-1">
+  <animate attributeName="offset" from=".2" to=".4" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="30%" id="g-2">
+  <animate attributeName="offset" from=".3" to=".5" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="40%" id="o-2">
+  <animate attributeName="offset" from=".4" to=".6" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="50%" id="g-3">
+  <animate attributeName="offset" from=".5" to=".7" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="60%" id="o-3">
+  <animate attributeName="offset" from=".6" to=".8" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="70%" id="g-4">
+  <animate attributeName="offset" from=".7" to=".9" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="80%" id="o-4">
+  <animate attributeName="offset" from=".8" to="1" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="green" offset="90%" id="g-5">
+  <animate attributeName="offset" from=".9" to="1" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="orange" offset="100%" id="o-5">
+ </stop>
+</linearGradient>
+
+<!--<rect id="LGRect" x="0" y="0" height="800" width="600"
+       style="fill: url(#LG); stroke: none;" />-->
+<rect id="LGRect" x="0" y="0" height="100%" width="100%"
+       style="fill: url(#LG); stroke: none;" />
+
+<linearGradient xlink:href="#LG" x1="0%" y1="100%" x2="100%" y2="0%" id="LG-45" />
+
+<!--<rect id="LGRect-45" x="0" y="0" height="800" width="600"
+       style="fill: url(#LG-45); stroke: none;" />-->
+<rect id="LGRect-45" x="0" y="0" height="100%" width="100%"
+       style="fill: url(#LG-45); stroke: none;" />
+
+<mask id="LG-mask" >
+ <use xlink:href="#LG" x="0" y="0" height="100%" width="100%" />
+</mask>
+
+<radialGradient color-interpolation="sRGB" id="FishEye" spreadMethod="pad" cx="20%" cy="20%">
+<animate attributeName="cx" values="0%;20%;100%;80%;0%" begin="0s" dur="15s" repeatCount="indefinite" />
+<animate attributeName="cy" values="0%;100%;100%;80%;0%" begin="0s" dur="15s" repeatCount="indefinite" />
+ <stop stop-color="green" offset="0%" ></stop>
+ <stop stop-color="orange" offset="30%">
+ </stop>
+  <stop stop-color="red" offset="100%" ></stop>
+</radialGradient>
+
+<!--<rect id="FishEyeRect" x="0" y="0" height="900" width="600" style="fill: url(#FishEye); stroke: none;" />-->
+<rect id="FishEyeRect" x="0" y="0" height="100%" width="100%" style="fill: url(#FishEye); stroke: none;" />
+
+<radialGradient color-interpolation="sRGB" id="FishEye-2" spreadMethod="pad" cx="20%" cy="20%">
+<animate attributeName="cx" values="0%;70%;90%;70%;0%" begin="0s" dur="20s" repeatCount="indefinite" />
+<animate attributeName="cy" values="30%;90%;50%;0%;30%" begin="0s" dur="20s" repeatCount="indefinite" />
+ <stop stop-color="red" offset="0%" ></stop>
+ <stop stop-color="orange" offset="2%">
+ </stop>
+  <stop stop-color="green" offset="100%" ></stop>
+</radialGradient>
+<!--<rect id="FishEyeRect-2" x="0" y="0" height="900" width="600" style="fill: url(#FishEye-2); stroke: none;" />-->
+<rect id="FishEyeRect-2" x="0" y="0" height="100%" width="100%" style="fill: url(#FishEye-2); stroke: none;" />
+<g id="sticks-1" x="0" y="0" height="36" width="100">
+ <g id="block-1" >
+  <path d="M 0 1 L 10 1" class="c1" />
+  <path d="M 10 1 L 50 1" class="c2" />
+  <path d="M 50 1 L 80 1" class="c3" />
+  <path d="M 80 1 L 95 1" class="c4" />
+  <path d="M 95 1 L 100 1" class="c1" />
+
+  <path d="M 0 3 L 40 3" class="c2" />
+  <path d="M 40 3 L 70 3" class="c1" />
+  <path d="M 70 3 L 85 3" class="c6" />
+  <path d="M 85 3 L 90 3" class="c3" />
+  <path d="M 90 3 L 100 3" class="c2" />
+
+  <path d="M 0 5 L 18 5" class="c4" />
+  <path d="M 18 5 L 25 5" class="c3" />
+  <path d="M 25 5 L 60 5" class="c1" />
+  <path d="M 60 5 L 92 5" class="c6" />
+  <path d="M 92 5 L 100 5" class="c4" />
+ </g>
+ <use xlink:href="#block-1" transform="translate(-10,6)" />
+ <use xlink:href="#block-1" transform="translate(90,6)" />
+ <use xlink:href="#block-1" transform="translate(-44,12)" />
+ <use xlink:href="#block-1" transform="translate(36,12)" />
+ <use xlink:href="#block-1" transform="translate(-24,18)" />
+ <use xlink:href="#block-1" transform="translate(76,18)" />
+ <use xlink:href="#block-1" transform="translate(-52,24)" />
+ <use xlink:href="#block-1" transform="translate(48,24)" />
+ <use xlink:href="#block-1" transform="translate(-72,30)" />
+ <use xlink:href="#block-1" transform="translate(28,30)" />
+</g>
+
+<g id="sticks-2" x="0" y="0" height="36" width="100">
+ <g id="block-1" >
+  <path d="M 0 1 L 10 1" class="c12" />
+  <path d="M 10 1 L 50 1" class="c22" />
+  <path d="M 50 1 L 80 1" class="c32" />
+  <path d="M 80 1 L 95 1" class="c42" />
+  <path d="M 95 1 L 100 1" class="c12" />
+
+  <path d="M 0 3 L 40 3" class="c22" />
+  <path d="M 40 3 L 70 3" class="c12" />
+  <path d="M 70 3 L 85 3" class="c62" />
+  <path d="M 85 3 L 90 3" class="c32" />
+  <path d="M 90 3 L 100 3" class="c22" />
+
+  <path d="M 0 5 L 18 5" class="c42" />
+  <path d="M 18 5 L 25 5" class="c32" />
+  <path d="M 25 5 L 60 5" class="c12" />
+  <path d="M 60 5 L 92 5" class="c62" />
+  <path d="M 92 5 L 100 5" class="c42" />
+ </g>
+ <use xlink:href="#block-1" transform="translate(-10,6)" />
+ <use xlink:href="#block-1" transform="translate(90,6)" />
+ <use xlink:href="#block-1" transform="translate(-44,12)" />
+ <use xlink:href="#block-1" transform="translate(36,12)" />
+ <use xlink:href="#block-1" transform="translate(-24,18)" />
+ <use xlink:href="#block-1" transform="translate(76,18)" />
+ <use xlink:href="#block-1" transform="translate(-52,24)" />
+ <use xlink:href="#block-1" transform="translate(48,24)" />
+ <use xlink:href="#block-1" transform="translate(-72,30)" />
+ <use xlink:href="#block-1" transform="translate(28,30)" />
+</g>
+
+
+<pattern id="pattern-sticks-1" x="0" y="0" height="36" width="100">
+ <g id="block-1" >
+  <path d="M 0 1 L 10 1" class="c1" />
+  <path d="M 10 1 L 50 1" class="c3" />
+  <path d="M 50 1 L 80 1" class="c6" />
+  <path d="M 80 1 L 95 1" class="c4" />
+  <path d="M 95 1 L 100 1" class="c1" />
+
+  <path d="M 0 3 L 40 3" class="c2" />
+  <path d="M 40 3 L 70 3" class="c1" />
+  <path d="M 70 3 L 85 3" class="c4" />
+  <path d="M 85 3 L 90 3" class="c6" />
+  <path d="M 90 3 L 100 3" class="c2" />
+
+  <path d="M 0 5 L 18 5" class="c4" />
+  <path d="M 18 5 L 25 5" class="c3" />
+  <path d="M 25 5 L 60 5" class="c6" />
+  <path d="M 60 5 L 92 5" class="c2" />
+  <path d="M 92 5 L 100 5" class="c4" />
+
+ </g>
+ <use xlink:href="#block-1" transform="translate(-43,6)" />
+ <use xlink:href="#block-1" transform="translate(57,6)" />
+ <use xlink:href="#block-1" transform="translate(-28,12)" />
+ <use xlink:href="#block-1" transform="translate(72,12)" />
+ <use xlink:href="#block-1" transform="translate(-25,18)" />
+ <use xlink:href="#block-1" transform="translate(75,18)" />
+ <use xlink:href="#block-1" transform="translate(-50,24)" />
+ <use xlink:href="#block-1" transform="translate(50,24)" />
+ <use xlink:href="#block-1" transform="translate(-70,30)" />
+ <use xlink:href="#block-1" transform="translate(30,30)" />
+</pattern>
+
+<filter id="sticks-filter-1" >
+ <feImage xlink:href="#sticks-1" result="tile" x="0" y="0" height="5%" width="6%" />
+ <feTile in="tile" result="tile" stitchTiles="stitch"  />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="final" />
+ <feComposite in2="SourceGraphic" in="final" operator="atop" />
+</filter>
+
+<filter id="sticks-filter-2" >
+ <feImage xlink:href="#sticks-2" result="tile" x="0" y="0" height="5%" width="6%" />
+ <feTile in="tile" result="tile" stitchTiles="stitch"  />
+ <feBlend mode="multiply" in="tile" in2="SourceGraphic" result="final" />
+ <feComposite in2="SourceGraphic" in="final" operator="atop" />
+</filter>
+
+<filter id="X"  color-interpolation="sRGB">
+<feConvolveMatrix
+    order="3"
+
+    kernelMatrix="-1 -1 -1
+                  -1  9 -1
+                  -1 -1 -1"
+    edgeMode="duplicate" />
+</filter>
+
+<filter id="X2"  color-interpolation="sRGB">
+<feConvolveMatrix
+    order="3"
+    kernelMatrix="-1 -1 -1
+                  -1  10 -1
+                  -1 -1 -1"
+    edgeMode="duplicate" />
+</filter>
+<filter id="X2-Animate"  color-interpolation="sRGB">
+<feConvolveMatrix
+    order="3"
+    kernelMatrix="-1 -1 -1
+                  -1  10 -1
+                  -1 -1 -1"
+    edgeMode="duplicate" >
+ <animate
+    attributeName="kernelMatrix"
+    values="-1 -1 -1
+            -1  0 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1  0 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1 20 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1 20 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1  0 -1
+            -1 -1 -1;
+            -1  -1 -1
+            -1 -10 -1
+            -1  -1 -1;"
+    begin="0s;clickMe.click"
+    dur="24s"
+    repeatCount="indefinite" />
+</feConvolveMatrix>
+</filter>
+<filter id="X3-Animate"  color-interpolation="sRGB">
+<feConvolveMatrix
+    order="3"
+    kernelMatrix="-1 -1 -1
+                  -1  7 -1
+                  -1 -1 -1"
+    edgeMode="duplicate" >
+ <animate
+    attributeName="kernelMatrix"
+    values="-1 -1 -1
+            -1  7 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1  7.9 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1 7.99 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1 7.999 -1
+            -1 -1 -1;
+            -1 -1 -1
+            -1  8.001 -1
+            -1 -1 -1;
+            -1  -1 -1
+            -1 8.01 -1
+            -1  -1 -1;
+            -1  -1 -1
+            -1 8.1 -1
+            -1  -1 -1;
+            -1  -1 -1
+            -1   9 -1
+            -1  -1 -1"
+    begin="0s;clickMe.click"
+    dur="75s"
+    repeatCount="indefinite" />
+</feConvolveMatrix>
+</filter>
+
+<filter id="Y"  color-interpolation="sRGB">
+<feConvolveMatrix
+    order="5"
+    kernelMatrix="1  1   1  1  1
+                  1 -2  -2 -2  1
+                  1 -2  1  -2  1
+                  1 -2  -2 -2  1
+                  1  1   1  1  1"
+    edgeMode="duplicate" />
+</filter>
+
+<filter id="Z"  color-interpolation="sRGB">
+<feConvolveMatrix
+    order="3"
+    kernelMatrix="-1 -1 -1
+              -1  9 -1
+              -1 -1 -1"
+    edgeMode="duplicate" >
+  <animate attributeName="kernelMatrix"
+           values="0 0 0 0 1 0 0 0 0;
+                  -1 -1 -1 -1  9 -1 -1 -1 -1;
+                   0 0 0 0 1 0 0 0 0"
+           begin="0s;clickMe.click"
+           dur="12s" />
+</feConvolveMatrix>
+</filter>
+<filter id="ZZ"  color-interpolation="sRGB">
+<feConvolveMatrix
+    order="5"
+    kernelMatrix="1  1   1  1  1
+              1 -2  -2 -2  1
+              1 -2  1  -2  1
+              1 -2  -2 -2  1
+              1  1   1  1  1"
+    edgeMode="duplicate" >
+  <animate attributeName="kernelMatrix" values="0  0  0  0  0
+              0  0   0  0  0
+              0  0   1  0  0
+              0  0   0  0  0
+              0  0   0  0  0;
+              1  1   1  1  1
+              1 -2  -2 -2  1
+              1 -2  -.7 -2  1
+              1 -2  -2 -2  1
+              1  1   1  1  1"
+              begin="0s;clickMe.click" dur="12s" />
+</feConvolveMatrix>
+</filter>
+
+<filter id="XX"  color-interpolation="sRGB" >
+<feConvolveMatrix
+    order="7"
+    kernelMatrix="-1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  3  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1"
+    edgeMode="duplicate" >
+  <animate attributeName="kernelMatrix"
+           values="0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  1  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0;
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  3  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1"
+          begin="0s;clickMe.click"
+          dur="12s" />
+</feConvolveMatrix>
+</filter>
+
+<filter id="XX2"  color-interpolation="sRGB" >
+<feConvolveMatrix
+    order="7"
+    kernelMatrix="-1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2.5  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1
+                  -1  0  0  2  0  0  -1"
+    edgeMode="duplicate" >
+
+</feConvolveMatrix>
+</filter>
+<filter id="XX3"  color-interpolation="sRGB" >
+<feConvolveMatrix
+    order="7"
+    kernelMatrix="-1  -1  -1  -1  -1 -1 -1
+                  -0  0  0  0  0  0  0
+                   0  0  0  0  0  0  0
+                   2  2  2  3  2  2  2
+                   0  0  0  0  0  0  0
+               	   0  0  0  0  0  0  0
+                  -1  -1  -1  -1  -1 -1 -1"
+    edgeMode="duplicate" >
+
+</feConvolveMatrix>
+</filter>
+
+<filter id="XX4"  color-interpolation="sRGB" >
+<feConvolveMatrix
+    order="7"
+    kernelMatrix="1 -2 -2 -2 -2 -2  1
+                  1  1  1  1  1  1  1
+                  1  1 -1 -1 -1  1  1
+                  1  1 -1  1 -1  1  1
+                  1  1 -1 -1 -1  1  1
+                  1  1  1  1  1  1  1
+                  1 -2 -2 -2 -2 -2  1"
+    edgeMode="duplicate" >
+
+</feConvolveMatrix>
+</filter>
+
+<filter id="XX5"  color-interpolation="sRGB" >
+<feConvolveMatrix
+    order="7"
+    kernelMatrix="1 -0 -0 -0 -0 -0  1
+                  1  1  1 -1  1  1  1
+                  0  1 -0 -1 -0  1  0
+                  0  1 -0  1 -0  1  0
+                  0  1 -0 -1 -0  1  0
+                  1  1  1 -1  1  1  1
+                  1 -0 -0 -0 -0 -0  1"
+    edgeMode="duplicate" >
+
+</feConvolveMatrix>
+</filter>
+
+<filter id="XX6"  color-interpolation="sRGB" >
+<feConvolveMatrix
+    order="7"
+    kernelMatrix="1 -0 -0 -0 -0 -0  1
+                  1  1  1 -1  1  1  1
+                  0  1 -0 -1 -0  1  0
+                  0  1 -0  1 -0  1  0
+                  0  1 -0 -1 -0  1  0
+                  1  1  1 -1  1  1  1
+                  1 -0 -0 -0 -0 -0  1"
+    edgeMode="duplicate" >
+</feConvolveMatrix>
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .2 .1 .7 .6 .1 .9" />
+ <feFuncG type="discrete" tableValues="0 .1 .4 .5 .7 .5 .2" />
+ <feFuncB type="discrete" tableValues="0 .5 .2 .2 .9 .7 .1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="XX7"  color-interpolation="sRGB" >
+<feConvolveMatrix
+    order="3"
+    kernelMatrix="1  -1   1
+                  1  .7  -1
+                 -1   1  -1 "
+    edgeMode="duplicate" >
+
+</feConvolveMatrix>
+</filter>
+
+
+<filter id="XX8"  color-interpolation="sRGB" >
+<feConvolveMatrix
+    order="3"
+    kernelMatrix=".5  -.5   .5
+                  .5  2.0  -.5
+                 -.5   .5  -.5"
+    edgeMode="duplicate" >
+    <animate attributeName="kernelMatrix"
+             values="1  -1   1
+                     1  1.0  -1
+                    -1   1  -1;
+                     .5  -.5   .5
+                     .5  2.0  -.5
+                    -.5   .5  -.5"
+            begin="clickMe.click"
+            dur="12s" />
+</feConvolveMatrix>
+</filter>
+
+
+<filter id="displaceX"  color-interpolation="sRGB">
+ <feImage xlink:href="#RGRect" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%" />
+
+ <feDisplacementMap
+  in2="tile"
+  in="SourceGraphic"
+  scale="20"
+  xChannelSelector="R"
+	yChannelSelector="R" >
+   <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
+ </feDisplacementMap>
+</filter>
+
+<filter id="displaceX-2"  color-interpolation="sRGB">
+ <feImage xlink:href="#LGRect" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%" />
+
+ <feDisplacementMap
+  in2="tile"
+  in="SourceGraphic"
+  scale="20"
+  xChannelSelector="R"
+	yChannelSelector="R" >
+   <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
+ </feDisplacementMap>
+</filter>
+
+<filter id="displaceX-3"  color-interpolation="sRGB">
+ <feImage xlink:href="#LGRect-45" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%"  />
+
+ <feDisplacementMap
+  in2="tile"
+  in="SourceGraphic"
+  scale="20"
+  xChannelSelector="R"
+	yChannelSelector="R" >
+   <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
+ </feDisplacementMap>
+</filter>
+
+<filter id="fish-eye-1"  color-interpolation="sRGB">
+ <feImage xlink:href="#FishEyeRect" result="tile" />
+
+ <feDisplacementMap
+  in2="tile"
+  in="SourceGraphic"
+  scale="80"
+  xChannelSelector="R"
+	yChannelSelector="R" >
+ </feDisplacementMap>
+</filter>
+
+<filter id="fish-eye-2"  color-interpolation="sRGB">
+ <feImage xlink:href="#FishEyeRect-2" result="tile" />
+
+ <feDisplacementMap
+  in2="tile"
+  in="SourceGraphic"
+  scale="80"
+  xChannelSelector="R"
+	yChannelSelector="R" >
+ </feDisplacementMap>
+</filter>
+
+
+<filter id="linear-displace-y"  color-interpolation="sRGB">
+ <feImage xlink:href="#linear-displace-rect-1" result="tile"  x1="-10%" y1="-10%" x2="110%" y2="110%" />
+
+ <feDisplacementMap
+  in2="tile"
+  in="SourceGraphic"
+  scale="50"
+  yChannelSelector="R">
+  <animate attributeName="scale" values="0;50;100;200;100;50;0"
+   repeatCount="indefinite"
+   begin="0"
+   dur="15s" />
+ </feDisplacementMap>
+</filter>
+
+<filter id="linear-displace-y-2" color-interpolation="sRGB">
+ <feImage xlink:href="#linear-displace-rect-2" result="tile"  x1="-10%" y1="-10%" x2="110%" y2="110%" />
+ <feTile in="tile" result="tile" />
+ <feDisplacementMap
+  in2="tile"
+  in="SourceGraphic"
+  scale="50"
+  yChannelSelector="R">
+  <animate attributeName="scale" values="0;50;100;200;100;50;0"
+   repeatCount="indefinite"
+   begin="0"
+   dur="15s" />
+ </feDisplacementMap>
+</filter>
+
+<filter id="desaturate-1" >
+<feColorMatrix type="saturate" values="0.0" />
+</filter>
+
+<filter id="desaturate-2" >
+<feColorMatrix type="saturate" values="0.5" />
+</filter>
+
+<filter id="desaturate-3" >
+<feColorMatrix type="saturate" values="0.5" >
+ <animate attributeName="values" values=".5;0.0;.8;.7;.6;.5"
+   dur="23s" begin="0s" repeatCount="indefinite" />
+</feColorMatrix>
+</filter>
+
+<filter id="hueRotate-1" >
+<feColorMatrix type="hueRotate" values="45" />
+</filter>
+
+<filter id="hueRotate-2" >
+<feColorMatrix type="hueRotate" values="20" />
+</filter>
+
+<filter id="hueRotate-3" >
+<feColorMatrix type="hueRotate" values="0" >
+    <animate attributeName="values"
+        start="0s" from="0" to="360"
+        dur="20s" repeatCount="indefinite" />
+
+</feColorMatrix>
+</filter>
+
+<filter id="luminanceToAlpha-1" >
+<feColorMatrix type="luminanceToAlpha" />
+</filter>
+
+<filter id="MorphErode-1">
+<feMorphology operator="erode" radius="1">
+    <animate attributeName="radius" from=".1" to="2"
+    dur="20s" begin="0s" repeatCount="indefinite" />
+</feMorphology>
+</filter>
+
+<filter id="MorphDilate-1">
+<feMorphology operator="dilate" radius="1">
+    <animate attributeName="radius" from="0.1" to="2"
+    dur="20s" begin="0s" repeatCount="indefinite" />
+</feMorphology>
+</filter>
+
+<filter id="posterize-0">
+ <!--<feColorMatrix
+     type="matrix"
+     values="1.0  1.0  1.0  0.000  0
+             1.0  1.0  1.0  0.000  0
+             1.0  1.0  1.0  0.000  0
+             1.0  1.0  1.0  1.000  0"
+  />
+
+ -->
+ <feColorMatrix type="saturate" values="0.0" />
+
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0  1 .125   1 .25 .375 .75 1 1 1 1" />
+ <feFuncG type="discrete" tableValues="0  0    0   0   0    0   0 0 0 1 1" />
+ <feFuncB type="discrete" tableValues="0  1 .125   1 .25 .375 .75 1 1 1 1" />
+</feComponentTransfer>
+
+</filter>
+
+<filter id="posterize-00">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation="1" >
+ <animate attributeName="stdDeviation"
+    values="1.0;0.0;2.0;1.0"
+    by="0.5"
+    dur="15s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 1 0 1 1 0 1 1 0 1 1" />
+ <feFuncG type="discrete" tableValues="0 0 0 1 0 0 0 1 0 0 1" />
+ <feFuncB type="discrete" tableValues="0 1 0 1 1 0 1 1 0 1 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-000">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation=".75" >
+ <animate attributeName="stdDeviation"
+    values="1.0;2.0;1.0"
+    by="0.25"
+    dur="15s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>
+    <!--                         White ----v
+                               Magenta---v v
+                                Black--v v v              -->
+ <feFuncR type="discrete" tableValues="0 1 1 0 1 1 0 1 1 0 1 1" />
+ <feFuncG type="discrete" tableValues="0 0 1 0 0 1 0 0 1 0 0 1" />
+ <feFuncB type="discrete" tableValues="0 1 1 0 1 1 0 1 1 0 1 1" />
+</feComponentTransfer>
+</filter>
+
+
+<filter id="posterize-000-1">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation=".75" >
+ <animate attributeName="stdDeviation"
+    values="1.0;2.0;1.0"
+    by="0.25"
+    dur="15s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1" />
+ <feFuncG type="discrete" tableValues="0 0 1 0 0 1 0 0 1 0 0 1 0 0 1 0 0 1" />
+ <feFuncB type="discrete" tableValues="0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-000-2">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation=".75" >
+ <animate attributeName="stdDeviation"
+    values="1.0;3.0;1.0"
+    by="0.10"
+    dur="20s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>  <!--  DarlMagenta-v    -->
+ <feFuncR type="discrete" tableValues="0 .545 1 0 .545 1 0 .545 1 0 .545 1 0 .545 1 0 .545 1" />
+ <feFuncG type="discrete" tableValues="0 0    1 0 0    1 0    0 1 0 0    1 0 0    1 0 0    1" />
+ <feFuncB type="discrete" tableValues="0 .545 1 0 .545 1 0 .545 1 0 .545 1 0 .545 1 0 .545 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-000-3">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation=".75" >
+ <animate attributeName="stdDeviation"
+    values="1.0;2.0;1.0"
+    by="0.1"
+    dur="15s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="1 1 1 1 1 0 1 1 1 1 1 0 1 1 1 1 1 0" />
+ <feFuncG type="discrete" tableValues="1 0 1 1 0 1 1 0 1 1 0 1 1 0 1 1 0 1" />
+ <feFuncB type="discrete" tableValues="0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-000-4">
+
+ <feColorMatrix type="saturate" values="0.0" />
+<feGaussianBlur stdDeviation=".75" >
+ <animate attributeName="stdDeviation"
+    values="1.0;2.0;1.0"
+    by="0.25"
+    dur="15s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>
+    <!--                         White ---------v
+                               Magenta---v v
+                                Black--v v v              -->
+ <feFuncR type="discrete" tableValues="0 0.755      1 0 0.755      1 0 0.755      1 0 0.755      1" />
+ <feFuncG type="discrete" tableValues="0 0          1 0 0          1 0 0          1 0 0          1" />
+ <feFuncB type="discrete" tableValues="0 0.17645   1 0 0.17645   1 0 0.17645   1 0 0.17645   1" />
+</feComponentTransfer>
+</filter>
+
+
+<filter id="posterize-0000">
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation=".75" >
+ <animate attributeName="stdDeviation"
+    values="1.0;2.0;1.0"
+    by="0.25"
+    dur="15s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 .51  .51  .51   .29 .51 .51  .51  .29 0 1" />
+ <feFuncG type="discrete" tableValues="0   0  .381 .255   0    0 .381 .255   0 0 1" />
+ <feFuncB type="discrete" tableValues="0   0    0   0    .51   0    0    0 .51 0 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-0000">
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation=".75" >
+ <animate attributeName="stdDeviation"
+    values="1.0;2.0;1.0"
+    by="0.25"
+    dur="15s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 .51  .51  .51   .29 .51 .51  .51  .29 0 1" />
+ <feFuncG type="discrete" tableValues="0   0  .381 .255   0    0 .381 .255   0 0 1" />
+ <feFuncB type="discrete" tableValues="0   0    0   0    .51   0    0    0 .51 0 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-00000">
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation=".75" >
+ <animate attributeName="stdDeviation"
+    values="1.0;2.0;1.0"
+    by="0.25"
+    dur="15s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+ <feColorMatrix type="matrix"
+   values="1 0 0 0 .05
+           0 1 0 0 .05
+           0 0 1 0 .05
+           0 0 0 1 0" ></feColorMatrix>
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0.5   0 .25   0  .5  .5   0 .25 1" />
+ <feFuncG type="discrete" tableValues="0.0  .5  .5   0   0  .5  .5  .5 1" />
+ <feFuncB type="discrete" tableValues="0.0  .5   0   0   0   0  .5   0 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-000000">
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation="1.5" >
+ <animate attributeName="stdDeviation"
+    values="1.5"
+    by="0.25"
+    dur="15s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+ <feColorMatrix type="matrix"
+                values="1 0 0 0 .05
+                        0 1 0 0 .05
+                        0 0 1 0 .05
+                        0 0 0 1 0">
+   <animate attributeName="values"
+            values="1 0 0 0 .05
+                    0 1 0 0 .05
+                    0 0 1 0 .05
+                    0 0 0 1 0;
+                    1 0 0 0 .13
+                    0 1 0 0 .13
+                    0 0 1 0 .13
+                    0 0 0 1 0;
+                    1 0 0 0 .05
+                    0 1 0 0 .05
+                    0 0 1 0 .05
+                    0 0 0 1 0"
+             begin="0s" dur="10s"
+             repeatCount="indefinite" />
+  </feColorMatrix>
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0.5  0.5  0.0 0.25  0.5  0.5  0.0  0.25 1.0" />
+ <feFuncG type="discrete" tableValues="0.5  0.0  0.5 0.50  0.0  0.5  0.5  0.50 1.0" />
+ <feFuncB type="discrete" tableValues="0.0  0.0  0.5 0.00  0.0  0.0  0.5  0.00 1.0" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-0000000">
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation="1.7" >
+ <animate attributeName="stdDeviation"
+    values="1.7"
+    by="0.25"
+    dur="15s"
+    begin="0s"
+    repeatCount="indefinite" />
+ </feGaussianBlur>
+ <feColorMatrix type="matrix"
+   values="1 0 0 0 .05
+           0 1 0 0 .05
+           0 0 1 0 .05
+           0 0 0 1 0"
+           >
+   <animate attributeName="values"
+            values="1 0 0 0 .05
+                    0 1 0 0 .05
+                    0 0 1 0 .05
+                    0 0 0 1 0;
+                    1 0 0 0 .13
+                    0 1 0 0 .13
+                    0 0 1 0 .13
+                    0 0 0 1 0;
+                    1 0 0 0 .05
+                    0 1 0 0 .05
+                    0 0 1 0 .05
+                    0 0 0 1 0"
+             begin="0s" dur="10s"
+             repeatCount="indefinite" />
+  </feColorMatrix>
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0.5  0.5  0.0 0.25 1.0 0.5  0.5  0.0  0.25 1.0" />
+ <feFuncG type="discrete" tableValues="0.5  0.0  0.5 0.50 1.0 0.0  0.5  0.5  0.50 1.0" />
+ <feFuncB type="discrete" tableValues="0.0  0.0  0.5 0.00 1.0 0.0  0.0  0.5  0.00 1.0" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-1">
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 .5 1" />
+ <feFuncG type="discrete" tableValues="0 1" />
+ <feFuncB type="discrete" tableValues="0" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-2">
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 .5 1" />
+ <feFuncG type="discrete" tableValues="0 .5 1" />
+ <feFuncB type="discrete" tableValues="0 .5 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-3">
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 .25 .5 .75 1" />
+ <feFuncG type="discrete" tableValues="0 .25 .5 .75 1" />
+ <feFuncB type="discrete" tableValues="0 .25 .5 .75 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-5">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="1 .75 .5 .25 0" />
+ <feFuncG type="discrete" tableValues="1 .75 .5 .25 0" />
+ <feFuncB type="discrete" tableValues="1 .75 .5 .25 0" />
+</feComponentTransfer>
+<feColorMatrix type="hueRotate" values="90" />
+</filter>
+
+<filter id="posterize-6">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues=".3 .9 .7 .6 .1" />
+ <feFuncG type="discrete" tableValues=".5 .7 .5 .7 .5" />
+ <feFuncB type="discrete" tableValues=".7 .6 .2 .9 .7" />
+</feComponentTransfer>
+<!--<feColorMatrix type="hueRotate" values="90" />-->
+</filter>
+
+<filter id="posterize-7">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .2 .1 .7 .6 .1 .9" />
+ <feFuncG type="discrete" tableValues="0 .1 .4 .5 .7 .5 .2" />
+ <feFuncB type="discrete" tableValues="0 .5 .2 .2 .9 .7 .1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-7-table">
+<feComponentTransfer result="poster">
+ <feFuncR type="table" tableValues="0 .2 .1 .7 .6 .1 .9" />
+ <feFuncG type="table" tableValues="0 .1 .4 .5 .7 .5 .2" />
+ <feFuncB type="table" tableValues="0 .5 .2 .2 .9 .7 .1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-8">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .2 .1 .7 .6 .1 .9" />
+ <feFuncG type="discrete" tableValues="0 .1 .4 .5 .7 .5 .2" />
+ <feFuncB type="discrete" tableValues="0 .5 .2 .2 .9 .7 .1" />
+</feComponentTransfer>
+<feColorMatrix type="hueRotate" values="180" />
+</filter>
+
+<filter id="posterize-9">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .2 .1 .7 1 .1 1" />
+ <feFuncG type="discrete" tableValues="0 .1 .4 .5 1 .5 1" />
+ <feFuncB type="discrete" tableValues="0 .5 .2 .2 1 .7 1" />
+</feComponentTransfer>
+<feColorMatrix type="hueRotate" values="180" />
+</filter>
+
+<filter id="posterize-10">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .1 .2 .5 .7 1 .1 1" />
+ <feFuncG type="discrete" tableValues="0 .4 .1 .3 .5 1 .5 1" />
+ <feFuncB type="discrete" tableValues="0 .7 .5 .1 .2 1 .7 1" />
+</feComponentTransfer>
+<feColorMatrix type="hueRotate" values="180" />
+</filter>
+
+<filter id="posterize-11">
+<feComponentTransfer result="poster">
+ <feFuncR type="discrete" tableValues="0 .40 .01 .02 .21 .70 .06 .10 .07 1" />
+ <feFuncG type="discrete" tableValues="0 .40 .05 .01 .34 .50 .07 .50 .02 1" />
+ <feFuncB type="discrete" tableValues="0 .40 .03 .06 .15 .03 .10 .20 .01 1"/>
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-4">
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 .1 .2 .3 .4 .50 .60 .70 .80 .9 1" />
+ <feFuncG type="discrete" tableValues="0 .1 .2 .3 .4 .50 .60 .70 .80 .9 1" />
+ <feFuncB type="discrete" tableValues="0 .1 .2 .3 .4 .50 .60 .70 .80 .9 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-12">
+<feComponentTransfer>
+ <feFuncR type="discrete" tableValues="0 1 .30 .70 .20 .1 .9" />
+ <feFuncG type="discrete" tableValues="0 1 .30 .70 .20 .1 .9" />
+ <feFuncB type="discrete" tableValues="0 1 .30 .70 .20 .1 .9" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-12-table">
+<feComponentTransfer>
+ <feFuncR type="table" tableValues="0 1 .30 .70 .20 .1 .9" />
+ <feFuncG type="table" tableValues="0 1 .30 .70 .20 .1 .9" />
+ <feFuncB type="table" tableValues="0 1 .30 .70 .20 .1 .9" />
+</feComponentTransfer>
+</filter>
+
+<filter id="photo-negative">
+<feComponentTransfer>
+ <feFuncR type="linear" slope="-1" intercept="1" />
+ <feFuncG type="linear" slope="-1" intercept="1" />
+ <feFuncB type="linear" slope="-1" intercept="1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="super-saturate">
+<feColorMatrix type="matrix"
+ values="3 -1 -1 0 0
+         -1 3 -1 0 0
+         -1 -1 3 0 0
+         0   0 0 1 0" />
+</filter>
+
+<filter id="saturate-red">
+<feColorMatrix type="matrix"
+ values="3 -1 -1 0 0
+        -1  2  0 0 0
+        -1  0  2 0 0
+         0  0  0 1 0" />
+</filter>
+
+<filter id="saturate-green">
+<feColorMatrix type="matrix"
+ values="1  0  0 0 -.05
+        -1  3 -1 0  .1
+         0  0  1 0 -.05
+         0  0  0 1 0" />
+</filter>
+
+<filter id="saturate-blue">
+<feColorMatrix type="matrix"
+ values="1 0 0 0 0
+         0 1 0 0 0
+         -1 -1 3 0 0
+         0 0 0 1 0" />
+</filter>
+
+<!-- from https://css-tricks.com/using-svg-to-create-a-duotone-image-effect/ -->
+
+<filter id="duotone-peachypink">
+  <feColorMatrix type="matrix" result="grayscale"
+                 values="1 0 0 0 0
+                         1 0 0 0 0
+                         1 0 0 0 0
+                         0 0 0 1 0" >
+  </feColorMatrix>
+  <feComponentTransfer color-interpolation-filters="sRGB" result="duotone">
+    <feFuncR type="table" tableValues="0.7411764706 0.9882352941"></feFuncR>
+    <feFuncG type="table" tableValues="0.0431372549 0.7333333333"></feFuncG>
+    <feFuncB type="table" tableValues="0.568627451 0.05098039216"></feFuncB>
+    <feFuncA type="table" tableValues="0 1"></feFuncA>
+  </feComponentTransfer>
+</filter>
+
+<filter id="direct-map-1">
+
+  <feColorMatrix type="matrix" result="grayscale2"
+                 values="1 0 0 0 0
+                         1 0 0 0 0
+                         1 0 0 0 0
+                         0 0 0 1 0" >
+  </feColorMatrix>
+
+  <feComponentTransfer color-interpolation-filters="sRGB" result="duotone2">
+    <feFuncR id="dm1FuncR" type="table"></feFuncR>
+    <feFuncG id="dm1FuncG" type="table"></feFuncG>
+    <feFuncB id="dm1FuncB" type="table"></feFuncB>
+    <feFuncA id="dm1FuncA" type="table" tableValues="0 1"></feFuncA>
+  </feComponentTransfer>
+</filter>
+
+<script>
+
+var setComponentTransfer = function (selector, index, value) {
+    var tableValues = "";
+    for (var i = 0; i<2;i++) {
+        if (i == index) {
+            tableValues = tableValues + value + " ";
+        } else {
+            tableValues += "0.0 ";
+        }
+    }
+    $(selector).attr('tableValues',tableValues.trim())
+    //document.getElementById(selector.substr(1)).setAttributeNS('http://www.w3.org/2000/svg','tableValues', tableValues);
+};
+
+setComponentTransfer("#dm1FuncR", 1, 0.5);
+setComponentTransfer("#dm1FuncG", 1, 0.9);
+setComponentTransfer("#dm1FuncB", 1, 0.2);
+//setComponentTransfer("#dm1FuncA", 2, 1.0);
+
+</script>
+
+<filter id="sharpen-1" >
+ <feGaussianBlur stdDeviation="1,2"/>
+ <feConvolveMatrix order="5"
+  kernelMatrix="1 1 1 1 1
+	            1 -2 -2 -2 1
+				1 -2 -.7 -2 1
+				1 -2 -2 -2 1
+				1 1 1 1 1" />
+</filter>
+
+<filter id="sharpen-2" >
+ <feGaussianBlur stdDeviation=".5,.5"/>
+ <feConvolveMatrix order="5"
+  kernelMatrix="1 1 1 1 1
+	              1 -2 -2 -2 1
+								1 -2 -.7 -2 1
+								1 -2 -2 -2 1
+								1 1 1 1 1" />
+</filter>
+
+<filter id="sharpen-3" >
+ <feGaussianBlur stdDeviation="3"/>
+ <feConvolveMatrix order="5"
+  kernelMatrix="1  1    1    1   1
+	            1 -2   -2   -2   1
+			    1 -2  -.2   -2   1
+			    1 -2   -2   -2   1
+				1  1    1    1   1" />
+</filter>
+
+<filter id="sharpen-3-1" >
+ <feGaussianBlur stdDeviation="3"/>
+ <feConvolveMatrix order="5"
+  kernelMatrix="1  1    1    1   1
+	            1 -2   -2   -2   1
+			    1 -2   .2   -2   1
+			    1 -2   -2   -2   1
+				1  1    1    1   1" />
+</filter>
+
+<filter id="sharpen-3-2" >
+ <feGaussianBlur stdDeviation="3"/>
+ <feConvolveMatrix order="5"
+  kernelMatrix="2  1    1    1   2
+	            1 -3   -2   -3   1
+			    1 -2  -.2   -2   1
+			    1 -3   -2   -3   1
+				2  1    1    1   2" />
+</filter>
+
+<filter id="sharpen-3-3" >
+ <feGaussianBlur stdDeviation="3"/>
+ <feConvolveMatrix order="5"
+  kernelMatrix=".5 .5  .5  .5  .5
+	            .5 -1  -1  -1  .5
+			    .5 -1 -.1  -1  .5
+			    .5 -1  -1  -1  .5
+				.5 .5  .5  .5  .5" />
+</filter>
+
+<filter id="sharpen-4" >
+ <!--<feGaussianBlur stdDeviation="1"/>-->
+ <feConvolveMatrix order="7"
+  kernelMatrix="1 0 1  0  1  0 -1
+	            0 1 0 -1  0 -1  0
+				1 0 1  0 -1  0 -1
+				0 1 0  2  0 -1  0
+				1 0 1  0 -1  0 -1
+                0 1 0 -1  0 -1  0
+                1 0 1  0  1  0 -1" />
+</filter>
+
+<filter id="sharpen-5" >
+ <!--<feGaussianBlur stdDeviation="1"/>-->
+ <feConvolveMatrix order="7"
+  kernelMatrix="1 -0 1  0  1   0 -1
+	            0 -1 0 -1  0  -1  0
+			   -1  0 1  0 -1   0  1
+				0 1  0  4  0   1  0
+				1  0 1  0 -1   0 -1
+                0 -1 0 -1  0  -1  0
+               -1 -0 1  0  1   0 -1" />
+</filter>
+
+<filter id="blow-1">
+<feConvolveMatrix order="3"
+   kernelMatrix="0 0  0
+                 2 1 -2
+                 0 0  0"
+                 />
+</filter>
+
+<filter id="blow-2">
+<feConvolveMatrix order="3"
+   kernelMatrix="0 0  0
+                 2 1 -1
+                 0 0  0"
+                 />
+</filter>
+
+<filter id="blow-3">
+<feConvolveMatrix order="3"
+   kernelMatrix="0 0  0
+                 3 1 -2
+                 0 0  0"
+                 />
+</filter>
+
+<filter id="blow-4">
+<feConvolveMatrix order="3"
+   kernelMatrix="0 0  0
+                 4 1 -3
+                 0 0  0"
+                 />
+</filter>
+
+<filter id="blow-5">
+<feConvolveMatrix order="3"
+   kernelMatrix="0  4  0
+                 0  1  0
+                 0 -3  0"
+                 />
+</filter>
+
+<filter id="blow-6">
+<feConvolveMatrix order="3"
+   kernelMatrix="4 0   0
+                 0 1   0
+                 0 0  -3"
+                 />
+</filter>
+
+<filter id="blow-7">
+<feConvolveMatrix order="3"
+   kernelMatrix="0 0 0
+                 -3 1 4
+                  0 0 0"
+                 />
+</filter>
+
+<filter id="DD">
+<feComponentTransfer>
+ <feFuncR type="table" tableValues=".5 1 1 0 .5 .5 0 0 1 0" />
+ <feFuncG type="table" tableValues=".5 1 1 0 .5 .5 0 1 0 0" />
+ <feFuncB type="table" tableValues=".5 1 1 0 .5 .5 0 0 0 1" />
+</feComponentTransfer>
+<feGaussianBlur stdDeviation=".5" />
+<feColorMatrix type="matrix" result="current"
+  values="1 0 0 0 0
+          0 1 0 0 0
+          0 0 1 0 0
+          0 0 0 1 0" />
+
+</filter>
+
+<filter id="table-1" >
+ <feComponentTransfer result="current">
+  <feFuncR type="table" tableValues="1 0 0 1" />
+  <feFuncB type="table" tableValues="0 1 1 1" />
+  <feFuncA type="table" tableValues=".75 1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-2" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="gamma" amplitude=".7" exponent="1.5"  />
+  <feFuncG type="gamma" amplitude=".2" exponent=".8"  />
+  <feFuncA type="gamma"  amplitude="1.1" exponent="1.2" />
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-3" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 0 0" />
+  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0" />
+  <feFuncB type="table" tableValues=".5 1 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-4" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 0 .5 0 1" />
+  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0" />
+  <feFuncB type="table" tableValues=".5 1 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-5" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 0 .5 0 1" />
+  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0" />
+  <feFuncB type="table" tableValues=".5 1 0 1 .5 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-6" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues=".2 .4 .6 .8 .6 .4 .2" />
+  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0 .5 0 .5" />
+  <feFuncB type="table" tableValues="1 0 .4 0 .4 0 .4 0 .4 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-7" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues=".2 .1 .2 1 .2 1 .2 1" />
+  <feFuncG type="table" tableValues=" .1 1 .1 1 .1 1 .1 1" />
+  <feFuncB type="table" tableValues=".2 .1 .2 1 .2 1 .2 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-8" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="0 .1 0 1 0 1 0 1" />
+  <feFuncG type="table" tableValues=" .1 1 .1 1 .1 1 .1 1" />
+  <feFuncB type="table" tableValues=".2 1 .2 1 .2 1 .2 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-9" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncG type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncG type="table" tableValues="0 1 0 0 1 0 1 0" />
+  <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10-2" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1 0 1" />
+  <feFuncG type="table" tableValues="0 1 0 0 1 0 1 0 1 0" />
+  <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1 0 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10-3" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1 0 1 0" />
+  <feFuncG type="table" tableValues="0 1 0 0 1 0 1 0 1 0 0" />
+  <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1 0 1 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10-4" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues=".7 1 0 1 0 0 1 0 1 0 1 0 1 0 1" />
+  <feFuncG type="table" tableValues=".7 0 1 0 0 1 0 1 0 1 0 0 0 1 0" />
+  <feFuncB type="table" tableValues=".7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10-5" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 0 1" />
+  <feFuncG type="table" tableValues="1 0 1" />
+  <feFuncB type="table" tableValues=".7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10-6" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 0 1" />
+  <feFuncG type="table" tableValues=".7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
+  <feFuncB type="table" tableValues="1 0 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10-7" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues=".7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
+  <feFuncG type="table" tableValues="1 0 1" />
+  <feFuncB type="table" tableValues="1 0 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10-7-2" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="0.25 1 0.25 1 0.25 0.25 1 0.25 1 0.25 1 0.25 1 0.25 0.25" />
+  <feFuncG type="table" tableValues="1 0.25 1" />
+  <feFuncB type="table" tableValues="1 0.25 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10-8" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="0 1 0 .7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
+  <feFuncG type="table" tableValues="0 1 0" />
+  <feFuncB type="table" tableValues="1 0 1 .7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10-9" >
+ <feColorMatrix type="saturate" values="0.0" />
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1" />
+  <feFuncG type="table" tableValues="0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0" />
+  <feFuncB type="table" tableValues="0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10-10" >
+ <feColorMatrix type="saturate" values="0.0" />
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1" />
+  <feFuncG type="table" tableValues="0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0" />
+  <feFuncB type="table" tableValues="0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-10-11" >
+ <feColorMatrix type="saturate" values="0.0" />
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1
+                                     1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1" />
+  <feFuncG type="table" tableValues="0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0
+                                     0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0" />
+  <feFuncB type="table" tableValues="0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0
+                                     0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 0 1 1 1 0 0 0 1 1 1 0 0 0 1 1 1 0" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-11" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncG type="table" tableValues="0 1 0 0 1 0 1 0" >
+    <animate attributeName="tableValues"
+      values="1 0 1 0 0 1 0 1;.5 0 .5 0 .5 0 .5 0;1 0 1 0 0 1 0 1"
+      dur="10s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-12" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncG type="table" tableValues="0 1 0 0 1 0 1 0" >
+    <animate attributeName="tableValues"
+      values="1 .5 1 .5 .5 1 .5 1;.5 0 .5 0 .5 0 .5 0;1 .5 1 .5 .5 1 .5 1"
+      dur="10s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1" />
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-14" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="1 .75 .5 .25 0" >
+     <animate attributeName="tableValues"
+      values="1 .75 .5 .25 0;0 .25 .5 .75 1;1 .75 .5 .25 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncR>
+  <feFuncG type="table" tableValues="1 .75 .5 .25 0" >
+    <animate attributeName="tableValues"
+      values="1 .75 .5 .25 0;0 .25 .5 .75 1;1 .75 .5 .25 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="1 .75 .5 .25 0" >
+     <animate attributeName="tableValues"
+      values="1 .75 .5 .25 0;0 .25 .5 .75 1;1 .75 .5 .25 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncB>
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-15" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="0 0 0 1 0 0 0" >
+    <animate attributeName="tableValues"
+      values="0 0 0 1 0 0 0;1 0 0 1 0 0 1;0 0 0 1 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncR>
+  <feFuncG type="table" tableValues="0 0 0 1 0 0 0" >
+   <animate attributeName="tableValues"
+      values="0 0 0 1 0 0 0;1 0 0 1 0 0 1;0 0 0 1 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="0 0 0 1 0 0 0" >
+    <animate attributeName="tableValues"
+      values="0 0 0 1 0 0 0;1 0 0 1 0 0 1;0 0 0 1 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFunkB>
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-16" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="0 0 0 0 1 0 0 0 0" >
+    <animate attributeName="tableValues"
+      values="0 0 0 0 1 0 0 0 0;1 1 0 0 1 0 0 0 1;0 0 0 0 1 0 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncR>
+  <feFuncG type="table" tableValues="0 0 0 0 1 0 0 0 0" >
+   <animate attributeName="tableValues"
+      values="0 0 0 0 1 0 0 0 0;1 1 0 0 1 0 0 0 1;0 0 0 0 1 0 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="0 0 0 0 1 0 0 0 0" >
+    <animate attributeName="tableValues"
+      values="0 0 0 0 1 0 0 0 0;1 1 0 0 1 0 0 0 1;0 0 0 0 1 0 0 0 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFunkB>
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-17" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues=".7 0 0 2" >
+    <animate attributeName="tableValues"
+      values=".7 0 0 2;.9 .2 .2 3;.7 0 0 2"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncR>
+  <feFuncG type="table" tableValues=".7 0 0 2" >
+   <animate attributeName="tableValues"
+      values=".7 0 0 2;.9 .2 .2 3;.7 0 0 2"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues=".7 0 0 2" >
+    <animate attributeName="tableValues"
+      values=".7 0 0 2;.9 .2 .2 3;.7 0 0 2"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFunkB>
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-18" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="0 .8 .2 .8 0" >
+    <animate attributeName="tableValues"
+      values="0 .8 .2 .8 0;0 .9 .4 .3 .8;0 .8 .2 .8 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncR>
+  <feFuncG type="table" tableValues="0 .8 .2 .8 0" >
+   <animate attributeName="tableValues"
+      values="0 .8 .2 .8 0;0 .9 .3 .4 .6;0 .8 .2 .8 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="0 .8 .2 .8 0" >
+    <animate attributeName="tableValues"
+      values="0 .8 .2 .8 0;0 .9 .1 .4 .7;0 .8 .2 .8 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFunkB>
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+<filter id="table-19" >
+ <feComponentTransfer  result="current">
+  <feFuncR type="table" tableValues="0 .6 .2 .6 0" >
+    <animate attributeName="tableValues"
+      values="0 .6 .2 .6 0;0 .4 .3 .9 .8;0 .6 .2 .6 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncR>
+  <feFuncG type="table" tableValues="0 .6 .2 .6 0" >
+   <animate attributeName="tableValues"
+      values="0 .6 .2 .6 0;0 .4 .3 .9 .6;0 .6 .2 .6 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncG>
+  <feFuncB type="table" tableValues="0 .8 .2 .8 0" >
+    <animate attributeName="tableValues"
+      values="0 .6 .2 .6 0;0 .1 .3 .9 .7;0 .6 .2 .6 0"
+      dur="20s" begin="0s" repeatCount="indefinite" />
+  </feFuncB>
+  <feFuncA type="table" tableValues="1"/>
+ </feComponentTransfer>
+ <feComposite in="current" in2="SourceGraphic" operator="atop" />
+</filter>
+
+
+<g id="image-bits-1" transform="scale(100)">
+ <g filter="url(#blow-2)">
+  <rect x="0" y="0" height="3" width="3" fill="#FF00FF" stroke="none" />
+  <rect x="1" y="1" height="1" width="1" fill="#000000" stroke="none" />
+ </g>
+</g>
+
+</defs>
+
+
+<g id="clickMe" transform="translate(10,10)" filter="" >
+	<image id="image2" xlink:href="/images/Butterfly 6.jpg" height="100%" x="0" y="0" width="100%"/>
+</g>
+
+
+ <g id="graphics-1"  transform="translate(550,0)" >
+  <text style="font-size: 120; fill: #abc; stroke: none;"
+        mask="#RG-mask" x="0" y="100">This is some text</text>
+  <use xlink:href="#rgb-grad-rect-1" x="360" y="20" fill="url(#red-grad)" />
+  <use xlink:href="#rgb-grad-rect-1" x="360" y="50" fill="url(#green-grad)"  />
+  <use xlink:href="#rgb-grad-rect-1" x="360" y="80" fill="url(#blue-grad)"/>
+ </g>
+
+<g id="graphics-container"  transform="translate(550,0)">
+ <g id="graphics-2" filter="">
+  <text style="font-size: 120; fill: #abc; stroke: none;"
+        mask="#RG-mask" x="0" y="100">This is some text</text>
+   <use xlink:href="#rgb-grad-rect-1" x="100" y="20" fill="url(#red-grad)" />
+   <use xlink:href="#rgb-grad-rect-1" x="100" y="50" fill="url(#green-grad)"  />
+   <use xlink:href="#rgb-grad-rect-1" x="100" y="80" fill="url(#blue-grad)"/>
+ </g>
+</g>
+
+</svg>
+
+</body>
+</html>
