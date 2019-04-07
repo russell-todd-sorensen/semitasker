@@ -3,6 +3,7 @@
 var myFractalImages = new Array();
 var myFractalImageId = myFractalImages.length;
 var colorCanvas;
+var rectInit = new Array();
 
 function logStartMove(evt) {
 	Log.Notice('logStartMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
@@ -28,6 +29,28 @@ function logEndMove(evt) {
 	Log.Notice('logEndMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
 }
 
+//// Initial Rectangle is different for different fractal types ////
+rectInit[0] = {
+	start: {
+		x: -2.3,
+		y: -1.5
+	},
+	end: {
+		x: 1.7,
+		y: 1.5
+	}
+};
+
+rectInit[1] = {
+	start: {
+		x: -2.3,
+		y: -2.0
+	},
+	end: {
+		x: 1.7,
+		y: 1.5
+	}
+};
 //////////////////// THIS IS THE FRACTAL IMAGE OBJECT  /////////////////////////////////////////////
 
 var fractalImage = function(canvasId,boxId,height,width,startUpData) {
@@ -207,14 +230,23 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 
 	};
 
-	this.calculateCounters = function (data) {
+	this.calculateCounters = function (data,initialRect) {
 		var objectInfo = {};
+		var fractalTypeId = data.fractalTypeId;
+		if ( initialRect ) {
+			this.rect.start.x = rectInit[fractalTypeId].start.x*1;
+			this.rect.start.y = rectInit[fractalTypeId].start.y*1;
+			this.rect.end.x   = rectInit[fractalTypeId].end.x*1;
+			this.rect.end.y   = rectInit[fractalTypeId].end.y*1;
+		}
+
 		objectInfo.startX = this.rect.start.x*1;
 		objectInfo.startY = this.rect.start.y*1;
 		objectInfo.endX = this.rect.end.x*1;
 		objectInfo.endY = this.rect.end.y*1;
 		objectInfo.height = this.height*1;
 		objectInfo.width = this.width*1;
+
 		this.finiteMeasure = objectInfo.finiteMeasure = data.finiteMeasure*1;
 		this.finiteMeasureFunction = objectInfo.finiteMeasureFunction = data.finiteMeasureFunction*1;
 		this.counterMax = objectInfo.counterMax = data.counterMax*1;
@@ -460,6 +492,7 @@ var FormGlobal;
 var processForm = function () {
 	var colorOffsetAmount=parseInt($('#colorOffsetAmount').val());
 	var fractalImageId=parseInt($('#fractalImageId').val());
+	var fractalTypeId=parseInt($('#fractalTypeId').val());
 	var pixelJump=parseInt($('#pixelJump').val());
 	var pixelColorsId=parseInt($('#pixelColorsId').val());
 	var refColorId=parseInt($('#refColorId').val());
@@ -484,6 +517,7 @@ var processForm = function () {
 		timeout:parseInt($('#timeout').val()),
 		data:{
 			objId:fractalImageId,
+			fractalTypeId:fractalTypeId,
 			animationFunctionId:id,
 			amount:colorOffsetAmount,
 			pixelJump:pixelJump,
@@ -520,7 +554,7 @@ var drawImagePre = function(redrawId,drawId) {
 	var formData = processForm(formData);
 	$('#' + redrawId).css({display:'inline-block'});
 	$('#' + drawId).css({display:'none'});
-	myFractalImages[formData.data.objId].calculateCounters(formData.data);
+	myFractalImages[formData.data.objId].calculateCounters(formData.data, true);
 
 };
 
@@ -552,7 +586,7 @@ var reDrawImage = function () {
 	fractal.rect.end.x = fractal.rectTmp.end.x;
 	fractal.rect.end.y = fractal.rectTmp.end.y;
 	fractal.calculateHeightAndWidth(newFactor);
-	fractal.calculateCounters(data);
+	fractal.calculateCounters(data, false);
 	return fractal.continueAnimation;
 };
 

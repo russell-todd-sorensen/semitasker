@@ -21,6 +21,9 @@ self.addEventListener('message',  function(evt) {
   var polarity = [];
   var coord    = [];
 
+  var fractalTypeId = data.fractalTypeId;
+  console.log('fractalTypeId=' + fractalTypeId);
+
   for (var x = objectInfo.startX, col = 0;
     col<objectInfo.width && x < objectInfo.endX;
     x+=Math.abs((objectInfo.endX-objectInfo.startX)/objectInfo.width), col++)
@@ -39,17 +42,35 @@ self.addEventListener('message',  function(evt) {
       cX = x;
       tmpXSquared = tmpX * tmpX;
       tmpYSquared = tmpY * tmpY;
-      tmpYbyTmpX = tmpX * tmpY;
+
+      switch (fractalTypeId) {
+      case 1:
+          tmpYbyTmpX = Math.abs(tmpX * tmpY);
+          break;
+      case 0:
+      default:
+          tmpYbyTmpX = tmpY * tmpX;
+          break;
+      }
 
       while (counter <= objectInfo.counterMax && finite)
       {
-        newY = cY +  2 * tmpYbyTmpX;
+
+        newY = cY + 2 * tmpYbyTmpX
         newX = cX - tmpYSquared + tmpXSquared;
         tmpX = newX;
         tmpY = newY;
         tmpXSquared = tmpX * tmpX;
         tmpYSquared = tmpY * tmpY;
-        tmpYbyTmpX = tmpY * tmpX;
+
+        switch (fractalTypeId) {
+        case 1:
+            tmpYbyTmpX = Math.abs(tmpY * tmpX);
+            break;
+        default:
+            tmpYbyTmpX = tmpY * tmpX;
+            break;
+        }
 
         switch (objectInfo.finiteMeasureFunction) {
         case 1:

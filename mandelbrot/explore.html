@@ -347,6 +347,7 @@ $(document).ready(function() {
   // restore form values
   Data.restoreSelect('animationFunctionId');
   Data.restoreInput('fractalImageId');
+  Data.restoreInput('fractalTypeId');
   Data.restoreInput('timeout');
   Data.restoreInput('colorOffsetAmount');
   Data.restoreInput('pixelJump');
@@ -401,6 +402,14 @@ $(document).ready(function() {
         step="1" id="fractalImageId" name="fractalImageId"
         onChange="Data.saveInput('fractalImageId','Log.Notice')" />
 </li>
+<li>
+  <label for="fractalTypeId">FractalTypeId:</label>
+  <select id="fractalTypeId" name="fractalTypeId"
+          onChange="Data.saveInput('fractalTypeId','Log.Notice')" >
+    <option value="0" selected="selected">M-Set</option>
+    <option value="1" >Burning Ship</option>
+  </select>
+ </li>
 <li>
  <label for="finiteMeasure">F Measure:</label>
  <input type="number" value="256" min=".5" max="8192"
