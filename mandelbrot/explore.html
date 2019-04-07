@@ -268,26 +268,34 @@ panelHidden["controls"] = [{
 var writeColorPicker = function(pickerContainerId, styleId) {
 
     var formData = processForm();
-	var data = formData.data;
+    var data = formData.data;
     var objId = data.objId;
-	var fractal = myFractalImages[objId];
-    var colors = fractal.colors;
+    var fractal = myFractalImages[objId];
+    var myColors = fractal.colors;
     //Log.Notice('writeColorPicker');
     var container = d3.select('#pickContainer');
     container.html("");
 
     container.selectAll('.cp')
-        .data(colors)
+        .data(myColors)
         .enter()
         .append('div')
         .attr('class','cp')
         .attr('id',function(d,i) {
+          if (d.hex) {
             var hex = d.hex;
-            hex = hex.substr(1, hex.length-1)
+            hex = hex.substr(1);
             return 'cp-' + hex;
+          } else {
+            return 'num-' + i
+          }
         })
         .style("background-color", function(d,i) {
-            return  d.hex
+            if (d.hex) {
+              return  d.hex;
+            } else {
+              return '#123';
+            }
         });
     container.selectAll('.cp')
         .on('click', LogStuff);
@@ -301,13 +309,13 @@ var LogStuff = function(d,i,e) {
 var bindMouseBox = function () {
 
     $(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',
-    	             myFractalImages[myFractalImageId],startMove);
+                   myFractalImages[myFractalImageId],startMove);
 
 }
 
 var bindClick = function () {
     $(myFractalImages[myFractalImageId].mouseBox).unbind('mousedown').bind('click',
-    	             myFractalImages[myFractalImageId],captureClick);
+                   myFractalImages[myFractalImageId],captureClick);
 }
 
 var unbindClick = function () {

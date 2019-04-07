@@ -41,7 +41,7 @@ pixelColors[0] = function (data) {
 	for (var i = 0; i<fractal.counterMax+1; i++) {
 	//for (var i = fractal.counterMax; i>-1; i--) { no worke
 		if (i == fractal.profile.maximum+1) {
-			rgb = {r:0,g:0,b:0}; // black;
+			rgb = {r:0,g:0,b:0,hex:'#000000'}; // black;
 		} else {
 			hue = ((Math.round(i*hueFactor+fractal.animationIndex))%3600)/10;
 			sat = 1.000 - ((i+100+fractal.animationIndex)%200)*.005;
@@ -183,7 +183,7 @@ pixelColors[2] = function (data) {
 
 	for (var i = 0; i<fractal.counterMax+1; i++) {
 		if (i == fractal.profile.maximum+1) {
-			rgb = {r:0,g:0,b:0}; // black;
+			rgb = {r:0,g:0,b:0,hex:'#000000'}; // black;
 		} else {
 
 			hue = ((Math.round(i*hueFactor+fractal.animationIndex))%360);
@@ -277,7 +277,7 @@ pixelColors[3] = function (data) {
 
 	for (var i = 0; i<fractal.counterMax+1; i++) {
 		if (i == fractal.profile.maximum+1) {
-			rgb = {r:0,g:0,b:0}; // black;
+			rgb = {r:0,g:0,b:0,hex:'#000000'}; // black;
 		} else {
 			hue = ((Math.round(i*hueFactor+fractal.animationIndex))%3600)/10;
 			sat = maxSat - ((i+satFactor+fractal.animationIndex)%satFactor)/satFactor;
@@ -565,7 +565,7 @@ pixelColors[7] = function (data) {
 	for (var i = 0; i<fractal.counterMax+1; i++) {
 	//for (var i = fractal.counterMax; i>-1; i--) { no worke
 		if (i == fractal.profile.maximum+1) {
-			rgb = {r:0,g:0,b:0}; // black;
+			rgb = {r:0,g:0,b:0,hex:'#000000'}; // black;
 		} else {
 			hue = ((Math.round(i*hueFactor+fractal.animationIndex))%3600)/10;
 			sat = maxSat   - ((i*satFactor+fractal.animationIndex)%200)*.005;
