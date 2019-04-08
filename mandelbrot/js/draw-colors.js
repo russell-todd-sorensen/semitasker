@@ -2,34 +2,35 @@ drawColors = function (data) {
 
     var objId = data.objId;
     var fractal = myFractalImages[objId];
-    var height = fractal.pixelImageHeight;
+	var height = fractal.pixelImageHeight;
+	if (height < minimumPixelImageHeight) {
+		height = minimumPixelImageHeight
+	}
     var width = fractal.pixelImageWidth;
 	var profile = fractal.profile;
     var p;
-	var pixelsPerColor = Math.round(height*width/(fractal.counterMax+1));
 	var pixelRowsPerColor =  Math.round(height/(fractal.counterMax+1));
 
-    if (pixelRowsPerColor == 0) {
+    if (pixelRowsPerColor < 2) {
         pixelRowsPerColor = 1;
         height = fractal.counterMax+1;
-        fractal.pixelImageHeight = height;
-        fractal.colorCanvasImageData = fractal.colorCanvasContext.createImageData(
-            fractal.pixelImageHeight,fractal.pixelImageWidth
-        );
-        fractal.colorCanvasPixels = fractal.colorCanvasImageData.data;
+		fractal.pixelImageHeight = height;
+	}
 
-        for (var i=0, n=fractal.colorCanvasPixels.length; i<n; i++)
-        {
-            fractal.colorCanvasPixels[i] = 255;
-        }
-    }
+	$('#' + fractal.colorCanvasId).attr("height",height);
 
-	var colorCanvasPixels = fractal.colorCanvasPixels;
+    fractal.colorCanvasImageData = fractal.colorCanvasContext.createImageData(
+        fractal.pixelImageWidth,fractal.pixelImageHeight
+    );
+    fractal.colorCanvasPixels = fractal.colorCanvasImageData.data;
+
+    for (var i=0, n=fractal.colorCanvasPixels.length; i<n; i++)
+    {
+        fractal.colorCanvasPixels[i] = 255;
+	}
 
 	for (var i = 0; i<fractal.counterMax+1;i++) {
 		var color = fractal.colors[i];
-
-
 
 		for (var r = 0; r<pixelRowsPerColor;r++) {
 			var start = i*width*pixelRowsPerColor*4 + r*width*4;

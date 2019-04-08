@@ -98,6 +98,7 @@ body,html {
 /* this is how you change the font of select options!!! */
 #animationFunctionId,
 #fractalImageId,
+#fractalTypeId,
 #pixelColorsId,
 #refColorId,
 #scaleCounterId,
@@ -124,6 +125,7 @@ body,html {
 
 #animationFunctionId option,
 #fractalImageId option,
+#fractalTypeId option,
 #pixelColorsId option,
 #refColorId option,
 #scaleCounterId option,
@@ -280,7 +282,7 @@ var writeColorPicker = function(pickerContainerId, styleId) {
         .data(myColors)
         .enter()
         .append('div')
-        .attr('class','cp')
+        .attr('class',function(d,i) {return 'cp n-' + i})
         .attr('id',function(d,i) {
           if (d.hex) {
             var hex = d.hex;
@@ -341,6 +343,13 @@ function captureClick(evt) {
 
     unbindClick()
     bindMouseBox()
+}
+
+function doScale(horizontalId,verticalId) {
+  var hValue = $('#' + horizontalId).attr('checked') ? -1 : 1;
+  var vValue = $('#' + verticalId).attr('checked') ? -1 : 1;
+  var scale = 'transform: scale(' + hValue + ',' + vValue + ')';
+  $('#myCanvas').attr('style',scale);
 }
 
 $(document).ready(function() {
@@ -411,11 +420,11 @@ $(document).ready(function() {
         onChange="Data.saveInput('fractalImageId','Log.Notice')" />
 </li>
 <li>
-  <label for="fractalTypeId">FractalTypeId:</label>
+  <label for="fractalTypeId">FractalType:</label>
   <select id="fractalTypeId" name="fractalTypeId"
           onChange="Data.saveInput('fractalTypeId','Log.Notice')" >
     <option value="0" selected="selected">M-Set</option>
-    <option value="1" >Burning Ship</option>
+    <option value="1" id="burning-ship" >Brn Ship</option>
   </select>
  </li>
 <li>
@@ -425,7 +434,7 @@ $(document).ready(function() {
         onChange="Data.saveInput('finiteMeasure','Log.Notice')" />
 </li>
 <li>
- <label for="counterMax">Counter Max:</label>
+ <label for="counterMax">Max Iter:</label>
  <input type="number" value="256" min="2" max="8192"
         step="1" id="counterMax" name="counterMax"
         onChange="Data.saveInput('counterMax','Log.Notice')" />
@@ -710,6 +719,18 @@ $(document).ready(function() {
  </div>
 </li>
 <li>
+  <label for="scaleH">ScaleH</label>
+  <input type="checkbox" name="scaleH"
+         id="scaleH" value="-1"
+         onChange="doScale('scaleH','scaleV')"/>
+</li>
+<li>
+  <label for="scaleV">ScaleV</label>
+  <input type="checkbox" name="scaleV"
+         id="scaleV" value="-1"
+         onChange="doScale('scaleH','scaleV')"/>
+</li>
+<li>
  <label for="b2" id="buttonControl2">Animate:</label>
  <div id="animateImage">
   <button id="b2" onClick="startAnimationPre()"
@@ -743,7 +764,7 @@ $(document).ready(function() {
          height="50" width="100">Your browser doesn't support canvas</canvas>
  <div id="box"></div>
 </div>
-<!--
+<!-- you can add an additional canvas like this:
 <div id="main2">
  <canvas id="myCanvas2"
          height="0" width="0">Your browser doesn't support canvas</canvas>

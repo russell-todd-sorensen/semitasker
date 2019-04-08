@@ -4,6 +4,7 @@ var myFractalImages = new Array();
 var myFractalImageId = myFractalImages.length;
 var colorCanvas;
 var rectInit = new Array();
+var minimumPixelImageHeight = 768;
 
 function logStartMove(evt) {
 	Log.Notice('logStartMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)

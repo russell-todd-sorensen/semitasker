@@ -24,7 +24,8 @@ var hsl2rgb = function (h, s, l) {
   var rgb = new Object();
   rgb.r = vv(h + 120);
   rgb.g = vv(h);
-  rgb.b = vv(h - 120);
+	rgb.b = vv(h - 120);
+	rgb.a = 255;
   rgb.rgb = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
   rgb.hex = '#' + toHex(rgb.r) + toHex(rgb.g) + toHex(rgb.b);
   rgb.h     = h;
@@ -52,7 +53,7 @@ var hsb2rgb = function (hue, sat, brt) {
 	green = Math.round(Math.round(green*buckets)/buckets);
 	blue = Math.round(Math.round(blue*buckets)/buckets);
 
-	return {r:red,g:green,b:blue,h:hue,sat:sat,brt:brt,
+	return {r:red,g:green,b:blue,a:255,h:hue,sat:sat,brt:brt,
 		rgb:'rgb(' + red + ',' + green + ',' + blue + ')',
 		hex:'#' + toHex(red) + toHex(green) + toHex(blue)
 	};
@@ -116,7 +117,7 @@ var rgb2hsl = function (r, g, b) {
 	}
 	brt = Math.round((d + min) * buckets)/buckets;
 	hex = "#" + toHex(r1) + toHex(g1) + toHex(b1);
-  return {h:h,s:s,l:l,d:d,max:max,min:min,r:r1,g:g1,b:b1,x:0,y:0,brt:brt,sat:sat,hex:hex};
+  return {h:h,s:s,l:l,d:d,max:max,min:min,r:r1,g:g1,b:b1,a:255,x:0,y:0,brt:brt,sat:sat,hex:hex};
 };
 
 // see https://en.wikipedia.org/wiki/HSL_and_HSV
@@ -175,6 +176,7 @@ var rgb2allColorModels = function (r, g, b) {
 	model.r = 1*r1;
 	model.g = 1*g1;
 	model.b = 1*b1;
+	model.a = 255;
 	model.chroma = new Object();
 	model.chroma.rgb = hueToRgbComponents(h);
 
@@ -241,5 +243,5 @@ var hsi2rgb = function (H, s, i) {
 		g = parseInt(Math.round(g*buckets)/buckets);
 		b = parseInt(Math.round(b*buckets)/buckets);
 
-		return {h:H,s:s,i:i,r:r,g:g,b:b};
+		return {h:H,s:s,i:i,r:r,g:g,b:b,a:255};
 };
