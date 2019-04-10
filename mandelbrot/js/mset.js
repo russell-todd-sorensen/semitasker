@@ -335,7 +335,7 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 	};
 
 	// Web Worker to calculate counters
-	this.worker = new Worker('js/mset-web-worker-code.js');
+	this.worker = new Worker('js/mset-web-worker-code-generalized.js');
 	this.worker.addEventListener('message', drawImageFromWorker)
 
 	this.continueAnimation = false;

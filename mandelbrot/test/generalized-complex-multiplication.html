@@ -56,14 +56,111 @@
       // rrrr + 4rrrsi -6rrss -4rsssi + ssss
       // = (rrrr -6rrss + ssss) + 4(rrrs - rsss)i
     </script>
+
+<script>
+
+var currentReal = 0.0;
+var currentImag = 0.0;
+var X = 0.0; // Real component
+var Y = 0.0; // Imaginary component
+var currentIter = 0;
+var currentDist = 0;
+
+var writeTableRow = function (targetId) {
+
+  var row = "  <tr>\n"
+  row = row + "   <td>" + currentIter + "</td>\n"
+  row = row + "   <td>" + currentReal + "</td>\n"
+  row = row + "   <td>" + currentImag + "</td>\n"
+  row = row + "   <td>" + currentDist + "</td>\n"
+  row = row + " </tr>"
+
+  $('#' + targetId)
+    .append(row);
+}
+
+var iterate = function(targetId) {
+  var real,imag;
+  if (currentIter == 0) {
+    real = parseFloat($('#real').val());
+    imag = parseFloat($('#imaginary').val());
+    X = real;
+    Y = imag;
+    currentReal = real;
+    currentImag = imag;
+    currentDist = real * real + imag * imag;
+    writeTableRow(targetId);
+  } else {
+    real = currentReal;
+    imag = currentImag;
+  }
+
+  var iterations = parseInt($('#iterations').val());
+  if (iterations > 100) iterations = 100;
+
+  var i = 0;
+  var infinite = 4;
+  var tmpReal = real;
+  var tmpImag = imag;
+  var tmpRealSquared = (tmpReal*tmpReal);
+  var tmpImagSquared = (tmpImag*tmpImag);
+
+  while (i <= iterations && infinite > currentDist) {
+    imag = Y + 2 * (tmpReal*tmpImag);
+    real = X - tmpImagSquared + tmpRealSquared;
+    tmpReal = real;
+    tmpImag = imag;
+    tmpRealSquared = tmpReal*tmpReal;
+    tmpImagSquared = tmpImag*tmpImag;
+    i++;
+    // update output variables
+    currentDist = (tmpRealSquared + tmpRealSquared);
+    currentIter++;
+    currentReal = real;
+    currentImag = imag;
+    writeTableRow(targetId);
+  }
+}
+
+var resetEverything = function(targetId) {
+    currentIter = 0;
+    currentDist = 0;
+    currentReal = 0;
+    currentImag = 0;
+    X = 0;
+    Y = 0;
+    $('#' + targetId).html('');
+}
+
+</script>
   </head>
 
   <body>
     <form onsubmit="return false;" id="form1">
-      <input type="text" size="30" id="input" name="input" /><br />
-      <button onClick="doIt('input')">Refresh</button><br />
-      Output:
-      <div id="output"></div>
+    <ul>
+    <li>C Real: <input value="0.0" size="30" id="real" name="real" />
+        C Imaginary: <input value="0.0" size="30" id="imaginary" name="imaginary" />
+    </li>
+    <li>Iterations Per Click: <input type="number" size="30" id="iterations" name="iterations" />
+    </li>
+    <li>
+      <button onClick="iterate('output')">Iterate</button>
+      <button onClick="resetEverything('output');">Reset</button>
+    </li>
+  </ul>
+      <div id="result">
+        <table rowspacing="0" rowpadding="2" border="1">
+          <thead>
+          <tr>
+            <th>Iteration</th>
+            <th>Z Real</th>
+            <th>Z Imaginary</th>
+            <th>Distance^2</th>
+          </tr>
+        </thead>
+        <tbody id="output"></tbody>
+        </table>
+      </div>
     </form>
   </body>
 </html>
