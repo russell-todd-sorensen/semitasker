@@ -231,7 +231,7 @@ proc classForHouse {house} {
             set CLASS "Spokane County"
             set REFNUM 1
         }
-        Ezra {
+        Ezra - "1 Kings" {
             set CLASS "Yakima County"
             set REFNUM 4
         }
