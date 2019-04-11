@@ -65,6 +65,9 @@ var X = 0.0; // Real component
 var Y = 0.0; // Imaginary component
 var currentIter = 0;
 var currentDist = 0;
+var infinite = 4.0;
+var maxIterations = 100; // max iterations per round;
+var loopFunctionId = 0;
 
 var writeTableRow = function (targetId) {
 
@@ -84,6 +87,7 @@ var iterate = function(targetId) {
   if (currentIter == 0) {
     real = parseFloat($('#real').val());
     imag = parseFloat($('#imaginary').val());
+    loopFunctionId = parseInt($('#loopFunctionId').val());
     X = real;
     Y = imag;
     currentReal = real;
@@ -96,10 +100,110 @@ var iterate = function(targetId) {
   }
 
   var iterations = parseInt($('#iterations').val());
-  if (iterations > 100) iterations = 100;
+  if (iterations > maxIterations) iterations = maxIterations;
 
+  loopFunction[loopFunctionId](targetId, iterations);
+}
+
+var polar = function(targetId, iterations) {
+  var real = currentReal;
+  var imag = currentImag;
+  var dist;
+
+  var tan0 = imag/real;
   var i = 0;
-  var infinite = 4;
+  var tmpReal = real;
+  var tmpImag = imag;
+  var rr = tmpReal*tmpReal;
+  var ss = tmpImag*tmpImag;
+  if (tmpReal == 0) {
+    currentDist = Math.abs(tmpImag);
+  } else {
+    currentDist = Math.sqrt(rr + ss);
+  }
+
+  while (i <= iterations && infinite > currentDist) {
+    if (tmpReal == 0) {
+      dist = Math.abs(imag);
+      imag = Y;
+      real = X - imag;
+    } else {
+      dist = Math.sqrt(real*real + imag*imag);
+      tan0 = imag/real;
+      angl = Math.atan(tan0);
+    }
+  }
+}
+
+var zquad = function(targetId, iterations) {
+  // (r(rr - 3ss) + s(3rr - ss)i ) * (r + si)
+  // (rrr + 3rrsi - 3rss - sssi) * (r + si)
+  // rrrr + 3rrrsi - 3rrss - rsssi + rrrsi - 3rrss - 3rsssi + ssss
+  // rrrr - 3rrss - 3rrss + ssss + 3rrrsi -rsssi + rrrsi - 3rsssi
+  // rr(rr - 3ss) + ss(ss - 3rr) + rs((3rr - ss) + (rr - 3ss))i
+  // rr(rr - 3ss) + ss(ss - 3rr) + rs(4rr -4ss)i
+  // (rrrr + ssss - 6rrss) + 4rs(rr - ss)i
+  // compare
+  // (rrrr -6rrss + ssss) + 4(rrrs - rsss)i
+
+  var real = currentReal;
+  var imag = currentImag;
+  var i = 0;
+  var tmpReal = real;
+  var tmpImag = imag;
+  var rr = tmpReal * tmpReal;
+  var ss = tmpImag * tmpImag;
+  var rs = tmpReal * tmpImag;
+
+  while (i <= iterations && infinite > currentDist) {
+    imag = Y + 4*rs*(rr - ss)
+    real = X + rr*rr - 6*rr*ss + ss*ss;
+    tmpReal = real;
+    tmpImag = imag;
+    rr = tmpReal * tmpReal;
+    ss = tmpImag * tmpImag;
+    rs = tmpReal * tmpImag;
+    i++;
+    // update output variables
+    currentDist = rr + ss;
+    currentIter++;
+    currentReal = real;
+    currentImag = imag;
+    writeTableRow(targetId);
+  }
+}
+var zcubed = function(targetId, iterations) {
+  // rrr + 3rrsi - 3rss - sssi
+  // r(rr - 3ss) + s(3rr - ss)i
+  var real = currentReal;
+  var imag = currentImag;
+  var i = 0;
+  var tmpReal = real;
+  var tmpImag = imag;
+  var rr = tmpReal * tmpReal;
+  var ss = tmpImag * tmpImag;
+
+  while (i <= iterations && infinite > currentDist) {
+    imag = Y + tmpImag * (3*rr - ss);
+    real = X + tmpReal * (rr - 3*ss);
+    tmpReal = real;
+    tmpImag = imag;
+    rr = tmpReal * tmpReal;
+    ss = tmpImag * tmpImag;
+    i++;
+    // update output variables
+    currentDist = rr + ss;
+    currentIter++;
+    currentReal = real;
+    currentImag = imag;
+    writeTableRow(targetId);
+  }
+}
+
+var mset1 = function (targetId, iterations) {
+  var real = currentReal;
+  var imag = currentImag;
+  var i = 0;
   var tmpReal = real;
   var tmpImag = imag;
   var tmpRealSquared = (tmpReal*tmpReal);
@@ -122,6 +226,13 @@ var iterate = function(targetId) {
   }
 }
 
+var loopFunction = new Array();
+
+
+loopFunction[loopFunction.length] = mset1;
+loopFunction[loopFunction.length] = zcubed;
+loopFunction[loopFunction.length] = zquad;
+
 var resetEverything = function(targetId) {
     currentIter = 0;
     currentDist = 0;
@@ -142,6 +253,13 @@ var resetEverything = function(targetId) {
         C Imaginary: <input value="0.0" size="30" id="imaginary" name="imaginary" />
     </li>
     <li>Iterations Per Click: <input type="number" size="30" id="iterations" name="iterations" />
+    </li>
+    <li>Function:
+      <select id="loopFunctionId" name="loopFunctionId">
+        <option value="0">Mandelbrot Set</option>
+        <option value="1">z = z^3 + c</option>
+        <option value="2">z = z^4 + c</option>
+      </select>
     </li>
     <li>
       <button onClick="iterate('output')">Iterate</button>
