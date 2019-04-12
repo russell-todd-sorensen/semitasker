@@ -106,9 +106,11 @@ var iterate = function(targetId) {
 }
 
 var polar = function(targetId, iterations) {
+  var exponent = 2;
   var real = currentReal;
   var imag = currentImag;
   var dist;
+  var r2p;
 
   var tan0 = imag/real;
   var i = 0;
@@ -119,19 +121,37 @@ var polar = function(targetId, iterations) {
   if (tmpReal == 0) {
     currentDist = Math.abs(tmpImag);
   } else {
-    currentDist = Math.sqrt(rr + ss);
+    currentDist = rr + ss;
   }
 
   while (i <= iterations && infinite > currentDist) {
     if (tmpReal == 0) {
-      dist = Math.abs(imag);
-      imag = Y;
-      real = X - imag;
+      dist = Math.abs(tmpImag);
+      imag = Y + Math.pow(dist, exponent);
+      real = X - tmpImag; // something not right here
     } else {
-      dist = Math.sqrt(real*real + imag*imag);
-      tan0 = imag/real;
+      dist = Math.sqrt(rr + ss);
+      tan0 = tmpImag/tmpReal;
       angl = Math.atan(tan0);
+      r2po = Math.pow(dist,exponent);
+      axpo = angl*exponent
+      real = X + r2po*Math.cos(axpo);
+      imag = Y + r2po*Math.sin(axpo);
     }
+    i++;
+    tmpReal = real;
+    tmpImag = imag;
+    rr = tmpReal*tmpReal;
+    ss = tmpImag*tmpImag;
+    if (tmpReal == 0) {
+      currentDist = Math.abs(tmpImag);
+    } else {
+      currentDist = rr + ss;
+    }
+    currentReal = real;
+    currentImag = imag;
+    currentIter++;
+    writeTableRow(targetId);
   }
 }
 
@@ -218,7 +238,7 @@ var mset1 = function (targetId, iterations) {
     tmpImagSquared = tmpImag*tmpImag;
     i++;
     // update output variables
-    currentDist = (tmpRealSquared + tmpRealSquared);
+    currentDist = (tmpRealSquared + tmpImagSquared);
     currentIter++;
     currentReal = real;
     currentImag = imag;
@@ -232,6 +252,7 @@ var loopFunction = new Array();
 loopFunction[loopFunction.length] = mset1;
 loopFunction[loopFunction.length] = zcubed;
 loopFunction[loopFunction.length] = zquad;
+loopFunction[loopFunction.length] = polar;
 
 var resetEverything = function(targetId) {
     currentIter = 0;
@@ -259,6 +280,7 @@ var resetEverything = function(targetId) {
         <option value="0">Mandelbrot Set</option>
         <option value="1">z = z^3 + c</option>
         <option value="2">z = z^4 + c</option>
+        <option value="3">z = z^n + c (cis)</option>
       </select>
     </li>
     <li>
