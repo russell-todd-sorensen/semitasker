@@ -11,7 +11,41 @@
       href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css"
     />
 
-    <style></style>
+<style>
+#result,
+#result2 {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#result2 {
+    display: none;
+}
+
+#form1 fieldset {
+  width: 400px;
+  background-color:bisque;
+  border: solid 1px tan;
+}
+#form1 legend {
+  background-color: grey;
+}
+
+#form1 li {
+  list-style-type: none;
+  padding: 5px;
+}
+
+#form1 label {
+  width: 150px;
+  display: inline-block;
+}
+#form1 input,
+#form1 select {
+  width: 150px;
+  display: inline-block;
+}
+</style>
 
     <script src="/js/jquery-1.7.1.js"></script>
     <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
@@ -65,6 +99,7 @@ var X = 0.0; // Real component
 var Y = 0.0; // Imaginary component
 var currentIter = 0;
 var currentDist = 0;
+var currentExnt = 2;
 var infinite = 4.0;
 var maxIterations = 100; // max iterations per round;
 var loopFunctionId = 0;
@@ -106,11 +141,13 @@ var iterate = function(targetId) {
 }
 
 var polar = function(targetId, iterations) {
-  var exponent = 2;
+  var exponent = parseFloat($('#exponent').val());
+  currentExponent = exponent;
   var real = currentReal;
   var imag = currentImag;
   var dist;
-  var r2p;
+  var r2po;
+  var x,y;
 
   var tan0 = imag/real;
   var i = 0;
@@ -118,21 +155,43 @@ var polar = function(targetId, iterations) {
   var tmpImag = imag;
   var rr = tmpReal*tmpReal;
   var ss = tmpImag*tmpImag;
+  var checkExp;
   if (tmpReal == 0) {
     currentDist = Math.abs(tmpImag);
   } else {
     currentDist = rr + ss;
   }
 
-  while (i <= iterations && infinite > currentDist) {
+  while (i < iterations && infinite > currentDist) {
     if (tmpReal == 0) {
       dist = Math.abs(tmpImag);
-      imag = Y + Math.pow(dist, exponent);
-      real = X - tmpImag; // something not right here
+      //imag = Y + Math.pow(dist, exponent);
+      //real = X - tmpImag; // something not right here
+      if (tmpImag < 0) {
+        angl = Math.PI*3/2;
+      } else {
+        angl = Math.PI/2;
+      }
+      //angl = Math.PI/2;
+      r2po = Math.pow(dist,exponent);
+      axpo = angl*exponent;
+      x    = r2po*Math.cos(axpo);
+      y    = r2po*Math.sin(axpo);
+      real = X + x;
+      imag = Y + y;
+      checkExp = exponent + 1;
+      if ((checkExp)%2 == 0) {
+        real = 0;
+      }
     } else {
       dist = Math.sqrt(rr + ss);
       tan0 = tmpImag/tmpReal;
       angl = Math.atan(tan0);
+      if (angl < 0 && tmpReal < 0) {
+        angl += Math.PI;
+      } else if (angl > 0 && tmpImag < 0) {
+        angl += Math.PI
+      }
       r2po = Math.pow(dist,exponent);
       axpo = angl*exponent
       real = X + r2po*Math.cos(axpo);
@@ -143,11 +202,8 @@ var polar = function(targetId, iterations) {
     tmpImag = imag;
     rr = tmpReal*tmpReal;
     ss = tmpImag*tmpImag;
-    if (tmpReal == 0) {
-      currentDist = Math.abs(tmpImag);
-    } else {
-      currentDist = rr + ss;
-    }
+    // update output variables
+    currentDist = rr + ss;
     currentReal = real;
     currentImag = imag;
     currentIter++;
@@ -175,7 +231,7 @@ var zquad = function(targetId, iterations) {
   var ss = tmpImag * tmpImag;
   var rs = tmpReal * tmpImag;
 
-  while (i <= iterations && infinite > currentDist) {
+  while (i < iterations && infinite > currentDist) {
     imag = Y + 4*rs*(rr - ss)
     real = X + rr*rr - 6*rr*ss + ss*ss;
     tmpReal = real;
@@ -203,7 +259,7 @@ var zcubed = function(targetId, iterations) {
   var rr = tmpReal * tmpReal;
   var ss = tmpImag * tmpImag;
 
-  while (i <= iterations && infinite > currentDist) {
+  while (i < iterations && infinite > currentDist) {
     imag = Y + tmpImag * (3*rr - ss);
     real = X + tmpReal * (rr - 3*ss);
     tmpReal = real;
@@ -229,7 +285,7 @@ var mset1 = function (targetId, iterations) {
   var tmpRealSquared = (tmpReal*tmpReal);
   var tmpImagSquared = (tmpImag*tmpImag);
 
-  while (i <= iterations && infinite > currentDist) {
+  while (i < iterations && infinite > currentDist) {
     imag = Y + 2 * (tmpReal*tmpImag);
     real = X - tmpImagSquared + tmpRealSquared;
     tmpReal = real;
@@ -269,13 +325,22 @@ var resetEverything = function(targetId) {
 
   <body>
     <form onsubmit="return false;" id="form1">
+    <fieldset >
+      <legend>Iteration Options</legend>
     <ul>
-    <li>C Real: <input value="0.0" size="30" id="real" name="real" />
-        C Imaginary: <input value="0.0" size="30" id="imaginary" name="imaginary" />
+    <li><label for="real">C Real:</label>
+        <input value="0.0" size="20" id="real" name="real" />
     </li>
-    <li>Iterations Per Click: <input type="number" size="30" id="iterations" name="iterations" />
+    <li><label for="imaginary">C Imaginary:</label>
+        <input value="0.0" size="20" id="imaginary" name="imaginary" />
     </li>
-    <li>Function:
+    <li><label for="iterations">Iterations Per Click:</label>
+        <input type="number" value="10" size="20" id="iterations" name="iterations" />
+    </li>
+    <li><label for="exponent">Exponent:</label>
+        <input type="number" value="2" size="20" id="exponent" name="iterations" />
+    </li>
+    <li><label for="loopFunctionId">Function:</label>
       <select id="loopFunctionId" name="loopFunctionId">
         <option value="0">Mandelbrot Set</option>
         <option value="1">z = z^3 + c</option>
@@ -287,7 +352,9 @@ var resetEverything = function(targetId) {
       <button onClick="iterate('output')">Iterate</button>
       <button onClick="resetEverything('output');">Reset</button>
     </li>
-  </ul>
+    </ul>
+    </fieldset>
+    </form>
       <div id="result">
         <table rowspacing="0" rowpadding="2" border="1">
           <thead>
@@ -301,6 +368,30 @@ var resetEverything = function(targetId) {
         <tbody id="output"></tbody>
         </table>
       </div>
-    </form>
+      <div id="result2">
+        <table rowspacing="0" rowpadding="2" border="1">
+          <thead>
+          <tr>
+            <th>Iteration</th>
+            <th>Z Real</th>
+            <th>Z Imaginary</th>
+            <th>Distance^2</th>
+          </tr>
+        </thead>
+        <tbody id="output2"></tbody>
+        </table>
+      </div>
+      <!--<pre>
+          (r + si) * (r + si) =
+          rr + rsi + rsi + ssii =
+          rr + 2rsi - ss
+          (rr + 2rsi - ss) * (r + si) =
+          rrr + rrsi + 2rrsi + 2rssii - rss -sssi =
+          rrr + rrsi + 2rrsi - 2rss - rss - sssi  =
+          rrr + 3rrsi - 3rss - sssi =
+          rrr - 3rss  + 3rrsi - sssi =
+          r(rr - 3ss) + s(3rr - ss)i =
+          3rs(r - si) + rrr - sssi
+      </pre>-->
   </body>
 </html>
