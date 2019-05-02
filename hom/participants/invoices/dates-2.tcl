@@ -272,19 +272,23 @@ if {$dateIsValid} {
     set durationOneMonth P1MT
     set durationTwoMonth P2MT
     set durationThreeMonth P3MT
+    set durationFourMonth P4MT
     set durationMinusOneDay -P1DT
     
     dateTime::durationToArray $durationOneMonth D1MA
     dateTime::durationToArray $durationTwoMonth D2MA
     dateTime::durationToArray $durationThreeMonth D3MA
+    dateTime::durationToArray $durationFourMonth D4MA
     dateTime::durationToArray $durationMinusOneDay D-1DA
     
     dateTime::addDuration startArray D1MA startM2Array
     dateTime::addDuration startArray D2MA startM3Array
     dateTime::addDuration startArray D3MA startM4Array
+    dateTime::addDuration startArray D4MA startM5Array
     dateTime::addDuration startM2Array D-1DA endM1Array
     dateTime::addDuration startM3Array D-1DA endM2Array
     dateTime::addDuration startM4Array D-1DA endM3Array
+    dateTime::addDuration startM5Array D-1DA endM4Array
 }
 
 namespace eval ::dates {
@@ -293,16 +297,19 @@ namespace eval ::dates {
     variable D1MA
     variable D2MA
     variable D3MA
+    variable D4MA
     variable "-P1DA"
     
     variable durationOneMonth     P1MT
     variable durationTwoMonth     P2MT
     variable durationThreeMonth   P3MT
+    variable durationFourMonth    P4MT
     variable durationMinusOneDay -P1DT
     
     dateTime::durationToArray $durationOneMonth     D1MA
     dateTime::durationToArray $durationTwoMonth     D2MA
     dateTime::durationToArray $durationThreeMonth   D3MA
+    dateTime::durationToArray $durationFourMonth    D4MA
     dateTime::durationToArray $durationMinusOneDay D-1DA
     
 }
@@ -330,15 +337,32 @@ proc s {date {buffer 2}} {
 set startMonth1  $startDate
 set startMonth2  $startM2Array(year)-[f $startM2Array(month)]-[f $startM2Array(day)]
 set startMonth3  $startM3Array(year)-[f $startM3Array(month)]-[f $startM3Array(day)]
+set startMonth4  $startM4Array(year)-[f $startM4Array(month)]-[f $startM4Array(day)]
+set startMonth5  $startM5Array(year)-[f $startM5Array(month)]-[f $startM5Array(day)]
 set endMonth1    $endM1Array(year)-[f $endM1Array(month)]-[f $endM1Array(day)]
 set endMonth2    $endM2Array(year)-[f $endM2Array(month)]-[f $endM2Array(day)]
 set endMonth3    $endM3Array(year)-[f $endM3Array(month)]-[f $endM3Array(day)]
+set endMonth4    $endM4Array(year)-[f $endM4Array(month)]-[f $endM4Array(day)]
+set lastDayMonth1 [::dateTime::maximumDayInMonthFor $startArray(year) [string trimleft $startArray(month) 0]]
+set lastDayMonth2 [::dateTime::maximumDayInMonthFor $startM2Array(year) [string trimleft $startM2Array(month) 0]]
+set lastDayMonth3 [::dateTime::maximumDayInMonthFor $startM3Array(year) [string trimleft $startM3Array(month) 0]]
+set lastDayMonth4 [::dateTime::maximumDayInMonthFor $startM4Array(year) [string trimleft $startM4Array(month) 0]]
+
 
 
 set daysInA [expr [expr 31-$startArray(day)] < 1 ? 1 : [expr 31-$startArray(day)]]
 set daysInB [expr 30-$daysInA]
 set buf 7
 set buf2 8
+
+set voucherData(1a) [list date $startMonth1 days $daysInA end $startArray(year)-[f $startArray(month)]-[f $lastDayMonth1]]
+set voucherData(1b) [list date $endM1Array(year)-[f $endM1Array(month)]-01 days $daysInB end $endMonth1]
+set voucherData(2a) [list date $startMonth2 days $daysInA end $startM2Array(year)-[f $startM2Array(month)]-[f $lastDayMonth2]]
+set voucherData(2b) [list date $endM2Array(year)-[f $endM2Array(month)]-01 days $daysInB end $endMonth2]
+set voucherData(3a) [list date $startMonth3 days $daysInA end $startM3Array(year)-[f $startM3Array(month)]-[f $lastDayMonth3]]
+set voucherData(3b) [list date $endM3Array(year)-[f $endM3Array(month)]-01 days $daysInB end $endMonth3]
+set voucherData(pa) [list date $endM3Array(year)-[f $endM3Array(month)]-01 days $daysInA end $endMonth3]
+
 ns_return 200 text/plain "
 startDate='$startDate'
 dateIsValid='$dateIsValid'
@@ -347,19 +371,24 @@ dateTimeArray='[array get startArray]'
 D1MA  = [array get D1MA]
 D2MA  = [array get D2MA]
 D3MA  = [array get D3MA]
+D4MA  = [array get D4MA]
 D-1DA = [array get {D-1DA}]
 
 
 startM2Array = [array get startM2Array]
 startM3Array = [array get startM3Array]
 startM4Array = [array get startM4Array]
+startM5Array = [array get startM5Array]
 
 endM1Array = [array get endM1Array]
 endM2Array = [array get endM2Array]
 endM3Array = [array get endM3Array]
+endM4Array = [array get endM4Array]
 
-[s $startMonth1][s $startMonth2][s $startMonth3]
-[s $endMonth1][s $endMonth2][s $endMonth3]
-[s 1a=[f $daysInA] $buf][s 2a=[f $daysInA] $buf][s 3a=[f $daysInA] $buf]
+[s $startMonth1][s $startMonth2][s $startMonth3][s $startMonth4]
+[s $endMonth1][s $endMonth2][s $endMonth3][s $endMonth4]
+[s 1a=[f $daysInA] $buf][s 2a=[f $daysInA] $buf][s 3a=[f $daysInA] $buf][s p=[f $daysInA] $buf]
 [s 1b=[f $daysInB] $buf][s 2b=[f $daysInB] $buf][s 3b=[f $daysInB] $buf]
+
+[array get voucherData]
 "
