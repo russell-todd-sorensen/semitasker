@@ -23,7 +23,7 @@ set data [chan read $fd]
 close $fd
 set data [string map {\t ,} $data]
 
-set csvFileName "hom-invoices-april-2019-temp.csv"
+set csvFileName "hom-invoices-may-2019-temp.csv"
 
 set propertyOwnerFileName "property-owners-to-houses-map.csv"
 set pfd [open [file join $dataDirectory $propertyOwnerFileName] r]
@@ -214,11 +214,11 @@ proc classForHouse {house} {
 	return [list $CLASS $REFNUM]
 }
 
-set invoiceDate "04/01/2019"
-set monthNumber 4
-set monthFormatted "04"
-set month "Apr"
-set monthFull "April"
+set invoiceDate "05/01/2019"
+set monthNumber 5
+set monthFormatted "05"
+set month "May"
+set monthFull "May"
 set year "2019"
 set shortYear "19"
 set invoiceNumber 1

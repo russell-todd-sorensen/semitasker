@@ -23,7 +23,7 @@ set data [chan read $fd]
 close $fd
 set data [string map {\t ,} $data]
 
-set csvFileName "hom-covenant-eyes-april-2019-temp.csv"
+set csvFileName "hom-covenant-eyes-may-2019-temp.csv"
 
 set propertyOwnerFileName "property-owners-to-houses-map.csv"
 set pfd [open [file join $dataDirectory $propertyOwnerFileName] r]
@@ -55,7 +55,7 @@ chan seek $fdout 0
 set dataFound 0
 
 
-set ceInvoiceFileName "ce-invoices-april-2019.csv"
+set ceInvoiceFileName "ce-invoices-may-2019.csv"
 set cfd [open [file join $outputDataDirectory $ceInvoiceFileName] r]
 
 set cOutputList [list]
@@ -210,13 +210,13 @@ lappend invoiceLines $invoiceHeader1 $invoiceHeader2 $invoiceHeader3 $invoiceHea
 proc programFeePerHouse {house company monthNumber} {
     switch -exact -nocase -- $house {
         Jeremiah - James - Galatians - Philippians {
-            set fees 400.00
+            set fees 450.00
         }
         Ezra {
-            set fees 375.00
+            set fees 400.00
         }
         default {
-            return 550.00
+            return 600.00
         }
     }
     if {[string match "*DOC Voucher*" $company]} {
@@ -251,10 +251,10 @@ proc classForHouse {house} {
 	return [list $CLASS $REFNUM]
 }
 
-set invoiceDate "04/01/2019"
-set monthNumber "04"
-set month "Apr"
-set monthFull "April"
+set invoiceDate "05/01/2019"
+set monthNumber "05"
+set month "May"
+set monthFull "May"
 set year "2019"
 set shortYear "19"
 set invoiceNumber 1
@@ -262,7 +262,7 @@ set terms "Due by the 1st of Mo"
 set number_of_months "2"
 set month_fee "5.00"
 
-set item_description "Subscription from April 5 2019 to May 5 2019"
+set item_description "Subscription from May 5 2019 to June 5 2019"
 set memo $item_description
 
 proc programFeeVoucher {house company fees monthNumber} {
