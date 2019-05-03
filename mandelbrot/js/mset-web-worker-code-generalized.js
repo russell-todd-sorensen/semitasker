@@ -77,7 +77,6 @@ self.addEventListener('message',  function(evt) {
             if ((tmpXSquared + tmpYSquared) > objectInfo.finiteMeasure)
             {
               finite = false;
-
             }
             break;
         case 2:

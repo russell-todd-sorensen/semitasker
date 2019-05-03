@@ -46,7 +46,8 @@
   display: inline-block;
 }
 </style>
-
+    <script src="/js/require.js"></script>
+    <script src="/js/bigdecimal.js"></script>
     <script src="/js/jquery-1.7.1.js"></script>
     <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
     <script src="/js/d3.v3.js"></script>
@@ -59,7 +60,16 @@
     <script src="/js/schedule-function.js"></script>
     <script src="/js/mouse-events.js"></script>
 
-    <script>
+<script>// for testing bigdecimal
+require([]);
+var bigdecimal = require("bigdecimal");
+var i = bigdecimal.BigInteger("1234567890abcdefghijklmn", 24);
+console.log("i is " + i);
+
+</script>
+<script>
+
+
       $(document).ready(function(e) {
         Log.Notice("Document Ready");
       });
