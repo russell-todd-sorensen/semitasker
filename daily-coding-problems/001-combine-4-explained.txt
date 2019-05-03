@@ -10,14 +10,23 @@ the next level.
 
 Example Target = 4, step options = {1,2}
 
-            ____4_____
-           /          \
-          3            2
-        /    \        /  \
-       2      1      1    0
-      / \    / \    / \   
-     1   0  0   -  0   -
+             ______4_______
+            /              \
+         __3__            __2__
+        /     \          /     \
+       2       1        1       0
+      / \     / \      / \
+     1   0   0   -    0   -
     / \
    0   -
 
-The number of solutions is found by counting the zeros (0).
+The number of solutions is found by counting the zeros (0), or noticing
+when this branch of code is traversed.
+
+The individual solutions can be read in reverse from the trie by starting
+at a particular zero and moving up to the root along the staircase.
+
+In fact, the exact same set of solutions will be produced by traversing up,
+so we could say that the number (node) represents the step we are on and
+the edge is the size of step. So each solution is either a palindrome <1,2,1>
+or the reverse solution is also in the solution set <1,1,2> and <2,1,1>.
