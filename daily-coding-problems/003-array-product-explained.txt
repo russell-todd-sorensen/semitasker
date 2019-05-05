@@ -1,0 +1,22 @@
+    input = [a,b,c,d,e]
+    0 = [1,b*c*d*e] [-,  1-4]
+    1 = [a,  c*d*e] [0,  2-4]
+    2 = [a*b,  d*e] [0-1,3-4]
+    3 = [a*b*c,  e] [0-3,  4]
+    4 = [a*b*c*d,1] [0-4,  -]
+
+    Every output index can be expressed as the product two numbers.
+    These two numbers are the product of elements to the left
+    of the index and those to the right of the index. These two
+    numbers can be built up in such a way that at most only three
+    multiplications need to be done for each output index.
+
+    In the example with 5 elements total
+    multiplications = 2*0 + 2*1 + 2*1 + 2*1 + 2*1 + 5 = 13
+                   == 2*(n-1) + n == (3n - 2)
+
+    Time complexity is O(n)
+
+    An additional easy way to validate your code is to submit a list
+    with one element set to zero. This will return zeros everywhere
+    except the index which held the zero.
