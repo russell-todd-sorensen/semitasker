@@ -57,8 +57,8 @@ ns_return 200 text/html "
  </li>
  </ul>
 </form>
-<a href='002-yes-no-sum.tcl.txt'>Source Code</a><br>
-<a href='002-yes-no-sum-explained.txt'>Solution Explained</a>
+<a href='source.txt'>Source Code</a><br>
+<a href='explained.txt'>Solution Explained</a>
 <pre>
 inList = '\[[join $inList ,]\]' target (k) = '$target'
 result = '$result'

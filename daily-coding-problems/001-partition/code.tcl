@@ -70,8 +70,8 @@ ns_return 200 text/html "
  </li>
  </ul>
 </form>
-<a href='001-partition.tcl.txt'>Source Code</a><br>
-<a href='001-partition-explained.txt'>Solution Explained</a>
+<a href='source.txt'>Source Code</a><br>
+<a href='explained.txt'>Solution Explained</a>
 <pre>
 target = '$target'
 X = '$X'

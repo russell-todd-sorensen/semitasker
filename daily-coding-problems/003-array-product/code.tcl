@@ -69,8 +69,8 @@ ns_return 200 text/html "
  </li>
  </ul>
 </form>
-<a href='003-array-product-01.tcl.txt'>Source Code</a><br>
-<a href='003-array-product-explained.txt'>Solution Explained</a>
+<a href='source.txt'>Source Code</a><br>
+<a href='explained.txt'>Solution Explained</a>
 <pre>
 inList = '\[[join $inList ,]\]'
 result = '\[[join $result ,]\]'

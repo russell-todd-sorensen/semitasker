@@ -89,8 +89,8 @@ ns_return 200 text/html "
 </head>
 <body>
 
-<a href='004-de-serialize-02.tcl.txt'>Source Code</a><br>
-<a href='004-de-serialize-explained.txt'>Solution Explained</a>
+<a href='source.txt'>Source Code</a><br>
+<a href='explained.txt'>Solution Explained</a>
 
 Create root node like this:
 set root \[<< ::Node::Node -val 'root' -left \[<< ::Node::Node -val 'left' -left \[<< ::Node::Node -val 'left.left' >>] >>] -right \[<< ::Node::Node -val 'right' >>] >>]
