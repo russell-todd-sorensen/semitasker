@@ -1,0 +1,49 @@
+Since there is a lot of associated support code,
+I'll show the main code here:
+
+The main function:
+
+proc scheduleFunction {functionList delayMs} {
+    global ::fid
+    set string1 "after $delayMs executing \[$functionList\] = "
+    set body "
+        ns_write \$string1
+        set result \[$functionList\]
+        ns_write \"\$result\n\"
+    "
+    proc func$fid {string1} $body
+    ns_log Notice "func$::fid body = '[info body func$::fid]'"
+    set id [after $delayMs [list func$::fid $string1]]
+    incr ::fid
+    return $id
+}
+
+The actual scheduler is the Tcl command [after].
+
+Although [after] stores the command to be executed, nothing
+happens until the [vwait] command is executed. [vwait someVar] waits
+for someVar, which must be a global variable, to be set. In the
+context of Naviserver, we must set this variable to allow the thread
+to complete. If this doesn't happen events will sit on the event
+queue and will run the next time the tread invokes [vwait], usually
+in a completely different http request.
+
+Note that it is not recommended to use [after] and [vwait] in Naviserver,
+I have only done so to demonstrate how it works and to satisfy the
+requirements of the daily coding exercise.
+
+Btw, Naviserver itself has a "schedule procedure" facility. You can
+schedule procedures to run on an interval, to run only once, to run
+in its own thread, to run at a specific time of day, month or week.
+
+One thing that needs to be kept in mind is that if the server restarts
+whatever was scheduled by script will be lost, there is no mechanism to
+remember what was scheduled.
+
+There is a package I wrote many years ago called [cronjob] which provides
+database storage of not just tcl procedures but also SQL code, results can
+be emailed out. This package offers facilities more like what cron offers
+as far as scheduling options, but adds database storage and the ability to
+easily execute procedures interactively as needed via a web interface.
+
+[cronjob] is available here: <https://github.com/russell-todd-sorensen/cronjob>

@@ -1,0 +1,10 @@
+
+    Each List item is composed as a tuple:
+    Item = (both, value).
+    All other variables are temporary,
+    we have to maintain the value of the previous
+    pointer (prev) to construct the value of both when
+    we initially create the list item.
+
+    However, the value of the previous both has to
+    be updated when we add the next item to the list.
