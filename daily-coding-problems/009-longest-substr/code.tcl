@@ -26,19 +26,20 @@ proc longestSubstring {{str "abcba"} {k 2}} {
     global log
     global chars
     global maxString
-
     set log [list]
-    set index 0
-    set maxlen 0 ;# max length of substring
-    set curbeg 0
-    set curend 0
-    set curlen 0
-    set uniqK  0
-    set maxStr ""
-    set chars("") ""
+    set chars("") "" ;# count of each char in current string
     set maxString(0) [list ""] ; # all strings of len 0 are same
-    set lenMaxStr 0
+
+    set index 0      ;# current index in original string
+    set maxlen 0     ;# max length of substring
+    set curbeg 0     ;# beginning of current string
+    set curend 0     ;# end of current string
+    set curlen 0     ;# length of current string
+    set uniqK  0     ;# number of unique chars (<= k)
+    set maxStr ""    ;# current maxString
+
     set charList [split $str ""]
+
     foreach char $charList {
         # keep track of number of each char
         if {[info exists chars($char)]} {
@@ -49,7 +50,7 @@ proc longestSubstring {{str "abcba"} {k 2}} {
                 set maxlen $curlen
                 set maxbeg $curbeg
                 set maxend $curend
-                set maxStr [join [lrange $charList $curbeg [expr $curend - 1]] ""]
+                set maxStr [join [lrange $charList $curbeg $curend-1] ""]
             }
         } else {
             set chars($char) 1
@@ -66,45 +67,47 @@ proc longestSubstring {{str "abcba"} {k 2}} {
 
                 lappend maxString($uniqK) [join [lrange $charList $curbeg $curend-1] ""]
             } else {
-                # first save current string, if first longest
+                # first save current string, if >= max
                 if {$curlen >= $maxlen} {
                     set maxlen $curlen
                     set maxbeg $curbeg
                     set maxend $curend
                     # saving maxStr not necessary, just debug help
-                    set maxStr [join [lrange $charList $curbeg [expr $curend - 1]] ""]
+                    set maxStr [join [lrange $charList $curbeg $curend-1] ""]
                     lappend log "curlen >= maxlen maxStr='$maxStr'"
-                    # remove first char from cur string
                 }
-                    set remChar [lindex $charList $curbeg]
-                    if {[decr chars($remChar)] == 0} {
-                        unset chars($remChar)
-                        decr uniqK
-                    } else {
-                        set rewind 0
-                        while {[set tmpChar [lindex $charList [expr $index - $rewind]]] ne $remChar} {
-                            incr rewind
-                            lappend log "rewind = $rewind, str start='[expr $index - $rewind]' remChar =$remChar"
-                        }
-                        set remList [lrange $charList [expr $curbeg + 1] [expr $index - $rewind]]
-                        lappend log "remList='$remList'"
-                        foreach tmpChar $remList {
-                            lappend log "decreasing $tmpChar"
-                            if {[decr chars($tmpChar)] == 0 } {
-                                unset chars($tmpChar)
-                                decr uniqK
-                                lappend log "decreasing uniqK to $uniqK unset $tmpChar"
-                            }
-                        }
-                        set curbeg [expr {$curend - $rewind}]
-                        decr curlen $rewind
+
+                # remove first char from cur string
+                set remChar [lindex $charList $curbeg]
+                if {[decr chars($remChar)] == 0} {
+                    unset chars($remChar)
+                    decr uniqK
+                } else {
+                    # find last occurance of first char in string
+                    set rewind 0
+                    while {[set tmpChar [lindex $charList $index-$rewind]] ne $remChar} {
+                        incr rewind
+                        lappend log "rewind = $rewind, str start='[expr $index - $rewind]' remChar=$remChar keepChar=$tmpChar"
                     }
-                    incr curbeg
-                    incr curend
+                    set remList [lrange $charList $curbeg+1 $index-$rewind]
+                    lappend log "remList='$remList'"
+                    foreach tmpChar $remList {
+                        lappend log "decreasing $tmpChar"
+                        if {[decr chars($tmpChar)] == 0 } {
+                            unset chars($tmpChar)
+                            decr uniqK
+                            lappend log "decreasing uniqK to $uniqK unset $tmpChar"
+                        }
+                    }
+                    set curbeg [expr {$curend - $rewind}]
+                    decr curlen $rewind
+                }
+                incr curbeg
+                incr curend
             }
         }
 
-        set curStr [join [lrange $charList $curbeg [expr $curend - 1]] ""]
+        set curStr [join [lrange $charList $curbeg $curend-1] ""]
         set curlen [string length $curStr]
         if {$curlen == $maxlen} {
             set maxStr $curStr
@@ -113,33 +116,27 @@ proc longestSubstring {{str "abcba"} {k 2}} {
         lappend log "curlen=>'$curlen' maxStr=>'$maxStr' curStr=>'$curStr'"
         incr index
     }
-    if {false} {
-    decr index
-    decr curbeg
-    decr curend
-    if {$maxlen == 0} {
-        lappend log ">>Hit maxlen==0"
-        set maxStr [join [lrange $charList $curbeg $curend-1] ""]
-        set maxlen [string length $maxStr]
-    }
-    }
+
     return [list $maxlen $maxStr]
 }
 
+# default form values
 set str abcba
 set k 2
 
 set form [ns_conn form]
-set str [ns_set get $form s $str]
-set k [ns_set get $form k $k]
+set str  [ns_set get $form s $str]
+set k    [ns_set get $form k $k]
 
-set result [longestSubstring $str $k]
+set result           [longestSubstring $str $k]
 set longestSubstring [lindex $result 1]
 set lengthLongest    [lindex $result 0]
 set uniqueChars      [lsort -unique [split $longestSubstring ""]]
-set stats [list]
-set origUniqueChars [lsort -unique [split $str ""]]
+set stats            [list]
+set origUniqueChars  [lsort -unique [split $str ""]]
+
 set allSubstringsAtLength $maxString($lengthLongest)
+
 foreach ch $origUniqueChars {
     if {[info exists chars($ch)]} {
         lappend stats [list $ch $chars($ch)]
@@ -147,6 +144,7 @@ foreach ch $origUniqueChars {
         lappend stats [list $ch 0]
     }
 }
+
 ns_return 200 text/html "
 <html>
 <head>
@@ -186,8 +184,27 @@ all ([llength [lsort -unique $allSubstringsAtLength]]) substrings of length $len
 log =
 [join $log \n]
 
-
-
 </pre>
+<h3>Examples</h3>
+<ul>
+<li><a href='?s=sabcrbbcscas&k=3'>?s=sabcrbbcscas&k=3</a>
+<li><a href='?s=sabcbbcscas&k=3'>?s=sabcbbcscas&k=3</a>
+<li><a href='?s=abc&k=3'>?s=abc&k=3</a>
+<li><a href='?s=abccba&k=3'>?s=abccba&k=3</a>
+<li><a href='?s=abcbbcsca&k=3'>?s=abcbbcsca&k=3</a>
+<li><a href='?s=abssssssadd&k=3'>?s=abssssssadd&k=3</a>
+<li><a href='?s=absssessssddddd&k=4'>?s=absssessssddddd&k=4</a>
+<li><a href='?s=absessssrssdddddbf&k=4'>?s=absessssrssdddddbf&k=4</a>
+<li><a href='?s=abcdefghi&k=3'>?s=abcdefghi&k=3</a>
+<li><a href='?s=aaaaaaaabcdefghiiijjj&k=3'>?s=aaaaaaaabcdefghiiijjj&k=3</a>
+<li><a href='?s=abcdddeeeeeffffaaaabaaaaaaaaaaaaa&k=1'>?s=abcdddeeeeeffffaaaabaaaaaaaaaaaaa&k=1</a>
+<li><a href='?s=abcdddeeeeeffffaaaabaaaaaaaaaaaaa&k=-1'>?s=abcdddeeeeeffffaaaabaaaaaaaaaaaaa&k=-1</a>
+<li><a href='?s=abcddadeeeeeffffaaaabaaaaaaaaaaaaa&k=3'>?s=abcddadeeeeeffffaaaabaaaaaaaaaaaaa&k=3</a>
+<li><a href='?s=aaaaaaaaaaavvvvvvvvvvvvvvvvvv&k=1'>?s=aaaaaaaaaaavvvvvvvvvvvvvvvvvv&k=1</a>
+<li><a href='?s=aaaaraaaaaaavvvvvvrvvvvvvvvvvvv&k=2'>?s=aaaaraaaaaaavvvvvvrvvvvvvvvvvvv&k=2</a>
+<li><a href='?s=aaaraaaraaataaataaayaaaybbbebbbr&k=2'>?s=aaaraaaraaataaataaayaaaybbbebbbr&k=2</a>
+<li><a href='?s=aaaaaaaaaabbbaaacd&k=2'>?s=aaaaaaaaaabbbaaacd&k=2</a>
+<li><a href=''></a>
+</ul>
 </body>
 </html>"
