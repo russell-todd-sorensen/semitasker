@@ -1,0 +1,64 @@
+Problem as given:
+
+    Implement an autocomplete system. That is,
+    given a query string s and a set of all
+    possible query strings, return all strings
+    in the set that have s as a prefix.
+
+    For example, given the query string 'de' and
+    the set of strings [dog, deer, deal], return
+    [deer, deal].
+
+    Hint: Try preprocessing the dictionary into
+    a more efficient data structure to speed up
+    queries.
+
+
+Solution:
+
+    The problem in Tcl is to mimic a data structure
+when the only thing available are scalar variables
+and hash arrays. In tcl this would be solved in a few
+lines of code.
+
+# Actual Tcl code to solve the problem:
+# set a global so you can reuse the sorted list:
+global dictionary
+
+set dictionary [lsort -unique -increasing $words]
+set word_to_find "de"
+set result [lsearch -inline -all -sorted \
+    -increasing -glob $dictionary $word_to_find*]
+
+For prefix searches I've always been impressed with
+the trie (from reTRIEve) data structure.
+
+Preprocessing could also mean sorting, but then you
+have to choose a sorting algorithm and implement that.
+Creating the trie structure gives you a near sorted
+structure, but all words with a given prefix are
+always under a single node, and the value at this node
+_is_ the prefix.
+
+So to implement search, I first use one procedure
+[findNode] to find the prefix node. Then the [print]
+procedure returns the list of all words below this node.
+
+Dividing things up like this adds a huge benefit for
+auto-complete: if you remember the node as each
+character is added, you can start from this node
+instead of at the beginning. Future auto-completes
+will benefit from the work already done. A sorted
+list will provide the same advantage if you remember
+the start index of the the previous list.
+
+One problem with a trie as usually discussed is that
+each node is the same, you have an array of 26 slots
+and the null slots means that the structure does not
+extend beyond the given prefix with that null char.
+So what if you want to use a trie for unicode chars?
+Are you going to have tens of thousands of null array
+cells? So you would be stuck with a simple sorted list.
+
+The basic solution is in code.tcl. Extensions into
+cleanup and unicode support will be in code-2.tcl

@@ -26,7 +26,7 @@ ns_return 200 text/html "
 <title>Fill In Something Useful</title>
 </head>
 <body>
-<form>
+<form autocomplete='off'>
 <ul>
  <li>
   <label for='b'>Input List</label>

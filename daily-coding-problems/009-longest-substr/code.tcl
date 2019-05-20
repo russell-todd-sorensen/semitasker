@@ -151,7 +151,7 @@ ns_return 200 text/html "
 <title>Find Longest Substring With at Most k Distinct Chars</title>
 </head>
 <body>
-<form>
+<form autocomplete='off'>
 <ul>
  <li>
   <label for='s'>Target String</label>
