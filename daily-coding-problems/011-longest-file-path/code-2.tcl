@@ -150,35 +150,59 @@ proc findLongestPath {fs} {
 set fs "dir\n\tsubdir1\n\t\tfile1.ext\n\t\tsubsubdir1\n\tsubdir2\n\t\tsubsubdir2\n\t\t\tfile2.ext"
 
 set form [ns_conn form]
-set fs [ns_set get $form fs $fs]
+set fs   [ns_set get $form fs $fs]
 
-set result [findLongestPath $fs]
+set result [findLongestPath [string map {"\r\n" "\n"} $fs]]
+
+if {[llength [lindex $result 1]] > 1} {
+    lassign $result maxLength longestPathsList
+    set numMaxPaths [llength $longestPathsList]
+    set result "
+        max path length found             = $maxLength
+        paths of length $maxLength found          = $numMaxPaths
+        actual Paths                      =
+        [join $longestPathsList \n\t]
+"
+}
+
 
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>
-<title>Find Longest File Path in Filesystem: Version 1</title>
+<title>Find Longest File Path in Filesystem: Version 2</title>
 <style>
 li {
     list-style: none;
 }
 </style>
+<script>
+
+var addTab = function(id) {
+
+    var txt = document.getElementById(id);
+    var end = txt.selectionEnd + 1;
+    txt.setRangeText('\t');
+    txt.focus();
+    txt.selectionStart = end;
+}
+
+</script>
 </head>
 <body>
-<form autocomplete='off' method='POST' encoding='multi-part/formdata' spellcheck='false'>
+<form autocomplete='off' method='POST' encoding='multi-part/formdata'>
 <ul>
  <li>
   <label for='fs'>Input List</label>
  </li>
  <li>
-  <textarea name='fs' id='fs' rows='10' cols='70' >$fs</textarea>
+  <textarea name='fs' id='fs' rows='10' cols='70' spellcheck='false' >$fs</textarea>
  </li>
-  <input type='submit' value='Try it'/>
+   <input type='button' onclick='addTab(\"fs\")' value='Add Tab' />
+   <input type='submit' value='Submit Filesystem For Analysis'/>
  </li>
  </ul>
 </form>
-<a href='source.tcl'>Source Code</a><br>
-<a href='code-2.tcl'>A Better Solution</a><br>
+<a href='source.tcl?code-2.tcl'>Source Code</a><br>
 <a href='explained.txt'>Solution Explained</a>
 <pre>
 fs = '$fs'

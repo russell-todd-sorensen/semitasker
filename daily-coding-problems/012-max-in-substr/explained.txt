@@ -1,0 +1,61 @@
+Initially I was looking for a solution
+which would require only one comparison per
+element in original array. However, this
+seems impossible. Here is the approach I
+ended up using:
+
+Instead of moving elements around in the
+original array, I keep several indexes into
+the array. All indexes start at zero. As
+elements are compared, the index of the max
+element is updated. As long as the max index
+is within the current sub array the value
+is output. Output starts after comparing
+the first k elements. Now both the end index
+and the start index are incremented.
+
+When the max element falls off the end the
+max index is lost and this requires additional
+comparisons to find the max element in the
+current sub array.
+
+The worse case is when elements are decreasing
+in value from start to finish. However, this
+still beats on average the brute force
+number of comparisons required.
+
+As the size of the input array increases the
+brute force method suffers badly. The worst
+performance is when the sub array half the
+length of the input array.
+
+In contrast the algorithm used here improves
+with the length of the sub array and for lengths
+about half the length of the input array
+comparisons average 1.000 for the number of
+elements in the input array.
+
+There might be somthing to be gained if
+whenever a new max is found the original max
+is moved to a second in line. Then comparisons
+will be to the second in line until it is displaced
+by a larger input. Then one check of first and
+second place will be done. This would also require
+checking the index of the second place element
+to see if it falls off the end. Seems messy.
+
+max = min_integer_possible
+max_index = 0
+queue_end = 0
+queue_start = 0
+
+until (i < k) {
+    get value at i
+    if (value(i) >= max)
+        max_index = i
+        max = value(i)
+    }
+    i = i + 1
+    queue_start = queue_start + 1
+}
+print value(max_index)

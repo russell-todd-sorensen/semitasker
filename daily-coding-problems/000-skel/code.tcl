@@ -20,12 +20,13 @@ set b [ns_set get $form b $b]
 
 set result [illuminatingProcName $a $b]
 
-ns_return 200 text/html "
+ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>
 <title>Fill In Something Useful</title>
 </head>
 <body>
+<!--  method='POST' encoding='multi-part/formdata' -->
 <form autocomplete='off'>
 <ul>
  <li>
