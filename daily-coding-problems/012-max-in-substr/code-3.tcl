@@ -58,7 +58,7 @@ proc printSubArray {arrayName from to} {
 }
 
 proc calculateBruteForceValue {n k} {
-    set bruteForceValue [expr ($k - 1) * ($n - $k + 1)]
+    expr ($k - 1) * ($n - $k + 1)
 }
 
 proc maxOfEachSubArray {a k} {
@@ -99,11 +99,6 @@ proc maxOfEachSubArray {a k} {
         }
 
         if {$indexQEntr >= $k-1} {
-            #incr comparisons
-            #if {$A($indexQExit) >= $A($indexOfMax)} {
-            #    rec log "Adjusted indexOfMax from $indexOfMax to $indexQExit"
-            #    set indexOfMax $indexQExit
-            #}
             rec log "Output($indexQEntr) = $A($indexOfMax)"
             lappend kStorage $A($indexOfMax)
             incr indexQExit
@@ -124,12 +119,16 @@ set a [list 10 5 2 7 8 7]
 set k 3
 set r 0
 set s 10
+set t 0
+set w 0
 
 set form [ns_conn form]
 set a [ns_set get $form a $a]
 set k [ns_set get $form k $k]
 set r [ns_set get $form r $r]
 set s [ns_set get $form s $s]
+set t [ns_set get $form t $t]
+set w [ns_set get $form w $w]
 
 
 proc generateRandomArray {r s} {
@@ -144,14 +143,61 @@ proc generateRandomArray {r s} {
     return $a
 }
 
+proc calculateRatio {comparisons n} {
+    return [format %3.6f [expr {1.0*$comparisons/$n}]]
+}
+
 if {[string is integer -strict $r] && $r > 0}  {
     set a [generateRandomArray $r $s]
 }
 
-set bruteForceValue [calculateBruteForceValue [llength $a] $k]
+if {$w} { ;# Worst Case, Element Values aways decreasing
+    set a [lsort -integer -decreasing $a]
+    set worst_case_checked " checked "
+} else {
+    set worst_case_checked ""
+}
 
+if {$t == 0} {
+    set n [llength $a]
+    set bruteForceValue [calculateBruteForceValue $n $k]
+    set totalBruteForceValue $bruteForceValue
+    set result [maxOfEachSubArray $a $k]
+    set totalComparisons $comparisons
+    set ratio [calculateRatio $comparisons $n]
+    set try_all_checked ""
+    set overallRatio $ratio
+    set finalResult "
+k = '$k'
+r = '$r'
+result = '$result'
+comparisons = '$comparisons' len = '$n' ratio = $ratio comparisons/element
+bruteForceValue = '$bruteForceValue'
+log = [join $log \n]"
+} else {
+    set totalRatio 0
+    set n [llength $a]
+    set totalBruteForce 0
+    set formatString %7s%7s%10s%10s%10s%12.12s%5s%s
+    set resultList [list "BF* Brute Force = (No comparisons are necessary with k=1)" [format $formatString "  Len k" "  Len a" " Sublists" " Compared" " Ratio" "  BF*" " " " Result"]]
+    for {set i 1} {$i <= $n} {incr i} {
+        set comparisons 0
+        set result [maxOfEachSubArray $a $i]
+        set bfv [calculateBruteForceValue $n $i]
+        incr totalBruteForceValue $bfv
+        incr totalComparisons $comparisons
+        set ratio [calculateRatio $comparisons $n]
+        set totalRatio [expr $totalRatio + $ratio]
+        lappend resultList [format $formatString $i $n [expr {$n - $i + 1}] $comparisons $ratio $bfv "  => " $result]
+    }
+    set overallRatio [format %3.6f [expr {1.0*$totalRatio / $n}]]
+    set bruteForceOverallRatio [format %3.6f [expr {1.0*$totalBruteForceValue / ($n * $n)}]]
+    lappend resultList [list]
+    lappend resultList [format $formatString "Total" "and" "Average" $totalComparisons $overallRatio $totalBruteForceValue "" "overall brute force ratio => $bruteForceOverallRatio"]
+    set finalResult [join $resultList \n]
+    set try_all_checked " checked "
+}
 
-set result [maxOfEachSubArray $a $k]
 ns_log Notice "a = $a"
 set len [string length $a]
 
@@ -180,6 +226,14 @@ ns_return 200 text/html "
   <input name='s' id='s' value='$s'>
  </li>
  <li>
+  <label for='t'>Try All K</label>
+  <input type='checkbox' name='t' id='t' value='1'$try_all_checked>
+ </li>
+ <li>
+  <label for='w'>Worst Case?</label>
+  <input  type='checkbox' name='w' id='w' value='1'$worst_case_checked>
+ </li>
+ <li>
   <input type='submit' value='Try it'/>
  </li>
  </ul>
@@ -188,12 +242,8 @@ ns_return 200 text/html "
 <a href='explained.txt'>Solution Explained</a>
 <pre>
 a = '$a'
-k = '$k'
-r = '$r'
-result = '$result'
-comparisons = '$comparisons' len = '[llength $a]' ratio = [format %3.6f [expr {1.0*$comparisons/[llength $a]}]] comparisons/element
-bruteForceValue = '$bruteForceValue'
-log = [join $log \n]
+
+$finalResult
 </pre>
 </body>
 </html>"
