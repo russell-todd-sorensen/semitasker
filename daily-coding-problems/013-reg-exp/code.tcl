@@ -39,8 +39,35 @@ proc doesStringMatchRegexp {regex str} {
     set regIndex 0
     set valid false
     set mustMatch [lindex $regExpList $regIndex]
-    foreach char $charList {
+    set matchedString ""
+    set precedingElement ""
 
+    # divide the regular expression into sections
+    set regexpSections [list]
+    foreach char $regExpList {
+
+
+    }
+
+    foreach char $charList {
+        switch --exact -- $mustMatch {
+            "." {
+                append matchedString $char
+                incr regIndex
+                set precedingElement $char
+            }
+            "*" {
+                if {$char eq $precedingElement} {
+                    append matchedString $char
+                } else {
+
+                }
+            }
+            default {
+
+            }
+        }
+        set mustMatch [lindex $regExpList $regIndex]
     }
 
 

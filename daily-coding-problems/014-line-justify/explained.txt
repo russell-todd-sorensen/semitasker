@@ -1,0 +1,13 @@
+Once the number of characters plus a space between
+each word is greater than the line length, the last
+word is discarded.
+The total number of characters plus necessary
+whitespace equals the line length.
+Total whitespace is divided by the number of gaps
+(words -1) to get the minimum whitespace between words.
+If the remainder is zero, spacing is even across
+the line. Otherwise the minimum is just between the
+last and next-to-last words. The remainder (%) is added
+to the remaining whitespace and divided by the remaining
+words. If the remainder ever hits zero, the remaining
+words can be joined with the same spacing.
