@@ -23,7 +23,7 @@ set data [chan read $fd]
 close $fd
 set data [string map {\t ,} $data]
 
-set csvFileName "hom-covenant-eyes-may-2019-temp.csv"
+set csvFileName "hom-covenant-eyes-june-2019-temp.csv"
 
 set propertyOwnerFileName "property-owners-to-houses-map.csv"
 set pfd [open [file join $dataDirectory $propertyOwnerFileName] r]
@@ -55,7 +55,7 @@ chan seek $fdout 0
 set dataFound 0
 
 
-set ceInvoiceFileName "ce-invoices-may-2019.csv"
+set ceInvoiceFileName "ce-invoices-june-2019.csv"
 set cfd [open [file join $outputDataDirectory $ceInvoiceFileName] r]
 
 set cOutputList [list]
@@ -239,9 +239,13 @@ proc classForHouse {house} {
         	set CLASS "Pierce County"
         	set REFNUM 3
         }
-        Exodus {
+        Exodus - Job {
         	set CLASS "Whatcom County"
         	set REFNUM 5
+        }
+        David {
+        	set CLASS "Clark County"
+        	set REFNUM 6
         }
         default {
             set CLASS "King County"
@@ -251,10 +255,10 @@ proc classForHouse {house} {
 	return [list $CLASS $REFNUM]
 }
 
-set invoiceDate "05/01/2019"
-set monthNumber "05"
-set month "May"
-set monthFull "May"
+set invoiceDate "06/01/2019"
+set monthNumber "06"
+set month "Jun"
+set monthFull "June"
 set year "2019"
 set shortYear "19"
 set invoiceNumber 1
@@ -262,7 +266,7 @@ set terms "Due by the 1st of Mo"
 set number_of_months "2"
 set month_fee "5.00"
 
-set item_description "Subscription from May 5 2019 to June 5 2019"
+set item_description "Subscription from June 5 2019 to July 5 2019"
 set memo $item_description
 
 proc programFeeVoucher {house company fees monthNumber} {
@@ -394,10 +398,10 @@ foreach participant [lsort [array names CUST]] {
         set inv_item [lindex $account_list 1]
 
         set memo $memo
-        set splitAccount "Communications Expense:Covenant Eyes"
+        set splitAccount "Communications Expense:Accountable2You"
 
         set invAcct $splitAccount
-        set invItem "Covenant Eyes"
+        set invItem "Accountable2You"
 
         set itemLines [list]
         set invoiceTotal 0.00
@@ -426,7 +430,7 @@ foreach participant [lsort [array names CUST]] {
         unset qbName($quotedParticipant)
         set invoiceTotal [format %2.2f $invoiceTotal]
 
-        lappend invoiceLines [list TRNS "\"\"" INVOICE "\"$invoiceDate\"" "\"Accounts Receivable\"" "\"[set $nameField]\"" "\"$className\"" "\"$invoiceTotal\"" "\"$fInvNumber\"" "\"Covenant Eyes\"" N Y N "\"$FIRSTNAME $LASTNAME\"" "\"$BADDR2\"" "\"$BADDR3\"" "\"$BADDR4\"" "\"\"" "\"$invoiceDate\"" "\"$terms\"" "\"Unpaid\"" "\"\"" "\"\"" "\"$invoiceDate\"" "\"\""]
+        lappend invoiceLines [list TRNS "\"\"" INVOICE "\"$invoiceDate\"" "\"Accounts Receivable\"" "\"[set $nameField]\"" "\"$className\"" "\"$invoiceTotal\"" "\"$fInvNumber\"" "\"Accountable2You\"" N Y N "\"$FIRSTNAME $LASTNAME\"" "\"$BADDR2\"" "\"$BADDR3\"" "\"$BADDR4\"" "\"\"" "\"$invoiceDate\"" "\"$terms\"" "\"Unpaid\"" "\"\"" "\"\"" "\"$invoiceDate\"" "\"\""]
 
         incr invoiceNumber
 

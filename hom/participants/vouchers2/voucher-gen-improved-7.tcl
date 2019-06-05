@@ -23,7 +23,7 @@ set data [chan read $fd]
 close $fd
 set data [string map {\t ,} $data]
 
-set csvFileName "hom-invoices-may-2019-temp.csv"
+set csvFileName "hom-invoices-june-2019-temp.csv"
 
 set propertyOwnerFileName "property-owners-to-houses-map.csv"
 set pfd [open [file join $dataDirectory $propertyOwnerFileName] r]
@@ -202,9 +202,13 @@ proc classForHouse {house} {
         	set CLASS "Pierce County"
         	set REFNUM 3
         }
-        Exodus {
+        Exodus - Job {
         	set CLASS "Whatcom County"
         	set REFNUM 5
+        }
+        David {
+        	set CLASS "Clark County"
+        	set REFNUM 6
         }
         default {
             set CLASS "King County"
@@ -214,11 +218,11 @@ proc classForHouse {house} {
 	return [list $CLASS $REFNUM]
 }
 
-set invoiceDate "05/01/2019"
-set monthNumber 5
-set monthFormatted "05"
-set month "May"
-set monthFull "May"
+set invoiceDate "06/01/2019"
+set monthNumber 6
+set monthFormatted "06"
+set month "Jun"
+set monthFull "June"
 set year "2019"
 set shortYear "19"
 set invoiceNumber 1
