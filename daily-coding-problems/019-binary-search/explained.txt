@@ -1,0 +1,6 @@
+    create an array sparse 1..k
+    For each number calculate the
+    inverse k-n and check if it is
+    in the array.
+    At most you have to traverse all
+    elements of the list. No takes longer.
