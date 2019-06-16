@@ -1,0 +1,160 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Display a Range of Unicode Characters Hexidecimal Numbering</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<style>
+
+#chars {
+    width: 1250px;
+   /* width: 2000px;*/
+}
+
+#chars div {
+    display: inline-block;
+    width: 100px;
+    height: 2em;
+    font-family: "consolas sans unicode";
+    font-size: 1.5em;
+    text-align: center;
+    border: .5px solid black;
+    border-collapse: collapse;
+    padding: 2px;
+    vertical-align: top;
+}
+
+.heading {
+    font-weight: bold;
+    text-align: center;
+}
+
+.detail {
+    font-weight: normal;
+    text-align: center;
+}
+
+fieldset {
+    display: inline-block;
+}
+</style>
+
+<style id="dynamic">
+
+</style>
+
+
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+
+<script>
+
+var HexTable = new Array();
+
+for (var i = 0; i < 7; i++) {
+    HexTable[i] = Math.pow(16,i);
+    console.log('HexTable[' +i+']=' + HexTable[i]);
+}
+
+var toHex2 = function(decimalNumber) {
+    //decimalNumber =< 1,114,111 , Hex <= 10FFFF
+    //table of values
+    var hexChars = "0123456789ABCDEF";
+    decimalNumber = parseInt(decimalNumber);
+    var result = ""
+    var v
+    var H = new Array(7);
+    var firstNonZero = 0;
+    for (var i = 6; i >= 0; i--) {
+        v = Math.floor(decimalNumber / HexTable[i])
+        H[i] = v;
+        //console.log('H[' + i + ']=' + v);
+        if (v > 0) {
+            firstNonZero = 1;
+            decimalNumber -= (H[i] * HexTable[i])
+        }
+        if (H[i] == 0) {
+            if (firstNonZero == 1) {
+                result = result + hexChars.charAt(H[i]);
+            }
+        } else {
+            result = result + hexChars.charAt(H[i]);
+        }
+    }
+
+    return (result == "" ? "0" : result)
+}
+
+var showUnicodeChars = function(startId, endId, baseId) {
+
+    var base = $('#' + baseId + ':checked').val();
+
+    var startCode = parseInt($('#' + startId).val());
+    var endCode   = parseInt($('#' + endId).val());
+    var tmpCode,char;
+
+    if (startCode > endCode) {
+        tmpCode = parseInt(0) + parseInt(endCode);
+        endCode = parseInt(0) + parseInt(startCode);
+        startCode = parseInt(0) + parseInt(tmpCode);
+    }
+
+    var charArray = new Array();
+
+    $('#chars').html("");
+
+    for (var i=startCode;i<=endCode;i++) {
+        charArray[i] = String.fromCharCode(i);
+    }
+
+    var startNumber = base*Math.floor(startCode/base);
+
+    $('#chars').append("<div class='detail'>Base</div>");
+
+    for (var i=0;i<base;i++) {
+        $('#chars').append("<div class='heading'>" + toHex2(i) + "</div>");
+    }
+
+    $('#chars').append("<div class='heading'>" + toHex2(startNumber) + "</div>");
+
+    for (var i=startNumber;i < startCode;i++) {
+        $('#chars').append("<div class='detail'>&nbsp;</div>");
+    }
+
+    for (var i=startCode,j=(startCode-startNumber);i<=endCode;i++,j++) {
+        if ((j>0) && ((j%base) == 0)) {
+            $('#chars').append("<div class='heading'>" + toHex2(startNumber + j) + "</div>");
+        }
+        $('#chars').append("<div class='detail'>" + charArray[i] + "</div>");
+    }
+
+}
+
+$(document).ready(function() {
+  Log.Notice('Document Ready');
+  //Log.Remove();
+ });
+
+</script>
+
+</head>
+
+<body>
+
+<form id="form1" onSubmit="return false;">
+    Start: <input type="number" value="0" id="start" name="start" size="10" placeholder="Enter starting unicode number">
+    End: <input type="number" value="100" id="end" name="end" size="10" placeholder="Enter ending unicode number">
+    <fieldset>
+    Hex: <input type="radio" value="16" name="base" id="base" >
+    Decimal: <input type="radio" value="10" name="base" id="base" >
+    </fieldset><br>
+    <button id="doit" name="doit" onClick="showUnicodeChars('start','end','base')">Show Unicode Chars</button>
+</form>
+
+<div id="chars"></div>
+</body>
+</html>
