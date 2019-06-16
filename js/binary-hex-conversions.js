@@ -25,37 +25,39 @@ function convertToBinHex(asciiField, binaryField, hexField) {
 		hex = hex + "<" +  hexCode + ">";
 		binary += binCode;
 	}
-	
+
 	$('#' + binaryField).val(binary.trim());
 	$('#' + hexField).val(hex.trim());
-	
+
 }
 
 function toHex(decimalNumber) {
 	hexChars = "0123456789ABCDEF";
 	if (decimalNumber > 255)
 		return "??";
-		
+
 	var i = decimalNumber %16;
 	var j = (decimalNumber - i)/16;
-  return hexChars.charAt(j) + hexChars.charAt(i);
+  	return hexChars.charAt(j) + hexChars.charAt(i);
 }
+
 function toDecimal(hexNumber) {
 	hexChars = "0123456789ABCDEF";
 	if (decimalNumber > 255)
 		return "??";
-		
+
 	var i = decimalNumber %16;
 	var j = (decimalNumber - i)/16;
   return hexChars.charAt(j) + hexChars.charAt(i);
 }
+
 function toBinary(hexNumber) {
 	switch (hexNumber) {
-	case '?': 
+	case '?':
 	  return " ";
-	case '0': 
+	case '0':
 		return '0000';
-	case '1': 
+	case '1':
 	  return '0001';
 	case '2':
 	  return '0010';
