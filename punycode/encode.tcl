@@ -176,6 +176,128 @@ namespace eval ::punycode {
     variable code_points_uc "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     variable basic_code_points "$code_points_lc$code_points_uc"
     variable maxint [expr {2<<26}]
+    variable firsttime 1
+}
+
+namespace eval ::punycode {
+
+    set i 0
+    foreach cpt [split $code_points_lc ""] {
+        set digit_value($cpt) $i
+        set digit_value([::hex::to [::hex::decimal $cpt]]) $i
+        incr i
+    }
+    set i 0
+    foreach cpt [split $code_points_uc ""] {
+        set digit_value($cpt) $i
+        set digit_value([::hex::to [::hex::decimal $cpt]]) $i
+        incr i
+    }
+    unset i
+}
+
+proc ::punycode::basic { cp } {
+    expr {[scan $cp %c] < [scan 0x80 %x]}
+}
+
+proc ::punycode::encode { u_label {output_length 63}} {
+    variable initial_n
+    variable initial_bias
+    variable maxint ;# 26 bits
+    variable base
+    variable tmin
+    variable tmax
+    variable skew
+
+    set n $initial_n
+    set bias $initial_bias
+    set delta 0
+    set out 0
+    set input_length [string length $u_label]
+    set max_out $output_length
+    set output ""
+
+    for {set j 0} {$j < $input_length} {incr j} {
+        set cp [string index $u_label $j]
+        if {[basic $cp]} {
+            if {$max_out - $out < 2} {
+                return -code error "Punycode Big Output"
+            }
+            append output $cp
+            incr out
+        }
+    }
+
+    set h $out ;# number of code points that have been handled
+    set b $out ;# b is number of basic code points out is num output
+
+    if {$b > 0} {
+        append output "-"
+    }
+
+    while {$h < $input_length} {
+        # All non-basic code points < n have been
+        # handled already, Find next larger one:
+
+        for {set m $maxint; set j 0} {$j < $input_length} {incr j} {
+            set cp [string index $u_label $j]
+            set val [scan $cp %c]
+            if {$val >= $n  && $val < $m} {
+                set m $val
+                log 4 "  m set to $val"
+            }
+        }
+        log 4 "new m = $m"
+        # Increase delta enough to advance the decoder's
+        # <n,i> state to <m,0>, but guard against overflow
+
+        if {$m - $n > ($maxint - $delta) / ($h + 1)} {
+            return -code error "Punycode overflow"
+        }
+        set delta [expr {$delta + ($m - $n) * ($h + 1)}]
+        set n $m
+
+        for {set j 0} {$j < $input_length} {incr j} {
+            set cp [string index $u_label $j]
+            set val [scan $cp %c]
+            if {$val < $n} {
+                if {[incr delta] == 0} {
+                    return -code error "Punycode overflow"
+                }
+            }
+            if {$val == $n} {
+                log 4 "val == n val=$val"
+                # represent delta as a generalized variable length integer:
+                for {set q $delta; set k $base} {true} {incr k $base} {
+                    if {$out >= $max_out} {
+                        return -code error "Punycode Big Output"
+                    }
+                    if {$k <= $bias} {
+                        set t $tmin
+                    } elseif {$k >= $bias + $tmax} {
+                        set t $tmax
+                    } else {
+                        set t [expr {$k - $bias}]
+                    }
+                    if {$q < $t} {
+                        break
+                    }
+                    append output [encode_digit [expr {$t + ($q - $t)%($base - $t)}] 0]
+                    set q [expr {int(($q - $t) / ($base - $t))}]
+                }
+
+                append output [encode_digit $q 0]
+                set bias [adapt $delta [expr {$h + 1}] [expr {$h == $b}]]
+                set delta 0
+                incr h
+            }
+        }
+
+        incr delta
+        incr n
+    }
+    set output_length $out
+    return $output
 }
 
 proc ::punycode::log { level args } {
@@ -212,23 +334,6 @@ proc ::punycode::is_basic_code_point { char } {
     expr {[string first $char $basic_code_points] > -1 ? true : false}
 }
 
-namespace eval ::punycode {
-
-    set i 0
-    foreach cpt [split $code_points_lc ""] {
-        set digit_value($cpt) $i
-        set digit_value([::hex::to [::hex::decimal $cpt]]) $i
-        incr i
-    }
-    set i 0
-    foreach cpt [split $code_points_uc ""] {
-        set digit_value($cpt) $i
-        set digit_value([::hex::to [::hex::decimal $cpt]]) $i
-        incr i
-    }
-    unset i
-}
-
 proc ::punycode::adapt {delta numpoints firsttime} {
     variable damp
     variable base
@@ -236,10 +341,11 @@ proc ::punycode::adapt {delta numpoints firsttime} {
     variable tmax
     variable skew
 
+    log 4 "adapt delta=$delta numpoints=$numpoints firsttime=$firsttime"
     if {$firsttime} {
         set delta [expr {int($delta / $damp)}]
     } else {
-        set delta [expr {$delta + int($delta / 2)}]
+        set delta [expr {int($delta / 2)}]
     }
 
     set delta [expr {$delta + int($delta / $numpoints)}]
@@ -249,8 +355,30 @@ proc ::punycode::adapt {delta numpoints firsttime} {
         set delta [expr {int($delta / ($base - $tmin))}]
         incr k $base
     }
+    log 4 "adapt result = [expr {$k + int((($base - $tmin + 1) * $delta) / ($delta + $skew))}]"
+    return [expr {$k + int((($base - $tmin + 1) * $delta) / ($delta + $skew))}]
+}
 
-   return [expr {$k + int((($base - $tmin + 1) * $delta) / ($delta + $skew))}]
+proc ::punycode::adapt2 { delta numpoints} {
+    variable firsttime
+    variable damp
+    variable tmin
+    variable tmax
+    variable base
+    variable skew
+
+    log 4 "adapt2 delta=$delta numpoints=$numpoints firsttime=$firsttime"
+    if {$firsttime == 1} {
+        set delta [expr {$delta / $damp}]
+        set firsttime 0
+    } else {
+        set delta [expr {$delta >> 1}]
+    }
+    for {set k 0} {int($delta) > int((($base - $tmin) * $tmax) / 2)} {incr k $base} {
+        set delta [expr $delta / ($base - $tmin)]
+    }
+    log 4 "adapt2 result = [expr {$k + (($base - $tmin + 1) * $delta / ($delta + $skew))}]"
+    expr {$k + (($base - $tmin + 1) * $delta / ($delta + $skew))}
 }
 
 proc ::punycode::is_overflow { x } {
@@ -396,24 +524,36 @@ proc ::punycode::decode { a_label } {
     return $output
 }
 
-set a_label_modified "abc-su1ag1bb"
+
+proc ::punycode::encode_digit { d {flag 0}} {
+    if {$flag != 0} {
+        set flag 1
+    }
+    set val [expr { $d + 22 + 75 * ($d < 26) - (($flag != 0) << 5)}]
+    log 4 "encode_digit val = $val digit = [format %c $val]"
+    return [format %c $val]
+    #  0..25 map to ASCII a..z or A..Z
+    # 26..35 map to ASCII 0..9
+}
+
+set u_label "ↈaↀbↁcↇ"
 set log_level 0
 
 set form [ns_conn form]
-set a_label_modified [ns_set get $form a $a_label_modified]
+set u_label [ns_set get $form u $u_label]
 set log_level [ns_set get $form l $log_level]
 
 set ::punycode::log_level $log_level
 
 if {[catch {
-    set result [::punycode::decode $a_label_modified]
+    set result [::punycode::encode $u_label]
     set ok 1
 } err]} {
     global errorInfo
     set result $errorInfo
     set ok 0
 }
-
+set ok 0
 if {$ok} {
     set unicode [list]
     set uniline ""
@@ -445,26 +585,26 @@ if {$ok} {
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>
-<title>Fill In Something Useful</title>
+<title>Encode Unicode Label as Punycode</title>
 </head>
 <body>
 <!--  method='POST' encoding='multi-part/formdata' -->
 <form autocomplete='off' spellcheck='false'>
 <ul>
  <li>
-  <label for='a'>Ascii Label</label>
-  <input name='a' id='a' value='$a_label_modified'>
+  <label for='u'>Unicode Label</label>
+  <input name='u' id='u' value='$u_label'>
  </li>
  <li>
   <input type='submit' value='Try it'/>
  </li>
  </ul>
 </form>
-<a href='source.tcl'>Source Code</a><br>
-<a href='explained.txt'>Solution Explained</a>
+<a href='decode.tcl?a=$result&l=5'>Decode $result</a>
 <pre>
-a_label_modified = '$a_label_modified'
+u_label = '$u_label'
 result = '$result'
+a_label = 'xn--$result'
 [join $::punycode::log \n]
 
 [join $unicode \n]

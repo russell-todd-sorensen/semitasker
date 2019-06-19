@@ -11,10 +11,11 @@
 var idString = '\u0051\u0072\u006F\u010D\u0070\u0072\u006F\u0073\u0074\u011B\u006E\u0065\u006D\u006C\u0075\u0076\u00ED\u010D\u0065\u0073\u006B\u0079';
 var ids = idString.split("");
 
-var example_b = '\u4ed6\u4eec\u4e3a\u4ec0\u4e48\u4e0d\u8bf4\u4e2d\u6587'
-var example_b_link = 'http://' + example_b + '.ws'
-var example_l = '\u0033\u5e74\u0042\u7d44\u91d1\u516b\u5148\u751f'
-var example_l_link = 'http://' + example_l + '.ws'
+var example_b = '\u4ed6\u4eec\u4e3a\u4ec0\u4e48\u4e0d\u8bf4\u4e2d\u6587';
+var example_b_link = 'http://' + example_b + '.ws';
+var example_l = '\u0033\u5e74\u0042\u7d44\u91d1\u516b\u5148\u751f';
+var example_l_link = 'http://' + example_l + '.ws';
+
 function loadGliphs() {
 	$('#s1').text('');
 	for (var g in ids) {
@@ -26,7 +27,33 @@ function loadGliphs() {
 	}
 }
 
-function
+function punycode_encode (input ) {
+
+}
+
+function encode_digit(d, flag) {
+    return d + 22 + 75 * (d < 26) - ((flag != 0) << 5);
+}
+
+var base = 36
+var tmin = 1
+var tmax = 26
+var skew = 38
+var damp = 700
+var initial_bias = 72
+var initial_n = 128
+
+function adapt (delta, numpoints, firsttime) {
+    var k
+    delta = firsttime ? parseInt(Math.floor(delta / damp)) : parseInt(Math.floor(delta >> 1));
+
+    delta += parseInt(Math.floor(delta / numpoints));
+
+    for (k = 0; delta > parseInt(Math.floor(((base - tmin) * tmax) / 2)); k += base) {
+        delta = parseInt(Math.floor(delta/(base - tmin)));
+    }
+    return delta;
+}
 
 </script>
 <style id="s1">
