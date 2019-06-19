@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang='en-US'>
+<head>
+<meta charset="utf-8">
+<title>PunyCode Test Strings</title>
+<script src="//use.edgefonts.net/unlock.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script>
+var idString = '\u0051\u0072\u006F\u010D\u0070\u0072\u006F\u0073\u0074\u011B\u006E\u0065\u006D\u006C\u0075\u0076\u00ED\u010D\u0065\u0073\u006B\u0079';
+var ids = idString.split("");
+
+var example_b = '\u4ed6\u4eec\u4e3a\u4ec0\u4e48\u4e0d\u8bf4\u4e2d\u6587'
+var example_b_link = 'http://' + example_b + '.ws'
+var example_l = '\u0033\u5e74\u0042\u7d44\u91d1\u516b\u5148\u751f'
+var example_l_link = 'http://' + example_l + '.ws'
+function loadGliphs() {
+	$('#s1').text('');
+	for (var g in ids) {
+		console.log('g=' + g + ' gliph=' + ids[g]);
+		//$('#g' + g + '.s::before').css({'content': ids[g]});
+		//document.querySelector('#g' + g + ':before').style.content = ids[g];
+
+		$('#s1').append("\n#g" + g + "::before {content: '" + ids[g] + "'}");
+	}
+}
+
+function
+
+</script>
+<style id="s1">
+
+</style>
+<style>
+.correct {
+    background-color: green;
+    color: white;
+}
+.incorrect {
+    background-color:burlywood;
+    color: brown;
+}
+</style>
+<script>
+$(document).ready(function() {
+    loadGliphs()
+    $('#test').html(idString);
+    $('#example-b').attr('href',example_b_link);
+    $('#example-b').text(example_b);
+    $('#example-l').attr('href',example_l_link);
+    $('#example-l').text(example_l)
+});
+</script>
+</head>
+<body>
+    <ul>
+        <li class='incorrect'><a href='http://ગુજરાતી.ws'>ગુજરાતી.ws</a> :: xn--2dcky1czdnc.ws :: (ગુજરાતી)==(<a href='encode.tcl?a=2dcky1czdnc'>2dcky1czdnc</a>)</li>
+        <li class='correct'><a href='http://ગુ.ws'>ગુ.ws</a> :: xn--2dc8f.ws :: (ગુ)==(<a href='encode.tcl?a=2dc8f'>2dc8f</a>)</li>
+        <li class='incorrect'><a href='http://ગુજ.ws'>ગુજ.ws</a> :: xn--2dck4i.ws :: (ગુજ)==(<a href='encode.tcl?a=2dck4i'>2dck4i</a>)</li>
+        <li class='correct'><a href='http://તી.ws'>તી.ws</a> :: xn--gec0d.ws :: (તી)==(<a href='encode.tcl?a=gec0d'>gec0d</a>)</li>
+        <li class='incorrect'><a href='http://בְּאַרָמִית.ws'>בְּאַרָמִית.ws</a> :: xn--7cbiies4je4ezb7f0a.ws :: (בְּאַרָמִית) ==  (<a href='encode.tcl?a=7cbiies4je4ezb7f0a'>7cbiies4je4ezb7f0a</a>) </li>
+        <li class='correct'><a href='http://Хьунд.ws'>Хьунд</a> :: xn--d1arrh9a.ws :: (Хьунд)==(<a href='encode.tcl?a=d1arrh9a'>d1arrh9a</a>)</li>
+        <li class='incorrect'><a href='http://香港特別行政區.ws'>香港特別行政區.ws</a> :: xn--gcru0a023bpni4lf261bykz.ws :: (香港特別行政區) == (<a href='encode.tcl?a=gcru0a023bpni4lf261bykz'>gcru0a023bpni4lf261bykz</a>)</li>
+        <li class='correct'><a href='http://區.ws'>區.ws</a> :: xn--jkr.ws :: (區) == (<a href='encode.tcl?a=jkr'>jkr</a>)</li>
+        <li class='correct'><a href='http://政區.ws'>政區.ws</a> :: xn--jkrr23b.ws :: (政區) == (<a href='encode.tcl?a=jkrr23b'>jkrr23b</a>)</li>
+        <li class='incorrect'><a href='http://行政區.ws'>行政區.ws</a> :: xn--jkrr23bdtz.ws :: (行政區) == (<a href='encode.tcl?a=jkrr23bdtz'>jkrr23bdtz</a>)</li>
+        <li class='correct'><a href='http://行.ws'>行.ws</a> :: xn--jn2a.ws :: (行) == (<a href='encode.tcl?a=jn2a'>jn2a</a>)</li>
+        <li class='correct'><a href='http://ↈaↀbↁcↇↈaↀbↁcↇ.ws'>ↈaↀbↁcↇↈaↀbↁcↇ.ws</a> :: xn--abcabc-wj2cdge6dfbg.ws :: (ↈaↀbↁcↇↈaↀbↁcↇ) == (<a href='encode.tcl?a=abcabc-wj2cdge6dfbg'>abcabc-wj2cdge6dfbg</a>)</li>
+        <li class=''><a href='http://по-русски.ws'>по-русски.ws</a> :: xn----ptbfoeihaq.ws :: () == (<a href='encode.tcl?a=--ptbfoeihaq'>--ptbfoeihaq</a>)</li>
+        <li class=''>Example B:<a href='http://.ws' id='example-b'></a> :: xn--ihqwcrb4cv8a8dqg056pqjye.ws :: (他们为什么不说中文) == (<a href='encode.tcl?a=ihqwcrb4cv8a8dqg056pqjye'>ihqwcrb4cv8a8dqg056pqjye</a>)</li>
+        <li class=''>Example L:<a href='http://.ws' id='example-l'></a> :: xn--3B-ww4c5e180e575a65lsy2b.ws :: (3年B組金八先生) == (<a href='encode.tcl?a=3B-ww4c5e180e575a65lsy2b'>3B-ww4c5e180e575a65lsy2b</a>)</li>
+        <li class=''><a href='http://.ws'></a> ::  :: () == (<a href='encode.tcl?a='></a>)</li>
+        <li class=''><a href='http://.ws'></a> ::  :: () == (<a href='encode.tcl?a='></a>)</li>
+        <li class=''><a href='http://.ws'></a> ::  :: () == (<a href='encode.tcl?a='></a>)</li>
+        <li class=''><a href='http://.ws'></a> ::  :: () == (<a href='encode.tcl?a='></a>)</li>
+    </ul>
+    <ul>
+        <li>U+0050 u+0072 u+006F \u+0050</li>
+        <li id='test'></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</body>
+</html>

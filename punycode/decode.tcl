@@ -117,6 +117,22 @@ namespace eval ::punycode {
     variable code_points_lc "abcdefghijklmnopqrstuvwxyz0123456789"
     variable code_points_uc "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
     variable basic_code_points "$code_points_lc$code_points_uc"
+    variable maxint [expr {2<<26}]
+}
+
+proc ::punycode::check_a_plus_b_overflow_p { A B } {
+    # verify b doesn't cause overflow
+    variable maxint
+    expr {$B > ($maxint - $A)}
+}
+
+proc ::punycode::check_a_plus_b_x_c_overflow_p { A B C } {
+    #A + (B * C) Does not overflow ?
+    variable maxint
+    if {$C == 0} {
+        return -code error "Divide By Zero in check_a_plus_b_x_c_overflow_p"
+    }
+    expr {$B > int(($maxint - $A) / $C)}
 }
 
 proc ::punycode::is_valid_code_point { char } {
@@ -268,7 +284,7 @@ proc ::punycode::decode { a_label } {
         if {[is_basic_code_point $n]} {
             return -code error "Error n = '$n' is basic_code_point"
         }
-        lappend log "inserting n=$n char=[format %c $n] at position i=$i"
+        lappend log "inserting n=$n char=[format %c $n] uni=u+[format %0.4X $n] at position i=$i"
         set output "[string range $output 0 [expr {$i - 1}]][format %c $n][string range $output $i end]"
         incr i
         lappend log "for i = '$i' output = '$output' a_label= '$a_label' n = '$n'"
@@ -284,9 +300,11 @@ set form [ns_conn form]
 set a_label_modified [ns_set get $form a $a_label_modified]
 if {[catch {
     set result [::punycode::decode $a_label_modified]
+    set ok 1
 } err]} {
     global errorInfo
     set result $errorInfo
+    set ok 0
 }
 
 ns_return 200 text/html "<!DOCTYPE html>
@@ -313,6 +331,7 @@ ns_return 200 text/html "<!DOCTYPE html>
 a_label_modified = '$a_label_modified'
 result = '$result'
 [join $::punycode::log \n]
+
 </pre>
 </body>
 </html>"
