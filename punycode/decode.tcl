@@ -460,6 +460,7 @@ ns_return 200 text/html "<!DOCTYPE html>
  </li>
  </ul>
 </form>
+<a href='encode.tcl?u=$result&l=5'>Encode $result</a>
 <pre>
 a_label_modified = '$a_label_modified'
 result = '$result'
