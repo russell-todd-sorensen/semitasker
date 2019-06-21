@@ -1,46 +1,4 @@
 
-if {[namespace exists ::hex]} {
-    namespace delete ::hex
-}
-
-namespace eval ::hex {
-    variable Table
-    variable hexChars [split "0123456789ABCDEF" ""]
-
-    for {set i 0} {$i < 7} {incr i} {
-        set Table($i) [expr int(pow(16,$i))]
-    }
-}
-
-proc ::hex::decimal { char } {
-    scan $char %c
-}
-
-proc ::hex::to {decimalNumber} {
-    variable Table
-    variable hexChars
-
-    set result ""
-    set value ""
-    set firstNonZero 0
-
-    for {set i 6} {$i >= 0} {incr i -1} {
-        set H($i) [expr {int($decimalNumber / $Table($i))}]
-        if {$H($i) > 0} {
-            set firstNonZero 1
-            set decimalNumber [expr {$decimalNumber - $H($i) * $Table($i)}]
-        }
-        if {$H($i) == 0} {
-            if {$firstNonZero == 1} {
-                append result [lindex $hexChars $H($i)]
-            }
-        } else {
-            append result [lindex $hexChars $H($i)]
-        }
-    }
-
-    expr {$result eq "" ? "0" : $result}
-}
 
 if {[namespace exists ::punycode]} {
     namespace delete ::punycode

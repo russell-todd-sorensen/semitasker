@@ -115,11 +115,37 @@ set solution {
 
 }
 
-if {[namespace exists ::hex]} {
-    namespace delete ::hex
+if {[namespace exists ::punycode]} {
+    namespace delete ::punycode
 }
 
-namespace eval ::hex {
+namespace eval ::punycode {
+    variable log [list]
+    variable log_level 6
+    variable base 36
+    variable tmin 1
+    variable tmax 26
+    variable skew 38
+    variable damp 700
+    variable initial_bias 72
+    variable initial_n 128
+    variable digit_value
+    variable code_points_lc "abcdefghijklmnopqrstuvwxyz0123456789"
+    variable code_points_uc "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    variable basic_code_points "$code_points_lc$code_points_uc"
+    variable maxint [expr {2<<26}]
+    variable log_levels {
+        {0 "Log Everything"}
+        {1 "Log Details"}
+        {2 "Log Notices"}
+        {3 "Log Warnings"} 
+        {4 "Log Traces"}
+        {5 "Log Errors"} 
+        {6 "Log Nothing"}
+    }
+}
+
+namespace eval ::punycode {
     variable Table
     variable hexChars [split "0123456789ABCDEF" ""]
 
@@ -128,11 +154,13 @@ namespace eval ::hex {
     }
 }
 
-proc ::hex::decimal { char } {
+proc ::punycode::toDecimal { char } {
     scan $char %c
 }
 
-proc ::hex::to {decimalNumber} {
+# Returns minimum 4 hex digits left padded with 0's
+
+proc ::punycode::toHex {decimalNumber} {
     variable Table
     variable hexChars
 
@@ -155,36 +183,36 @@ proc ::hex::to {decimalNumber} {
         }
     }
 
-    expr {$result eq "" ? "0" : $result}
-}
-
-if {[namespace exists ::punycode]} {
-    namespace delete ::punycode
-}
-
-namespace eval ::punycode {
-    variable log [list]
-    variable base 36
-    variable tmin 1
-    variable tmax 26
-    variable skew 38
-    variable damp 700
-    variable initial_bias 72
-    variable initial_n 128
-    variable digit_value
-    variable code_points_lc "abcdefghijklmnopqrstuvwxyz0123456789"
-    variable code_points_uc "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    variable basic_code_points "$code_points_lc$code_points_uc"
-    variable maxint [expr {2<<26}]
+    if {$result eq ""} {
+        set result "0"
+    }
+    return "[string repeat "0" [expr 4-[string length $result]]]$result"
 }
 
 proc ::punycode::log { level args } {
     variable log
     variable log_level
 
-    if {$log_level > $level} {
-        lappend log [join $args " "]
+    if {$level - $log_level >= 0} {
+        lappend log "[join $args " "]"
     }
+}
+
+namespace eval ::punycode {
+
+    set i 0
+    foreach cpt [split $code_points_lc ""] {
+        set digit_value($cpt) $i
+        set digit_value([toHex [toDecimal $cpt]]) $i
+        incr i
+    }
+    set i 0
+    foreach cpt [split $code_points_uc ""] {
+        set digit_value($cpt) $i
+        set digit_value([toHex [toDecimal $cpt]]) $i
+        incr i
+    }
+    unset i
 }
 
 proc ::punycode::check_a_plus_b_overflow_p { A B } {
@@ -210,23 +238,6 @@ proc ::punycode::is_valid_code_point { char } {
 proc ::punycode::is_basic_code_point { char } {
     variable basic_code_points
     expr {[string first $char $basic_code_points] > -1 ? true : false}
-}
-
-namespace eval ::punycode {
-
-    set i 0
-    foreach cpt [split $code_points_lc ""] {
-        set digit_value($cpt) $i
-        set digit_value([::hex::to [::hex::decimal $cpt]]) $i
-        incr i
-    }
-    set i 0
-    foreach cpt [split $code_points_uc ""] {
-        set digit_value($cpt) $i
-        set digit_value([::hex::to [::hex::decimal $cpt]]) $i
-        incr i
-    }
-    unset i
 }
 
 proc ::punycode::adapt {delta numpoints firsttime} {
@@ -265,8 +276,8 @@ proc ::punycode::decode_digit { cp } {
           $cp - 97 < 26 ? $cp - 97 :
           $base}
 }
-#       xn--n5gcsb.ws == ↈↀↁↇ.ws
-# xn--abc-su1ag1bb.ws == ↈaↀbↁcↇ.ws
+
+
 proc ::punycode::decode { a_label } {
 
     variable initial_n
@@ -280,12 +291,15 @@ proc ::punycode::decode { a_label } {
     set i 0
     set bias $initial_bias
 
-    log 5 "n is $n, i is $i, bias is $bias"
+    log 4 "n is $n, i is $i, bias is $bias"
+    log 2 "State &lt;n,i&gt; = <$n,$i> bias is $bias"
+    log 4 "input is $a_label"
+
     set output ""
 
     set last_delimiter_index [string last "-" $a_label]
 
-    log 5 "last_delimiter_index = $last_delimiter_index"
+    log 1 "last_delimiter_index = $last_delimiter_index"
 
     set non_basic_cp_error 0
     set basic_code_points 0
@@ -304,6 +318,7 @@ proc ::punycode::decode { a_label } {
     }
 
     if {$non_basic_cp_error > 0} {
+        log 5 "ERROR non_basic_cp_error count = $non_basic_cp_error"
         return -code error "ERROR non_basic_cp_error count = $non_basic_cp_error"
     }
 
@@ -311,25 +326,37 @@ proc ::punycode::decode { a_label } {
         set a_label [string range $a_label [expr $last_delimiter_index + 1] end]
     }
 
-    log 5 "starting output='$output' a_label='$a_label'"
+    if {$output == ""} {
+        log 4 "there is no delimiter, so extended string starts empty"
+    } else {
+        log 4 "literal portion is $output, so extended string starts as"
+        set lp [list] 
+        foreach char [split $output ""] {
+            lappend lp [::punycode::toHex [::punycode::toDecimal $char]]
+        }
+        log 4 [join $lp " "]
+    }
 
     set input_length [string length $a_label]
     set out [string length $output]
 
     for {set in 0} {$in < $input_length} { } {
         set delta_string ""
-        for {set oldi $i; set w 1; set k $base} {$k > 0} {incr k $base} {
-            log 5 "i = $i oldi = $oldi"
+        for {set oldi $i; set w 1; set k $base} {true} {incr k $base} {
+            log 1 "i = $i oldi = $oldi"
+
             if {$in >= $input_length} {
+                log 5 "Bad Input in=$in input_length=$input_length"
                 return -code error "Bad Input in=$in input_length=$input_length"
             }
+
             set code_point [string index $a_label $in]
-            log 5 "input code_point = '$code_point' in=$in"
-            append delta_string $code_point
-            #set digit $digit_value($code_point)
+            log 2 "input code_point = '$code_point' in=$in"
+            append delta_string $code_point            
             set digit [decode_digit $code_point]
             incr in
             if {$digit >= $base} {
+                log 5 "bad input digit=$digit >= base=$base"
                 return -code error "bad input digit=$digit >= base=$base"
             }
             #if {$digit > ($maxint - $i) / $w} {
@@ -338,11 +365,13 @@ proc ::punycode::decode { a_label } {
             #}
             set i [expr {($i) + ($digit * $w)}]
 
-            log 5 "(i = $i digit=$digit w=$w) digit*w = [expr $digit * $w] new i = i+digit*w = [expr {$i + ($digit * $w)}]"
+            log 1 "(i = $i digit=$digit w=$w) digit*w = [expr $digit * $w] new i = i+digit*w = [expr {$i + ($digit * $w)}]"
 
             if {[is_overflow $i]} {
+                log 5 "overflow error i = '$i' on code_point '$code_point'"
                 return -code error "overflow error i = '$i' on code_point '$code_point'"
             }
+
             if {$k <= $bias} {
                 set t $tmin
             } elseif {$k >= ($bias + $tmax) } {
@@ -350,18 +379,23 @@ proc ::punycode::decode { a_label } {
             } else {
                 set t [expr {$k - $bias}]
             }
-            log 5 "t = $t k = $k bias = $bias, bias+tmax = [expr $bias + $tmax] k-bias = [expr $k - $bias]"
+
+            log 2 "t = $t k = $k bias = $bias, bias+tmax = [expr $bias + $tmax] k-bias = [expr $k - $bias]"
+
             if {$digit < $t} {
-                log 5 "Breaking on digit $digit < t $t"
+                log 1 "Breaking on digit $digit < t $t"
                 break
             }
+
             set w [expr {$w * ($base - $t)}]
+
             if {[is_overflow $w]} {
+                log 5 "overflow error on w = '$w'"
                 return -code error "overflow error on w = '$w'"
             }
         }
 
-        log 4 "delta \"$delta_string\" decodes to $i"
+        log 4 "delta \"$delta_string\" decodes to [expr $i - $oldi]"
 
         set bias [adapt \
             [expr {$i - $oldi}] \
@@ -369,41 +403,99 @@ proc ::punycode::decode { a_label } {
             [expr {$oldi == 0}] ]
 
         log 4 "bias becomes $bias"
+
+        log 3 "State &lt;n,i&gt; = <$n,$i>"
+
         set n [expr {$n + (int($i) / int($out + 1))}]
+
         if {[is_overflow $n]} {
+            log 5 "overflow on n = '$n'"
             return -code error "overflow on n = '$n'"
         }
 
         set i [expr {$i % int($out + 1)}]
+
         if {[is_basic_code_point $n]} {
+            log 5 "Error n = '$n' is basic_code_point"
             return -code error "Error n = '$n' is basic_code_point"
         }
-        log 5 "inserting n=$n char=[format %c $n] uni=u+[::hex::to $n] at position i=$i"
+
+        log 3 "inserting n=$n char=[format %c $n] uni=u+[toHex $n] at position i=$i"
+
         set output_list [split $output ""]
         set output [join [linsert $output_list $i [format %c $n]] ""]
-        #set output "[string range $output 0 [expr {$i - 1}]][format %c $n][string range $output $i end]"
         set out [string length $output]
         incr i
-        set chout [list]
-        foreach ch [split $output ""] {
-            lappend chout [::hex::to [scan $ch %c]]
-        }
-        log 4 [linsert $chout $i *]
-        log 5 "for i = '$i' output = '$output' a_label= '$a_label' n = '$n'"
+
+        formatAsHex $output $i
+
+        log 1 "for i = '$i' output = '$output' a_label= '$a_label' n = '$n'"
     }
-    log 5  "while i = '$i' output = '$output' a_label= '$a_label'"
+
+    log 1  "while i = '$i' output = '$output' a_label= '$a_label'"
 
     return $output
 }
 
+
+proc ::punycode::formatAsHex { output i} {
+    
+    set chout [list]
+
+    foreach ch [split $output ""] {
+        lappend chout [toHex [toDecimal $ch]]
+    }
+
+    log 4 [linsert $chout $i *]
+}
+
+# returns list of unicode code points 
+proc ::punycode::formatAsUnicode { u_label {length 9}} {
+    set unicode [list]
+    set uniline ""
+    set i 1
+    set lines 0
+    foreach cp [split $u_label ""] {
+        if {[string is upper $cp]} {
+            set u U
+        } else {
+            set u u
+        }
+        set ucp ${u}+[format %0.4X [scan $cp %c]]
+        append uniline "$ucp "
+        
+        if {($i % $length) == 0} {
+            lappend unicode $uniline
+            set uniline ""
+            incr lines
+        }
+        incr i
+    }
+    if {$lines == [llength $unicode]} {
+        lappend unicode $uniline
+    }
+    return $unicode
+}
+
 set a_label_modified "abc-su1ag1bb"
-set log_level 0
+set log_level $::punycode::log_level
 
 set form [ns_conn form]
 set a_label_modified [ns_set get $form a $a_label_modified]
 set log_level [ns_set get $form l $log_level]
-
 set ::punycode::log_level $log_level
+
+set select [list]
+set selected ""
+foreach level_list $::punycode::log_levels {
+    lassign $level_list level_value level_name
+    if {$log_level eq $level_value} {
+        set selected " selected"
+    } else {
+        set selected ""
+    }
+    lappend select "<option value='$level_value'$selected>$level_name</option>"
+}
 
 if {[catch {
     set result [::punycode::decode $a_label_modified]
@@ -414,33 +506,11 @@ if {[catch {
     set ok 0
 }
 
+set unicode [list "no result"]
+
 if {$ok} {
-    set unicode [list]
-    set uniline ""
-    set i 1
-    set lines 0
-    foreach cp [split $result ""] {
-        if {[string is upper $cp]} {
-            set u U
-        } else {
-            set u u
-        }
-        set ucp ${u}+[format %0.4X [scan $cp %c]]
-        append uniline "$ucp "
-        #::punycode::log $ucp
-        if {($i % 9) == 0} {
-            lappend unicode $uniline
-            set uniline ""
-            incr lines
-        }
-        incr i
-    }
-    if {$lines == [llength $unicode]} {
-        lappend unicode $uniline
-    }
-} else {
-    set unicode [list "no result"]
-}
+    set unicode [::punycode::formatAsUnicode $result]
+} 
 
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
@@ -456,14 +526,22 @@ ns_return 200 text/html "<!DOCTYPE html>
   <input name='a' id='a' value='$a_label_modified'>
  </li>
  <li>
+  <label for='l'>Logging Level</label>
+  <select id='l' name='l' >
+  [join $select "\n   "]
+  </select>
+ </li>
+ <li>
   <input type='submit' value='Try it'/>
  </li>
  </ul>
 </form>
-<a href='encode.tcl?u=$result&l=5'>Encode $result</a>
+<a href='encode.tcl?u=$result&l=$log_level'>Encode $result</a>
 <pre>
 a_label_modified = '$a_label_modified'
 result = '$result'
+
+Traces:
 [join $::punycode::log \n]
 
 [join $unicode \n]
