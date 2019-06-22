@@ -133,7 +133,7 @@ if {[catch {
     set ok 0
 }
 
-set select $::punycode::select
+set select [::punycode::buildSelect]
 
 set unicode [list "no result"]
 
@@ -145,10 +145,16 @@ ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>
 <title>Decode ASCII PunyCode Label</title>
+<link rel='stylesheet' href='punycode.css' />
+<style>
+
+</style>
 </head>
 <body>
 <!--  method='POST' encoding='multi-part/formdata' -->
-<form autocomplete='off' spellcheck='false'>
+<form autocomplete='off' spellcheck='false' id='form1'>
+<fieldset>
+<legend>Options for Punycode Decode</legend>
 <ul>
  <li>
   <label for='a'>Ascii Label</label>
@@ -164,17 +170,20 @@ ns_return 200 text/html "<!DOCTYPE html>
   <input type='submit' value='Try it'/>
  </li>
  </ul>
+</fieldset>
 </form>
-<a href='encode.tcl?u=$result&l=$log_level'>Encode $result</a>
+<div id='result'>
+<a href='encode.tcl?u=$result&l=$log_level' id='link'>Encode $result</a>
 <pre>
 a_label_modified = '$a_label_modified'
 result = '$result'
 
-Traces:
+Decode Traces:
 [join $::punycode::log \n]
 
 [join $unicode \n]
 
 </pre>
+</div>
 </body>
 </html>"

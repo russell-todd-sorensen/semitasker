@@ -30,12 +30,14 @@ namespace eval ::punycode {
     }
 }
 
-namespace eval ::punycode {
+proc ::punycode::buildSelect { } {
 
-    variable select [list]
-    variable selected ""
+    variable log_level
+    variable log_levels
+    set select [list]
+    set selected ""
 
-    foreach level_list $::punycode::log_levels {
+    foreach level_list $log_levels {
         lassign $level_list level_value level_name
         if {$log_level eq $level_value} {
             set selected " selected"
@@ -44,6 +46,7 @@ namespace eval ::punycode {
         }
         lappend select "<option value='$level_value'$selected>$level_name</option>"
     }
+    return $select 
 }
 
 namespace eval ::punycode {
@@ -194,7 +197,7 @@ proc ::punycode::decode { a_label } {
 
     log 4 "n is $n, i is $i, bias is $bias"
     log 2 "State &lt;n,i&gt; = <$n,$i> bias is $bias"
-    log 4 "input is $a_label"
+    log 4 "input is \"$a_label\""
 
     set output ""
 
@@ -398,12 +401,19 @@ proc ::punycode::encode { u_label {output_length 63}} {
     set out 0
     set input_length [string length $u_label]
     set max_out $output_length
+
+    log 4 "bias is $bias"
+    log 4 "input is:"
+
+    formatAsHex $u_label end
+
     set output ""
 
     for {set j 0} {$j < $input_length} {incr j} {
         set cp [string index $u_label $j]
         if {[basic $cp]} {
             if {$max_out - $out < 2} {
+                log 5 "Punycode Big Output"
                 return -code error "Punycode Big Output"
             }
             append output $cp
@@ -415,7 +425,14 @@ proc ::punycode::encode { u_label {output_length 63}} {
     set b $out ;# b is number of basic code points out is num output
 
     if {$b > 0} {
+        set bcpts [list]
+        foreach cpt [split $output ""] {
+            lappend bcpts [toHex [toDecimal $cpt]]
+        }
         append output "-"
+        log 4 "basic code points ([join $bcpts ", "]) are copied to literal portion: \"$output\""
+    } else {
+        log 4 "there are no basic code points, so no literal portion"
     }
 
     while {$h < $input_length} {
@@ -424,30 +441,34 @@ proc ::punycode::encode { u_label {output_length 63}} {
 
         for {set m $maxint; set j 0} {$j < $input_length} {incr j} {
             set cp [string index $u_label $j]
-            set val [scan $cp %c]
+            set val [toDecimal $cp]
             if {$val >= $n  && $val < $m} {
                 set m $val
+                log 1 "  m set to $val ([toHex $val])"
             }
         }
-
+        log 4 "next code point to insert is [toHex $m]"
         # Increase delta enough to advance the decoder's
         # <n,i> state to <m,0>, but guard against overflow
 
         if {$m - $n > ($maxint - $delta) / ($h + 1)} {
             return -code error "Punycode overflow"
         }
+
         set delta [expr {$delta + ($m - $n) * ($h + 1)}]
         set n $m
 
         for {set j 0} {$j < $input_length} {incr j} {
             set cp [string index $u_label $j]
-            set val [scan $cp %c]
+            set val [toDecimal $cp]
             if {$val < $n} {
                 if {[incr delta] == 0} {
                     return -code error "Punycode overflow"
                 }
             }
+            
             if {$val == $n} {
+                set accumulated_output ""
                 # represent delta as a generalized variable length integer:
                 for {set q $delta; set k $base} {true} {incr k $base} {
                     if {$out >= $max_out} {
@@ -463,12 +484,17 @@ proc ::punycode::encode { u_label {output_length 63}} {
                     if {$q < $t} {
                         break
                     }
-                    append output [encode_digit [expr {$t + ($q - $t)%($base - $t)}] 0]
+                    set outputCode [encode_digit [expr {$t + ($q - $t)%($base - $t)}] 0]
+                    append output $outputCode
+                    append accumulated_output $outputCode
                     set q [expr {int(($q - $t) / ($base - $t))}]
                 }
-
-                append output [encode_digit $q 0]
+                set outputCode [encode_digit $q 0]
+                append output $outputCode
+                append accumulated_output $outputCode
+                log 4 "needed delta is $delta, encodes as \"$accumulated_output\""
                 set bias [adapt $delta [expr {$h + 1}] [expr {$h == $b}]]
+                log 4 "bias becomes $bias"
                 set delta 0
                 incr h
             }
@@ -478,10 +504,10 @@ proc ::punycode::encode { u_label {output_length 63}} {
         incr n
     }
     set output_length $out
+    log 4 "output is \"$output\""
     return $output
 }
 
- 
 proc ::punycode::encode_digit { d {flag 0}} {
     if {$flag != 0} {
         set flag 1

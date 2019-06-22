@@ -1,0 +1,39 @@
+#result {
+  padding: 8px;
+}
+
+a#link,
+#form1 label,
+#form1 input,
+#form1 legend,
+#form1 select option {
+  font-family: 'DejaVu Sans';
+  font-weight: normal;
+}
+
+#form1 select option {
+  display: inline-block;
+  width: 169px;
+}
+
+#form1 select#l,
+#form1 select#l option {
+  display: inline-block;
+  width: 169px;
+}
+
+#form1 label {
+  display: inline-block;
+  width: 120px;
+}
+
+#form1 fieldset {
+  max-width: 500px;
+  min-width: 400px;
+}
+
+#form1 li {
+  list-style: none;
+  font-size: .9em;
+  padding: .1em;
+}
