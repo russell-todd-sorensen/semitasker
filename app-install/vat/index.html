@@ -1,0 +1,185 @@
+<center><h1>VAT Module Instructions</h1></center>
+
+<h3> VAT:  Vhost Abstract Template Module Parameters</h3>
+
+<h4>Files</h4>
+<ul>
+<li>Tar file of vat.tcl and this file: <a href="vat-0.3.tar.gz">Vat-0.3.tar.gz</a>
+<li>Vat.txt file so you can see what it is now. <a href="vat.txt">vat.txt</a>
+<li>dirlist.txt, which is an almost exact copy of _ns_dirlist procedure. <a href="dirlist.txt">dirlist.txt</a>
+</ul>
+<h4>Configuration File Parameters</h4>
+<p>Here is an example from a working nsd.tcl file. These are the parameters you will
+   need to add to your file, in addition to the parameters already there.
+<blockquote>
+<pre>
+ns_section "ns/server/${server}/modules"
+ns_param vat  Tcl
+
+ns_section "ns/server/${server}/module/vat"
+# PathVars are directory names to template root, in order (from VhostRoot)
+# These vars are set per connection.
+ns_param PathVars        [list server version module name] 
+ns_param VhostRoot       {/web/server1/vhost}
+ns_param Precedence      [list tcl html adp htm]
+ns_param pageroot        "/web/server1/www"
+ns_param default_handler vat_default_handler
+ns_param tcl_handler     vat_tcl_handler
+ns_param html_handler    vat_adp_handler
+ns_param adp_handler     vat_adp_handler
+ns_param defaultServer   [ns_info server]
+# Multiple methods can be set
+# The default, is for GET POST and HEAD to be set
+#ns_param Method          GET         ;
+</blockquote>
+</pre>
+
+<p>Servermap section is a pointer to the actual server name so that 
+ multiple domains can share a set of functionality </p>
+<blockquote>
+<pre>
+ns_section "ns/server/${servername}/module/vat/servermap"
+ns_param {host.example.com}    server1
+ns_param {other.example.com}   server1
+ns_param {www.example.com}     server2
+ns_param {example.net}         server3
+ns_param {www.example.net}     server4
+
+ns_section "ns/server/${servername}/module/vat/maps"
+ns_param {*:server1}    {}
+ns_param {*:server2}    {/web/server1/vhost/server2/www}
+ns_param {*:server3}    {/web/server1/vhost/server3/www}
+ns_param {*:server4}    {relative/pageroot/www}
+</pre>
+</blockquote>
+<h4> Where will the files go?</h4>
+<ol>
+ <li> vat.tcl 
+  <p>This file goes in a new directory under your private tcl directory
+ In ACS, this is usually /web/${server}/tcl
+ Create a directory called vat and place this file in that directory.
+ In this example the file is located at:
+ <blockquote>
+ <pre>
+ /web/server1/tcl/vat/vat.tcl
+ </pre>
+ </blockquote>
+
+ </li>
+ <li> Pageroot (www)
+  <p>Pageroot for each server is listed under the <code>".../vat/maps"</code> ns_section
+  <ul>
+   <li>A blank map <code>{}</code> indicates that the server uses the default pageroot
+ which is the pageroot parameter from the <code>".../modules/vat"</code> ns_section
+ In this case the default pageroot is <code>/web/server1/www</code>. 
+   <li> A map starting with '/' indicated an absolute pageroot. So server2's 
+pageroot is <code>/web/server1/vhost/server2/www</code>.
+   <li> A map starting with anything else indicates a pageroot relative to the 
+ default pageroot. So example.com's pageroot would be at:
+ <code>/web/server1/www/relative/pageroot/www</code>.
+  </ul>
+ <p>
+ <li> Template Root 
+  <p>This is more complicated because of the flexibility desired.
+ You start at <code>VhostRoot</code> and add the variables found as a list under
+ <code>PathVars</code>. You can add or remove variables from this list.
+ Each time a user connects to your server the listed variables are set.
+ Then the Template Root is determined by substituting the variables.
+ In the above example Template Root is:
+ <pre>
+ /web/server1/vhost/$Template(server)/$Template(version)/$Template(module)/$Template(name)
+ </pre>
+ Just remember, that you can add or leave out as many variables as you want.
+ All you need to do to add a variable is to put the Template array name in the PathVars list
+ and define a proc to set the variable. If you wanted the day of week as variable:
+ <blockquote>
+  <pre>
+  proc vat_set_template_day { key } {
+      global Template
+      set Template(day) [ns_fmttime [ns_time] %a]
+      return
+  }
+  </pre>
+ </blockquote>
+ <p>Note that the variable <code>key</code> is the method (GET,POST,HEAD) 
+    and the server name. The variable is not used
+    in the supplied procs, but could be used for more targeted templating.  
+    Examples here would be:
+    <ul>
+     <li><code>GET:server1</code>
+     <li><code>POST:server2</code>
+     <li><code>HEAD:server3</code>
+    </ul>
+  <p>
+ <li> Abstract Files
+  <p>Abstract files are simply urls without extensions. 
+ If you don't want .tcl or .html extensions on your files,
+ or if you want everyone to think that you have a java based or asp based
+ system, you can use this system to avoid or deceive. 
+ <p>The point is that the extension is ignored (assuming there isn't an exact match).
+ Then if you have an actual file <code>index.adp</code>, you can access this file as
+ <ul>
+  <li>index 
+  <li>index.html 
+  <li>index.tcl 
+  <li>index.jhtml 
+  <li>index.asp 
+  <li>etc. 
+ </ul>
+ <p>as long as your Precedence list includes <code>adp</code>
+ <p>The example configuration has a Precedence list of <code>[list tcl html adp htm]</code>.
+ <p>
+ <li> Template files look like: <code>name-01.tcl</code>, <code>name-02.html</code>
+  <p> All files in the template directory matching <code>$Template(name)-[0-9][0-9].*</code> 
+ are sourced in numeric order. 
+ I usually set up all variable in a tcl file and then use an adp file for the
+ html/template. 
+ <p>
+ <li> Debugging:
+  <p>If you need more information on what parts of the filter are being used
+     for a certain request, you can turn on debugging.
+  <p>Set the following parameter in your nsd.tcl file:
+   <blockquote>
+    <pre>  
+ns_section "ns/parameters"
+ns_param   debug           true
+    </pre>
+   </blockquote>
+ <li>Order of Search
+   <p>This filter looks for 
+<ol>
+ <li> an exact match under pageroot
+ <li> an abstract file under pageroot
+ <li> a template
+ <li> exits with filter_ok, if nothing is found which:
+ <li> passes control back to the main server.
+</ol>
+ <p>
+  <li>Using this filter with multiple ACS domains.
+  <p>You need to copy your <code>/web/servername/parameters/${server}.ini</code> 
+   file to a new file in the same directory. In this example, I have two OpenACS 
+   domains with the following <code>.ini</code> files:
+   <ul>
+    <li><code>server1.ini</code>
+    <li><code>server2.ini</code>
+   </ul>
+  <p>You have to set up the file replacing the original server name with the new name. 
+    In this example, server2 replaced server1:
+  <pre>[ns/server/server1/acs] --- becomes --&gt;   [ns/server/server2/acs]</pre></p>
+  <p>Also you have to <i>add</i> the following section:
+  <pre>
+[ns/server/server2/db]
+Pools=*
+DefaultPool=main
+   </pre>
+</ol>
+
+
+    <hr>
+    <address><a href="https://web.archive.org/web/20030722140454/mailto:tom@zmbh.com">Tom Jackson</a></address>
+<!-- Created: Mon Oct 16 10:57:46 PDT 2000 -->
+<!-- hhmts start -->
+Last modified: Wed Oct 18 13:32:11 PDT 2000
+<!-- hhmts end -->
+  </body>
+</html>
