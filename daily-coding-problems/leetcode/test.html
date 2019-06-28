@@ -1,0 +1,28 @@
+<html>
+    <head>
+    <script>
+var twoSum = function(nums, target) {
+    var done = new Array()
+    var item
+    for (i = 0;i<nums.length;i++) {
+        item = nums[i]
+        if (done[target - item] != undefined) {
+            return [done[target - item], i]
+        } else {
+            done[item] = i
+        }
+    }
+    return "No Match"
+}; 
+var result = twoSum ([3,6,1,9,4,8], 15);
+
+console.log ("result = " + result)
+
+    </script>
+    </head>
+    <body>
+<b>Hi</b>
+    </body>
+</html>
+
+

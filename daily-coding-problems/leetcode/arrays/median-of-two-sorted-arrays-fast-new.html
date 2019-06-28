@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" />
+<title>Median of two Sorted Arrays in O(log(n+m))</title>
+<link rel="stylesheet" href="/css/main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<style>
+
+.t-0, 
+.t-1,
+.t-2 {
+    /*width: 5px;*/
+    width: 1vw;
+    height: 1vh;
+    border-width: .125px;
+    border-style: solid;
+    border-collapse: collapse;
+    display: inline-block;
+    border-color: rgba(54,54,54,.5);
+    font-size: .1em;
+    vertical-align: top;
+}
+.t-0 {
+    background-color: grey;
+}
+.t-1 {
+    background-color: tan;
+}
+.t-2 {
+    background-color: rgb(224, 229, 255);
+}
+
+#matrix {
+   /* width: 100px; */
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: lightyellow;
+    border: 1px solid green;
+    font-size: .1em;
+    vertical-align: top;
+}
+
+
+</style>
+        
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="/js/schedule-function.js"></script>
+<script src="/js/mouse-events.js"></script>
+<script src="median-of-two-sorted-arrays-fast-new.js"></script>
+
+<script>
+var htmlObjects = [];
+
+var runTests = function (setId,widthId) {
+    set = parseInt($('#' + setId).val());
+    width = parseInt($('#' + widthId).val());
+    pickExample(set);
+
+    var median = bruteForceMedianValue(arr1,arr2)
+    oneArray = combineArraysGatherStats(arr1,arr2); // global var
+
+    var numValues = oneArray.length;
+    var extent    = oneArray[numValues-1].val - oneArray[0].val
+    var zeroExtra = 0; //extent needs to extend
+    var endExtra  = 0;
+    var row       = 0;
+    var rows      = 0;
+    var next         ;
+    var prev      = oneArray[0];
+    var idx          ;
+    var medianIndex  ;
+
+    htmlObjects = new Array();
+    for (var j=0,prev=oneArray[0],k=0;j<numValues;j++) {
+        next = oneArray[j];
+        k = next.val - prev.val;
+        for (var n = 1;n<k;n++) {
+            idx = htmlObjects.length;
+            htmlObjects[idx] = {val:prev.val+n, idTag:0, idx:idx}
+        }
+        idx = htmlObjects.length;
+        htmlObjects[idx] = next;
+        prev = next;
+    }
+
+    width = parseInt($('#' + widthId).val())
+
+    extent = extent + zeroExtra + endExtra;
+    rows = Math.ceil(extent/width);
+    medianIndex = findMedianSortedArrays(arr1,arr2);
+
+}
+
+var writeDivs = function (containerId,arr) {
+
+    document.getElementById(containerId).nodeValue="";
+
+    //var tab = d3.selectAll('#' + containerId);
+    var tab = d3.select('#' + containerId);
+    tab.html("");
+    tab.selectAll('div')
+        .data(htmlObjects)
+        .enter()
+        .append('div')
+        .attr('id',function(d,i) {return 'e-' + i})
+        .attr('class',function(d,i) {return 't-' + d.idTag;})
+        .attr('title',function(d,i) {return d.val});
+
+}
+
+$(document).ready(function() {
+
+    Log.Notice('Document Ready');
+
+});
+</script>
+</head>
+<body>
+<div id="controls">
+<form onsubmit="return false;">
+<fieldset>
+<legend>Options: Test Median Finding Algos</legend>
+<ul>
+<li><label for="set">Array Set: </label>
+    <input name="set" id="set" type="number" min="0" max="20" value="8"></li>
+<li><label for="width">Horizontal Width:</label>
+<input name="width" id="width" type="number" min="20" max="500" step="20">
+</li>
+<li><input type="button" onclick="runTests('set','width');writeDivs('matrix',htmlObjects)" value="Run Tests!"></li>
+</ul>
+</fieldset>
+
+</form>
+</div>
+<div id="matrix"></div>
+</body>
+</html>
+
+

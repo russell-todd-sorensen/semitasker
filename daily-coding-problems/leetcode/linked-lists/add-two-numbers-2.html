@@ -1,0 +1,76 @@
+<html>
+    <head>
+    <script>
+/*
+ * Definition for singly-linked list.
+ */
+function ListNode(val) {
+      this.val = val;
+     this.next = null;
+}
+ 
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+
+var addTwoNumbers = function(l1, l2) {
+
+    var a = [];
+    var root = new ListNode(0);
+    a[a.length] = root;
+    var remainder = carry = sum = 0;
+    var next;
+    var p1, p2;
+    var v1, v2;
+
+    p1 = l1;
+    p2 = l2;
+
+    while (true) {
+        v1 = p1.val ? p1.val : 0;
+        v2 = p2.val ? p2.val : 0;
+
+        sum = v1 + v2;
+        remainder = sum % 10;
+        carry = parseInt(sum/10);
+
+        a[a.length-1].val += remainder;
+        a[a.length] = new ListNode(carry)
+        a[a.length-2].next = a[a.length-1]
+        
+        p1 = p1.next ? p1.next : {val:0,next:null};
+        p2 = p2.next ? p2.next : {val:0,next:null};
+        if (p1.next == null 
+            && p2.next == null
+            && p1.val == 0
+            && p2.val == 0) {
+                a[a.length-2] = null;
+                break;
+            }
+    }
+    return root;
+};
+
+l1 = new ListNode(2)
+l1.next = new ListNode(4)
+l1.next.next = new ListNode(3)
+//l1.next.next.next = new ListNode(5)
+//l1.next.next.next.next = new ListNode(9)
+
+l2 = new ListNode(5)
+l2.next = new ListNode(6)
+l2.next.next = new ListNode(4)
+
+var result = addTwoNumbers(l1,l2);
+
+console.log ("result = " + result)
+
+    </script>
+    </head>
+    <body>
+<b>Hi</b>
+    </body>
+</html>
+

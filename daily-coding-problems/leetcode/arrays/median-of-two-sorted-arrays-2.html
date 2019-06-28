@@ -1,0 +1,91 @@
+<html>
+    <head>
+    <script>
+/**
+ * @param {number[]} nums1
+ * @param {number[]} nums2
+ * @return {number}
+ */
+var findMedianSortedArrays = function(nums1, nums2) {
+    var flen, slen;
+    var first, secnd;
+    //compare first item in each array
+    var min, max;
+    var order = [];
+    if (nums1[0] >= nums2[0]) {
+        first = nums1;
+        secnd = nums2;
+    } else {
+        first = nums2;
+        secnd = nums1;
+    }
+
+    order[0] = {arr:first, val:first[0], idx:0}
+
+    flen = first.length
+    slen = secnd.length
+
+    // median index calculation
+    var m1 = 0;
+    var m2 = 0;
+    m1 = parseInt((flen+slen)/2)
+    if ((flen+slen) % 2 == 0) m2 = m1+1;
+
+    if (first[flen-1] < secnd[0]) {
+        // arrays do not overlap
+        order[1] = {arr:first, val:first[flen-1], idx: flen-1}
+        order[2] = {arr:secnd, val:secnd[0]}
+        order[3] = {arr:secnd, val:secnd[slen-1], idx: (flen+slen-1)}
+    } else {
+        order[1] = {arr:secnd, val:secnd[0]}
+
+        if (first[flen-1] < secnd[slen-1]) {
+            order[2] = {arr:first, val:first[flen-1]}
+            order[3] = {arr:secnd, val:secnd[slen-1], idx: (flen+slen-1)}
+        } else {
+            order[2] = {arr:secnd, val:secnd[slen-1]}
+            order[3] = {arr:first, val:first[flen-1], idx: (flen+slen-1)}          
+        }
+    }
+    // point is to find the location and value of m1 and m2
+    var testIndex = order[0].arr[parseInt(order[0].arr.length)]
+    var valueAtIdx = order[0].arr[testIndex];
+    var valueToPlace = order[1].val
+    if ( valueAtIdx < valueToPlace) {
+        
+    }
+
+};
+    
+
+var arr1, arr2;
+var answer;
+
+var eg = 1;
+
+switch (eg) {
+case 1: 
+    arr1 = [1, 3];
+    arr2 = [2];
+    answer = 2.0;
+    break;
+case 2:
+    arr1 = [1, 2];
+    arr2 = [3, 4];
+    answer = (2 + 3)/2;
+    break;
+}
+
+
+result = findMedianSortedArrays(arr1,arr2)
+
+console.log ("result = " + result)
+
+    </script>
+    </head>
+    <body>
+<b>Hi</b>
+    </body>
+</html>
+
+

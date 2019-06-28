@@ -1,0 +1,48 @@
+<html>
+    <head>
+    <script>
+/**
+ * @param {string} s
+ * @return {number}
+ */
+
+var lengthOfLongestSubstring = function(s) {
+    var len = 0;
+    var max = len;
+    var char;
+    var last = [];
+    var start = 0
+    var new_start = 0;
+    for (var i in s) {
+        char = s[i];
+        if (last[char] == undefined) {
+            last[char] = i
+            len++
+            if (len > max) {
+                max = len;
+            }
+        } else {
+            new_start = parseInt(last[char]) + 1;
+            for (var j = parseInt(last[char]); j >= start ; j--) {
+                last[s[j]] = undefined;
+                len--
+            }
+            start = new_start;
+            last[char] = i;
+            len++;
+        }
+    }
+    return max;
+};
+
+var result = lengthOfLongestSubstring('abcabcbb');
+console.log ("result = " + result)
+
+    </script>
+    </head>
+    <body>
+<b>Hi</b>
+    </body>
+</html>
+
+
