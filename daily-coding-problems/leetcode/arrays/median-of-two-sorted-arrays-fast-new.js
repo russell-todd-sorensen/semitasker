@@ -11,6 +11,7 @@ var arr1, arr2, arr3; // arr3 is the expected return array
 var answer;           // the decimal median value
 var oneArray;         // used for brute force and display
 var eg;
+var steps;
 
 var findMedianSortedArrays = function(nums1, nums2) {
     var flen, slen;
@@ -86,23 +87,27 @@ var findMedianSortedArrays = function(nums1, nums2) {
     var priorInSecond = 0;
     var elementsPrior = priorInFirst + priorInSecond;
     var medianIndex   = new Array();
-    var steps = 1; // indexes looked at to find median elements
+    steps = 1; // indexes looked at to find median elements GLOBAL VARIABLE
 
     medianIndex[0] = parseInt((flen+slen-1)/2);
     if ((flen+slen) % 2 == 0) {
         medianIndex[1] = medianIndex[0]+1;
     }
+    // we are going to try to reduce the max index in
+    // the longest array
 
     // find where this would fit in secnd.
     var result = new Array()
     rIndex = 0
     var min = 0
-    var max = slen-1
+    var max = slen-1;
     var stepIndex = firstMidIndex; // stepIndex will be used in loop
     var fcValue = first[stepIndex]; // value at middle first array
     var nextIncrement = 0
     var indexString;
+
     while (true && steps < 1000000) {
+ 
         result[rIndex] = findPositionAndCountSteps(secnd,min,max,fcValue);
         priorInSecond  = result[rIndex].pos + result[rIndex].compare;
         priorInFirst   = stepIndex;
@@ -113,12 +118,14 @@ var findMedianSortedArrays = function(nums1, nums2) {
         //nextIncrement = (medianIndex[0] - elementsPrior);
         if (nextIncrement > 0) {
             stepIndex = stepIndex + (nextIncrement);
+
             if (stepIndex > flen-1) {
                 stepIndex = flen-1
             }
+
             fcValue = first[stepIndex]
             min = result[rIndex].min;
-            max = slen-1;
+            max = slen-1
             rIndex++;
             continue;
         }
@@ -136,21 +143,66 @@ var findMedianSortedArrays = function(nums1, nums2) {
         if ((nextIncrement) == 0) {
             // I think this is the ideal case?
             if (result[rIndex].compare == 1) {
-                var snd = secnd[result[rIndex].pos+1]
-                var fst = first[stepIndex]
-                var sub = snd<fst?snd:fst;
-                medianIndex[0] = sub // removed +1
-                indexString = "length='" + (slen+flen) + "' compare=1 index='" + (result[rIndex].pos+1+stepIndex) 
-                    + "' to '" + (result[rIndex].pos+1+stepIndex+1)  
-                    + "' secnd[" 
-                    + (result[rIndex].pos+1) + "]='" 
-                    + medianIndex[0] +  "'";
-                if (medianIndex[1]) {
-                    medianIndex[1] = first[stepIndex] // removed +1
+                /* This means that the second array's found element
+                   is less than the search value, so we want to compare
+                   the next item in the second array with the item in
+                   the first array used in the search. 
+                   I think that this should always fail, but for now,
+                   I'm going to do the comparison anyway. The smallest
+                   of the next item in second array and compared value
+                   in first is chosen.
+                 */
+                //var snd = secnd[result[rIndex].pos+1]
+                //var fst = first[stepIndex]
+                //var sub = snd<fst?snd:fst;
+                var sub,arrName,idx1
+                indexString = "length='" + (slen+flen) + "' compare=1 index='" 
+                    + (result[rIndex].pos+1+stepIndex) 
+                    + "' to '" + (result[rIndex].pos+1+stepIndex+1);
+
+                if (secnd[result[rIndex].pos+1] < first[stepIndex]) {
+                    // use secnd
+                    medianIndex[0] = secnd[result[rIndex].pos+1];
+                    
+                    indexString = indexString + " secnd[" 
+                        + (result[rIndex].pos+1) + "]='" 
+                        + medianIndex[0] + "' ";
+
+                    if (medianIndex[1]) {
+                        if (first[stepIndex+1] <= secnd[result[rIndex].pos]) { // prefer first array
+                            medianIndex[1] = first[stepIndex+1];
+                            arrName[1] = 'secnd'
+                            idx1 = stepIndex+1;
+                        } else {
+                            medianIndex[1] = secnd[result[rIndex].pos]
+                            arrName[1] = 'first'
+                            idx1 = result[rIndex].pos
+                        }
+                        indexString = indexString + arrName[1] + "[" 
+                            +  idx1 + "]='" + medianIndex[1] + "'";
+                    }
+                } else {
+                    medianIndex[0] = first[stepIndex]
                     indexString = indexString + " first[" 
-                        + (stepIndex+1) + "]='" 
-                        + medianIndex[1] + "'";
-                } 
+                        + (stepIndex) + "]='" 
+                        + medianIndex[0] + "' ";
+
+                    if (medianIndex[1]) {
+                        if (first[stepIndex+1] <= secnd[result[rIndex].pos+1]) { // prefer first array
+                            medianIndex[1] = first[stepIndex+1];
+                            indexString = indexString + " first["
+                                + (stepIndex+1) + "]='" + medianIndex[1];
+                        } else {
+                            medianIndex[1] = secnd[result[rIndex].pos+1];
+                            indexString = indexString + " secnd[" 
+                            + (result[rIndex].pos+1) + "]='" + medianIndex[1];
+                        }
+                    }
+                }
+
+                console.log("first[" + stepIndex + "]=" + first[stepIndex] 
+                    + " secnd[" + (result[rIndex].pos+1) + "]=" 
+                    + secnd[result[rIndex].pos+1]);
             } 
             else if (result[rIndex].compare == -1) {
 
@@ -161,16 +213,44 @@ var findMedianSortedArrays = function(nums1, nums2) {
                 if (medianIndex[1]) {
                     medianIndex[1] = fcValue
                 }
+                console.log ("In compare=-1")
             }
             else {
                 var shortSeries = "";
-                medianIndex[0] = fcValue;
+                var needWhich;
+                if (medianIndex[0] == elementsPrior) {
+                    medianIndex[0] = fcValue;
+                    needWhich = 1;
+                } else if (medianIndex[1] && medianIndex[1] == elementsPrior) {
+                    medianIndex[1] = fcValue;
+                    needWhich = 0;
+                }
+                if (needWhich == 0) {
+                    // we need a value smaller than fcValue, which
+                    // is the largest smaller than or equal to fcValue?
+                    // fcValue == secnd[result[n].pos] so check:
+                    if (secnd[result[rIndex].pos] < first[stepIndex-1]) {
+                        medianIndex[needWhich] = secnd[result[rIndex].pos]
+                    } else {
+                        medianIndex[needWhich] = first[stepIndex-1]
+                    }
+
+                } else if (needWhich == 1) {
+                    if (first[stepIndex+1] <= secnd[result[rIndex].pos]) {
+                        medianIndex[needWhich] = first[stepIndex+1]
+                    } else {
+                        medianIndex[needWhich] = secnd[result[rIndex].pos]
+                    }
+                }
+/// FFFFINISH UP HERE
+                //medianIndex[0] = fcValue;
                     indexString = "length='" + (slen+flen) + "' compare=0 first[" 
                         + stepIndex + "]='" 
                         + medianIndex[0] + "'";
                 shortSeries = "first[" + (stepIndex-1) + "]='" 
                     + first[stepIndex-1] + "' ... first[" + (stepIndex+1) + "]=" 
                     + first[stepIndex+1] + " ok ... ";
+                if (false) {
                 if (medianIndex[1]) {
                     // select smallest of followers
                     var fst = first[stepIndex+1];
@@ -194,6 +274,7 @@ var findMedianSortedArrays = function(nums1, nums2) {
                      +  "  Idxs = '" + (stepIndex-1+result[rIndex].pos) + "' to '" 
                      + (stepIndex+1+result[rIndex].pos+1) + "' ok."
                 }
+            }
                 console.log("ShortSeries=" + shortSeries);
             }
             console.log("medianIndex='" + medianIndex + "'" )
@@ -331,7 +412,7 @@ function pickExample (choice) {
         for (var j = 200;j<5000;j+=2) {
             arr2.push(j);
         }
-        arr2.push(190,192.197,198);
+        arr2.push(190,192.197,198,2000);
         arr2.sort(cmpInt);
         arr3 = [1535];
         fudge = 1;
@@ -382,7 +463,7 @@ function cmpInt(a,b) {
 
 
 var bruteForceMedianValue = function(nums1,nums2) {
-    var oneArray = new Array();
+    var oneArray = new Array(); // this is local only
     var i,j
     console.log("arr1='" + nums1 + "'");
     console.log("arr2='" + nums2 + "'");
@@ -458,11 +539,11 @@ var combineArraysGatherStats = function (nums1, nums2) {
     var j = 0;
     var newObj;
     for (i in first) {
-        newObj = {val:first[i], idTag:1, idx:j}
+        newObj = {val:first[i], idTag:1, lidx:'f-' + i, gidx:j}
         result[j++] = newObj;
     }
     for (i in secnd) {
-        newObj = {val:secnd[i], idTag:2, idx:j}
+        newObj = {val:secnd[i], idTag:2, lidx:'s-' + i, gidx:j}
         result[j++] = newObj;
     }
 

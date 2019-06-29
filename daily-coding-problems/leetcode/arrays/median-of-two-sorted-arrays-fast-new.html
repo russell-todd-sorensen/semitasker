@@ -85,10 +85,11 @@ var runTests = function (setId,widthId) {
     htmlObjects = new Array();
     for (var j=0,prev=oneArray[0],k=0;j<numValues;j++) {
         next = oneArray[j];
+        next.cidx = j; // combined index
         k = next.val - prev.val;
         for (var n = 1;n<k;n++) {
             idx = htmlObjects.length;
-            htmlObjects[idx] = {val:prev.val+n, idTag:0, idx:idx}
+            htmlObjects[idx] = {val:prev.val+n, idTag:0, lidx:'l-' + j + '-' + (k+n), gidx:idx, cidx:-1}
         }
         idx = htmlObjects.length;
         htmlObjects[idx] = next;
@@ -114,10 +115,24 @@ var writeDivs = function (containerId,arr) {
         .data(htmlObjects)
         .enter()
         .append('div')
-        .attr('id',function(d,i) {return 'e-' + i})
-        .attr('class',function(d,i) {return 't-' + d.idTag;})
-        .attr('title',function(d,i) {return d.val});
+        .attr('id',function(d,i) {return 'c-' + d.cidx})
+        .attr('class',function(d,i) {return d.lidx + ' t-' + d.idTag;})
+        .attr('title',function(d,i) {
+            return "Val: " + d.val + ", Tag: " + d.idTag 
+            + ", Lidx: " + d.lidx + ", Gidx: " + d.gidx
+            + ", Cidx: " + d.cidx;
+        });
 
+    var len = oneArray.length;
+    var medianIndicies = [];
+    medianIndicies[0] = parseInt((len-1)/2);
+    document.getElementById('c-' + medianIndicies[0])
+        .style.backgroundColor = 'red';
+    if (len % 2 == 0) {
+        medianIndicies[1] = medianIndicies[0]+1;
+        document.getElementById('c-' + medianIndicies[1])
+            .style.backgroundColor = 'red';
+    }
 }
 
 $(document).ready(function() {
@@ -134,7 +149,7 @@ $(document).ready(function() {
 <legend>Options: Test Median Finding Algos</legend>
 <ul>
 <li><label for="set">Array Set: </label>
-    <input name="set" id="set" type="number" min="0" max="20" value="8"></li>
+    <input name="set" id="set" type="number" min="0" max="20" value="14"></li>
 <li><label for="width">Horizontal Width:</label>
 <input name="width" id="width" type="number" min="20" max="500" step="20">
 </li>
