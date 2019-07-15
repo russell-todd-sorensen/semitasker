@@ -38,6 +38,11 @@ set solution {
     more of the previous char, or matches the current
     character (the next different if it never matched).
 
+    The foreach loop idea didn't work because sometimes
+    the regular expression needs to advance and leave The
+    character unchanged. I changed to a while loop to check
+    for additional boundary errors
+
 }
 
 global log
@@ -60,42 +65,65 @@ proc printLog {logName {joinBy \n} {reset 0}} {
 
 proc doesStringMatchRegexp {regex str} {
     set charList [split $str ""]
+    set stringLength [string length $str]
     set regExpList [split $regex ""]
+    set regLength [string length $regex]
     set regIndex 0
     set valid false
-    set mustMatch [lindex $regExpList $regIndex]
     set matchedString ""
     set precedingElement ""
+    set charIndex 0
+    set currentChar [lindex $charList $charIndex]
+    set match true
+    set maxitr 100
+    set loops -1
+    while {
+        $match 
+        && ($charIndex < $stringLength) 
+        && ($regIndex < $regLength) 
+        && [incr loops] < $maxitr
+    } {
 
-    foreach char $charList {
-        rec log "char = '$char' mustMatch='$mustMatch'"
+        set currentChar [lindex $charList $charIndex]
+        set mustMatch   [lindex $regExpList $regIndex]
+
+        rec log "ci=$charIndex re=$regIndex prevChar = '$precedingElement' currentChar = '$currentChar' mustMatch='$mustMatch'"
+
         switch -exact -- $mustMatch {
             "." {
-                append matchedString $char
+                append matchedString $currentChar
+                set precedingElement $currentChar
                 incr regIndex
-                set precedingElement $char
+                incr charIndex
+                rec log ". incr char,reg"
             }
             "*" {
-                if {$char eq $precedingElement} {
-                    append matchedString $char
+                if {$currentChar eq $precedingElement} {
+                    append matchedString $currentChar
+                    incr charIndex
+                    rec log "* incr char"
                 } else {
+                    # move to next re item
                     incr regIndex
-                    set preceedingElement $char
+                    rec log "* incr reg"
                 }
             }
             default {
-                if {$char eq $mustMatch} {
-                    append matchedString $char
-                    set preceedingElement $char
+                if {$currentChar eq $mustMatch} {
+                    append matchedString $currentChar
+                    set precedingElement $currentChar
                     incr regIndex
+                    incr charIndex
+                    rec log "d($currentChar) incr char,reg"
                 } else {
-                    break;
+                    rec log "d($currentChar) no match"
+                    set match false
                 }
             }
         }
-        set mustMatch [lindex $regExpList $regIndex]
     }
-    expr {$str eq $matchedString}
+    rec log "match='$match' regIndex='$regIndex', charIndex='$charIndex' matchedString='$matchedString'"
+    expr {$match && $str eq $matchedString}
 }
 
 set r ra.
@@ -127,7 +155,7 @@ ns_return 200 text/html "<!DOCTYPE html>
  </li>
  </ul>
 </form>
-<a href='source.tcl'>Source Code</a><br>
+<a href='source.tcl?code-2.tcl'>Source Code</a><br>
 <a href='explained.txt'>Solution Explained</a>
 <pre>
 r = '$r'
@@ -135,6 +163,7 @@ s = '$s'
 result = '$result'
 log =
 [printLog log]
+
 </pre>
 </body>
 </html>"

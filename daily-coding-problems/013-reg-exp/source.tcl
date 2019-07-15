@@ -1,7 +1,7 @@
 set urlList [lrange [ns_conn urlv] 0 end-1]
 ns_log Notice "urlList=$urlList"
 set file [ns_conn query]
-if {$file == ""} {
+if {$file == "" || [string first / $file] > -1} {
     set file code.tcl
 }
 

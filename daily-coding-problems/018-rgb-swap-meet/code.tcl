@@ -104,6 +104,7 @@ proc ::rgb::solve {s} {
                 }
             }
         }
+    }
 }
 
 proc ::rgb::swap {ind1 ind2} {

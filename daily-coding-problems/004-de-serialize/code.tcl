@@ -24,7 +24,7 @@ if {[namespace exists ::Node]} {
 }
 
 namespace eval :: {
-    source "d:/git-repos/wtk/init.tcl"
+    source "/web/git-repos/wtk/init.tcl"
 }
 
 << Class ::Node::Node \

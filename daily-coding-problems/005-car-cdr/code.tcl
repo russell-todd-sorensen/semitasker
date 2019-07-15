@@ -3,8 +3,12 @@ if {[namespace exists ::Node]} {
     namespace delete ::Node
 }
 
+if {[namespace exists ::Cons]} {
+    namespace delete ::Cons
+}
+
 namespace eval :: {
-    source "d:/git-repos/wtk/init.tcl"
+    source "/web/git-repos/wtk/init.tcl"
 }
 
 << Class ::Cons::Cons \
@@ -20,7 +24,12 @@ namespace eval :: {
     return $a
 } PUBLIC >>
 
+<< ::Cons::Cons.method b {} {
+    variable b 
+    return $b
+} PUBLIC >>
 
-set one [<< ::Cons::Cons -a e  -b 4 >>]
+
+set one [<< ::Cons::Cons.new -a e -b 4 >>]
 
 ns_return 200 text/plain [<< $one.a >>]

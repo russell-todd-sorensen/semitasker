@@ -7,6 +7,23 @@ set solution {
     # and a final explaination of the actual solution.
 }
 
+global log
+set log [list]
+
+proc rec {logName what} {
+    global $logName
+    lappend $logName $what
+}
+
+proc printLog {logName {joinBy \n} {reset 0}} {
+    global $logName
+    set result [join [set $logName] $joinBy]
+    if {$reset} {
+        set $logName [list]
+    }
+    return $result
+}
+
 proc illuminatingProcName {args} {
     return "todo"
 }

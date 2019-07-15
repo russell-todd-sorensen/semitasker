@@ -1,0 +1,26 @@
+ASCII Art is usually produced without programming,
+but sometimes with a little bit of programming things 
+can be more easily done.
+
+The program utilizes loops to produce identical lines of art.
+
+Only a very simple approach was used here, note that lines
+a == aa 
+b == bb 
+c == cc 
+d == dd 
+e == ee
+
+and
+
+tip == stem
+
+These could have been combined, but the resulting code would
+have been more complicated. Instead the strings were copied 
+and renamed.
+
+Also, if the repeat was 1 this might have just been assumed as a
+default and not set the counts in the default case (very often).
+
+The answer takes up less than half the vertical space and is easy 
+to debug.
