@@ -94,7 +94,7 @@ SvgTransform.adjustImage = function (filterImageId, ellipseId) {
 
   if (this.Images[imageSource] == undefined) {
     this.Images[imageSource] = new Image();
-    this.Images[imageSource].crossOrigin = 'anonymous';
+    this.Images[imageSource].crossOrigin = 'use-credentials'; // was anonymous
     this.Images[imageSource].src = imageSource;
 
 
@@ -132,7 +132,7 @@ SvgTransform.adjustObjectHeightWidth = function (filterImageId) {
 
   if (Data.Images[imageSource] == undefined) {
     Data.Images[imageSource] = new Image();
-    Data.Images[imageSource].crossOrigin = 'anonymous';
+    Data.Images[imageSource].crossOrigin = 'use-credentials'; //was anonymous
     Data.Images[imageSource].src = imageSource;
     Log.Notice("defining new image src=" + imageSource);
     var args = arguments;
