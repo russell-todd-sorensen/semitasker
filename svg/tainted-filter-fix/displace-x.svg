@@ -1,0 +1,44 @@
+<svg version='1.1' 
+     xmlns='http://www.w3.org/2000/svg'
+     xmlns:xlink='http://www.w3.org/1999/xlink'
+     xmlns:ev='http://www.w3.org/2001/xml-events'     
+     baseProfile='full'>
+<defs>
+<radialGradient color-interpolation='sRGB' id='RG2' spreadMethod='reflect'>
+ <stop stop-color='green' offset='0%' ></stop>
+ <stop stop-color='orange' offset='0%' >
+  <animate attributeName='offset' values='0;.2;0' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='10%' id='g-1'>
+  <animate attributeName='offset' values='0.1;0.3;0.1' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='orange' offset='20%' id='o-1'>
+  <animate attributeName='offset' values='0.2;0.4;0.2' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='30%' id='g-2'>
+  <animate attributeName='offset' values='0.5;0.3;0.5' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='orange' offset='40%' id='o-2'>
+  <animate attributeName='offset' values='0.6;0.4;0.6' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='50%' id='g-3'>
+  <animate attributeName='offset' values='0.5;0.8;0.5' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='orange' offset='60%' id='o-3'>
+  <animate attributeName='offset' values='0.6;0.4;0.6' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='70%' id='g-4'>
+  <animate attributeName='offset' values='0.7;1;0.7' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='orange' offset='80%' id='o-4'>
+  <animate attributeName='offset' values='0.8;0.7;0.8' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='90%' id='g-5'>
+  <animate attributeName='offset' values='0.9;1;0.9' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='orange' offset='100%' id='o-5'>
+ </stop>
+</radialGradient>
+</defs>
+<rect id='rDisplaceXRect' x='0' y='0' height='100%' width='100%' style='fill: url(#RG2); stroke: none;' />
+</svg>

@@ -1,0 +1,16 @@
+<svg version='1.1' 
+     xmlns='http://www.w3.org/2000/svg'
+     xmlns:xlink='http://www.w3.org/1999/xlink'
+     xmlns:ev='http://www.w3.org/2001/xml-events'     
+     baseProfile='full'>
+<defs>
+<linearGradient id='hlineardistort2' color-interpolation='sRGB' spreadMethod='repeat' >
+ <stop stop-color='#FFFFFF' offset='0%' />
+ <stop stop-color='#000000' offset='50%' >
+  <animate attributeName='offset' begin='0s' values='0%;100%;0%' dur='15s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='#FFFFFF' offset='100%' />
+</linearGradient>
+</defs>
+<rect id='lineardisplacerect2' x='0' y='0' height='100%' width='100%' style='fill: url(#hlineardistort2); stroke: none;' />
+</svg>
