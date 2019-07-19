@@ -144,7 +144,7 @@ ns_return 200 text/html "<!DOCTYPE html>
  </li>
  </ul>
 </form>
-<a href='source.tcl'>Source Code</a><br>
+<a href='source.tcl?code-2.tcl'>Source Code</a><br>
 <a href='explained.txt'>Solution Explained</a>
 <pre>
 [join $result \n]
