@@ -36,11 +36,12 @@ body {
     /*position: absolute;
     top: 10px;
     right: 10px;*/
+    font: inherit;
 }
 
 /* override #panel  styles */
 #panel fieldset {
-    width: 400px;
+    width: 430px;
 }
 
 /* for the font-distort form */
@@ -50,11 +51,11 @@ body {
     padding: 0;
     margin: 0;
     border: 0;
-    width: 400px;
+    width: 430px;
 }
 
 #distort-font li {
-
+    font: inherit;
 }
 
 #distort-font label {
@@ -62,7 +63,7 @@ body {
 }
 
 #distort-font li.expand {
-    width: 400;
+    width: 430;
 }
 
 #panel input,
@@ -128,4 +129,5 @@ body {
 .c62 {
     stroke: #000000;
     stroke-opacity: .6;
-    stroke-wi
+    stroke-width: 2;
+}

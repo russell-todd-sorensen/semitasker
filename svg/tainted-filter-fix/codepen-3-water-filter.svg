@@ -1,0 +1,34 @@
+<svg version='1.1' 
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ width='300'
+ height='300'
+ viewport='0 0 300 300'
+ baseProfile='full'>
+ <defs>
+<radialGradient color-interpolation='sRGB' id='gf' spreadMethod='reflect'>
+ <stop stop-color='green' offset='0%'/>
+ <stop stop-color='orange' offset='0%'>
+  <animate attributeName='offset' values='0;.5;0' dur='7s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='red' offset='25%'>
+  <animate attributeName='offset' values='.25;0;1;.25' dur='11s' repeatCount='indefinite'/>
+ </stop>
+ <stop stop-color='green' offset='50%' id='g-1'>
+  <animate attributeName='offset' values='0.5;1.2;0.5' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='orange' offset='100%' id='o-5'/>
+ </radialGradient>
+
+<pattern id='Circle' width='300' height='300' x='0' y='0' patternUnits='userSpaceOnUse'>
+ <circle r='200' cx='150' cy='150' stroke-linecap='round' style='fill: url(#gf); stroke: yellow; stroke-width: 20; stroke-dasharray: 1 20;'>
+ <animate attributeName='r' values='200;25;150;50;250' begin='0s' dur='37s' repeatCount='indefinite'/>
+ <animate attributeName='cx' values='150;50;250;50;250;50;150' begin='0s' dur='47s' repeatCount='indefinite'/>
+ <animate attributeName='cy' values='150;250;50;250;150;50;150' begin='0s' dur='57s' repeatCount='indefinite'/>
+ </circle>
+
+</pattern>
+</defs>
+<rect id='rect' width='400' height='400' fill='url(#Circle)'/>
+</svg>

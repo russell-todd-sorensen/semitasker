@@ -1,0 +1,35 @@
+<svg version='1.1' 
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ width="300"
+ height="300"
+ viewport='0 0 300 300'
+ baseProfile='full'>
+ <defs>
+ <style>
+#mystyle {
+    background-image: url("data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='300' width='300' viewport='0 0 300 300' baseProfile='full'%3e%3cdefs%3e%3c/defs%3e%3crect id='MinimumAnimation' x='0' y='0' height='300' width='300'%3e%3canimate attributeName='x' values='0;1' dur='60s' begin='0s' repeatCount='indefinite' style='fill:none;stroke:none;'/%3e%3c/rect%3e%3c/svg%3e");
+}
+ </style>
+<filter id="displacementFilter">
+ <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' width='300' height='300' viewport='0 0 300 300' baseProfile='full'%3e %3cdefs%3e%3cfilter id='TurbulenceFilter'%3e %3cfeTurbulence type='fractalNoise' baseFrequency='0.01' numOctaves='2' stitchTiles='stitch' seed='41' result='turbulence'/%3e%3c/filter%3e%3cpattern id='Triangle' width='300' height='300' x='0' y='0' patternUnits='userSpaceOnUse'%3e %3canimate attributeType='XML' attributeName='x' from='300' to='%2d300' dur='10s' repeatCount='indefinite'/%3e %3crect width='300' height='300' style='filter: url(%23TurbulenceFilter)'/%3e%3c/pattern%3e%3c/defs%3e%3crect id='reat' width='300' height='300' fill='url(%23Triangle)'/%3e%3c/svg%3e" result="TurbulenceImage"/>
+ <feDisplacementMap in2="TurbulenceImage" in="SourceGraphic" result="DisplacementMap"
+  scale="50" 
+  xChannelSelector="R" 
+  yChannelSelector="G"/>
+
+ <feGaussianBlur in="DisplacementMap" stdDeviation="10" result="blur" />
+
+ <feColorMatrix in="blur" mode="matrix" values="
+  1 0 0 0 0
+  0 1 0 0 0
+  0 0 1 0 0
+  0 0 0 19 -9" result="goo" />
+
+ <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+</filter>
+
+</defs>
+<circle id="mycircle" cx="100" cy="100" r="100" style="filter: url(#displacementFilter)"/>
+</svg>

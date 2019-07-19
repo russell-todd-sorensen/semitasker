@@ -1,20 +1,19 @@
 <svg version='1.1' 
-     xmlns='http://www.w3.org/2000/svg'
-     xmlns:xlink='http://www.w3.org/1999/xlink'
-     xmlns:ev='http://www.w3.org/2001/xml-events'     
-     baseProfile='full'>
-		 
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ height='700'
+ width='700'
+ viewport='0 0 700 700'
+ baseProfile='full'>
 <defs>
-<radialGradient color-interpolation='sRGB' id='FishEye' spreadMethod='pad' cx='50%' cy='50%'>
-<animate attributeName='cx' values='0%;20%;100%;80%;0%' begin='0s' dur='15s' repeatCount='indefinite' />
-<animate attributeName='cy' values='0%;100%;100%;80%;0%' begin='0s' dur='15s' repeatCount='indefinite' />
-  <stop stop-color='green' offset='0%' ></stop>
-  <stop stop-color='orange' offset='30%'></stop>
-  <stop stop-color='red' offset='100%' ></stop>
+<radialGradient id='FishEye' color-interpolation='sRGB' spreadMethod='pad' cx='50%' cy='50%'>
+<animate attributeName='cx' values='0%;20%;100%;50%;0%;100%;50%;0%' begin='clickMe.click;0s' dur='30s' repeatCount='indefinite' />
+<animate attributeName='cy' values='0%;100%;100%;50%;0%;20%;120%;0%' begin='clickMe.click;0s' dur='30s' repeatCount='indefinite' />
+<stop stop-color='green' offset='0%' ></stop>
+<stop stop-color='orange' offset='30%'></stop>
+<stop stop-color='red' offset='100%' ></stop>
 </radialGradient>
-
 </defs>
-
-<rect id='FishEyeRect' x='0' y='0' height='100%' width='100%' style='fill: url(#FishEye); stroke: none;'/>
-
+<rect id='FishEyeRect' x='0' y='0' height='700' width='700' style='fill: url(#FishEye); stroke: none;'/>
 </svg>

@@ -1,0 +1,14 @@
+<svg version='1.1' 
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ height='700'
+ width='700'
+ viewport='0 0 700 700'
+ baseProfile='full'>
+<defs>
+</defs>
+<rect id='MinimumAnimation' x='0' y='0' height='700' width='700'>
+<animate attributeName='x' values='0;1' dur='60s' begin='0s' repeatCount='indefinite' style='fill:none;stroke:none;'/>
+</rect>
+</svg>

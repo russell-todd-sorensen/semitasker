@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Codepen bug fix 3</title>
+
+<style>
+#mycircle {
+    background-image: url("data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='300' width='300' viewport='0 0 300 300' baseProfile='full'%3e%3cdefs%3e%3c/defs%3e%3crect id='MinimumAnimation' x='0' y='0' height='300' width='300'%3e%3canimate attributeName='x' values='0;1' dur='60s' begin='0s' repeatCount='indefinite' style='fill:none;stroke:none;'/%3e%3c/rect%3e%3c/svg%3e");
+    fill: rgba(25,102,200,.5);
+}
+svg {
+    background-image: url("/svg/grid-2.svg");
+}
+</style>
+</div>
+</head>
+<body>
+<div id="svg-container">
+<svg version='1.1' 
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ width="450"
+ height="350"
+ viewport='0 0 350 450'
+ baseProfile='full'>
+ <defs>
+<filter id="displacementFilter">
+ <feImage height="90%" width="90%" xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' width='300' height='300' viewport='0 0 300 300' baseProfile='full'%3e %3cdefs%3e%3cradialGradient color%2dinterpolation='sRGB' id='gf' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25'/%3e %3cstop stop%2dcolor='orange' offset='0%25'%3e  %3canimate attributeName='offset' values='0;.5;0' dur='7s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='red' offset='25%25'%3e  %3canimate attributeName='offset' values='.25;0;1;.25' dur='11s' repeatCount='indefinite'/%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='50%25' id='g%2d1'%3e  %3canimate attributeName='offset' values='0.5;1.2;0.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='100%25' id='o%2d5'/%3e %3c/radialGradient%3e%3cpattern id='Circle' width='300' height='300' x='0' y='0' patternUnits='userSpaceOnUse'%3e %3ccircle r='200' cx='150' cy='150' stroke%2dlinecap='round' style='fill: url(%23gf); stroke: yellow; stroke%2dwidth: 20; stroke%2ddasharray: 1 20;'%3e %3canimate attributeName='r' values='200;25;150;50;250' begin='0s' dur='37s' repeatCount='indefinite'/%3e %3canimate attributeName='cx' values='150;50;250;50;250;50;150' begin='0s' dur='47s' repeatCount='indefinite'/%3e %3canimate attributeName='cy' values='150;250;50;250;150;50;150' begin='0s' dur='57s' repeatCount='indefinite'/%3e %3c/circle%3e%3c/pattern%3e%3c/defs%3e%3crect id='rect' width='400' height='400' fill='url(%23Circle)'/%3e%3c/svg%3e" result="TurbulenceImage"/>
+ <feDisplacementMap in2="TurbulenceImage" in="SourceGraphic" result="DisplacementMap"
+  scale="50" 
+  xChannelSelector="R" 
+  yChannelSelector="G">
+  <animate attributeName="xChannelSelector" values="G;R;B:G" begin="0s" dur="30s" repeatCount="indefinite" />
+ <!--<animate attributeName="scale" values="50;300;-5;50" begin="0s" dur="30s" repeatCount="indefinite" />--> 
+ </feDisplacementMap>
+ 
+ <feDisplacementMap in2="TurbulenceImage" in="SourceGraphic" result="DisplacementMap2"
+  scale="-50" 
+  xChannelSelector="R" 
+  yChannelSelector="G">
+  <animate attributeName="xChannelSelector" values="B;G;R:B" begin="0s" dur="45s" repeatCount="indefinite" />
+ <!--<animate attributeName="scale" values="50;300;-5;50" begin="0s" dur="30s" repeatCount="indefinite" />--> 
+ </feDisplacementMap>
+<!--
+ <feGaussianBlur in="DisplacementMap" stdDeviation="10" result="blur" >
+     <animate attributeName="stdDeviation" values="10;5;20;5;10" begin="0s" dur="45s" repeatCount="indefinite"/>
+ </feGaussianBlur>
+
+ <feColorMatrix in="blur" mode="matrix" values="
+  1 0 0 0 0
+  0 1 0 0 0
+  0 0 1 0 0
+  0 0 0 19 -9" result="goo" />
+
+ <feComposite in="SourceGraphic" in2="goo" result="goo2" operator="atop"/>
+ <feComposite in="goo" in2="DisplacementMap2" operation="atop" />-->
+</filter>
+
+</defs>
+<image id="mycircle" xlink:href="/images/feathers-2.jpg" x="10" y="10" height="300" opacity=".8" width="400" stroke="yellow" stroke-width="30" filter="url(#displacementFilter)"/>
+</svg>
+</div>
+</body>
+</html>

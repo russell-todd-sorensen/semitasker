@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<base href="https://github.semitasker.com/" />
+<title>URL/Filter Bug -- Final Version 8</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css"
+ href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="/css/logo-maker-1.css">
+<link rel="stylesheet" href="/css/green-form.css" >
+<link rel="stylesheet" href="filter-bug.css">
+
+<style>
+#image-rect {
+    background-image: url("data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' viewbox='0 0 700 700' %3e		 %3cdefs%3e%3cradialGradient color%2dinterpolation='sRGB' id='FishEye' spreadMethod='pad' cx='50%25' cy='50%25'%3e%3canimate attributeName='cx' values='0%25;20%25;100%25;80%25;0%25' begin='image2.click;4s' dur='15s' repeatCount='indefinite' /%3e%3canimate attributeName='cy' values='0%25;100%25;100%25;80%25;0%25' begin='0s' dur='15s' repeatCount='indefinite' /%3e  %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e  %3cstop stop%2dcolor='orange' offset='30%25'%3e%3c/stop%3e  %3cstop stop%2dcolor='red' offset='100%25' %3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='FishEyeRect' x='0' y='0' height='700' width='700' style='fill: url(%23FishEye); stroke: none;' /%3e%3c/svg%3e");
+    /*  overflow: visible; */
+}
+#image-rect-2 {
+ /* background-image: url("data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='700' width='700' viewport='0 0 700 700' baseProfile='full'%3e%3cdefs%3e%3cradialGradient id='RG' color%2dinterpolation='sRGB' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e %3cstop stop%2dcolor='orange' offset='0%25' %3e  %3canimate attributeName='offset' from='.0' to='.2' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='10%25' id='g%2d1'%3e  %3canimate attributeName='offset' from='.1' to='.3' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='20%25' id='o%2d1'%3e  %3canimate attributeName='offset' from='.2' to='.4' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='30%25' id='g%2d2'%3e  %3canimate attributeName='offset' from='.3' to='.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='40%25' id='o%2d2'%3e  %3canimate attributeName='offset' from='.4' to='.6' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='50%25' id='g%2d3'%3e  %3canimate attributeName='offset' from='.5' to='.7' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='60%25' id='o%2d3'%3e  %3canimate attributeName='offset' from='.6' to='.8' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='70%25' id='g%2d4'%3e  %3canimate attributeName='offset' from='.7' to='.9' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='80%25' id='o%2d4'%3e  %3canimate attributeName='offset' from='.8' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='90%25' id='g%2d5'%3e  %3canimate attributeName='offset' from='.9' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='100%25' id='o%2d5'%3e %3c/stop%3e%3c/radialGradient%3e%3cmask id='RG%2dmask' %3e %3cuse xlink:href='%23RG' x='0' y='0' height='700' width='700' /%3e%3c/mask%3e%3c/defs%3e%3crect id='RGRect' x='0' y='0' height='700' width='700' style='fill: url(%23RG); stroke: none;' /%3e%3c/svg%3e");
+  background-size: 700px 700px;
+  background-repeat: no-repeat;*/
+}
+
+#image2 {
+    background-image: url("data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='700' width='700' viewport='0 0 700 700' baseProfile='full'%3e%3cdefs%3e%3c/defs%3e%3crect id='MinimumAnimation' x='0' y='0' height='700' width='700'%3e%3canimate attributeName='x' values='0;1' dur='60s' begin='0s' repeatCount='indefinite' style='fill:none;stroke:none;'/%3e%3c/rect%3e%3c/svg%3e");
+}
+
+#svg-container {
+  margin-top: 20px;
+  border: 0px solid black;
+}
+
+svg {
+  background-image: url('/svg/grid-2.svg');
+}
+</style>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="/js/panel-show-hide.js"></script>
+<script src="/svg/js/filter-mania-improved-3.js"></script>
+<script>
+
+function setStartImage(imageSelectId) {
+  Data.loadSelectOptions(imageSelectId,Data.Images);
+  Data.restoreSelect('imageFilter');
+  Data.restoreSelect('imageFilter2');
+  Data.restoreSelect('imageChoice');
+  SvgTransform.adjustObjectHeightWidth('image2');
+}
+
+panelHidden["controls"] = [{
+  id:'panel1',
+  visible:true,
+  css:{
+    true:{
+ position:'relative'
+    },
+    false:{
+ position:'absolute'
+    }
+  },
+  extra: [
+    {
+ id:'controls',
+ css:{
+   true: {
+ position:'relative',
+ zIndex:0,
+ "background-color":'transparent'
+   },
+   false: {
+ position:'absolute',
+ zIndex:100,
+ "background-color":'#444444'
+   }
+ }
+   },
+ ]}
+];
+
+$(document).ready(function () {
+  //Data.loadSelectOptions('imageFilter',Data.Filters);
+  //Data.loadSelectOptions('imageFilter2',Data.Filters);
+  setStartImage('imageChoice');
+  //Log.Hide();
+  Log.Remove();
+});
+
+</script>
+</head>
+<body>
+<div id="font-form" class="font-form-on">
+<div id="panel">
+<form id="distort-font">
+<fieldset>
+<legend onClick="togglePanel('controls');">General Animation Options</legend>
+<ul id="panel1">
+ <li><label for="imageFilter">Select Filter 1</label>
+ <select id="imageFilter"
+  onChange="SvgTransform.changeFilter('imageFilter', '#image2')">
+  <option value="">No Filter</option>
+  <option value="url(#fish-eye-1)">Fish Eye One</option>
+  <option value="url(#fish-eye-2)">Fish Eye Two</option>
+  <option value="url(#wave)">Wave</option>
+  <option value="url(#linear-displace-y)">Linear Wave Displace y</option>
+  <option value="url(#displaceX)">DisplaceX Radial</option>
+  <option value="url(#displaceX1)">DisplaceX-1 Radial</option>
+  <option value="url(#displaceX-2)">DisplaceX-2 Linear</option>
+  <option value="url(#displaceX-45)">DisplaceX Linear 45&deg;</option>
+  <option value="url(#gabi-codepen)">Gabi CodePen Example 1</option>
+  <option value="url(#gabi-codepen-2)">Gabi CodePen Example 2</option>
+  </select>
+  </li>
+ <li><label for="imageFilter2">Select Filter 2</label>
+ <select id="imageFilter2"
+  onChange="SvgTransform.changeFilter('imageFilter2', '#clickMe')">
+    <option value="">No Filter</option>
+    <option value="url(#fish-eye-1)">Fish Eye One</option>
+    <option value="url(#fish-eye-2)">Fish Eye Two</option>
+    <option value="url(#wave)">Wave</option>
+    <option value="url(#linear-displace-y)">Linear Wave Displace y</option>
+    <option value="url(#displaceX)">DisplaceX Radial</option>
+    <option value="url(#displaceX1)">DisplaceX-1 Radial</option>
+    <option value="url(#displaceX-2)">DisplaceX-2 Linear</option>
+    <option value="url(#displaceX-45)">DisplaceX Linear 45&deg;</option>
+    <option value="url(#gabi-codepen)">Gabi CodePen Example 1</option>
+    <option value="url(#gabi-codepen-2)">Gabi CodePen Example 2</option>
+  </select>
+  </li>
+ <li>
+  <label for="imageChoice">Select Image</label>
+  <select
+    id="imageChoice"
+    name="imageChoice"
+    onChange="SvgTransform.changeImage('imageChoice','#image2');
+    SvgTransform.adjustObjectHeightWidth('image2'); ">
+    <option value="/svg/grid-2.svg" selected="selected">Grid SVG</option>
+    <option value="/svg/american-st-andrews.svg">American St Andrews SVG</option>
+    <option value="/svg/smile.svg">Smile SVG</option>
+    <option value="/svg/smile-again.svg">Smile Again SVG</option>
+    <option value="/svg/smile-test.svg">Smile Test SVG</option>
+    <option value="/svg/turbulence.svg">Turbulence SVG</option>
+    <option value="/svg/dundee-2.svg">Dundee 2 Tartan SVG</option>
+    <option value=""></option>
+ </select>
+ </li>
+ </ul>
+ </fieldset>
+</form>
+ </div>
+ </div>
+ <div id="svg-container">
+ <svg
+  id="iam-svg"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  version="1.0"
+  x="0"
+  y="0"
+  width="700"
+  height="700"
+  viewBox="0 0 700 700"
+  style="cursor: pointer;">
+
+<defs>
+
+<filter id="fish-eye-1" color-interpolation="sRGB" height="115%" width="115%" filterUnits="objectBoundingBox">
+  <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e %3cdefs%3e%3cradialGradient color%2dinterpolation='sRGB' id='FishEye' spreadMethod='pad' cx='50%25' cy='50%25'%3e%3canimate attributeName='cx' values='0%25;20%25;100%25;80%25;0%25' begin='clickme.click;0s' dur='15s' repeatCount='indefinite' /%3e%3canimate attributeName='cy' values='0%25;100%25;100%25;80%25;0%25' begin='clickme.click;0s' dur='15s' repeatCount='indefinite' /%3e  %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e  %3cstop stop%2dcolor='orange' offset='30%25'%3e%3c/stop%3e  %3cstop stop%2dcolor='red' offset='100%25' %3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='FishEyeRect' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23FishEye); stroke: none;' /%3e%3c/svg%3e" result="tile" />
+
+  <feDisplacementMap
+    in2="tile"
+    in="SourceGraphic"
+    result="done"
+    scale="80"
+    xChannelSelector="R"
+    yChannelSelector="R" >
+  </feDisplacementMap>
+    <!--<feComposite in2="SourceGraphic" in="done" operator="in" />-->
+</filter>
+
+<filter id="fish-eye-2" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%" filterUnits="objectBoundingBox">
+  <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='700' width='700' viewport='0 0 700 700' baseProfile='full'%3e%3cdefs%3e%3cradialGradient id='FishEye' color%2dinterpolation='sRGB' spreadMethod='pad' cx='50%25' cy='50%25'%3e%3canimate attributeName='cx' values='0%25;20%25;100%25;50%25;0%25;100%25;50%25;0%25' begin='0s' dur='30s' repeatCount='indefinite' /%3e%3canimate attributeName='cy' values='0%25;100%25;100%25;50%25;0%25;20%25;120%25;0%25' begin='0s' dur='30s' repeatCount='indefinite' /%3e%3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e%3cstop stop%2dcolor='orange' offset='30%25'%3e%3c/stop%3e%3cstop stop%2dcolor='red' offset='100%25' %3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='FishEyeRect' x='0' y='0' height='700' width='700' style='fill: url(%23FishEye); stroke: none;'/%3e%3c/svg%3e" result="tile"/>
+
+  <feDisplacementMap
+    in2="tile"
+    in="SourceGraphic"
+    result="done"
+    scale="80"
+    xChannelSelector="R"
+    yChannelSelector="R" >
+  </feDisplacementMap>
+  <!-- <feComposite in2="SourceGraphic" in="done" operator="arithmetic" k1="1" />-->
+</filter>
+
+<filter id="wave" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%" filterUnits="objectBoundingBox">
+  <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='700' width='700' viewport='0 0 700 700' baseProfile='full'%3e%3cdefs%3e%3cradialGradient id='RG' color%2dinterpolation='sRGB' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e %3cstop stop%2dcolor='orange' offset='0%25' %3e  %3canimate attributeName='offset' from='.0' to='.2' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='10%25' id='g%2d1'%3e  %3canimate attributeName='offset' from='.1' to='.3' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='20%25' id='o%2d1'%3e  %3canimate attributeName='offset' from='.2' to='.4' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='30%25' id='g%2d2'%3e  %3canimate attributeName='offset' from='.3' to='.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='40%25' id='o%2d2'%3e  %3canimate attributeName='offset' from='.4' to='.6' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='50%25' id='g%2d3'%3e  %3canimate attributeName='offset' from='.5' to='.7' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='60%25' id='o%2d3'%3e  %3canimate attributeName='offset' from='.6' to='.8' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='70%25' id='g%2d4'%3e  %3canimate attributeName='offset' from='.7' to='.9' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='80%25' id='o%2d4'%3e  %3canimate attributeName='offset' from='.8' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='90%25' id='g%2d5'%3e  %3canimate attributeName='offset' from='.9' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='100%25' id='o%2d5'%3e %3c/stop%3e%3c/radialGradient%3e%3cmask id='RG%2dmask' %3e %3cuse xlink:href='%23RG' x='0' y='0' height='700' width='700' /%3e%3c/mask%3e%3c/defs%3e%3crect id='RGRect' x='0' y='0' height='700' width='700' style='fill: url(%23RG); stroke: none;' /%3e%3c/svg%3e" result="tile"/>  
+
+  <feDisplacementMap
+    in2="tile"
+    in="SourceGraphic"
+    result="done"
+    scale="80"
+    xChannelSelector="R"
+    yChannelSelector="R" >
+  </feDisplacementMap>
+  <!-- <feComposite in2="SourceGraphic" in="done" operator="arithmetic" k1="1" />-->
+</filter>
+
+<filter id="linear-displace-y"  color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%" >
+  <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e%3cdefs%3e%3clinearGradient id='hlineardistort2' color%2dinterpolation='sRGB' spreadMethod='repeat' %3e %3cstop stop%2dcolor='%23FFFFFF' offset='0%25' /%3e %3cstop stop%2dcolor='%23000000' offset='50%25' %3e  %3canimate attributeName='offset' begin='0s' values='0%25;100%25;0%25' dur='15s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='%23FFFFFF' offset='100%25' /%3e%3c/linearGradient%3e%3c/defs%3e%3crect id='lineardisplacerect2' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23hlineardistort2); stroke: none;' /%3e%3c/svg%3e" result="tile"  x1="-10%" y1="-10%" x2="110%" y2="110%" />
+
+  <feDisplacementMap
+    in2="tile"
+    in="SourceGraphic"
+    scale="50"
+    yChannelSelector="R">
+      <animate
+        attributeName="scale"
+        values="0;50;100;200;100;50;0"
+        repeatCount="indefinite"
+        begin="0"
+        dur="15s" />
+    </feDisplacementMap>
+  </filter>
+
+
+<filter id="displaceX"  color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%" >
+  <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e%3cdefs%3e%3cradialGradient color%2dinterpolation='sRGB' id='RG2' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e %3cstop stop%2dcolor='orange' offset='0%25' %3e  %3canimate attributeName='offset' values='0;.2;0' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='10%25' id='g%2d1'%3e  %3canimate attributeName='offset' values='0.1;0.3;0.1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='20%25' id='o%2d1'%3e  %3canimate attributeName='offset' values='0.2;0.4;0.2' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='30%25' id='g%2d2'%3e  %3canimate attributeName='offset' values='0.5;0.3;0.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='40%25' id='o%2d2'%3e  %3canimate attributeName='offset' values='0.6;0.4;0.6' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='50%25' id='g%2d3'%3e  %3canimate attributeName='offset' values='0.5;0.8;0.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='60%25' id='o%2d3'%3e  %3canimate attributeName='offset' values='0.6;0.4;0.6' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='70%25' id='g%2d4'%3e  %3canimate attributeName='offset' values='0.7;1;0.7' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='80%25' id='o%2d4'%3e  %3canimate attributeName='offset' values='0.8;0.7;0.8' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='90%25' id='g%2d5'%3e  %3canimate attributeName='offset' values='0.9;1;0.9' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='100%25' id='o%2d5'%3e %3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='rDisplaceXRect' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23RG2); stroke: none;' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%" />
+    
+  <feDisplacementMap
+    in2="tile"
+    in="SourceGraphic"
+    scale="20"
+    xChannelSelector="R"
+    yChannelSelector="R" >
+      <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
+  </feDisplacementMap>
+</filter>
+
+<filter id="displaceX1"  color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%" >
+  <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e%3cdefs%3e%3cradialGradient color%2dinterpolation='sRGB' id='RG3' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e %3cstop stop%2dcolor='orange' offset='0%25' %3e  %3canimate attributeName='offset' values='0;.2;0' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='30%25' id='g%2d2'%3e  %3canimate attributeName='offset' values='0.5;0.2;0.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='60%25' id='o%2d2'%3e  %3canimate attributeName='offset' values='0.8;0.5;0.8' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='80%25' id='g%2d3'%3e  %3canimate attributeName='offset' values='0.9;0.7;0.9' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='90%25' id='o%2d3'%3e  %3canimate attributeName='offset' values='1;0.8;1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='100%25' id='o%2d5'%3e %3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='rDisplaceXRect' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23RG3); stroke: none;' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%" />
+
+  <feDisplacementMap
+    in2="tile"
+    in="SourceGraphic"
+    scale="80"
+    xChannelSelector="R"
+    yChannelSelector="R" >
+      <animate attributeName="scale" values="80;5;80" dur="33s" repeatCount="indefinite" />
+  </feDisplacementMap>
+</filter>
+
+<filter id="displaceX-2"  color-interpolation="sRGB">
+  <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e%3cdefs%3e%3clinearGradient color%2dinterpolation='sRGB' id='LG' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e %3cstop stop%2dcolor='orange' offset='0%25' %3e  %3canimate attributeName='offset' from='.0' to='.2' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='10%25' id='g%2d1'%3e  %3canimate attributeName='offset' from='.1' to='.3' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='20%25' id='o%2d1'%3e  %3canimate attributeName='offset' from='.2' to='.4' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='30%25' id='g%2d2'%3e  %3canimate attributeName='offset' from='.3' to='.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='40%25' id='o%2d2'%3e  %3canimate attributeName='offset' from='.4' to='.6' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='50%25' id='g%2d3'%3e  %3canimate attributeName='offset' from='.5' to='.7' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='60%25' id='o%2d3'%3e  %3canimate attributeName='offset' from='.6' to='.8' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='70%25' id='g%2d4'%3e  %3canimate attributeName='offset' from='.7' to='.9' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='80%25' id='o%2d4'%3e  %3canimate attributeName='offset' from='.8' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='90%25' id='g%2d5'%3e  %3canimate attributeName='offset' from='.9' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='100%25' id='o%2d5'%3e %3c/stop%3e%3c/linearGradient%3e%3clinearGradient id='LG45' xlink:href='%23LG' x1='0%25' y1='100%25' x2='100%25' y2='0%25'/%3e%3crect id='LGRect45' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23LG45); stroke: none;' /%3e%3c/defs%3e%3crect id='LGRect' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23LG); stroke: none;' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%" />
+
+  <feDisplacementMap
+    in2="tile"
+    in="SourceGraphic"
+    scale="50"
+    xChannelSelector="R"
+    yChannelSelector="R" >
+      <animate attributeName="scale" values="50;5;50" dur="45s" repeatCount="indefinite" />
+  </feDisplacementMap>
+</filter>
+    
+<filter id="displaceX-45"  color-interpolation="sRGB">
+  <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e%3cdefs%3e%3clinearGradient color%2dinterpolation='sRGB' id='LG' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e %3cstop stop%2dcolor='orange' offset='0%25' %3e  %3canimate attributeName='offset' from='.0' to='.2' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='10%25' id='g%2d1'%3e  %3canimate attributeName='offset' from='.1' to='.3' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='20%25' id='o%2d1'%3e  %3canimate attributeName='offset' from='.2' to='.4' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='30%25' id='g%2d2'%3e  %3canimate attributeName='offset' from='.3' to='.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='40%25' id='o%2d2'%3e  %3canimate attributeName='offset' from='.4' to='.6' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='50%25' id='g%2d3'%3e  %3canimate attributeName='offset' from='.5' to='.7' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='60%25' id='o%2d3'%3e  %3canimate attributeName='offset' from='.6' to='.8' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='70%25' id='g%2d4'%3e  %3canimate attributeName='offset' from='.7' to='.9' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='80%25' id='o%2d4'%3e  %3canimate attributeName='offset' from='.8' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='90%25' id='g%2d5'%3e  %3canimate attributeName='offset' from='.9' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='100%25' id='o%2d5'%3e %3c/stop%3e%3c/linearGradient%3e%3clinearGradient id='LG45' xlink:href='%23LG' x1='0%25' y1='100%25' x2='100%25' y2='0%25'/%3e%3crect id='LGRect45' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23LG45); stroke: none;' /%3e%3c/defs%3e%3crect id='LGRect' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23LG45); stroke: none;' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%"  />
+
+  <feDisplacementMap
+    in2="tile"
+    in="SourceGraphic"
+    scale="60"
+    xChannelSelector="R"
+    yChannelSelector="R" >
+      <animate attributeName="scale" values="60;5;60" dur="33s" repeatCount="indefinite" />
+  </feDisplacementMap>
+</filter>
+
+
+<filter id="gabi-codepen" filterUnits="objectBoundingBox" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%" >
+  <feImage xlink:href="data:image/svg+xml;utf8,%3csvg  version='1.1'  xmlns='http://www.w3.org/2000/svg'  xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700'%3e%3cdefs%3e%3cradialGradient id='gbs' spreadMethod='reflect' cx='50%25' cy='50%25'%3e%3cstop offset='0' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.1' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.1;1;0.1' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.2' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.3' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='.4' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.5' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='.6' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.7' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='.8' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.90' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='1.0' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='1.1' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='abcd' width='700' height='700' x='0' y='0' style='fill: url(%23gbs);' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%" />
+
+  <feDisplacementMap
+    in2="tile" 
+    in="SourceGraphic"
+    scale="50" 
+    xChannelSelector="R" 
+    yChannelSelector="R" >
+      <animate attributeName="scale" values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite" />
+  </feDisplacementMap>
+</filter>
+
+<filter id="gabi-codepen-2" filterUnits="objectBoundingBox" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%" >
+  <feImage xlink:href="data:image/svg+xml;utf8,%3csvg  version='1.1'  xmlns='http://www.w3.org/2000/svg'  xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700'%3e%3cdefs%3e%3cradialGradient id='gbs2' spreadMethod='reflect' cx='50%25' cy='50%25'%3e%3cstop offset='0' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.1' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.1;0.3' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.2' stop%2dcolor=' %230f0'%3e %3canimate attributeName='offset' values='0.2;0.4' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.3' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.3;0.5' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.4' stop%2dcolor=' %230f0'%3e %3canimate attributeName='offset' values='0.4;0.6' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.5' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.5;0.7' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.6' stop%2dcolor=' %230f0'%3e %3canimate attributeName='offset' values='0.6;0.8' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.7' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.7;0.9' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.8' stop%2dcolor=' %230f0'%3e %3canimate attributeName='offset' values='0.8;1.0' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.90' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.9;1.1' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='1.0' stop%2dcolor=' %230f0'%3e %3canimate attributeName='offset' values='1.0;1.2' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='1.1' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='1.1;1.3' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='abcd' width='700' height='700' x='0' y='0' style='fill: url(%23gbs2);' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%" />
+
+  <feDisplacementMap
+    in2="tile" 
+    in="SourceGraphic"
+    scale="50" 
+    xChannelSelector="R" 
+    yChannelSelector="G" >
+  <!--    <animate attributeName="scale" values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite" />
+ --> </feDisplacementMap>
+</filter>
+
+<filter id="bg-image-experiment" filterUnits="objectBoundingBox" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%" >
+
+  <feDisplacementMap
+    in2="BackgroundImage" 
+    in="SourceGraphic"
+    scale="50" 
+    xChannelSelector="R" 
+    yChannelSelector="G" >
+     <!-- <animate attributeName="scale" values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite" />-->
+  </feDisplacementMap>
+</filter>
+  
+</defs>
+
+<g id="clickMe" transform="translate(10,10)" filter="" >
+  <image id="image2" xlink:href="/images/Butterfly 6.jpg" height="700" x="0" y="0" width="700"/>
+</g>
+</svg>
+</div>
+</body>
+</html>

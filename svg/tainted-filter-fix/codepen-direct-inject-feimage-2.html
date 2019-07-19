@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>Codepen Direct Inject Data URL</title>
+
+<style>
+#mycircle2 {
+    background-image: url("data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='300' width='300' viewport='0 0 300 300' baseProfile='full'%3e%3cdefs%3e%3c/defs%3e%3crect id='MinimumAnimation' x='0' y='0' height='300' width='300'%3e%3canimate attributeName='x' values='0;1' dur='60s' begin='0s' repeatCount='indefinite' style='fill:none;stroke:none;'/%3e%3c/rect%3e%3c/svg%3e");
+    fill: rgba(25,102,200,.5);
+    background-image: none;
+}
+#mycircle {
+    fill: rgba(25,102,200,.5);
+    background-image: none;  
+}
+svg {
+    background-image: url("/svg/grid-2.svg");
+}
+</style>
+<script src="escapes.js"></script>
+</div>
+</head>
+<body>
+<div id="svg-container">
+<svg version='1.1' 
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ width="450"
+ height="350"
+ viewport='0 0 350 450'
+ baseProfile='full'>
+ <defs>
+<filter id="displacementFilter" filterUnits="objectBoundingBox" x="10%" y="10%" width="80%" height="80%">
+ <feImage id="dimage" xlink:href="" result="TurbulenceImage"/>
+ <feDisplacementMap in2="TurbulenceImage" in="SourceGraphic" result="DisplacementMap"
+  scale="50" 
+  xChannelSelector="R" 
+  yChannelSelector="G">
+  <animate attributeName="xChannelSelector" values="G;R;B:G" begin="0s" dur="30s" repeatCount="indefinite" />
+ <!--<animate attributeName="scale" values="50;300;-5;50" begin="0s" dur="30s" repeatCount="indefinite" />--> 
+  </feDisplacementMap>
+
+ <feGaussianBlur in="DisplacementMap" stdDeviation="10" result="blur" >
+     <animate attributeName="stdDeviation" values="10;5;20;5;10" begin="0s" dur="45s" repeatCount="indefinite"/>
+ </feGaussianBlur>
+
+ <feColorMatrix in="blur" mode="matrix" values="
+  1 0 0 0 0
+  0 1 0 0 0
+  0 0 1 0 0
+  0 0 0 19 -9" result="goo" />
+
+ <feComposite in="SourceGraphic" in2="goo" operator="atop"/>
+</filter>
+
+</defs>
+<image id="mycircle" xlink:href="/images/feathers-2.jpg" x="10" y="10" height="300" opacity=".9" width="400" filter="url(#displacementFilter)"/>
+</svg>
+
+</div>
+<div id="hidden-svg-documents">
+<svg id="codepen-goo-document"
+ version='1.1' 
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ width='300'
+ height='300'
+ viewport='0 0 300 300'
+ baseProfile='full'>
+ <defs>
+<radialGradient color-interpolation='sRGB' id='gf' spreadMethod='reflect'>
+ <stop stop-color='green' offset='0%'/>
+ <stop stop-color='orange' offset='0%'>
+  <animate attributeName='offset' values='0;.5;0' dur='7s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='red' offset='25%'>
+  <animate attributeName='offset' values='.25;0;1;.25' dur='11s' repeatCount='indefinite'/>
+ </stop>
+ <stop stop-color='green' offset='50%' id='g-1'>
+  <animate attributeName='offset' values='0.5;1.2;0.5' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='orange' offset='100%' id='o-5'/>
+ </radialGradient>
+
+<pattern id='Circle' width='300' height='300' x='0' y='0' patternUnits='userSpaceOnUse'>
+ <circle r='200' cx='150' cy='150' stroke-linecap='round' style='fill: url(#gf); stroke: yellow; stroke-width: 20; stroke-dasharray: 1 20;'>
+ <animate attributeName='r' values='200;25;150;50;250' begin='0s' dur='37s' repeatCount='indefinite'/>
+ <animate attributeName='cx' values='150;50;250;50;250;50;150' begin='0s' dur='47s' repeatCount='indefinite'/>
+ <animate attributeName='cy' values='150;250;50;250;150;50;150' begin='0s' dur='57s' repeatCount='indefinite'/>
+ </circle>
+
+</pattern>
+</defs>
+<rect id='rect' width='400' height='400' fill='url(#Circle)'/>
+</svg>
+</div>
+
+<script>
+
+var injectDataUrl = function (sourceId, targetId) {
+
+    var xlink = "http://www.w3.org/1999/xlink"
+    var data = "data:image/svg+xml;utf8,";
+    var svg = document.getElementById(sourceId).innerHTML
+
+    data += urlencodeSVG(svg);
+
+    var feimage = document.getElementById(targetId);
+    feimage.setAttributeNS(xlink,"href",data);
+}
+
+injectDataUrl("hidden-svg-documents","dimage")
+
+</script>
+</body>
+</html>

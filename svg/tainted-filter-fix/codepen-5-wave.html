@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>Codepen Direct Inject Data URL</title>
+
+<style>
+#backPhoto {
+    background-image: url("data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='300' width='300' viewport='0 0 300 300' baseProfile='full'%3e%3cdefs%3e%3c/defs%3e%3crect id='MinimumAnimation' x='0' y='0' height='300' width='300'%3e%3canimate attributeName='x' values='0;1' dur='60s' begin='0s' repeatCount='indefinite' style='fill:none;stroke:none;'/%3e%3c/rect%3e%3c/svg%3e");
+    fill: rgba(25,102,200,.5);
+
+}
+svg {
+    background-image: url("/svg/grid-2.svg");
+}
+</style>
+<script src="data-url-inject.js" ></script>
+<script src="escapes.js"></script>
+</div>
+</head>
+<body>
+<div id="svg-container">
+<svg
+ id="svgId"
+ version="1.1"
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ baseProfile="full"
+ width="1200"
+ height="600">
+  <defs>
+  <filter id="filter" filterUnits="objectBoundingBox" x="-10%" y="-10%" width="110%" height="110%">
+    <feImage id="in2" xlink:href="#left" result="leftR"/>
+    <feDisplacementMap 
+       id="fdm" 
+       scale="50" 
+       xChannelSelector="B"
+       yChannelSelector="B" 
+       in2="leftR" 
+       in="SourceGraphic" result="fdm">
+       <animate attributeName="scale" values="50;55;50" dur="30s" begin="0s" repeatCount="indefinite" />
+  </feDisplacementMap>
+ <feTile in="fdm" result="cropped" x1="0%" x2="70%" y1="20%" y2="80%" />
+ 
+ <feComposite in="fdm" in2="leftR" operator="in"/>
+</filter>
+  </defs>
+<image id="backPhoto" x="0" y="0" width="1200" height="600" xlink:href="/images/building-1.jpg" filter="url(#filter)" />
+</svg>
+</div>
+<div id="hidden-svg-documents">
+<svg
+ id="svgId"
+ version="1.1"
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ baseProfile="full"
+ width="1200"
+ height="600">
+<defs>
+<radialGradient id="gradient" cx="0.5" cy="0.5" r="1.2" >
+<stop id="stop0" offset="0" stop-color="#f00"></stop>
+<stop id="stop1" offset=".2" stop-color="#20f"><animate id="ani1" attributeName="offset" begin="0s" values=".2;.5;.2" dur="15s" repeatCount='indefinite' /></stop>
+<stop id="stop2" offset="0.30" stop-color="#f00"><animate id="ani2" attributeName="offset" begin="0s" values=".3;.6;.3" dur="33s" repeatCount='indefinite'/></stop>
+<stop id="stop3" offset="0.6" stop-color="#20f"><animate id="ani3" attributeName="offset" begin="0s" values=".6;.8;..6" dur="13s" repeatCount='indefinite'  /></stop>
+<stop id="stop4" offset="0.7" stop-color="#f00"><animate id="ani4" attributeName="offset" begin="0s" values=".7;.9;.7" dur="32s" repeatCount='indefinite' /></stop>
+<stop id="stop5" offset=".8" stop-color="#20f"><animate id="ani5" attributeName="offset" begin="0s" values=".8;1;.8" dur="23s" repeatCount='indefinite' /></stop>
+<stop id="stop6" offset="1.0" stop-color="#f00"></stop>
+</radialGradient>
+
+</defs>
+<rect id="left" x="50" y="50" width="900" height="500" fill="url(#gradient)" >
+<animate id="wid" attributeName="width" begin="0s;hit.end" values="900;200;450;950;900" dur="30s" repeatCount="1"/>
+<animate id="hit" attributeName="height" begin="wid.end" values="500;100;275;600;500" dur="30s" repeatCount="1" />
+</rect>
+</svg>
+</div>
+<script>
+
+injectDataUrl("hidden-svg-documents","in2");
+
+</script>
+</body>
+</html>

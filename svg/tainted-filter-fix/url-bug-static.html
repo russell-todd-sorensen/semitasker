@@ -1,0 +1,880 @@
+<html lang="en-US"><head>
+ <meta charset="utf-8">
+ <base href="https://github.semitasker.com/">
+ <title>URL/Filter Bug -- Final Version 8</title>
+ 
+ <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+ <link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+ <link rel="stylesheet" href="/css/logo-maker-1.css">
+ <link rel="stylesheet" href="/css/green-form.css">
+ <link rel="stylesheet" href="filter-bug.css">
+ 
+ <style>
+ #image-rect {
+     background-image: url("data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' viewbox='0 0 700 700' %3e		 %3cdefs%3e%3cradialGradient color%2dinterpolation='sRGB' id='FishEye' spreadMethod='pad' cx='50%25' cy='50%25'%3e%3canimate attributeName='cx' values='0%25;20%25;100%25;80%25;0%25' begin='image2.click;4s' dur='15s' repeatCount='indefinite' /%3e%3canimate attributeName='cy' values='0%25;100%25;100%25;80%25;0%25' begin='0s' dur='15s' repeatCount='indefinite' /%3e  %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e  %3cstop stop%2dcolor='orange' offset='30%25'%3e%3c/stop%3e  %3cstop stop%2dcolor='red' offset='100%25' %3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='FishEyeRect' x='0' y='0' height='700' width='700' style='fill: url(%23FishEye); stroke: none;' /%3e%3c/svg%3e");
+     /*  overflow: visible; */
+ }
+     
+ #image2 {
+     background-image: url("data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='700' width='700' viewport='0 0 700 700' baseProfile='full'%3e%3cdefs%3e%3c/defs%3e%3crect id='MinimumAnimation' x='0' y='0' height='700' width='700'%3e%3canimate attributeName='x' values='0;1' dur='60s' begin='0s' repeatCount='indefinite' style='fill:none;stroke:none;'/%3e%3c/rect%3e%3c/svg%3e");
+ }
+ 
+ #svg-container {
+   margin-top: 200px;
+   border: 1px solid black;
+ }
+ 
+ svg {
+   background-color: #fff;
+ }
+ </style>
+ <script src="/js/jquery-1.7.1.js"></script>
+ <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+ <script src="/js/d3.v3.js"></script>
+ <script src="/js/log-2.js"></script>
+ <script src="/js/data.js"></script>
+ <script src="/js/form-save-restore.js"></script>
+ <script src="/js/binary-hex-conversions.js"></script>
+ <script src="/js/example-library.js"></script>
+ <script src="/js/svg-transform.js"></script>
+ <script src="/js/panel-show-hide.js"></script>
+ <script src="/svg/js/filter-mania-improved-3.js"></script>
+ <script>
+ 
+ function setStartImage(imageSelectId) {
+   Data.loadSelectOptions(imageSelectId,Data.Images);
+   Data.restoreSelect('imageFilter');
+   Data.restoreSelect('imageFilter2');
+   Data.restoreSelect('imageChoice');
+   SvgTransform.adjustObjectHeightWidth('image2');
+ }
+ 
+ panelHidden["controls"] = [{
+   id:'panel1',
+   visible:true,
+   css:{
+     true:{
+  position:'relative'
+     },
+     false:{
+  position:'absolute'
+     }
+   },
+   extra: [
+     {
+  id:'controls',
+  css:{
+    true: {
+  position:'relative',
+  zIndex:0,
+  "background-color":'transparent'
+    },
+    false: {
+  position:'absolute',
+  zIndex:100,
+  "background-color":'#444444'
+    }
+  }
+    },
+  ]}
+ ];
+ 
+ $(document).ready(function () {
+   setStartImage('imageChoice');
+   //Log.Hide();
+   Log.Remove();
+ });
+ 
+ </script>
+ </head>
+ <body>
+ <div id="font-form" class="font-form-on">
+ <div id="panel">
+ <form id="distort-font">
+ <fieldset>
+ <legend onclick="togglePanel('controls');">General Animation Options</legend>
+ <ul id="panel1">
+  <li><label for="imageFilter">Select Filter 1</label>
+  <select id="imageFilter" onchange="SvgTransform.changeFilter('imageFilter', '#image2')">
+   <option value="">No Filter</option>
+   <option value="url(#fish-eye-1)">Fish Eye One</option>
+   <option value="url(#fish-eye-2)">Fish Eye Two</option>
+   <option value="url(#wave)">Wave</option>
+   <option value="url(#linear-displace-y)">Linear Wave Displace y</option>
+   <option value="url(#displaceX)">DisplaceX Radial</option>
+   <option value="url(#displaceX1)">DisplaceX-1 Radial</option>
+   <option value="url(#displaceX-2)">DisplaceX-2 Linear</option>
+   <option value="url(#displaceX-45)">DisplaceX Linear 45°</option>
+   <option value="url(#gabi-codepen)">Gabi CodePen Example 1</option>
+   <option value="url(#gabi-codepen-2)" selected="selected">Gabi CodePen Example 2</option>
+   </select>
+   </li>
+  <li><label for="imageFilter2">Select Filter 2</label>
+  <select id="imageFilter2" onchange="SvgTransform.changeFilter('imageFilter2', '#clickMe')">
+     <option value="">No Filter</option>
+     <option value="url(#fish-eye-1)">Fish Eye One</option>
+     <option value="url(#fish-eye-2)">Fish Eye Two</option>
+     <option value="url(#wave)">Wave</option>
+     <option value="url(#linear-displace-y)">Linear Wave Displace y</option>
+     <option value="url(#displaceX)">DisplaceX Radial</option>
+     <option value="url(#displaceX1)">DisplaceX-1 Radial</option>
+     <option value="url(#displaceX-2)">DisplaceX-2 Linear</option>
+     <option value="url(#displaceX-45)">DisplaceX Linear 45°</option>
+     <option value="url(#gabi-codepen)">Gabi CodePen Example 1</option>
+     <option value="url(#gabi-codepen-2)">Gabi CodePen Example 2</option>
+   </select>
+   </li>
+  <li>
+   <label for="imageChoice">Select Image</label>
+   <select id="imageChoice" name="imageChoice" onchange="SvgTransform.changeImage('imageChoice','#image2');
+     SvgTransform.adjustObjectHeightWidth('image2'); ">
+     <option value="/svg/grid-2.svg">Grid SVG</option>
+     <option value="/svg/american-st-andrews.svg">American St Andrews SVG</option>
+     <option value="/svg/smile.svg">Smile SVG</option>
+     <option value="/svg/smile-again.svg">Smile Again SVG</option>
+     <option value="/svg/smile-test.svg">Smile Test SVG</option>
+     <option value="/svg/turbulence.svg">Turbulence SVG</option>
+     <option value="/svg/dundee-2.svg">Dundee 2 Tartan SVG</option>
+     <option value=""></option>
+  <option value="/images/Butterfly%206.jpg">Butterfly 6</option>
+ <option value="/images/Butterfly%2017a.jpg">Butterfly 17a</option>
+ <option value="/images/Butterfly%2028.jpg">Butterfly 28</option>
+ <option value="/images/Butterfly%2057.jpg">Butterfly 57</option>
+ <option value="/images/Butterfly%2062.jpg">Butterfly 62</option>
+ <option value="/images/Butterfly%2086.jpg">Butterfly 86</option>
+ <option value="/images/Grasshopper%201.JPG">Grasshopper 1</option>
+ <option value="/images/Ladybug%206.jpg">Ladybug 6</option>
+ <option value="/images/building-1.jpg">Building 1</option>
+ <option value="/images/sphinx5.jpg">Sphinx 5</option>
+ <option value="/images/egypt-2.jpg">Egypt 2</option>
+ <option value="/images/EgyptianTomb.jpg">Egyptian Tomb</option>
+ <option value="/images/stone-hut-1.jpg">Stone Hut 1</option>
+ <option value="/images/stone-wall-1.jpg">Stone Wall 1</option>
+ <option value="/images/stone-arch-1.jpg">Stone Arch 1</option>
+ <option value="/images/igloo2.jpg">Igloo 2</option>
+ <option value="/images/rotunda-statue.jpg">Rotunda Statue</option>
+ <option value="/images/staircase-1.jpg">Spiral Staircase 1</option>
+ <option value="/images/red-fence-1.jpg">Red Fence 1</option>
+ <option value="/images/palace-1.jpg">Palace 1</option>
+ <option value="/images/london-plaza-1.jpg">London Plaza 1</option>
+ <option value="/images/glass-pyramids.jpg">Glass Pyramid</option>
+ <option value="/images/old-man-with-hat.jpg">Old Man with Hat</option>
+ <option value="/images/Woman-183.jpg">Woman with Hands</option>
+ <option value="/images/Woman-214.jpg">Woman with Hat</option>
+ <option value="/images/jelly-fish-1.jpg">Jelly Fish 1</option>
+ <option value="/images/jelly-fish-2.jpg">Jelly Fish 2</option>
+ <option value="/images/fishes-3.gif">Fishes 3</option>
+ <option value="/images/parrot-1.jpg">Parrot Headshot</option>
+ <option value="/images/parrot-2.jpg">Parrot in Tree</option>
+ <option value="/images/feathers-1.jpg">Peacock Feathers</option>
+ <option value="/images/feathers-2.jpg">Peacock</option>
+ <option value="/images/Butterfly%2017.jpg">Butterfly 17</option>
+ <option value="/images/Butterfly%2022.jpg">Butterfly 22</option>
+ <option value="/images/Butterfly%2036.png">Butterfly 36</option>
+ <option value="/images/Butterfly%2069.png">Butterfly 69</option>
+ <option value="/images/desert-1.jpg">Desert Landscape</option>
+ <option value="/images/swan-1.jpg">Swan on Pond</option>
+ <option value="/images/us-flag-1.jpg">US Flag 1</option>
+ <option value="/images/golden-gate-1.jpg">Golden Gate 1</option>
+ <option value="/images/golden-gate-2.jpg">Golden Gate 2</option>
+ <option value="/images/sky-1.jpg">Sky 1</option>
+ <option value="/images/E1777.jpg">Clouds &amp; Blue Sky</option>
+ <option value="/images/fountain-1.jpg">Fountain 1</option>
+ <option value="/images/fountain-2.jpg">Fountain 2</option>
+ <option value="/images/fountain-3.jpg">Fountain 3</option>
+ <option value="/images/tartan2.gif">Tartan 2</option>
+ <option value="/images/desktop-background-images/grid.svg">Grid For testing</option>
+ <option value="/images/desktop-background-images/mandelbrot-001.png">Mandelbrot 001</option>
+ <option value="/images/desktop-background-images/mandelbrot-0011.png">Mandelbrot 011</option>
+ <option value="/images/desktop-background-images/mandelbrot-0012.png">Mandelbrot 0012</option>
+ <option value="/images/desktop-background-images/mandelbrot-0013.png">Mandelbrot 0013</option>
+ <option value="/images/desktop-background-images/mandelbrot-0014.png">Mandelbrot 0014</option>
+ <option value="/images/desktop-background-images/mandelbrot-0015.png">Mandelbrot 0015</option>
+ <option value="/images/desktop-background-images/mandelbrot-0016.png">Mandelbrot 0016</option>
+ <option value="/images/desktop-background-images/mandelbrot-0017.png">Mandelbrot 0017</option>
+ <option value="/images/desktop-background-images/mandelbrot-0018.png">Mandelbrot 0018</option>
+ <option value="/images/desktop-background-images/mandelbrot-0019.png">Mandelbrot 0019</option>
+ <option value="/images/desktop-background-images/mandelbrot-0020.png">Mandelbrot 0020</option>
+ <option value="/images/desktop-background-images/mandelbrot-0021.png">Mandelbrot 0021</option>
+ <option value="/images/desktop-background-images/mandelbrot-1.png">Mandelbrot 1</option>
+ <option value="/images/desktop-background-images/mandelbrot-2.png">Mandelbrot 2</option>
+ <option value="/images/desktop-background-images/mandelbrot-3.png">Mandelbrot 3</option>
+ <option value="/images/desktop-background-images/mandelbrot-4.png">Mandelbrot 4</option>
+ <option value="/images/desktop-background-images/mandelbrot-5.png">Mandelbrot 5</option>
+ <option value="/images/desktop-background-images/mandelbrot-6.png">Mandelbrot 6</option>
+ <option value="/images/desktop-background-images/mandelbrot-7.png">Mandelbrot 7</option>
+ <option value="/images/desktop-background-images/mandelbrot-8.png">Mandelbrot 8</option>
+ <option value="/images/desktop-background-images/mandelbrot-9.png">Mandelbrot 9</option>
+ <option value="/images/desktop-background-images/mandelbrot-10.png">Mandelbrot 10</option>
+ <option value="/images/desktop-background-images/mandelbrot-11.png">Mandelbrot 11</option>
+ <option value="/images/desktop-background-images/mandelbrot-12.png">Mandelbrot 12</option>
+ <option value="/images/desktop-background-images/mandelbrot-13.png">Mandelbrot 13</option>
+ <option value="/images/desktop-background-images/mandelbrot-14.png">Mandelbrot 14</option>
+ <option value="/images/desktop-background-images/mandelbrot-15.png">Mandelbrot 15</option>
+ <option value="/images/desktop-background-images/mandelbrot-16.png">Mandelbrot 16</option>
+ <option value="/images/desktop-background-images/mandelbrot-17.png">Mandelbrot 17</option>
+ <option value="/images/desktop-background-images/mandelbrot-18.png">Mandelbrot 18</option>
+ <option value="/images/desktop-background-images/mandelbrot-19.png">Mandelbrot 19</option>
+ <option value="/images/desktop-background-images/mandelbrot-20.png">Mandelbrot 20</option>
+ <option value="/images/desktop-background-images/mandelbrot-21.png">Mandelbrot 21</option>
+ <option value="/images/desktop-background-images/mandelbrot-22.png">Mandelbrot 22</option>
+ <option value="/images/desktop-background-images/mandelbrot-23.png">Mandelbrot 23</option>
+ <option value="/images/desktop-background-images/mandelbrot-24.png">Mandelbrot 24</option>
+ <option value="/images/desktop-background-images/mandelbrot-25.png">Mandelbrot 25</option>
+ <option value="/images/desktop-background-images/mandelbrot-26.png">Mandelbrot 26</option>
+ <option value="/images/desktop-background-images/mandelbrot-27.png">Mandelbrot 27</option>
+ <option value="/images/desktop-background-images/mandelbrot-28.png">Mandelbrot 28</option>
+ <option value="/images/desktop-background-images/mandelbrot-29.png">Mandelbrot 29</option>
+ <option value="/images/desktop-background-images/mandelbrot-30.png">Mandelbrot 30</option>
+ <option value="/images/desktop-background-images/mandelbrot-31.png">Mandelbrot 31</option>
+ <option value="/images/desktop-background-images/mandelbrot-32.png">Mandelbrot 32</option>
+ <option value="/images/desktop-background-images/mandelbrot-33.png">Mandelbrot 33</option>
+ <option value="/images/desktop-background-images/mandelbrot-34.png">Mandelbrot 34</option>
+ <option value="/images/desktop-background-images/mandelbrot-35.png">Mandelbrot 35</option>
+ <option value="/images/desktop-background-images/mandelbrot-36.png">Mandelbrot 36</option>
+ <option value="/images/desktop-background-images/mandelbrot-37.png">Mandelbrot 37</option>
+ <option value="/images/desktop-background-images/mandelbrot-38.png">Mandelbrot 38</option>
+ <option value="/images/desktop-background-images/mandelbrot-39.png">Mandelbrot 39</option>
+ <option value="/images/desktop-background-images/mandelbrot-40.png">Mandelbrot 40</option>
+ <option value="/images/desktop-background-images/mandelbrot-41.png">Mandelbrot 41</option>
+ <option value="/images/desktop-background-images/mandelbrot-42.png">Mandelbrot 42</option>
+ <option value="/images/desktop-background-images/mandelbrot-43.png">Mandelbrot 43</option>
+ <option value="/images/desktop-background-images/mandelbrot-44.png">Mandelbrot 44</option>
+ <option value="/images/desktop-background-images/mandelbrot-45.png">Mandelbrot 45</option>
+ <option value="/images/desktop-background-images/mandelbrot-46.png">Mandelbrot 46</option>
+ <option value="/images/desktop-background-images/mandelbrot-47.png">Mandelbrot 47</option>
+ <option value="/images/desktop-background-images/mandelbrot-48.png">Mandelbrot 48</option>
+ <option value="/images/desktop-background-images/mandelbrot-49.png">Mandelbrot 49</option>
+ <option value="/images/desktop-background-images/mandelbrot-50.png">Mandelbrot 50</option>
+ <option value="/images/desktop-background-images/mandelbrot-51.png">Mandelbrot 51</option>
+ <option value="/images/desktop-background-images/mandelbrot-52.png">Mandelbrot 52</option>
+ <option value="/images/desktop-background-images/mandelbrot-53.png">Mandelbrot 53</option>
+ <option value="/images/desktop-background-images/mandelbrot-54.png">Mandelbrot 54</option>
+ <option value="/images/desktop-background-images/mandelbrot-55.png">Mandelbrot 55</option>
+ <option value="/images/desktop-background-images/mandelbrot-56.png">Mandelbrot 56</option>
+ <option value="/images/desktop-background-images/mandelbrot-57.png">Mandelbrot 57</option>
+ <option value="/images/desktop-background-images/mandelbrot-58.png">Mandelbrot 58</option>
+ <option value="/images/desktop-background-images/mandelbrot-59.png">Mandelbrot 59</option>
+ <option value="/images/desktop-background-images/mandelbrot-60.png">Mandelbrot 60</option>
+ <option value="/images/desktop-background-images/mandelbrot-61.png">Mandelbrot 61</option>
+ <option value="/images/desktop-background-images/mandelbrot-62.png">Mandelbrot 62</option>
+ <option value="/images/desktop-background-images/mandelbrot-63.png">Mandelbrot 63</option>
+ <option value="/images/desktop-background-images/mandelbrot-64.png">Mandelbrot 64</option>
+ <option value="/images/desktop-background-images/mandelbrot-65.png">Mandelbrot 65</option>
+ <option value="/images/desktop-background-images/mandelbrot-66.png">Mandelbrot 66</option>
+ <option value="/images/desktop-background-images/mandelbrot-67.png">Mandelbrot 67</option>
+ <option value="/images/desktop-background-images/mandelbrot-68.png">Mandelbrot 68</option>
+ <option value="/images/desktop-background-images/mandelbrot-69.png">Mandelbrot 69</option>
+ <option value="/images/desktop-background-images/mandelbrot-70.png">Mandelbrot 70</option>
+ <option value="/images/desktop-background-images/mandelbrot-71.png">Mandelbrot 71</option>
+ <option value="/images/desktop-background-images/mandelbrot-72.png">Mandelbrot 72</option>
+ <option value="/images/desktop-background-images/mandelbrot-73.png">Mandelbrot 73</option>
+ <option value="/images/desktop-background-images/mandelbrot-74.png">Mandelbrot 74</option>
+ <option value="/images/desktop-background-images/mandelbrot-75.png">Mandelbrot 75</option>
+ <option value="/images/desktop-background-images/mandelbrot-76.png">Mandelbrot 76</option>
+ <option value="/images/desktop-background-images/mandelbrot-77.png">Mandelbrot 77</option>
+ <option value="/images/desktop-background-images/mandelbrot-78.png">Mandelbrot 78</option>
+ <option value="/images/desktop-background-images/mandelbrot-79.png">Mandelbrot 79</option>
+ <option value="/images/desktop-background-images/mandelbrot-80.png">Mandelbrot 80</option>
+ <option value="/images/desktop-background-images/mandelbrot-81.png">Mandelbrot 81</option>
+ <option value="/images/desktop-background-images/mandelbrot-82.png">Mandelbrot 82</option>
+ <option value="/images/desktop-background-images/mandelbrot-83.png">Mandelbrot 83</option>
+ <option value="/images/desktop-background-images/mandelbrot-84.png">Mandelbrot 84</option>
+ <option value="/images/desktop-background-images/mandelbrot-85.png">Mandelbrot 85</option>
+ <option value="/images/desktop-background-images/mandelbrot-86.png">Mandelbrot 86</option>
+ <option value="/images/desktop-background-images/mandelbrot-87.png">Mandelbrot 87</option>
+ <option value="/images/desktop-background-images/mandelbrot-88.png">Mandelbrot 88</option>
+ <option value="/images/desktop-background-images/mandelbrot-89.png">Mandelbrot 89</option>
+ <option value="/images/desktop-background-images/mandelbrot-90.png">Mandelbrot 90</option>
+ <option value="/images/desktop-background-images/mandelbrot-91.png">Mandelbrot 91</option>
+ <option value="/images/desktop-background-images/mandelbrot-92.png">Mandelbrot 92</option>
+ <option value="/images/desktop-background-images/mandelbrot-93.png">Mandelbrot 93</option>
+ <option value="/images/desktop-background-images/mandelbrot-94.png">Mandelbrot 94</option>
+ <option value="/images/desktop-background-images/mandelbrot-95.png">Mandelbrot 95</option>
+ <option value="/images/desktop-background-images/mandelbrot-96.png">Mandelbrot 96</option>
+ <option value="/images/desktop-background-images/mandelbrot-97.png">Mandelbrot 97</option>
+ <option value="/images/desktop-background-images/mandelbrot-98.png">Mandelbrot 98</option>
+ <option value="/images/desktop-background-images/mandelbrot-99.png">Mandelbrot 99</option>
+ <option value="/images/desktop-background-images/mandelbrot-100.png">Mandelbrot 100</option>
+ <option value="/images/desktop-background-images/mandelbrot-101.png">Mandelbrot 101</option>
+ <option value="/images/desktop-background-images/mandelbrot-102.png">Mandelbrot 102</option>
+ <option value="/images/desktop-background-images/mandelbrot-103.png">Mandelbrot 103</option>
+ <option value="/images/desktop-background-images/mandelbrot-104.png">Mandelbrot 104</option>
+ <option value="/images/desktop-background-images/mandelbrot-105.png">Mandelbrot 105</option>
+ <option value="/images/desktop-background-images/mandelbrot-106.png">Mandelbrot 106</option>
+ <option value="/images/desktop-background-images/mandelbrot-107.png">Mandelbrot 107</option>
+ <option value="/images/desktop-background-images/mandelbrot-108.png">Mandelbrot 108</option>
+ <option value="/images/desktop-background-images/mandelbrot-109.png">Mandelbrot 109</option>
+ <option value="/images/desktop-background-images/mandelbrot-110.png">Mandelbrot 110</option>
+ <option value="/images/desktop-background-images/mandelbrot-111.png">Mandelbrot 111</option>
+ <option value="/images/desktop-background-images/mandelbrot-112.png">Mandelbrot 112</option>
+ <option value="/images/desktop-background-images/mandelbrot-113.png">Mandelbrot 113</option>
+ <option value="/images/desktop-background-images/mandelbrot-114.png">Mandelbrot 114</option>
+ <option value="/images/desktop-background-images/mandelbrot-115.png">Mandelbrot 115</option>
+ <option value="/images/desktop-background-images/mandelbrot-116.png">Mandelbrot 116</option>
+ <option value="/images/desktop-background-images/mandelbrot-117.png">Mandelbrot 117</option>
+ <option value="/images/desktop-background-images/mandelbrot-118.png">Mandelbrot 118</option>
+ <option value="/images/desktop-background-images/mandelbrot-119.png">Mandelbrot 119</option>
+ <option value="/images/desktop-background-images/mandelbrot-120.png">Mandelbrot 120</option>
+ <option value="/images/desktop-background-images/mandelbrot-121.png">Mandelbrot 121</option>
+ <option value="/images/desktop-background-images/mandelbrot-122.png">Mandelbrot 122</option>
+ <option value="/images/desktop-background-images/mandelbrot-123.png">Mandelbrot 123</option>
+ <option value="/images/desktop-background-images/mandelbrot-124.png">Mandelbrot 124</option>
+ <option value="/images/desktop-background-images/mandelbrot-125.png">Mandelbrot 125</option>
+ <option value="/images/desktop-background-images/mandelbrot-126.png">Mandelbrot 126</option>
+ <option value="/images/desktop-background-images/mandelbrot-127.png">Mandelbrot 127</option>
+ <option value="/images/desktop-background-images/mandelbrot-128.png">Mandelbrot 128</option>
+ <option value="/images/desktop-background-images/mandelbrot-129.png">Mandelbrot 129</option>
+ <option value="/images/desktop-background-images/mandelbrot-130.png">Mandelbrot 130</option>
+ <option value="/images/desktop-background-images/mandelbrot-131.png">Mandelbrot 131</option>
+ <option value="/images/desktop-background-images/mandelbrot-132.png">Mandelbrot 132</option>
+ <option value="/images/desktop-background-images/mandelbrot-133.png">Mandelbrot 133</option>
+ <option value="/images/desktop-background-images/mandelbrot-134.png">Mandelbrot 134</option>
+ <option value="/images/desktop-background-images/mandelbrot-135.png">Mandelbrot 135</option>
+ <option value="/images/desktop-background-images/mandelbrot-136.png">Mandelbrot 136</option>
+ <option value="/images/desktop-background-images/mandelbrot-137.png">Mandelbrot 137</option>
+ <option value="/images/desktop-background-images/mandelbrot-138.png">Mandelbrot 138</option>
+ <option value="/images/desktop-background-images/mandelbrot-139.png">Mandelbrot 139</option>
+ <option value="/images/desktop-background-images/mandelbrot-140.png">Mandelbrot 140</option>
+ <option value="/images/desktop-background-images/mandelbrot-141.png">Mandelbrot 141</option>
+ <option value="/images/desktop-background-images/mandelbrot-142.png">Mandelbrot 142</option>
+ <option value="/images/desktop-background-images/mandelbrot-143.png">Mandelbrot 143</option>
+ <option value="/images/desktop-background-images/mandelbrot-144.png">Mandelbrot 144</option>
+ <option value="/images/desktop-background-images/mandelbrot-145.png">Mandelbrot 145</option>
+ <option value="/images/desktop-background-images/mandelbrot-146.png">Mandelbrot 146</option>
+ <option value="/images/desktop-background-images/mandelbrot-147.png">Mandelbrot 147</option>
+ <option value="/images/desktop-background-images/mandelbrot-148.png">Mandelbrot 148</option>
+ <option value="/images/desktop-background-images/mandelbrot-149.png">Mandelbrot 149</option>
+ <option value="/images/desktop-background-images/mandelbrot-150.png">Mandelbrot 150</option>
+ <option value="/images/desktop-background-images/mandelbrot-151.png">Mandelbrot 151</option>
+ <option value="/images/desktop-background-images/mandelbrot-152.png">Mandelbrot 152</option>
+ <option value="/images/desktop-background-images/mandelbrot-153.png">Mandelbrot 153</option>
+ <option value="/images/desktop-background-images/mandelbrot-154.png">Mandelbrot 154</option>
+ <option value="/images/desktop-background-images/mandelbrot-155.png">Mandelbrot 155</option>
+ <option value="/images/desktop-background-images/mandelbrot-156.png">Mandelbrot 156</option>
+ <option value="/images/desktop-background-images/mandelbrot-157.png">Mandelbrot 157</option>
+ <option value="/images/desktop-background-images/mandelbrot-158.png">Mandelbrot 158</option>
+ <option value="/images/desktop-background-images/mandelbrot-159.png">Mandelbrot 159</option>
+ <option value="/images/desktop-background-images/mandelbrot-160.png">Mandelbrot 160</option>
+ <option value="/images/desktop-background-images/mandelbrot-161.png">Mandelbrot 161</option>
+ <option value="/images/desktop-background-images/mandelbrot-162.png">Mandelbrot 162</option>
+ <option value="/images/desktop-background-images/mandelbrot-163.png">Mandelbrot 163</option>
+ <option value="/images/desktop-background-images/mandelbrot-164.png">Mandelbrot 164</option>
+ <option value="/images/desktop-background-images/mandelbrot-165.png">Mandelbrot 165</option>
+ <option value="/images/desktop-background-images/mandelbrot-166.png">Mandelbrot 166</option>
+ <option value="/images/desktop-background-images/mandelbrot-167.png">Mandelbrot 167</option>
+ <option value="/images/desktop-background-images/mandelbrot-168.png">Mandelbrot 168</option>
+ <option value="/images/desktop-background-images/mandelbrot-169.png">Mandelbrot 169</option>
+ <option value="/images/desktop-background-images/mandelbrot-170.png">Mandelbrot 170</option>
+ <option value="/images/desktop-background-images/mandelbrot-171.png">Mandelbrot 171</option>
+ <option value="/images/desktop-background-images/mandelbrot-172.png">Mandelbrot 172</option>
+ <option value="/images/desktop-background-images/mandelbrot-173.png">Mandelbrot 173</option>
+ <option value="/images/desktop-background-images/mandelbrot-174.png">Mandelbrot 174</option>
+ <option value="/images/desktop-background-images/mandelbrot-175.png">Mandelbrot 175</option>
+ <option value="/images/desktop-background-images/mandelbrot-176.png">Mandelbrot 176</option>
+ <option value="/images/desktop-background-images/mandelbrot-177.png">Mandelbrot 177</option>
+ <option value="/images/desktop-background-images/mandelbrot-178.png">Mandelbrot 178</option>
+ <option value="/images/desktop-background-images/mandelbrot-179.png">Mandelbrot 179</option>
+ <option value="/images/desktop-background-images/mandelbrot-180.png">Mandelbrot 180</option>
+ <option value="/images/desktop-background-images/mandelbrot-181.png">Mandelbrot 181</option>
+ <option value="/images/desktop-background-images/mandelbrot-182.png">Mandelbrot 182</option>
+ <option value="/images/desktop-background-images/mandelbrot-183.png">Mandelbrot 183</option>
+ <option value="/images/desktop-background-images/mandelbrot-184.png">Mandelbrot 184</option>
+ <option value="/images/desktop-background-images/mandelbrot-185.png">Mandelbrot 185</option>
+ <option value="/images/desktop-background-images/mandelbrot-186.png">Mandelbrot 186</option>
+ <option value="/images/desktop-background-images/mandelbrot-187.png">Mandelbrot 187</option>
+ <option value="/images/desktop-background-images/mandelbrot-188.png">Mandelbrot 188</option>
+ <option value="/images/desktop-background-images/mandelbrot-189.png">Mandelbrot 189</option>
+ <option value="/images/desktop-background-images/mandelbrot-190.png">Mandelbrot 190</option>
+ <option value="/images/desktop-background-images/mandelbrot-191.png">Mandelbrot 191</option>
+ <option value="/images/desktop-background-images/mandelbrot-192.png">Mandelbrot 192</option>
+ <option value="/images/desktop-background-images/mandelbrot-193.png">Mandelbrot 193</option>
+ <option value="/images/desktop-background-images/mandelbrot-194.png">Mandelbrot 194</option>
+ <option value="/images/desktop-background-images/mandelbrot-195.png">Mandelbrot 195</option>
+ <option value="/images/desktop-background-images/mandelbrot-196.png">Mandelbrot 196</option>
+ <option value="/images/desktop-background-images/mandelbrot-197.png">Mandelbrot 197</option>
+ <option value="/images/desktop-background-images/mandelbrot-198.png">Mandelbrot 198</option>
+ <option value="/images/desktop-background-images/mandelbrot-199.png">Mandelbrot 199</option>
+ <option value="/images/desktop-background-images/mandelbrot-200.png">Mandelbrot 200</option>
+ <option value="/images/desktop-background-images/mandelbrot-201.png">Mandelbrot 201</option>
+ <option value="/images/desktop-background-images/mandelbrot-202.png">Mandelbrot 202</option>
+ <option value="/images/desktop-background-images/mandelbrot-203.png">Mandelbrot 203</option>
+ <option value="/images/desktop-background-images/mandelbrot-204.png">Mandelbrot 204</option>
+ <option value="/images/desktop-background-images/mandelbrot-205.png">Mandelbrot 205</option>
+ <option value="/images/desktop-background-images/mandelbrot-206.png">Mandelbrot 206</option>
+ <option value="/images/desktop-background-images/mandelbrot-207.png">Mandelbrot 207</option>
+ <option value="/images/desktop-background-images/mandelbrot-208.png">Mandelbrot 208</option>
+ <option value="/images/desktop-background-images/mandelbrot-209.png">Mandelbrot 209</option>
+ <option value="/images/desktop-background-images/mandelbrot-210.png">Mandelbrot 210</option>
+ <option value="/images/desktop-background-images/mandelbrot-211.png">Mandelbrot 211</option>
+ <option value="/images/desktop-background-images/mandelbrot-212.png">Mandelbrot 212</option>
+ <option value="/images/desktop-background-images/mandelbrot-213.png">Mandelbrot 213</option>
+ <option value="/images/desktop-background-images/mandelbrot-214.png">Mandelbrot 214</option>
+ <option value="/images/desktop-background-images/mandelbrot-215.png">Mandelbrot 215</option>
+ <option value="/images/desktop-background-images/mandelbrot-216.png">Mandelbrot 216</option>
+ <option value="/images/desktop-background-images/mandelbrot-217.png">Mandelbrot 217</option>
+ <option value="/images/desktop-background-images/mandelbrot-218.png">Mandelbrot 218</option>
+ <option value="/images/desktop-background-images/mandelbrot-219.png">Mandelbrot 219</option>
+ <option value="/images/desktop-background-images/mandelbrot-220.png">Mandelbrot 220</option>
+ <option value="/images/desktop-background-images/mandelbrot-221.png">Mandelbrot 221</option>
+ <option value="/images/desktop-background-images/mandelbrot-222.png">Mandelbrot 222</option>
+ <option value="/images/desktop-background-images/mandelbrot-223.png">Mandelbrot 223</option>
+ <option value="/images/desktop-background-images/mandelbrot-224.png">Mandelbrot 224</option>
+ <option value="/images/desktop-background-images/mandelbrot-225.png">Mandelbrot 225</option>
+ <option value="/images/desktop-background-images/mandelbrot-226.png">Mandelbrot 226</option>
+ <option value="/images/desktop-background-images/mandelbrot-227.png">Mandelbrot 227</option>
+ <option value="/images/desktop-background-images/mandelbrot-228.png">Mandelbrot 228</option>
+ <option value="/images/desktop-background-images/mandelbrot-229.png">Mandelbrot 229</option>
+ <option value="/images/desktop-background-images/mandelbrot-230.png">Mandelbrot 230</option>
+ <option value="/images/desktop-background-images/mandelbrot-231.png">Mandelbrot 231</option>
+ <option value="/images/desktop-background-images/mandelbrot-232.png">Mandelbrot 232</option>
+ <option value="/images/desktop-background-images/mandelbrot-233.png">Mandelbrot 233</option>
+ <option value="/images/desktop-background-images/mandelbrot-234.png">Mandelbrot 234</option>
+ <option value="/images/desktop-background-images/mandelbrot-235.png">Mandelbrot 235</option>
+ <option value="/images/desktop-background-images/mandelbrot-236.png">Mandelbrot 236</option>
+ <option value="/images/desktop-background-images/mandelbrot-237.png">Mandelbrot 237</option>
+ <option value="/images/desktop-background-images/mandelbrot-238.png">Mandelbrot 238</option>
+ <option value="/images/desktop-background-images/mandelbrot-239.png">Mandelbrot 239</option>
+ <option value="/images/desktop-background-images/mandelbrot-240.png">Mandelbrot 240</option>
+ <option value="/images/desktop-background-images/mandelbrot-241.png">Mandelbrot 241</option>
+ <option value="/images/desktop-background-images/mandelbrot-242.png">Mandelbrot 242</option>
+ <option value="/images/desktop-background-images/mandelbrot-243.png">Mandelbrot 243</option>
+ <option value="/images/desktop-background-images/mandelbrot-244.png">Mandelbrot 244</option>
+ <option value="/images/desktop-background-images/mandelbrot-245.png">Mandelbrot 245</option>
+ <option value="/images/desktop-background-images/mandelbrot-246.png">Mandelbrot 246</option>
+ <option value="/images/desktop-background-images/mandelbrot-247.png">Mandelbrot 247</option>
+ <option value="/images/desktop-background-images/mandelbrot-248.png">Mandelbrot 248</option>
+ <option value="/images/desktop-background-images/mandelbrot-249.png">Mandelbrot 249</option>
+ <option value="/images/desktop-background-images/mandelbrot-250.png">Mandelbrot 250</option>
+ <option value="/images/desktop-background-images/mandelbrot-251.png">Mandelbrot 251</option>
+ <option value="/images/desktop-background-images/mandelbrot-252.png">Mandelbrot 252</option>
+ <option value="/images/desktop-background-images/mandelbrot-253.png">Mandelbrot 253</option>
+ <option value="/images/desktop-background-images/mandelbrot-254.png">Mandelbrot 254</option>
+ <option value="/images/desktop-background-images/mandelbrot-255.png">Mandelbrot 255</option>
+ <option value="/images/desktop-background-images/mandelbrot-256.png">Mandelbrot 256</option>
+ <option value="/images/desktop-background-images/mandelbrot-257.png">Mandelbrot 257</option>
+ <option value="/images/desktop-background-images/mandelbrot-258.png">Mandelbrot 258</option>
+ <option value="/images/desktop-background-images/mandelbrot-259.png">Mandelbrot 259</option>
+ <option value="/images/desktop-background-images/mandelbrot-260.png">Mandelbrot 260</option>
+ <option value="/images/desktop-background-images/mandelbrot-261.png">Mandelbrot 261</option>
+ <option value="/images/desktop-background-images/mandelbrot-262.png">Mandelbrot 262</option>
+ <option value="/images/desktop-background-images/mandelbrot-263.png">Mandelbrot 263</option>
+ <option value="/images/desktop-background-images/mandelbrot-264.png">Mandelbrot 264</option>
+ <option value="/images/desktop-background-images/mandelbrot-265.png">Mandelbrot 265</option>
+ <option value="/images/desktop-background-images/mandelbrot-266.png">Mandelbrot 266</option>
+ <option value="/images/desktop-background-images/mandelbrot-267.png">Mandelbrot 267</option>
+ <option value="/images/desktop-background-images/mandelbrot-268.png">Mandelbrot 268</option>
+ <option value="/images/desktop-background-images/mandelbrot-269.png">Mandelbrot 269</option>
+ <option value="/images/desktop-background-images/mandelbrot-270.png">Mandelbrot 270</option>
+ <option value="/images/desktop-background-images/mandelbrot-271.png">Mandelbrot 271</option>
+ <option value="/images/desktop-background-images/mandelbrot-272.png">Mandelbrot 272</option>
+ <option value="/images/desktop-background-images/mandelbrot-273.png">Mandelbrot 273</option>
+ <option value="/images/desktop-background-images/mandelbrot-274.png">Mandelbrot 274</option>
+ <option value="/images/desktop-background-images/mandelbrot-275.png">Mandelbrot 275</option>
+ <option value="/images/desktop-background-images/mandelbrot-276.png">Mandelbrot 276</option>
+ <option value="/images/desktop-background-images/mandelbrot-277.png">Mandelbrot 277</option>
+ <option value="/images/desktop-background-images/mandelbrot-278.png">Mandelbrot 278</option>
+ <option value="/images/desktop-background-images/mandelbrot-279.png">Mandelbrot 279</option>
+ <option value="/images/desktop-background-images/mandelbrot-280.png">Mandelbrot 280</option>
+ <option value="/images/desktop-background-images/mandelbrot-281.png">Mandelbrot 281</option>
+ <option value="/images/desktop-background-images/mandelbrot-282.png">Mandelbrot 282</option>
+ <option value="/images/desktop-background-images/mandelbrot-283.png">Mandelbrot 283</option>
+ <option value="/images/desktop-background-images/mandelbrot-284.png">Mandelbrot 284</option>
+ <option value="/images/desktop-background-images/mandelbrot-285.png">Mandelbrot 285</option>
+ <option value="/images/desktop-background-images/mandelbrot-286.png">Mandelbrot 286</option>
+ <option value="/images/desktop-background-images/mandelbrot-287.png" selected="selected">Mandelbrot 287</option>
+ <option value="/images/desktop-background-images/mandelbrot-288.png">Mandelbrot 288</option>
+ <option value="/images/desktop-background-images/hsb-1.png">HSB  1</option>
+ <option value="/images/desktop-background-images/hsb-2.png">HSB  2</option>
+ <option value="/images/desktop-background-images/hsb-3.png">HSB  3</option>
+ <option value="/images/desktop-background-images/hsb-4.png">HSB  4</option>
+ <option value="/images/desktop-background-images/hsb-5.png">HSB  5</option>
+ <option value="/images/desktop-background-images/hsb-6.png">HSB  6</option>
+ <option value="/images/desktop-background-images/hsb-7.png">HSB  7</option>
+ <option value="/images/desktop-background-images/hsb-8.png">HSB  8</option>
+ <option value="/images/desktop-background-images/hsb-9.png">HSB  9</option>
+ <option value="/images/desktop-background-images/hsb-10.png">HSB 10</option>
+ <option value="/images/desktop-background-images/hsb-11.png">HSB 11</option>
+ <option value="/images/desktop-background-images/hsb-12.png">HSB 12</option>
+ <option value="/images/desktop-background-images/hsb-13.png">HSB 13</option>
+ <option value="/images/desktop-background-images/hsb-14.png">HSB 14</option>
+ <option value="/images/desktop-background-images/hsb-15.png">HSB 15</option>
+ <option value="/images/desktop-background-images/hsb-16.png">HSB 16</option>
+ <option value="/images/desktop-background-images/hsb-17.png">HSB 17</option>
+ <option value="/images/desktop-background-images/hsb-18.png">HSB 18</option>
+ <option value="/images/desktop-background-images/hsb-19.png">HSB 19</option>
+ <option value="/images/desktop-background-images/hsb-20.png">HSB 20</option>
+ <option value="/images/desktop-background-images/hsb-21.png">HSB 21</option>
+ <option value="/images/desktop-background-images/hsb-22.png">HSB 22</option>
+ <option value="/images/desktop-background-images/hsb-23.png">HSB 23</option>
+ <option value="/images/desktop-background-images/hsb-24.png">HSB 24</option>
+ <option value="/images/desktop-background-images/hsb-25.png">HSB 25</option>
+ <option value="/images/desktop-background-images/hsb-26.png">HSB 26</option>
+ <option value="/images/desktop-background-images/hsb-27.png">HSB 27</option>
+ <option value="/images/desktop-background-images/hsb-28.png">HSB 28</option>
+ <option value="/images/desktop-background-images/hsb-29.png">HSB 29</option>
+ <option value="/images/desktop-background-images/hsb-30.png">HSB 30</option>
+ <option value="/images/desktop-background-images/hsb-31.png">HSB 31</option>
+ <option value="/images/desktop-background-images/hsb-32.png">HSB 32</option>
+ <option value="/images/desktop-background-images/hsb-33.png">HSB 33</option>
+ <option value="/images/desktop-background-images/hsb-34.png">HSB 34</option>
+ <option value="/images/desktop-background-images/hsb-35.png">HSB 35</option>
+ <option value="/images/desktop-background-images/hsb-16.png">HSB 36</option>
+ <option value="/images/desktop-background-images/hsb-37.png">HSB 37</option>
+ <option value="/images/desktop-background-images/hsb-38.png">HSB 38</option>
+ <option value="/images/desktop-background-images/hsb-39.png">HSB 39</option>
+ <option value="/images/desktop-background-images/hsb-40.png">HSB 40</option>
+ <option value="/images/desktop-background-images/hsb-41.png">HSB 41</option>
+ <option value="/images/desktop-background-images/hsb-42.png">HSB 42</option>
+ <option value="/images/desktop-background-images/hsb-43.png">HSB 43</option>
+ <option value="/images/desktop-background-images/hsb-44.png">HSB 44</option>
+ <option value="/images/desktop-background-images/hsb-45.png">HSB 45</option>
+ <option value="/images/desktop-background-images/hsb-46.png">HSB 46</option>
+ <option value="/images/desktop-background-images/hsb-47.png">HSB 47</option>
+ <option value="/images/mset/mset-0001.png">mset-0001.png</option>
+ <option value="/images/mset/mset-5006.png">mset-5006.png</option>
+ <option value="/images/mset/mset-5007.png">mset-5007.png</option>
+ <option value="/images/mset/mset-5011.png">mset-5011.png</option>
+ <option value="/images/mset/mset-5012.png">mset-5012.png</option>
+ <option value="/images/mset/mset-5017.png">mset-5017.png</option>
+ <option value="/images/mset/mset-5019.png">mset-5019.png</option>
+ <option value="/images/mset/mset-5020.png">mset-5020.png</option>
+ <option value="/images/mset/mset-5028.png">mset-5028.png</option>
+ <option value="/images/mset/mset-5029.png">mset-5029.png</option>
+ <option value="/images/mset/mset-5031.png">mset-5031.png</option>
+ <option value="/images/mset/mset-5032.png">mset-5032.png</option>
+ <option value="/images/mset/mset-5033.png">mset-5033.png</option>
+ <option value="/images/mset/mset-5034.png">mset-5034.png</option>
+ <option value="/images/mset/mset-5037.png">mset-5037.png</option>
+ <option value="/images/mset/mset-5038.png">mset-5038.png</option>
+ <option value="/images/mset/mset-5039.png">mset-5039.png</option>
+ <option value="/images/mset/mset-5040.png">mset-5040.png</option>
+ <option value="/images/mset/mset-5041.png">mset-5041.png</option>
+ <option value="/images/mset/mset-5043.png">mset-5043.png</option>
+ <option value="/images/mset/mset-5045.png">mset-5045.png</option>
+ <option value="/images/mset/mset-5046.png">mset-5046.png</option>
+ <option value="/images/mset/mset-5047.png">mset-5047.png</option>
+ <option value="/images/mset/mset-5048.png">mset-5048.png</option>
+ <option value="/images/mset/mset-5049.png">mset-5049.png</option>
+ <option value="/images/mset/mset-5050.png">mset-5050.png</option>
+ <option value="/images/mset/mset-5051.png">mset-5051.png</option>
+ <option value="/images/mset/mset-5052.png">mset-5052.png</option>
+ <option value="/images/mset/mset-5059.png">mset-5059.png</option>
+ <option value="/images/mset/mset-5066.png">mset-5066.png</option>
+ <option value="/images/mset/mset-5073.png">mset-5073.png</option>
+ <option value="/images/mset/mset-5078.png">mset-5078.png</option>
+ <option value="/images/mset/mset-5079.png">mset-5079.png</option>
+ <option value="/images/mset/mset-5081.png">mset-5081.png</option>
+ <option value="/images/mset/mset-5083.png">mset-5083.png</option>
+ <option value="/images/mset/mset-5084.png">mset-5084.png</option>
+ <option value="/images/mset/mset-5086.png">mset-5086.png</option>
+ <option value="/images/mset/mset-5088.png">mset-5088.png</option>
+ <option value="/images/mset/mset-5090.png">mset-5090.png</option>
+ <option value="/images/mset/mset-5095.png">mset-5095.png</option>
+ <option value="/images/mset/mset-5096.png">mset-5096.png</option>
+ <option value="/images/mset/mset-5097.png">mset-5097.png</option>
+ <option value="/images/mset/mset-5098.png">mset-5098.png</option>
+ <option value="/images/mset/mset-5099.png">mset-5099.png</option>
+ <option value="/images/mset/mset-5100.png">mset-5100.png</option>
+ <option value="/images/mset/mset-5101.png">mset-5101.png</option>
+ <option value="/images/mset/mset-5102.png">mset-5102.png</option>
+ <option value="/images/mset/mset-5104.png">mset-5104.png</option>
+ <option value="/images/mset/mset-5105.png">mset-5105.png</option>
+ <option value="/images/mset/mset-5106.png">mset-5106.png</option>
+ <option value="/images/mset/mset-5109.png">mset-5109.png</option>
+ <option value="/images/mset/mset-5110.png">mset-5110.png</option>
+ <option value="/images/mset/mset-5116.png">mset-5116.png</option>
+ <option value="/images/mset/mset-5118.png">mset-5118.png</option>
+ <option value="/images/mset/mset-5119.png">mset-5119.png</option>
+ <option value="/images/mset/mset-5123.png">mset-5123.png</option>
+ <option value="/images/mset/mset-5124.png">mset-5124.png</option>
+ <option value="/images/mset/mset-5133.png">mset-5133.png</option>
+ <option value="/images/mset/mset-5134.png">mset-5134.png</option>
+ <option value="/images/mset/mset-5135.png">mset-5135.png</option>
+ <option value="/images/mset/mset-5136.png">mset-5136.png</option>
+ <option value="/images/mset/mset-5137.png">mset-5137.png</option>
+ <option value="/images/mset/mset-5138.png">mset-5138.png</option>
+ <option value="/images/mset/mset-5139.png">mset-5139.png</option>
+ <option value="/images/mset/mset-5140.png">mset-5140.png</option>
+ <option value="/images/mset/mset-5141.png">mset-5141.png</option>
+ <option value="/images/mset/mset-5142.png">mset-5142.png</option>
+ <option value="/images/mset/mset-5160.png">mset-5160.png</option>
+ <option value="/images/mset/mset-5161.png">mset-5161.png</option>
+ <option value="/images/mset/mset-5163.png">mset-5163.png</option>
+ <option value="/images/mset/mset-5165.png">mset-5165.png</option>
+ <option value="/images/mset/mset-5168.png">mset-5168.png</option>
+ <option value="/images/mset/mset-5170.png">mset-5170.png</option>
+ <option value="/images/mset/mset-5173.png">mset-5173.png</option>
+ <option value="/images/mset/mset-5174.png">mset-5174.png</option>
+ <option value="/images/mset/mset-5176.png">mset-5176.png</option>
+ <option value="/images/mset/mset-5178.png">mset-5178.png</option>
+ <option value="/images/mset/mset-5179.png">mset-5179.png</option>
+ <option value="/images/mset/mset-5180.png">mset-5180.png</option>
+ <option value="/images/mset/mset-5182.png">mset-5182.png</option>
+ <option value="/images/mset/mset-5185.png">mset-5185.png</option>
+ <option value="/images/mset/mset-5186.png">mset-5186.png</option>
+ <option value="/images/mset/mset-5189.png">mset-5189.png</option>
+ <option value="/images/mset/mset-5192.png">mset-5192.png</option>
+ <option value="/images/mset/mset-5193.png">mset-5193.png</option>
+ <option value="/images/mset/mset-5195.png">mset-5195.png</option>
+ <option value="/images/mset/mset-5197.png">mset-5197.png</option>
+ <option value="/images/mset/mset-5198.png">mset-5198.png</option>
+ <option value="/images/mset/mset-5205.png">mset-5205.png</option>
+ <option value="/images/mset/mset-5225.png">mset-5225.png</option>
+ <option value="/images/mset/mset-5226.png">mset-5226.png</option>
+ <option value="/images/mset/mset-5230.png">mset-5230.png</option>
+ <option value="/images/mset/mset-5235.png">mset-5235.png</option>
+ <option value="/images/mset/mset-5237.png">mset-5237.png</option>
+ <option value="/images/mset/mset-5243.png">mset-5243.png</option>
+ <option value="/images/mset/mset-5245.png">mset-5245.png</option>
+ <option value="/images/mset/mset-5253.png">mset-5253.png</option>
+ <option value="/images/mset/mset-5256.png">mset-5256.png</option>
+ <option value="/images/mset/mset-5258.png">mset-5258.png</option>
+ <option value="/images/mset/mset-5263.png">mset-5263.png</option>
+ <option value="/images/mset/mset-5275.png">mset-5275.png</option>
+ <option value="/images/mset/mset-5296.png">mset-5296.png</option>
+ <option value="/images/mset/mset-5297.png">mset-5297.png</option>
+ <option value="/images/mset/mset-5298.png">mset-5298.png</option>
+ <option value="/images/mset/mset-5303.png">mset-5303.png</option>
+ <option value="/images/mset/mset-5305.png">mset-5305.png</option>
+ <option value="/images/mset/mset-5336.png">mset-5336.png</option>
+ <option value="/images/mset/mset-5343.png">mset-5343.png</option>
+ <option value="/images/mset/mset-5348.png">mset-5348.png</option>
+ <option value="/images/mset/mset-5349.png">mset-5349.png</option>
+ <option value="/images/mset/mset-5351.png">mset-5351.png</option>
+ <option value="/images/mset/mset-5353.png">mset-5353.png</option>
+ <option value="/images/mset/mset-5361.png">mset-5361.png</option>
+ <option value="/images/mset/mset-5364.png">mset-5364.png</option>
+ <option value="/images/mset/mset-5366.png">mset-5366.png</option>
+ <option value="/images/mset/mset-5371.png">mset-5371.png</option>
+ <option value="/images/mset/mset-5375.png">mset-5375.png</option>
+ <option value="/images/mset/mset-5376.png">mset-5376.png</option>
+ <option value="/images/mset/mset-5377.png">mset-5377.png</option>
+ <option value="/images/mset/mset-5382.png">mset-5382.png</option>
+ <option value="/images/mset/mset-5383.png">mset-5383.png</option>
+ <option value="/images/mset/mset-5385.png">mset-5385.png</option>
+ <option value="/images/mset/mset-5390.png">mset-5390.png</option>
+ <option value="/images/mset/mset-5392.png">mset-5392.png</option>
+ <option value="/images/mset/mset-5395.png">mset-5395.png</option>
+ <option value="/images/mset/mset-5397.png">mset-5397.png</option>
+ <option value="/images/mset/mset-5402.png">mset-5402.png</option>
+ <option value="/images/mset/mset-5403.png">mset-5403.png</option>
+ <option value="/images/mset/mset-5404.png">mset-5404.png</option>
+ <option value="/images/mset/mset-5405.png">mset-5405.png</option>
+ <option value="/images/mset/mset-5406.png">mset-5406.png</option>
+ <option value="/images/mset/mset-5407.png">mset-5407.png</option>
+ <option value="/images/mset/mset-5409.png">mset-5409.png</option>
+ <option value="/images/mset/mset-5411.png">mset-5411.png</option>
+ <option value="/images/mset/mset-5412.png">mset-5412.png</option>
+ <option value="/images/mset/mset-5413.png">mset-5413.png</option>
+ <option value="/images/mset/mset-5414.png">mset-5414.png</option>
+ <option value="/images/mset/mset-5415.png">mset-5415.png</option>
+ <option value="/images/mset/mset-5419.png">mset-5419.png</option>
+ <option value="/images/mset/mset-5420.png">mset-5420.png</option>
+ <option value="/images/mset/mset-5437.png">mset-5437.png</option>
+ <option value="/images/mset/mset-5438.png">mset-5438.png</option>
+ <option value="/images/mset/mset-5450.png">mset-5450.png</option>
+ <option value="/images/mset/mset-5452.png">mset-5452.png</option>
+ <option value="/images/mset/mset-5455.png">mset-5455.png</option>
+ <option value="/images/mset/mset-5458.png">mset-5458.png</option>
+ <option value="/images/mset/mset-5459.png">mset-5459.png</option>
+ <option value="/images/mset/mset-5460.png">mset-5460.png</option>
+ <option value="/images/mset/mset-5461.png">mset-5461.png</option>
+ <option value="/images/mset/mset-5462.png">mset-5462.png</option>
+ <option value="/images/mset/mset-5481.png">mset-5481.png</option>
+ <option value="/images/mset/mset-5486.png">mset-5486.png</option>
+ <option value="/images/mset/mset-5487.png">mset-5487.png</option>
+ <option value="/images/mset/mset-5489.png">mset-5489.png</option>
+ <option value="/images/mset/mset-5490.png">mset-5490.png</option>
+ <option value="/images/mset/mset-5497.png">mset-5497.png</option>
+ <option value="/images/mset/mset-5500.png">mset-5500.png</option>
+ <option value="/images/mset/mset-5580.png">mset-5580.png</option>
+ <option value="/images/mset/mset-5583.png">mset-5583.png</option>
+ <option value="/images/mset/mset-5584.png">mset-5584.png</option>
+ <option value="/images/mset/mset-5591.png">mset-5591.png</option>
+ <option value="/images/mset/mset-5592.png">mset-5592.png</option>
+ <option value="/images/mset/mset-5597.png">mset-5597.png</option>
+ <option value="/images/mset/mset-5600.png">mset-5600.png</option>
+ <option value="/images/mset/mset-5603.png">mset-5603.png</option>
+ <option value="/images/mset/mset-5632.png">mset-5632.png</option>
+ <option value="/images/mset/mset-5633.png">mset-5633.png</option>
+ <option value="/images/mset/mset-5641.png">mset-5641.png</option>
+ <option value="/images/mset/mset-5642.png">mset-5642.png</option>
+ <option value="/images/mset/mset-5645.png">mset-5645.png</option>
+ <option value="/images/mset/mset-5646.png">mset-5646.png</option>
+ <option value="/images/mset/mset-6123-moire.png">mset-6123-moire.png</option>
+ <option value="/images/mset/mset-6124-moire.png">mset-6124-moire.png</option>
+ <option value="/images/mset/mset-6125-moire.png">mset-6125-moire.png</option>
+ <option value="/images/mset/mset-6126-moire.png">mset-6126-moire.png</option>
+ <option value="/images/mset/mset-6127-moire.png">mset-6127-moire.png</option>
+ <option value="/images/mset/mset-6128-moire.png">mset-6128-moire.png</option>
+ <option value="/images/mset/mset-6129-moire.png">mset-6129-moire.png</option>
+ <option value="/images/mset/mset-6130-moire.png">mset-6130-moire.png</option>
+ <option value="/images/mset/mset-6131.png">mset-6123.png</option>
+ <option value="/images/mset/mset-6137.png">mset-6137.png</option>
+ <option value="/images/mset/mset-6138.png">mset-6138.png</option>
+ <option value="/images/mset/mset-6139.png">mset-6139.png</option>
+ <option value="/images/mset/mset-6140.png">mset-6140.png</option>
+ <option value="/images/mset/mset-6141.png">mset-6141.png</option>
+ <option value="/images/mset/mset-6142.png">mset-6142.png</option>
+ <option value="/images/mset/mset-6143.png">mset-6143.png</option>
+ <option value="/images/mset/mset-6144-rand-ellipse.png">mset-6144-rand-ellipse.png</option>
+ <option value="/images/mset/mset-6145-rand-ellipse.png">mset-6145-rand-ellipse.png</option>
+ <option value="/images/mset/mset-6146-rand-ellipse.png">mset-6146-rand-ellipse.png</option>
+ <option value="/images/mset/mset-6147-rand-ellipse.png">mset-6147-rand-ellipse.png</option>
+ <option value="/images/mset/mset-6148-rand-ellipse.png">mset-6148-rand-ellipse.png</option>
+ <option value="/images/mset/mset-6149-rand-ellipse.png">mset-6149-rand-ellipse.png</option>
+ <option value="/images/mset/mset-6150.png">mset-6150.png</option>
+ <option value="/images/mset/mset-6151.png">mset-6151.png</option>
+ <option value="/images/mset/mset-6152.png">mset-6152.png</option>
+ <option value="/images/mset/mset-6153.png">mset-6153.png</option>
+ <option value="/images/mset/mset-6154.png">mset-6154.png</option>
+ <option value="/images/mset/mset-6155.png">mset-6155.png</option>
+ <option value="/images/mset/mset-6156.png">mset-6156.png</option>
+ <option value="/images/mset/mset-6157.png">mset-6157.png</option>
+ <option value="/images/mset/mset-6158.png">mset-6158.png</option>
+ <option value="/images/mset/mset-6159.png">mset-6159.png</option>
+ <option value="/images/mset/mset-6160.png">mset-6160.png</option>
+ <option value="/images/mset/mset-6161.png">mset-6161.png</option>
+ <option value="/images/mset/mset-6162.png">mset-6162.png</option>
+ <option value="/images/mset/mset-6163.png">mset-6163.png</option>
+ <option value="/images/mset/mset-6164.png">mset-6164.png</option>
+ <option value="/images/mset/mset-6165.png">mset-6165.png</option>
+ <option value="/images/mset/mset-6166.png">mset-6166.png</option>
+ <option value="/images/mset/mset-6167.png">mset-6167.png</option>
+ <option value="/images/mset/mset-6168.png">mset-6168.png</option>
+ <option value="/images/mset/mset-6169.png">mset-6169.png</option>
+ <option value="/images/mset/mset-6170.png">mset-6170.png</option>
+ <option value="/images/mset/mset-6171.png">mset-6171.png</option>
+ <option value="/images/mset/mset-6172.png">mset-6172.png</option>
+ <option value="/images/mset/mset-6173.png">mset-6173.png</option>
+ <option value="/images/mset/mset-6174.png">mset-6174.png</option>
+ <option value="/images/mset/mset-6175.png">mset-6175.png</option>
+ <option value="/images/mset/mset-6176.png">mset-6176.png</option>
+ <option value="/images/mset/mset-6177.png">mset-6177.png</option>
+ <option value="/images/mset/mset-6178.png">mset-6178.png</option>
+ <option value="/images/mset/mset-6179.png">mset-6179.png</option>
+ <option value="/images/mset/mset-6180.png">mset-6180.png</option>
+ <option value="/images/mset/mset-6181.png">mset-6181.png</option>
+ <option value="/images/mset/mset-6182.png">mset-6182.png</option>
+ <option value="/images/mset/mset-6183.png">mset-6183.png</option>
+ <option value="/images/mset/mset-6184.png">mset-6184.png</option>
+ <option value="/images/mset/mset-6185.png">mset-6185.png</option>
+ <option value="/images/mset/mset-6186.png">mset-6186.png</option>
+ <option value="/images/mset/mset-6187.png">mset-6187.png</option>
+ <option value="/images/mset/mset-6188.png">mset-6188.png</option>
+ <option value="/images/mset/mset-6189.png">mset-6189.png</option>
+ <option value="/images/mset/mset-6190.png">mset-6190.png</option>
+ <option value="/images/mset/mset-6191.png">mset-6191.png</option>
+ <option value="/images/mset/mset-6192.png">mset-6192.png</option>
+ </select>
+  </li>
+  </ul>
+  </fieldset>
+ </form>
+  </div>
+  </div>
+  <div id="svg-container">
+  <svg id="iam-svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" x="0" y="0" width="700" height="700" viewBox="0 0 700 700" style="cursor: pointer;">
+ 
+ <defs>
+ 
+ <filter id="fish-eye-1" color-interpolation="sRGB" height="115%" width="115%" filterUnits="objectBoundingBox">
+   <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e %3cdefs%3e%3cradialGradient color%2dinterpolation='sRGB' id='FishEye' spreadMethod='pad' cx='50%25' cy='50%25'%3e%3canimate attributeName='cx' values='0%25;20%25;100%25;80%25;0%25' begin='clickme.click;0s' dur='15s' repeatCount='indefinite' /%3e%3canimate attributeName='cy' values='0%25;100%25;100%25;80%25;0%25' begin='clickme.click;0s' dur='15s' repeatCount='indefinite' /%3e  %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e  %3cstop stop%2dcolor='orange' offset='30%25'%3e%3c/stop%3e  %3cstop stop%2dcolor='red' offset='100%25' %3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='FishEyeRect' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23FishEye); stroke: none;' /%3e%3c/svg%3e" result="tile"></feImage>
+ 
+   <feDisplacementMap in2="tile" in="SourceGraphic" result="done" scale="80" xChannelSelector="R" yChannelSelector="R">
+   </feDisplacementMap>
+     <!--<feComposite in2="SourceGraphic" in="done" operator="in" />-->
+ </filter>
+ 
+ <filter id="fish-eye-2" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%" filterUnits="objectBoundingBox">
+   <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='700' width='700' viewport='0 0 700 700' baseProfile='full'%3e%3cdefs%3e%3cradialGradient id='FishEye' color%2dinterpolation='sRGB' spreadMethod='pad' cx='50%25' cy='50%25'%3e%3canimate attributeName='cx' values='0%25;20%25;100%25;50%25;0%25;100%25;50%25;0%25' begin='0s' dur='30s' repeatCount='indefinite' /%3e%3canimate attributeName='cy' values='0%25;100%25;100%25;50%25;0%25;20%25;120%25;0%25' begin='0s' dur='30s' repeatCount='indefinite' /%3e%3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e%3cstop stop%2dcolor='orange' offset='30%25'%3e%3c/stop%3e%3cstop stop%2dcolor='red' offset='100%25' %3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='FishEyeRect' x='0' y='0' height='700' width='700' style='fill: url(%23FishEye); stroke: none;'/%3e%3c/svg%3e" result="tile"></feImage>
+ 
+   <feDisplacementMap in2="tile" in="SourceGraphic" result="done" scale="80" xChannelSelector="R" yChannelSelector="R">
+   </feDisplacementMap>
+   <!-- <feComposite in2="SourceGraphic" in="done" operator="arithmetic" k1="1" />-->
+ </filter>
+ 
+ <filter id="wave" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%" filterUnits="objectBoundingBox">
+   <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='700' width='700' viewport='0 0 700 700' baseProfile='full'%3e%3cdefs%3e%3cradialGradient id='RG' color%2dinterpolation='sRGB' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e %3cstop stop%2dcolor='orange' offset='0%25' %3e  %3canimate attributeName='offset' from='.0' to='.2' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='10%25' id='g%2d1'%3e  %3canimate attributeName='offset' from='.1' to='.3' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='20%25' id='o%2d1'%3e  %3canimate attributeName='offset' from='.2' to='.4' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='30%25' id='g%2d2'%3e  %3canimate attributeName='offset' from='.3' to='.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='40%25' id='o%2d2'%3e  %3canimate attributeName='offset' from='.4' to='.6' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='50%25' id='g%2d3'%3e  %3canimate attributeName='offset' from='.5' to='.7' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='60%25' id='o%2d3'%3e  %3canimate attributeName='offset' from='.6' to='.8' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='70%25' id='g%2d4'%3e  %3canimate attributeName='offset' from='.7' to='.9' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='80%25' id='o%2d4'%3e  %3canimate attributeName='offset' from='.8' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='90%25' id='g%2d5'%3e  %3canimate attributeName='offset' from='.9' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='100%25' id='o%2d5'%3e %3c/stop%3e%3c/radialGradient%3e%3cmask id='RG%2dmask' %3e %3cuse xlink:href='%23RG' x='0' y='0' height='700' width='700' /%3e%3c/mask%3e%3c/defs%3e%3crect id='RGRect' x='0' y='0' height='700' width='700' style='fill: url(%23RG); stroke: none;' /%3e%3c/svg%3e" result="tile"></feImage>  
+ 
+   <feDisplacementMap in2="tile" in="SourceGraphic" result="done" scale="80" xChannelSelector="R" yChannelSelector="R">
+   </feDisplacementMap>
+   <!-- <feComposite in2="SourceGraphic" in="done" operator="arithmetic" k1="1" />-->
+ </filter>
+ 
+ <filter id="linear-displace-y" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%">
+   <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e%3cdefs%3e%3clinearGradient id='hlineardistort2' color%2dinterpolation='sRGB' spreadMethod='repeat' %3e %3cstop stop%2dcolor='%23FFFFFF' offset='0%25' /%3e %3cstop stop%2dcolor='%23000000' offset='50%25' %3e  %3canimate attributeName='offset' begin='0s' values='0%25;100%25;0%25' dur='15s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='%23FFFFFF' offset='100%25' /%3e%3c/linearGradient%3e%3c/defs%3e%3crect id='lineardisplacerect2' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23hlineardistort2); stroke: none;' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%"></feImage>
+ 
+   <feDisplacementMap in2="tile" in="SourceGraphic" scale="58.6016" yChannelSelector="R">
+       <animate attributeName="scale" values="0;50;100;200;100;50;0" repeatCount="indefinite" begin="0" dur="15s"></animate>
+     </feDisplacementMap>
+   </filter>
+ 
+ 
+ <filter id="displaceX" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%">
+   <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e%3cdefs%3e%3cradialGradient color%2dinterpolation='sRGB' id='RG2' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e %3cstop stop%2dcolor='orange' offset='0%25' %3e  %3canimate attributeName='offset' values='0;.2;0' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='10%25' id='g%2d1'%3e  %3canimate attributeName='offset' values='0.1;0.3;0.1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='20%25' id='o%2d1'%3e  %3canimate attributeName='offset' values='0.2;0.4;0.2' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='30%25' id='g%2d2'%3e  %3canimate attributeName='offset' values='0.5;0.3;0.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='40%25' id='o%2d2'%3e  %3canimate attributeName='offset' values='0.6;0.4;0.6' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='50%25' id='g%2d3'%3e  %3canimate attributeName='offset' values='0.5;0.8;0.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='60%25' id='o%2d3'%3e  %3canimate attributeName='offset' values='0.6;0.4;0.6' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='70%25' id='g%2d4'%3e  %3canimate attributeName='offset' values='0.7;1;0.7' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='80%25' id='o%2d4'%3e  %3canimate attributeName='offset' values='0.8;0.7;0.8' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='90%25' id='g%2d5'%3e  %3canimate attributeName='offset' values='0.9;1;0.9' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='100%25' id='o%2d5'%3e %3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='rDisplaceXRect' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23RG2); stroke: none;' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%"></feImage>
+     
+   <feDisplacementMap in2="tile" in="SourceGraphic" scale="25.5605" xChannelSelector="R" yChannelSelector="R">
+       <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite"></animate>
+   </feDisplacementMap>
+ </filter>
+ 
+ <filter id="displaceX1" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%">
+   <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e%3cdefs%3e%3cradialGradient color%2dinterpolation='sRGB' id='RG3' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e %3cstop stop%2dcolor='orange' offset='0%25' %3e  %3canimate attributeName='offset' values='0;.2;0' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='30%25' id='g%2d2'%3e  %3canimate attributeName='offset' values='0.5;0.2;0.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='60%25' id='o%2d2'%3e  %3canimate attributeName='offset' values='0.8;0.5;0.8' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='80%25' id='g%2d3'%3e  %3canimate attributeName='offset' values='0.9;0.7;0.9' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='90%25' id='o%2d3'%3e  %3canimate attributeName='offset' values='1;0.8;1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='100%25' id='o%2d5'%3e %3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='rDisplaceXRect' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23RG3); stroke: none;' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%"></feImage>
+ 
+   <feDisplacementMap in2="tile" in="SourceGraphic" scale="66.6814" xChannelSelector="R" yChannelSelector="R">
+       <animate attributeName="scale" values="80;5;80" dur="33s" repeatCount="indefinite"></animate>
+   </feDisplacementMap>
+ </filter>
+ 
+ <filter id="displaceX-2" color-interpolation="sRGB">
+   <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e%3cdefs%3e%3clinearGradient color%2dinterpolation='sRGB' id='LG' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e %3cstop stop%2dcolor='orange' offset='0%25' %3e  %3canimate attributeName='offset' from='.0' to='.2' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='10%25' id='g%2d1'%3e  %3canimate attributeName='offset' from='.1' to='.3' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='20%25' id='o%2d1'%3e  %3canimate attributeName='offset' from='.2' to='.4' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='30%25' id='g%2d2'%3e  %3canimate attributeName='offset' from='.3' to='.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='40%25' id='o%2d2'%3e  %3canimate attributeName='offset' from='.4' to='.6' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='50%25' id='g%2d3'%3e  %3canimate attributeName='offset' from='.5' to='.7' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='60%25' id='o%2d3'%3e  %3canimate attributeName='offset' from='.6' to='.8' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='70%25' id='g%2d4'%3e  %3canimate attributeName='offset' from='.7' to='.9' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='80%25' id='o%2d4'%3e  %3canimate attributeName='offset' from='.8' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='90%25' id='g%2d5'%3e  %3canimate attributeName='offset' from='.9' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='100%25' id='o%2d5'%3e %3c/stop%3e%3c/linearGradient%3e%3clinearGradient id='LG45' xlink:href='%23LG' x1='0%25' y1='100%25' x2='100%25' y2='0%25'/%3e%3crect id='LGRect45' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23LG45); stroke: none;' /%3e%3c/defs%3e%3crect id='LGRect' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23LG); stroke: none;' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%"></feImage>
+ 
+   <feDisplacementMap in2="tile" in="SourceGraphic" scale="44.1398" xChannelSelector="R" yChannelSelector="R">
+       <animate attributeName="scale" values="50;5;50" dur="45s" repeatCount="indefinite"></animate>
+   </feDisplacementMap>
+ </filter>
+     
+ <filter id="displaceX-45" color-interpolation="sRGB">
+   <feImage xlink:href="data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e%3cdefs%3e%3clinearGradient color%2dinterpolation='sRGB' id='LG' spreadMethod='reflect'%3e %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e %3cstop stop%2dcolor='orange' offset='0%25' %3e  %3canimate attributeName='offset' from='.0' to='.2' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='10%25' id='g%2d1'%3e  %3canimate attributeName='offset' from='.1' to='.3' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='20%25' id='o%2d1'%3e  %3canimate attributeName='offset' from='.2' to='.4' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='30%25' id='g%2d2'%3e  %3canimate attributeName='offset' from='.3' to='.5' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='40%25' id='o%2d2'%3e  %3canimate attributeName='offset' from='.4' to='.6' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='50%25' id='g%2d3'%3e  %3canimate attributeName='offset' from='.5' to='.7' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='60%25' id='o%2d3'%3e  %3canimate attributeName='offset' from='.6' to='.8' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='70%25' id='g%2d4'%3e  %3canimate attributeName='offset' from='.7' to='.9' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='80%25' id='o%2d4'%3e  %3canimate attributeName='offset' from='.8' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='green' offset='90%25' id='g%2d5'%3e  %3canimate attributeName='offset' from='.9' to='1' dur='3s' repeatCount='indefinite' /%3e %3c/stop%3e %3cstop stop%2dcolor='orange' offset='100%25' id='o%2d5'%3e %3c/stop%3e%3c/linearGradient%3e%3clinearGradient id='LG45' xlink:href='%23LG' x1='0%25' y1='100%25' x2='100%25' y2='0%25'/%3e%3crect id='LGRect45' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23LG45); stroke: none;' /%3e%3c/defs%3e%3crect id='LGRect' x='0' y='0' height='100%25' width='100%25' style='fill: url(%23LG45); stroke: none;' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%"></feImage>
+ 
+   <feDisplacementMap in2="tile" in="SourceGraphic" scale="50.2331" xChannelSelector="R" yChannelSelector="R">
+       <animate attributeName="scale" values="60;5;60" dur="33s" repeatCount="indefinite"></animate>
+   </feDisplacementMap>
+ </filter>
+ 
+ 
+ <filter id="gabi-codepen" filterUnits="objectBoundingBox" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%">
+   <feImage xlink:href="data:image/svg+xml;utf8,%3csvg  version='1.1'  xmlns='http://www.w3.org/2000/svg'  xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700'%3e%3cdefs%3e%3cradialGradient id='gbs' spreadMethod='reflect' cx='50%25' cy='50%25'%3e%3cstop offset='0' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.1' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.1;1;0.1' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.2' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.3' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='.4' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.5' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='.6' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.7' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='.8' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.90' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='1.0' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='1.1' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='abcd' width='700' height='700' x='0' y='0' style='fill: url(%23gbs);' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%"></feImage>
+ 
+   <feDisplacementMap in2="tile" in="SourceGraphic" scale="38.0773" xChannelSelector="R" yChannelSelector="R">
+       <animate attributeName="scale" values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite"></animate>
+   </feDisplacementMap>
+ </filter>
+ 
+ <filter id="gabi-codepen-2" filterUnits="objectBoundingBox" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%">
+   <feImage xlink:href="data:image/svg+xml;utf8,%3csvg  version='1.1'  xmlns='http://www.w3.org/2000/svg'  xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700'%3e%3cdefs%3e%3cradialGradient id='gbs2' spreadMethod='reflect' cx='50%25' cy='50%25'%3e%3cstop offset='0' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.1' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.1;0.3' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.2' stop%2dcolor=' %230f0'%3e %3canimate attributeName='offset' values='0.2;0.4' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.3' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.3;0.5' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.4' stop%2dcolor=' %230f0'%3e %3canimate attributeName='offset' values='0.4;0.6' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.5' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.5;0.7' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.6' stop%2dcolor=' %230f0'%3e %3canimate attributeName='offset' values='0.6;0.8' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.7' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.7;0.9' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.8' stop%2dcolor=' %230f0'%3e %3canimate attributeName='offset' values='0.8;1.0' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.90' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.9;1.1' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='1.0' stop%2dcolor=' %230f0'%3e %3canimate attributeName='offset' values='1.0;1.2' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='1.1' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='1.1;1.3' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='abcd' width='700' height='700' x='0' y='0' style='fill: url(%23gbs2);' /%3e%3c/svg%3e" result="tile" x1="-10%" y1="-10%" x2="110%" y2="110%"></feImage>
+ 
+   <feDisplacementMap in2="tile" in="SourceGraphic" scale="50" xChannelSelector="R" yChannelSelector="G">
+   <!--    <animate attributeName="scale" values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite" />
+  --> </feDisplacementMap>
+ </filter>
+ 
+ <filter id="bg-image-experiment" filterUnits="objectBoundingBox" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%">
+ 
+   <feDisplacementMap in2="BackgroundImage" in="SourceGraphic" scale="50" xChannelSelector="R" yChannelSelector="G">
+      <!-- <animate attributeName="scale" values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite" />-->
+   </feDisplacementMap>
+ </filter>
+   
+ </defs>
+ 
+ <g id="clickMe" transform="translate(10,10)" filter="">
+   <image id="image2" xlink:href="/images/desktop-background-images/hsb-5.png" height="700" x="0" y="0" width="700" filter="url(#gabi-codepen-2)"></image>
+ </g>
+ </svg>
+ </div>
+ 
+    </body>
+    </html>

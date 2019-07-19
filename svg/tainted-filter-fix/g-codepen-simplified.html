@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>G-Codepen bug fix</title>
+
+
+<style>
+#image2 {
+    background-image: url("data:image/svg+xml;utf8,%3csvg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events'  baseProfile='full' height='700' width='700' viewbox='0 0 700 700' %3e %3cdefs%3e%3cradialGradient color%2dinterpolation='sRGB' id='FishEye' spreadMethod='pad' cx='50%25' cy='50%25'%3e%3canimate attributeName='cx' values='0%25;20%25;100%25;80%25;0%25' begin='image2.click;4s' dur='15s' repeatCount='indefinite' /%3e%3canimate attributeName='cy' values='0%25;100%25;100%25;80%25;0%25' begin='0s' dur='15s' repeatCount='indefinite' /%3e  %3cstop stop%2dcolor='green' offset='0%25' %3e%3c/stop%3e  %3cstop stop%2dcolor='orange' offset='30%25'%3e%3c/stop%3e  %3cstop stop%2dcolor='red' offset='100%25' %3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='FishEyeRect' x='0' y='0' height='700' width='700' style='fill: url(%23FishEye); stroke: none;' /%3e%3c/svg%3e");
+}
+
+#svg-container {
+  margin-top: 200px;
+  border: 1px solid black;
+}
+
+</style>
+
+</head>
+<body>
+<div id="svg-container">
+ <svg
+  id="main-svg"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:ev="http://www.w3.org/2001/xml-events"
+  version="1.0"
+  x="0"
+  y="0"
+  width="700"
+  height="700"
+  viewBox="0 0 700 700">
+<defs>
+    <filter id="gcp" filterUnits="objectBoundingBox" color-interpolation="sRGB" >
+    <feImage xlink:href="data:image/svg+xml;utf8,%3csvg  version='1.1'  xmlns='http://www.w3.org/2000/svg'  xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' baseProfile='full' height='700' width='700' viewbox='0 0 700 700'%3e%3cdefs%3e%3cradialGradient id='gbs' spreadMethod='reflect' cx='50%25' cy='50%25'%3e%3cstop offset='0' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.1' stop%2dcolor='%23ff0'%3e %3canimate attributeName='offset' values='0.1;1;0.1' dur='4s' begin='0s' repeatCount='indefinite' /%3e%3c/stop%3e%3cstop offset='.2' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.3' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='.4' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.5' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='.6' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.7' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='.8' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='.90' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3cstop offset='1.0' stop%2dcolor=' %230f0'%3e%3c/stop%3e%3cstop offset='1.1' stop%2dcolor='%23ff0'%3e%3c/stop%3e%3c/radialGradient%3e%3c/defs%3e%3crect id='abcd' width='700' height='700' x='0' y='0' style='fill: url(%23gbs);' /%3e%3c/svg%3e" result="tile" />
+ 
+    <feDisplacementMap
+      in2="tile" 
+      in="SourceGraphic"
+      scale="50" 
+      xChannelSelector="R" 
+      yChannelSelector="R" >
+      <animate attributeName="scale" values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite" />
+   </feDisplacementMap>
+</filter>
+</defs>
+
+<g id="clickMe" transform="translate(10,10)" >
+  <image id="image2" xlink:href="/images/fishes-3.gif" height="700" width="700" x="0" y="0" filter="url(#gcp)"/>
+</g>
+
+</svg>
+</div>
+</body>
+</html>
