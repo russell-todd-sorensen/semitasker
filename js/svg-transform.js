@@ -179,7 +179,7 @@ SvgTransform.changeFilter = function (selectId) {
   var elementSelector, elementId, node;
   for (var i = 1; i < arguments.length; i++) {
     elementSelector = arguments[i];
-    elementId = elementSelector.substring(1);
+    elementId = elementSelector;
     node = document.getElementById(elementId);
     node.setAttribute('filter',filterUrl);
   }

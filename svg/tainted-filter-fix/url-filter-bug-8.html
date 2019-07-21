@@ -47,55 +47,7 @@ svg {
 <script src="/js/svg-transform.js"></script>
 <script src="/js/panel-show-hide.js"></script>
 <script src="/svg/js/filter-mania-improved-3.js"></script>
-<script>
 
-function setStartImage(imageSelectId) {
-  Data.loadSelectOptions(imageSelectId,Data.Images);
-  Data.restoreSelect('imageFilter');
-  Data.restoreSelect('imageFilter2');
-  Data.restoreSelect('imageChoice');
-  SvgTransform.adjustObjectHeightWidth('image2');
-}
-
-panelHidden["controls"] = [{
-  id:'panel1',
-  visible:true,
-  css:{
-    true:{
- position:'relative'
-    },
-    false:{
- position:'absolute'
-    }
-  },
-  extra: [
-    {
- id:'controls',
- css:{
-   true: {
- position:'relative',
- zIndex:0,
- "background-color":'transparent'
-   },
-   false: {
- position:'absolute',
- zIndex:100,
- "background-color":'#444444'
-   }
- }
-   },
- ]}
-];
-
-$(document).ready(function () {
-  //Data.loadSelectOptions('imageFilter',Data.Filters);
-  //Data.loadSelectOptions('imageFilter2',Data.Filters);
-  setStartImage('imageChoice');
-  //Log.Hide();
-  Log.Remove();
-});
-
-</script>
 </head>
 <body>
 <div id="font-form" class="font-form-on">
@@ -332,5 +284,54 @@ $(document).ready(function () {
 </g>
 </svg>
 </div>
+<script>
+
+    function setStartImage(imageSelectId) {
+      Data.loadSelectOptions(imageSelectId,Data.Images);
+      Data.restoreSelect('imageFilter');
+      Data.restoreSelect('imageFilter2');
+      Data.restoreSelect('imageChoice');
+      SvgTransform.adjustObjectHeightWidth('image2');
+    }
+    
+    panelHidden["controls"] = [{
+      id:'panel1',
+      visible:true,
+      css:{
+        true:{
+     position:'relative'
+        },
+        false:{
+     position:'absolute'
+        }
+      },
+      extra: [
+        {
+     id:'controls',
+     css:{
+       true: {
+     position:'relative',
+     zIndex:0,
+     "background-color":'transparent'
+       },
+       false: {
+     position:'absolute',
+     zIndex:100,
+     "background-color":'#444444'
+       }
+     }
+       },
+     ]}
+    ];
+    
+    $(document).ready(function () {
+      //Data.loadSelectOptions('imageFilter',Data.Filters);
+      //Data.loadSelectOptions('imageFilter2',Data.Filters);
+      setStartImage('imageChoice');
+      //Log.Hide();
+      Log.Remove();
+    });
+    
+    </script>
 </body>
 </html>
