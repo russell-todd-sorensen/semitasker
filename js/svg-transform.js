@@ -71,7 +71,7 @@ SvgTransform.changeImage = function (selectId) {
   var imageSelector, imageId;
   for (var i = 1; i < arguments.length; i++) {
     imageSelector = arguments[i];
-    imageId = imageSelector.substring(1);
+    imageId = imageSelector;
     node = document.getElementById(imageId);
     node.setAttributeNS('http://www.w3.org/1999/xlink','href',imageUrl);
   }
@@ -122,6 +122,14 @@ SvgTransform.adjustImage = function (filterImageId, ellipseId) {
       node2.setAttribute('cx', parseInt(width)/2);
       node2.setAttribute('cy', parseInt(height)/2);
   }
+}
+
+SvgTransform.adjustScale = function (selectId,scaleId) {
+
+  var newScaleValue = $("#" + selectId + " option:selected").val();
+  var scaleValue = "scale(" + newScaleValue + ")";
+  $('#' + scaleId).attr('transform', scaleValue);
+  saveSelect(selectId, 'SvgTransform.adjustScale', scaleId );
 }
 
 SvgTransform.adjustObjectHeightWidth = function (filterImageId) {

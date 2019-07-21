@@ -10,7 +10,7 @@
  href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
 <link rel="stylesheet" href="/css/logo-maker-1.css">
 <link rel="stylesheet" href="/css/green-form.css" >
-<link rel="stylesheet" href="filter-bug.css">
+<link rel="stylesheet" href="/svg/tainted-filter-fix/filter-bug.css">
 
 <style>
 #image-rect {
@@ -106,7 +106,7 @@ $(document).ready(function () {
 <ul id="panel1">
  <li><label for="imageFilter">Select Filter 1</label>
  <select id="imageFilter"
-  onChange="SvgTransform.changeFilter('imageFilter', '#image2')">
+  onChange="SvgTransform.changeFilter('imageFilter', 'image2')">
   <option value="">No Filter</option>
   <option value="url(#fish-eye-1)">Fish Eye One</option>
   <option value="url(#fish-eye-2)">Fish Eye Two</option>
@@ -122,7 +122,7 @@ $(document).ready(function () {
   </li>
  <li><label for="imageFilter2">Select Filter 2</label>
  <select id="imageFilter2"
-  onChange="SvgTransform.changeFilter('imageFilter2', '#clickMe')">
+  onChange="SvgTransform.changeFilter('imageFilter2', 'clickMe')">
     <option value="">No Filter</option>
     <option value="url(#fish-eye-1)">Fish Eye One</option>
     <option value="url(#fish-eye-2)">Fish Eye Two</option>
@@ -141,7 +141,7 @@ $(document).ready(function () {
   <select
     id="imageChoice"
     name="imageChoice"
-    onChange="SvgTransform.changeImage('imageChoice','#image2');
+    onChange="SvgTransform.changeImage('imageChoice','image2');
     SvgTransform.adjustObjectHeightWidth('image2'); ">
     <option value="/svg/grid-2.svg" selected="selected">Grid SVG</option>
     <option value="/svg/american-st-andrews.svg">American St Andrews SVG</option>
