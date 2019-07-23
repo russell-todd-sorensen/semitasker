@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Codepen bug fix 3</title>
+
+<style>
+
+svg {
+    background-image: url("/svg/grid-2.svg");
+}
+</style>
+</div>
+</head>
+<body>
+<div id="svg-container">
+<svg version='1.1' 
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ width="450"
+ height="350"
+ viewport='0 0 350 450'
+ baseProfile='full'>
+ <defs>
+
+<filter id="displacementFilter">
+ <feImage height="90%" width="90%" xlink:href="/images/feathers-2.jpg" result="image"/>
+ <feDisplacementMap
+  in2="SourceGraphic" 
+  in="image" 
+  result="DisplacementMap"
+  scale="50" 
+  xChannelSelector="R" 
+  yChannelSelector="G">
+  <animate attributeName="xChannelSelector" values="G;R;B:G" begin="0s" dur="30s" repeatCount="indefinite" />
+</filter>
+
+<image id="myimage" xlink:href="/images/feathers-2.jpg" x="10" y="10" height="300" opacity=".8" width="400" stroke="yellow" stroke-width="30" filter="url(#displacementFilter)"/>
+<
+<radialGradient color-interpolation='sRGB' id='gf' spreadMethod='reflect'>
+ <stop stop-color='green' offset='0%'/>
+ <stop stop-color='orange' offset='0%'>
+  <animate attributeName='offset' values='0;.5;0' dur='7s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='red' offset='25%'>
+  <animate attributeName='offset' values='.25;0;1;.25' dur='11s' repeatCount='indefinite'/>
+ </stop>
+ <stop stop-color='green' offset='50%' id='g-1'>
+  <animate attributeName='offset' values='0.5;1.2;0.5' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='orange' offset='100%' id='o-5'/>
+ </radialGradient>
+
+<pattern id='Circle' width='300' height='300' x='0' y='0' patternUnits='userSpaceOnUse'>
+ <circle r='200' cx='150' cy='150' stroke-linecap='round' style='fill: url(#gf); stroke: yellow; stroke-width: 20; stroke-dasharray: 1 20;'>
+ <animate attributeName='r' values='200;25;150;50;250' begin='0s' dur='37s' repeatCount='indefinite'/>
+ <animate attributeName='cx' values='150;50;250;50;250;50;150' begin='0s' dur='47s' repeatCount='indefinite'/>
+ <animate attributeName='cy' values='150;250;50;250;150;50;150' begin='0s' dur='57s' repeatCount='indefinite'/>
+ </circle>
+
+</pattern>
+</defs>
+<g id="outer-group" filter="url(#displacementFilter)" x="10" y="10"  >
+    <rect id="rect1" height="300" width="400" style="fill:url(#Circle);"/>
+</g>
+</svg>
+</div>
+</body>
+</html>
