@@ -161,19 +161,19 @@ body {
 
 
 function setStartImage(imageSelectId) {
-	  Data.loadSelectOptions(imageSelectId,Data.Images);
-	  Data.restoreSelect('imageFilter');
+    Data.loadSelectOptions(imageSelectId,Data.Images);
+    Data.restoreSelect('imageFilter');
     Data.restoreSelect('imageFilter2');
-	  Data.restoreSelect('imageChoice');
-		SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1');
+    Data.restoreSelect('imageChoice');
+    SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1');
 }
 
 
 $(document).ready(function () {
-	Data.loadSelectOptions('imageFilter',Data.Filters);
-	Data.loadSelectOptions('imageFilter2',Data.Filters);
-	setStartImage('imageChoice');
-	Log.Hide();
+  Data.loadSelectOptions('imageFilter',Data.Filters);
+  Data.loadSelectOptions('imageFilter2',Data.Filters);
+  setStartImage('imageChoice');
+  Log.Hide();
 });
 
 
@@ -188,13 +188,13 @@ $(document).ready(function () {
 <ul>
  <li><label for="imageFilter">Select Filter</label>
  <select id="imageFilter"
-  onChange="SvgTransform.changeFilter('imageFilter', '#image2','#graphics-2' )">
+  onChange="SvgTransform.changeFilter('imageFilter', 'image2','graphics-2' )">
 
   </select>
   </li>
  <li><label for="imageFilter2">Select Filter 2</label>
  <select id="imageFilter2"
-  onChange="SvgTransform.changeFilter('imageFilter2', '#clickMe', '#graphics-container')">
+  onChange="SvgTransform.changeFilter('imageFilter2', 'clickMe', 'graphics-container')">
   </select>
   </li>
  <li>
@@ -202,7 +202,7 @@ $(document).ready(function () {
   <select
     id="imageChoice"
     name="imageChoice"
-    onChange="SvgTransform.changeImage('imageChoice','#image2');
+    onChange="SvgTransform.changeImage('imageChoice','image2');
          SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1'); ">
 
  </select>
@@ -683,7 +683,7 @@ $(document).ready(function () {
                    0  0  0  0  0  0  0
                    2  2  2  3  2  2  2
                    0  0  0  0  0  0  0
-               	   0  0  0  0  0  0  0
+                    0  0  0  0  0  0  0
                   -1  -1  -1  -1  -1 -1 -1"
     edgeMode="duplicate" >
 
@@ -748,7 +748,7 @@ $(document).ready(function () {
   in="SourceGraphic"
   scale="20"
   xChannelSelector="R"
-	yChannelSelector="R" >
+  yChannelSelector="R" >
    <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
  </feDisplacementMap>
 </filter>
@@ -761,7 +761,7 @@ $(document).ready(function () {
   in="SourceGraphic"
   scale="20"
   xChannelSelector="R"
-	yChannelSelector="R" >
+  yChannelSelector="R" >
    <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
  </feDisplacementMap>
 </filter>
@@ -774,7 +774,7 @@ $(document).ready(function () {
   in="SourceGraphic"
   scale="20"
   xChannelSelector="R"
-	yChannelSelector="R" >
+  yChannelSelector="R" >
    <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
  </feDisplacementMap>
 </filter>
@@ -787,7 +787,7 @@ $(document).ready(function () {
   in="SourceGraphic"
   scale="80"
   xChannelSelector="R"
-	yChannelSelector="R" >
+  yChannelSelector="R" >
  </feDisplacementMap>
 </filter>
 
@@ -799,7 +799,7 @@ $(document).ready(function () {
   in="SourceGraphic"
   scale="80"
   xChannelSelector="R"
-	yChannelSelector="R" >
+  yChannelSelector="R" >
  </feDisplacementMap>
 </filter>
 
@@ -1196,40 +1196,40 @@ $(document).ready(function () {
  <feGaussianBlur stdDeviation="1,2"/>
  <feConvolveMatrix order="5"
   kernelMatrix="1 1 1 1 1
-	              1 -2 -2 -2 1
-								1 -2 -.7 -2 1
-								1 -2 -2 -2 1
-								1 1 1 1 1" />
+                1 -2 -2 -2 1
+                1 -2 -.7 -2 1
+                1 -2 -2 -2 1
+                1 1 1 1 1" />
 </filter>
 
 <filter id="sharpen-2" >
  <feGaussianBlur stdDeviation=".5,.5"/>
  <feConvolveMatrix order="5"
   kernelMatrix="1 1 1 1 1
-	              1 -2 -2 -2 1
-								1 -2 -.7 -2 1
-								1 -2 -2 -2 1
-								1 1 1 1 1" />
+                1 -2 -2 -2 1
+                1 -2 -.7 -2 1
+                1 -2 -2 -2 1
+                1 1 1 1 1" />
 </filter>
 
 <filter id="sharpen-3" >
  <feGaussianBlur stdDeviation="3"/>
  <feConvolveMatrix order="5"
   kernelMatrix="1 1 1 1 1
-	              1 -2 -2 -2 1
-								1 -2 -.2 -2 1
-								1 -2 -2 -2 1
-								1 1 1 1 1" />
+                1 -2 -2 -2 1
+                1 -2 -.2 -2 1
+                1 -2 -2 -2 1
+                1 1 1 1 1" />
 </filter>
 
 <filter id="sharpen-4" >
  <!--<feGaussianBlur stdDeviation="1"/>-->
  <feConvolveMatrix order="7"
   kernelMatrix="1 0 1  0  1  0 -1
-	              0 1 0 -1  0 -1  0
-								1 0 1  0 -1  0 -1
-								0 1 0  2  0 -1  0
-								1 0 1  0 -1  0 -1
+                0 1 0 -1  0 -1  0
+                1 0 1  0 -1  0 -1
+                0 1 0  2  0 -1  0
+                1 0 1  0 -1  0 -1
                 0 1 0 -1  0 -1  0
                 1 0 1  0  1  0 -1" />
 </filter>
@@ -1691,7 +1691,7 @@ $(document).ready(function () {
 
 
 <g id="clickMe" transform="translate(550,10)" filter="" >
-	<image id="image2" xlink:href="/images/Butterfly 6.jpg" height="50%" x="0" y="0" width="50%"/>
+  <image id="image2" xlink:href="/images/Butterfly 6.jpg" height="50%" x="0" y="0" width="50%"/>
 </g>
 
 

@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-
 <svg x="0"
-		 y="0"
-		 height="1200"
-		 width="1000"
-		 viewport="0 0 1000 1200"
-     xmlns:svg="http://www.w3.org/2000/svg"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink"
-		 >
+    y="0"
+    height="1200"
+    width="1000"
+    viewport="0 0 1000 1200"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" >
 <defs>
 <filter id="img-filter" x="0" y="0" height="100%" width="100%" filterUnits="objectBoundingBox">
 <feImage xlink:href="dundee-2.svg" result="dundee" />
@@ -38,63 +36,60 @@ CLIPPING
 <filter id="cm-layer" >
 
  <feColorMatrix type="matrix"
-	    values="1.0  1.0  1.0  0.000  0
-	            1.0  1.0  1.0  0.000  0
-				1.0  1.0  1.0  0.000  0
-				1.0  1.0  1.0  1.000  0"
-	    in="SourceGraphic" result="desaturate" />
+    values="1.0  1.0  1.0  0.000  0
+            1.0  1.0  1.0  0.000  0
+            1.0  1.0  1.0  0.000  0
+            1.0  1.0  1.0  1.000  0"
+    in="SourceGraphic" result="desaturate" />
 
  <feColorMatrix type="matrix"
-	    values="0.0  0.0  0.0  0.000  0
-	            0.0  0.0  0.0  0.000  0
-				0.0  1.0  0.0  0.000  0
-				0.0  0.0  0.0  1.000  0"
-	    in="SourceGraphic" result="green-to-blue" />
+    values="0.0  0.0  0.0  0.000  0
+            0.0  0.0  0.0  0.000  0
+            0.0  1.0  0.0  0.000  0
+            0.0  0.0  0.0  1.000  0"
+    in="SourceGraphic" result="green-to-blue" />
 
-	<feComposite in2="desaturate" in="green-to-blue" operator="arithmetic"
-	 k1="1" k2=".9" k3=".9" k4="0"
-	 />
+ <feComposite in2="desaturate" in="green-to-blue" operator="arithmetic"
+    k1="1" k2=".9" k3=".9" k4="0"/>
 </filter>
 
 <filter id="cm-layer-2" >
 
  <feColorMatrix type="matrix"
-	    values="0.0  0.0  1.0  0.000  0
-	            1.0  0.0  0.0  0.000  0
-				1.0  1.0  1.0  0.000  0
-				0.0  0.0  0.0  1.000  0"
-	    in="SourceGraphic" result="x" />
+    values="0.0  0.0  1.0  0.000  0
+            1.0  0.0  0.0  0.000  0
+            1.0  1.0  1.0  0.000  0
+            0.0  0.0  0.0  1.000  0"
+    in="SourceGraphic" result="x" />
 
  <feColorMatrix type="matrix"
-	    values="1.0  1.0  1.0  0.000  0
-	            1.0  1.0  1.0  0.000  0
-				1.0  1.0  1.0  0.000  0
-				1.0  1.0  1.0  1.000  0"
-	    in="SourceGraphic" result="desaturate" />
+    values="1.0  1.0  1.0  0.000  0
+            1.0  1.0  1.0  0.000  0
+            1.0  1.0  1.0  0.000  0
+            1.0  1.0  1.0  1.000  0"
+    in="SourceGraphic" result="desaturate" />
 
-	<feComposite in2="desaturate" in="x" operator="arithmetic"
-	 k1="0" k2="1" k3=".2" k4="0"
-	 />
+ <feComposite in2="desaturate" in="x" operator="arithmetic"
+    k1="0" k2="1" k3=".2" k4="0" />
 </filter>
 <filter id="cm-layer-3" >
 
  <feColorMatrix type="matrix"
-	    values="1.0  1.0  1.0  0.000  0
-	            1.0  1.0  1.0  0.000  0
-				1.0  1.0  1.0  0.000  0
-				1.0  1.0  1.0  1.000  0"
-	    in="SourceGraphic" result="desaturate" />
+    values="1.0  1.0  1.0  0.000  0
+            1.0  1.0  1.0  0.000  0
+            1.0  1.0  1.0  0.000  0
+            1.0  1.0  1.0  1.000  0"
+    in="SourceGraphic" result="desaturate" />
 
  <feColorMatrix type="matrix"
-	    values="0.0  0.0  0.0  0.000  0
-	            0.0  0.0  0.0  0.000  0
-				0.0  1.0  0.0  0.000  0
-				0.0  0.0  0.0  1.000  0"
-	    in="SourceGraphic" result="green-to-blue" />
+    values="0.0  0.0  0.0  0.000  0
+            0.0  0.0  0.0  0.000  0
+            0.0  1.0  0.0  0.000  0
+            0.0  0.0  0.0  1.000  0"
+    in="SourceGraphic" result="green-to-blue" />
 
-	<feComposite in2="desaturate" in="green-to-blue" operator="arithmetic"
-	 k1="1" k2=".9" k3=".9" k4="0"
-	 />
+ <feComposite in2="desaturate" in="green-to-blue" operator="arithmetic"
+    k1="1" k2=".9" k3=".9" k4="0" />
 </filter>
 
 </defs>
@@ -111,18 +106,18 @@ CLIPPING
 
 <g id="row-2" transform="translate(0,300)" >
  <rect x="20" y="20" height="210" width="300" style="stroke: black; fill: none;" />
- <image xlink:href="../../images/sky-1.jpg" height="210" width="300" x="20" y="20" />
+ <image xlink:href="/images/sky-1.jpg" height="210" width="300" x="20" y="20" />
  <rect x="340" y="20" height="210" width="300" style="stroke: black; fill: none;" />
- <image xlink:href="../../images/sky-1.jpg" height="210" width="300" x="340" y="20" style="filter: url(#cm-layer-3);" />
+ <image xlink:href="/images/sky-1.jpg" height="210" width="300" x="340" y="20" style="filter: url(#cm-layer-3);" />
  <text id="explain-1" x="330" y="250" text-anchor="middle">
   Desaturate </text>
 </g>
 
 <g id="row-3" transform="translate(0,550)" >
  <rect x="20" y="20" height="445" width="300" style="stroke: black; fill: none;" />
- <image xlink:href="../../images/butterfly%206.jpg" height="445" width="300" x="20" y="20" />
+ <image xlink:href="/images/Butterfly%206.jpg" height="445" width="300" x="20" y="20" />
  <rect x="340" y="20" height="445" width="300" style="stroke: black; fill: none;" />
- <image xlink:href="../../images/butterfly%206.jpg" height="445" width="300" x="340" y="20" style="filter: url(#cm-layer);" />
+ <image xlink:href="/images/Butterfly%206.jpg" height="445" width="300" x="340" y="20" style="filter: url(#cm-layer);" />
  <text id="explain-1" x="330" y="480" text-anchor="middle">
   Desaturate + Green to Blue </text>
 </g>

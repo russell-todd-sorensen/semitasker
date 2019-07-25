@@ -130,9 +130,9 @@ html, body, svg, ul, form {
 <script>
 
 function setStartImage(imageSelectId) {
-	Data.loadSelectOptions(imageSelectId,Data.Images);
-	Data.restoreSelect('imageChoice');
-	//SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1');
+  Data.loadSelectOptions(imageSelectId,Data.Images);
+  Data.restoreSelect('imageChoice');
+  //SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1');
 }
 
 
@@ -142,7 +142,7 @@ $(document).ready(function () {
     Log.Hide();
     svg = doc.select('svg#mainSVG');
     setupForm('#wipeX');
-	buildTileOptions2();
+  buildTileOptions2();
     setStartImage('imageChoice');
     Data.restoreSelect('feRectId');
     updateRect('#feImageId');
@@ -170,7 +170,7 @@ $(document).ready(function () {
  </li>
  <li>
 <label for="durationTo">Duration</label>
-	To:   <input id="durationTo" name="durationTo" value="" type="text" size="4">
+  To:   <input id="durationTo" name="durationTo" value="" type="text" size="4">
   Back: <input id="durationBack" name="durationBack" value="" type="text" size="4">
  </li>
  <li>
@@ -333,10 +333,10 @@ $(document).ready(function () {
 <svg
     id="mainSVG"
     x="0"
-	y="0"
-	height="850"
-	width="1210"
-	viewport="0 0 325 225"
+  y="0"
+  height="850"
+  width="1210"
+  viewport="0 0 325 225"
     xmlns:svg="http://www.w3.org/2000/svg"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -564,18 +564,18 @@ $(document).ready(function () {
 <filter id="turbulence-0" color-interpolation-filters="sRGB">
  <feImage xlink:href="#rect53" height="80" width="80" x="0" y="0" result="tile" id="feImage0" />
  <feTile in="tile" result="tile" />
- 	<feColorMatrix type="matrix"
-	    values="0 0 0 0  0
-	            0 0 0 0  0
-				0 0 0 0  0
-			    1 1 1 .8 0"
-	    in="tile" result="tile-matrix" />
+   <feColorMatrix type="matrix"
+      values="0 0 0 0  0
+              0 0 0 0  0
+              0 0 0 0  0
+              1 1 1 .8 0"
+      in="tile" result="tile-matrix" />
    <feDisplacementMap id="displace-map-wipe-x-3"
- 		scale=".1"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile-matrix"
-		result="displaceAlpha" >
+     scale=".1"
+    xChannelSelector="R"
+    yChannelSelector="B"
+    in2="SourceGraphic" in="tile-matrix"
+    result="displaceAlpha" >
     <animate attributeName="scale" attributeType="XML" from="0" to="300" dur="15s"
       additive="replace"  fill="freeze" id="anim1" begin="anim6.end" repeatCount="indefinite" />
     <animate attributeName="scale" attributeType="XML" from="300" to="10" dur="10s"
@@ -588,7 +588,7 @@ $(document).ready(function () {
      </feDisplacementMap>
 
   <feComposite in="displaceAlpha" in2="SourceGraphic" operator="arithmetic"
-	   k1="0" k2=".2" k3="1" k4="0"  result="r1" >
+     k1="0" k2=".2" k3="1" k4="0"  result="r1" >
 
     <animate attributeName="k3" attributeType="XML" from="1" to=".2" dur="2s"
       additive="replace"  fill="freeze" id="anim3" begin="2s" repeatCount="indefinite" />
@@ -602,25 +602,25 @@ $(document).ready(function () {
 
   </feComposite>
   <feComposite in="r1" in2="SourceGraphic" operator="in"
-	   k1="0" k2="1" k3="1" k4="0"  result="r2" />
+     k1="0" k2="1" k3="1" k4="0"  result="r2" />
 
 </filter>
 
 <filter id="turbulence-10" color-interpolation-filters="sRGB">
  <feImage xlink:href="#rect53" height="80" width="80" x="0" y="0" result="tile" id="feImage10" />
  <feTile in="tile" result="tile" />
- 	<feColorMatrix type="matrix"
-	    values="0 0 0 .2       0
-	            0 0 0 .207     0
-					    0 0 0 .02      0
-					    1 1 1 .8       0"
-	    in="tile" result="tile-matrix" />
+   <feColorMatrix type="matrix"
+      values="0 0 0 .2       0
+              0 0 0 .207     0
+              0 0 0 .02      0
+              1 1 1 .8       0"
+      in="tile" result="tile-matrix" />
    <feDisplacementMap id="displace-map-wipe-x-2"
- 		scale=".1"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile-matrix"
-		result="displaceAlpha" >
+     scale=".1"
+    xChannelSelector="R"
+    yChannelSelector="B"
+    in2="SourceGraphic" in="tile-matrix"
+    result="displaceAlpha" >
     <animate attributeName="scale" attributeType="XML" from="0" to="300" dur="15s"
       additive="replace"  fill="freeze" id="anim1" begin="anim6.end"  />
     <animate attributeName="scale" attributeType="XML" from="300" to="10" dur="10s"
@@ -633,7 +633,7 @@ $(document).ready(function () {
      </feDisplacementMap>
 
   <feComposite in="displaceAlpha" in2="SourceGraphic" operator="arithmetic"
-	   k1="0" k2=".2" k3="1" k4="0"  result="r1" >
+     k1="0" k2=".2" k3="1" k4="0"  result="r1" >
 
     <animate attributeName="k3" attributeType="XML" from="1" to=".2" dur="2s"
       additive="replace"  fill="freeze" id="anim3" begin="2s" />
@@ -644,11 +644,9 @@ $(document).ready(function () {
     <animate attributeName="k2" attributeType="XML" from="1" to="1" dur="5s"
       additive="replace"  fill="freeze" id="anim6" begin="anim4.end"  />
 
-
   </feComposite>
   <feComposite in="r1" in2="SourceGraphic" operator="in"
-	   k1="0" k2="1" k3="1" k4="0"  result="r2" />
-
+     k1="0" k2="1" k3="1" k4="0"  result="r2" />
 </filter>
 
 <filter id="turbulence-1" color-interpolation-filters="sRGB"
@@ -708,8 +706,7 @@ $(document).ready(function () {
           M 35 40 L 40 35
           M -1 1 L 1 -1
           M 39 41 L 41 39"
-          style="fill: none;"
-          />
+          style="fill: none;" />
 </g>
 
 <use class="rect" id="rect300" xlink:href="#rect299" style="stroke: black; stroke-width: 2; stroke-opacity: .75; stroke-linecap: square;" height="40" width="40" />
@@ -760,40 +757,40 @@ I.A.M.
 
  <feTile in="tile" result="tile" stitchTiles="nostitch" />
  <feColorMatrix type="matrix"
-	    values="1.0  1.0  1.0  0.000  0
-	            1.0  1.0  1.0  0.000  0
-				1.0  1.0  1.0  0.000  0
-				1.0  1.0  1.0  1.000  0"
-	    in="SourceGraphic" result="desaturate" />
+      values="1.0  1.0  1.0  0.000  0
+              1.0  1.0  1.0  0.000  0
+        1.0  1.0  1.0  0.000  0
+        1.0  1.0  1.0  1.000  0"
+      in="SourceGraphic" result="desaturate" />
 
  <feDisplacementMap id="displace-map-wipe-x"
- 		scale="10"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile"
-		result="displaceAlpha" />
+     scale="10"
+    xChannelSelector="R"
+    yChannelSelector="B"
+    in2="SourceGraphic" in="tile"
+    result="displaceAlpha" />
 
-	<feColorMatrix type="matrix"
-	    values="0 0 0 0       0
-	            0 0 0 0       0
-				0 0 0 0       0
-				0 0 0 1.0000  0"
-	    in="tile" result="tile" />
+  <feColorMatrix type="matrix"
+      values="0 0 0 0       0
+              0 0 0 0       0
+        0 0 0 0       0
+        0 0 0 1.0000  0"
+      in="tile" result="tile" />
 
-	 <feDiffuseLighting in="displaceAlpha"  id="diffuse-light-wipe-x"
-	    lighting-color="#ffc"
-		surfaceScale="2"
-		diffuseConstant=".75"
-		result="diffuseLight" >
-			<fePointLight x="0" y="0" z="50" id="point-light-wipe-x" />
-	 </feDiffuseLighting>
+   <feDiffuseLighting in="displaceAlpha"  id="diffuse-light-wipe-x"
+      lighting-color="#ffc"
+    surfaceScale="2"
+    diffuseConstant=".75"
+    result="diffuseLight" >
+      <fePointLight x="0" y="0" z="50" id="point-light-wipe-x" />
+   </feDiffuseLighting>
 
-	<feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
-	  result="diffuseOutput" />
+  <feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
+    result="diffuseOutput" />
 
-	<feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
+  <feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
  <!--  <feComposite in="SourceGraphic" in2="tile" operator="arithmetic"
-	  k1="0" k2="0" k3="1" k4="0" /> -->
+    k1="0" k2="0" k3="1" k4="0" /> -->
 </filter>
 </defs>
 

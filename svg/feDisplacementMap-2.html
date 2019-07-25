@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <title>feDisplacementMap</title>
 
-<link rel="stylesheet" type="text/css" href="../../css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 
 <style>
 #notes, #image-select {
@@ -14,743 +14,717 @@
 
 </style>
 
-<script type="text/ecmascript" src="../../js/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="../../js/d3.v3.js"></script>
-<script type="text/javascript" src="../../js/log-2.js"></script>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
 <script>
 
+if (true) {
 
 var doc;
 var dataset, dataset2,dataset3,dataset4, dataset5,dataset6,dataset7,dataset8,dataset9;
 
 function meltX(config) {
-	
-	  var feDisplacementMapId  = config.feDisplacementMapId;
-		var dataDisplacementMap  = config.dataDisplacementMap;
 
-		var duration   = config.duration;
+    var feDisplacementMapId  = config.feDisplacementMapId;
+    var dataDisplacementMap  = config.dataDisplacementMap;
 
-		var scaleTo    = config.scaleTo;
-		
-		if (config.scaleBack) {
-			var scaleBack  = config.scaleBack;
-		} else {
-			var scaleBack  = "return";
-		}
-		
-		if (config.delay) {
-				var delay = parseInt(config.delay);
-		} else {
-			  var delay = 0;
-		}
-		
-		if (config.easeIn) {
-			 var easeIn     = config.easeIn;
-		} else {
-			 var easeIn = 'linear';
-		}
-		
-		if (config.easeOut) {
-			 var easeOut = config.easeOut;
-		} else {
-			 var easeOut = easeIn;
-		}
-		
-		doc
-	  .selectAll(feDisplacementMapId)
-		.data(dataDisplacementMap)
-		.transition()
-		.duration(duration)
-		.ease(easeIn)
-		.attr('scale', function (d,i) {
-			 d.scale = d3.select(this).attr('scale');
-			 return scaleTo;
-		})
-		.each('end', function(d,i) {
-			d3.select(this)
-				.transition()
-				.duration(duration/2-delay)
-				.delay(delay)
-				.ease(easeOut)
-				.attr('scale', function (d,i) {
-					 return scaleBack === "return" ? d.scale : parseFloat(scaleBack);
-				})
-		});
+    var duration   = config.duration;
+
+    var scaleTo    = config.scaleTo;
+
+    if (config.scaleBack) {
+        var scaleBack  = config.scaleBack;
+    } else {
+        var scaleBack  = "return";
+    }
+
+    if (config.delay) {
+        var delay = parseInt(config.delay);
+    } else {
+        var delay = 0;
+    }
+
+    if (config.easeIn) {
+        var easeIn     = config.easeIn;
+    } else {
+        var easeIn = 'linear';
+    }
+
+    if (config.easeOut) {
+        var easeOut = config.easeOut;
+    } else {
+        var easeOut = easeIn;
+    }
+
+    doc
+        .selectAll(feDisplacementMapId)
+        .data(dataDisplacementMap)
+        .transition()
+        .duration(duration)
+        .ease(easeIn)
+        .attr('scale', function (d,i) {
+            d.scale = d3.select(this).attr('scale');
+            return scaleTo;
+        })
+        .each('end', function(d,i) {
+            d3.select(this)
+                .transition()
+                .duration(duration/2-delay)
+                .delay(delay)
+                .ease(easeOut)
+                .attr('scale', function (d,i) {
+                    return scaleBack === "return" ? d.scale : parseFloat(scaleBack);
+                })
+          });
 }
 
 function melt() {
-	var config = {
-		feDisplacementMapId: '#dfilter-1',
-		dataDisplacementMap: dataset2,
-		duration: 20000,
-		delay: 0,
-		easeIn: 'linear',
-		scaleTo: 500
-	}
-	Log.Notice("doing melt");
-	meltX(config);
+    var config = {
+        feDisplacementMapId: '#dfilter-1',
+        dataDisplacementMap: dataset2,
+        duration: 20000,
+        delay: 0,
+        easeIn: 'linear',
+        scaleTo: 500
+     };
+
+     Log.Notice("doing melt");
+     meltX(config);
 }
 
 function melt2() {
-	var config = {
-		feDisplacementMapId: '#displace-map-1',
-		dataDisplacementMap: dataset5,
-		duration: 20000,
-		delay: 3000,
-		easeIn: 'exp-in',
-		easeOut: 'exp-out',
-		scaleTo: 500
-	}
-	Log.Notice("doing melt2");
-	meltX(config);
-	
+     var config = {
+        feDisplacementMapId: '#displace-map-1',
+        dataDisplacementMap: dataset5,
+        duration: 20000,
+        delay: 3000,
+        easeIn: 'exp-in',
+        easeOut: 'exp-out',
+        scaleTo: 500
+     };
+
+     Log.Notice("doing melt2");
+     meltX(config);
 }
 
 function melt3() {
-	var config = {
-		feDisplacementMapId: '#displace-map-3',
-		dataDisplacementMap: dataset8,
-		duration: 20000,
-		delay: 3000,
-		easeIn: 'linear',
-		easeOut: 'linear',
-		scaleTo: 600
-	}
-	Log.Notice("doing melt3");
-	meltX(config);
-	
+     var config = {
+        feDisplacementMapId: '#displace-map-3',
+        dataDisplacementMap: dataset8,
+        duration: 20000,
+        delay: 3000,
+        easeIn: 'linear',
+        easeOut: 'linear',
+        scaleTo: 600
+     };
+
+     Log.Notice("doing melt3");
+     meltX(config);
 }
 
 function melt9() {
-	var config = {
-		feDisplacementMapId: '#displace-map-9',
-		dataDisplacementMap: dataset8,
-		duration: 20000,
-		delay: 3000,
-		easeIn: 'linear',
-		easeOut: 'linear',
-		scaleTo: 600
-	}
-	Log.Notice("doing melt9");
-	meltX(config);
-	
+     var config = {
+        feDisplacementMapId: '#displace-map-9',
+        dataDisplacementMap: dataset8,
+        duration: 20000,
+        delay: 3000,
+        easeIn: 'linear',
+        easeOut: 'linear',
+        scaleTo: 600
+     };
+
+     Log.Notice("doing melt9");
+     meltX(config);
 }
 function meltWipe() {
-	var config = {
-		feDisplacementMapId: '#displace-map-wipe',
-		dataDisplacementMap: dataset15,
-		duration: 20000,
-		delay: 3000,
-		easeIn: 'linear',
-		easeOut: 'linear',
-		scaleTo: 600
-	}
-	Log.Notice("doing meltWipe");
-	meltX(config);
-	
+     var config = {
+        feDisplacementMapId: '#displace-map-wipe',
+        dataDisplacementMap: dataset15,
+        duration: 20000,
+        delay: 3000,
+        easeIn: 'linear',
+        easeOut: 'linear',
+        scaleTo: 600
+     };
+
+     Log.Notice("doing meltWipe");
+     meltX(config);
 }
 
 function tileizeX (config) {
-	
-		var feImageId  = config.feImageId;
-		var feRectId   = config.feRectId;
-		var data       = config.data;
-		var dataRect   = config.dataRect;
 
-		var duration   = config.duration;
+    var feImageId  = config.feImageId;
+    var feRectId   = config.feRectId;
+    var data       = config.data;
+    var dataRect   = config.dataRect;
+    var duration   = config.duration;
+    var heightTo    = config.heightTo;
 
-		var heightTo    = config.heightTo;
-		
-		if (config.heightBack) {
-			var heightBack  = config.heightBack;
-		} else {
-			var heightBack  = "return";
-		}
-		
-		var widthTo    = config.widthTo;
-		
-		if (config.widthBack) {
-			var widthBack  = config.widthBack;
-		} else {
-			var widthBack  = "return";
-		}
-			
-		if (config.delay) {
-				var delay = parseInt(config.delay);
-		} else {
-			  var delay = 0;
-		}
-		
-		if (config.easeIn) {
-			 var easeIn     = config.easeIn;
-		} else {
-			 var easeIn = 'linear';
-		}
-		
-		if (config.easeOut) {
-			 var easeOut = config.easeOut;
-		} else {
-			 var easeOut = easeIn;
-		}
-	
-	doc
-		.selectAll(feImageId)
-	  .data(data)
-		.transition()
-		.duration(duration)
-		.ease(easeIn)
-		.attr('height', function (d1,i) {
-			 d1.height = d3.select(this).attr('height');
-			 return heightTo;
-		} )
-		.attr('width', function (d1,i) {
-			 d1.width = d3.select(this).attr('width');
-			 Log.Notice("--d1.width=" + d1.width);
-			 return widthTo;
-		})
-		.each('end', function(d1,i) {
-			d3.select(this)
-				.transition()
-				.delay(delay)
-				.duration(duration/2-delay)
-				.ease(easeOut)
-				.attr('height', function (d1,i) {
-					return heightBack === "return" ? d1.height : parseFloat(heightBack);
-				})
-				.attr('width', function (d1,i) {
-					Log.Notice("--widthBack=" + widthBack + " d1.width=" + d1.width);
-					return widthBack === "return" ? d1.width : parseFloat(widthBack);
-				})
-		});
-		
-	doc
-		.selectAll(feRectId)
-		.data(dataRect)
-		.transition()
-		.duration(duration)
-		.ease(easeIn)
-		.attr('height', function (d,i) {
-			 d.height = d3.select(this).attr('height');
-			 return widthTo;
-		} )
-		.attr('width', function (d,i) {
-			 d.width = d3.select(this).attr('width');
-			 Log.Notice("--width=" + d.width);
-			 return heightTo;
-		})
-		.each('end', function(d,i) {
-			d3.select(this)
-				.transition()
-				.delay(delay)
-				.duration(duration/2-delay)
-				.ease(easeOut)
-				.attr('height', function (d,i) {
-					return heightBack === "return" ? d.height : parseFloat(heightBack);
-				})
-				.attr('width', function (d,i) {
-					Log.Notice("widthBack=" + widthBack + " d.width=" + d.width);
-					return widthBack === "return" ? d.width : parseFloat(widthBack);
-				})
-		});	
+    if (config.heightBack) {
+        var heightBack  = config.heightBack;
+    } else {
+        var heightBack  = "return";
+    }
+
+    var widthTo    = config.widthTo;
+
+    if (config.widthBack) {
+        var widthBack  = config.widthBack;
+    } else {
+        var widthBack  = "return";
+    }
+
+    if (config.delay) {
+        var delay = parseInt(config.delay);
+    } else {
+        var delay = 0;
+    }
+
+    if (config.easeIn) {
+        var easeIn     = config.easeIn;
+    } else {
+        var easeIn = 'linear';
+    }
+
+    if (config.easeOut) {
+        var easeOut = config.easeOut;
+    } else {
+        var easeOut = easeIn;
+    }
+
+     doc
+        .selectAll(feImageId)
+        .data(data)
+        .transition()
+        .duration(duration)
+        .ease(easeIn)
+        .attr('height', function (d1,i) {
+            d1.height = d3.select(this).attr('height');
+            return heightTo;
+        })
+        .attr('width', function (d1,i) {
+            d1.width = d3.select(this).attr('width');
+            Log.Notice("--d1.width=" + d1.width);
+            return widthTo;
+        })
+        .each('end', function(d1,i) {
+            d3.select(this)
+                .transition()
+                .delay(delay)
+                .duration(duration/2-delay)
+                .ease(easeOut)
+                .attr('height', function (d1,i) {
+                    return heightBack === "return" ? d1.height : parseFloat(heightBack);
+                })
+                .attr('width', function (d1,i) {
+                    Log.Notice("--widthBack=" + widthBack + " d1.width=" + d1.width);
+                    return widthBack === "return" ? d1.width : parseFloat(widthBack);
+                })
+        });
+
+     doc
+        .selectAll(feRectId)
+        .data(dataRect)
+        .transition()
+        .duration(duration)
+        .ease(easeIn)
+        .attr('height', function (d,i) {
+            d.height = d3.select(this).attr('height');
+            return widthTo;
+        })
+        .attr('width', function (d,i) {
+            d.width = d3.select(this).attr('width');
+            Log.Notice("--width=" + d.width);
+            return heightTo;
+        })
+        .each('end', function(d,i) {
+            d3.select(this)
+                .transition()
+                .delay(delay)
+                .duration(duration/2-delay)
+                .ease(easeOut)
+                .attr('height', function (d,i) {
+                    return heightBack === "return" ? d.height : parseFloat(heightBack);
+                })
+                .attr('width', function (d,i) {
+                    Log.Notice("widthBack=" + widthBack + " d.width=" + d.width);
+                    return widthBack === "return" ? d.width : parseFloat(widthBack);
+                })
+        });
 }
 
 
 function tileize () {
-	var config = {
-		feImageId: '#feImage6',
-		feRectId: '#rect6',
-		data: dataset,
-		dataRect: dataset7,
-		duration: 20000,
-		delay: 3000,
-		easeIn: 'linear',
-		easeOut: 'linear',
-		heightTo: 40,
-		widthTo: 40
-	}
-	Log.Notice("doing tilize");
-	tileizeX(config);
-	
+    var config = {
+        feImageId: '#feImage6',
+        feRectId: '#rect6',
+        data: dataset,
+        dataRect: dataset7,
+        duration: 20000,
+        delay: 3000,
+        easeIn: 'linear',
+        easeOut: 'linear',
+        heightTo: 40,
+        widthTo: 40
+     };
+
+     Log.Notice("doing tilize");
+     tileizeX(config);
 }
 
 function tileize3 () {
-	var config = {
-		feImageId: '#feImage3',
-		feRectId: '#rect8',
-		data: dataset,
-		dataRect: dataset7,
-		duration: 20000,
-		delay: 3000,
-		easeIn: 'linear',
-		easeOut: 'linear',
-		heightTo: 1,
-		widthTo: .5
-	}
-	
-	Log.Notice("doing tilize3");
-	tileizeX(config);
-	
+     var config = {
+          feImageId: '#feImage3',
+          feRectId: '#rect8',
+          data: dataset,
+          dataRect: dataset7,
+          duration: 20000,
+          delay: 3000,
+          easeIn: 'linear',
+          easeOut: 'linear',
+          heightTo: 1,
+          widthTo: .5
+     }
+
+     Log.Notice("doing tilize3");
+     tileizeX(config);
 }
 
 function tileize9 () {
-	var config = {
-		feImageId: '#feImage9',
-		feRectId: '#rect9',
-		data: dataset9,
-		dataRect: dataset11,
-		duration: 20000,
-		delay: 3000,
-		easeIn: 'linear',
-		easeOut: 'linear',
-		heightTo: 4,
-		widthTo: 4
-	}
-	
-	Log.Notice("doing tilize3");
-	tileizeX(config);
-	
+    var config = {
+        feImageId: '#feImage9',
+        feRectId: '#rect9',
+        data: dataset9,
+        dataRect: dataset11,
+        duration: 20000,
+        delay: 3000,
+        easeIn: 'linear',
+        easeOut: 'linear',
+        heightTo: 4,
+        widthTo: 4
+    };
+
+    Log.Notice("doing tilize3");
+    tileizeX(config);
 }
 
 function tileizeWipe () {
-	var config = {
-		feImageId: '#feImage-wipe',
-		feRectId: '#rect4',
-		data: dataset16,
-		dataRect: dataset17,
-		duration: 20000,
-		delay: 3000,
-		easeIn: 'linear',
-		easeOut: 'linear',
-		heightTo: 4,
-		widthTo: 4
-	}
-	
-	Log.Notice("doing tilize3");
-	tileizeX(config);
-	
-	
-	
-	
+     var config = {
+        feImageId: '#feImage-wipe',
+        feRectId: '#rect4',
+        data: dataset16,
+        dataRect: dataset17,
+        duration: 20000,
+        delay: 3000,
+        easeIn: 'linear',
+        easeOut: 'linear',
+        heightTo: 4,
+        widthTo: 4
+     }
+
+    Log.Notice("doing tilize3");
+    tileizeX(config);
 }
 
 
 function wipe2() {
-	doc
-	  .selectAll('#diffuse-light-wipe')
-		.data(dataset12)
-		.transition()
-		.duration(20000)
-		.ease('linear')
-		.attr('lighting-color', function(d,i) {
-			 d.lightingColor = d3.select(this).attr('lighting-color');
-			 return '#822';
-		})
-		.attr('surfaceScale', function (d,i) {
-			 d.surfaceScale = d3.select(this).attr('surfaceScale');
-			 return 4;
-		})
-		.attr('diffuseConstant', function (d,i) {
-			 d.diffuseConstant = d3.select(this).attr('diffuseConstant');
-			 return 5;
-		})
-		.each('end', function(d,i) {
-			Log.Notice("running end on id=" + d3.select(this).attr('id')); 
-			d3.select(this)
-				.transition()
-				.duration(20000)
-				.ease('linear')
-				.attr('lighting-color', d.lightingColor)
-				.attr('surfaceScale', d.surfaceScale)
-				.attr('diffuseConstant',d.diffuseConstant)
-		})
-		;
-		
-	doc
-	  .selectAll('.diffuse-point-light-wipe')
-	 	.data(dataset14)
-		.transition()
-		.duration(20000)
-		.ease('linear')
-		.attr('x', function (d,i) {
-			 d.x = d3.select(this).attr('x');
-			 return 900;
-		})
-		.attr('y', function (d,i) {
-			 d.y = d3.select(this).attr('y');
-			 return 800;
-		})
-		.attr('z', function (d,i) {
-			 d.z = d3.select(this).attr('z');
-			 return 2;
-		})
-		.each('end', function(d,i) {
-			d3.select(this)
-				.transition()
-				.duration(20000)
-				.attr('x', function (d,i) {return d.x;})
-				.attr('y', function (d,i) {return d.y;})
-				.attr('z', function (d,i) {return d.z;})
-		});
+    doc
+        .selectAll('#diffuse-light-wipe')
+        .data(dataset12)
+        .transition()
+        .duration(20000)
+        .ease('linear')
+        .attr('lighting-color', function(d,i) {
+            d.lightingColor = d3.select(this).attr('lighting-color');
+            return '#822';
+        })
+        .attr('surfaceScale', function (d,i) {
+            d.surfaceScale = d3.select(this).attr('surfaceScale');
+            return 4;
+        })
+        .attr('diffuseConstant', function (d,i) {
+            d.diffuseConstant = d3.select(this).attr('diffuseConstant');
+            return 5;
+        })
+        .each('end', function(d,i) {
+            Log.Notice("running end on id=" + d3.select(this).attr('id')); 
+            d3.select(this)
+                .transition()
+                .duration(20000)
+                .ease('linear')
+                .attr('lighting-color', d.lightingColor)
+                .attr('surfaceScale', d.surfaceScale)
+                .attr('diffuseConstant',d.diffuseConstant)
+          });
 
+    doc
+        .selectAll('.diffuse-point-light-wipe')
+        .data(dataset14)
+        .transition()
+        .duration(20000)
+        .ease('linear')
+        .attr('x', function (d,i) {
+            d.x = d3.select(this).attr('x');
+            return 900;
+        })
+        .attr('y', function (d,i) {
+            d.y = d3.select(this).attr('y');
+            return 800;
+        })
+        .attr('z', function (d,i) {
+            d.z = d3.select(this).attr('z');
+            return 2;
+        })
+        .each('end', function(d,i) {
+            d3.select(this)
+                .transition()
+                .duration(20000)
+                .attr('x', function (d,i) {return d.x;})
+                .attr('y', function (d,i) {return d.y;})
+                .attr('z', function (d,i) {return d.z;})
+        });
 }
 
 var config4;
 
 function wipe4 () {
 
-	Log.Notice("doing wipe4");
-	wipeX(config4);
+    Log.Notice("doing wipe4");
+    wipeX(config4);
 }
 
 function tileize4() {
-	Log.Notice("doing tileize4");
-	tileizeX(config4);
+    Log.Notice("doing tileize4");
+    tileizeX(config4);
 }
 
 function melt4() {
-	Log.Notice("doing melt4");
-	meltX(config4);
+    Log.Notice("doing melt4");
+    meltX(config4);
 }
 
 function wipeX(config) {
-		var feImageId  = config.feImageId;
-		var data       = config.data;
-		var feRectId   = config.feRectId;
-		var dataRect   = config.dataRect;
-		var scaleTo    = config.scaleTo;
-		
-		// stuff for feImage and feRect 
-		if (config.scaleBack) {
-			var scaleBack  = config.scaleBack;
-		} else {
-			var scaleBack  = "return";
-		}
-		var heightTo    = config.heightTo;
-		
-		if (config.heightBack) {
-			var heightBack  = config.heightBack;
-		} else {
-			var heightBack  = "return";
-		}
-		
-		var widthTo    = config.widthTo;
-		
-		if (config.widthBack) {
-			var widthBack  = config.widthBack;
-		} else {
-			var widthBack  = "return";
-		}
-	
-	  // diffuseLighting vars
-		var feDiffuseLightingId 
-		               = config.feDiffuseLightingId;
-		var dataDiffuseLighting = config.dataDiffuseLighting;
-									 
-	  var colorTo = config.colorTo;
-		if (config.colorBack) {
-			var colorBack  = config.colorBack;
-		} else {
-			var colorBack  = "return";
-		}
-		
-		var surfaceScaleTo = config.surfaceScaleTo;
-		if (config.surfaceScaleBack) {
-			var surfaceScaleBack  = config.surfaceScaleBack;
-		} else {
-			var surfaceScaleBack  = "return";
-		}
-		
-		var diffuseConstantTo = config.diffuseConstantTo;
-		if (config.diffuseConstantBack) {
-			var diffuseConstantBack  = config.diffuseConstantBack;
-		} else {
-			var diffuseConstantBack  = "return";
-		}
-		
-		// pointLight vars
-		var fePointLightId = config.fePointLightId;
-		var dataPointLight = config.dataPointLight;
-	
-		var xTo = config.xTo;
-		if (config.xBack) {
-			var xBack  = config.xBack;
-		} else {
-			var xBack  = "return";
-		}
-		
-		var yTo = config.yTo;
-		if (config.yBack) {
-			var yBack  = config.yBack;
-		} else {
-			var yBack  = "return";
-		}
-		
-		var zTo = config.zTo;
-		if (config.zBack) {
-			var zBack  = config.zBack;
-		} else {
-			var zBack  = "return";
-		}
-		if (false) {
-		var To = config.To;
-		if (config.Back) {
-			var Back  = config.Back;
-		} else {
-			var Back  = "return";
-		}
-		}
-		
-		var duration   = config.duration;
-		
-		
-		if (config.delay) {
-				var delay = parseInt(config.delay);
-		} else {
-			  var delay = 0;
-		}
-		
-		if (config.easeIn) {
-			 var easeIn     = config.easeIn;
-		} else {
-			 var easeIn = 'linear';
-		}
-		
-		if (config.easeOut) {
-			 var easeOut = config.easeOut;
-		} else {
-			 var easeOut = easeIn;
-		}
-	
-	
-	doc
-	  .selectAll(feDiffuseLightingId)
-		.data(dataDiffuseLighting)
-		.transition()
-		.duration(duration)
-		.ease(easeIn)
-		.attr('lighting-color', function(d,i) {
-			 d.lightingColor = d3.select(this).attr('lighting-color');
-			 return colorTo;
-		})
-		.attr('surfaceScale', function (d,i) {
-			 d.surfaceScale = d3.select(this).attr('surfaceScale');
-			 return surfaceScaleTo;
-		})
-		.attr('diffuseConstant', function (d,i) {
-			 d.diffuseConstant = d3.select(this).attr('diffuseConstant');
-			 return diffuseConstantTo;
-		})
-		.each('end', function(d,i) {
-			Log.Notice("running end on id=" + d3.select(this).attr('id')); 
-			d3.select(this)
-				.transition()
-				.delay(delay)
-				.duration(duration/2-delay)
-				.ease(easeOut)
-				.attr('lighting-color', function (d,i) {
-					return  colorBack === "return" ? d.lightingColor : colorBack;
-				})
-				.attr('surfaceScale', function (d,i) {
-					return  surfaceScaleBack === "return" ? d.surfaceScale : surfaceScaleBack;
-				})
-				.attr('diffuseConstant', function (d,i) {
-					return  diffuseConstantBack === "return" ? d.diffuseConstant : diffuseConstantBack;
-				});
-		});
-		
-	doc
-	  .selectAll(fePointLightId)
-	 	.data(dataPointLight)
-		.transition()
-		.duration(duration)
-		.ease(easeIn)
-		.attr('x', function (d,i) {
-			 d.x = d3.select(this).attr('x');
-			 return xTo;
-		})
-		.attr('y', function (d,i) {
-			 d.y = d3.select(this).attr('y');
-			 return yTo;
-		})
-		.attr('z', function (d,i) {
-			 d.z = d3.select(this).attr('z');
-			 return zTo;
-		})
-		.each('end', function(d,i) {
-			d3.select(this)
-				.transition()
-				.delay(delay)
-				.duration(duration/2-delay)
-				.attr('x', function (d,i) {
-					return xBack === "return" ? d.x : xBack;
-				})
-				.attr('y', function (d,i) {
-					return yBack === "return" ? d.y : yBack;
-					})
-				.attr('z', function (d,i) {
-					return zBack === "return" ? d.z : zBack;
-				});
-		});
+    var feImageId  = config.feImageId;
+    var data       = config.data;
+    var feRectId   = config.feRectId;
+    var dataRect   = config.dataRect;
+    var scaleTo    = config.scaleTo;
 
+    // stuff for feImage and feRect 
+    if (config.scaleBack) {
+        var scaleBack  = config.scaleBack;
+    } else {
+        var scaleBack  = "return";
+    }
+
+    var heightTo    = config.heightTo;
+
+    if (config.heightBack) {
+        var heightBack  = config.heightBack;
+    } else {
+        var heightBack  = "return";
+    }
+
+    var widthTo    = config.widthTo;
+
+    if (config.widthBack) {
+        var widthBack  = config.widthBack;
+    } else {
+        var widthBack  = "return";
+    }
+
+    // diffuseLighting vars
+    var feDiffuseLightingId = config.feDiffuseLightingId;
+    var dataDiffuseLighting = config.dataDiffuseLighting;
+    var colorTo = config.colorTo;
+
+    if (config.colorBack) {
+        var colorBack  = config.colorBack;
+    } else {
+        var colorBack  = "return";
+    }
+
+    var surfaceScaleTo = config.surfaceScaleTo;
+
+    if (config.surfaceScaleBack) {
+        var surfaceScaleBack  = config.surfaceScaleBack;
+    } else {
+        var surfaceScaleBack  = "return";
+    }
+
+    var diffuseConstantTo = config.diffuseConstantTo;
+
+    if (config.diffuseConstantBack) {
+        var diffuseConstantBack  = config.diffuseConstantBack;
+    } else {
+        var diffuseConstantBack  = "return";
+    }
+
+    // pointLight vars
+    var fePointLightId = config.fePointLightId;
+    var dataPointLight = config.dataPointLight;
+    var xTo = config.xTo;
+
+    if (config.xBack) {
+        var xBack  = config.xBack;
+    } else {
+        var xBack  = "return";
+    }
+
+    var yTo = config.yTo;
+
+    if (config.yBack) {
+        var yBack  = config.yBack;
+    } else {
+        var yBack  = "return";
+    }
+
+    var zTo = config.zTo;
+
+     if (config.zBack) {
+        var zBack  = config.zBack;
+    } else {
+        var zBack  = "return";
+    }
+
+
+    var duration   = config.duration;
+
+    if (config.delay) {
+        var delay = parseInt(config.delay);
+    } else {
+        var delay = 0;
+    }
+
+    if (config.easeIn) {
+        var easeIn = config.easeIn;
+    } else {
+        var easeIn = 'linear';
+    }
+    if (config.easeOut) {
+        var easeOut = config.easeOut;
+    } else {
+        var easeOut = easeIn;
+    }
+
+     doc
+        .selectAll(feDiffuseLightingId)
+        .data(dataDiffuseLighting)
+        .transition()
+        .duration(duration)
+        .ease(easeIn)
+        .attr('lighting-color', function(d,i) {
+            d.lightingColor = d3.select(this).attr('lighting-color');
+            return colorTo;
+        })
+        .attr('surfaceScale', function (d,i) {
+            d.surfaceScale = d3.select(this).attr('surfaceScale');
+            return surfaceScaleTo;
+        })
+        .attr('diffuseConstant', function (d,i) {
+            d.diffuseConstant = d3.select(this).attr('diffuseConstant');
+            return diffuseConstantTo;
+        })
+        .each('end', function(d,i) {
+            Log.Notice("running end on id=" + d3.select(this).attr('id')); 
+            d3.select(this)
+                .transition()
+                .delay(delay)
+                .duration(duration/2-delay)
+                .ease(easeOut)
+                .attr('lighting-color', function (d,i) {
+                    return  colorBack === "return" ? d.lightingColor : colorBack;
+                })
+                .attr('surfaceScale', function (d,i) {
+                    return  surfaceScaleBack === "return" ? d.surfaceScale : surfaceScaleBack;
+                })
+                .attr('diffuseConstant', function (d,i) {
+                    return  diffuseConstantBack === "return" ? d.diffuseConstant : diffuseConstantBack;
+                });
+        });
+
+    doc
+        .selectAll(fePointLightId)
+        .data(dataPointLight)
+        .transition()
+        .duration(duration)
+        .ease(easeIn)
+        .attr('x', function (d,i) {
+            d.x = d3.select(this).attr('x');
+            return xTo;
+        })
+        .attr('y', function (d,i) {
+            d.y = d3.select(this).attr('y');
+            return yTo;
+        })
+        .attr('z', function (d,i) {
+            d.z = d3.select(this).attr('z');
+            return zTo;
+        })
+        .each('end', function(d,i) {
+            d3.select(this)
+                .transition()
+                .delay(delay)
+                .duration(duration/2-delay)
+                .attr('x', function (d,i) {
+                    return xBack === "return" ? d.x : xBack;
+                })
+                .attr('y', function (d,i) {
+                    return yBack === "return" ? d.y : yBack;
+                })
+                .attr('z', function (d,i) {
+                    return zBack === "return" ? d.z : zBack;
+                });
+        });
 }
 
 function wipe() {
-	doc
-	  .selectAll('#diffuse-light-1')
-		.data(dataset3)
-		.transition()
-		.duration(20000)
-		.ease('linear')
-		.attr('lighting-color', function(d,i) {
-			 d.lightingColor = d3.select(this).attr('lighting-color');
-			 return '#822';
-		})
-		.attr('surfaceScale', function (d,i) {
-			 d.surfaceScale = d3.select(this).attr('surfaceScale');
-			 return 4;
-		})
-		.attr('diffuseConstant', function (d,i) {
-			 d.diffuseConstant = d3.select(this).attr('diffuseConstant');
-			 return 5;
-		})
-		.each('end', function(d,i) {
-			Log.Notice("running end on id=" + d3.select(this).attr('id')); 
-			d3.select(this)
-				.transition()
-				.duration(20000)
-				.ease('linear')
-				.attr('lighting-color', d.lightingColor)
-				.attr('surfaceScale', d.surfaceScale)
-				.attr('diffuseConstant',d.diffuseConstant)
-		})
-		;
-		
-	doc
-	  .selectAll('.diffuse-point-light-1')
-	 	.data(dataset6)
-		.transition()
-		.duration(20000)
-		.ease('linear')
-		.attr('x', function (d,i) {
-			 d.x = d3.select(this).attr('x');
-			 return 900;
-		})
-		.attr('y', function (d,i) {
-			 d.y = d3.select(this).attr('y');
-			 return 800;
-		})
-		.attr('z', function (d,i) {
-			 d.z = d3.select(this).attr('z');
-			 return 2;
-		})
-		.each('end', function(d,i) {
-			d3.select(this)
-				.transition()
-				.duration(20000)
-				.attr('x', function (d,i) {return d.x;})
-				.attr('y', function (d,i) {return d.y;})
-				.attr('z', function (d,i) {return d.z;})
-		});
+     doc
+        .selectAll('#diffuse-light-1')
+        .data(dataset3)
+        .transition()
+        .duration(20000)
+        .ease('linear')
+        .attr('lighting-color', function(d,i) {
+            d.lightingColor = d3.select(this).attr('lighting-color');
+            return '#822';
+        })
+        .attr('surfaceScale', function (d,i) {
+            d.surfaceScale = d3.select(this).attr('surfaceScale');
+            return 4;
+        })
+        .attr('diffuseConstant', function (d,i) {
+            d.diffuseConstant = d3.select(this).attr('diffuseConstant');
+            return 5;
+        })
+        .each('end', function(d,i) {
+            Log.Notice("running end on id=" + d3.select(this).attr('id')); 
+            d3.select(this)
+                .transition()
+                .duration(20000)
+                .ease('linear')
+                .attr('lighting-color', d.lightingColor)
+                .attr('surfaceScale', d.surfaceScale)
+                .attr('diffuseConstant',d.diffuseConstant)
+        });
 
+    doc
+       .selectAll('.diffuse-point-light-1')
+        .data(dataset6)
+        .transition()
+        .duration(20000)
+        .ease('linear')
+        .attr('x', function (d,i) {
+            d.x = d3.select(this).attr('x');
+            return 900;
+        })
+        .attr('y', function (d,i) {
+                d.y = d3.select(this).attr('y');
+                return 800;
+        })
+        .attr('z', function (d,i) {
+            d.z = d3.select(this).attr('z');
+            return 2;
+        })
+        .each('end', function(d,i) {
+            d3.select(this)
+                .transition()
+                .duration(20000)
+                .attr('x', function (d,i) {return d.x;})
+                .attr('y', function (d,i) {return d.y;})
+                .attr('z', function (d,i) {return d.z;})
+        });
 }
 
 function adjustScale (selectNode,selectId,scaleId) {
 
-	var newScaleValue = $("#" + selectId + " option:selected").val();
-	var scaleValue = "scale(" + newScaleValue + ")";
-	$('#' + scaleId).attr('transform', scaleValue);
+    var newScaleValue = $("#" + selectId + " option:selected").val();
+    var scaleValue = "scale(" + newScaleValue + ")";
+    $('#' + scaleId).attr('transform', scaleValue);
 }
 
 function changeImage (selectNode,selectId,imageId) {
 
-	var newImageValue = $("#" + selectId + " option:selected").val();
-	var imageValue = "../../images/" + newImageValue ;
-	$('#' + imageId).attr('xlink:href', imageValue);
+    var newImageValue = $("#" + selectId + " option:selected").val();
+    var imageValue = "../../images/" + newImageValue ;
+    $('#' + imageId).attr('xlink:href', imageValue);
 }
 
 $(document).ready(function () {
-	
-  doc = d3.select(document.body);
-  Log.Hide();
-	
-  dataset = doc.selectAll('#feImage6');
-	dataset2 = doc.selectAll('#dfilter-1');
-	dataset3 = doc.selectAll('#diffuse-light-1');
-	dataset4 = doc.selectAll('#point-light-1');
-	dataset5 = doc.selectAll('#displace-map-1');
-	dataset6 = doc.selectAll('.diffuse-point-light-1');
-	dataset7 = doc.selectAll('#rect6');
-	dataset8 = doc.selectAll('#displace-map-3');
-	dataset9 = doc.selectAll('#displace-map-9');
-	dataset10 = doc.selectAll('#feImage9');
-	dataset11 = doc.selectAll('#rect9');
-	
-	dataset12 = doc.selectAll('#diffuse-light-wipe');
 
-	dataset14 = doc.selectAll('.diffuse-point-light-wipe');
-	
-	dataset15 = doc.selectAll('#displace-map-wipe');
-	
-	dataset16 = doc.selectAll('#feImage-wipe');
-	dataset17 = doc.selectAll('#rect4');
-	
-	dataset18 = doc.selectAll('#displace-map-wipe-x');
-	dataset19 = doc.selectAll('#point-light-wipe-x');
-	dataset20 = doc.selectAll('#feImage-wipe-x');
-	dataset21 = doc.selectAll('#rect4-wipe-x');
-	dataset22 = doc.selectAll('#diffuse-light-wipe-x');
-	
-	config4 = {
-		feImageId: '#feImage-wipe-x',
-		data: dataset20,
-		feRectId: '#rect4-wipe-x',
-		dataRect: dataset21,
-		heightTo: 4,
-		widthTo: 4,
-		
-		feDisplacementMapId: '#displace-map-wipe-x',
-		dataDisplacementMap: dataset18,
-		scaleTo: 600,
-		
-		feDiffuseLightingId: '#diffuse-light-wipe-x',
-		dataDiffuseLighting: dataset22,
-		colorTo: '#288',
-		surfaceScaleTo: 4,
-		diffuseConstantTo: 5,
-		
-		fePointLightId: '#point-light-wipe-x',
-		dataPointLight: dataset19,
-		xTo: 900,
-		yTo: 800,
-		zTo: 2,
-		
-		duration: 20000,
-		delay: 3000,
-		easeIn: 'linear',
-		easeOut: 'linear',
-	
-	}
-	doc.select('#trans-1')
-		.on('click', melt);
-	doc.select('#trans-2')
-	  .on('click', tileize);
-	doc.selectAll('#trans-3, #trans-4')
-	  .on('click', wipe);
-	doc.selectAll('#trans-5, #trans-6')
-	  .on('click', melt2);
-	doc.selectAll('#trans-8')
-		.on('click', melt3);
-	doc.selectAll('#trans-7, #trans-9')
-		.on('click', tileize9);
-	doc.selectAll('#trans-10')
-		.on('click', tileize3);
+    doc = d3.select(document.body);
+    Log.Hide();
 
-	//melt();
-	//tileize();
-	//x();
-	
+    dataset = doc.selectAll('#feImage6');
+    dataset2 = doc.selectAll('#dfilter-1');
+    dataset3 = doc.selectAll('#diffuse-light-1');
+    dataset4 = doc.selectAll('#point-light-1');
+    dataset5 = doc.selectAll('#displace-map-1');
+    dataset6 = doc.selectAll('.diffuse-point-light-1');
+    dataset7 = doc.selectAll('#rect6');
+    dataset8 = doc.selectAll('#displace-map-3');
+    dataset9 = doc.selectAll('#displace-map-9');
+    dataset10 = doc.selectAll('#feImage9');
+    dataset11 = doc.selectAll('#rect9');
+    dataset12 = doc.selectAll('#diffuse-light-wipe');
+    dataset14 = doc.selectAll('.diffuse-point-light-wipe');
+    dataset15 = doc.selectAll('#displace-map-wipe');
+    dataset16 = doc.selectAll('#feImage-wipe');
+    dataset17 = doc.selectAll('#rect4');
+    dataset18 = doc.selectAll('#displace-map-wipe-x');
+    dataset19 = doc.selectAll('#point-light-wipe-x');
+    dataset20 = doc.selectAll('#feImage-wipe-x');
+    dataset21 = doc.selectAll('#rect4-wipe-x');
+    dataset22 = doc.selectAll('#diffuse-light-wipe-x');
+
+    config4 = {
+        feImageId: '#feImage-wipe-x',
+        data: dataset20,
+        feRectId: '#rect4-wipe-x',
+        dataRect: dataset21,
+        heightTo: 4,
+        widthTo: 4,
+
+        feDisplacementMapId: '#displace-map-wipe-x',
+        dataDisplacementMap: dataset18,
+        scaleTo: 600,
+
+        feDiffuseLightingId: '#diffuse-light-wipe-x',
+        dataDiffuseLighting: dataset22,
+        colorTo: '#288',
+        surfaceScaleTo: 4,
+        diffuseConstantTo: 5,
+
+        fePointLightId: '#point-light-wipe-x',
+        dataPointLight: dataset19,
+        xTo: 900,
+        yTo: 800,
+        zTo: 2,
+
+        duration: 20000,
+        delay: 3000,
+        easeIn: 'linear',
+        easeOut: 'linear',
+     };
+
+    doc.select('#trans-1')
+        .on('click', melt);
+    doc.select('#trans-2')
+        .on('click', tileize);
+    doc.selectAll('#trans-3, #trans-4')
+        .on('click', wipe);
+    doc.selectAll('#trans-5, #trans-6')
+        .on('click', melt2);
+    doc.selectAll('#trans-8')
+        .on('click', melt3);
+    doc.selectAll('#trans-7, #trans-9')
+        .on('click', tileize9);
+    doc.selectAll('#trans-10')
+        .on('click', tileize3);
+
 });
-
+}
 </script>
 </head>
 <body>
@@ -763,24 +737,22 @@ $(document).ready(function () {
 </select> (Note: Animations are best viewed at 4x scale.)<br>
 Note2: You can click on multiple animation filters at the same time to combine effects.</b>
 </div>
-<svg x="0" 
-		 y="0" 
-		 height="4700" 
-		 width="6000" 
-		 viewport="0 0 1175 1500"
-     xmlns:svg="http://www.w3.org/2000/svg"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink"
-		 >
+<svg
+ x="0"
+ y="0"
+ height="4700"
+ width="6000"
+ viewport="0 0 1175 1500"
+ xmlns:svg="http://www.w3.org/2000/svg"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
 <defs>
-
- 
 <linearGradient id="two_hues">
  <stop offset="0%" style="stop-color: #ffcc00;" />
  <stop offset="100%" style="stop-color: #0099cc;" />
 </linearGradient>
- 
- <!-- black to white gradient  -->
+
+<!-- black to white gradient  -->
 <linearGradient id="btw-1" color-interpolation="sRGB" >
  <stop offset="0%" stop-color="#000" stop-opacity="0.0" />
  <stop offset="30%" stop-color="#000" stop-opacity="0.8" />
@@ -841,49 +813,46 @@ Note2: You can click on multiple animation filters at the same time to combine e
  <feImage xlink:href="#rect3" result="grad-rect" height="210" width="300"/>
  <feTile in="SourceGraphic" result="tile" />
  <feDisplacementMap id="displace-map-1"
- 		scale="0"
-		xChannelSelector="R"
-		yChannelSelector="R"
-		in2="SourceGraphic" in="tile" 
-		result="displaceAlpha" />
-    
- 
+    scale="0"
+    xChannelSelector="R"
+    yChannelSelector="R"
+    in2="SourceGraphic" in="tile" 
+    result="displaceAlpha" />
 
- 	<feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic"
-	 k1="0" k2=".5" k3="1" k4="-.05" />
-	<!-- <feComposite in="SourceGraphic" in2="displaceAlpha" operator="in" />-->
+ <feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic"
+    k1="0" k2=".5" k3="1" k4="-.05" />
+    <!-- <feComposite in="SourceGraphic" in2="displaceAlpha" operator="in" />-->
 </filter>
 
 <filter id="displace-2" x="0" y="0" height="100%" width="100%" >
  <feImage xlink:href="#rect6" result="grad-rect" height="4" width="6" id="feImage6" />
  <feTile in="grad-rect" result="tile" />
  <feDisplacementMap id="dfilter-1"
- 		scale="10"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile" 
-		result="displaceAlpha" />
+        scale="10"
+        xChannelSelector="R"
+        yChannelSelector="B"
+        in2="SourceGraphic" in="tile" 
+        result="displaceAlpha" />
 
- 	<feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic"
-	 k1="0" k2="0.2" k3="1" k4="0" />
-	<!-- <feComposite in="SourceGraphic" in2="displaceAlpha" operator="in" />-->
+ <feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic"
+    k1="0" k2="0.2" k3="1" k4="0" />
+    <!-- <feComposite in="SourceGraphic" in2="displaceAlpha" operator="in" />-->
 </filter>
 
 <filter id="displace-3" x="0" y="0" height="100%" width="100%" >
  <feImage xlink:href="#rect8" result="grad-rect" height="2.42" width="2.92" id="feImage3" />
  <feTile in="grad-rect" result="tile" />
- 
+
  <feDisplacementMap id="displace-map-3"
- 		scale="10"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile" 
-		result="displaceAlpha" />
+        scale="10"
+        xChannelSelector="R"
+        yChannelSelector="B"
+        in2="SourceGraphic" in="tile" 
+        result="displaceAlpha" />
 
- 	<feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic"
-	 k1="0" k2=".6" k3="1" k4="0" result="composite1" />
-  <feComposite in2="SourceGraphic" in="composite1" operator="in" />
-
+ <feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic"
+    k1="0" k2=".6" k3="1" k4="0" result="composite1" />
+ <feComposite in2="SourceGraphic" in="composite1" operator="in" />
 </filter>
 
 <filter id="displace-9" x="0" y="0" height="100%" width="100%" >
@@ -891,100 +860,99 @@ Note2: You can click on multiple animation filters at the same time to combine e
  <feTile in="grad-rect" result="tile" />
  
  <feDisplacementMap id="displace-map-9"
- 		scale="10"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile" 
-		result="displaceAlpha" />
+        scale="10"
+        xChannelSelector="R"
+        yChannelSelector="B"
+        in2="SourceGraphic" in="tile" 
+        result="displaceAlpha" />
 
- 	<feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic" id="feComposite9"
-	 k1="0" k2=".2" k3="1" k4="0" result="composite1" />
-  <feComposite in2="SourceGraphic" in="composite1" operator="in" />
-
+ <feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic" id="feComposite9"
+    k1="0" k2=".2" k3="1" k4="0" result="composite1" />
+ <feComposite in2="SourceGraphic" in="composite1" operator="in" />
 </filter>
 
 <filter id="cm-layer-3"  color-interpolation-filters="sRGB"
-   x="0" y="0" width="100%" height="100%" >
+    x="0" y="0" width="100%" height="100%" >
  <feImage xlink:href="#rect4" result="tile" height="21" width="30"/>
  <feTile in="tile" result="tile" />
  <feColorMatrix type="matrix" 
-	    values="1.0  1.0  1.0  0.000  0
-	            1.0  1.0  1.0  0.000  0
-					    1.0  1.0  1.0  0.000  0
-					    1.0  1.0  1.0  1.000  0"
-	    in="SourceGraphic" result="desaturate" />
-      
+        values="1.0  1.0  1.0  0.000  0
+                1.0  1.0  1.0  0.000  0
+                1.0  1.0  1.0  0.000  0
+                1.0  1.0  1.0  1.000  0"
+         in="SourceGraphic" result="desaturate" />
+
  <feDisplacementMap id="displace-map-wipe-2"
- 		scale="10"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile" 
-		result="displaceAlpha" />
-    
-	<feColorMatrix type="matrix" 
-	    values="0 0 0 0       0
-	            0 0 0 0       0
-					    0 0 0 0       0
-					    0 0 0 1.0000  0"
-	    in="tile" result="tile" />
-			
-	 <feDiffuseLighting in="tile"  id="diffuse-light-1"
-	    lighting-color="#ffc"
-			surfaceScale="2"
-			diffuseConstant=".75"
-			result="diffuseLight" >
-			<fePointLight x="0" y="0" z="50" id="point-light-1" class="diffuse-point-light-1" />
-      <!--<fePointLight x="300" y="0" z="50" id="point-light-2" class="diffuse-point-light-1" />-->
-	 </feDiffuseLighting>
-			
-	<feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
-	  result="diffuseOutput" />
-		
-	<feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
-  <!-- <feComposite in="SourceGraphic" in2="tile" operator="arithmetic"
-	  k1="0" k2="0" k3="1" k4="0" /> -->
+        scale="10"
+        xChannelSelector="R"
+        yChannelSelector="B"
+        in2="SourceGraphic" in="tile" 
+        result="displaceAlpha" />
+
+ <feColorMatrix type="matrix" 
+        values="0 0 0 0       0
+                0 0 0 0       0
+                0 0 0 0       0
+                0 0 0 1.0000  0"
+        in="tile" result="tile" />
+
+ <feDiffuseLighting in="tile"  id="diffuse-light-1"
+        lighting-color="#ffc"
+        surfaceScale="2"
+        diffuseConstant=".75"
+        result="diffuseLight" >
+ <fePointLight x="0" y="0" z="50" id="point-light-1" class="diffuse-point-light-1" />
+ <!--<fePointLight x="300" y="0" z="50" id="point-light-2" class="diffuse-point-light-1" />-->
+ </feDiffuseLighting>
+
+ <feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
+        result="diffuseOutput" />
+
+ <feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
+ <!-- <feComposite in="SourceGraphic" in2="tile" operator="arithmetic"
+       k1="0" k2="0" k3="1" k4="0" /> -->
 </filter>
 
 <filter id="wipe2"  color-interpolation-filters="sRGB"
-   x="0" y="0" width="100%" height="100%" >
+    x="0" y="0" width="100%" height="100%" >
  <feImage xlink:href="#rect4" result="tile" height="21" width="30" id="feImage-wipe" />
  <feTile in="tile" result="tile" />
  <feColorMatrix type="matrix" 
-	    values="1.0  1.0  1.0  0.000  0
-	            1.0  1.0  1.0  0.000  0
-					    1.0  1.0  1.0  0.000  0
-					    1.0  1.0  1.0  1.000  0"
-	    in="SourceGraphic" result="desaturate" />
+        values="1.0  1.0  1.0  0.000  0
+                1.0  1.0  1.0  0.000  0
+                1.0  1.0  1.0  0.000  0
+                1.0  1.0  1.0  1.000  0"
+        in="SourceGraphic" result="desaturate" />
       
  <feDisplacementMap id="displace-map-wipe"
- 		scale="10"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile" 
-		result="displaceAlpha" />
-    
-	<feColorMatrix type="matrix" 
-	    values="0 0 0 0       0
-	            0 0 0 0       0
-					    0 0 0 0       0
-					    0 0 0 1.0000  0"
-	    in="tile" result="tile" />
-			
-	 <feDiffuseLighting in="displaceAlpha"  id="diffuse-light-wipe"
-	    lighting-color="#ffc"
-			surfaceScale="2"
-			diffuseConstant=".75"
-			result="diffuseLight" >
-			<fePointLight x="0" y="0" z="50" id="point-light-wipe" class="diffuse-point-light-wipe" />
-      <!--<fePointLight x="300" y="0" z="50" id="point-light-2" class="diffuse-point-light-1" />-->
-	 </feDiffuseLighting>
-			
-	<feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
-	  result="diffuseOutput" />
-		
-	<feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
-  <!-- <feComposite in="SourceGraphic" in2="tile" operator="arithmetic"
-	  k1="0" k2="0" k3="1" k4="0" /> -->
+        scale="10"
+        xChannelSelector="R"
+        yChannelSelector="B"
+        in2="SourceGraphic" in="tile" 
+        result="displaceAlpha" />
+
+ <feColorMatrix type="matrix" 
+        values="0 0 0 0       0
+                0 0 0 0       0
+                0 0 0 0       0
+                0 0 0 1.0000  0"
+        in="tile" result="tile" />
+               
+ <feDiffuseLighting in="displaceAlpha"  id="diffuse-light-wipe"
+        lighting-color="#ffc"
+        surfaceScale="2"
+        diffuseConstant=".75"
+        result="diffuseLight" >
+  <fePointLight x="0" y="0" z="50" id="point-light-wipe" class="diffuse-point-light-wipe" />
+  <!--<fePointLight x="300" y="0" z="50" id="point-light-2" class="diffuse-point-light-1" />-->
+ </feDiffuseLighting>
+
+ <feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
+        result="diffuseOutput" />
+          
+ <feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
+ <!-- <feComposite in="SourceGraphic" in2="tile" operator="arithmetic"
+       k1="0" k2="0" k3="1" k4="0" /> -->
 </filter>
 
 
@@ -993,41 +961,41 @@ Note2: You can click on multiple animation filters at the same time to combine e
  <feImage xlink:href="#rect4" result="tile" height="21" width="30" id="feImage-wipe-x" />
  <feTile in="tile" result="tile" />
  <feColorMatrix type="matrix" 
-	    values="1.0  1.0  1.0  0.000  0
-	            1.0  1.0  1.0  0.000  0
-					    1.0  1.0  1.0  0.000  0
-					    1.0  1.0  1.0  1.000  0"
-	    in="SourceGraphic" result="desaturate" />
-      
+        values="1.0  1.0  1.0  0.000  0
+                1.0  1.0  1.0  0.000  0
+                1.0  1.0  1.0  0.000  0
+                1.0  1.0  1.0  1.000  0"
+        in="SourceGraphic" result="desaturate" />
+
  <feDisplacementMap id="displace-map-wipe-x"
- 		scale="10"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile" 
-		result="displaceAlpha" />
-    
-	<feColorMatrix type="matrix" 
-	    values="0 0 0 0       0
-	            0 0 0 0       0
-					    0 0 0 0       0
-					    0 0 0 1.0000  0"
-	    in="tile" result="tile" />
-			
-	 <feDiffuseLighting in="displaceAlpha"  id="diffuse-light-wipe-x"
-	    lighting-color="#ffc"
-			surfaceScale="2"
-			diffuseConstant=".75"
-			result="diffuseLight" >
-			<fePointLight x="0" y="0" z="50" id="point-light-wipe-x" class="diffuse-point-light-wipe" />
-      <!--<fePointLight x="300" y="0" z="50" id="point-light-2" class="diffuse-point-light-1" />-->
-	 </feDiffuseLighting>
-			
-	<feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
-	  result="diffuseOutput" />
-		
-	<feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
-  <!-- <feComposite in="SourceGraphic" in2="tile" operator="arithmetic"
-	  k1="0" k2="0" k3="1" k4="0" /> -->
+        scale="10"
+        xChannelSelector="R"
+        yChannelSelector="B"
+        in2="SourceGraphic" in="tile" 
+        result="displaceAlpha" />
+
+ <feColorMatrix type="matrix" 
+        values="0 0 0 0       0
+                0 0 0 0       0
+                0 0 0 0       0
+                0 0 0 1.0000  0"
+        in="tile" result="tile" />
+
+ <feDiffuseLighting in="displaceAlpha"  id="diffuse-light-wipe-x"
+        lighting-color="#ffc"
+        surfaceScale="2"
+        diffuseConstant=".75"
+        result="diffuseLight" >
+  <fePointLight x="0" y="0" z="50" id="point-light-wipe-x" class="diffuse-point-light-wipe" />
+  <!--<fePointLight x="300" y="0" z="50" id="point-light-2" class="diffuse-point-light-1" />-->
+ </feDiffuseLighting>
+
+ <feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
+        result="diffuseOutput" />
+
+ <feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
+ <!-- <feComposite in="SourceGraphic" in2="tile" operator="arithmetic"
+        k1="0" k2="0" k3="1" k4="0" /> -->
 </filter>
 </defs>
 
@@ -1049,10 +1017,8 @@ Note2: You can click on multiple animation filters at the same time to combine e
    feImage, feTile, fePointLight,
   <tspan dx="-250" dy="20" text-anchor="middle" >
     feDisplacementMap, feComposite, feBlend</tspan>
-  
  </text>
- 
- 
+
  <!-- COLUMN TWO -->
  <!-- <image xlink:href="../../images/fountain-1.jpg" height="210" width="300" x="20" y="20" /> -->
  <image xlink:href="../../images/fountain-1.jpg" height="210" width="300" x="340" y="20" style="filter: url(#displace);" id="trans-5" />
@@ -1065,7 +1031,7 @@ Note2: You can click on multiple animation filters at the same time to combine e
    <tspan dx="-250" dy="20" text-anchor="middle" >k1=0, k2=.5, k3=1, k4=-0.05</tspan>
    <tspan dx="-200" dy="20" text-anchor="middle" >feDisplacementMap (click to animate)</tspan>
  </text> 
- 
+
  <!-- COLUMN THREE -->
  <image xlink:href="../../images/fountain-1.jpg" height="210" width="300" x="660" y="20" style="filter: url(#displace-2);" id="trans-1" />
  <rect x="660" y="20" height="210" width="300" style="stroke: black; fill: none;" />
@@ -1076,7 +1042,6 @@ Note2: You can click on multiple animation filters at the same time to combine e
  <text id="explain-1" x="810" y="250" text-anchor="middle">
    feDisplacementMap of Tiled Radial Alpha Grad
  </text> 
- 
 
  <!-- COLUMN FOUR -->
  <image xlink:href="../../images/fountain-1.jpg" height="210" width="300" x="980" y="20" style="filter: url(#cm-layer-3);" id="trans-3" />
@@ -1087,8 +1052,7 @@ Note2: You can click on multiple animation filters at the same time to combine e
    <a xlink:href="#row-3-col-1" onClick="wipe();">Wipe</a>
    </tspan>
  </text> 
- 
- 
+
 </g>
 
 <g id="row-2" transform="translate(0,300)" >
@@ -1105,7 +1069,7 @@ Note2: You can click on multiple animation filters at the same time to combine e
   <tspan dx="-250" dy="20" text-anchor="middle" >
     feDisplacementMap, feComposite, feBlend</tspan>
  </text>
- 
+
  <!-- COLUMN TWO -->
  <rect x="340" y="20" height="210" width="300" style="stroke: black; fill: none;" />
  <image xlink:href="../../images/sky-1.jpg" height="210" width="300" x="340" y="20" style="filter: url(#displace);" id="trans-6" />
@@ -1127,8 +1091,8 @@ Note2: You can click on multiple animation filters at the same time to combine e
  </text>
  <text id="explain-1" x="810" y="250" text-anchor="middle">
    feDisplacementMap of Tiled Radial Alpha Grad
- </text>  
- 
+ </text>
+
  <!-- COLUMN FOUR -->
  <rect x="980" y="20" height="210" width="300" style="stroke: black; fill: none;" />
  <image xlink:href="../../images/sky-1.jpg" height="210" width="300" x="980" y="20" style="filter: url(#cm-layer-3);" id="trans-4" />
@@ -1137,8 +1101,8 @@ Note2: You can click on multiple animation filters at the same time to combine e
    <tspan dx="-180" dy="-30" text-anchor="middle" style="stroke: orange; stroke-width: .75; fill: none;" >
    <a xlink:href="#row-3-col-1" onClick="wipe();">Wipe</a>
    </tspan>
- </text> 
- 
+ </text>
+
 </g>
 
 <!-- ROW THREE -->
@@ -1153,7 +1117,7 @@ Note2: You can click on multiple animation filters at the same time to combine e
    <a xlink:href="#row-3-col-1" onClick="tileize3();">Tileize 3</a>
    </tspan>
  </text>
- 
+
  <!-- COLUMN TWO -->
  <a name="row-3-col-2"></a>
  <image xlink:href="../../images/fountain-2.jpg" height="210" width="300" x="340" y="20" style="filter: url(#displace-9);" id="trans-7" />
@@ -1164,7 +1128,7 @@ Note2: You can click on multiple animation filters at the same time to combine e
    <a xlink:href="#row-3-col-2" onClick="melt9();">Melt 9</a> |
    <a xlink:href="#row-3-col-2" onClick="tileize9();">Tileize 9</a>
    </tspan>
- </text> 
+ </text>
 
  <!-- COLUMN THREE -->
  <a name="row-3-col-3"></a>
@@ -1176,8 +1140,8 @@ Note2: You can click on multiple animation filters at the same time to combine e
    <a xlink:href="#row-3-col-3" onClick="melt9();">Melt 9</a> |
    <a xlink:href="#row-3-col-3" onClick="tileize9();">Tileize 9</a>
    </tspan>
- </text>  
- 
+ </text>
+
  <!-- COLUMN FOUR -->
  <image xlink:href="../../images/fountain-3.jpg" height="210" width="300" x="980" y="20" style="filter: url(#displace-3);" id="trans-10" />
  <rect x="980" y="20" height="210" width="300" style="stroke: black; fill: none;" />
@@ -1187,8 +1151,8 @@ Note2: You can click on multiple animation filters at the same time to combine e
    <a xlink:href="#row-3-col-4" onClick="melt3();">Melt 3</a> |
    <a xlink:href="#row-3-col-4" onClick="tileize3();">Tileize 3</a>
    </tspan>
- </text> 
- 
+ </text>
+
 </g>
 
 <g id="row-4" transform="translate(0,900)" >
@@ -1204,9 +1168,9 @@ Note2: You can click on multiple animation filters at the same time to combine e
    feImage, feTile, fePointLight,
   <tspan dx="-250" dy="20" text-anchor="middle" >
     feDisplacementMap, feComposite, feBlend</tspan>
-  
+
  </text>
- 
+
 </g>
 <use xlink:href="#circle-grad-1" x="200" y="1200" id="click-me"/>
 </g>

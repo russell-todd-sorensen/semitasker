@@ -2,22 +2,20 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 
 <svg x="0" 
-		 y="0" 
-		 height="1200" 
-		 width="1500" 
-		 viewport="0 0 1200 1500"
-     xmlns:svg="http://www.w3.org/2000/svg"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink"
-		 >
+    y="0" 
+    height="1200" 
+    width="1500" 
+    viewport="0 0 1200 1500"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" >
 <defs>
 
- 
 <linearGradient id="two_hues">
  <stop offset="0%" style="stop-color: #ffcc00;" />
  <stop offset="100%" style="stop-color: #0099cc;" />
 </linearGradient>
- 
+
  <!-- black to white gradient  -->
 <linearGradient id="btw-1" color-interpolation="sRGB" >
  <stop offset="0%" stop-color="#000" stop-opacity="0.0" />
@@ -51,65 +49,59 @@
  <feImage xlink:href="#rect3" result="grad-rect" height="210" width="300"/>
  <feTile in="grad-rect" result="tile" />
  <feDisplacementMap
- 		scale="10"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile" 
-		result="displaceAlpha" />
+    scale="10"
+    xChannelSelector="R"
+    yChannelSelector="B"
+    in2="SourceGraphic" in="tile" 
+    result="displaceAlpha" />
 
- 	<feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic"
-	 k1="0" k2=".5" k3="1" k4="-.05" />
-	<!-- <feComposite in="SourceGraphic" in2="displaceAlpha" operator="in" />-->
+  <feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic"
+    k1="0" k2=".5" k3="1" k4="-.05" />
 </filter>
 
 <filter id="displace-2" x="0" y="0" height="100%" width="100%" >
  <feImage xlink:href="#rect6" result="grad-rect" height="40" width="20"/>
  <feTile in="grad-rect" result="tile" />
  <feDisplacementMap
- 		scale="10"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile" 
-		result="displaceAlpha" />
+    scale="10"
+    xChannelSelector="R"
+    yChannelSelector="B"
+    in2="SourceGraphic" in="tile" 
+    result="displaceAlpha" />
 
- 	<feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic"
-	 k1="0" k2="0.2" k3="1" k4="0" />
-	<!-- <feComposite in="SourceGraphic" in2="displaceAlpha" operator="in" />-->
+  <feComposite in2="displaceAlpha" in="SourceGraphic" operator="arithmetic"
+    k1="0" k2="0.2" k3="1" k4="0" />
 </filter>
 
-
 <filter id="cm-layer-3"  color-interpolation-filters="sRGB"
-   x="0" y="0" width="100%" height="100%" >
+    x="0" y="0" width="100%" height="100%" >
  <feImage xlink:href="#rect4" result="tile" height="21" width="30"/>
  <feTile in="tile" result="tile" />
- <feColorMatrix type="matrix" 
-	    values="1.0  1.0  1.0  0.000  0
-	            1.0  1.0  1.0  0.000  0
-					    1.0  1.0  1.0  0.000  0
-					    1.0  1.0  1.0  1.000  0"
-	    in="SourceGraphic" result="desaturate" />
-			
-	<feColorMatrix type="matrix" 
-	    values="0 0 0 0       0
-	            0 0 0 0       0
-					    0 0 0 0       0
-					    0 0 0 1.0000  0"
-	    in="tile" result="tile" />
-			
-	 <feDiffuseLighting in="tile"
-	    lighting-color="#ffc"
-			surfaceScale="2"
-			diffuseConstant=".75"
-			result="diffuseLight" >
-			<fePointLight x="150" y="150" z="50" />
-	 </feDiffuseLighting>
-			
-	<feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
-	  result="diffuseOutput" />
-		
-	<feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
-  <!-- <feComposite in="SourceGraphic" in2="tile" operator="arithmetic"
-	  k1="0" k2="0" k3="1" k4="0" /> -->
+ <feColorMatrix type="matrix" in="SourceGraphic" result="desaturate"
+      values="1.0  1.0  1.0  0.000  0
+              1.0  1.0  1.0  0.000  0
+              1.0  1.0  1.0  0.000  0
+              1.0  1.0  1.0  1.000  0" />
+
+  <feColorMatrix type="matrix" 
+      values="0 0 0 0       0
+              0 0 0 0       0
+              0 0 0 0       0
+              0 0 0 1.0000  0"
+      in="tile" result="tile" />
+      
+   <feDiffuseLighting in="tile"
+      lighting-color="#ffc"
+      surfaceScale="2"
+      diffuseConstant=".75"
+      result="diffuseLight" >
+      <fePointLight x="150" y="150" z="50" />
+   </feDiffuseLighting>
+
+  <feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
+    result="diffuseOutput" />
+
+  <feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
 </filter>
 
 </defs>
@@ -119,40 +111,36 @@
  <!-- two ways to get the same rectangle -->
  <use xlink:href="#rect1" transform="scale(3,2.1) translate(6.3333,10)" style="fill: url(#btw-3);" />
  <use xlink:href="#rect2" x="20" y="20" style="stroke: black; fill: none;" />
- 
- 
-<!-- <image xlink:href="../../images/fountain-1.jpg" height="210" width="300" x="20" y="20" /> -->
- <image xlink:href="../../images/fountain-1.jpg" height="210" width="300" x="340" y="20" style="filter: url(#displace);" />
+
+ <image xlink:href="/images/fountain-1.jpg" height="210" width="300" x="340" y="20" style="filter: url(#displace);" />
  <rect x="340" y="20" height="210" width="300" style="stroke: black; fill: none;" />
- 
-  <image xlink:href="../../images/fountain-1.jpg" height="210" width="300" x="660" y="20" style="filter: url(#displace-2);" />
+
+ <image xlink:href="/images/fountain-1.jpg" height="210" width="300" x="660" y="20" style="filter: url(#displace-2);" />
  <rect x="660" y="20" height="210" width="300" style="stroke: black; fill: none;" />
 
- <image xlink:href="../../images/fountain-1.jpg" height="210" width="300" x="980" y="20" style="filter: url(#cm-layer-3);" />
+ <image xlink:href="/images/fountain-1.jpg" height="210" width="300" x="980" y="20" style="filter: url(#cm-layer-3);" />
  <rect x="980" y="20" height="210" width="300" style="stroke: black; fill: none;" />
 
- 
  <text id="explain-1" x="330" y="250" text-anchor="middle">
    Enhance Blue, using blue to blue + SourceGraphic</text>
 </g>
 
 <g id="row-2" transform="translate(0,300)" >
  <rect x="20" y="20" height="210" width="300" style="stroke: black; fill: none;" />
- <image xlink:href="../../images/sky-1.jpg" height="210" width="300" x="20" y="20" />
+ <image xlink:href="/images/sky-1.jpg" height="210" width="300" x="20" y="20" />
  <rect x="340" y="20" height="210" width="300" style="stroke: black; fill: none;" />
- <image xlink:href="../../images/sky-1.jpg" height="210" width="300" x="340" y="20" style="filter: url(#displace);" />
+ <image xlink:href="/images/sky-1.jpg" height="210" width="300" x="340" y="20" style="filter: url(#displace);" />
   <rect x="660" y="20" height="210" width="300" style="stroke: black; fill: none;" />
- <image xlink:href="../../images/sky-1.jpg" height="210" width="300" x="660" y="20" style="filter: url(#displace-2);" />
+ <image xlink:href="/images/sky-1.jpg" height="210" width="300" x="660" y="20" style="filter: url(#displace-2);" />
   <rect x="980" y="20" height="210" width="300" style="stroke: black; fill: none;" />
- <image xlink:href="../../images/sky-1.jpg" height="210" width="300" x="980" y="20" style="filter: url(#cm-layer-3);" />
+ <image xlink:href="/images/sky-1.jpg" height="210" width="300" x="980" y="20" style="filter: url(#cm-layer-3);" />
 
  <text id="explain-2" x="330" y="250" text-anchor="middle">
   Desaturate </text>
 </g>
 
-
 <g id="row-3" transform="translate(0,550)" >
- 
+
 </g>
 
 <use xlink:href="#circle-grad-1" x="200" y="1100" />

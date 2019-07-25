@@ -113,177 +113,177 @@ var svg;
 var config4;
 
 var mainConfig = {
-	  filterId: '#wipeX',
-		feImageId: '#feImage-wipe-x',
-		heightTo: 40,
-		heightBack: 40,
-		widthTo: 40,
-		widthBack: 40,
-		
-		feRectId: '#rect40', //#rect4-wipe-x',
-		rectHeightTo: 40,
-		rectWidthTo: 40,
-		rectHeightBack: 40,
-		rectWidthBack: 40,
-		
-		feDisplacementMapId: '#displace-map-wipe-x',
-		scaleTo: 600,
-		
-		feDiffuseLightingId: '#diffuse-light-wipe-x',
-		colorTo: '#663',
-		surfaceScaleTo: 4,
-		diffuseConstantTo: 5,
-		
-		fePointLightId: '#point-light-wipe-x',
-		xTo: 900,
-		yTo: 800,
-		zTo: 2,
-		
-		durationTo: 5000, // 20000
-		durationBack: 5000, // 10000
-		
-		delayTo: 0,
-		delayBack: 0, // 3000
-		
-		easeTo: 'linear',
-		easeBack: 'linear'
-	
+    filterId: '#wipeX',
+    feImageId: '#feImage-wipe-x',
+    heightTo: 40,
+    heightBack: 40,
+    widthTo: 40,
+    widthBack: 40,
+    
+    feRectId: '#rect40', //#rect4-wipe-x',
+    rectHeightTo: 40,
+    rectWidthTo: 40,
+    rectHeightBack: 40,
+    rectWidthBack: 40,
+    
+    feDisplacementMapId: '#displace-map-wipe-x',
+    scaleTo: 600,
+    
+    feDiffuseLightingId: '#diffuse-light-wipe-x',
+    colorTo: '#663',
+    surfaceScaleTo: 4,
+    diffuseConstantTo: 5,
+    
+    fePointLightId: '#point-light-wipe-x',
+    xTo: 900,
+    yTo: 800,
+    zTo: 2,
+    
+    durationTo: 5000, // 20000
+    durationBack: 5000, // 10000
+    
+    delayTo: 0,
+    delayBack: 0, // 3000
+    
+    easeTo: 'linear',
+    easeBack: 'linear'
+  
 };
 
 
 function setupForm (filterId) {
-	
-	//if (filterId) {
-		//mainConfig.filterId = filterId;
-	//}
   
-	//var feImageId = svg.select(filterId + ' feImage').attr('id');
-	//var feRectId = svg.select(feImageId).attr('xlink:href');
-	
-	//mainConfig.feImageId = feImageId;
-	//mainConfig.feRectId = feRectId;
-	
-	mainConfig.colorBack = $(mainConfig.feDiffuseLightingId)
-		.attr('lighting-color');
-	$('#colorBack').val(mainConfig.colorBack);
-	$('#colorTo').val(mainConfig.colorTo);
-	
-	mainConfig.heightBack = $(mainConfig.feImageId)
-		.attr('height');
-	mainConfig.widthBack = $(mainConfig.feImageId)
-		.attr('width');
-		
-	$('#heightBack').val(mainConfig.heightBack);	
-	$('#heightTo').val(mainConfig.heightTo);
+  //if (filterId) {
+    //mainConfig.filterId = filterId;
+  //}
+  
+  //var feImageId = svg.select(filterId + ' feImage').attr('id');
+  //var feRectId = svg.select(feImageId).attr('xlink:href');
+  
+  //mainConfig.feImageId = feImageId;
+  //mainConfig.feRectId = feRectId;
+  
+  mainConfig.colorBack = $(mainConfig.feDiffuseLightingId)
+    .attr('lighting-color');
+  $('#colorBack').val(mainConfig.colorBack);
+  $('#colorTo').val(mainConfig.colorTo);
+  
+  mainConfig.heightBack = $(mainConfig.feImageId)
+    .attr('height');
+  mainConfig.widthBack = $(mainConfig.feImageId)
+    .attr('width');
+    
+  $('#heightBack').val(mainConfig.heightBack);  
+  $('#heightTo').val(mainConfig.heightTo);
 
-	$('#widthBack').val(mainConfig.widthBack);
-	$('#widthTo').val(mainConfig.widthTo);
-	
-	$('#feImageId').val(mainConfig.feImageId);
-	
-	mainConfig.feRectId = $(mainConfig.feImageId)
-		.attr('xlink:href');
-	
-	$('#feRectId').val(mainConfig.feRectId);
-	
-	mainConfig.rectHeightBack = $(mainConfig.feRectId)
-		.attr('height');
-	mainConfig.rectWidthBack = $(mainConfig.feRectId)
-		.attr('width');
+  $('#widthBack').val(mainConfig.widthBack);
+  $('#widthTo').val(mainConfig.widthTo);
+  
+  $('#feImageId').val(mainConfig.feImageId);
+  
+  mainConfig.feRectId = $(mainConfig.feImageId)
+    .attr('xlink:href');
+  
+  $('#feRectId').val(mainConfig.feRectId);
+  
+  mainConfig.rectHeightBack = $(mainConfig.feRectId)
+    .attr('height');
+  mainConfig.rectWidthBack = $(mainConfig.feRectId)
+    .attr('width');
 
-	$('#rectHeightBack').val(mainConfig.rectHeightBack);	
-	$('#rectHeightTo').val(mainConfig.rectHeightTo);
+  $('#rectHeightBack').val(mainConfig.rectHeightBack);  
+  $('#rectHeightTo').val(mainConfig.rectHeightTo);
 
-	$('#rectWidthBack').val(mainConfig.rectWidthBack);
-	$('#rectWidthTo').val(mainConfig.rectWidthTo);
-	
-	mainConfig.scaleBack = $(mainConfig.feDisplacementMapId)
-		.attr('scale');
-	$('#scaleBack').val(mainConfig.scaleBack);
-	$('#scaleTo').val(mainConfig.scaleTo);
+  $('#rectWidthBack').val(mainConfig.rectWidthBack);
+  $('#rectWidthTo').val(mainConfig.rectWidthTo);
+  
+  mainConfig.scaleBack = $(mainConfig.feDisplacementMapId)
+    .attr('scale');
+  $('#scaleBack').val(mainConfig.scaleBack);
+  $('#scaleTo').val(mainConfig.scaleTo);
 
-	mainConfig.surfaceScaleBack = d3.select(mainConfig.feDiffuseLightingId)
-		.attr('surfaceScale');
-	$('#surfaceScaleBack').val(mainConfig.surfaceScaleBack);
-		$('#surfaceScaleTo').val(mainConfig.surfaceScaleTo);
-		
-	mainConfig.diffuseConstantBack = d3.select(mainConfig.feDiffuseLightingId)
-		.attr('diffuseConstant');
-	$('#diffuseConstantBack').val(mainConfig.diffuseConstantBack);
-	$('#diffuseConstantTo').val(mainConfig.diffuseConstantTo);
+  mainConfig.surfaceScaleBack = d3.select(mainConfig.feDiffuseLightingId)
+    .attr('surfaceScale');
+  $('#surfaceScaleBack').val(mainConfig.surfaceScaleBack);
+    $('#surfaceScaleTo').val(mainConfig.surfaceScaleTo);
+    
+  mainConfig.diffuseConstantBack = d3.select(mainConfig.feDiffuseLightingId)
+    .attr('diffuseConstant');
+  $('#diffuseConstantBack').val(mainConfig.diffuseConstantBack);
+  $('#diffuseConstantTo').val(mainConfig.diffuseConstantTo);
 
-	mainConfig.xBack = $(mainConfig.fePointLightId)
-		.attr('x');
-	mainConfig.yBack = $(mainConfig.fePointLightId)
-		.attr('y');
-	mainConfig.zBack = $(mainConfig.fePointLightId)
-		.attr('z');
-	
-	$('#xBack').val(mainConfig.xBack);
-	$('#yBack').val(mainConfig.yBack);	
-	$('#zBack').val(mainConfig.zBack);
-	$('#xTo').val(mainConfig.xTo);
-	$('#yTo').val(mainConfig.yTo);	
-	$('#zTo').val(mainConfig.zTo);
+  mainConfig.xBack = $(mainConfig.fePointLightId)
+    .attr('x');
+  mainConfig.yBack = $(mainConfig.fePointLightId)
+    .attr('y');
+  mainConfig.zBack = $(mainConfig.fePointLightId)
+    .attr('z');
+  
+  $('#xBack').val(mainConfig.xBack);
+  $('#yBack').val(mainConfig.yBack);  
+  $('#zBack').val(mainConfig.zBack);
+  $('#xTo').val(mainConfig.xTo);
+  $('#yTo').val(mainConfig.yTo);  
+  $('#zTo').val(mainConfig.zTo);
 
-	$('#durationTo').val(mainConfig.durationTo);
-	$('#durationBack').val(mainConfig.durationBack);
-	
-	$('#delayTo').val(mainConfig.delayTo);
-	$('#delayBack').val(mainConfig.delayBack);
+  $('#durationTo').val(mainConfig.durationTo);
+  $('#durationBack').val(mainConfig.durationBack);
+  
+  $('#delayTo').val(mainConfig.delayTo);
+  $('#delayBack').val(mainConfig.delayBack);
 
-	$('#easeTo').val(mainConfig.easeTo);
-	$('#easeBack').val(mainConfig.easeBack);
+  $('#easeTo').val(mainConfig.easeTo);
+  $('#easeBack').val(mainConfig.easeBack);
 
 }
 
 function updateRect(filterImageId) {
-	var feImageId = $(filterImageId).val();
-	Log.Notice("updating filterImageId=" + feImageId);
-	var feImage = svg.select(filterImageId);
-	var filterRectId = $('#feRectId').val();
-		Log.Notice("new filterRectId=" + filterRectId);
-	var feImageNode = document.getElementById(feImageId.substr(1));
-	var attributes = feImageNode.attributes;
-	var attrNodeName, name, value, success;
-	success = false;
-	for (attrNodeName in attributes) {
-		name = attributes[attrNodeName].name;
-		if (name === 'xlink:href') {
-			value = attributes[name].value;
-			attributes[name].value = filterRectId;
-			Log.Notice('updated attribute ' + name + ' to =' + filterRectId);
-			success = true;
-			break;
-		}
-	}
-	
-	if (success) {
-		// no trouble adjusting rect height and width
-		svg.select(filterRectId)
-			.attr('height', svg.select(value).attr('height'))
-			.attr('width', svg.select(value).attr('width'));
-	}
+  var feImageId = $(filterImageId).val();
+  Log.Notice("updating filterImageId=" + feImageId);
+  var feImage = svg.select(filterImageId);
+  var filterRectId = $('#feRectId').val();
+    Log.Notice("new filterRectId=" + filterRectId);
+  var feImageNode = document.getElementById(feImageId.substr(1));
+  var attributes = feImageNode.attributes;
+  var attrNodeName, name, value, success;
+  success = false;
+  for (attrNodeName in attributes) {
+    name = attributes[attrNodeName].name;
+    if (name === 'xlink:href') {
+      value = attributes[name].value;
+      attributes[name].value = filterRectId;
+      Log.Notice('updated attribute ' + name + ' to =' + filterRectId);
+      success = true;
+      break;
+    }
+  }
+  
+  if (success) {
+    // no trouble adjusting rect height and width
+    svg.select(filterRectId)
+      .attr('height', svg.select(value).attr('height'))
+      .attr('width', svg.select(value).attr('width'));
+  }
 
-	//mainConfig.feRectId = filterRectId;
-	
+  //mainConfig.feRectId = filterRectId;
+  
 }
 
 function buildTileOptions () {
-	
-	
-	
-	
+  
+  
+  
+  
 }
 
 $(document).ready(function () {
-	
+  
   doc = d3.select(document.body);
   Log.Hide();
   svg = doc.select('svg');
-	setupForm('#wipeX');
-	
-	
+  setupForm('#wipeX');
+  
+  
 });
 
 </script>
@@ -291,22 +291,20 @@ $(document).ready(function () {
 <body>
 
 <svg x="0" 
-		 y="0" 
-		 height="850" 
-		 width="1210" 
-		 viewport="0 0 325 225"
-     xmlns:svg="http://www.w3.org/2000/svg"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink"
-		 >
+    y="0" 
+    height="850" 
+    width="1210" 
+    viewport="0 0 325 225"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" >
 <defs>
 
- 
 <linearGradient id="two_hues">
  <stop offset="0%" style="stop-color: #ffcc00;" />
  <stop offset="100%" style="stop-color: #0099cc;" />
 </linearGradient>
- 
+
  <!-- black to white gradient  -->
 <linearGradient id="btw-1" color-interpolation="sRGB" >
  <stop offset="0%" stop-color="#000" stop-opacity="0.0" />
@@ -357,7 +355,6 @@ $(document).ready(function () {
 <radialGradient xlink:href="#radial-grad-30" fx="10%" fy="10%" id="radial-grad-32" color-interpolation="sRGB" /> 
 <radialGradient xlink:href="#radial-grad-30" fx="75%" fy="75%" id="radial-grad-33" color-interpolation="sRGB" /> 
 
-
 <linearGradient id="btw-4" color-interpolation="sRGB" spreadMethod="repeat" >
  <stop offset="0%" stop-color="#000" stop-opacity="0.0" />
  <stop offset="5%" stop-color="#000" stop-opacity="0.8" />
@@ -396,7 +393,6 @@ $(document).ready(function () {
  <stop offset="90%" stop-color="transparent" stop-opacity="1.0" />
  <stop offset="95%" stop-color="transparent" stop-opacity="0" />
  <stop offset="100%" stop-color="transparent" stop-opacity="1.0" />
- 
 </linearGradient>
 
 <linearGradient xlink:href="#btw-4" id="btw-5" x1="0" y1="0" x2="100%" y2="100%" />
@@ -446,43 +442,43 @@ $(document).ready(function () {
  <feImage xlink:href="#rect4-wipe-x" result="tile" height="2" width="3" id="feImage-wipe-x"  />
  <!-- <feTurbulence numOctaves="1" baseFrequency=".5" height="40" width="40" x="30" y="30"
   seed="5000" stitchTiles="stitch" result="tile" type="fractalNoise" style="stroke-width: 0" />-->
-	 
+
  <feTile in="tile" result="tile" />
  <feColorMatrix type="matrix" 
-	    values="1.0  1.0  1.0  0.000  0
-	            1.0  1.0  1.0  0.000  0
-					    1.0  1.0  1.0  0.000  0
-					    1.0  1.0  1.0  1.000  0"
-	    in="SourceGraphic" result="desaturate" />
-      
+      values="1.0  1.0  1.0  0.000  0
+              1.0  1.0  1.0  0.000  0
+              1.0  1.0  1.0  0.000  0
+              1.0  1.0  1.0  1.000  0"
+      in="SourceGraphic" result="desaturate" />
+
  <feDisplacementMap id="displace-map-wipe-x"
- 		scale="10"
-		xChannelSelector="R"
-		yChannelSelector="B"
-		in2="SourceGraphic" in="tile"  transform="rotate(60)"
-		result="displaceAlpha" />
-    
-	<feColorMatrix type="matrix" 
-	    values="0 0 0 0       0
-	            0 0 0 0       0
-					    0 0 0 0       0
-					    0 0 0 1.0000  0"
-	    in="tile" result="tile" />
-			
-	 <feDiffuseLighting in="displaceAlpha"  id="diffuse-light-wipe-x"
-	    lighting-color="#ffc"
-			surfaceScale="2"
-			diffuseConstant=".75"
-			result="diffuseLight" >
-			<fePointLight x="0" y="0" z="50" id="point-light-wipe-x" />
-	 </feDiffuseLighting>
-			
-	<feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
-	  result="diffuseOutput" />
-		
-	<feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
+    scale="10"
+    xChannelSelector="R"
+    yChannelSelector="B"
+    in2="SourceGraphic" in="tile"  transform="rotate(60)"
+    result="displaceAlpha" />
+
+  <feColorMatrix type="matrix" 
+      values="0 0 0 0       0
+              0 0 0 0       0
+              0 0 0 0       0
+              0 0 0 1.0000  0"
+      in="tile" result="tile" />
+
+   <feDiffuseLighting in="displaceAlpha"  id="diffuse-light-wipe-x"
+      lighting-color="#ffc"
+      surfaceScale="2"
+      diffuseConstant=".75"
+      result="diffuseLight" >
+      <fePointLight x="0" y="0" z="50" id="point-light-wipe-x" />
+   </feDiffuseLighting>
+
+  <feComposite in="diffuseLight" in2="SourceGraphic" operator="in"
+    result="diffuseOutput" />
+
+  <feBlend in="diffuseOutput" in2="SourceGraphic" mode="screen" />
  <!--  <feComposite in="SourceGraphic" in2="tile" operator="arithmetic"
-	  k1="0" k2="0" k3="1" k4="0" /> -->
+    k1="0" k2="0" k3="1" k4="0" /> -->
 </filter>
 </defs>
 
@@ -494,13 +490,6 @@ $(document).ready(function () {
  <use xlink:href="#rect2" x="20" y="20" style="stroke: black; fill: none;" />
 
 </g>
-<!--
-<use xlink:href="#circle-grad-1" x="200" y="1200" id="click-me"/>
-<use xlink:href="#rect40" x="100" y="200" />
-<use xlink:href="#rect41" x="120" y="200" />
-<use xlink:href="#rect42" x="150" y="170" />
-<use xlink:href="#rect43" x="170" y="170" />
--->
 </g>
 
 </svg>
@@ -509,7 +498,9 @@ $(document).ready(function () {
 <fieldset>
 <legend>General Animation Options</legend>
 <ul>
- <li><label for="imageChoice">Select Image</label> <select id="imageChoice" name="imageChoice" onChange="changeImage('imageChoice', 'imageX');">
+ <li>
+  <label for="imageChoice">Select Image</label> 
+  <select id="imageChoice" name="imageChoice" onChange="changeImage('imageChoice', 'imageX');">
 <fielset id="generalFields">
 <option value="building-1.jpg" selected="selected">Building 1</option>
 <option value="sphinx5.jpg">Sphinx 5</option>
@@ -529,7 +520,7 @@ $(document).ready(function () {
  </li>
  <li>
 <label for="durationTo">Duration</label> 
-	To:   <input id="durationTo" name="durationTo" value="" type="text" size="4">
+  To:   <input id="durationTo" name="durationTo" value="" type="text" size="4">
   Back: <input id="durationBack" name="durationBack" value="" type="text" size="4">
  </li>
  <li>
@@ -571,9 +562,9 @@ $(document).ready(function () {
    To: <input id="widthTo" name="widthTo" value="" type="text" size="4">
    Back: <input id="widthBack" name="widthBack" value="" type="text" size="4">
    </li>
-  </ul> 
+  </ul>
  </li>
- <li> 
+ <li>
 <label for="feRectId">RectId</label>
  <input id="feRectId" name="feRectId" value="" type="text" size="4" onChange="updateRect('#feImageId');">
  </li>
@@ -644,9 +635,6 @@ $(document).ready(function () {
 </ul>
 </fieldset>
 
-
-
-
 </fieldset>
 </form>
  <div id="instructions">
@@ -660,19 +648,11 @@ $(document).ready(function () {
    <input type="button" onClick="doAnimation('tileize');" value="Tileize" >
    <input type="button" onClick="doAnimation('melt');" value="Melt" >
    <input type="button" onClick="doAnimation('all');" value="Animate All" >
-   
-   
-  
-   
-  
   </li>
  </ul>
  </fieldset>
  </form>
  </div>
 </div>
-
-
-
 </body>
 </html>
