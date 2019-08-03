@@ -127,11 +127,13 @@ var showUnicodeChars = function(startId, endId, baseId) {
 
     // table body
     var tableBody = "<tr>";
-    var cellValue;
+    var cellValue,hexValue;
     if (base == 16) {
         cellValue = toHex2(startNumber)
+        hexValue = cellValue;
     } else {
         cellValue = startNumber;
+        hexValue = toHex2(cellValue);
     }
     tableBody = tableBody + "<th class='heading'>" + cellValue + "</th>";
 
@@ -143,8 +145,11 @@ var showUnicodeChars = function(startId, endId, baseId) {
         if ((j>0) && ((j%base) == 0)) {
             if (base == 16) {
                 cellValue = toHex2(startNumber + j);
+                hexValue = cellValue;
             } else {
                 cellValue = (startNumber + j);
+                hexValue = toHex2(cellValue);
+
             }
             tableBody = tableBody + "</tr>\n<tr><th class='heading'>" + cellValue + "</th>"
         }
@@ -152,6 +157,7 @@ var showUnicodeChars = function(startId, endId, baseId) {
     }
     tableBody = tableBody + "</tr>\n"
     $('#tbody').html(tableBody);
+
 }
 
 $(document).ready(function() {

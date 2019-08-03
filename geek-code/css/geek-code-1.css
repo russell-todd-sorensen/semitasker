@@ -17,6 +17,7 @@ th {
     text-align: right;
     text-transform: capitalize;
 }
+
 .hide {
     display: none;
 }
@@ -27,12 +28,12 @@ th {
 
 #input-container {
     display: inline-block;
-    padding: 10px;
-    padding-top: 30px;
+    padding: 5px;
+    padding-top: 15px;
     padding-bottom: 0;
-    background-color: hsl(60,79%,28%);
+    background-color: black;
     border: 3px solid black;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 #input-html-container,
@@ -48,9 +49,9 @@ th {
     vertical-align: top;
     height: 150px;
     padding: 5px;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    margin-bottom: 25px;
+    padding-top: 0px;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
     background-color: rgba(200,200,200,.85);
     border: 3px solid black;
 }
@@ -128,7 +129,7 @@ th {
     width: 66px;
     padding: 1px;
     cursor: pointer;
-    display: ;
+    display: block;
     border: 2px solid black;
     border-bottom: none;
     border-radius: 5px 5px 0 0;
@@ -340,9 +341,9 @@ th {
 }
 
 #top-controls {
-    color: white;
+    color: rgba(150,150,150,1.0);
     font-weight: bold;
-    background-color: hsl(0,79%,28%);
+    background-color: rgba(0,0,100,1.0);
     margin-left: -10px;
     padding: 5px;
     padding-left: 10px;
@@ -354,9 +355,18 @@ th {
 }
 
 #options-bar {
-    float: right;
+   /* float: right; */
+   float: right;
+   padding-top: 3px;
+}
+#select-options label,
+#select-options input {
+    vertical-align: top;
 }
 
+#select-options input {
+    background-color: rgba(150,150,150,1.0);
+}
 
 #select-lesson {
     display: inline-block;

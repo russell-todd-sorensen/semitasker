@@ -128,7 +128,7 @@ th {
     width: 66px;
     padding: 1px;
     cursor: pointer;
-    display: ;
+    display: block;
     border: 2px solid black;
     border-bottom: none;
     border-radius: 5px 5px 0 0;

@@ -940,42 +940,42 @@ var appOptions = [
     defaultState: 'off',
     currentState: 'on'
   },
-	{
-		id: 'TOP',
+  {
+    id: 'TOP',
     label: "Top",
     group: "main",
     fn: enableOptionGroup,
     data: 'TOP',
     defaultState: 'off',
     currentState: 'on'
-	},
-	{
-		id: '#input-container',
-		label: 'Hide Top',
-		group: 'TOP',
-		fn: null,
-		data: 'input-container',
-		defaultState: 'on',
-		currentState: 'on'
-	},
-	{
-	  id: 'BOTTOM',
-		label: 'Bottom',
-		group: 'main',
-		fn: enableOptionGroup,
-		data: 'BOTTOM',
-		defaultState: 'on',
-		currentState: 'on'
-	},
-	{
-		id: '#builder-container',
-		label: 'Hide Bottom',
-		group: 'BOTTOM',
-		fn: null,
-		data: 'builder-container',
-		defaultState: 'on',
-		currentState: 'on'
-	}
+  }, 
+  {
+    id: '#input-container',
+    label: 'Hide Top',
+    group: 'TOP',
+    fn: null,
+    data: 'input-container',
+    defaultState: 'on',
+    currentState: 'on'
+  }, 
+  {
+    id: 'BOTTOM',
+    label: 'Bottom',
+    group: 'main',
+    fn: enableOptionGroup,
+    data: 'BOTTOM',
+    defaultState: 'on',
+    currentState: 'on'
+  },
+  {
+    id: '#builder-container',
+    label: 'Hide Bottom',
+    group: 'BOTTOM',
+    fn: null,
+    data: 'builder-container',
+    defaultState: 'on',
+    currentState: 'on'
+  }
 ];
 
 function createOptionCheckboxes () {
@@ -1002,32 +1002,30 @@ function createOptionCheckboxes () {
 }
 
 function toggleOption ( optionIndex ) {
-  
-    
+
   var option = appOptions[parseInt(optionIndex)];
   var currentState = option.currentState;
-  
+
   var newState;
   if (currentState === 'on') { // toggle off
     newState = 'off';
-
   } else {
     newState = 'on';
-  }    
-  Log.Notice('option index=' + optionIndex 
-    + ' currentState=' + currentState 
-    + ' checked=' 
-    + $(this).attr('checked') 
+  }
+  Log.Notice('option index=' + optionIndex
+    + ' currentState=' + currentState
+    + ' checked='
+    + $(this).attr('checked')
     + ' newState=' + newState);
 // CHANGES ///
   //option.fn(option.data, newState);
   //option.currentState = newState;
-	if (typeof option.fn === "function") {
-		option.fn(option.data, newState);
-  	option.currentState = newState;
-	} else {
-		enableOption(option,newState);
-	}
+  if (typeof option.fn === "function") {
+    option.fn(option.data, newState);
+    option.currentState = newState;
+  } else {
+    enableOption(option,newState);
+  }
   Log.Notice("after option.fn currentState=" 
     + option.currentState);
 }
@@ -1038,13 +1036,13 @@ function toggleOptionGroup(optionGroup) {
 
 // change this to do statistics
 function updateDisplay(what) {
-  
-  var data = "&lt;style&gt;\n"     
-    + d3.select('#builder-css').html()      
-    + "\n&lt;/style&gt;\n"     
-    + d3.select('#builder-html').html()        
-    + "&lt;svg\n" 
-     + "    xmlns:svg=\"http://www.w3.org/2000/svg\"\n"
+
+  var data = "&lt;style&gt;\n"
+    + d3.select('#builder-css').html()
+    + "\n&lt;/style&gt;\n"
+    + d3.select('#builder-html').html()
+    + "&lt;svg\n"
+    + "    xmlns:svg=\"http://www.w3.org/2000/svg\"\n"
     + "    xmlns=\"http://www.w3.org/2000/svg\"\n"
     + "    xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n"
     + "    version=\"1.0\"\n"
@@ -1055,13 +1053,13 @@ function updateDisplay(what) {
     + "    viewBox=\"0 0 1000 1200\">\n"
     + d3.select('#builder-svg').html()
     + "&lt;/svg&gt;"
-    + "\n&lt;" + "script" + "&gt;\n"  
-    + d3.select('#builder-js').html()        
+    + "\n&lt;" + "script" + "&gt;\n"
+    + d3.select('#builder-js').html()
     + "\n&lt;/" + "script" + "&gt;\n";
-  
+
   d3.select('#display')
     .html(unescapeHTML(removePNodes(data)));
-    
+
   MyStorage.saveCurrent();
 }
 
@@ -1072,7 +1070,7 @@ function previewExample() {
     + "\n&lt;/style&gt;\n"     
     + example.html
     + "&lt;svg\n" 
-     + "    xmlns:svg=\"http://www.w3.org/2000/svg\"\n"
+    + "    xmlns:svg=\"http://www.w3.org/2000/svg\"\n"
     + "    xmlns=\"http://www.w3.org/2000/svg\"\n"
     + "    xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n"
     + "    version=\"1.0\"\n"
@@ -1086,11 +1084,9 @@ function previewExample() {
     + "\n&lt;" + "script" + "&gt;\n" 
     + example.script
     + "\n&lt;/" + "script" + "&gt;\n";
-  
+
   $('#display').html(unescapeHTML(data));
-
 }
-
 
 $(document).ready(function() {
 
@@ -1104,5 +1100,4 @@ $(document).ready(function() {
     Log.Notice("localStorage isn't available! Expect errors!");
     disableStorage();
   }
-  Log.Notice("Ready from learn-html-11.js");
 });

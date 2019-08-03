@@ -138,7 +138,7 @@ function init() {
 }
 ]]>
 </script>
-<use xlink:href="#homr1" x="0" y="350" height="120" width="600" />
-<rect x="0" y="500" height="400" width="1000" fill="url(#g7)" />
+<!--<use xlink:href="#homr1" x="0" y="350" height="120" width="600" />
+<rect x="0" y="500" height="400" width="1000" fill="url(#g7)" />-->
 
 </svg>

@@ -3,20 +3,74 @@
 <head>
 <meta charset="utf-8">
 <meta base="http://hom1:8082/" />
-<title>Geek Code 1</title>
+<title>Geek Code: Web Editor</title>
 
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 <link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
 <link rel="stylesheet" type="text/css" href="css/geek-code-1.css" media="all">
 <style type="text/css">
-/* place any page unique styles here */
+
+#top-controls #lessons {
+  display: none;
+}
+#logo, #logo-image {
+  display: inline-block;
+}
+
+/* checkbox style from: 
+ * https://stackoverflow.com/questions/34388696/how-to-change-the-background-color-on-a-input-checkbox-with-css 
+ *
+ */
+input[type="checkbox"] {
+  visibility: hidden;
+}
+label {
+  cursor: pointer;
+}
+input[type="checkbox"] + label:before {
+  background: rgba(150,150,150,1.0);
+ /* border: 1px solid #333; */
+  border-radius: 3px 3px;
+  content: "\00a0";
+  display: inline-block;
+  font: 16px/1em sans-serif;
+  margin: 0 .25em 0 0;
+  padding: 0;
+  vertical-align: top;
+  width: 14px;
+  height: 14px;
+}
+input[type="checkbox"]:checked + label:before {
+  background: rgba(150,150,150,1.0);
+  color: #333;
+  content: "\2713";
+  text-align: center;
+}
+input[type="checkbox"]:checked + label:after {
+  font-weight: bold;
+}
+/*
+input[type="checkbox"]:focus + label::before {
+    outline: rgb(59, 153, 252) auto 5px;
+}
+*/
+
+#preview,
+#refresh,
+#copy-data,
+#saved-copies div.saved-copy,
+#create-document,
+#create-lesson {
+  background-color: rgba(0,0,100,1.0);
+  color: rgba(150,150,150,1.0);
+}
 
 </style>
 
-<script src="/js/d3.v3.js" type="application/javascript" language="javascript"></script>
-<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
-<script type="text/javascript" src="/js/log-2.js"></script>
+<script src="/js/d3.v3.js" ></script>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/log-2.js"></script>
 <script src="/js/example-library.js"></script>
 <script src="js/geek-code-1.js"></script>
 
@@ -31,6 +85,7 @@ $(document).ready(function() {
   createOptionCheckboxes();
   toggleOptionGroup('javascript');  // turn off javascript
   toggleOptionGroup('SVG'); // turn off svg
+  toggleOptionGroup('TOP'); // Turn off Top
   
   Log.Hide();
   var widgetMinHeight = 10;
@@ -61,6 +116,18 @@ $(document).ready(function() {
     .unbind("click")
     .bind("click", {id:"builder-svg",height:widgetMinHeight,width:widgetMinWidth}, closeWidget);
 
+  // This version will not allow toggling TOP/BOTTOM
+  $("label[for='TOP']").hide();
+  $("#TOP").hide();
+  $("label[for='BOTTOM']").hide();
+  $("#BOTTOM").hide();
+  $("#preview").hide();
+
+  // Removing helper text and tags from this version
+
+  $(".e-mode").hide();
+  
+
   // allow users to paste into input boxes
   enablePaste();
 
@@ -71,18 +138,26 @@ $(document).ready(function() {
 <body>
 
 <div id="top-controls">
-  <div id="lessons">Select a Lesson:
-   <form id="select-lesson">
-    <select id="lesson">
-     <option value="test-examples">TEST Examples</option>
-     <option value="geek-examples-2">Geek Examples 2</option>
-     <option value="geek-examples-3">Geek Code "One Box"</option>
-     <option value="mandelbrot-examples-in-svg">Mandelbrot Examples</option>
-    </select>
-    <input type="button" value="Load Examples" 
-           onClick="loadExamples('#lesson');">
-   </form>
-  </div><!-- end lessons div -->
+<div id="logo">
+<svg height="20" width="200" id="logo-image" >
+<style>
+#logo-bg {
+    fill: rgba(0,0,100,1.0);
+    rx: 4;
+    ry: 4;
+}
+#logo-text {
+  fill: rgba(150,150,150,1.0);
+  font-family: "Bitstream Vera Sans Mono", "Lucida Console", Monaco, monospace;
+  text-anchor: start;
+}
+</style>
+<defs>
+
+</defs>
+<rect id="logo-bg" x="0" y="0" height="20" width="120" />
+<text id="logo-text" x="5" y="17.5" fill="black" font-size="20">Geek Code</text></svg>
+</div>
 
  <div id="options-bar">
   <form id="select-options">
@@ -129,39 +204,39 @@ $(document).ready(function() {
 </div><!-- end input container -->
 
 <div id="copy-bar">
- <div id="preview" onClick="previewExample();">Preview</div>
- <div id="refresh" onClick="updateDisplay('js');">Refresh</div>
- <div id="copy-data" onClick="MyStorage.addExample()">Save To Storage!</div>
+  <div id="preview" onClick="previewExample();">Preview</div>
+  <div id="refresh" onClick="updateDisplay('js');">Refresh</div>
+  <div id="copy-data" onClick="MyStorage.addExample()">Save To Storage!</div>
 </div><!-- end copy bar -->
 
 <div id="builder-container">
- <div id="builder-html-container"><div id="builder-html"
+  <div id="builder-html-container"><div id="builder-html"
     onKeyUp="updateDisplay('html');" ></div>
   <div id="builder-html-toggle-button"><span class="wingding">0</span>Close</div>
-  <div id="builder-html-div-tag">&lt;div id="display"&gt;</div>
-  <div id="builder-html-div-tag-bottom">&lt;/div&gt;</div>
- </div>
+  <div id="builder-html-div-tag" class="e-mode">&lt;div id="display"&gt;</div>
+  <div id="builder-html-div-tag-bottom" class="e-mode">&lt;/div&gt;</div>
+</div>
  
- <div id="builder-css-container"><div id="builder-css"
+<div id="builder-css-container"><div id="builder-css"
     onKeyUp="updateDisplay('css');" ></div>
   <div id="builder-css-toggle-button"><span class="wingding">0</span>Close</div>
-  <div id="builder-css-style-tag">&lt;style&gt;</div>
-  <div id="builder-css-style-tag-bottom">&lt;/style&gt;</div>
- </div>
+  <div id="builder-css-style-tag" class="e-mode">&lt;style&gt;</div>
+  <div id="builder-css-style-tag-bottom" class="e-mode">&lt;/style&gt;</div>
+</div>
   
- <div id="builder-js-container"><div id="builder-js"
+<div id="builder-js-container"><div id="builder-js"
     onKeyUp="updateDisplay('js');" ></div>
   <div id="builder-js-toggle-button"><span class="wingding">0</span>Close</div>
-  <div id="builder-js-script-tag">&lt;script&gt;</div>
-  <div id="builder-js-script-tag-bottom">&lt;/script&gt;</div>
- </div>
+  <div id="builder-js-script-tag" class="e-mode">&lt;script&gt;</div>
+  <div id="builder-js-script-tag-bottom" class="e-mode">&lt;/script&gt;</div>
+</div>
  
- <div id="builder-svg-container"><div id="builder-svg"
+<div id="builder-svg-container"><div id="builder-svg"
     onKeyUp="updateDisplay('svg');" ></div>
   <div id="builder-svg-toggle-button"><span class="wingding">0</span>Close</div>
-  <div id="builder-svg-tag">&lt;svg&gt;</div>
-  <div id="builder-svg-tag-bottom">&lt;/svg&gt;</div>
- </div>
+  <div id="builder-svg-tag" class="e-mode">&lt;svg&gt;</div>
+  <div id="builder-svg-tag-bottom" class="e-mode">&lt;/svg&gt;</div>
+</div>
 
 </div><!-- end builder container -->
 </div><!-- end big-screen-container -->
