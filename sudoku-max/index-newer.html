@@ -15,19 +15,12 @@
     border: 6px solid rgba(0,0,0,.2);
     position: relative;
     display: inline-block;
-    /*background-color: yellow;*/
     vertical-align: top;
     padding: 0;
 }
 
 .optionCellOld {
     display: inline-block;
-    /*height: 33.33px;
-    width: 33.33px;
-    border-top: 12px solid rgba(0,0,0,.1);
-    border-left: 20px solid rgba(0,0,0,0);
-    border: .5px solid black;
-    background-color: rgba(0,255,0,.5);*/
     text-align: center;
     width: 33.33%;
     height: 26%;
@@ -39,12 +32,6 @@
 
 .optionCell {
     display: inline-block;
-    /*height: 33.33px;
-    width: 33.33px;
-    border-top: 12px solid rgba(0,0,0,.1);
-    border-left: 20px solid rgba(0,0,0,0);
-    border: .5px solid black;
-    background-color: rgba(0,255,0,.5);*/
     line-height: 24px;
     text-align: center;
     vertical-align: middle;
@@ -55,18 +42,18 @@
     cursor: pointer;
     font-size: 21px;
     color: rgba(255,255,255,.5);
-    /*background-color: rgba(255,255,255,0.1); */
 }
+
 .optionCell:hover {
     background-color: rgba(0,128,0,.5);
 }
+
 .cell-old {
     height: 100px;
     width: 100px;
     border: 10px solid rgba(0,0,0,.2);
     position: relative;
     display: inline-block;
-    /*background-color: yellow;*/
     vertical-align: top;
     padding: 0;
 }
@@ -118,38 +105,78 @@
     font-size: 28px;
     line-height: 28px;
     height: 30px;
-    width: 600px;
 }
+
+#remap-symbols,
 #remap-symbol-choices {
-    width: 600px;
+    width: 500px;
 }
 
 #controls {
     position: relative;
 }
 
-#legendCellOptions {
-    position: absolute;
-    top: 15px;
-    right: 5px;
-}
-
 #t .cell .marked {
     background-color: black;
 }
 
+#control-form,
+#legend-cell-container {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#legend-cell-container {
+    margin-top: 10px;
+    margin-right: 2px;
+    float: right;
+}
+
+#remap-symbols {
+  padding-top: 5px;
+}
+
+#input-puzzle-data,
+#puzzle-info,
+#load-buttons,
+#load-buttons-2 {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#load-buttons button,
+#load-buttons-2 button {
+  display: block;
+}
+
+#load-buttons,
+#load-buttons-2 {
+  width: 28%;
+}
+
+#input-puzzle-data,
+#puzzle-info {
+  width: 70%;
+}
+
+#choose-puzzle-1,
+#choose-puzzle-2 {
+  width: 110px;
+  height: 2em;
+  float: right;
+  margin-right: 5px;
+  margin-top: 5px;
+}
 </style>
 
 <style id="dynamic">
 
 </style>
 
-
 <script type="text/javascript" src="/js/d3.v4.js"></script>
 <script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
 <script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
 <script type="text/javascript" src="/js/log-2.js"></script>
-
 <script type="text/javascript" src="js/sudoku-max-3.js" ></script>
 <script type="text/javascript" src="js/controls.js"></script>
 <script type="text/javascript" src="js/ia-controls-3.js"></script>
@@ -168,15 +195,10 @@ function loadXHRFile(url,callback) {
   newXHR3.send(null);
 }
 
-
-
 $(document).ready(function() {
   Log.Notice('Document Ready');
   Log.Remove();
   loadXHRFile("./data/sudoku-puzzles.csv",getSudokuPuzzlesCSV);
-    //boxCols=5;
-    //boxRows=5;
-    //puzzleString="";
   toggleOptionMode('toggle-button',off);
   toggleMarkMode('toggle-mark',off);
 
@@ -198,7 +220,6 @@ $(document).ready(function() {
     <div class="camera">
      <div id="P1" class="photo"></div>
      <div class="camera-buttons">
-      <!--<div class="controlCell curves box2 bold" onClick='solveSudokuX(boxCols, boxRows, boxMapString);'>Load Puzzle</div>-->
      </div>
     </div>
    </div>
@@ -231,10 +252,10 @@ $(document).ready(function() {
  </div>
 
  <div id="t2">
+  <div id="control-form">
   <form onSubmit="return false;" id="bottom-controls">
     <fieldset id="controls">
     <legend>Play Options</legend>
-    <div id='legendCellOptions'></div>
     <div class="inline-button"><label for="toggle-button">Option Mode:</label>
          <button id="toggle-button" name="toggle-button" onClick="toggleOptionMode('toggle-button')"></button>
     </div>
@@ -244,22 +265,35 @@ $(document).ready(function() {
     <div class="inline-button"><label for="reset-options">Reset Options:</label>
          <button id="reset-options" name="reset-options" onClick="resetCellOptions()">Reset</button>
     </div>
-    <div class="data-button"><label for="puzzle-data">Puzzle Number:</label>
-         <input type="number" min="-1" max="49158" id="puzzle-data" placeholder="0 to 49158 or -1 to enter puzzle" name="puzzle-data" size="20">
-         <button id="choose-puzzle-1" name="choose-puzzle-1"  onClick="viewPuzzle('puzzle-data')" >View Puzzle</button>
-         <button id="choose-puzzle-2" name="choose-puzzle-2"  onClick="choosePuzzle('puzzle-data')" >Load Puzzle</button>
-    </div>
-    <div class="data-button"><label for="size-data">Symbol Size:</label>
+    <div class="inline-button"><label for="size-data">Symbol Size:</label>
         <input type="number" id="baseFontSize" name="baseFontSize" value="70" min="62" max="108" step="4" onChange="adjustBaseFontSize('baseFontSize');">
     </div>
-
+    <div id="data-section">
+      <div id="input-puzzle-data"><label for="puzzle-data">Puzzle Number:</label>
+        <input type="number" min="-1" max="49158" id="puzzle-data" placeholder="0 to 49158 or -1 to enter puzzle" name="puzzle-data" size="20">
+      </div>
+      <div id="load-buttons">
+        <button id="choose-puzzle-1" name="choose-puzzle-1"  onClick="viewPuzzle('puzzle-data')" >Preview Puzzle</button>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset>
+    <legend>Tweak Options</legend>
     <div id="puzzle-info"></div>
- </fieldset>
- </form>
+    <div id="load-buttons-2">
+      <button id="choose-puzzle-2" name="choose-puzzle-2"  onClick="choosePuzzle('puzzle-data')" >Load Puzzle</button>
+    </div>
+  </fieldset>
+  </form>
  </div>
+  <div id="legend-cell-container">
+    <div id='legendCellOptions'></div>
+  </div>
+</div>
+  </div><!-- ended zoom -->
  </div>
- </div> <!-- ended zoom -->
  <div class="rightPhone"></div>
+</div>
 </div>
 
 </body>

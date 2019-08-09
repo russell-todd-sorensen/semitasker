@@ -211,7 +211,8 @@ var viewPuzzle = function(id) {
     if (
         (integerValue > -1) &&
         (integerValue < (sudokuData.length-1))
-    ) {
+       )
+    {
         puzzle = sudokuData[integerValue];
         puzzleString = puzzle.puzzle_string;
         boxCols = puzzle.box_cols;
@@ -235,9 +236,6 @@ var viewPuzzle = function(id) {
         $('#puzzle-info').append("<div id='box-map-string'>" + boxMapString + "</div>");
     }
 
-    //if (remapSymbols.length<boxCols*boxRows) {
-    //    remapSymbols += defaultSymbolsProto.substring(remapSymbols.length,boxCols*boxRows);
-    //}
     fillRemapSymbols();
 
     symbolOptions = [];
