@@ -35,9 +35,34 @@
     font-weight: normal;
     text-align: center;
 }
+.detail:hover {
+    background-color: silver;
+}
 
 fieldset {
     display: inline-block;
+}
+
+#top {
+    width: 100%;
+}
+
+#left {
+    width: 95%;
+    display: inline-block;
+    vertical-align: top;
+}
+#right {
+    width: 0%;
+    display: inline-block;
+    vertical-align: top;
+    height: 100vh;
+}
+#uni-lookup {
+    width: 100%;
+    position:fixed;
+    top:10px;
+    height: 100vh;
 }
 </style>
 
@@ -54,10 +79,29 @@ fieldset {
 <script>
 
 var HexTable = new Array();
+var HexValue = new Array();
+var HexDigits = "0123456789ABCDEF";
 
-for (var i = 0; i < 7; i++) {
-    HexTable[i] = Math.pow(16,i);
-    console.log('HexTable[' +i+']=' + HexTable[i]);
+var setupHexData = function() {
+    var hexChar;
+    for (var i = 0; i < 9; i++) {
+        HexTable[i] = Math.pow(16,i);
+    }
+
+    for (var i in HexDigits.split('')) {
+        hexChar = HexDigits[i]
+        HexValue[hexChar] = i;
+        HexValue[hexChar.toLowerCase()] = i;
+    }
+}
+
+var toDecimal = function (hexNumber) {
+    var hexDigits = hexNumber.split('');
+    var val = parseInt(0);
+    for (var i in hexDigits) {
+        val = val * 16 + parseInt(HexValue[hexDigits[i]])
+    }
+    return val;
 }
 
 var toHex2 = function(decimalNumber) {
@@ -67,9 +111,9 @@ var toHex2 = function(decimalNumber) {
     decimalNumber = parseInt(decimalNumber);
     var result = ""
     var v
-    var H = new Array(7);
+    var H = new Array(9);
     var firstNonZero = 0;
-    for (var i = 6; i >= 0; i--) {
+    for (var i = 8; i >= 0; i--) {
         v = Math.floor(decimalNumber / HexTable[i])
         H[i] = v;
         //console.log('H[' + i + ']=' + v);
@@ -92,10 +136,18 @@ var toHex2 = function(decimalNumber) {
 var showUnicodeChars = function(startId, endId, baseId) {
 
     var base = parseInt($('#' + baseId + ':checked').val());
+    var startCode, endCode, tmpCode,char;
 
-    var startCode = parseInt($('#' + startId).val());
-    var endCode   = parseInt($('#' + endId).val());
-    var tmpCode,char;
+    startCode = $('#' + startId).val();
+    endCode   = $('#' + endId).val();
+
+    if (base == 16) {
+        startCode = toDecimal(startCode);
+        endCode = toDecimal(endCode);
+    } else {
+        startCode = parseInt(startCode);
+        endCode   = parseInt(endCode);
+    }
 
     if (startCode > endCode) {
         tmpCode = parseInt(0) + parseInt(endCode);
@@ -145,24 +197,48 @@ var showUnicodeChars = function(startId, endId, baseId) {
         if ((j>0) && ((j%base) == 0)) {
             if (base == 16) {
                 cellValue = toHex2(startNumber + j);
-                hexValue = cellValue;
             } else {
                 cellValue = (startNumber + j);
-                hexValue = toHex2(cellValue);
-
             }
             tableBody = tableBody + "</tr>\n<tr><th class='heading'>" + cellValue + "</th>"
         }
-        tableBody = tableBody + "<td class='detail' tabindex='" + t + "'>" + charArray[i] + "</td>"
+        hexValue = toHex2(i)
+        while (hexValue.length < 4) {
+            hexValue = "0" + hexValue
+        }
+        tableBody = tableBody + "<td class='detail' data-unicode='" + hexValue + "' tabindex='" + t + "'>" + charArray[i] + "</td>"
     }
     tableBody = tableBody + "</tr>\n"
     $('#tbody').html(tableBody);
 
+    addClickLinks();
+}
+
+var addClickLinks = function() {
+    var divs = document.getElementsByClassName('detail');
+    var div;
+    for (i in divs) {
+        divs[i].onclick = loadWebPage
+    }
+}
+
+var loadWebPage = function (evt) {
+    var data = evt.currentTarget.dataset.unicode;
+    var url = 'https://www.compart.com/en/unicode/U+' + data;
+    Log.Notice('data=' + data + ' url=' + url);
+    //$('#uni-lookup').attr('src',url);
+    subWindow = window.open(
+        url,  // url to open
+        "unicode", // window name
+        "height=500,width=700,toolbar=yes,menubar=yes,scrollbars=yes,resizable=yes,chrome=true,titlebar=true", // options
+        "true" // replace (removes current document)
+   );
 }
 
 $(document).ready(function() {
   Log.Notice('Document Ready');
   //Log.Remove();
+  setupHexData();
  });
 
 </script>
@@ -170,17 +246,17 @@ $(document).ready(function() {
 </head>
 
 <body>
-
+<div id="top">
+<div id="left">
 <form id="form1" onSubmit="return false;">
-    Start: <input type="number" value="0" id="start" name="start" size="10" placeholder="Enter starting unicode number">
-    End: <input type="number" value="100" id="end" name="end" size="10" placeholder="Enter ending unicode number">
+    Start: <input type="text" value="20" pattern="[0-9A-Fa-f]*" id="start" name="start" size="10" placeholder="Enter starting unicode number">
+    End: <input type="text" value="512" pattern="[0-9A-Fa-f]*"  id="end" name="end" size="10" placeholder="Enter ending unicode number">
     <fieldset>
-    Hex: <input type="radio" value="16" name="base" id="base" >
+    Hex: <input type="radio" value="16" name="base" id="base" checked="checked">
     Decimal: <input type="radio" value="10" name="base" id="base" >
     </fieldset><br>
     <button id="doit" name="doit" onClick="showUnicodeChars('start','end','base')">Show Unicode Chars</button>
 </form>
-
 <table id="chars">
 <thead id="thead">
 
@@ -189,5 +265,7 @@ $(document).ready(function() {
 
 </tbody>
 </table>
+</div>
+</div>
 </body>
 </html>
