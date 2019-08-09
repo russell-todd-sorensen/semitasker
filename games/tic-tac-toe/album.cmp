@@ -1,0 +1,245 @@
+if {[resource::exists include $header]} {
+ resource::eval include $header -title "$title"
+}
+
+append string {
+<table >
+ <tr>
+  <td align="left" >
+   }
+
+if $previous {
+
+    append string {
+    <a href="./album?start=}
+
+    append string $prevstart
+
+    append string {&end=}
+
+    append string $prevend
+
+    append string {&cols=}
+
+    append string $cols
+
+    append string {&series=}
+
+    append string $series
+
+    append string {">&lt;Previous</a>
+   }
+
+}
+
+append string {
+  </td>
+  <td align="right" >
+   }
+
+if $next {
+
+    append string {
+    <a href="./album?start=}
+
+    append string $nextstart
+
+    append string {&end=}
+
+    append string $nextend
+
+    append string {&cols=}
+
+    append string $cols
+
+    append string {&series=}
+
+    append string $series
+
+    append string {">Next&gt;</a>
+   }
+
+}
+
+append string {
+  </td>
+
+ </tr>
+ <tr>
+}
+set __loop_list [list]
+foreach __item photos {
+    lappend __loop_list __temp_$__item
+}
+
+foreach $__loop_list $photo_rows {
+    foreach __i photos {
+        if {[array exists [set __temp_$__i]]} {
+            array set $__i [array get [set __temp_$__i]]
+        } else {
+            set $__i [set __temp_$__i]
+        }
+    }
+
+    append string {
+ <td>
+ <div class="photo">
+ }
+
+    if {$series eq "thumbs"} {
+
+        append string {<img src="}
+
+        append string $photos(thumbsPhoto)
+
+        append string {">
+ }
+
+    } elseif {$series eq "medium"} {
+
+        append string {<img src="}
+
+        append string $photos(mediumPhoto)
+
+        append string {">
+ }
+
+    } elseif {$series eq "40pct"} {
+
+        append string {<img src="}
+
+        append string $photos(40pctPhoto)
+
+        append string {">
+ }
+
+    } elseif {$series eq "originals"} {
+
+        append string {<img src="}
+
+        append string $photos(originalsPhoto)
+
+        append string {">}
+
+    }
+
+    append string {
+ </div>
+ <div class="series-links">
+ }
+
+    if $photos(thumbs) {
+
+        append string {[<a href="./album?start=}
+
+        append string $thumbstart
+
+        append string {&end=}
+
+        append string $thumbend
+
+        append string {&series=thumbs">S</a>]}
+
+    }
+
+    append string {
+ }
+
+    if $photos(medium) {
+
+        append string {[<a href="./album?start=}
+
+        append string $photos(index)
+
+        append string {&end=}
+
+        append string $photos(index)
+
+        append string {&series=medium">M</a>]}
+
+    }
+
+    append string {
+ }
+
+    if $photos(40pct) {
+
+        append string {[<a href="./album?start=}
+
+        append string $photos(index)
+
+        append string {&end=}
+
+        append string $photos(index)
+
+        append string {&series=40pct">ML</a>]}
+
+    }
+
+    append string {
+ }
+
+    if $photos(originals) {
+
+        append string {[<a href="./album?start=}
+
+        append string $photos(index)
+
+        append string {&end=}
+
+        append string $photos(index)
+
+        append string {&series=originals">L</a>]}
+
+    }
+
+    append string {
+  }
+
+    append string $photos(file)
+
+    append string {
+ </div>
+ </td>
+ }
+
+    if {($photos(rownum) % $cols) == 0} {
+
+        append string {
+ </tr>
+ <tr>
+ }
+
+    }
+
+    append string {
+}
+
+}
+
+append string {
+}
+
+if {$show == 1} {
+
+    append string {
+ <td>}
+
+    append string $photos(description)
+
+    append string {</td>
+}
+
+}
+
+append string {
+</tr>
+</table>
+}
+if {[resource::exists include $footer]} {
+ resource::eval include $footer a b
+}
+
+append string {
+
+}

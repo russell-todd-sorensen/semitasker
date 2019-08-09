@@ -1,0 +1,43 @@
+[resource include $header -title "$title"]
+<table >
+ <tr>
+  <td align="left" >
+   [if $previous]
+    <a href="./album?start=$prevstart&end=$prevend&cols=$cols&series=$series">&lt;Previous</a>
+   [/if]
+  </td>
+  <td align="right" >
+   [if $next]
+    <a href="./album?start=$nextstart&end=$nextend&cols=$cols&series=$series">Next&gt;</a>
+   [/if]
+  </td>
+
+ </tr>
+ <tr>
+[foreach photos $photo_rows]
+ <td>
+ <div class="photo">
+ [if {$series eq "thumbs"}]<img src="$photos(thumbsPhoto)">
+ [elseif {$series eq "medium"}]<img src="$photos(mediumPhoto)">
+ [elseif {$series eq "40pct"}]<img src="$photos(40pctPhoto)">
+ [elseif {$series eq "originals"}]<img src="$photos(originalsPhoto)">[/if]
+ </div>
+ <div class="series-links">
+ [if $photos(thumbs)][<a href="./album?start=$thumbstart&end=$thumbend&series=thumbs">S</a>][/if]
+ [if $photos(medium)][<a href="./album?start=$photos(index)&end=$photos(index)&series=medium">M</a>][/if]
+ [if $photos(40pct)][<a href="./album?start=$photos(index)&end=$photos(index)&series=40pct">ML</a>][/if]
+ [if $photos(originals)][<a href="./album?start=$photos(index)&end=$photos(index)&series=originals">L</a>][/if]
+  $photos(file)
+ </div>
+ </td>
+ [if {($photos(rownum) % $cols) == 0} ]
+ </tr>
+ <tr>
+ [/if]
+[/foreach]
+[if {$show == 1}]
+ <td>$photos(description)</td>
+[/if]
+</tr>
+</table>
+[resource include $footer a b]

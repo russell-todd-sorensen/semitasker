@@ -1,0 +1,35 @@
+
+<div class="cat">Chapter 04: Model-View-Controller BS
+ <div class="body">
+ <p>Originally <code class="para-term">Tic-Tac-Toe</code> was developed as an aid to implementing
+ the Model-View-Controller design pattern. However, there is much
+ confusion in this area, and simply using the phrase without an
+ extensive discussion of how <code class="para-term">Tic-Tac-Toe</code> is intended to fit into this
+ pattern may lead many developers to false assumptions.</p>
+
+ <p>In reviewing most of the template engines available to developers
+ it is notable that the View component is somehow required to enforce
+ the separation between the Model and itself. </p>
+
+ <p>Pointing out the obvious: this is the responsibility of the
+ Controller. Failure to appreciate this fact easily leads to the design 
+ of View components which are unsafe or are too tied to the specific 
+ controller. </p>
+ 
+ <p>One example of tying the View to the Controller is the StringTemplate
+ template engine. This engine is touted at extreme separation between
+ Model and View. The View cannot change the Model. However, nowhere in the
+ analysis of the MVC pattern is there any mention of the Controller. The 
+ problem with the analysis is that the StringTemplate Controller must
+ specialize the data to fit the template. Data specialization is a View
+ function. Basically: Model stores, Controller selects, View formats for
+ display. If there is any actual connection between the View and the Model
+ which allows the View to modify the Model, this is not good. But if the
+ Controller provides direct write access to the Model, blame the
+ Controller. What the Controller should do is to provide values derived
+ from the model. What the View does with those values should not have a
+ direct lasting effect on the Model.</p>  
+ 
+ 
+ </div>
+</div>

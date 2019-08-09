@@ -1,0 +1,80 @@
+
+<div class="cat">Chapter 01: What is &lt;Tic-Tac-Toe&gt;? A Templating Tool for Tcl!
+ <div class="body">
+ <p>A Templating Tool for Tcl a.k.a. <code class="para-term">Tic-Tac-Toe</code>
+ is a stand-alone templating engine for the <a href="https://web.archive.org/web/20080623180004/http://tcl.tk/">Tcl</a>
+ programming language. 
+ </p>
+ <p>In design pattern terms, <code class="para-term">Tic-Tac-Toe</code> provides the individual 
+ components of the Model-View-Controller design pattern where
+ any Tcl script or application can serve as the Model and Controller
+ components, and the <code class="para-term">Tic-Tac-Toe</code> Language and Compiler provide the View
+ component. </p>
+ <p>Many times it is beneficial to think in terms of MVC and to write
+ applications which distinguish the View component from the Model and
+ Controller. <code class="para-term">Tic-Tac-Toe</code> goes to some extremes to help enforce the MVC
+ pattern so that this pattern is both easy and safe to use.
+ </p>
+ <p>In <code class="para-term">Tic-Tac-Toe</code> the Model Component is implicit in the environment. Data
+ and variables do not need to be copied into a separate container
+ to be used in a template. However, there are several potential levels of 
+ isolation or protection, all of which are under complete control by the
+ Controller Component. For the present discussion, the Model Component is 
+ unimportant to understanding <code class="para-term">Tic-Tac-Toe</code>. Only the View and Controller need
+ to be considered. 
+ </div>
+</div>
+
+<div class="cat">Separate but Not Equal
+ <div class="body">
+ <p>One design goal was to provide a View component which was not
+ able to become a Controller. The main reason is that templates become
+ less useful if they have to be inspected by a developer to determine
+ if they are safe to use. Safe? What does that mean? </p>
+ <p>Many popular template engines offer easy escapes into generic 
+ programming language code, so that any deficiencies in the templating
+ language itself can be 'made up' by escaping into the host language.
+ </p>
+ <p>Other template engines give equal, first class status to the View 
+ component, maybe more directly than the escape method (which is usually 
+ awkward enough to discourage use). For instance, JSP treats a 'page' as
+ a Java Class. Of course most compiled languages like Java can impose 
+ additional restrictions on any class. Tcl cannot do this. Many scripting
+ languages cannot protect one part of an application from any other part. 
+ </p>
+ <p>So how does <code class="para-term">Tic-Tac-Toe</code> address this fundamental problem?</p>
+ <p>Since <code class="para-term">Tic-Tac-Toe</code> compiles a template file to produce a Tcl script, the 
+ compiler can enforce many important constraints on the View component. These 
+ constraints include:</p>
+ <ol>
+  <li>Limiting which commands are available.</li>
+  <li>Limiting resource and file access.</li>
+  <li>Non-recursive evaluation: arguments cannot be commands. </li>
+  <li>Syntax validation.</li>
+  <li>Argument and variable safety.</li>
+ </ol>
+ <p>Most programming languages have a recursive (generous) substitution method
+ for arguments. Arguments can be functions, procedures or commands.
+ This is very useful for generic programming, but not very useful for
+ a template language. A recursive substitution method means that the arguments
+ to a command can be another command:</p>
+
+ <pre class="ce">
+ <span class="pt">set <span class="ts">oops-i-did-it-again</span> $myArray(<span class="null">[rm -rf / ]</span>)</span></pre>
+ <p>The unfortunate command <code class="pt">rm -rf / </code> is executed before
+ anything else. In Tcl it can't be disabled. The bottom line is that recursive
+ evaluation is not safe. But this is not only a Tcl thing. If any templating 
+ language allows arbitrary arguments to any function, the Controller function
+ has been lost! In fact, most templating languages provide direct access to the
+ host language.
+ </p>
+ <p>However, even if Tcl could be made safe by using a safe interp (which is a great
+ solution for safe generic programming), the point of the MVC pattern is not to make
+ programming difficult, but to make it easier. In general if something is difficult
+ in <code class="para-term">Tic-Tac-Toe</code>, it is a good indication that the 'something' belongs
+ in either the Model or Controller. By dividing the application into distinct files
+ which use different languages, developers can easily focus on the task at hand
+ with the best tools and language for the job.
+ </p>
+</div>
+</div>

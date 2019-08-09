@@ -1,0 +1,29 @@
+[set g ""]
+[set gg ""]
+<table>
+[foreach row $rlist]
+ <tr>
+[if {"$g" ne $row(a)}]
+  <th colspan="6" align="left">a = $row(a)</th>
+ </tr>
+ <tr>
+  <td>&nbsp;</td>
+[else]
+  <td>&nbsp;</td>
+[/if]
+[if {"$gg" ne $row(b)}]
+  <th colspan="5" align="left">b = $row(b)</th>
+ </tr>
+ <tr>
+  <td colspan="2">&nbsp;</td>
+[else]
+  <td >&nbsp;</td>
+[/if]
+[set g $row(a)]
+[set gg $row(b)]
+  <td>c = $row(c)</td>
+  <td>d = $row(d)</td>
+  <td>e = $row(e)</td>
+</tr>
+[/foreach]
+</table>
