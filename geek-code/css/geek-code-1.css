@@ -150,22 +150,18 @@ th {
 
 #display {
     position: relative;
-    width: 990px;
-    min-height: 250px;
-   /* background-color: rgba(129,72,15,.2);*/
+    min-height: 850px;
     background-color: white;
     margin: inherit;
     margin-bottom: 20px;
-    padding: 10px;
-    border: inherit;
-    border: dashed 1px hsl(0,79%,28%);
+    padding: 5px;
 }
 
 #builder-container {
     display: inline-block;
     padding: 10px;
     padding-top: 30px;
-    background-color: hsl(60,79%,28%);
+    background-color: rgba(100,100,100,1.0);
     margin-bottom: 20px;
 }
 
@@ -213,19 +209,19 @@ th {
 }
 
 #builder-html::before {
-    content: "Type HTML In Here:";
+    content: "HTML:";
 }
 
 #builder-css::before {
-    content: "Type CSS In Here:";
+    content: "CSS:";
 }
 
 #builder-js::before {
-    content: "Type JavaScript In Here:";
+    content: "JavaScript:";
 }
 
 #builder-svg::before {
-    content: "Type SVG In Here:";
+    content: "SVG:";
 }
 
 #input-html-div-tag,
@@ -315,10 +311,16 @@ th {
     margin-left: 5px;
 }
 
-#refresh,
+
 #preview {
     height: 30px;
     padding-top: 15px;
+}
+#refresh {
+    height: 10px;
+    font-size: 2em;
+    vertical-align: bottom;
+    padding-bottom: 20px;
 }
 
 #saved-copies {

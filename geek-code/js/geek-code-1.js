@@ -505,7 +505,8 @@ function finalizeHtml() {
   $('#display').html('');
   
   // jQuery doesn't have a preventDefault function, so use D3
-  disablePaste();
+  // geek tools will allow paste by default
+  //disablePaste();
 }
 
 function enableResizableElements() {
