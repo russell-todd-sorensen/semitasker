@@ -7,9 +7,9 @@
     visibility: visible;
     float: left;
 }
+
 #t2 {
     clear: both;
-    display: none;
     display: block;
 }
 
@@ -17,9 +17,10 @@
     visibility: hidden;
     display:none;
 }
+
 body {
-    margin-left: 50px;
-    margin-top: 50px;
+    margin-left: 5px;
+    margin-top: 5px;
     background-color: transparent;
     background-size: auto;
 }
@@ -31,6 +32,7 @@ body.phone {
     background-size: auto;
 
 }
+
 #target, #x {
     background-color: black;
     color: white;
@@ -38,26 +40,22 @@ body.phone {
     border-width: 1px;
     border-style: solid;
     font-family: "Courier New", Courier, monospace;
-
     font-family: consolas;
 }
+
 .data {
-    /*padding-left: 4px;
-    padding-rignt: 4px;*/
     padding: 4px;
     background-color: green;
 
 }
+
 .top {
     display: inline-block;
-    /*border: 1px;
-    border-color: darkgreen;
-    border-style: solid;
-    /*background-color: tan;*/
     background-size:contain;
     cursor:pointer;
     padding: 2.5px;
 }
+
 input {
     cursor: pointer;
 }
@@ -66,14 +64,7 @@ input {
     /*padding: 2px; */
     display: inline;
 }
-.row {
-    /*padding-bottom: 4.4px;
-    padding-bottom: 9px;
-    border: 1px;
-    border-style: solid;
-    border-color: yellow; */
-    /*width: 500px; */
-}
+
 .boxrow {
     /*padding-bottom: 8px; */
     padding: 0;
@@ -87,7 +78,6 @@ input {
     margin: -2.25px;
     text-shadow: #060;
     background-color: #996;
-
     border: 12px solid rgba(0,0,0,1);
     text-align: center;
     padding-left: 12px;
@@ -100,13 +90,14 @@ input {
     font-family: consolas;
 }
 
-
 .box1, .box3, .box5, .box7, .box9 {
     color: white;
 }
+
 .box2, .box4, .box6, .box8 {
     color: white;
 }
+
 /* individual box colors */
 .box1 {
    	background-color: #919;
@@ -149,6 +140,7 @@ input {
 #zoom {
     zoom: 1;
 }
+
 /****************** CSS for picture capture *********/
 .top2 {
     display: inline-block;
@@ -171,26 +163,21 @@ input {
     width: 4px;
     padding-left: 3px;
 }
+
 .cell2 {
-  /*  height: 18px;
-    width: 18px;
-    font-size: 10px;
-    text-shadow:#060; */
     background-color:#996;
     border: none;
-    /*align: center;
-    valign: center;
-    text-align: center; */
     padding-left: 7px;
     padding-right: 7px;
     padding-top: 1px;
     padding-bottom: 1px;
-    /*margin: 0px; */
     display: inline;
 }
+
 .boxP1, .boxP3, .boxP5, .boxP7, .boxP9 {
     color: white;
 }
+
 .boxP2, .boxP4, .boxP6, .boxP8 {
     color: white;
 }
@@ -198,7 +185,6 @@ input {
 /************ End picture capture CSS ***************/
 
 .leftPhone  {
-    /*display: inline; */
     border-radius: 20px 0px 0px 20px;
     background-color: black;
     width: 30px;
@@ -210,17 +196,11 @@ input {
 .Screen {
     background-color:rgba(204,204,204,.90);
     opacity: 20%;
-    /*width: 450px; */
     min-height: 288px;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    padding-right: 45px;
-    padding-left: 45px;
-    border-color: black;
-    border-style: solid;
-    border-width: 3px;
+    padding: 2px;
     float: left;
 }
+
 .rightPhone  {
     display: inline;
     border-radius: 0px 20px 20px 0px;
@@ -235,13 +215,13 @@ input {
     border-radius: 30px;
     border-radius: 20px 30px 20px 30px;
     border: 3px solid rgba(204,204,204,1);
-
 }
 
 .spacer {
     height: 50px;
     clear: both;
 }
+
 .bold {
     font-weight: bold;
 }
@@ -249,6 +229,7 @@ input {
 #solve-me {
     visibility: hidden;
 }
+
 /* Camera Functions */
 
 .camera {
@@ -270,7 +251,167 @@ input {
     min-height: 30px;
 }
 
-
 .leftbox, .rightbox {
     display: none;
+}
+
+/* Moved from index page */
+
+.numberCell {
+    height: 100px;
+    width: 100px;
+    border: 6px solid rgba(0,0,0,.2);
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0;
+}
+
+.optionCellOld {
+    display: inline-block;
+    text-align: center;
+    width: 33.33%;
+    height: 26%;
+    padding-top: 7.33%;
+    padding-bottom: 0;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.optionCell {
+    display: inline-block;
+    line-height: 24px;
+    text-align: center;
+    vertical-align: middle;
+    width: 24px;
+    height: 24px;
+    padding-top: 0px;
+    padding-bottom: 0;
+    cursor: pointer;
+    font-size: 21px;
+    color: rgba(255,255,255,.5);
+}
+
+.optionCell:hover {
+    background-color: rgba(0,128,0,.5);
+}
+
+.cell-old {
+    height: 100px;
+    width: 100px;
+    border: 10px solid rgba(0,0,0,.2);
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0;
+}
+
+.cell {
+
+    height: 82px;
+    width:  84px;
+    padding: 0;
+    vertical-align: top;
+}
+
+.fixed {
+    font-size: 72px;
+}
+
+.hn {
+    color: rgba(0,0,0,0);
+}
+
+.hn:hover {
+    color: white;
+}
+
+.inline-button {
+    display: inline-block;
+    width: 200px;
+}
+
+#bottom-controls .data-button {
+    display: block;
+    width: 800px;
+}
+
+#bottom-controls .inline-button label {
+    display: inline-block;
+    width: 120px;
+}
+
+#bottom-controls .data-button label {
+    display: inline;
+}
+
+#puzzle-data {
+    width: 120px;
+}
+
+.symbol-input {
+    font-size: 28px;
+    line-height: 28px;
+    height: 30px;
+}
+
+#remap-symbols,
+#remap-symbol-choices {
+    width: 500px;
+}
+
+#controls {
+    position: relative;
+}
+
+#t .cell .marked {
+    background-color: black;
+}
+
+#control-form,
+#legend-cell-container {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#legend-cell-container {
+    margin-top: 10px;
+    margin-right: 2px;
+    float: right;
+}
+
+#remap-symbols {
+  padding-top: 5px;
+}
+
+#input-puzzle-data,
+#puzzle-info,
+#load-buttons,
+#load-buttons-2 {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#load-buttons button,
+#load-buttons-2 button {
+  display: block;
+}
+
+#load-buttons,
+#load-buttons-2 {
+  width: 28%;
+}
+
+#input-puzzle-data,
+#puzzle-info {
+  width: 70%;
+}
+
+#choose-puzzle-1,
+#choose-puzzle-2 {
+  width: 110px;
+  height: 2em;
+  float: right;
+  margin-right: 5px;
+  margin-top: 5px;
 }

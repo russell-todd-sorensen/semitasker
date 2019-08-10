@@ -7,171 +7,11 @@
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 <link rel="stylesheet" href="css/sudoku-max-2.css" media="all" type="text/css" >
 
-<style>
-
-.numberCell {
-    height: 100px;
-    width: 100px;
-    border: 6px solid rgba(0,0,0,.2);
-    position: relative;
-    display: inline-block;
-    vertical-align: top;
-    padding: 0;
-}
-
-.optionCellOld {
-    display: inline-block;
-    text-align: center;
-    width: 33.33%;
-    height: 26%;
-    padding-top: 7.33%;
-    padding-bottom: 0;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.optionCell {
-    display: inline-block;
-    line-height: 24px;
-    text-align: center;
-    vertical-align: middle;
-    width: 24px;
-    height: 24px;
-    padding-top: 0px;
-    padding-bottom: 0;
-    cursor: pointer;
-    font-size: 21px;
-    color: rgba(255,255,255,.5);
-}
-
-.optionCell:hover {
-    background-color: rgba(0,128,0,.5);
-}
-
-.cell-old {
-    height: 100px;
-    width: 100px;
-    border: 10px solid rgba(0,0,0,.2);
-    position: relative;
-    display: inline-block;
-    vertical-align: top;
-    padding: 0;
-}
-
-.cell {
-
-    height: 82px;
-    width:  84px;
-    padding: 0;
-    vertical-align: top;
-}
-
-.fixed {
-    font-size: 72px;
-}
-
-.hn {
-    color: rgba(0,0,0,0);
-}
-
-.hn:hover {
-    color: white;
-}
-
-.inline-button {
-    display: inline-block;
-    width: 200px;
-}
-
-#bottom-controls .data-button {
-    display: block;
-    width: 800px;
-}
-
-#bottom-controls .inline-button label {
-    display: inline-block;
-    width: 120px;
-}
-
-#bottom-controls .data-button label {
-    display: inline;
-}
-
-#puzzle-data {
-    width: 120px;
-}
-
-.symbol-input {
-    font-size: 28px;
-    line-height: 28px;
-    height: 30px;
-}
-
-#remap-symbols,
-#remap-symbol-choices {
-    width: 500px;
-}
-
-#controls {
-    position: relative;
-}
-
-#t .cell .marked {
-    background-color: black;
-}
-
-#control-form,
-#legend-cell-container {
-    display: inline-block;
-    vertical-align: top;
-}
-
-#legend-cell-container {
-    margin-top: 10px;
-    margin-right: 2px;
-    float: right;
-}
-
-#remap-symbols {
-  padding-top: 5px;
-}
-
-#input-puzzle-data,
-#puzzle-info,
-#load-buttons,
-#load-buttons-2 {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-#load-buttons button,
-#load-buttons-2 button {
-  display: block;
-}
-
-#load-buttons,
-#load-buttons-2 {
-  width: 28%;
-}
-
-#input-puzzle-data,
-#puzzle-info {
-  width: 70%;
-}
-
-#choose-puzzle-1,
-#choose-puzzle-2 {
-  width: 110px;
-  height: 2em;
-  float: right;
-  margin-right: 5px;
-  margin-top: 5px;
-}
-</style>
-
 <style id="dynamic">
 
 </style>
+
+<link rel="stylesheet" href="css/mobile.css" media="all" type="text/css" >
 
 <script type="text/javascript" src="/js/d3.v4.js"></script>
 <script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
@@ -210,7 +50,6 @@ $(document).ready(function() {
 
 <body>
 <div id="puzzle">
- <div class="leftPhone"></div>
  <div class="Screen">
  <div id="zoom">
  <div id="t">
@@ -226,6 +65,7 @@ $(document).ready(function() {
   </div>
   <!-- End Puzzle -->
  </div>
+ 
  <div id="t3">
   <div class="top">
    <div class="boxrow">
@@ -250,7 +90,7 @@ $(document).ready(function() {
    </div>
   </div>
  </div>
-
+ 
  <div id="t2">
   <div id="control-form">
   <form onSubmit="return false;" id="bottom-controls">
@@ -292,7 +132,6 @@ $(document).ready(function() {
 </div>
   </div><!-- ended zoom -->
  </div>
- <div class="rightPhone"></div>
 </div>
 </div>
 

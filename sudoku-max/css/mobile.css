@@ -1,0 +1,98 @@
+
+/* 
+  ##Device = Desktops
+  ##Screen = 1281px to higher resolution desktops
+*/
+
+@media (min-width: 1281px) {
+
+
+}
+
+/* 
+    ##Device = Laptops, Desktops
+    ##Screen = B/w 1025px to 1280px
+*/
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+
+
+}
+
+/*
+    ##Device = Tablets, Ipads (portrait)
+    ##Screen = B/w 768px to 1024px
+*/
+
+@media (min-width: 768px) and (max-width: 1024px) {
+
+
+
+}
+
+/*
+    ##Device = Tablets, Ipads (landscape)
+    ##Screen = B/w 768px to 1024px
+*/
+  
+@media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+
+
+
+}
+
+/*
+    ##Device = Low Resolution Tablets, Mobiles (Landscape)
+    ##Screen = B/w 481px to 767px
+*/
+
+@media (min-width: 481px) and (max-width: 767px) {
+
+
+
+}
+
+/*
+    ##Device = Most of the Smartphones Mobiles (Portrait)
+    ##Screen = B/w 320px to 479px
+*/
+
+@media (min-width: 320px) and (max-width: 480px) {
+
+    body {
+        margin: 0;
+    }
+
+    .cell {
+        height: 35px;
+        width:  35px;
+        margin: -2.25px;
+        border: 1px solid rgba(0,0,0,0.5);
+        text-align: center;
+        border-collapse: collapse;
+        display: inline-block;
+        font-family: consolas;
+        font-size: 1px;
+    }
+
+    .optionCell {
+        display: inline-block;
+        vertical-align: top;
+        height: 11px;
+        width:  11px;
+        line-height: 11px;
+        font-size: 11px;
+    }
+    .fixed {
+        font-size: 28px;
+    }
+    #control-form {
+        width: 100vw;
+    }
+    #remap-symbols,
+    #symbol-input,
+    #remap-symbol-choices,
+    #remap-symbols-input {
+        width: 250px;
+    }
+}
