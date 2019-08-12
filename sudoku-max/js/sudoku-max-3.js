@@ -277,9 +277,9 @@ var toggleOptionMode = function(id) {
         toggleOption = !(toggleOption);
     }
     if (toggleOption) {
-        $('#' + id).html("Toggle");
+        $('#' + id).html("Option Mode: Toggle");
     } else {
-        $('#' + id).html("Select");
+        $('#' + id).html("Option Mode: Select");
     }
 }
 
@@ -290,9 +290,9 @@ var toggleMarkMode = function(id) {
         markCell = !(markCell);
     }
     if (markCell) {
-        $('#' + id).html("Mark");
+        $('#' + id).html("Mark Mode: Mark");
     } else {
-        $('#' + id).html("Clear");
+        $('#' + id).html("Mark Mode: Clear");
         $('.marked').each(function() {
             $(this).removeClass('marked');
         })

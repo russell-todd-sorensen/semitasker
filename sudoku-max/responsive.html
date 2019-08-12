@@ -13,17 +13,44 @@
 
 <link rel="stylesheet" href="css/mobile.css" media="all" type="text/css" >
 
-<script type="text/javascript" src="/js/d3.v4.js"></script>
-<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
-<script type="text/javascript" src="/js/log-2.js"></script>
-<script type="text/javascript" src="js/sudoku-max-3.js" ></script>
-<script type="text/javascript" src="js/controls.js"></script>
-<script type="text/javascript" src="js/ia-controls-3.js"></script>
+<script src="/js/d3.v4.js"></script>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/panel-show-hide.js"></script>
+<script src="js/sudoku-max-3.js" ></script>
+<script src="js/controls.js"></script>
+<script src="js/ia-controls-3.js"></script>
 
 <script>
 
 var placeholder = "0 to %d or -1 to enter puzzle"
+
+panelHidden["t2"] = [{
+  id:'show-hide-play-options',
+  visible:true,
+  css:{
+    true:{
+      position:'relative'
+    },
+    false:{
+      position:'absolute'
+    }
+  },
+}];
+
+panelHidden["tweak-options"] = [{
+  id:'show-hide-tweak-options',
+  visible:true,
+  css:{
+    true:{
+      position:'relative'
+    },
+    false:{
+      position:'absolute'
+    }
+  },
+}];
 
 function loadXHRFile(url,callback) {
   var i = xhrArray.length;
@@ -50,19 +77,11 @@ $(document).ready(function() {
 
 <body>
 <div id="puzzle">
- <div class="Screen">
+ <div class="screen">
  <div id="zoom">
  <div id="t">
   <!-- Puzzle Goes Here -->
-  <div class="top">
-   <div class="row">
-    <div class="camera">
-     <div id="P1" class="photo"></div>
-     <div class="camera-buttons">
-     </div>
-    </div>
-   </div>
-  </div>
+
   <!-- End Puzzle -->
  </div>
  
@@ -95,18 +114,18 @@ $(document).ready(function() {
   <div id="control-form">
   <form onSubmit="return false;" id="bottom-controls">
     <fieldset id="controls">
-    <legend>Play Options</legend>
+    <legend onClick="togglePanel('t2');">Play Options</legend>
+    <div id="show-hide-play-options">
     <div id="play-controls">
-      <div class="inline-button"><label for="toggle-button">Option Mode:</label>
-          <button id="toggle-button" name="toggle-button" onClick="toggleOptionMode('toggle-button')"></button>
+      <div class="inline-button">
+          <button id="toggle-button" name="toggle-button" onClick="toggleOptionMode('toggle-button')">Option Mode: Select</button>
       </div>
-      <div class="inline-button"><label for="toggle-mark">Mark Mode:</label>
-          <button id="toggle-mark" name="toggle-mark" onClick="toggleMarkMode('toggle-mark')"></button>
+      <div class="inline-button">
+          <button id="toggle-mark" name="toggle-mark" onClick="toggleMarkMode('toggle-mark')">Mark Mode: Clear</button>
       </div>
-      <div class="inline-button"><label for="reset-options">Reset Options:</label>
-          <button id="reset-options" name="reset-options" onClick="resetCellOptions()">Reset</button>
+      <div class="inline-button">
+          <button id="reset-options" name="reset-options" onClick="resetCellOptions()">Reset Options</button>
       </div>
- 
     </div>
     <div id="legend-cell-container">
       <div id='legendCellOptions'></div>
@@ -118,12 +137,15 @@ $(document).ready(function() {
       <button id="choose-puzzle-1" name="choose-puzzle-1"  onClick="viewPuzzle('puzzle-data')" >Preview Puzzle</button>
       <button id="choose-puzzle-2" name="choose-puzzle-2"  onClick="choosePuzzle('puzzle-data')" >Load Puzzle</button>
     </div>
+    </div>
   </fieldset>
-  <fieldset>
-    <legend>Tweak Options</legend>
+  <fieldset id="tweak-options">
+    <legend onClick="togglePanel('tweak-options');">Tweak Options</legend>
+    <div id="show-hide-tweak-options">
     <div id="puzzle-info"></div>
     <div class="inline-button"><label for="size-data">Symbol Size:</label>
       <input type="number" id="baseFontSize" name="baseFontSize" value="70" min="62" max="108" step="4" onChange="adjustBaseFontSize('baseFontSize');">
+    </div>
     </div>
   </fieldset>
   </form>
