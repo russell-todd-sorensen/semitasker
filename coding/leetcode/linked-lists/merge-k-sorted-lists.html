@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title></title>
+<script src=""></script>
+
+<script>
+/*
+23. Merge k Sorted Lists
+Hard
+
+2825
+
+184
+
+Favorite
+
+Share
+Merge k sorted linked lists and return it as one sorted list. 
+Analyze and describe its complexity.
+
+Example:
+
+Input:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+Output: 1->1->2->3->4->4->5->6
+Accepted
+435,897
+Submissions
+1,220,963
+
+*/
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */
+
+var ListNode = function(val) {
+    this.val = val;
+    this.next = null;
+};
+
+ListNode.prototype.append = function (val) {
+    if (this.next) {
+        this.next.append(val);
+    } else {
+        this.next = new ListNode(val);
+    }
+};
+
+ListNode.prototype.toString = function () {
+    if (this.next) {
+        return "" + this.val + "->" + this.next.toString();
+    } else {
+        return "" + this.val;
+    }
+};
+
+var mergeTwoLists = function (one,two) {
+
+    var result;
+    if (one.val < two.val) {
+        result = new ListNode(one.val)
+        one = one.next;
+    } else {
+        result = new ListNode(two.val)
+        two = two.next;
+    }
+    innerLoop++
+    while (one != null || two != null) {
+        innerLoop++;
+        if (two == null || (one != null && one.val < two.val)) {
+            result.append(one.val)
+            one = one.next;
+        } else {
+            result.append(two.val)
+            two = two.next;
+        }
+    }
+    return result;
+};
+
+var mergeKListsSlow = function(lists) {
+
+    var len = lists.length; 
+    var result = lists[0];
+    for (var i=1;i<len;i++) {
+        outerLoop++;
+        result = mergeTwoLists(result,lists[i])
+    }
+
+    var calcOrder = Math.ceil(elements*Math.log2(outerLoop));
+    var ratio = Math.round(1000*(innerLoop+outerLoop)/elements)/1000;
+    var diff = calcOrder-innerLoop
+    stats[elements] = {calcOrder:calcOrder,diff:diff,elements:elements,innerLoop:innerLoop,outerLoop:outerLoop,ratio:ratio,type:'mergeKListsSlow'}
+    return result;
+};
+
+var mergeKListsOkay = function(lists) {
+
+    var originalLen = lists.length;
+    var len = 0 + originalLen;
+    var temp = [];
+
+    if (len == 1) temp[0] = lists[0];
+
+    while (len > 1) {
+        temp = [];
+        for (var i=0,j=0;i<len-1;i+=2,j++) {
+            outerLoop++;
+            temp[j] = mergeTwoLists(lists[i],lists[i+1])
+        }
+        if (len%2 != 0) {
+            temp[temp.length] = lists[len-1] 
+        }
+        lists = temp;
+        len = lists.length;
+    }
+
+    var calcOrder;
+    var estimatedOuterLoop = calcOuterLoop(elements,Math.ceil(elements/originalLen))
+    if (estimatedOuterLoop == 1) {
+        calcOrder = elements;
+    } else {
+        calcOrder = Math.ceil(elements*Math.log2(estimatedOuterLoop));
+    }
+    var ratio = Math.round(1000*(innerLoop)/elements)/1000;
+    var diff = calcOrder-innerLoop
+    stats[elements] = {calcOrder:calcOrder,diff:diff,elements:elements,innerLoop:innerLoop,outerLoop:outerLoop,ratio:ratio,type:'mergeKListsOkay'}
+    return temp[0];
+};
+
+var mergeKLists = function(lists) {
+
+    var originalLen = lists.length;
+    var len = 0 + originalLen;
+    var temp, half;
+    if (len == 1) temp = lists[0];
+    while (len > 1) {
+        outerLoop++
+        temp = [[],[]];
+        if (len > 2) {
+            half = Math.ceil(len/2);
+            for (var i=0;i<half;i++) {
+                temp[0][i] = lists[i]
+            }
+            for (j=0;i<len;i++,j++) {
+                temp[1][j] = lists[i]
+            }
+            lists = [];
+            lists[0] = mergeKLists(temp[0])
+            lists[1] = mergeKLists(temp[1])
+        }
+        temp = mergeTwoLists(lists[0],lists[1]);
+        break;
+    }
+
+    var calcOrder;
+    var estimatedOuterLoop = calcOuterLoop(elements,Math.ceil(elements/originalLen))
+    if (estimatedOuterLoop == 1) {
+        calcOrder = elements;
+    } else {
+        calcOrder = Math.round(elements*Math.log2(estimatedOuterLoop));
+    }
+    var ratio = Math.round(1000*(innerLoop)/elements)/1000;
+    var diff = calcOrder-innerLoop
+    stats[elements] = {calcOrder:calcOrder,diff:diff,elements:elements,innerLoop:innerLoop,outerLoop:outerLoop,ratio:ratio,type:'mergeKLists'}
+    return temp;
+};
+
+
+var makeList = function(unsortedValArray,compareFn) {
+    var sorted = unsortedValArray.sort(compareFn)
+}
+
+var compareInts = function(a,b) {
+    a = parseInt(a)
+    b = parseInt(b)
+    return a < b ? -1 : b < a ? 1 : 0
+}
+
+var reverseInts = function(a,b) {
+    return -1 * compareInts(a,b)
+}
+
+var innerLoop = 0;
+var outerLoop = 0;
+var elements  = 0;
+
+var arrayA = [1,4,2,9,32,7,8];
+var arrayB = [9,3,10,18,14,19,4,20,6];
+var arrayC = [34,17,3,45,1,18,10,24,53];
+var arrayD = [1,2,3,4,5,6,7,8,9,10];
+var result = [];
+
+var calcOuterLoop = function(elementCount,averageListLength) {
+    var numberOfLists = Math.ceil(elementCount/averageListLength)
+    var total = 0;
+    while (numberOfLists > 1) {
+        numberOfLists = Math.ceil(numberOfLists/2)
+        total += numberOfLists
+    }
+    return total
+}
+
+var testMerge = function(arrayArray) { // takes array with any number of unsorted integer arrays
+    var k = arrayArray.length;
+    var lists = [];
+    var head,tail,len,merged;
+    elements = 0;
+    for (var i=0;i<k;i++) {
+        arrayArray[i].sort(reverseInts)
+        len = arrayArray[i].length;
+        if (len == 0) {
+            continue
+        }
+        elements += len;
+        tail = new ListNode(arrayArray[i][0]);
+        for (var j=1;j<len;j++) {
+            head = new ListNode(arrayArray[i][j])
+            head.next = tail;
+            tail = head;
+        }
+        lists[i] = tail;
+    }
+
+    innerLoop = 0;
+    outerLoop = 0;
+    listCount = lists.length;
+    merged = mergeKLists(lists);
+    return merged;
+}
+
+var listA = {val:1, next:{val:2, next:{val:3, next:null}}}
+
+var lists = [];
+var stats = [];
+var results = [];
+
+var doSeries = function(listCountMin,listCountMax,listLength) {
+    var tmp = [];
+    results = [];
+    lists = [];
+    stats = [];
+    for (var t=0;t<listCountMax;t++) {
+        tmp = [];
+        for (var i=0;i<listLength;i++) {
+            tmp[i] = Math.ceil(Math.random()*(listLength*(t+10)*(i+5)+1));
+        }
+        lists[lists.length] = tmp;
+        if (t >= listCountMin) {
+            results[t] = testMerge(lists);
+        }   
+    }
+}
+
+</script>
+</head>
+<body>
+</body>
+</html>
+
+

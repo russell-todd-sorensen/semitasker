@@ -30,38 +30,6 @@ var puzzleName = "No Name";
 var symbolOptions; // symbol sets available in list of puzzles
 
 var xhrArray  = new Array();
-// next string uses box map
-//puzzleString =     "E00000000000091Y20050670000000000003Y900001000090000Y1070Y3000000600300000302607Y0P";
-
-//puzzleString =   "E200500000300002600000300087603200090002030800070006502160004000008100009000003008P";
-//puzzleString = "E001506025100000300003000002410504600P";
-
-//var boxCols = 2;
-//var boxRows = 3;
-//var puzzleString = "E001506025100000300003000002410504600P";
-//var puzzleString = "E000460000003003206106500300000045000P";
-//puzzleString = "E0091000700000020062010030000902000500080609000Y0001080000Y00805600700000020008300P";
-//puzzleString = "E000007300800050Y020010200500000390205600000370Y0710000010070200302090008008100000P";
-//puzzleString =   "E20050000030000260000030008760320009000203080007000650216000Y000008100009000003008P";
-//boxCols = 4;
-//boxRows = 4;
-//puzzleString = "";
-// very slow puzzles
-//var puzzleString =   "E000002800003040009090008030000000370030070005206000000700500081005200900060090400P";
-
-//var puzzleString =   ""
-//boxCols = 1;
-//boxRows = 3;
-//puzzleString = "E100020000P"
-//boxMapString = "E122112333P0";
-
-// 5x5 puzzle
-//boxCols = 1;
-//boxRows = 5;
-//puzzleString = "E123Y500000000000000000Y53P";
-//boxMapString = "E1122311233412234445345555P0";
-//defaultSymbols = "123Y56789ABCDEFGHIJKLMNOPQRSTUVWX4Zabcd";
-// New Puzzles from Solving Sudoku by Peter Gordon
 
 var Puzzles = [];
 Puzzles[0] = "E900300007500900200000024300000008060460090013090400000003570000001009002700002005P";// x-wing
@@ -328,7 +296,7 @@ var boxStyle = function() {
         gHex =  (7 + (g * 7))%16;
         bHex = (11 + (b * 2))%16;
         color = '#' + rgbValues[rHex] + rgbValues[gHex] + rgbValues[bHex];
-        console.log("rHex=" + rHex + " gHex=" + gHex + " bHex=" + bHex + " color=" + color);
+        Log.Debug("rHex=" + rHex + " gHex=" + gHex + " bHex=" + bHex + " color=" + color);
         $('#dynamic').append(".box" + (r+1) + " {background-color:" + color + ";}\n");
     }
 }
@@ -336,15 +304,17 @@ var boxStyle = function() {
 var boxStyle = function(sat, lev) {
     var boxCount = puzzleDimension;
     var color, hue;
+    $('#dynamic').html("");
     for (var i = 0;i<boxCount;i++) {
-        hue = (boxCount * 5 * i) % 360;
+        hue = ((boxCount+1) * 7 * i) % 360;
         color = "hsl(" + hue + "," + sat + "%,"  + lev + "%)";
-        console.log("color=" + color);
+        Log.Debug("color=" + color);
         $('#dynamic').append(".box" + (i+1) + " {background-color:" + color + ";}\n");
     }
 }
 
 var boxDimensions = function(cssSelector) {
+    //$(cssSelector).html('');
     var baseHeight, baseWidth,totahHeight, totalWidth,cellSpan,rowPaddingBottom;
     baseHeight = 100;
     baseWidth = 100;
@@ -382,10 +352,151 @@ var boxDimensions = function(cssSelector) {
         + "\}\n"
     );
 
-    $(cssSelector).append(".row\{\n\tpadding-bottom:"
+    $(cssSelector).append(".row \{\n\tpadding-bottom:"
          + rowPaddingBottom
         + "px;\n\}\n"
     );
+}
+
+var boxDimensionsOld = function(cssSelector) {
+    var baseFontSize, baseHeight, baseWidth, baseHeightVW, baseWidthVW, optionCellFactor,
+        baseOptionHeight, baseOptionWidth, totalWidth, totalHeight,
+        rowPaddingBottom, cellSpan, baseOptionLineHeight;
+
+    baseHeightVW = 100;
+    baseWidthVW = 100;
+    totalWidth = 108;
+    totalHeight = 108;
+    cellSpan = Math.ceil(Math.pow(puzzleDimension,.5));
+
+    var firstOptionCell, value;
+    var success = false;
+    for (firstOptionCell = 1;firstOptionCell <= puzzleDimension*puzzleDimension;firstOptionCell++) {
+        value = $('#C' + firstOptionCell + '-0').css('font-size');
+        if (value && parseFloat(value) != NaN) {
+            success = true;
+            break;
+        }
+    }
+    if (success) {
+        var cellSelector = '#C' + firstOptionCell;
+        var optionCellSelector = cellSelector + '-0';
+    
+        baseFontSize = parseFloat($(optionCellSelector).css('font-size'));
+        baseWidth = parseFloat($(cellSelector).css('width'));
+        baseHeight = baseWidth;
+        baseOptionWidth  = parseFloat($(optionCellSelector).css('width'));
+        baseOptionHeight = parseFloat($(optionCellSelector).css('height'));
+        baseOptionLineHeight = parseFloat($(optionCellSelector).css('line-height'));
+        optionCellFactor = baseOptionHeight/baseHeightVW
+    } else {
+        error('waaa')
+    }
+
+    if (puzzleDimension < 10) {
+        rowPaddingBottom = 4.4;
+    } else {
+        rowPaddingBottom = 4.0;
+    }
+
+    if (puzzleDimension > 15) {
+        baseOptionHeight -= Math.pow(puzzleDimension,.5)+1;
+        baseOptionWidth  -= Math.pow(puzzleDimension,.5)+1;
+    }
+
+    // .screen is 1200px wide we will measure and normalize,
+    // vw Values are in proportion to the view width of a 9x9 puzzle
+    var vwValues = {
+        screen: 100,
+        cellHeight: 10.5,
+        cellWidth: 10.5,
+        optionHeight: 3.55,
+        optionWidth: 3.5,
+        lineHeight: 3.5,
+        fontSize:2.9,
+        fixedFontSize:8.0,
+    };
+
+    var norm100vw = (parseFloat($('.screen').css('width')))/1450;
+    var norm100vwLT1200 = (parseFloat($('.screen').css('width')))/1275;
+    // cell is 10.5x10.5vw
+
+    var factor = (9.0/puzzleDimension)*1000;
+
+    var width, height, optionWidth, optionHeight, lineHeight, fontSize;
+    
+    width        = Math.round(factor*(vwValues.cellWidth*norm100vw))/1000;
+    height       = Math.round(factor*(vwValues.cellHeight*norm100vw))/1000;
+    optionWidth  = Math.round(factor*(vwValues.optionWidth*norm100vw))/1000;
+    optionHeight = Math.round(factor*(vwValues.optionHeight*norm100vw))/1000;
+    lineHeight   = Math.round(factor*(vwValues.lineHeight*norm100vw))/1000;
+    fontSize     = Math.round(factor*(vwValues.fontSize*norm100vw))/1000;
+    fixedFSize   = Math.round(factor*(vwValues.fixedFontSize*norm100vw))/1000;
+
+    $(cssSelector).append(
+        ".cell \{\n\theight: "
+        + height 
+        + "vw;\n\twidth: "
+        + width
+        + "vw;\n\}\n");
+
+    $(cssSelector).append(
+        ".optionCell \{\n\tfont-size:"
+        + (fontSize)
+        + "vw;\n\theight:"
+        + (optionHeight)
+        + "vw;\n\twidth:"
+        + (optionWidth)
+        + "vw;\n\t"
+        + "line-height:"
+        + (lineHeight)
+        + "vw;\n"
+        + "\}\n"
+    );
+
+    $(cssSelector).append(
+        ".row \{\n\tpadding-bottom:"
+        + rowPaddingBottom
+        + "px;\n\}\n"
+        + ".fixed \{\n\tfont-size:" 
+        + fixedFSize + "vw;\n\}\n"
+    );
+
+    widthLT        = Math.round(factor*(vwValues.cellWidth*norm100vwLT1200))/1000;
+    heightLT       = Math.round(factor*(vwValues.cellHeight*norm100vwLT1200))/1000;
+    optionWidthLT  = Math.round(factor*(vwValues.optionWidth*norm100vwLT1200))/1000;
+    optionHeightLT = Math.round(factor*(vwValues.optionHeight*norm100vwLT1200))/1000;
+    lineHeightLT   = Math.round(factor*(vwValues.lineHeight*norm100vwLT1200))/1000;
+    fontSizeLT     = Math.round(factor*(vwValues.fontSize*norm100vwLT1200))/1000;
+    fixedFSizeLT   = Math.round(factor*(vwValues.fixedFontSize*norm100vwLT1200))/1000;
+
+    $(cssSelector).append(
+        "@media (min-width: 0px) and (max-width: 1200px) {\n"
+        + "\t.cell \{\n\t\theight: "
+        + heightLT 
+        + "vw;\n\t\twidth: "
+        + widthLT
+        + "vw;\n\t\}\n");
+
+    $(cssSelector).append(
+        "\t.optionCell \{\n\t\tfont-size:"
+        + (fontSizeLT)
+        + "vw;\n\t\theight:"
+        + (optionHeightLT)
+        + "vw;\n\t\twidth:"
+        + (optionWidthLT)
+        + "vw;\n\t\tline-height:"
+        + (lineHeightLT)
+        + "vw;\n"
+        + "\t\}\n"
+    );
+
+    $(cssSelector).append(
+        "\t.fixed \{\n\t\tfont-size:" 
+        + fixedFSizeLT + "vw;\n\t\}\n"
+    );
+
+    $(cssSelector).append("\}")
 }
 
 var solveSudoku = function() {
@@ -672,18 +783,15 @@ function printToolBar(formatId) {
     }
 }
 
-function doit (x) {
-    x.contentEditable=true;
-    x.innerHTML.selected=true;
-}
-
-
 var drawBoxEdges = function () {
     var cellCount = puzzleDimension*puzzleDimension;
     var lastCell = cellCount+1
     var firstCell = 0;
     var upIndex, downIndex, nextIndex, prevIndex;
-    var color = 'rgba(0,0,0,.2)'
+    var shadeColor = 'rgba(0,0,0,.5)'
+    var rightShadeColor = 'rgba(0,0,0,.45)'
+    var lightColor = 'rgba(0,0,0,.1)'
+    var topLightColor = 'rgba(0,0,0,.15)'
     for (var i = 1; i<=cellCount;i++) {
         //nextIndex, prevIndex
         nextIndex = i+1;
@@ -692,29 +800,15 @@ var drawBoxEdges = function () {
         downIndex = i+puzzleDimension;
 
         if (prevIndex > firstCell && cellBox[i] == cellBox[prevIndex]) {
-            document.getElementById('C'+i).style.borderLeftColor = color;
-            document.getElementById('C'+prevIndex).style.borderRightColor = color;
+            document.getElementById('C'+i).style.borderLeftColor = lightColor;
+            document.getElementById('C'+prevIndex).style.borderRightColor = rightShadeColor;
         }
         if (upIndex > firstCell && cellBox[i] == cellBox[upIndex]) {
-            document.getElementById('C'+i).style.borderTopColor = color;
-            document.getElementById('C'+upIndex).style.borderBottomColor = color;
+            document.getElementById('C'+i).style.borderTopColor = topLightColor;
+            document.getElementById('C'+upIndex).style.borderBottomColor = shadeColor;
         }
     }
 }
-
-var drawOptions = function(id) {
-    var box = document.getElementById(id);
-}
-
-//boxMapString = "";
-// For puzzles with strange box shapes:
-
-//boxMapString = "E111122333111222633441122633444422663444555663778885669778885699777855999778855999P0";
-
-//puzzleString =     "E003000006007050600006070045700840090290000500040003000000408050800300700000085003P0";
-//boxMapString =     "E111122333111522233411555223445556223444556633447666699477766999777888899778888899P0";
-
-
 
 ////// LOAD EXTERNAL PUZZLES /////
 
@@ -806,5 +900,5 @@ var parseSudokuPuzzlesCSV = function (csv) {
         };
     });
 
-    console.log("done loading sudoku-puzzles csv file")
+    Log.Debug("done loading sudoku-puzzles csv file")
 };

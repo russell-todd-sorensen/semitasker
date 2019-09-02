@@ -27,11 +27,11 @@ self.addEventListener('message', (event) => {
 self.__precacheManifest = [
   {
     "url": "sudoku-max/css/mobile.css",
-    "revision": "ed0b8ba6365c0c471f319d66b457566f"
+    "revision": "45add29473f75fdfdd06fd0776e685a7"
   },
   {
     "url": "sudoku-max/css/sudoku-max-2.css",
-    "revision": "422e13a1d81db31b6983cbac7e6a9dc1"
+    "revision": "c0c7dd49f08dfe5d1c5b0eeccd6cbcce"
   },
   {
     "url": "sudoku-max/css/sudoku-max.css",
@@ -43,7 +43,7 @@ self.__precacheManifest = [
   },
   {
     "url": "sudoku-max/js/ia-controls-3.js",
-    "revision": "e7bb94a7f6c56e829c21f1c86dfa6c68"
+    "revision": "84075b9569db52267ad91c0b561643cc"
   },
   {
     "url": "sudoku-max/js/ia-controls.js",
@@ -55,7 +55,7 @@ self.__precacheManifest = [
   },
   {
     "url": "sudoku-max/js/sudoku-max-3.js",
-    "revision": "c2bb46e943d0fd8f7feda10218a707fe"
+    "revision": "a8f5558a28d12e33eb2a8a45f85bb755"
   },
   {
     "url": "sudoku-max/js/sudoku-max.js",
@@ -387,7 +387,7 @@ self.__precacheManifest = [
   },
   {
     "url": "sudoku-max/responsive.html",
-    "revision": "b7b092eb9539233873a854847a38d16e"
+    "revision": "c2f9ad710db4b0bf69ec5ddc930dded0"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});

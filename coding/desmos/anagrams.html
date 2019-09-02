@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width">
+
+<title id="title">Anagrams</title>
+<style>
+#notice {
+    font-size: 2em;
+    font-weight: bold;
+}
+#start {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+#stats {
+    width: 250px;
+    float: right;
+    min-height: 200px;
+    vertical-align: top;
+    background-color: #cccccc;
+}
+</style>
+
+</head>
+<body>
+<form>
+<fieldset>
+
+<legend>Enter a word to see a list of common anagrams</legend>
+<div id="stats"></div>
+<input id="input" name="input" oninput="onInput('input','output')" spellcheck="false" />
+<h3>Output:</h3>
+<div id="output"></div>
+<h3><button onClick="quickPrint(rootNode,-1);return false">Browse Trie</button> Depth:
+    <input id="depth" name="depth" type="number" min="1" max="50" value="5">
+Start From: <input id="start" name="start" value="" size="10">
+<span id="notice" title="The sorted index will start with the characters you type in here.">*</span>
+</h3>
+</fieldset>
+<pre id="printed"></pre>
+</body>
+
+<script src="js/anagrams.js"></script>
+<script>
+
+</script>
+</html>
+
+

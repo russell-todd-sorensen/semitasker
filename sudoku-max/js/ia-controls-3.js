@@ -170,9 +170,7 @@ var remapPuzzleSymbols = function(rs) {
         fillRemapSymbols();
     }
     if (remapSymbols.length > 0) {
-        //for (var i=0;i<remapSymbols.length;i++) {
-        //    defaultSymbols[i] = remapSymbols[i];
-        //}
+
         defaultSymbols = "" + remapSymbols;
         var puzzleStringTmp = ["E"];
         var val;
@@ -203,17 +201,16 @@ var fillRemapSymbols = function() {
 }
 
 var viewPuzzle = function(id) {
-    var value = $('#' + id).val();
+    var puzzleId = parseInt($('#' + id).val());
     var puzzle;
-    Log.Notice('value=' + value);
-    var integerValue = parseInt(value);
+    Log.Notice('value=' + puzzleId);
 
     if (
-        (integerValue > -1) &&
-        (integerValue < (sudokuData.length-1))
+        (puzzleId > -1) &&
+        (puzzleId < (sudokuData.length-1))
        )
     {
-        puzzle = sudokuData[integerValue];
+        puzzle = sudokuData[puzzleId];
         puzzleString = puzzle.puzzle_string;
         boxCols = puzzle.box_cols;
         boxRows = puzzle.box_rows;
