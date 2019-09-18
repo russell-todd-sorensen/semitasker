@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Merge K Sorted Lists: Submitted</title>
+<script src=""></script>
+
+<script>
+
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val) {
+ *     this.val = val;
+ *     this.next = null;
+ * }
+ */
+/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */
+`use strict`
+
+var ListNode = function(val) {
+    this.val = val;
+    this.next = null;
+};
+
+ListNode.prototype.append = function (val) {
+    if (this.next) {
+        this.next.append(val);
+    } else {
+        this.next = new ListNode(val);
+    }
+};
+
+ListNode.prototype.toString = function () {
+    if (this.next) {
+        return "" + this.val + "->" + this.next.toString();
+    } else {
+        return "" + this.val;
+    }
+};
+
+var mergeTwoLists = function (one,two) {
+
+    var result;
+    if (one == null || typeof(one.val) == "undefined" ) {
+        if (two == null || typeof(two.val) == "undefined") {
+            return {}
+        } 
+        return two
+    } else if (two == null || typeof(two.val) == "undefined") {
+        return one
+    }
+    if (one.val < two.val) {
+        result = new ListNode(one.val)
+        one = one.next;
+    } else {
+        result = new ListNode(two.val)
+        two = two.next;
+    }
+    innerLoop++
+    while (one != null || two != null) {
+        innerLoop++;
+        if (two == null || (one != null && one.val < two.val)) {
+            result.append(one.val)
+            one = one.next;
+        } else {
+            result.append(two.val)
+            two = two.next;
+        }
+    }
+    return result;
+};
+
+var mergeKLists = function(lists) {
+
+    var originalLen = lists.length;
+    var len = 0 + originalLen;
+    var temp = [];
+
+    if (len == 1) temp[0] = lists[0];
+
+    while (len > 1) {
+        temp = [];
+        for (var i=0,j=0;i<len-1;i+=2,j++) {
+            outerLoop++;
+            temp[j] = mergeTwoLists(lists[i],lists[i+1])
+        }
+        if (len%2 != 0) {
+            temp[temp.length] = lists[len-1] 
+        }
+        lists = temp;
+        len = lists.length;
+    }
+    if (temp[0] == null || typeof(temp[0].val) == "undefined") {
+        return {}
+    }
+    return temp[0];
+};
+
+var innerLoop = 0;
+var outerLoop = 0;
+var elements  = 1;
+var lists = [];
+var stats = [];
+var results = [];
+
+// Complexity Estimated:
+// N = Total number of elements
+// K = Number of lists to merge
+// A = N / K (Average List Length)
+// C = N * (log2(N) - log2(A))
+// C ~= innerLoop (which is exact)
+
+var listA = {val:1, next:{val:2, next:{val:3, next:null}}}
+var listB = {val:10, next:{val:20, next:{val:30, next:null}}}
+
+
+
+</script>
+</head>
+<body>
+</body>
+</html>
+
+

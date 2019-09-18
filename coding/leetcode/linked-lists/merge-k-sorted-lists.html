@@ -137,9 +137,10 @@ var mergeKListsOkay = function(lists) {
     } else {
         calcOrder = Math.ceil(elements*Math.log2(estimatedOuterLoop));
     }
+    var calcOrder2 = Math.ceil(elements*Math.log2(originalLen));
     var ratio = Math.round(1000*(innerLoop)/elements)/1000;
     var diff = calcOrder-innerLoop
-    stats[elements] = {calcOrder:calcOrder,diff:diff,elements:elements,innerLoop:innerLoop,outerLoop:outerLoop,ratio:ratio,type:'mergeKListsOkay'}
+    stats[elements] = {calcOrder:calcOrder,calcOrder2:calcOrder2,estOuterLoop:estimatedOuterLoop,K:originalLen,diff:diff,elements:elements,innerLoop:innerLoop,outerLoop:outerLoop,ratio:ratio,type:'mergeKListsOkay'}
     return temp[0];
 };
 
@@ -150,7 +151,6 @@ var mergeKLists = function(lists) {
     var temp, half;
     if (len == 1) temp = lists[0];
     while (len > 1) {
-        outerLoop++
         temp = [[],[]];
         if (len > 2) {
             half = Math.ceil(len/2);
@@ -164,10 +164,10 @@ var mergeKLists = function(lists) {
             lists[0] = mergeKLists(temp[0])
             lists[1] = mergeKLists(temp[1])
         }
+        outerLoop++
         temp = mergeTwoLists(lists[0],lists[1]);
         break;
     }
-
     var calcOrder;
     var estimatedOuterLoop = calcOuterLoop(elements,Math.ceil(elements/originalLen))
     if (estimatedOuterLoop == 1) {
@@ -175,9 +175,10 @@ var mergeKLists = function(lists) {
     } else {
         calcOrder = Math.round(elements*Math.log2(estimatedOuterLoop));
     }
+    var calcOrder2 = Math.ceil(elements*Math.log2(originalLen));
     var ratio = Math.round(1000*(innerLoop)/elements)/1000;
     var diff = calcOrder-innerLoop
-    stats[elements] = {calcOrder:calcOrder,diff:diff,elements:elements,innerLoop:innerLoop,outerLoop:outerLoop,ratio:ratio,type:'mergeKLists'}
+    stats[elements] = {calcOrder:calcOrder,calcOrder2:calcOrder2,estOuterLoop:estimatedOuterLoop,K:originalLen,diff:diff,elements:elements,innerLoop:innerLoop,outerLoop:outerLoop,ratio:ratio,type:'mergeKLists'}
     return temp;
 };
 
