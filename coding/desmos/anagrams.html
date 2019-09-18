@@ -3,38 +3,92 @@
 <head>
 <meta charset="utf-8" >
 <meta name="viewport" content="width=device-width">
-
+<link href="https://fonts.googleapis.com/css?family=Nova+Mono|Share+Tech+Mono|Ubuntu+Mono&display=swap" rel="stylesheet">
 <title id="title">Anagrams</title>
 <style>
+body {
+}
+
 #notice {
     font-size: 2em;
     font-weight: bold;
 }
-#start {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-}
 #stats {
-    width: 250px;
+    width: 350px;
     float: right;
-    min-height: 200px;
+    min-height: 147px;
     vertical-align: top;
     background-color: #cccccc;
+    padding: 1%;
+    line-height: 1.3em;
+}
+#stats div:nth-of-type(odd) {
+    background-color: #dddddd;
+    padding-left: 2px;
+}
+#stats span:nth-of-type(odd) {
+    display: inline-block;
+    width: 43%;
+    font-weight: bold;
+    vertical-align: top;
+}
+#stats span:nth-of-type(even) {
+    display: inline-block;
+    width: 55%;
+    text-align: right;
+    vertical-align: top;
+}
+#stats select#dict {
+    font-size: 1.05em;
+    line-height: 1.05em;
+    font-family: 'Ubuntu Mono', monospace;
+    padding-left: 0;
+    padding-right: 5px;
+}
+#stats #choose-dict {
+    width: 122px;
+}
+#stats #dictionary {
+    width: 90px;
+}
+#stats #label {
+    width: 223px;
+}
+#stats #dict-path {
+    width: 251px;
+}
+#stats #description {
+    width: 120px;
+}
+#stats #filter-label {
+    width: 155px;
+}
+body,
+#fs #input,
+#fs #start,
+#fs #browse-button,
+#fs #depth,
+#fs #notice,
+#printed {
+    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Nova Mono', monospace;
+    font-family: 'Ubuntu Mono', monospace;
 }
 </style>
 
 </head>
 <body>
-<form>
-<fieldset>
+
+<fieldset id="fs">
 
 <legend>Enter a word to see a list of common anagrams</legend>
 <div id="stats"></div>
-<input id="input" name="input" oninput="onInput('input','output')" spellcheck="false" />
+<input id="input" name="input" oninput="onInput('input','output');return false" spellcheck="false" />
 <h3>Output:</h3>
 <div id="output"></div>
-<h3><button onClick="quickPrint(rootNode,-1);return false">Browse Trie</button> Depth:
-    <input id="depth" name="depth" type="number" min="1" max="50" value="5">
-Start From: <input id="start" name="start" value="" size="10">
+<h3><button id="browse-button" onClick="quickPrint(rootNode,-1);return false">Browse Trie</button> Depth:
+    <input id="depth" name="depth" type="number" min="1" max="50" value="5" />
+Start From: <input id="start" name="start" value="" size="10" spellcheck="false" />
 <span id="notice" title="The sorted index will start with the characters you type in here.">*</span>
 </h3>
 </fieldset>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Test Colored Background for Text Input</title>
+<style>
+#test {
+    background-image: url(bg.svg);
+    background-repeat: no-repeat;
+    background-position-x: 1.8em;
+    width: 20em;
+    font-size: 1em;
+    font-family: 'Share Tech Mono', monospace;
+    font-family: 'Nova Mono', monospace;
+    font-family: 'Ubuntu Mono', monospace;
+}
+#pretty-input {
+    height: 1.2em;
+    width: 12em;
+    border-style:inset;
+    border-width: 3px;
+    border-color: #ddd;
+}
+#excluded-letters {
+    background-color: rgba(255,0,0,.5);
+}
+</style>
+<script src=""></script>
+
+</head>
+<body>
+    <input id="test" name="test" type="text" value="this is a test" size="25" />
+    <div id="pretty-input"></div>
+<script>
+    var inputElement = document.getElementById('pretty-input');
+    inputElement.contentEditable = true;
+    inputElement.oninput = console.log
+</script>
+</body>
+</html>
