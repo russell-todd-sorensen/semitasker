@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<base href="https://home.semitasker.com/" />
+<title>Fractal Image Creation in JavaScript: B, W &amp; A</title>
+
+<style>
+
+#myCanvas {
+    border: 1px solid black;
+    border: none;
+}
+
+#container {
+    border: 1px solid black;
+    border: none;
+}
+
+#circle {
+    fill: green;
+}
+
+.ellip {
+    fill: black;
+    font-size: .05px;
+}
+
+#t1 {
+    font-size: .048px;
+    font-family: Arial;
+}
+
+</style>
+
+<script>
+var Log = {
+    Debug: function() {},
+    Warning: function() {},
+    Notice: function() {},
+    Error: function() {},
+}
+</script>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script language="javascript">
+
+var height = 50;
+var width  = 63.65;
+var points = new Array();
+var numberOfPoints = 0;
+var unitsOfWidth;
+var unitsOfHeight;
+function calculatePoints () {
+
+    var cX = -0.1;
+    var cY =  0.1;
+    var rect = {
+        start: {
+            x: -2.10,
+            y: -1.22
+        },
+        end: {
+            x: 0.60,
+            y: 1.22
+        }
+    }
+    unitsOfWidth = rect.end.x - rect.start.x;
+    unitsOfHeight = rect.end.y - rect.start.y;
+    var counter;
+    var finite;
+    for (var x = rect.start.x; x < rect.end.x; x+=1/width) {
+        for (var y = rect.start.y; y < rect.end.y ; y+=1/height) {
+            counter = 0;
+            finite = true;
+            newX = x;
+            newY = y;
+            tmpX = x;
+            tmpY = y;
+            cY = y;
+            cX = x;
+            while (counter < 256 && finite) {
+                newY = cY +  2 * tmpX * tmpY;
+                newX = cX + (-1 * tmpY * tmpY) + tmpX * tmpX;
+                tmpX = newX;
+                tmpY = newY;
+                if (newX*newX+newY*newY > 64) {
+                    finite = false;
+                }
+                counter++;
+            }
+            numberOfPoints++;
+            if (counter == 256) {
+                continue; // This makes the set points empty
+            }
+
+            points[points.length] = {cx:x,cy:y,counter:counter,finite:finite}
+        }
+    }
+
+    console.log('-----point x= = ' + points[points.length-1].cx + ' y=' + points[points.length-1].cy );
+}
+
+function animatePoints(id) {
+
+    var g = d3.select('#' + id);
+
+    g.selectAll('use')
+        .data(points)
+        .enter()
+        .append('use')
+        .attr('href','#t1')
+        .attr('class',function(d,i) {return 'ellip c-' + d.counter})
+        .attr('x', function(d,i) {return Math.round(d.cx*1000000)/1000000})
+        .attr('y', function(d,i) {return Math.round(d.cy*1000000)/1000000})
+        .attr('opacity', function(d,i) {
+            return (1000-Math.round((Math.abs((255-20*d.counter)%255)/255)*1000))/1000;
+            }
+        );
+}
+
+$(document).ready(function() {
+    calculatePoints();
+    animatePoints('mPoints');
+});
+</script>
+
+
+</head>
+<body>
+<div id="container">
+<svg
+    id="svg"
+    x="-450"
+    y="-300"
+    height="1300"
+    width="1500"
+    viewBox="-1100 -650 1500 1300"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+<!--
+<animate attributeName="fill" begin="1s" steps="100" dur="20s"
+         values="rgba(0,0,255,1);rbga(0,255,0,.3);rgba(255,0,0,.7);rgba(0,0,255,1)"
+         repeatCount="indefinite" />-->
+<!--<animateTransform 
+    attributeName="transform"
+    attributeType="XML"
+    type="skewX"
+    values="0;22;-22;0"
+    dur="5s"
+    begin="5s"
+    repeatCount="indefinite"></animateTransform>-->
+<defs>
+
+<text id="t1" fill="black" transform="skewX(0)" >A</text>
+</defs>
+
+<g id="mPoints" transform=" scale(500)" >
+</g>
+
+</svg>
+</div>
+</body>
+</html>

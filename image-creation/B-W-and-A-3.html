@@ -1,0 +1,215 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<base href="https://home.semitasker.com/" />
+<title>Fractal Image Creation in JavaScript: B, W &amp; A</title>
+
+<style>
+
+#myCanvas {
+    border: 1px solid black;
+    border: none;
+}
+
+#container {
+    border: 1px solid black;
+    border: none;
+}
+
+#circle {
+    fill: green;
+}
+
+.ellip {
+    font-size: 20px;
+    font-family: Arial;
+}
+/* font-size values which look good 
+    20px: but extra space
+    30px: but too dense
+    25px: almost perfect
+    24.5px: very close
+    24.1px: still looks close
+    24px: perfect
+    20.5px: very good low density
+ */
+#t1 {
+    font-size: 20.5px;
+    fill: black;
+    font-family: Arial;
+}
+
+</style>
+
+<script>
+var Log = {
+    Debug: function() {},
+    Warning: function() {},
+    Notice: function() {},
+    Error: function() {},
+}
+</script>
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script language="javascript">
+
+var height = 50;
+var width  = 63.65;
+var points = new Array();
+var numberOfPoints = 0;
+var unitsOfWidth;
+var unitsOfHeight;
+function calculatePoints () {
+
+    var cX = -0.1;
+    var cY =  0.1;
+    var rect = {
+        start: {
+            x: -2.10,
+            y: -1.22
+        },
+        end: {
+            x: 0.60,
+            y: 1.22
+        }
+    }
+    unitsOfWidth = rect.end.x - rect.start.x;
+    unitsOfHeight = rect.end.y - rect.start.y;
+    var counter;
+    var finite;
+    var row,col;
+    var id = 0;
+    for (var x = rect.start.x,row=0; x < rect.end.x; x+=1/width,row++) {
+        for (var y = rect.start.y,col=0; y < rect.end.y ; y+=1/height,col++) {
+            counter = 0;
+            finite = true;
+            newX = x;
+            newY = y;
+            tmpX = x;
+            tmpY = y;
+            cY = y;
+            cX = x;
+            while (counter < 256 && finite) {
+                newY = cY +  2 * tmpX * tmpY;
+                newX = cX + (-1 * tmpY * tmpY) + tmpX * tmpX;
+                tmpX = newX;
+                tmpY = newY;
+                if (newX*newX+newY*newY > 256) {
+                    finite = false;
+                }
+                counter++;
+            }
+            numberOfPoints++;
+            if (counter == 256) {
+                continue; // This makes the set points empty
+            }
+
+            points[points.length] = {cx:x,cy:y,counter:counter,finite:finite,row:row,col:col,id:id}
+            id++;
+        }
+    }
+
+    console.log('-----point x= = ' + points[points.length-1].cx + ' y=' + points[points.length-1].cy );
+}
+
+function animatePoints(id) {
+
+    var g = d3.select('#' + id);
+
+    g.selectAll('use')
+        .data(points)
+        .enter()
+        .append('use')
+        .attr('id',function(d,i) {return 'p-' + d.id})
+        .attr('href','#t1')
+        .attr('class',function(d,i) {return 'ellip c-' + d.counter + ' row-' + d.row + ' col-' + d.col})
+        .attr('x', function(d,i) {return Math.round(d.cx*500000)/1000 + 1060})
+        .attr('y', function(d,i) {return Math.round(d.cy*500000)/1000 + 630})
+        .attr('opacity', function(d,i) {
+            return (1000-Math.round((Math.abs((255-20*d.counter)%255)/255)*1000))/1000;
+            }
+        );
+}
+
+var opacityCalc = function(counter) {
+    counter = parseInt(counter)
+    if (counter > 255) counter = 255;
+    if (counter < 0) counter = 0;
+    return (1000-Math.round((Math.abs((255-20*counter)%255)/255)*1000))/1000;
+}
+
+var values = []
+var graphOpacity = function(start,end,step, groupId) {
+    values = [];
+    for (var i = start,j=0;i<=end; i+=step,j++) {
+        values[j] = {hex:i, opacity:opacityCalc(i)}
+    }
+
+    var g = d3.select('#' + groupId);
+
+    g.selectAll('line')
+        .data(values)
+        .enter()
+        .append('line')
+        .attr('class', 'opacities')
+        .attr('x1',-200)
+        .attr('data-counter',function(d,i) {
+            return i+1
+        })
+        .attr('id', function(d,i) {
+            return 'line-' + (i + 1)
+        })
+        .attr('opacity',function(d,i) {
+            return d.opacity
+        })
+        .attr('y1',function (d,i) {
+            return (Math.ceil((i*1.2*10000))/10000)-150;
+        })
+        .attr('x2', function(d,i) {
+            return (Math.ceil((d.opacity * 100 + 5)*10000)/10000)-200
+        })
+        .attr('y2', function (d,i) {
+            return (Math.ceil((i*1.2*10000))/10000)-150;
+        });
+}
+
+$(document).ready(function() {
+    calculatePoints();
+    animatePoints('mPoints');
+   // graphOpacity(0,255,1,'opacity-graph')
+});
+
+</script>
+<style>
+#opacity-graph line.opacities {
+    stroke: black;
+    stroke-width: 1;
+}
+</style>
+
+</head>
+<body>
+<div id="container">
+<svg
+    id="svg"
+    x="0"
+    y="0"
+    height="1300"
+    width="1500"
+    viewBox="0 0 1500 1300"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<defs>
+
+<text id="t1" fill="black" transform="skewX(0)" >A</text>
+</defs>
+
+<g id="mPoints" transform=" scale(1)" ></g>
+
+</svg>
+</div>
+</body>
+</html>

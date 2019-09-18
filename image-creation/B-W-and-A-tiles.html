@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<base href="https://home.semitasker.com/" />
+<title>Fractal Image Creation in JavaScript: B, W &amp; A</title>
+
+<style>
+body {
+    background-color: black;
+}
+svg {
+    background-color: white;
+}
+.A {
+    font-size: 20px;
+    font-family: Arial;
+}
+/* font-size values which look good 
+    20px: but extra space
+    30px: but too dense
+    25px: almost perfect
+    24.5px: very close
+    24.1px: still looks close
+    24px: perfect
+    20.5px: very good low density
+ */
+#t1 {
+    font-size: 20.5px;
+    fill: black;
+    font-family: Arial;
+}
+
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script language="javascript">
+
+var height = 50;
+var width  = 63.65;
+var points = new Array();
+var numberOfPoints = 0;
+var unitsOfWidth;
+var unitsOfHeight;
+function calculatePoints () {
+
+    var cX = -0.1;
+    var cY =  0.1;
+    var rect = {
+        start: {
+            x: -2.10,
+            y: -1.22
+        },
+        end: {
+            x: 0.60,
+            y: 1.22
+        }
+    }
+    unitsOfWidth = rect.end.x - rect.start.x;
+    unitsOfHeight = rect.end.y - rect.start.y;
+    var counter;
+    var finite;
+    var row,col;
+    var id = 0;
+    bigloop:
+    for (var x = rect.start.x,col=0; x < rect.end.x; x+=1/width,col++) {
+        for (var y = rect.start.y,row=0; y < rect.end.y ; y+=1/height,row++) {
+            counter = 0;
+            finite = true;
+            newX = x;
+            newY = y;
+            tmpX = x;
+            tmpY = y;
+            cY = y;
+            cX = x;
+            while (counter < 256 && finite) {
+                newY = cY +  2 * tmpX * tmpY;
+                newX = cX + (-1 * tmpY * tmpY) + tmpX * tmpX;
+                tmpX = newX;
+                tmpY = newY;
+                if (newX*newX+newY*newY > 256) {
+                    finite = false;
+                }
+                counter++;
+            }
+            numberOfPoints++;
+            if (row > 7 && col > 7) break bigloop;
+            if (row < 2 || row > 7) continue
+            if (col < 2 || col > 7) continue
+            if (counter == 256) {
+                continue; // This makes the m-set points empty
+            }
+
+            points[points.length] = {cx:x,cy:y,counter:counter,finite:finite,row:row,col:col,id:id}
+            id++;
+        }
+    }
+    console.log('-----point x= = ' + points[points.length-1].cx + ' y=' + points[points.length-1].cy );
+}
+
+var calcTileStartAndSize = function(svgId) {
+
+    let startX,startY,endX,endY,height,width
+    startX = points[0].cx;
+    startY = points[0].cy;
+    endX = points[points.length-1].cx
+    endY = points[points.length-1].cy
+    height = endY - startY
+    width  = endX - startX
+    console.log('startX=' + startX + ' startY='
+        + startY + ', endX=' + endX + ', endY='
+        + endY + ', height=' + height + ', width=' + width)
+}
+
+function animatePoints(id) {
+
+    var g = d3.select('#' + id);
+
+    g.selectAll('use')
+        .data(points)
+        .enter()
+        .append('use')
+        .attr('id',function(d,i) {
+            let val = 'p-' + d.id
+            return val
+        })
+        .attr('href','#t1')
+        .attr('class',function(d,i) {
+            let val = 'A row-' + d.row + ' col-' + d.col
+            return val
+        })
+        .attr('x', function(d,i) {
+            let val = (Math.ceil((d.cx*500 + 1050)*1000)/1000);
+            return val
+        })
+        .attr('y', function(d,i) {
+            let val = (Math.ceil((d.cy*500 + 610)*1000)/1000);
+            return val
+        })
+        .attr('opacity', function(d,i) {
+            return (1000-Math.ceil((Math.abs((255-20*d.counter)%255)/255)*1000))/1000;
+        });
+}
+
+var opacityCalc = function(counter) {
+    counter = parseInt(counter)
+    if (counter > 255) counter = 255;
+    if (counter < 0) counter = 0;
+    return (1000-Math.round((Math.abs((255-20*counter)%255)/255)*1000))/1000;
+}
+
+$(document).ready(function() {
+    calculatePoints();
+    calcTileStartAndSize('svg');
+    animatePoints('mPoints');
+});
+
+</script>
+<style>
+#opacity-graph line.opacities {
+    stroke: black;
+    stroke-width: 1;
+}
+</style>
+<!--
+    x="0"
+    y="0"
+    height="260"
+    width="300"
+    viewBox="0 0 300 260"
+ -->
+</head>
+<body>
+<div id="container">
+<svg
+    id="svg"
+    x="117.835"
+    y="150"
+    height="100"
+    width="78.56"
+    viewBox="117.835 150 78.56 100"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+
+<defs>
+
+<text id="t1" fill="black" transform="skewX(0)" >A</text>
+</defs>
+
+<g id="mPoints" transform=" scale(5)" ></g>
+
+</svg>
+</div>
+</body>
+</html>

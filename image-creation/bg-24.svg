@@ -1,0 +1,52 @@
+
+<svg 
+    id="svg"
+    x="117.9"
+    y="150"
+    height="100"
+    width="78.56"
+    viewBox="117.9 150 78.56 100"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+<style>
+#t1 {
+    font-size: 24px;
+    fill: black;
+    font-family: Arial;
+}
+</style>
+<defs>
+
+<text id="t1" fill="black" transform="skewX(0)">A</text>
+</defs>
+
+<g id="mPoints" transform=" scale(5)">
+    <use id="p-0" href="#t1" class="ellip c-3 row-2 col-2" x="15.711" y="20" opacity="0.235"/>
+    <use id="p-1" href="#t1" class="ellip c-3 row-2 col-3" x="15.711" y="30" opacity="0.235"/>
+    <use id="p-2" href="#t1" class="ellip c-3 row-2 col-4" x="15.711" y="40" opacity="0.235"/>
+    <use id="p-3" href="#t1" class="ellip c-3 row-2 col-5" x="15.711" y="50.001" opacity="0.235"/>
+    <use id="p-4" href="#t1" class="ellip c-3 row-2 col-6" x="15.711" y="60.001" opacity="0.235"/>
+    <use id="p-5" href="#t1" class="ellip c-3 row-3 col-2" x="23.567" y="20" opacity="0.235"/>
+    <use id="p-6" href="#t1" class="ellip c-3 row-3 col-3" x="23.567" y="30" opacity="0.235"/>
+    <use id="p-7" href="#t1" class="ellip c-3 row-3 col-4" x="23.567" y="40" opacity="0.235"/>
+    <use id="p-8" href="#t1" class="ellip c-3 row-3 col-5" x="23.567" y="50.001" opacity="0.235"/>
+    <use id="p-9" href="#t1" class="ellip c-3 row-3 col-6" x="23.567" y="60.001" opacity="0.235"/>
+    <use id="p-10" href="#t1" class="ellip c-3 row-4 col-2" x="31.422" y="20" opacity="0.235"/>
+    <use id="p-11" href="#t1" class="ellip c-3 row-4 col-3" x="31.422" y="30" opacity="0.235"/>
+    <use id="p-12" href="#t1" class="ellip c-3 row-4 col-4" x="31.422" y="40" opacity="0.235"/>
+    <use id="p-13" href="#t1" class="ellip c-3 row-4 col-5" x="31.422" y="50.001" opacity="0.235"/>
+    <use id="p-14" href="#t1" class="ellip c-3 row-4 col-6" x="31.422" y="60.001" opacity="0.235"/>
+    <use id="p-15" href="#t1" class="ellip c-3 row-5 col-2" x="39.278" y="20" opacity="0.235"/>
+    <use id="p-16" href="#t1" class="ellip c-3 row-5 col-3" x="39.278" y="30" opacity="0.235"/>
+    <use id="p-17" href="#t1" class="ellip c-3 row-5 col-4" x="39.278" y="40" opacity="0.235"/>
+    <use id="p-18" href="#t1" class="ellip c-3 row-5 col-5" x="39.278" y="50.001" opacity="0.235"/>
+    <use id="p-19" href="#t1" class="ellip c-3 row-5 col-6" x="39.278" y="60.001" opacity="0.235"/>
+    <use id="p-20" href="#t1" class="ellip c-3 row-6 col-2" x="47.133" y="20" opacity="0.235"/>
+    <use id="p-21" href="#t1" class="ellip c-3 row-6 col-3" x="47.133" y="30" opacity="0.235"/>
+    <use id="p-22" href="#t1" class="ellip c-3 row-6 col-4" x="47.133" y="40" opacity="0.235"/>
+    <use id="p-23" href="#t1" class="ellip c-3 row-6 col-5" x="47.133" y="50.001" opacity="0.235"/>
+    <use id="p-24" href="#t1" class="ellip c-3 row-6 col-6" x="47.133" y="60.001" opacity="0.235"/>
+    </g>
+
+</svg>
