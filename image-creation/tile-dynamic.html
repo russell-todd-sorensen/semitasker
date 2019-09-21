@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<style>
+html,
+body,
+#mset {
+    margin: 0;
+    padding: 0;
+}
+#form-container {
+    position: absolute;
+    display: inline-block;
+    background-color: black;
+    color: white;
+    font-family: Arial;
+    padding: 10px;
+    padding-left:5px;
+    padding-right: 5px;
+    padding-top: 0;
+    top: 20px;
+    right: 10px;
+    border-radius:6px;
+}
+#form1 {
+    font-family: inherit;
+    color: white;
+}
+#form1 ul#panel {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: black;
+}
+#form1 select,
+#form1 option {
+    width: 210px;
+    font-size: 20px;
+    border-right-width: 3px;
+}
+
+#form1, 
+fieldset,
+ul,
+li,
+#panel.expand label,
+#panel.expand div.min-max,
+#panel.expand span, 
+#panel.expand select, 
+option {
+    font-family: Arial;
+}
+
+fieldset {
+    border-radius: 6px;
+}
+legend {
+    background-color: black;
+    padding: 0;
+    padding-top:3px;
+    border-radius: 6px;
+    border: 5px solid black;
+    font-weight: bold;
+    font-family: Arial;
+}
+
+#form1 .expand {
+    width: 320px;
+}
+
+#form1 .expand label {
+    width :100px;
+    display: inline-block;
+    font-weight: bold;
+    font-family: Arial;
+}
+
+#form1 .expand input {
+    display: inline-block;
+    vertical-align: bottom;
+    width: 200px;
+}
+.min-max {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+#form1 ul li {
+    margin-bottom: 5px;
+}
+
+</style>
+<script src="https://home.semitasker.com/js/d3.v3.js"></script>
+<title>Tile Background with SVG</title>
+</head>
+<body onload="initHTML()">
+<object id="mset" style="display:none" onload="initSVG()" type="image/svg+xml" data="mandelbrot-tile-maker.svg?bc=90&ec=125&br=30&er=52&nc=1&fs=48" height="100%" width="100%">
+</object>
+<script>
+var fontFamily;
+var SVGObject,SVGData,SVGDoc,SVGRoot,svgns = "http://www.w3.org/2000/svg";
+
+var initHTML = function() {
+    let newURL,url,query,SVGQuery;
+    let queryArray = document.URL.split('?')
+    if (queryArray.length == 2) {
+        query = queryArray[1]
+    } else {
+        query = ""
+    }
+    url = queryArray[0]
+    SVGObject = document.getElementById('mset')
+    SVGData = SVGObject.data.split('?')
+    let svgURL  = SVGData[0]
+
+    if (SVGData.length == 2) {
+        SVGQuery = SVGData[1]
+    } else {
+        SVGQuery = ""
+    }
+
+    if (query != SVGQuery) {
+        if (query == "") {
+            newURL = SVGData[0]
+        } else {
+            newURL = SVGData[0] + "?" + query;
+        }
+        SVGObject.data = newURL; //note: this will refresh the SVG Document
+    }
+
+    loadGoogleFontList('fontFamily',[]);
+}
+
+var initSVG = function() {
+    SVGObject = document.getElementById('mset')
+    SVGDoc    = SVGObject.getSVGDocument();
+    SVGRoot   = SVGDoc.documentElement;
+};
+
+let changeFontSize = function(formId,textId) {
+    const property = "font-size"
+    const fontSize = parseFloat(document.getElementById(formId).value)
+    const newValue = fontSize + "px"
+
+    replaceStyleProperty(SVGDoc,textId,property,newValue);
+};
+
+let changeFontFamily = function(selectId,textId) {
+    const property = "font-family"
+    const sh = document.getElementById(selectId);
+    const newValue = sh.options[sh.selectedIndex].value
+ 
+    replaceStyleProperty(SVGDoc,textId,property,newValue);
+};
+
+let replaceStyleProperty = function(doc,refId,property,newValue) {
+    let ele = doc.getElementById(refId);
+    let styleCode = ele.getAttributeNS(null,"style");
+    let styleNVArray
+    let styleStringArray = []
+    let styleString = ""
+
+    if (styleCode) {
+
+        let styleList = styleCode.split(";")
+        for (var i=0;i<styleList.length;i++) {
+            styleNVArray = styleList[i].split(":")
+            styleProperty = styleNVArray[0].trim().toLowerCase()
+            if (styleProperty == property || styleProperty == "") {
+                continue
+            } else {
+                styleStringArray[styleStringArray.length] = styleProperty + ": " + styleNVArray[1];
+            }
+        }
+    }
+
+    styleStringArray[styleStringArray.length] = property + ":" + newValue;
+    styleString = styleStringArray.join(";")
+    ele.setAttributeNS(null,"style",styleString);
+}
+
+let optionHTML = ""
+let fontArray = [];
+
+let loadGoogleFontList = function(selectId,fontArray) {
+    fetch(
+        "fonts.txt"
+    ).then(
+        (res) => res.text()
+    ).then(
+        (text) => {
+            text = "'Arial', sans-serif\n" + text
+            dict = text.split("\n").sort();
+            let fontString,font,trimmed;
+            for (let i=0;i<dict.length;i++) {
+                fontString = dict[i];
+                font = fontString.split(",")[0];
+                trimmed = font.slice(1,font.length-1)
+                fontArray[trimmed] = i
+                optionHTML = optionHTML
+                    + "\n"
+                    + "<option value=\""
+                    + font
+                    + "\">"
+                    + trimmed
+                    + "</option>";
+            }
+            d3.select('#' + selectId).html(optionHTML);
+            SVGObject.style["display"] = "block";
+        }
+    );
+}
+
+</script>
+<div id="form-container">
+<form id="form1">
+<fieldset>
+<legend style="cursor: pointer">B, W &amp; A Image Options</legend>
+<ul id="panel">
+<li class="expand">
+<label for="fontSize" class="dual-input-type">Font Size:</label>
+<div class="min-max">
+<span id="font-size-min"></span>
+<input id="fontSize" name="fontSize" type="range" min="5" max="100" step="0.1"
+    onChange="changeFontSize('fontSize','t2')"
+    onBlur="changeFontSize('fontSize','t2')">
+<span id="font-size-max"></span>
+</div>
+</li>
+<li class="expand">
+<label for="fontFamily">Font:</label>
+
+<select name="fontFamily" id="fontFamily" style="border-right-width:3px;"
+    onChange="changeFontFamily('fontFamily','t2');">
+</select>
+</li>
+</ul>
+</fieldset>
+</form>
+</div>
+</body>
+</html>

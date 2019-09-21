@@ -1,0 +1,299 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<base href="https://home.semitasker.com/" />
+<title>Background Tile Maker in SVG</title>
+
+<style>
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: black;
+}
+#svg2 {
+    background-color: white;
+}
+.A {
+    font-size: 20px;
+    font-family: Arial;
+}
+#btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    border: solid red 20px;
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script language="javascript">
+
+let height = 50;
+let width  = 63.65;
+let points = new Array();
+let numberOfPoints = 0;
+
+let captureBegin = {row:0,col:0}
+let captureEnd   = {row:10000,col:10000}
+let rect = {
+    start: {
+        x: -2.10,
+        y: -1.22
+    },
+    end: {
+        x: 0.60,
+        y: 1.22
+        }
+};
+
+let config = {
+    factor:1000,
+    clipBegin: {col:2,row:0},
+    clipEnd: {col:-1,row:-2},
+    captureBegin: {col:2,row:2},
+    captureEnd: {col:10,row:10},
+    rect: rect,
+    height: 50,
+    width: 63.65,
+    textHref: '#t2',
+    maxCol: null,
+    maxRow: null,
+    calcMaxCol: function() {
+        let pointWidth = Math.abs(this.rect.end.x - this.rect.start.x);
+        let cols = Math.floor(pointWidth * this.width);
+        this.maxCol = cols-1
+        return this.maxCol;
+    },
+    calcMaxRow: function() {
+        let pointHeight = Math.abs(this.rect.end.y - this.rect.start.y);
+        let rows = Math.floor(pointHeight * this.height);
+        this.maxRow = rows-1;
+        return this.maxRow;
+    },
+};
+
+let calculatePoints = function(config) {
+
+    if (arguments[0]) {
+        rect = config.rect
+        captureBegin = config.captureBegin
+        captureEnd   = config.captureEnd
+        if (config.height) height = config.height
+        if (config.width) width = config.width
+    }
+    if (!config.captureEnd) {
+        config.captureEnd = {col:config.calcMaxCol(),row:config.calcMaxRow()}
+        captureEnd = config.captureEnd;
+    }
+    points = [];
+    const unitsOfWidth = rect.end.x - rect.start.x;
+    const unitsOfHeight = rect.end.y - rect.start.y;
+
+    let cX,cY;
+    let counter;
+    let finite;
+    let row,col;
+    let id = 0;
+    numberOfPoints = 0;
+
+    bigloop:
+    for (let x = rect.start.x,col=0; x < rect.end.x; x+=1/width,col++) {
+        for (let y = rect.start.y,row=0; y < rect.end.y ; y+=1/height,row++) {
+            counter = 0;
+            finite = true;
+            newX = x;
+            newY = y;
+            tmpX = x;
+            tmpY = y;
+            cY = y;
+            cX = x;
+            while (counter < 256 && finite) {
+                newY = cY +  2 * tmpX * tmpY;
+                newX = cX + (-1 * tmpY * tmpY) + tmpX * tmpX;
+                tmpX = newX;
+                tmpY = newY;
+                if (newX*newX+newY*newY > 256) {
+                    finite = false;
+                }
+                counter++;
+            }
+
+            numberOfPoints++;
+
+            if (row > captureEnd.row && col > captureEnd.col) break bigloop;
+            if (row < captureBegin.row || row > captureEnd.row) continue
+            if (col < captureBegin.col || col > captureEnd.col) continue
+            if (counter == 256) continue; // This makes the m-set points empty
+
+            points[points.length] = {cx:x,cy:y,counter:counter,finite:finite,row:row,col:col,id:id}
+            id++;
+        }
+    }
+}
+
+let calcTileStartAndSize = function(svgId,config) {
+
+    let startX,startY,endX,endY,height,width,addToX,addToY
+    let point,point0,pointEnd;
+
+    for (let i = 0;i<points.length;i++) {
+        point = points[i]
+        if (point.row == config.captureBegin.row+config.clipBegin.row
+            && point.col == config.captureBegin.col+config.clipBegin.col) 
+        {
+            point0 = point
+        } else
+        if (point.row == config.captureEnd.row+config.clipEnd.row 
+            && point.col == config.captureEnd.col+config.clipEnd.col) 
+        {
+            pointEnd = point
+            break;
+        }
+    }
+
+    startX = point0.cx * config.factor;
+    startY = point0.cy * config.factor;
+    endX = pointEnd.cx * config.factor
+    endY = pointEnd.cy * config.factor
+    height = endY - startY
+    width  = endX - startX
+    addToX = 0 - startX
+    addToY = 0 - startY
+
+    console.log('startX=' + startX + ' startY='
+        + startY + ', endX=' + endX + ', endY='
+        + endY + ', height=' + height + ', width=' + width);
+
+    $('#' + svgId)
+        .attr('x',Math.ceil((startX+addToX)*1000)/1000)
+        .attr('y',Math.ceil((startY+addToY)*1000)/1000)
+        .attr('height',Math.ceil(height*1000)/1000)
+        .attr('width',Math.ceil(width*1000)/1000)
+        .attr('viewBox',[Math.ceil((startX+addToX)*1000)/1000,
+            Math.ceil((startY+addToY)*1000)/1000,
+            Math.ceil(width*1000)/1000,
+            Math.ceil(height*1000)/1000].join(' '))
+
+    config.startX=startX;
+    config.startY=startY;
+    config.endX=endX;
+    config.endY=endY;
+    config.height=height;
+    config.width=width;
+    config.addToX=addToX;
+    config.addToY=addToY;
+
+    return config
+}
+
+function addPoints(id, config) {
+
+    let g = d3.select('#' + id);
+    g.html("");
+    g.selectAll('use')
+        .data(points)
+        .enter()
+        .append('use')
+        .attr('id',function(d,i) {
+            let val = 'p-' + d.id
+            return val
+        })
+        .attr('href',config.textHref)
+        .attr('class',function(d,i) {
+            let val = 'A row-' + d.row + ' col-' + d.col
+            return val
+        })
+        .attr('x', function(d,i) {
+            let val = (Math.ceil((d.cx*config.factor + config.addToX)*1000)/1000);
+            return val
+        })
+        .attr('y', function(d,i) {
+            let val = (Math.ceil((d.cy*config.factor + config.addToY)*1000)/1000);
+            return val
+        })
+        .attr('opacity', function(d,i) {
+            return (1000-Math.ceil((Math.abs((255-20*d.counter)%255)/255)*1000))/1000;
+        });
+}
+
+let createPicture = function () {
+
+    calculatePoints(config);
+    config = calcTileStartAndSize('svg2',config);
+    addPoints('mPoints2',config)
+}
+
+function writeSvgImage(svgId,svgParentId) {
+
+var svgHandle = $('#' + svgId);
+var svgParentHandle = $('#' + svgParentId)
+
+var width = svgHandle.attr("width");
+var height = svgHandle.attr("height");
+var viewbox = "0 0 " + width + " " + height;
+
+subWindow = window.open(
+ "#svgResult",  // url to open
+ "example", // window name
+ "height="
+   + height + ",width=" + width + ",toolbar=yes,menubar=yes,"
+   + "scrollbars=yes,resizable=yes,chrome=true,titlebar=true", // options
+ "true" // replace (removes current document)
+ );
+
+var svgDoc = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
++ "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" "
++ "\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n";
+
+svgDoc += document.getElementById(svgId).outerHTML 
+
+subWindow.document.write(svgDoc);
+}
+
+
+
+$(document).ready(function() {
+    config.captureEnd = null;
+    createPicture();
+});
+
+</script>
+<style>
+#opacity-graph line.opacities {
+    stroke: black;
+    stroke-width: 1;
+}
+</style>
+
+</head>
+<body>
+<div id="container">
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+<style>
+
+#t2 {
+    font-size: 48px;
+    fill: black;
+    font-family: Arial;
+}
+
+</style>
+<defs>
+ <text id="t2" fill="black" transform="skewX(0)" >A</text>
+</defs>
+<g id="mPoints2" transform="scale(1)" ></g>
+</svg>
+<button id="btn" onClick="writeSvgImage('svg2','container');" >Click to Export</button>
+</div>
+</body>
+</html>
