@@ -24,6 +24,7 @@ var config = {
     formFontSizeId: 'fontSize',
     formFontFamilyId: 'fontFamily',
     textHref: '#t2',                //the hash is part of the href :(
+    defaultFontIndex: 4,            // Arial
     fontSize: 48,
     updateFontSize: false,
     fontFamily: 'Arial',
@@ -228,7 +229,23 @@ let callbackFunctions = [
     },
     function(data) {
         // updates fontFamily
-        let ffRef = top.document.getElementById(config.formFontFamilyId)
+        let fontIndex = config.defaultFontIndex;
+        let ffRef = top.document.getElementById(config.formFontFamilyId);
+        let fontData = data.fontFamily;
+        if (typeof(fontData) == "number"
+            && typeof(parseInt(fontData)) == "number")
+        {
+            fontIndex = parseInt(fontData)
+        } else
+        if (typeof(fontData) == "string") {
+            let lowercase = fontData.toLowerCase();
+            if (top.fontArray[lowercase]) {
+                fontIndex = top.fontArray[lowercase];
+            }
+        }
+
+        ffRef.selectedIndex = fontIndex;
+        ffRef.onchange();
     }
 ];
 
@@ -306,6 +323,59 @@ let createPicture = function (partialConfig) {
     addPoints(config)
 }
 
+let createEntirePicture = function () {
+
+    let partialConfig = {
+        captureEnd: null,
+    }
+    createPicture(partialConfig);
+}
+////////// Code from main html page: tile-dynamic.html
+
+let changeFontSize = function(formId,textId) {
+    const property = "font-size"
+    const fontSize = parseFloat(document.getElementById(formId).value)
+    const newValue = fontSize + "px"
+
+    replaceStyleProperty(SVGDoc,textId,property,newValue);
+};
+
+let changeFontFamily = function(selectId,textId) {
+    const property = "font-family"
+    const sh = document.getElementById(selectId);
+    const newValue = sh.options[sh.selectedIndex].value
+ 
+    replaceStyleProperty(SVGDoc,textId,property,newValue);
+};
+
+let replaceStyleProperty = function(doc,refId,property,newValue) {
+    let ele = doc.getElementById(refId);
+    let styleCode = ele.getAttributeNS(null,"style");
+    let styleNVArray
+    let styleStringArray = []
+    let styleString = ""
+
+    if (styleCode) {
+
+        let styleList = styleCode.split(";")
+        for (var i=0;i<styleList.length;i++) {
+            styleNVArray = styleList[i].split(":")
+            styleProperty = styleNVArray[0].trim().toLowerCase()
+            if (styleProperty == property || styleProperty == "") {
+                continue
+            } else {
+                styleStringArray[styleStringArray.length] = styleProperty + ": " + styleNVArray[1];
+            }
+        }
+    }
+
+    styleStringArray[styleStringArray.length] = property + ":" + newValue;
+    styleString = styleStringArray.join(";")
+    ele.setAttributeNS(null,"style",styleString);
+}
+
+////////// End code from tile-dynamic.html
+
 function writeSvgImage(svgId,svgParentId) {
 
     var svgHandle = d3.select('#' + svgId);
@@ -331,12 +401,4 @@ function writeSvgImage(svgId,svgParentId) {
     svgDoc += document.getElementById(svgId).outerHTML 
 
     subWindow.document.write(svgDoc);
-}
-
-let createEntirePicture = function () {
-
-    let partialConfig = {
-        captureEnd: null,
-    }
-    createPicture(partialConfig);
 }

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title></title>
+<style>
+</style>
+
+
+<script>
+function validateInteger(possibleInt) {
+    let results = {
+        isParsedInt: null,
+        isParsedFloat: null,
+        isNumber: null,
+        isParsedNumber: null,
+        isRawNumber: null,
+        raw: null,
+        parsedIntValue: null,
+        parsedFloatValue: null
+    };
+
+    results.raw = possibleInt;
+    results.parsedIntValue = parseInt(possibleInt);
+    results.isParsedNumber = (typeof(results.parsedIntValue) == "number");
+    results.parsedFloatValue = parseFloat(possibleInt);
+    results.isParsedFloat = (typeof(results.parsedFloatValue) == "number");
+    results.isRawNumber  = (typeof(raw) == "number")
+    results.isNumber = (typeof(possibleInt) == "number") 
+    results.isParsedInt = (typeof(parsedIntValue) == "number")
+
+    return results
+
+}
+results = validateInteger("1");
+
+console.log (results)
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
