@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true">
+<style>
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+#t2,
+#t3 {
+    font-size: 139px;
+    fill: black;
+    font-family: 'Black And White Picture';
+    text-anchor: middle;
+}
+#svg-scroller {
+    fill: white;
+    cursor: pointer;
+    font-family: 'Days One';
+    font-size: 20px;
+}
+
+#scroller-1 {
+    fill: black;
+    stroke-width: 3px;
+    stroke: white;
+}
+
+#font-size-value {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+
+#font-size-value-binary {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+
+#font-family-value,
+#font-index-binary {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+
+#scroll-font-size {
+    font-size: 70px;
+}
+
+#scroll-font-family {
+    font-size: 21.5px;
+}
+</style>
+<script href="/js/d3.v3.js"></script>
+<script href="/dsvg/js/tile.js"></script>
+<script href="/dsvg/js/fonts.js"></script>
+<script href="/dsvg/devel/a-code.js"></script>
+<script href="/dsvg/devel/mouse-wheel-binary-w-fractions.js"></script>
+<script>
+
+window.addEventListener('DOMContentLoaded', () => {
+    init()
+});
+</script>
+
+<defs>
+ <text
+    id="t2"
+    fill="black"
+    transform="skewX(0)"
+    style="font-family:'Black And White Picture'"
+    ><tspan>AAAAAAA</tspan><tspan dy="100" x="0">aaaaaaa</tspan></text>
+ <text
+    id="t3"
+    fill="black"
+    transform="skewX(0)"
+    style="font-family:'Black And White Picture'"
+    ><tspan
+        x="0">A</tspan><tspan
+        dx="25">A</tspan><tspan
+        dx="25">A</tspan><tspan
+        dx="25">A</tspan><tspan
+        dx="25">A</tspan><tspan
+        dx="25">A</tspan><tspan
+        dx="25">A</tspan><tspan
+        dy="100"
+        x="0">a</tspan><tspan
+        dx="25">a</tspan><tspan
+        dx="25">a</tspan><tspan
+        dx="25">a</tspan><tspan
+        dx="25">a</tspan><tspan
+        dx="25">a</tspan><tspan
+        dx="25">a</tspan></text>
+ <text id="font-size-value" >139</text>
+ <text id="font-size-value-binary"
+    >AaaaAaAA<tspan dy="-15.0">.</tspan></text>
+ <rect id="scroller" height="80" width="500" />
+ <text id="font-family-value">Black And White Picture</text>
+ <text id="font-index-binary">AaAA</text>
+ <text id="font-index">13</text>
+ <rect id="font-scroller" height="40" width="500" />
+</defs>
+
+<g id="text-group" transform="translate(400,350)">
+    <use id="text-display" xlink:href="#t2" x="250" y="10" />
+</g>
+
+<g id="text-group" transform="translate(400,700)">
+    <use id="text-display" xlink:href="#t3" x="250" y="10" />
+</g>
+
+<g id="controls" transform="scale(1)" >
+<g id="font-family-scroll-container"  transform="translate(400,10) scale(1)">
+    <use id="scroller-1" class="scroll" xlink:href="#scroller" />
+    <use id="scroll-font-size" xlink:href="#font-size-value-binary" x="250" y="75" />
+</g>
+
+<g id="font-size-scroll-container"  transform="translate(400,90) scale(1)">
+    <use id="scroller-2" xlink:href="#font-scroller" />
+    <use id="scroll-font-family" xlink:href="#font-index-binary" x="250" y="26" />
+</g>
+</g>
+</svg>

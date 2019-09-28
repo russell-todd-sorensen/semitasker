@@ -25,7 +25,7 @@
 }
 </style>
 <script href="/js/d3.v3.js"></script>
-<script href="/image-creation/js/mandelbrot-tile-maker.js"></script>
+<script href="/dsvg/js/tile.js"></script>
 <script>
 // <![CDATA[
     window.addEventListener('DOMContentLoaded', () => {

@@ -294,6 +294,7 @@ var BaseNConversion = function (fractionList,baseN) {
             tmp.push(reversed[k])
         }
         this.currentMultiple = tmp.reverse();
+        console.log(this.currentMultiple)
         this.length = this.currentMultiple.length;
         return this.returnValue
     };
@@ -340,10 +341,12 @@ var floatToBaseNString = function (float,baseN,totalDigits,fractionDigits) { // 
             }
         }
         return baseNIntString
+    } else
+    if (fractionDigits || fractionDigits == 0) {
+        return baseNIntString
     }
-    let decimalDigits = "" + decimalParts[1].length;
-    let maxReturnDigits;
-    let maxFractionDigits = Math.max(defaultMaxFractionDigits, decimalDigits);
+
+    let maxReturnDigits = 20;
     if (fractionDigits || fractionDigits == 0) {
         maxReturnDigits = (
             (fractionDigits < (totalDigits - baseNIntLen))
@@ -352,37 +355,11 @@ var floatToBaseNString = function (float,baseN,totalDigits,fractionDigits) { // 
         )
     }
 
-    let fraction    = parseFloat("." + decimalParts[1]) * baseN;
     let fractionList = decimalParts[1].split("");
-    let multiple = new BaseNConversion(fractionList,baseN);
-    let valueMap    = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-    let baseNString = "";
-    let i = 0;
-    let remain = 0;
-    let baseNCode;
-    while (fraction > 0 && i < maxFractionDigits) {
-        remain    = Math.trunc(fraction) % baseN
-        baseNCode = valueMap[remain]
-        baseNString = baseNString + baseNCode;
-        fraction  = (1.0 * (fraction-remain) * baseN)
-        i++
-    }
-    let baseNLen = baseNString.length
-    if (maxReturnDigits < baseNLen) {
-        let tmpFractionArray = baseNString.split("");
-        baseNString = ""
-        let k=0
-        while (k < maxReturnDigits) {
-            baseNString += tmpFractionArray[k]
-            k++;
-        }
-        while (k < baseNLen) {
-            baseNString += "0"
-            k++
-        }
-    }
+    let fractObj = new BaseNConversion(fractionList,baseN);
+    let baseNFractString = fractObj.convertFraction(maxReturnDigits)
 
-    return baseNIntString + "." + baseNString;
+    return baseNIntString + "." + baseNFractString;
 }
 
 /*

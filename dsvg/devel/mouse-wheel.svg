@@ -15,35 +15,76 @@
     fill: black;
     font-family: 'Keania One', Arial;
 }
-#svg2 {
-    background-color: white;
+#svg-scroller {
+    fill: silver;
     cursor: pointer;
-}
-.A {
+    font-family: 'Days One';
     font-size: 20px;
-    font-family: Arial;
+}
+
+#scroller-1 {
+    fill: black;
+    stroke-width: 3px;
+    stroke: silver;
+}
+
+#scroll-value {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+#font-value {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+#scroll-text {
+    font-size: 100px;
+}
+#scroll-font {
+    font-size: 21.5px;
 }
 </style>
 <script href="/js/d3.v3.js"></script>
-<script href="/image-creation/js/mandelbrot-tile-maker.js"></script>
+<script href="/dsvg/js/tile.js"></script>
+<script href="/dsvg/js/fonts.js"></script>
+
+<script href="/dsvg/devel/mouse-wheel.js"></script>
 <script>
-// <![CDATA[
-    window.addEventListener('DOMContentLoaded', () => {
-        if (top === self) {
-            // do nothing
-        } else {
-            top.initSVG();
-        }
-        if (document.URL.split('?')[1]) {
-            createPicture();
-        } else {
-            createEntirePicture();
-        }
-    });
-// ]]>
+
+window.addEventListener('DOMContentLoaded', () => {
+    init()
+});
 </script>
+
 <defs>
- <text id="t2" fill="black" transform="skewX(0)" style="font-family:'Keania One', Arial" >A</text>
+ <text 
+    id="t2"
+    fill="black"
+    transform="skewX(0)"
+    style="font-family:'Keania One', Arial"
+    ><tspan>ABCDEFGHIJKLMNOPQRSTUVWZYZ</tspan>
+    <tspan dy="100" x="0">abcdefghijklmnopqrstuvwxyz</tspan></text>
+ <text id="scroll-value" >25</text>
+ <rect id="scroller" height="80" width="300" />
+ <text id="font-value">Black And White Picture</text>
+ <text id="font-index">13</text>
+ <rect id="font-scroller" height="40" width="300" />
 </defs>
-<g id="mPoints2" transform="scale(1)" ></g>
+<g id="controls" transform="scale(1)" >
+<g id="scroll-container"  transform="translate(50,10) scale(1)">
+    <use id="scroller-1" class="scroll" xlink:href="#scroller" />
+    <use id="scroll-text" xlink:href="#scroll-value" x="150" y="75" />
+</g>
+
+<g id="scroll-container"  transform="translate(50,90) scale(1)">
+    <use id="scroller-2" xlink:href="#font-scroller" />
+    <use id="scroll-font" xlink:href="#font-value" x="150" y="26" />
+</g>
+</g>
+<g id="text-group" transform="translate(10,250)">
+<use id="text-display" xlink:href="#t2" x="10" y="10" />
+</g>
 </svg>

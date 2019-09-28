@@ -1,0 +1,86 @@
+html,
+body,
+#mset {
+    margin: 0;
+    padding: 0;
+}
+#form-container {
+    position: absolute;
+    display: inline-block;
+    background-color: black;
+    color: white;
+    font-family: Arial;
+    padding: 10px;
+    padding-left:5px;
+    padding-right: 5px;
+    padding-top: 0;
+    top: 20px;
+    right: 10px;
+    border-radius:6px;
+}
+#form1 {
+    font-family: inherit;
+    color: white;
+}
+#form1 ul#panel {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: black;
+}
+#form1 select,
+#form1 option {
+    width: 210px;
+    font-size: 20px;
+    border-right-width: 3px;
+}
+
+#form1,
+fieldset,
+ul,
+li,
+#panel.expand label,
+#panel.expand div.min-max,
+#panel.expand span,
+#panel.expand select,
+option {
+    font-family: Arial;
+}
+
+fieldset {
+    border-radius: 6px;
+}
+legend {
+    background-color: black;
+    padding: 0;
+    padding-top:3px;
+    border-radius: 6px;
+    border: 5px solid black;
+    font-weight: bold;
+    font-family: Arial;
+}
+
+#form1 .expand {
+    width: 320px;
+}
+
+#form1 .expand label {
+    width :100px;
+    display: inline-block;
+    font-weight: bold;
+    font-family: Arial;
+}
+
+#form1 .expand input {
+    display: inline-block;
+    vertical-align: bottom;
+    width: 200px;
+}
+.min-max {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+#form1 ul li {
+    margin-bottom: 5px;
+}
