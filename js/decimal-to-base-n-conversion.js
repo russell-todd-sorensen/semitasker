@@ -244,6 +244,67 @@ var decimalToBaseNString = function (decimal,baseN) {
 }
 
 
+// This function divides each array item by base
+// and returns the result as an equal length or 
+// shorter array and the final remainder
+var divArr = function(strArr,base) {
+    
+    let baseN = (base||16)
+    let len = strArr.length
+    let res = []
+    let rem = 0
+    let numi,num,div,len2,begin= 0;
+    for (let i=0;i<len;i++) {
+        numi = "" + strArr[i]
+        len2 = numi.length
+        num  = "" + rem + numi
+        rem  = num % baseN
+        div  = "" + (num-rem)/baseN
+        if (div.length < len2 && begin) {
+            div = "0".repeat(len2 - div.length) + div
+        }
+        if (div > 0 || begin) {
+            res.push("" + div)
+            begin = 1
+        }
+    }
+    return {res:res,rem:rem}
+}
+
+var decToBaseN = function (decStr,base,max) {
+
+    let baseN = (base || 16)
+    if (baseN < 2) { 
+        return null;
+    }
+
+    let maxlen = (max||4)
+    if (maxlen < 1) maxlen = 1
+    if (maxlen > 31) maxlen = 31
+
+    let vMap   = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+    let bnStr  = "";
+    let beg = 0;
+    let end = maxlen;
+    let len = ("" + decStr).length
+    let vCode;
+    let strArr = []
+    while (len - beg >= 1) {
+        strArr.push(decStr.slice(beg,end))
+        beg += maxlen
+        end += maxlen
+    }
+    while (strArr.length > 0) {
+        div      = divArr(strArr,baseN)
+        strArr   = div.res
+        vCode    = vMap[div.rem]
+        bnStr = vCode + bnStr;
+    }
+    if (bnStr == "") bnStr = "0"
+    return bnStr;
+}
+
+
 var BaseNConversion = function (fractionList,baseN) {
     this.valueMap = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
     this.fractionList = fractionList;
