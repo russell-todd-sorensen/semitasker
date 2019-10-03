@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true">
+<style>
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+#t2 {
+    font-size: 48px;
+    fill: black;
+    font-family: 'Keania One', Arial;
+}
+#svg2 {
+    background-color: white;
+    cursor: pointer;
+}
+.A {
+    font-size: 20px;
+    font-family: Arial;
+}
+</style>
+<script href="/js/d3.v3.js"></script>
+<script href="/dsvg/js/tile.js"></script>
+<script>
+
+window.addEventListener('DOMContentLoaded', () => {
+    if (top === self) {
+        // do nothing
+    } else {
+        top.initSVG();
+    }
+    if (document.URL.split('?')[1]) {
+        createPicture();
+    } else {
+        createEntirePicture();
+    }
+});
+
+</script>
+<defs>
+ <text id="t2" fill="black" transform="skewX(0)" style="font-family:'Keania One', Arial" >A</text>
+</defs>
+<g id="mPoints2" transform="scale(1)" ></g>
+</svg>

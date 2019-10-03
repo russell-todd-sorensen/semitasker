@@ -304,6 +304,108 @@ var decToBaseN = function (decStr,base,max) {
     return bnStr;
 }
 
+class BaseConvert {
+    constructor(inString,baseN,maxNigits,decPoint) {
+        this.decimalPoint = (decPoint||".")
+        this.inList = inString.split(this.decimalPoint)
+        this.inStr = this.inList[0];
+        this.inFrac = this.inList[1];
+        this.strlen = this.inStr.length
+        this.fracLen = this.inFrac.length
+        this.bnStr = "";
+        this.bnFrac = "";
+        this.value = "";
+        this.strArr = [];
+        this.strFrac = [];
+        this.baseN = (baseN < 2 ? 2 : (baseN || 16));
+        this.vMap = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
+        this.maxNigits = (maxNigits||100); // prevent inf loop
+        this.maxlen = 12;
+    }
+    convert () {
+        this.value = this.decToBaseN() + this.decimalPoint + this.fracToBaseN();
+        return this.value;
+    } 
+    divArr () {
+        let alen = this.strArr.length
+        let res = []
+        let rem = 0
+        let numi,num,div,len2,begin= 0;
+        for (let i=0;i<alen;i++) {
+            numi = "" + this.strArr[i]
+            len2 = numi.length
+            num  = "" + rem + numi
+            rem  = num % this.baseN
+            div  = "" + (num-rem)/this.baseN
+            if (div.length < len2 && begin) {
+                div = "0".repeat(len2 - div.length) + div
+            }
+            if (div > 0 || begin) {
+                res.push("" + div)
+                begin = 1
+            }
+        }
+        return {res:res,rem:rem}
+    }
+    decToBaseN () {
+        this.bnStr  = "";
+        let beg = 0;
+        let end = this.maxlen;
+        let slen = ("" + this.inStr).length
+        let vCode,div;
+
+        while (slen - beg >= 1) {
+            this.strArr.push(this.inStr.slice(beg,end))
+            beg += this.maxlen
+            end += this.maxlen
+        }
+        while (this.strArr.length > 0) {
+            div         = this.divArr()
+            this.strArr = div.res
+            vCode       = this.vMap[div.rem]
+            this.bnStr  = vCode + this.bnStr;
+        }
+        if (this.bnStr == "") this.bnStr = "0"
+        return this.bnStr;
+    }
+
+    fracToBaseN () {
+        this.strFrac = this.inFrac.split("");
+        this.bnFrac = "";
+        let i = 0;
+        let car;
+        while (this.strFrac.length > 0 && i < this.maxNigits) {
+            car = this.mulArr()
+            this.bnFrac += this.vMap[car]
+            i++;
+        }
+        return this.bnFrac
+    }
+
+    mulArr () {
+        let flen = this.strFrac.length;
+        let res  = [];
+        let rem  = 0;
+        let car  = 0;
+        let begin = 0;
+        let num,mul;
+        for (let i=flen-1;i>=0;i--) {
+            num = this.strFrac[i];
+            if (num == "0" && begin == 0) {
+                continue
+            }
+            begin = 1;
+            mul  = num * this.baseN + car;
+            rem = mul % 10
+            car = (mul - rem)/10
+            res[res.length] = rem
+        }
+        this.strFrac = res.reverse()
+        return car
+    }
+
+
+}
 
 var BaseNConversion = function (fractionList,baseN) {
     this.valueMap = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
