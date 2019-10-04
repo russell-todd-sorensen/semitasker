@@ -18,10 +18,45 @@ class BaseConvert {
         this.maxNigits = (maxNigits||100); // prevent inf loop
         this.maxlen = 12;
     }
+
     convert () {
         this.value = this.decToBaseN() + this.decimalPoint + this.fracToBaseN();
         return this.value;
-    } 
+    }
+
+    decToBaseN () {
+        this.bnStr  = "";
+        let beg = 0;
+        let end = this.maxlen;
+        let slen = ("" + this.inStr).length
+        let rem;
+
+        while (slen - beg >= 1) {
+            this.strArr.push(this.inStr.slice(beg,end))
+            beg += this.maxlen
+            end += this.maxlen
+        }
+        while (this.strArr.length > 0) {
+            rem         = this.divArr()
+            this.bnStr  = this.vMap[rem] + this.bnStr;
+        }
+        if (this.bnStr == "") this.bnStr = "0"
+        return this.bnStr;
+    }
+
+    fracToBaseN () {
+        this.strFrac = this.inFrac.split("");
+        this.bnFrac = "";
+        let i = 0;
+        let car;
+        while (this.strFrac.length > 0 && i < this.maxNigits) {
+            car = this.mulArr()
+            this.bnFrac += this.vMap[car]
+            i++;
+        }
+        return this.bnFrac
+    }
+
     divArr () {
         let alen = this.strArr.length
         let res = []
@@ -41,41 +76,8 @@ class BaseConvert {
                 begin = 1
             }
         }
-        return {res:res,rem:rem}
-    }
-    decToBaseN () {
-        this.bnStr  = "";
-        let beg = 0;
-        let end = this.maxlen;
-        let slen = ("" + this.inStr).length
-        let vCode,div;
-
-        while (slen - beg >= 1) {
-            this.strArr.push(this.inStr.slice(beg,end))
-            beg += this.maxlen
-            end += this.maxlen
-        }
-        while (this.strArr.length > 0) {
-            div         = this.divArr()
-            this.strArr = div.res
-            vCode       = this.vMap[div.rem]
-            this.bnStr  = vCode + this.bnStr;
-        }
-        if (this.bnStr == "") this.bnStr = "0"
-        return this.bnStr;
-    }
-
-    fracToBaseN () {
-        this.strFrac = this.inFrac.split("");
-        this.bnFrac = "";
-        let i = 0;
-        let car;
-        while (this.strFrac.length > 0 && i < this.maxNigits) {
-            car = this.mulArr()
-            this.bnFrac += this.vMap[car]
-            i++;
-        }
-        return this.bnFrac
+        this.strArr = res;
+        return rem;
     }
 
     mulArr () {
@@ -99,14 +101,10 @@ class BaseConvert {
         this.strFrac = res.reverse()
         return car
     }
-
 }
 
-
-
-var decimalToBinaryA = function(decimal) {
-    let bn = new BaseConvert(decimal,2).decToBaseN()
-    return bn.split("").map(x => {
+var mapBinaryToA = function (binaryFloat) {
+    return binaryFloat.split("").map(x => {
         switch (x) {
         case '0':
             return 'a';
@@ -114,29 +112,36 @@ var decimalToBinaryA = function(decimal) {
         case '1':
             return 'A';
             break;
+        default:
+            return x;
+            break;
         }
     }).join("");
 }
 
-
-var floatToBinaryA = function (float) { // pure fractions must start with 0.
-
+var decimalToBinaryA = function(decimal) {
+    let bn = new BaseConvert(decimal,2).decToBaseN()
+    return mapBinaryToA(bn);
 }
 
+var floatToBinaryA = function (float,maxNigits) { // pure fractions must start with 0.
+    maxNigits = (maxNigits||12)
+    let bn = new BaseConvert(float,2,maxNigits).convert()
+    return mapBinaryToA(bn);
+}
 
 var decimalToHexString = function(decimal) {
-
+    let bn = new BaseConvert(decimal,16).decToBaseN();
+    return bn;
 }
 
-var floatToHexString = function (float) { // pure fractions must start with 0.
-
+var floatToHexString = function (float,maxNigits) { // pure fractions must start with 0.
+    float = "" + float
+    let len = float.length
+    maxNigits = (maxNigits||len||12)
+    let bn = new BaseConvert(float,16,maxNigits).convert();
+    return bn;
 }
-
-
-var decimalToBaseNString = function (decimal,baseN) {
-
-}
-
 
 /*
     if (arguments.length == 4 && totalDigits && fractionDigits) {
