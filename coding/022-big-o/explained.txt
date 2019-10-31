@@ -1,0 +1,5 @@
+ Compare:
+ N
+ N^2
+ N!
+ N * log(base) N
