@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" 
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     xmlns:ev="http://www.w3.org/2001/xml-events"     
+     baseProfile="full">
+<defs>
+<g id="grid" >
+<line x1="0%" y1="50"  x2="100%" y2="50" />
+<line x1="0%" y1="100" x2="100%" y2="100"  />
+<line x1="0%" y1="150" x2="100%" y2="150"  />
+<line x1="0%" y1="200" x2="100%" y2="200" />
+<line x1="0%" y1="250" x2="100%" y2="250"  />
+</g>
+
+<g id="grid-v" >
+ <use xlink:href="#grid" transform="rotate(90,0,0) translate(0,-300)" />
+</g>
+
+<g id="grid-2500" >
+ <use xlink:href="#grid" />
+ <use xlink:href="#grid" transform="translate(0,250)" />
+ <use xlink:href="#grid" transform="translate(0,500)" />
+ <use xlink:href="#grid" transform="translate(0,750)" />
+ <use xlink:href="#grid" transform="translate(0,750)" />
+ <use xlink:href="#grid" transform="translate(0,1000)" />
+ <use xlink:href="#grid" transform="translate(0,1250)" />
+ <use xlink:href="#grid" transform="translate(0,1500)" />
+ <use xlink:href="#grid" transform="translate(0,1750)" />
+ <use xlink:href="#grid" transform="translate(0,2000)" />
+ <use xlink:href="#grid" transform="translate(0,2250)" />
+ <use xlink:href="#grid" transform="translate(0,2500)" />
+
+ <use xlink:href="#grid-v" />
+ <use xlink:href="#grid-v" transform="translate(250,0)" />
+ <use xlink:href="#grid-v" transform="translate(500,0)" />
+ <use xlink:href="#grid-v" transform="translate(750,0)" />
+ <use xlink:href="#grid-v" transform="translate(1000,0)" />
+ <use xlink:href="#grid-v" transform="translate(1250,0)" />
+ <use xlink:href="#grid-v" transform="translate(1500,0)" />
+ <use xlink:href="#grid-v" transform="translate(1750,0)" />
+ <use xlink:href="#grid-v" transform="translate(2000,0)" />
+ <use xlink:href="#grid-v" transform="translate(2250,0)" />
+ <use xlink:href="#grid-v" transform="translate(2500,0)" />
+</g>
+
+<g id="whole-grid" stroke="#444" stroke-dasharray="5 5" stroke-width="2">
+<use xlink:href='#grid-2500' />
+<use xlink:href='#grid-2500' transform="translate(0,2500)"/>
+<use xlink:href='#grid-2500' transform="translate(2500,0)"/>
+<use xlink:href='#grid-2500' transform="translate(2500,2500)"/>
+</g>
+
+</defs>
+ <use xlink:href="#whole-grid" />
+</svg>

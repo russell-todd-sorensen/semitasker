@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<base href="https://home.semitasker.com/">
+<title>SVG Gears: Fast and Slow</title>
+<style>
+</style>
+<script src="/js/decimal-to-base-n-conversion.js"></script>
+<script>
+
+</script>
+</head>
+<body>
+<svg
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    height="2000"
+    width="2000"
+    viewbox="-250 -250 2000 2000"
+    >
+<style>
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+
+#svg2 {
+    background-image: url("/svg/grid-2.svg");
+}
+#t2 {
+    font-size: 48px;
+    fill: black;
+    font-family: 'Keania One', Arial;
+}
+#svg-scroller {
+    fill: silver;
+    cursor: pointer;
+    font-family: 'Days One';
+    font-size: 20px;
+}
+
+#scroller-1 {
+    fill: black;
+    stroke-width: 3px;
+    stroke: silver;
+}
+
+#scroll-value {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+#font-value {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+#scroll-text {
+    font-size: 100px;
+}
+#scroll-font {
+    font-size: 21.5px;
+}
+#tred {
+    fill: red;
+}
+</style>
+
+<script href="/js/d3.v3.js"></script>
+<script href="/dsvg/js/tile.js"></script>
+<script href="/dsvg/js/fonts.js"></script>
+
+<script href="/dsvg/devel/mouse-wheel.js"></script>
+<script>
+
+window.addEventListener('DOMContentLoaded', () => {
+
+});
+
+</script>
+<defs>
+<radialGradient color-interpolation="sRGB" id="rgrad1" spreadMethod="reflect" cx="50%" cy="50%">
+    <stop stop-color="red" offset="0%" ></stop>
+    <stop stop-color="orange" offset="50%"></stop>
+    <stop stop-color="green" offset="100%" ></stop>
+</radialGradient>
+<lineargradient color-interpolation="sRGB" id="grad-1" spreadmethod="repeat">
+<stop stop-color="white" offset="0.0"></stop>
+<stop stop-color="brown" offset="0.5"></stop>
+<stop stop-color="yellow" offset="1.0"></stop>
+</lineargradient>
+<lineargradient id="grad-2" xlink:href="#grad-1" x1="0" y1="0" x2="100%" y2="100%"></lineargradient>
+<lineargradient id="grad-3" xlink:href="#grad-1" x1="0" y1="0" x2="0" y2="100%"></lineargradient>
+<path id="path-1" d="M 0 0 C 200 100 20 80 153 334 S-650 0 250 100 S280 200 0 400" fill="none" stroke="orange"></path>
+
+<path
+    d="M 0,0 
+       A 100 100, 0, 1 1, 0.001 0.001"
+    id="path8" 
+    stroke="blue" 
+    stroke-width="0.01"
+    style="fill:url(#rgrad1);fill-opacity:1"
+    transform="translate(75,225) scale(1)"
+    />
+
+
+<path id='circ2' d='M15 10 A5 5 0 0 1 10 15 A5 5 0 0 1 5 10 A5 5 0 0 1 15 10 z'
+    stroke="blue" 
+    stroke-width="0.01"
+    fill="none"
+    transform="scale(35)"  >
+    <!-- <animateTransform attributeName="transform" type="rotate" from="0 5 5" to="360 5 5" dur="15s" begin="0s" repeatCount="indefinite" /> -->
+</path>
+
+<path d="M 0 53 C 137 53 140 247 3 247 C -140 247 -137 53 0 53" fill="none" stroke="orange" id="path1"></path>
+
+<text id='t9' fill="black" font-size = "12.095" font-family = "arial" text-anchor="middle">
+    <textPath id = 'test6' xlink:href="#circ2" startOffset="0%">AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+       <animate attributename="startOffset" values="-3.30%;3.30%" begin="0.45s" dur="4.5s" repeatCount="indefinite" />
+    </textPath>
+</text>
+
+</defs>
+<g transform="translate(-600, -600) scale(3.2) ">
+    <use xlink:href="#t9" transform="rotate(0,0,0)" ></use>
+</g>
+
+</svg>
+</body>
+</html>

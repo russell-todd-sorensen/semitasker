@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" />
+<base href="https://home.semitasker.com/" />
+<title>CodePenChallenge: CPC-Fast-Slow</title>
+</head>
+<body>
+<svg
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    width="2500"
+    height="4000"
+    viewbox="-250 -250 2500 4000"
+    >
+<style>
+#svg2x {
+    fill: url("/svg/grid-3.svg");
+}
+#tred {
+    fill: red;
+}
+</style>
+<script>
+
+window.addEventListener('DOMContentLoaded', () => {
+    toggleButton();
+});
+
+var buttonState = 'start'
+var toggleButton = function (evt) {
+    if (buttonState == 'start') {
+        document.getElementById('tstart').style.display = 'block';
+        document.getElementById('ba').style.display = 'block';
+        document.getElementById('tend').style.display = 'none';
+        document.getElementById('baend').style.display = 'none';
+        buttonState = 'end'
+    } else {
+        document.getElementById('tstart').style.display = 'none';
+        document.getElementById('ba').style.display = 'none';
+        document.getElementById('tend').style.display = 'block';
+        document.getElementById('baend').style.display = 'block';
+        buttonState = 'start';
+    }
+}
+
+</script>
+<defs>
+
+<path id='circ0' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform=" translate(350.5 0) scale(70.1)" >
+</path>
+
+<path id='circ1' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform=" translate(174.75 0) scale(34.95)" >
+</path>
+
+<path id='circ2' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform=" translate(24.40 0) scale(4.88)" >
+</path>
+
+<path id='circ3' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform=" translate(50 0) scale(10)" >
+</path>
+
+<path id='circ4' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform=" translate(10 0) scale(2.0)" >
+</path>
+
+<text id='t0' fill="black" font-size = "12.095" font-family = "arial">
+    <textPath id='rotate0' xlink:href="#circ0"><tspan id='tred'>A</tspan>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </textPath>
+</text>
+
+<text id='t1' fill="black" font-size = "12.095" font-family = "arial">
+    <textPath id='rotate1' xlink:href="#circ1"><tspan id='tred'>A</tspan>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </textPath>
+</text>
+
+<text id='t2' fill="black" font-size = "12.095" font-family = "arial">
+    <textPath id='rotate2' xlink:href="#circ2"><tspan id='tred'>A</tspan>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </textPath>
+</text>
+
+<text id='t3' fill="black" font-size = "12.095" font-family = "arial">
+    <textPath id='rotate3' xlink:href="#circ3"><tspan id='tred'>A</tspan>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </textPath>
+</text>
+
+<text id='t4' fill="black" font-size = "12.095" font-family = "arial" letter-spacing="-1.0">
+    <textPath id='rotate4' xlink:href="#circ4"><tspan id='tred'>A</tspan>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </textPath>
+</text>
+
+</defs>
+
+<image xlink:href="/svg/grid-3.svg" id="body" x="-250" y="-250" height="4000" width="2500" />
+<line id="vertical-line" x1='0' y1='-500' x2='0' y2='2500' stroke='red' stroke-width='1' />
+<line id="vertical-line" x1='-500' y1='0' x2='2500' y2='0' stroke='red' stroke-width='1' />
+
+<g transform="translate(500 2220)">
+<g transform="">
+    <animateTransform id="a0" attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="90.5s" begin="ba.click+0.04s" end="baend.click" fill="freeze" repeatCount="indefinite" />
+    <line id="l0" x1="0" y1="0" x2="0" y2="-900" stroke="black" stroke-width="3.2" />
+    <circle id="c0" cx="0" cy="-900" r="10" fill="red" />
+    <use xlink:href="#t0" transform="scale(3.2)" id='xyz' >
+    </use>
+</g>
+</g>
+
+<g transform="translate(500 500)">
+<g transform="">
+    <animateTransform id="a1" attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="45s" begin="ba.click" end="baend.click" fill="freeze" repeatCount="indefinite" />
+    <line id="l1" x1="0" y1="0" x2="100" y2="100" stroke="black" stroke-width="3.2" />
+    <circle id="c4" cx="100" cy="100" r="10" fill="red" />
+    <use xlink:href="#t1" transform="scale(3.2)" id='xyz' >
+    </use>
+</g>
+</g>
+
+<g transform="translate(1338 288)">
+<g transform="">
+    <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="6.29s" begin="ba.click+0.1s" end="baend.click" fill="freeze" repeatCount="indefinite" />
+    <use xlink:href="#t2" transform="scale(3.2)" id='xyz2' >
+    </use>
+</g>
+</g>
+
+<g transform="translate(1140 100)">
+<g transform="">
+    <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="12.91s" begin="ba.click+0.1s" end="baend.click" fill="freeze" repeatCount="indefinite" />
+    <use xlink:href="#t3" transform="scale(3.2)" id='xyz3' >
+    </use>
+</g>
+</g>
+
+<g transform="translate(1338 432)">
+    <g transform="">
+        <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="2.975s" begin="ba.click+0.1s" end="baend.click" fill="freeze" repeatCount="indefinite" />
+        <line id="l4" x1="0" y1="0" x2="500" y2="500" stroke="black" stroke-width="3.2" />
+        <circle id="c4" cx="500" cy="500" r="10" fill="red" />
+        <use xlink:href="#t4" transform="scale(3.2)" id='xyz2' >
+        </use>
+    </g>
+</g>
+
+<g id="button">
+    <text id="tstart" x="62.5" y="-100" fill="black" font-size="40" text-anchor="middle" font-weight="bold" font-family="Arial" textLength="100">Start</text>
+    <text id="tend" x="62.5" y="-100" fill="black" font-size="40" text-anchor="middle" font-weight="bold" font-family="Arial" textLength="100">Stop</text>
+    <rect id="baend" x="0" y="-150" rx="20" ry="30" height="75" width="125" fill="rgba(255,0,0,0.5)" onClick="toggleButton()" />
+    <rect id="ba" x="0" y="-150" rx="20" ry="30" height="75" width="125" fill="rgba(255,0,0,0.5)" onClick="toggleButton()" />
+</g>
+</svg>
+</body>
+</html>
