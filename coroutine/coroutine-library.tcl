@@ -1,10 +1,10 @@
 
-proc Resume {what args} {
-    uplevel 1 yieldto $what $args
+proc Resume {who args} {
+    uplevel 1 yieldto $who $args
 }
 
-proc Call {what args} {
-    uplevel 1 $what {*}$args
+proc Call {who args} {
+    uplevel 1 $who {*}$args
 }
 
 proc Detach {args} {
