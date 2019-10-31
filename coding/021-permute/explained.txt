@@ -1,0 +1,34 @@
+The time complexity of permutations _IS NOT_ the 
+number of constructed permutations.
+
+Example: Permutations of Three member list [a, b, c]:
+
+1: a b c
+2: a c b
+3: b a c
+4: b c a
+5: c a b
+6: c b a
+
+In general what is happening is some code determines what
+the permutation is for each result, but it then must be 
+constructed. Since the length of each result is n, and
+there are n! permutations, the natural time complexity
+is (n! * n)
+
+
+But questions: 
+
+a b c  == a + (b c) == a + b + c 
+There are only two operations to combine three list elements,
+so this should be (n-1)
+
+So is the time complexity (n! * (n - 1)) ?
+
+What about when you get down to a two element list [a, b]?
+
+There is actually only one permutation constructed: [b, a], plus
+the original [a, b]. Noticing the two element list and returning
+two permutations only requires one operation. If a list has length
+one, there are no operations required, but you should never get down
+to this level unless you start with a one element list.
