@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<base href="https://home.semitasker.com/">
+<title>Normalize Rational Number</title>
+
+<style>
+.red {
+    color: red;
+}
+td {
+    text-align: right;
+    font-family:'Lucida Sans Unicode', monospace;
+}
+td.al {
+    text-align: left;
+}
+tr.hl {
+    background-color: rgb(255,200,200);
+}
+td.er {
+    background-color: rgb(255,100,255);
+}
+</style>
+
+<script src="/js/base-conversion.js"></script>
+<script src="/chemical-pi/js/pi-digits.js"></script>
+<script src="/js/math.js"></script>
+<script>
+
+var toggleStyle = function (evt) {
+    let styleClass = this.className
+    if (styleClass == 'hl') {
+        this.className = ""
+    } else {
+        this.className = 'hl'
+    }
+}
+
+let setClickEvents = function (evt) {
+    let rows = document.getElementsByTagName('tr');
+    let row;
+    for (let i in rows) {
+        row = rows[i];
+        row.onclick = toggleStyle
+    }
+}
+
+
+var normInteger = function (inString) {
+    let sign = (inString[0] == "-" ? -1 : 1)
+    if (sign == -1) {
+        inString = inString.substr(1)
+    }
+    let exp = inString.length
+    let sd,sv;
+    let i = exp-1; 
+    while (i >= 0 && inString[i] == 0) {
+        // loop
+        i--
+    }
+    sv = inString.slice(0,i+1)
+    sd = sv.length
+    return {sign:sign,inString:inString,sv:sv,sd:sd,i:i,len:exp}
+}
+
+let normFloat = function(numer, denom) { // numer and denom both integers
+    let sign, reducedFraction, reducedNumer, 
+        reducedDenom, numExp,exponent,maxSigDig,
+        denomFactors,numerFactors;
+
+    let numerSign = (numer < 0 ? -1 : 1)
+    let denomSign = (denom < 0 ? -1 : 1)
+    let resultSign = numerSign * denomSign;
+
+    denom *= denomSign;
+    numer *= numerSign;
+
+    numerFactors = factorInteger(numer)
+    denomFactors = factorInteger(denom)
+    reducedFraction = reduceFraction(numerFactors,denomFactors)
+
+
+}
+
+var rationals = []
+let errorClass = "ee"
+let runtests = function(startNumer,endNumer,startDenom,endDenom) {
+
+    rationals = [];
+    let r = 0;
+    let rat;
+    for (let n = startNumer; n<=endNumer;n++) {
+        for (let d = startDenom;d<=endDenom;d++) {
+            rationals[r] = {n:n,d:d, r:new Rational(n,d)}
+            r++
+        }
+    }
+
+    let output = `<table cellspacing='0' cellpadding='2' border='1px'>
+    <tr><th>I</th><th>Numer</th><th>Denom</th><th>rNumer<th>rDenom</th><th>Rational Value</th>
+    <th>Factored Value</th>
+    </tr>`
+    for (let i=0;i<rationals.length;i++) {
+        rat = rationals[i]
+
+        output += `
+    <tr id='r-${i}'><td>${i}</td><td>${rat.n}</td><td>${rat.d}</td>
+        <td>${rat.r.rnum}</td><td>${rat.r.rden}</td><td>${rat.r.rationalValue}</td>
+        <td>${rat.r.factoredValue}</td>
+    </tr>\n`
+    }
+    document.getElementById('results').innerHTML = output
+    setClickEvents(event);
+}
+
+var multiply = function (a,b) {
+   return  {i:a.i * b.i,e:a.e + b.e,s:((a.s ? a.s : 1) * (b.s ? b.s : 1))}
+}
+
+</script>
+</head>
+<body>
+<pre>
+    In quantifying the significant digits in numerator and denominator, 
+    conver to a normed  form. 
+    But what is this exactly.
+    Find significant digits in numerator and denominator, plus an exponent,
+    base 10.
+
+    100 = 1 E2 (1 significant digit, multiply by 100)
+   1010 = 101 E1 (3 sigs, mult by 10)
+   1234 = 1234 E0
+  10001 = 10001 E0
+   3500 = 35 E2
+   
+   Ways to represent this:
+   {i:"35",e:2} == 3500
+   {i:"1",e:2} == 100
+   {i:"2", e:3, s:-1} == -2000
+
+   multiplying two normed integers:
+   a = {i:"35",e:2} b = {i:"2",e:3,s:-1}
+   r = a * b;
+   r = {i:a.i * b.i,e:a.e + b.e,s:((a.s ? a.s : 1) * (b.s ? b.s : 1))}
+</pre>
+<div id="results"></div>
+</body>
+</html>

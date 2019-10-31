@@ -13,43 +13,174 @@ td {
     text-align: right;
     font-family:'Lucida Sans Unicode', monospace;
 }
+td.al {
+    text-align: left;
+}
+tr.hl {
+    background-color: rgb(255,200,200);
+}
+td.er {
+    background-color: rgb(255,100,255);
+}
 </style>
 <script src="/js/base-conversion.js"></script>
+<script src="/chemical-pi/js/pi-digits.js"></script>
+<script src="/js/x2-test.js"></script>
 <script>
+var toggleStyle = function (evt) {
+    let styleClass = this.className
+    if (styleClass == 'hl') {
+        this.className = ""
+    } else {
+        this.className = 'hl'
+    }
+}
 
-var runTests = function (begin,end) {
+let setClickEvents = function (evt) {
+    let rows = document.getElementsByTagName('tr');
+    let row;
+    for (let i in rows) {
+        row = rows[i];
+        row.onclick = toggleStyle
+    }
+}
 
-    let i = (begin || 1)
-    let k = (end || 10000)
-    let results = [];
-    let dig,formattedDigit,remain,tailIntList;
-    let diff,notice,base16;
+var runTests = function (begin,end,nbegin,nend,maxMatch) {
+
+    let i  = (begin || 2)
+    let k  = (end || 100)
+    nbegin = (nbegin || 1)
+    nend   = (nend || 1)
+    maxMatch = (maxMatch || -1)
     output = `<table cellspacing='0' cellpadding='2' border='1px'>
-    <tr><th>Tail</th><th>fDigit</th><th>Diff(10)<th>Base16</th><th>Remain</th>
-    <th>Remain 2</th>
+    <tr><th>Numer</th><th>Denom</th><th>Head<th>preMatch</th><th>RepLen</th>
+    <th>MatchLen</th><th>Divide</th><th>Result</th>
     </tr>`
 
-    for (;i<k;i++) {
-        dig = 10000 + i
-        tail = ("" + dig).slice(1)
-        tailRemain = tail % 16
-        tailRemain2 = tail/16
-        tailIntList = ("" + tailRemain2).split(".")  
-        tailRemain2 = tailIntList[1]*16/1000 //wrong
 
-        for (let j = 0;j<17;j++) {
-            formattedDigit = "" + j + tail
-            remain = formattedDigit % 16
-            base16 = decimalToBaseNString(formattedDigit,16)
-            diff = 625*j
-            output += `
-    <tr><td>${tail}</td><td>${formattedDigit}</td>
-        <td>${diff}</td><td>${base16}</td><td>${remain}</td>
-        <td>${tailRemain2}</td>
-    </tr>\n`
+    let bc,head,preMatch,matchLen,result,div,repLen;
+    let doNotReduce = false;
+    let failed = false;
+    for (;i<k;i++) {
+        numer = (nend - Math.trunc((nend-nbegin)*Math.random()))
+        //numer = (numer < 1 ? 1 : numer)
+        denom = i
+        bc = fractionToRecurringDecimal(numer,denom,doNotReduce);
+        matchLen = bc.matchLen
+        if (maxMatch > -1 && matchLen > maxMatch) {
+            continue
         }
+        result = bc.res
+        if (result == "" && failed == false) {
+            failed = true
+            doNotReduce = true
+            i--
+            continue
+        } else {
+            failed = false
+            doNotReduce = false
+        }
+        head = bc.head
+        preMatch = bc.preMatch
+        repLen = bc.repLen
+        div = bc.div
+        if (bc.err != "" || bc.res == "") {
+            errorClass = " ec"
+        } else {
+            errorClass = ""
+        }
+        output += `
+    <tr id='r-${i}'><td>${numer}</td><td>${denom}</td>
+        <td>${head}</td><td>${preMatch}</td><td>${repLen}</td>
+        <td>${matchLen}</td>
+        <td class='al${errorClass}'>${div}</td>
+        <td class='al${errorClass}'>${result}
+    </tr>\n`
+
     }
+
     document.getElementById('results').innerHTML = output
+    setClickEvents(event);
+}
+
+class Integer {
+    constructor (int) {
+        this.raw = int;
+        this.sign = null;
+        this.value = this.raw * this.getSign();
+        this.exp = Math.trunc(Math.log10(this.value));
+        this.factors;
+        this.reduced;
+        this.factorInteger();
+        this.isPrime = (this.factors.length == 1 ? true : false);
+    }
+    getSign() {
+        if (!this.sign) {
+            this.sign = (this.raw < 0 ? -1 : 1)
+        }
+        return this.sign;
+    };
+    factorInteger() {
+        this.factors = []
+        this.reduced = this.value;
+        for (let i=2;i<this.reduced/2;i++) {
+            let fac = {f:i,n:0}
+            while (this.reduced % i == 0) {
+                this.reduced /= i
+                fac.n++
+            }
+            if (fac.n) this.factors.push(fac)
+        }
+        if (this.reduced > 1) {
+            this.factors.push({f:this.reduced,n:1})
+        }
+    };
+}
+
+class Rational {
+    constructor (numer, denom) {
+        this.numer = new Integer(numer);
+        this.denom = new Integer(denom);
+        this.sign  = this.numer.sign * this.denom.sign;
+
+    }
+}
+
+var normInteger = function (inString) {
+    let sign = (inString[0] == "-" ? -1 : 1)
+    if (sign == -1) {
+        inString = inString.substr(1)
+    }
+    let exp = inString.length
+    let sd,sv;
+    let i = exp-1; 
+    while (i >= 0 && inString[i] == 0) {
+        // loop
+        i--
+    }
+    sv = inString.slice(0,i+1)
+    sd = sv.length
+    return {sign:sign,inString:inString,sv:sv,sd:sd,i:i,len:exp}
+}
+
+let normFloat = function(numer, denom) { // numer and denom both integers
+    let sign, reducedFraction, reducedNumer, 
+        reducedDenom, numExp,exponent,maxSigDig,
+        denomFactors,numerFactors;
+
+    let numerSign = (numer < 0 ? -1 : 1)
+    let denomSign = (denom < 0 ? -1 : 1)
+    let resultSign = numerSign * denomSign;
+
+    denom *= denomSign;
+    numer *= numerSign;
+
+    numerFactors = factorInteger(numer)
+    denomFactors = factorInteger(denom)
+    reducedFraction = reduceFraction(numerFactors,denomFactors)
+
+
+
 }
 
 //console.log(runTests(testValues,12,20,6))
