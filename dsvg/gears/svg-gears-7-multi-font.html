@@ -4,41 +4,9 @@
 <meta charset="utf-8" />
 <base href="https://home.semitasker.com/" />
 <title>CodePenChallenge: CPC-Fast-Slow</title>
-</head>
-<body>
-<svg
-    id="svg2"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xml:base="https://home.semitasker.com/"
-    externalResourcesRequired="true"
-    width="2500"
-    height="4000"
-    viewbox="-250 -250 2500 4000"
-    >
-<style>
-    @import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
-</style>
-<style>
-#svg2x {
-    fill: url("/svg/grid-3.svg");
-}
-#tred {
-    fill: red;
-}
-#svg2 textPath {
-    font-family: "Arial";
-    letter-spacing: 0px;
-}
-</style>
 <script>
 
-window.addEventListener('DOMContentLoaded', () => {
-    toggleButton();
-});
-
-var buttonState = 'start'
+var buttonState = 'end'
 var toggleButton = function (evt) {
     if (buttonState == 'start') {
         document.getElementById('tstart').style.display = 'block';
@@ -54,6 +22,68 @@ var toggleButton = function (evt) {
         buttonState = 'start';
     }
 }
+
+var controlSpeed = function(pct) {
+    let animIds = ["a0", "a1", "a2", "a3", "a4"];
+    let pathId  = "circ0";
+    for (let i=0;i<animIds.length;i++) {
+        let id = animIds[i]
+        let gearAnim = document.getElementById(id)
+        let dur = parseFloat(gearAnim.getAttribute('dur'));
+        dur = (dur*pct) + "s"
+        gearAnim.setAttribute('dur', dur)
+    }
+}
+
+var faster = function(evt) {
+    controlSpeed(1/1.1) 
+}
+
+var slower = function(evt) {
+    controlSpeed(1.1)
+}
+
+</script>
+</head>
+<body>
+<svg
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    width="2500"
+    height="4000"
+    viewbox="-250 -250 2500 4000"
+    >
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Major+Mono+Display|Megrim|Metamorphous&amp;display=swap');
+</style>
+<style>
+#svg2x {
+    fill: url("/svg/grid-3.svg");
+}
+#tred {
+    fill: red;
+}
+#svg2 textPath {
+    font-family: "Major Mono Display";
+    letter-spacing: -1px;
+   /* font-weight: bold; */
+}
+#svg2 #t3 {
+    letter-spacing: -0.8px;
+}
+#svg2 #t4 {
+    letter-spacing: -2.5px;
+}
+</style>
+<script>
+
+window.addEventListener('DOMContentLoaded', () => {
+    toggleButton();
+});
 
 </script>
 <defs>
@@ -75,12 +105,12 @@ var toggleButton = function (evt) {
 
 <path id='circ3' 
       d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
-      transform=" translate(50 0) scale(10)" >
+      transform=" translate(49.5 0) scale(9.9)" >
 </path>
 
 <path id='circ4' 
       d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
-      transform=" translate(10 0) scale(2.05)" >
+      transform=" translate(10 0) scale(2.0)" >
 </path>
 
 <text id='t0' fill="black" font-size = "12.095" font-family = "Major Mono Display">
@@ -115,8 +145,8 @@ var toggleButton = function (evt) {
 <line id="vertical-line" x1='-500' y1='0' x2='2500' y2='0' stroke='red' stroke-width='1' />
 
 <g transform="translate(500 2220)">
-<g transform="rotate(0 0 0)">
-    <animateTransform id="a0" attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="90.35s" begin="ba.click" end="baend.click" fill="freeze" repeatCount="indefinite" />
+<g transform="">
+    <animateTransform id="a0" attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="91.75s" begin="0.15s;ba.click+0.15s" end="baend.click" fill="freeze" repeatCount="indefinite" />
     <line id="l0" x1="0" y1="0" x2="0" y2="-900" stroke="black" stroke-width="3.2" />
     <circle id="c0" cx="0" cy="-900" r="10" fill="red" />
     <use xlink:href="#t0" transform="scale(3.2)" id='xyz' >
@@ -125,8 +155,8 @@ var toggleButton = function (evt) {
 </g>
 
 <g transform="translate(500 500)">
-<g transform="rotate(0.95 0 0)">
-    <animateTransform id="a1" attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="45s" begin="ba.click" end="baend.click" fill="freeze" repeatCount="indefinite" />
+<g transform="">
+    <animateTransform id="a1" attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="45.7s" begin="0s;ba.click" end="baend.click" fill="freeze" repeatCount="indefinite" />
     <line id="l1" x1="0" y1="0" x2="100" y2="100" stroke="black" stroke-width="3.2" />
     <circle id="c4" cx="100" cy="100" r="10" fill="red" />
     <use xlink:href="#t1" transform="scale(3.2)" id='xyz' >
@@ -136,7 +166,7 @@ var toggleButton = function (evt) {
 
 <g transform="translate(1338 288)">
 <g transform="">
-    <animateTransform attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="6.29s" begin="ba.click+0.1s" end="baend.click" fill="freeze" repeatCount="indefinite" />
+    <animateTransform id="a2" attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="6.29s" begin="0.1s;ba.click+0.1s" end="baend.click" fill="freeze" repeatCount="indefinite" />
     <use xlink:href="#t2" transform="scale(3.2)" id='xyz2' >
     </use>
 </g>
@@ -144,15 +174,15 @@ var toggleButton = function (evt) {
 
 <g transform="translate(1140 100)">
 <g transform="">
-    <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="12.91s" begin="ba.click+0.1s" end="baend.click" fill="freeze" repeatCount="indefinite" />
+    <animateTransform id="a3" attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="12.91s" begin="0.1s;ba.click+0.1s" end="baend.click" fill="freeze" repeatCount="indefinite" />
     <use xlink:href="#t3" transform="scale(3.2)" id='xyz3' >
     </use>
 </g>
 </g>
 
 <g transform="translate(1338 432)">
-    <g transform="rotate(12.5 0 0)">
-        <animateTransform attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="2.635s" begin="ba.click+0.15s" end="baend.click" fill="freeze" repeatCount="indefinite" />
+    <g transform="">
+        <animateTransform id="a4" attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="2.648s" begin="0.15s;ba.click+0.15s" end="baend.click" fill="freeze" repeatCount="indefinite" />
         <line id="l4" x1="0" y1="0" x2="500" y2="500" stroke="black" stroke-width="3.2" />
         <circle id="c4" cx="500" cy="500" r="10" fill="red" />
         <use xlink:href="#t4" transform="scale(3.2)" id='xyz2' >
@@ -165,6 +195,19 @@ var toggleButton = function (evt) {
     <text id="tend" x="62.5" y="-100" fill="black" font-size="40" text-anchor="middle" font-weight="bold" font-family="Arial" textLength="100">Stop</text>
     <rect id="baend" x="0" y="-150" rx="20" ry="30" height="75" width="125" fill="rgba(255,0,0,0.5)" onClick="toggleButton()" />
     <rect id="ba" x="0" y="-150" rx="20" ry="30" height="75" width="125" fill="rgba(255,0,0,0.5)" onClick="toggleButton()" />
+</g>
+<g id="fast-slow" transform="translate(0, -100)">
+    <g id="button-faster">
+        <text id="tslower" x="-100" y="0" fill="black" font-size="40" text-anchor="middle" font-weight="bold" font-family="Arial" textLength="120">Slower</text>
+        <rect id="slowbg" x="-175" y="-50" rx="20" ry="30" height="75" width="150" fill="rgba(255,0,0,0.5)" onClick="slower()" />
+    </g>
+    <g>
+        <text id="tfaster" x="225" y="0" fill="black" font-size="40" text-anchor="middle" font-weight="bold" font-family="Arial" textLength="120">Faster</text>
+        <rect id="fastbg" x="150" y="-50" rx="20" ry="30" height="75" width="150" fill="rgba(255,0,0,0.5)" onClick="faster()" />
+    </g>
+</g>
+<g id="button-slower">
+
 </g>
 </svg>
 </body>
