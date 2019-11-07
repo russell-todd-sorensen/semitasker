@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" />
+<base href="https://home.semitasker.com/" />
+<title>SVG Clock</title>
+<style>
+html,
+body,
+svg {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+</style>
+
+<script src="/js/schedule-function.js"></script>
+<script src="/js/clock.js"></script>
+
+</head>
+<body>
+<svg
+    id="svg-clock"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    width="500"
+    height="900"
+    viewbox="0 0 500 900"
+    >
+<style>
+#t5 {
+    font-size: 42px;
+    font-family: Arial;
+}
+.nums5 {
+    fill: orange;
+}
+</style>
+<script>
+
+var myClock = new Clock();
+window.addEventListener('DOMContentLoaded', () => {
+    myClock.start()
+    //myClock.set(new fakeDate(fakedate[11]))
+});
+
+</script>
+<defs>
+
+<path id='circ5' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform="translate(126 126) scale(25.2)" >
+</path>
+
+<!-- WARNING: Be careful to not use whitespace in clock numbers-->
+<text id='t5' 
+      class="nums5" 
+      letter-spacing="51" 
+      textLength="100%"
+    ><textPath 
+        id='rotate5' xlink:href="#circ5" startOffset="0"><tspan
+            dx="-1" letter-spacing="0">12</tspan><tspan
+            dx="36.5">.</tspan><tspan
+            dx="3">.</tspan><tspan
+            dx="-3">3</tspan><tspan
+            dx="-2.0">.</tspan><tspan
+            dx="2.5">.</tspan><tspan
+            dx="-2.0">9</tspan><tspan
+            dx="-2.0">.</tspan><tspan
+            dx="2.5">.</tspan><tspan
+            dx="-2">9</tspan><tspan
+            dx="-2.0">.</tspan><tspan
+            dx="2.0">.</tspan></textPath></text>
+
+</defs>
+
+<g id="outer-scale" transform="scale(1.0)" >
+    <g id="outer-translate" transform="translate(50 50)">
+        <image id="svg-bg-grid" 
+               x="-475" y="-475"
+               height="1400" width="1000"
+               xlink:href="/svg/grid-3.svg" />
+        <g transform="translate(125,125)">
+            <g transform="" id="hour-hand">
+                <line id="l0" 
+                      x1="0" y1="0" 
+                      x2="0" y2="-75" 
+                      stroke="black" 
+                      stroke-width="3.2" />
+                <circle id="c0" 
+                        cx="0" cy="0" r="75" 
+                        fill="rgba(100,100,100,0.2)" 
+                        stroke="rgba(100,100,100,0.2)" 
+                        stroke-width="1" />
+            </g>
+        </g>
+        <g transform="translate(125 125)">
+            <g transform="" id="minute-hand">
+                <line id="l1" 
+                      x1="0" y1="0" 
+                      x2="0" y2="-100" 
+                      stroke="rgba(50,50,50,0.8)" 
+                      stroke-width="2" />
+                <circle id="c4" 
+                        cx="0" cy="0" r="100" 
+                        fill="rgba(100,100,100,0.2)" 
+                        stroke="rgba(100,100,100,0.4)" 
+                        stroke-width="1"  />
+            </g>
+        </g>
+
+        <g transform="translate(125 125)">
+            <g transform="" id="second-hand">
+                <line id="l1" 
+                      x1="0" y1="0" 
+                      x2="0" y2="-125" 
+                      stroke="rgba(50,50,50,0.8)" 
+                      stroke-width="2" />
+                <circle id="c4" 
+                        cx="0" cy="0" r="125" 
+                        fill="rgba(0,0,0,0.2)" 
+                        stroke="rgba(100,100,100,0.4)" 
+                        stroke-width="1"  />
+            </g>
+        </g>
+        <g transform="translate(1 147)"> <!-- Clock Face Numbers -->
+            <use xlink:href="#t5" transform="rotate(-100)" id='num2' />
+        </g>
+    </g>
+</g>
+</svg>
+</body>
+</html>

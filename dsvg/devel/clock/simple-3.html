@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" />
+<base href="https://home.semitasker.com/" />
+<title>SVG Clock</title>
+<script src="/js/schedule-function.js"></script>
+<script>
+
+class Transform {
+    constructor(translate, scale, rotate, skew, order) {
+        this.translate = (translate?translate:{x:0,y:0});
+        this.scale = (scale?scale:{x:1,y:1});
+        this.rotate = (rotate?rotate:{deg:0});
+        this.skew = (skew?skew:{x:0,y:0});
+        this.order = (order?order:['translate','scale','rotate','skew']);
+    }
+    toString() {
+        let transform = [];
+        let idx = 0;
+        for (let i = 0; i< this.order.length;i++) {
+            switch (this.order[i]) {
+            case 'translate':
+                if (this.translate.x == 0 && this.translate.y == 0) {
+                    break;
+                }
+                transform[idx] = 'translate(' + this.translate.x + ', ' + this.translate.y + ')'
+                idx++;
+                break;
+            case 'scale':
+                if (this.scale.x == 1 && (!this.scale.y || this.scale.y == 1)) {
+                    break;
+                }
+                transform[idx] = 'scale(' + this.scale.x + (this.scale.y ? (', ' + this.scale.y + ')') : ')');
+                idx++;
+                break;
+            case 'rotate':
+                if (this.rotate.deg == 0) {
+                    break;
+                }
+                transform[idx] = 'rotate(' + this.rotate.deg;
+                if (this.rotate.x) {
+                    transform[idx] += (', ' + this.rotate.x + ', ' + this.rotate.y )
+                }
+                transform[idx] += ')';
+                idx++;
+                break;
+            case 'skew':
+                if (this.skew.x) {
+                    transform[idx] = 'skewX(' + this.skew.x + ')';
+                    idx++;
+                }
+                if (this.skew.y) {
+                    transform[idx] = 'skewY(' + this.skew.y + ')';
+                    idx++;
+                }
+                break;
+            default: 
+                break;
+            }
+        }
+        return transform.join(' ')
+    }
+}
+
+class Path {
+    constructor(id,d,transform) {
+        this.id = id;
+        this.d  = d;
+        this.transform = transform;
+    }
+}
+
+class Clock {
+
+    #timezoneOffset = -8; // PST
+
+    constructor (hourId,minuteId, secondId, subSecondOneId,subSecondTwoId) {
+        this.hourId = (hourId?hourId:"hour-hand");
+        this.minuteId = (minuteId?minuteId:"minute-hand");
+        this.secondId = (secondId?secondId:"second-hand");
+        this.subSecondOneId = (subSecondOneId?subSecondOneId:"sub-second-hand-1");
+        this.subSecondTwoId = (subSecondTwoId?subSecondTwoId:"sub-second-hand-2");
+        this.continueAnimation = false;
+        this.runFunction = this.run;
+        this.data = {
+            obj:this,
+            hourId:this.hourId,
+            minuteId:this.minuteId,
+            secondId:this.secondId,
+            subSecondOneId:this.subSecondOneId,
+            subSecondTwoId:this.subSecondTwoId,
+            timezoneOffset:this.#timezoneOffset,
+        }
+    }
+    start (animationFunction, timeout, data) {
+        let da = (data?data:this.data)
+        let obj = da.obj;
+        let af = (animationFunction?animationFunction:this.runFunction);
+        let to = (timeout?timeout:1000)
+        obj.continueAnimation = true;
+        scheduleFunction(af,to,true,true,da);
+    }
+    set (dateObj,dataObj) {
+        let date = (dateObj?dateObj:new Date())
+        let data = (dataObj?dataObj:this.data)
+        let obj  = data.obj
+        let d    = document;
+        let millisecond = date.getMilliseconds();
+        let second = date.getUTCSeconds();
+        let minute = date.getUTCMinutes();
+        let hour = (date.getUTCHours() % 12);
+        let day = date.getUTCDate();
+        let month = date.getUTCMonth() + 1;
+        let year = date.getUTCFullYear();
+        // Adjust for Timezone Difference, if any
+        let tzo = date.getTimezoneOffset();
+        let timezoneOffset = obj.getTimezoneOffset()
+        let origHour = hour;
+        if (tzo == 0) {
+            hour = date.getUTCHours() + timezoneOffset;
+            if (hour < 0) {
+                let i = 0
+                while (hour < 0) {
+                    hour += 12
+                    i++
+                }
+                // quick timezone fix, do better with constructed date
+                hour = hour % 12
+                day -= 1
+            }
+        }
+
+        let sAngle = second * 6;
+        let mAngle = minute * 6 + (sAngle/60);
+        let hAngle = hour  * 30 + (mAngle/12);
+        let secondElement = d.getElementById(data.secondId)
+        secondElement.setAttribute('transform','rotate(' + sAngle + ')')
+        let minuteElement = d.getElementById(data.minuteId)
+        minuteElement.setAttribute('transform','rotate(' + mAngle + ')')
+        let hourElement = d.getElementById(data.hourId)
+        hourElement.setAttribute('transform','rotate(' + hAngle + ')')
+    }
+    run (data) {
+        let date = new Date();
+        let millisecond = date.getMilliseconds();
+        let obj  = data.obj;
+        obj.set(date,data);
+        return {continueAnimation:obj.continueAnimation,timeout:(1000-millisecond)}
+    }
+    setTimezoneOffset(tz) {
+        this.#timezoneOffset = tz;
+        this.data.#timezoneOffset = tz;
+    }
+    getTimezoneOffset() {
+        return this.#timezoneOffset;
+    }
+}
+
+class fakeDate {
+    #milliseconds = 0;
+    #UTCSeconds   = 0;
+    #UTCMinutes   = 0;
+    #UTCHours     = 0;
+    #UTCDate      = 0;
+    #UTCMonth     = 0;
+    #UTCFullYear  = 2019;
+    #timezoneOffset = 0;
+
+    constructor (date) {
+        this.#milliseconds = date.ms;
+        this.#UTCSeconds   = date.s;
+        this.#UTCMinutes   = date.m;
+        this.#UTCHours     = date.h;
+        this.#UTCDate      = date.dom;
+        this.#UTCMonth     = date.mon;
+        this.#UTCFullYear  = date.fy;
+    }
+
+    getMilliseconds() {
+        return this.#milliseconds
+    }
+    getUTCSeconds() {
+        return this.#UTCSeconds;
+    }
+    getUTCMinutes() {
+        return this.#UTCMinutes;
+    }
+    getUTCHours() {
+        return this.#UTCHours;
+    }
+    getUTCDate() {
+        return this.#UTCDate;
+    }
+    getUTCMonth() {
+        return this.#UTCMonth;
+    }
+    getUTCFullYear() {
+        return this.#UTCFullYear;
+    }
+    getTimezoneOffset() {
+        return this.#timezoneOffset;
+    }
+    setTimezoneOffset(tz) {
+        this.#timezoneOffset = tz;
+    }
+}
+
+var fakedate = [] 
+
+fakedate[0] = {
+    ms:15,
+    s:0,
+    m:0,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+fakedate[1] = {
+    ms:15,
+    s:5,
+    m:0,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+fakedate[2] = {
+    ms:15,
+    s:10,
+    m:10,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+fakedate[3] = {
+    ms:15,
+    s:15,
+    m:15,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+fakedate[4] = {
+    ms:15,
+    s:20,
+    m:20,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+fakedate[5] = {
+    ms:15,
+    s:25,
+    m:25,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+fakedate[6] = {
+    ms:15,
+    s:30,
+    m:30,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+fakedate[7] = {
+    ms:15,
+    s:35,
+    m:35,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+fakedate[8] = {
+    ms:15,
+    s:40,
+    m:40,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+fakedate[9] = {
+    ms:15,
+    s:45,
+    m:45,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+fakedate[10] = {
+    ms:15,
+    s:50,
+    m:50,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+fakedate[11] = {
+    ms:15,
+    s:55,
+    m:55,
+    h:0,
+    dom:1,
+    mon:0,
+    fy:2019,
+}
+
+</script>
+
+</head>
+<body>
+<svg
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    width="500"
+    height="900"
+    viewbox="-250 -450 500 900"
+    >
+<style>
+#svg2x {
+    fill: url("/svg/grid-3.svg");
+}
+#tred {
+    fill: red;
+}
+#t4 {
+    font-size: 42px;
+    font-family: Arial;
+}
+#circ4 {
+    fill: rgba(0,0,0,.2)
+}
+.nums {
+    fill: tan;
+}
+#t5 {
+    font-size: 42px;
+    font-family: Arial;
+}
+#t6 {
+    font-size: 42px;
+    font-family: Arial;
+}
+.nums2 {
+    fill: orange;
+}
+.nums3 {
+    fill: brown;
+    font-family: Arial;
+    text-anchor: middle;
+}
+#three-glyph {
+    glyph-orientation-vertical: 90;
+}
+</style>
+<script>
+var myClock = new Clock();
+window.addEventListener('DOMContentLoaded', () => {
+    myClock.start()
+    //myClock.set(new fakeDate(fakedate[11]))
+});
+
+
+</script>
+<defs>
+
+<path id='circ0' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform="translate(350.5 0) scale(70.1)" >
+</path>
+
+<path id='circ1' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform="translate(174.75 0) scale(34.95)" >
+</path>
+
+<path id='circ2' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform="translate(24.40 0) scale(4.88)" >
+</path>
+
+<path id='circ3' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform="translate(50 0) scale(10)" >
+</path>
+
+<path id='circ4' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform="translate(126 126) scale(25.2)" >
+</path>
+
+<path id='circ5' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform="translate(126 126) scale(25.2)" >
+</path>
+
+<path id='circ6' 
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform="translate(126 126) scale(25.2)" >
+</path>
+
+<text id='t0' fill="black" font-size = "12.095" font-family = "arial">
+    <textPath id='rotate0' xlink:href="#circ0"><tspan id='tred'>A</tspan>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </textPath>
+</text>
+
+<text id='t1' fill="black" font-size = "12.095" font-family = "arial">
+    <textPath id='rotate1' xlink:href="#circ1"><tspan id='tred'>A</tspan>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </textPath>
+</text>
+
+<text id='t2' fill="black" font-size = "12.095" font-family = "arial">
+    <textPath id='rotate2' xlink:href="#circ2"><tspan id='tred'>A</tspan>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </textPath>
+</text>
+
+<text id='t3' fill="black" font-size = "12.095" font-family = "arial">
+    <textPath id='rotate3' xlink:href="#circ3"><tspan id='tred'>A</tspan>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </textPath>
+</text>
+
+<text id='t3' fill="black" font-size = "12.095" font-family = "arial">
+    <textPath id='rotate3' xlink:href="#circ3"><tspan id='tred'>A</tspan>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    </textPath>
+</text>
+
+<text id='t4' letter-spacing="51" textLength="100%">
+<textPath id='rotate4' xlink:href="#circ4" startOffset="-22"><tspan 
+    class="nums twelve" letter-spacing="0">12</tspan><tspan
+    class="nums" dx="35">.</tspan><tspan
+    class="nums">.</tspan><tspan 
+    class="nums">3</tspan><tspan 
+    class="nums">.</tspan><tspan 
+    class="nums">.</tspan><tspan 
+    class="nums" dx="-1.5">9</tspan><tspan 
+    class="nums" dx="1.5">.</tspan><tspan 
+    class="nums">.</tspan><tspan 
+    class="nums" dx="-1.5">9</tspan><tspan 
+    class="nums" dx="1.5">.</tspan><tspan 
+    class="nums">.</tspan><tspan 
+    class="nums" dx="-17">1</tspan></textPath>
+</text>
+
+
+<text id='t5' class="nums2" letter-spacing="51" textLength="100%"><textPath 
+    id='rotate5' xlink:href="#circ5" startOffset="0"><tspan
+        dx="-1" letter-spacing="0">12</tspan><tspan
+        dx="36.5">.</tspan><tspan
+        dx="3">.</tspan><tspan id="three-glyph"
+        dx="-3">3</tspan><tspan
+        dx="-2.0">.</tspan><tspan
+        dx="2.5">.</tspan><tspan
+        dx="-2.0">9</tspan><tspan
+        dx="-2.0">.</tspan><tspan
+        dx="2.5">.</tspan><tspan
+        dx="-2">9</tspan><tspan
+        dx="-2.0">.</tspan><tspan
+        dx="2.0">.</tspan></textPath></text>
+<!--
+<text id='t6' class="nums2" textLength="791.7927978515625"><textPath
+    id='rotate6' xlink:href="#circ6"><tspan
+        class="nums3" x="0">12</tspan><tspan
+        class="nums3" x="65.9827">.</tspan><tspan
+        class="nums3" >.</tspan><tspan
+        class="nums3" >3</tspan><tspan
+        class="nums3" >.</tspan><tspan
+        class="nums3" >.</tspan><tspan
+        class="nums3" >9</tspan><tspan
+        class="nums3" >.</tspan><tspan
+        class="nums3" >.</tspan><tspan
+        class="nums3" dx="-2">9</tspan><tspan
+        class="nums3" dx="2">.</tspan><tspan
+        class="nums3" >.</tspan></textPath></text>
+-->
+</defs>
+
+<image xlink:href="/svg/grid-3.svg" id="body" x="-250" y="-250" height="4000" width="2500" />
+<line id="vertical-line" x1='0' y1='-500' x2='0' y2='2500' stroke='red' stroke-width='1' />
+<line id="vertical-line" x1='-500' y1='0' x2='2500' y2='0' stroke='red' stroke-width='1' />
+
+<g transform="translate(-125 -125)" >
+<g transform="translate(125,125)">
+<g transform="" id="hour-hand">
+    <!--<animateTransform id="hour-hand" attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="43200s" begin="0s" fill="freeze" repeatCount="indefinite" />-->
+    <line id="l0" x1="0" y1="0" x2="0" y2="-75" stroke="black" stroke-width="3.2" />
+    <circle id="c0" cx="0" cy="0" r="75" fill="rgba(100,100,100,0.2)" stroke="rgba(100,100,100,0.2)" stroke-width="1" />
+</g>
+</g>
+<g transform="translate(125 125)">
+<g transform="" id="minute-hand">
+    <!--<animateTransform id="minute-hand" attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="3600s" begin="0s" fill="freeze" repeatCount="indefinite" />-->
+    <line id="l1" x1="0" y1="0" x2="0" y2="-100" stroke="rgba(50,50,50,0.8)" stroke-width="2" />
+    <circle id="c4" cx="0" cy="0" r="100" fill="rgba(100,100,100,0.2)"stroke="rgba(100,100,100,0.4)" stroke-width="1"  />
+
+</g>
+</g>
+
+<g transform="translate(125 125)">
+<g transform="" id="second-hand">
+    <!--<animateTransform id="second-hand" attributeName="transform" type="rotate" from="0 0 0" to="360 0 0" dur="60s" begin="0s" repeatCount="indefinite" />-->
+    <line id="l1" x1="0" y1="0" x2="0" y2="-125" stroke="rgba(50,50,50,0.8)" stroke-width="2" />
+    <circle id="c4" cx="0" cy="0" r="125" fill="rgba(0,0,0,0.2)" stroke="rgba(100,100,100,0.4)" stroke-width="1"  />
+</g>
+</g>
+
+
+<!-- Clock Face Numbers 
+<g transform="translate(0 125)">
+ <g >
+    <use xlink:href="#t4" transform="rotate(-90)" id='num' />
+ </g>
+</g>
+-->
+  <!--
+<g transform="translate(0 125)">
+    <circle cx="125" cy="125" r="15" stroke="brown" stroke-width="1" fill="none" />
+  <animateTransform id="hour-numbers" attributeName="transform" type="rotate" from="0 125 125" to="360 125 125" dur="60s" begin="10s" repeatCount="indefinite" />
+ <g transform="translate(0 0)">
+    <use xlink:href="#circ5" fill="rgba(125,125,0,.1)" stroke="green" stroke-width="0.05" transform="translate(125 0)" id='num3' />
+ </g>
+-->
+ <g transform="translate(1 147)">
+    <use xlink:href="#t5" transform="rotate(-100)" id='num2' />
+ </g>
+
+ <!--
+ <g transform="translate(1 147)">
+    <use xlink:href="#t6" transform="rotate(-100)" id='num2' />
+ </g>
+
+
+ <g >
+    <text id="milliseconds" x="20" y="400" font-family="arial" font-size="40" fill="blue" >T</text>
+ </g>
+</g>
+-->
+<!--
+</g>
+<g transform="translate(125 125)">
+    <g transform="">
+        <animateTransform id="sub-second-hand-2" attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="2.975s" begin="ba.click+0.1s" end="baend.click" fill="freeze" repeatCount="indefinite" />
+        <line id="l4" x1="0" y1="0" x2="500" y2="500" stroke="black" stroke-width="3.2" />
+        <circle id="c4" cx="500" cy="500" r="10" fill="red" />
+        <use xlink:href="#t4" transform="scale(3.2)" id='xyz2' >
+        </use>
+    </g>
+</g>
+
+</g>
+<g id="button">
+    <text id="tstart" x="62.5" y="-100" fill="black" font-size="40" text-anchor="middle" font-weight="bold" font-family="Arial" textLength="100">Start</text>
+    <text id="tend" x="62.5" y="-100" fill="black" font-size="40" text-anchor="middle" font-weight="bold" font-family="Arial" textLength="100">Stop</text>
+    <rect id="baend" x="0" y="-150" rx="20" ry="30" height="75" width="125" fill="rgba(255,0,0,0.5)" onClick="toggleButton()" />
+    <rect id="ba" x="0" y="-150" rx="20" ry="30" height="75" width="125" fill="rgba(255,0,0,0.5)" onClick="toggleButton()" />
+</g>
+-->
+</svg>
+</body>
+</html>

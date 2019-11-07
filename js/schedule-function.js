@@ -96,9 +96,16 @@ function scheduleFunction(funcRef, timeout, rescheduleOnSuccessP, passArgsP, arg
     }
 
     var result = funcRef(funcArgs);
+    if (result.continueAnimation) {
+      continueAnimation = result.continueAnimation
+    } else {
+      continueAnimation = result
+    }
 
     if (rescheduleOnSuccessP && result) {
-
+        if (result.timeout) {
+          timeout = result.timeout
+        }
         setTimeout(scheduleFunction, timeout,
                funcRef, timeout,
                rescheduleOnSuccessP,
