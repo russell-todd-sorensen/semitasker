@@ -168,7 +168,8 @@ var ChemicalPi = {
             html += '\n<legend>Element Information</legend>';
             html += '\n<ul>';
             html += '\n<li ><label>Element Name</label><span class="';
-            html += activeClass + '">' + chemicalPi.element ;
+            html += activeClass + '"><a href="https://www.chemicool.com/elements/';
+            html += chemicalPi.element + '.html">' + chemicalPi.element + '</a>';
             html += '</span></li>';
             html += '\n<li><label>Symbol</label>' + chemicalPi.symbol + '</li>';
             html += '\n<!--<li><label>&pi; Digits</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + digitString + '</li>-->';

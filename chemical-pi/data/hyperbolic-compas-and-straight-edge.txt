@@ -1,0 +1,19 @@
+Compass and Straightedge in the Poincaré Disk
+by Chaim Goodman-Strauss
+cgstraus@comp.uark.edu
+For over 120 years, tesselations of the hyperbolic plane have 
+appeared in mathematical journals and books, in the art of M.C. 
+Escher, and as interesting graphic images on posters, buttons, etc. 
+Though dozens of books have been published on the analysis underlying 
+such tesselations, it appears that there has not been one single 
+article describing the synthetic techniques actually used to make 
+them. We show how a "hyperbolic compass and straightedge" can be 
+constructed with the usual Euclidean compass and straightedge; that is,
+given any two points in the Poincaré disk model (or the other well-known models), 
+one can give a simple Euclidean construction for the geodesic through 
+the two points, or for the hyperbolic circle centered at one, passing 
+through the other. Moreover, there is a beautiful duality between 
+geodesic/points inside the disk and points/lines outside the disk. This 
+duality is extremely helpful in the construction of tesselations; it 
+appears to have been discovered many times over the last 120 years, and 
+was certainly the basis for such images as M.C. Escher's Circle Limit prints.
