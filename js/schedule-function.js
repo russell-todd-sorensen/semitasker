@@ -33,37 +33,37 @@
 
   // Complete example using object as data containing the control variable:
 
-	var startAnimation = function (animationFunctionId, timeout, data) {
-	  var objId = data.objId;
-	  var animationFunction = addToPixels[animationFunctionId];
-	  var fractal = myFractalImages[objId];
-	  fractal.continueAnimation = true;
-	  if (timeout < 10) timeout = 10;
-	  scheduleFunction(animationFunction, timeout, true, true, data);
-	};
+    var startAnimation = function (animationFunctionId, timeout, data) {
+      var objId = data.objId;
+      var animationFunction = addToPixels[animationFunctionId];
+      var fractal = myFractalImages[objId];
+      fractal.continueAnimation = true;
+      if (timeout < 10) timeout = 10;
+      scheduleFunction(animationFunction, timeout, true, true, data);
+    };
 
-	var stopAnimation = function() {
-	  var formData = processForm();
-	  var data = formData.data;
-	  var objId = data.objId;
-	  var fractal = myFractalImages[objId];
-	  fractal.continueAnimation = false;
-	};
+    var stopAnimation = function() {
+      var formData = processForm();
+      var data = formData.data;
+      var objId = data.objId;
+      var fractal = myFractalImages[objId];
+      fractal.continueAnimation = false;
+    };
 
-	var reDrawImage = function () {
-	  var formData = processForm();
-	  var data = formData.data
-	  var objId = data.objId;
-	  var fractal = myFractalImages[objId];
-	  var newFactor = 1.0;
-	  fractal.rect.start.x = fractal.rectTmp.start.x;
-	  fractal.rect.start.y = fractal.rectTmp.start.y;
-	  fractal.rect.end.x = fractal.rectTmp.end.x;
-	  fractal.rect.end.y = fractal.rectTmp.end.y;
-	  fractal.calculateHeightAndWidth(newFactor);
-	  fractal.drawImage(data);
-	  return fractal.continueAnimation;
-	};
+    var reDrawImage = function () {
+      var formData = processForm();
+      var data = formData.data
+      var objId = data.objId;
+      var fractal = myFractalImages[objId];
+      var newFactor = 1.0;
+      fractal.rect.start.x = fractal.rectTmp.start.x;
+      fractal.rect.start.y = fractal.rectTmp.start.y;
+      fractal.rect.end.x = fractal.rectTmp.end.x;
+      fractal.rect.end.y = fractal.rectTmp.end.y;
+      fractal.calculateHeightAndWidth(newFactor);
+      fractal.drawImage(data);
+      return fractal.continueAnimation;
+    };
 
 */
 
@@ -96,19 +96,18 @@ function scheduleFunction(funcRef, timeout, rescheduleOnSuccessP, passArgsP, arg
     }
 
     var result = funcRef(funcArgs);
-    if (result.continueAnimation) {
-      continueAnimation = result.continueAnimation
-    } else {
-      continueAnimation = result
+
+    if (result.continueAnimation == false) {
+        result = false;
+    } 
+    else if (result.timeout && !isNaN(parseInt(result.timeout))) {
+        timeout = parseInt(result.timeout)
     }
 
     if (rescheduleOnSuccessP && result) {
-        if (result.timeout) {
-          timeout = result.timeout
-        }
         setTimeout(scheduleFunction, timeout,
-               funcRef, timeout,
-               rescheduleOnSuccessP,
-               passArgsP, funcArgs);
+            funcRef, timeout,
+            rescheduleOnSuccessP,
+            passArgsP, funcArgs);
     }
 }

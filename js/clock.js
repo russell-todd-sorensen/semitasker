@@ -2,6 +2,7 @@
 class Clock {
 
     #timezoneOffset = -8; // PST
+    #stats = [{h:0,m:0,s:0,ms:0,diff:0}];
 
     constructor (hourId,minuteId, secondId, subSecondOneId,subSecondTwoId) {
         this.hourId = (hourId?hourId:"hour-hand");
@@ -11,6 +12,7 @@ class Clock {
         this.subSecondTwoId = (subSecondTwoId?subSecondTwoId:"sub-second-hand-2");
         this.continueAnimation = false;
         this.runFunction = this.run;
+
         this.data = {
             obj:this,
             hourId:this.hourId,
@@ -20,6 +22,7 @@ class Clock {
             subSecondTwoId:this.subSecondTwoId,
             timezoneOffset:this.#timezoneOffset,
         }
+        return this
     }
     start (animationFunction, timeout, data) {
         let da = (data?data:this.data)
@@ -58,6 +61,19 @@ class Clock {
                 day -= 1
             }
         }
+        let prev = this.#stats[this.#stats.length-1]
+        var  prevS = prev.s;
+        
+        let diff  = (second - prevS)
+        if (diff < 1) {
+            if (minute == prev.m) {
+                this.print('stats')
+            }
+        }
+        if (this.#stats.length > 70) {
+            this.resetStats();
+        }
+        this.#stats.push({h:hour,m:minute,s:second,ms:millisecond,diff:diff});
 
         let sAngle = second * 6;
         let mAngle = minute * 6 + (sAngle/60);
@@ -74,7 +90,10 @@ class Clock {
         let millisecond = date.getMilliseconds();
         let obj  = data.obj;
         obj.set(date,data);
-        return {continueAnimation:obj.continueAnimation,timeout:(1000-millisecond)}
+        return {continueAnimation:obj.continueAnimation,timeout:(1000-millisecond+5)}
+    }
+    stop () {
+        this.continueAnimation = false;
     }
     setTimezoneOffset(tz) {
         this.#timezoneOffset = tz;
@@ -82,5 +101,25 @@ class Clock {
     }
     getTimezoneOffset() {
         return this.#timezoneOffset;
+
+    }
+    resetStats() {
+        this.#stats = [{h:0,m:0,s:0,ms:0,diff:0}];
+    }
+    getStats() {
+        return this.#stats;
+    }
+    print(preId) {
+        let pre = document.getElementById(preId)
+        let html = ""
+        for (let i = 0;i<this.#stats.length;i++ ) {
+            html += "h:" + this.#stats[i].h 
+            + ", m:" + this.#stats[i].m
+            + ", s:" + this.#stats[i].s 
+            + " ms: " +  this.#stats[i].ms 
+            + ", diff:" + this.#stats[i].diff
+            + " <br />";
+        }
+        pre.innerHTML = html
     }
 }
