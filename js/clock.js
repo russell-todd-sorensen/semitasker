@@ -78,7 +78,7 @@ class Clock {
     }
     setTimezoneOffset(tz) {
         this.#timezoneOffset = tz;
-        this.data.#timezoneOffset = tz;
+        this.data.timezoneOffset = tz;
     }
     getTimezoneOffset() {
         return this.#timezoneOffset;
