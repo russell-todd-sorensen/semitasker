@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Shamelessly Stolen from Stranger in the Q (CodePen)</title>
+<style>
+body, canvas {
+    margin: 0; 
+    overflow: hidden;
+}
+</style>
+<script src=""></script>
+
+</head>
+<body>
+<div id="credits"><a href="https://codepen.io/strangerintheq/pen/MWWvbjw">WebGL from Stranger in the Q, CodePen</a></div>
+<canvas id="c"></canvas>
+<!--  
+
+compex dynamix: 
+    slow changes of red point on complex plane (over mandelbrot set)
+    and fast change of linket julia set
+
+-->
+
+<script>
+let gl = c.getContext("webgl2"), 
+    pid = gl.createProgram(),
+    draw = t => {
+        uniforms.time([t]);
+        uniforms.center([0, 0]);
+        uniforms.zoom([1.5]);
+        
+        t/= 2000;
+        let a = t%Math.PI
+        let signX, signY, cx,r, c = Math.floor(t/Math.PI)%4
+        if (c === 0){
+            cx = -1;
+            r=0.255;
+            signY = 1
+            signX = 1
+        }
+        if (c === 1) {
+            cx = -1.3125;
+            r = .06;
+            signX = 1
+            signY = -1;
+        }
+        
+        if (c === 2) {
+            cx = -1.31;
+            r = .06;
+            signY = 1;
+            signX = -1
+        }
+        if (c === 3){
+            cx = -1;
+            r=0.255;
+            signY = -1
+            signX = -1
+        }  
+        
+        uniforms.pt([cx+Math.cos(a)*r*signX,Math.sin(a)*r*signY])
+       // uniforms.pt([-1.31,0])
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        requestAnimationFrame(draw);
+    },
+    resize = (w, h) => {
+        if (c.width === w && c.height===h)
+            return
+        let wh = [c.width=w,c.height=h];
+        uniforms.resolution(wh)
+        gl.viewport(0, 0, ...wh)
+    },
+    uniforms = {center: '2f', resolution: '2f', time: '1f', zoom: '1f', pt:'2f'};
+
+gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,3,-1,-1,3,-1]), gl.STATIC_DRAW);
+
+[`  attribute vec2 vertices;
+    void main(void) {
+        gl_Position = vec4(vertices, 0., 1.);
+    }
+ `,
+ `precision highp float;
+
+  uniform vec2 resolution;
+  uniform vec2 center;
+  uniform vec2 pt;
+  uniform float time; 
+  uniform float zoom;
+
+  vec2 mul(vec2 A, vec2 B) {
+      return vec2(A.x * B.x - A.y * B.y, 2.0 * A.x * B.y);
+  }
+  
+  // thanks to Inigo Quilez with this coloring
+  vec3 color(int i, vec2 z) {
+      float it = float(i);
+      float sl = it - log2(log2(dot(z,z))) + 4.0;
+      float al = smoothstep(-0.1, 0.0, sin(0.5 * 6.2831));
+      it = mix(it, sl, al);
+      return 0.5 + 0.5 * cos(3.0 + it * 0.05  + vec3(.7+sin(time/1000.)*0.3, 0.4+sin(time/3000.)*0.4, 0.1));
+  }
+
+  vec3 fractal(vec2 c, vec2 type) {
+      vec2 z = c;
+      for (int i = 0; i < 256; i++) {
+        if (dot(z, z) > 4.)
+            return color(i, z);
+        
+        z = mul(z, z) + type;
+     
+      }
+      return vec3(0.);
+  }
+
+  mat2 rot(float x, float y) {
+    float cs = cos(time/x);
+    float si = sin(time/y);
+    return mat2(cs, -si, si, cs); 
+  }
+
+  void main(void) {
+      vec2 c = gl_FragCoord.xy;
+      c = -resolution + 2.0 * c;
+      c *= zoom/resolution.y;
+      c += center;
+      //c *= rot(9233., 7888.);  
+      gl_FragColor = vec4(
+fractal(c,c)*0.2 + 
+fractal(c,pt), 1.0);
+      if (length(c-pt)<0.02){
+        gl_FragColor = vec4( 1.0,0.,0.,1.);
+      }  
+  }`
+].forEach((src, i) => {
+    let id = gl.createShader(i?gl.FRAGMENT_SHADER:gl.VERTEX_SHADER);
+    gl.shaderSource(id, src);
+    gl.compileShader(id);
+    gl.attachShader(pid, id);
+});
+gl.linkProgram(pid);
+gl.useProgram(pid);
+
+Object.keys(uniforms).forEach(uf => {
+     let loc = gl.getUniformLocation(pid, uf), f = gl[`uniform${uniforms[uf]}`]
+     uniforms[uf] = v => f.call(gl, loc, ...v) || v
+});
+
+let vertices = gl.getAttribLocation(pid, "vertices")
+gl.vertexAttribPointer(vertices, 2, gl.FLOAT, 0, 0, 0);
+gl.enableVertexAttribArray(vertices);
+
+addEventListener("mousemove", e => {x=e.pageX; y=e.pageY});
+addEventListener("resize", () => resize(innerWidth, innerHeight));
+
+resize(innerWidth, innerHeight);
+requestAnimationFrame(draw);
+</script>
+
+</body>
+</html>
+
+
