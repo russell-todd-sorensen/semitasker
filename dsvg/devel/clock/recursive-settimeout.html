@@ -9,13 +9,98 @@
 <script src=""></script>
 
 <script>
-function repeatingFunc() {
-    console.log("It's been 5 seconds. Execute the function again.");
-    setTimeout(repeatingFunc, 5000);
+
+
+class Queue {
+    #items = [];
+    #priority = [];
+
+    constructor() {
+        this.numItems = 0;
+        this.numProcessed = 0;
+        this.numQueued = 0;
+    }
+    add (item) {
+        this.numItems++;
+        return this.#items.push(item)
+    }
+    addPriority (item) {
+        this.numItems++;
+        return this.#priority.push(item)
+    }
+    run () {
+        let len = this.#priority.length;
+        let item;
+        if (len) {
+            for (let i = 0;i<len;i++) {
+                item = this.#priority[i]
+                setTimeout(item.func,0,item.data)
+                this.numProcessed++
+            }
+        }
+        this.#priority = [];
+        len = this.#items.length;
+        if (len) {
+            for (let i=0;i<len;i++) {
+                item = this.#items[i];
+                setTimeout(item.func,item.timeout,item.data)
+                this.numProcessed++
+            }
+        }
+        this.#items = [];
+        this.numItems = 0;
+    }
 }
 
-setTimeout(repeatingFunc, 5000);
+var myQueue = new Queue();
 
+var preQueue = function (queue) {
+    setInterval(() => {myQueue.run()},10)
+}
+
+//preQueue(myQueue)
+//setInterval(() => {myQueue.run()},10)
+
+class QueueItem {
+
+    constructor(queue,func,timeout,data,priorityP) {
+        if (priorityP) {
+            this.priorityP = true;
+        }
+        else {
+            this.priorityP = false;
+        }
+        this.queue = queue;
+        this.func = func;
+        this.timeout = timeout;
+        this.data = data;
+        this.data.queue = queue;
+        if (this.priorityP) {
+            queue.addPriority(this)
+        }
+        else {
+            queue.add(this)
+        }
+    }
+}
+
+function repeatingFunc(data) {
+    let who = data.name;
+    let timeout = data.timeout;
+    console.log("Hey " + who + " Execute the function again in " + data.timeout + " milliseconds");
+    data.timeout = timeout-1;
+    let item = new QueueItem(data.queue,data.func,data.timeout,data,data.priorityP)
+}
+
+var firstItem = new QueueItem(myQueue,repeatingFunc,1000,{queue:myQueue,func:repeatingFunc,timeout:1000,name:'FirstItem'},false)
+
+function laugh (x) {
+    console.log("Ha Ha Ha " + x.who);
+}
+
+function addone(gee) {
+    new QueueItem(myQueue,laugh,1000,{who:gee},true)
+}
 </script>
 </head>
 <body>

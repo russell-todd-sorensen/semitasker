@@ -1,10 +1,14 @@
 // Clock Hands Movement
 class Clock {
 
+    #queue;
     #timezoneOffset = -8; // PST
     #stats = [{h:0,m:0,s:0,ms:0,diff:0}];
+    #days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    #daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-    constructor (hourId,minuteId, secondId, subSecondOneId,subSecondTwoId) {
+    constructor (queue,hourId,minuteId, secondId, subSecondOneId,subSecondTwoId) {
+        this.#queue = (queue?queue:new Queue());
         this.hourId = (hourId?hourId:"hour-hand");
         this.minuteId = (minuteId?minuteId:"minute-hand");
         this.secondId = (secondId?secondId:"second-hand");
@@ -21,6 +25,7 @@ class Clock {
             subSecondOneId:this.subSecondOneId,
             subSecondTwoId:this.subSecondTwoId,
             timezoneOffset:this.#timezoneOffset,
+            queue:this.#queue,
         }
         return this
     }
@@ -30,7 +35,11 @@ class Clock {
         let af = (animationFunction?animationFunction:this.runFunction);
         let to = (timeout?timeout:1000)
         obj.continueAnimation = true;
-        scheduleFunction(af,to,true,true,da);
+        this.continueAnimation = true;
+        da.af = af;
+        da.timeout = to;
+        // Initial queue uses priority scheduling
+        new QueueItem(obj.#queue,af,to,da,true)
     }
     set (dateObj,dataObj) {
         let date = (dateObj?dateObj:new Date())
@@ -60,21 +69,18 @@ class Clock {
                 hour = hour % 12
                 day -= 1
             }
-        }
-        let prev = this.#stats[this.#stats.length-1]
-        var  prevS = prev.s;
-        
-        let diff  = (second - prevS)
-        if (diff < 1) {
-            if (minute == prev.m) {
-                this.print('stats')
+            if (day < 1) {
+                month--
+                if (month < 1) {
+                    year--
+                    month = 12
+                }
+                // back to day
+                day = this.#daysInMonth[month-1]
             }
         }
-        if (this.#stats.length > 70) {
-            this.print('stats');
-            this.resetStats();
-        }
-        this.#stats.push({h:hour,m:minute,s:second,ms:millisecond,diff:diff});
+
+        this.pushStat(hour,minute,second,millisecond);
 
         let sAngle = second * 6;
         let mAngle = minute * 6 + (sAngle/60);
@@ -86,12 +92,28 @@ class Clock {
         let hourElement = d.getElementById(data.hourId)
         hourElement.setAttribute('transform','rotate(' + hAngle + ')')
     }
+    pushStat(hour,minute,second,millisecond) {
+        let prev = this.#stats[this.#stats.length-1]
+        let diff  = (second - prev.s)
+        if (diff < 1) {
+            if (minute == prev.m) {
+                this.print('stats')
+            }
+        }
+        if (this.#stats.length > 70) {
+            //this.print('stats');
+            this.resetStats();
+        }
+        this.#stats.push({h:hour,m:minute,s:second,ms:millisecond,diff:diff});
+    }
     run (data) {
         let date = new Date();
         let millisecond = date.getMilliseconds();
         let obj  = data.obj;
         obj.set(date,data);
-        return {continueAnimation:obj.continueAnimation,timeout:(1000-millisecond+5)}
+        data.continueAnimation = obj.continueAnimation
+        data.timeout = 1000-millisecond
+        return new QueueItem(obj.#queue,data.af,data.timeout,data,false);
     }
     stop () {
         this.continueAnimation = false;
