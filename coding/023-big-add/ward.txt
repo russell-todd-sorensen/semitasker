@@ -1,0 +1,62 @@
+If a^4+b^4+c^4 = d^4 with aZ+bZ+cZ+dZ = Z then one can permute a,b,c so
+that a,b are even, c,d are odd, b is in 5Z, and d is not in 5Z.
+
+In my computations I'm using the observation of Morgan Ward that a and b
+are in 8Z. See Theorem 3 below.
+
+I could gain an order of magnitude in speed by insisting that c not be
+in 5Z. Then a and b are both in 40Z, and a <= b after permutation. Five
+of the first seven positive solutions fall into this class.
+
+
+Theorem 1: If p is an odd prime, p is not in 1+8Z, and b^4+c^4 is in pZ,
+then both b and c are in pZ.
+
+Proof: If b were not in pZ then Z/p would have a 4th root of -1, hence
+an element of order 8.
+
+
+Theorem 2: If a^4+b^4+c^4 = d^4 and aZ+bZ+cZ+dZ = Z then d-a = 2^k u for
+some k >= 0 and some u in 1+8Z.
+
+Proof: It suffices to show that p^(ord_p(d-a)) is in 1+8Z for each odd
+prime p dividing d-a. If p is in 1+8Z then any power of p is in 1+8Z; so
+assume p is not in 1+8Z.
+
+Find the maximum n such that b, c, d-a are all in p^n Z. Then p^(4n) Z
+contains b^4+c^4 = (d-a)(d+a)(d^2+a^2), so it must also contain d-a;
+otherwise pZ would contain d+a or d^2+a^2, hence 2d^2 and 2a^2, hence
+all of a,b,c,d, contradiction.
+
+Now ord_p(d-a) must be 4n. Otherwise pZ would contain (d-a)/p^(4n),
+hence (b/p^n)^4+(c/p^n)^4, hence both b/p^n and c/p^n by Theorem 1; so
+p^(n+1)Z would contain b, c, d-a, contradiction.
+
+Finally p^(4n) is in 1+8Z.
+
+
+Theorem 3: If a^4+b^4+c^4 = d^4, aZ+bZ+cZ+dZ = Z, and a,b are even,
+then a,b are in 8Z; d is in 1+8Z; and c+d or c-d is in 1024Z.
+
+Proof: All of d-a, d+a, d-b, and d+b are odd, hence in 1+8Z by Theorem
+2. Thus 2a = (d+a)-(d-a) and 2b = (d+b)-(d-b) are in 8Z; i.e., a,b are
+in 4Z.  In particular ((d-c)/2)((d+c)/2)((d^2+c^2)/2) = (a^4+b^4)/8 is
+in 8Z; but (d^2+c^2)/2 is odd, so ((d-c)/2)((d+c)/2) is in 8Z.
+
+If (d-c)/2 is odd then it is in 1+8Z by Theorem 2, and (d+c)/2 is in 8Z,
+so d = (d+c)/2 + (d-c)/2 is in 1+8Z, so a = d - (d-a) and b = d - (d-b)
+are in 8Z, so (a^4+b^4)/8 is actually in 512Z, so (d+c)/2 is in 512Z.
+
+If (d-c)/2 is even then (d+c)/2 = d - (d-c)/2 is odd, hence in 1+8Z by
+Theorem 2; so d-1, a, and b are in 8Z as above, and (d-c)/2 is in 512Z.
+
+
+Historical notes: Ward announced in [1], and proved in [2], that there
+were no positive solutions to a^4+b^4+c^4 = d^4 with d <= 10000. Theorem
+3 here is the same as [2, Theorem 1].
+
+[1] Morgan Ward, Euler's three biquadrate problem, Proceedings of the
+National Academy of Sciences 31 (1945), 125-127.
+
+[2] Morgan Ward, Euler's problem on sums of three fourth powers, Duke
+Mathematical Journal 15 (1948), 827-837.

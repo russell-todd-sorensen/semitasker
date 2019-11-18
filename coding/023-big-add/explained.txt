@@ -1,1 +1,39 @@
  Describe solution here:
+
+Previous Solution was uninteresting:
+# Now create table to show every combo has a twin
+set len 0
+set table "<table cellpadding='2' cellspacing='0' border='1'>
+ <tr><th>&nbsp;</th>"
+for {set y 1} {$y <= $n} {incr y} {
+    append table "<th>$y : [expr {$y*$y*$y}]</th>"
+}
+append table "\n </tr>"
+for {set x 1} {$x <= $n} {incr x} {
+    append table "\n<tr><th>$x : [expr {$x*$x*$x}]</th>  "
+    for {set y 1} {$y <= $n} {incr y; incr len} {
+        lappend sumOfTwoCubes([expr {$cubes($x) + $cubes($y)}]) [list $x $y]
+        if {$x <= $y} {
+            if {![info exists resHash($x,$y)]} {
+                append table "<td>&nbsp;</td>"
+                continue
+            }
+            set data $resHash($x,$y)
+        } else {
+            if {![info exists resHash($y,$x)]} {
+                append table "<td>&nbsp;</td>"
+                continue
+            }
+            set data $resHash($y,$x) 
+        }
+        append table "<td class='g'>[lindex $data 0]</td>"
+    }
+    append table " </tr>"
+}
+append table "\n</table>"
+
+for {set x 1} {$x <= $n} {incr x} {
+    for {set y 1} {$y <= $n} {incr y; incr len} {
+        lappend sumOfTwoCubes([expr {$cubes($x) + $cubes($y)}]) [list $x $y]
+    }
+}

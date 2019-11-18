@@ -1,0 +1,1906 @@
+<HTML>
+<HEAD>
+<TITLE>The Fifth Taxicab Number is 48988659276962496</TITLE>
+</HEAD>
+
+<!-- start of heading banner stuff -->
+<BODY BACKGROUND="www_tile.gif">
+<p>
+<center>
+<TABLE border="0" width="75%">
+<tr><td>
+<IMG SRC="neil.RED15.gif" ALT=" "></td>
+<td><font SIZE="+2">
+<a href="index.html">Journal of Integer Sequences,</a>
+Vol. 2 (1999), Article 99.1.9</font></td>
+</tr>
+</TABLE>
+</center>
+<p>
+<!-- end of heading banner stuff -->
+
+<center><h2>The Fifth Taxicab Number is 48988659276962496</h2></center>
+
+<center><h3>
+David W. Wilson<br>
+263 E. Ricker Road<br>
+Loudon, NH 03301<br>
+Email address: <a href="mailto:wilson@ctron.com">wilson@ctron.com</a>
+</h3></center>
+
+<B><FONT SIZE="+1">Abstract:</FONT></B>
+The <i>n</i>th taxicab number is the least number which can be expressed
+as a sum of two positive cubes in <i>n</i> distinct ways, up to order of
+summands.  A brief history of taxicab numbers is given, along with a
+description of the computer search used by the author to find
+the 5th taxicab number, 48988659276962496.  Additional results from the
+search are summarized.
+
+<p>
+<h2>1. Introduction</h2>
+
+<p>The <i>n</i>th <em>taxicab number</em> is the least integer which
+can be expressed as a sum of two positive cubes in (at least) <i>n</i> distinct
+ways, up to order of summands.  In <a href="#HW54">[HW54]</a>, there is
+a constructive proof that for any <i>n</i> &gt;= 1, there exist numbers
+which can be expressed in exactly <i>n</i> ways as a sum of two cubes
+(hereafter, we will call such numbers <em>n-way sums</em>).  This
+guarantees the existence of a least <i>n</i>-way sum (that is, the
+<i>n</i>th taxicab number) for <i>n</i> &gt;= 1, however, the construction
+given in <a href="#HW54">[HW54]</a> is of no help in finding the least
+<i>n</i>-way sum.</p>
+
+<p>
+The first taxicab number is trivially
+
+<p>
+<div align=center>
+Ta(1) = 2
+<br>= 1<sup>3</sup> + 1<sup>3</sup>.
+</div>
+
+<p>The second taxicab number was first published by Fr&eacute;nicle
+de Bessy in 1657:</p>
+
+<div align=center>
+Ta(2) = 1729
+<br>= 1<sup>3</sup> + 12<sup>3</sup>
+<br>= 9<sup>3</sup> + 10<sup>3</sup>.
+</div>
+
+<p>This particular number was immortalized 
+by the following well-known incident involving G. H. Hardy and
+Srinivasa Ramanujan:</p>
+
+<blockquote><font size=-1>
+<p>I [G. H. Hardy] remember once going to see him [Ramanujan]
+when he was lying ill at Putney. I had ridden in taxi-cab No. 1729,
+and remarked that the number (7.13.19) seemed to be rather a dull one,
+and that I hoped it was not an unfavourable omen.
+<p>"No," he replied,  "it is a very interesting number; it
+is the smallest number expressible as the sum of two [positive] cubes in
+two different ways." <a href="#R27">[R27, p. xxxv]</a></p>
+</font></blockquote>
+
+<p>The appelation <em>taxicab number</em>, as well as the name
+<em>Hardy-Ramanujan number</em> for the number 1729, arose from this
+incident.</p>
+
+<p>Subsequent taxicab numbers were discovered by computer search.  In
+1957, Leech obtained</p>
+
+<div align=center>
+Ta(3) = 87539319
+<br>= 167<sup>3</sup> + 436<sup>3</sup>
+<br>= 228<sup>3</sup> + 423<sup>3</sup>
+<br>= 255<sup>3</sup> + 414<sup>3</sup>,
+</div>
+
+<p>and in 1991 Rosenstiel, Dardis, and Rosenstiel
+<a href="#RDR91">[RDR91]</a> found</p>
+
+<div align=center>
+Ta(4) = 6963472309248
+<br>= 2421<sup>3</sup> + 19083<sup>3</sup>
+<br>= 5436<sup>3</sup> + 18948<sup>3</sup>
+<br>= 10200<sup>3</sup> + 18072<sup>3</sup>
+<br>= 13322<sup>3</sup> + 16630<sup>3</sup>.
+</div>
+
+<p>This paper announces the author's discovery, in November 1997, of
+the fifth taxicab number</p>
+
+<div align=center>
+Ta(5) = 48988659276962496 
+<br>= 38787<sup>3</sup> + 365757<sup>3</sup>
+<br>= 107839<sup>3</sup> + 362753<sup>3</sup>
+<br>= 205292<sup>3</sup> + 342952<sup>3</sup>
+<br>= 221424<sup>3</sup> + 336588<sup>3</sup>
+<br>= 231518<sup>3</sup> + 331954<sup>3</sup>.
+</div>
+
+<p>The taxicab numbers form sequence
+<a href="http://oeis.org/A011541">A011541</a>
+in <a href="#OEIS">[OEIS]</a>.
+
+<h2>2. Background</h2>
+
+An <em>n-way sum</em> is an integer <i>s</i> which can be expressed as the
+sum of two cubes in exactly <i>n</i> different ways, i.e:</p>
+
+<blockquote>
+<i>s</i>
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub>1</sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub>1</sub><sup>3</sup>
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub>2</sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub>2</sub><sup>3</sup>
+&nbsp;=&nbsp;&nbsp;...
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub><i>n</i></sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub><i>n</i></sub><sup>3</sup>.
+</blockquote>
+
+<p>where <i>a<sub>i</sub></i>&nbsp;&lt;=&nbsp;<i>b<sub>i</sub></i> for
+1&nbsp;&lt;&nbsp;<i>i</i>&nbsp;&lt;&nbsp;<i>n</i>.  Without loss of
+generality, we assume <i>a</i><sub>1</sub> &lt;&nbsp;<i>a</i><sub>2</sub>
+&lt;&nbsp;...  &lt;&nbsp;<i>a</i><sub><i>n</i></sub>.</p>
+
+<p>A <em>primitive n-way sum</em> is an <i>n</i>-way sum for which the
+<i>a<sub>i</sub></i> and <i>b<sub>i</sub></i> taken together have no
+common factor.  If an <i>n</i>-way sum is non-primitive, it can be
+divided by gcd(<i>a<sub>1</sub></i>, <i>b<sub>1</sub></i>,
+<i>a<sub>2</sub></i>, <i>b<sub>2</sub></i>, ...,
+<i>a<sub><i>n</i></sub></i>, <i>b<sub><i>n</i></sub></i>)<sup>3</sup>,
+reducing it to a primitive sum.  For this reason, only primitive sums
+are considered interesting.<p>
+
+<p>There are two techniques which are useful for constructing new
+primitive <i>n</i>-way sums from known ones.  I call these techniques
+<em>combination</em> and <em>magnification</em>.</p>
+
+<h4>The combination technique</h4>
+
+<p>The combination technique is used to combine two primitive
+<i>n</i>-way sums into a primitive (<i>n</i>+1)-way sum.</p>
+
+<p>First, a preliminary definition:</p>
+
+<p><b>Definition:</b> Let <i>n</i> be a positive integer, and let
+<i>c</i> be the least positive integer such that there exists
+integer <i>d</i> with <i>n</i>&nbsp;=&nbsp<i>cd</i><sup>3</sup>.
+<i>c</i> is called the <em>cubefree part</em> of <i>n</i>.  The
+cubefree part of <i>n</i> is what is left after all nontrivial
+cubes have been divided out of <i>n</i>.</p>
+
+<p>In order to apply the combination technique to two <i>n</i>-way
+sums, both sums must have the same cubefree part.  Let <i>s</i> and
+<i>s</i>&acute; be <i>n</i>-way sums with cubefree part <i>c</i>.  Then
+we have</p>
+
+<blockquote>
+<i>s</i>&nbsp;&nbsp;=&nbsp;&nbsp;<i>cd</i><sup>3</sup>
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub>1</sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub>1</sub><sup>3</sup>
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub>2</sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub>2</sub><sup>3</sup>
+&nbsp;=&nbsp;&nbsp;...
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub><i>n</i></sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub><i>n</i></sub><sup>3</sup>
+<br><i>s</i>&acute;
+&nbsp;=&nbsp;&nbsp;<i>cd</i>&acute;<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub>1</sub>&acute;<sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub>1</sub>&acute;<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub>2</sub>&acute;<sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub>2</sub>&acute;<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;...
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub><i>n</i></sub>&acute;<sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub><i>n</i></sub>&acute;<sup>3</sup>.
+</blockquote>
+
+<p>These can be combined to give</p>
+
+<blockquote>
+<i>s</i>&acute;&acute;
+&nbsp;=&nbsp;&nbsp;<i>c</i>(<i>d</i><i>d</i>&acute;)<sup>3</sup>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;=&nbsp;&nbsp;<i>s</i><i>d</i>&acute;<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub>1</sub><i>d</i>&acute;)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub>1</sub><i>d</i>&acute;)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub>2</sub><i>d</i>&acute;)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub>2</sub><i>d</i>&acute;)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;...
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub><i>n</i></sub><i>d</i>&acute;)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub><i>n</i></sub><i>d</i>&acute;)<sup>3</sup>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;=&nbsp;&nbsp;<i>s</i>&acute;<i>d</i><sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub>1</sub>&acute;<i>d</i>)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub>1</sub>&acute;<i>d</i>)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub>2</sub>&acute;<i>d</i>)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub>2</sub>&acute;<i>d</i>)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;...
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub><i>n</i></sub>&acute;<i>d</i>)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub><i>n</i></sub>&acute;<i>d</i>)<sup>3</sup>
+</blockquote>
+
+<p>This gives 2<i>n</i> representations of <i>s</i>&acute;&acute; as a sum
+of two cubes.  At least <i>n</i> of these representations must be distinct,
+since they are multiples of the <i>n</i> distinct representations of <i>s</i>.
+If exactly <i>n</i> of the representations are distinct, we can then divide
+out common factors to arrive at the same primitive <i>n</i>-way sum for
+<i>s</i> and <i>s</i>&acute;, whence <i>s</i>&nbsp;=&nbsp;<i>s</i>&acute;,
+contrary to assumption.  We must conclude that at least <i>n</i>&nbsp;+&nbsp;1
+of these representations are distinct, and that <i>s</i>&acute;&acute; is
+at least an (<i>n</i>+1)-way sum.</p>
+
+<p>As an example, consider the two primitive 3-way sums:</p>
+
+<blockquote>
+327763000&nbsp;&nbsp;=&nbsp;&nbsp;300<sup>3</sup>&nbsp;+&nbsp;670<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;339<sup>3</sup>&nbsp;+&nbsp;661<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;510<sup>3</sup>&nbsp;+&nbsp;580<sup>3</sup>
+<br>26059452841&nbsp;&nbsp;=&nbsp;&nbsp;417<sup>3</sup>&nbsp;+&nbsp;2962<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;1290<sup>3</sup>&nbsp;+&nbsp;2881<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;2193<sup>3</sup>&nbsp;+&nbsp;2494<sup>3</sup>
+</blockquote>
+
+<p>327763000 and 26059452841 each have the cubefree part 327763, which
+means that these sums can be combined.  We obtain</p>
+
+<blockquote>
+26059452841000
+<br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;=&nbsp;&nbsp;327763000&middot;43<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(300&middot;43)<sup>3</sup>&nbsp;+&nbsp;(670&middot;43)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(339&middot;43)<sup>3</sup>&nbsp;+&nbsp;(661&middot;43)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(510&middot;43)<sup>3</sup>&nbsp;+&nbsp;(580&middot;43)<sup>3</sup>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;=&nbsp;&nbsp;26059452841&middot;10<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(417&middot;10)<sup>3</sup>&nbsp;+&nbsp;(2962&middot;10)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(1290&middot;10)<sup>3</sup>&nbsp;+&nbsp;(2881&middot;10)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(2193&middot;10)<sup>3</sup>&nbsp;+&nbsp;(2494&middot;10)<sup>3</sup>.
+</blockquote>
+
+<p>Out of six representations, four are distinct, and we obtain the
+4-way sum:</p>
+
+<blockquote>
+26059452841000 = 4170<sup>3</sup> + 29620<sup>3</sup> = 12900<sup>3</sup> + 28810<sup>3</sup> = 14577<sup>3</sup> + 28423<sup>3</sup> = 21930<sup>3</sup> + 24940<sup>3</sup>.
+</blockquote>
+
+<h4>The magnification technique</h4>
+
+<p>The magnification technique is used to obtain a primitive
+(<i>n</i>+1)-way sum from a primitive <i>n</i>-way sum.</p>
+
+<p>The idea is simple.  If we have a
+primitive <i>n</i>-way sum</p>
+
+<blockquote>
+<i>s</i>&nbsp;&nbsp;=&nbsp;&nbsp;<i>a</i><sub>1</sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub>1</sub><sup>3</sup>
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub>2</sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub>2</sub><sup>3</sup>
+&nbsp;=&nbsp;&nbsp;...
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub><i>n</i></sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub><i>n</i></sub><sup>3</sup>
+</blockquote>
+
+<p>we know that every cubic multiple of that sum will also be a
+(non-primitive) <i>n</i>-way sum:</p>
+
+<blockquote>
+<i>sd</i><sup>3</sup>&nbsp;
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub>1</sub><i>d</i>)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub>1</sub><i>d</i>)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub>2</sub><i>d</i>)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub>2</sub><i>d</i>)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;...
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub><i>n</i></sub><i>d</i>)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub><i>n</i></sub><i>d</i>)<sup>3</sup>.
+</blockquote>
+
+<p>For some fortunate choice of multiple <i>d</i><sup>3</sup>, we might
+hope for the serendipitous appearance of a new representation:</p>
+
+<blockquote>
+<i>sd</i><sup>3</sup>&nbsp;
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub>1</sub><i>d</i>)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub>1</sub><i>d</i>)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub>2</sub><i>d</i>)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub>2</sub><i>d</i>)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;...
+&nbsp;=&nbsp;&nbsp;(<i>a</i><sub><i>n</i></sub><i>d</i>)<sup>3</sup>&nbsp;+&nbsp;(<i>b</i><sub><i>n</i></sub><i>d</i>)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;<i>a</i>&acute;<sup>3</sup>&nbsp;+&nbsp;<i>b</i>&acute;<sup>3</sup>.
+</blockquote>
+
+<p>It turns out that often enough this hope is justified.  For example,
+starting again with the 3-way sum</p>
+
+<blockquote>
+327763000&nbsp;&nbsp;=&nbsp;&nbsp;300<sup>3</sup>&nbsp;+&nbsp;670<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;339<sup>3</sup>&nbsp;+&nbsp;661<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;510<sup>3</sup>&nbsp;+&nbsp;580<sup>3</sup>,
+</blockquote>
+
+<p>we multiply 327763000 successively by <i>d</i><sup>3</sup>
+&nbsp;=&nbsp;1<sup>3</sup>,&nbsp;2<sup>3</sup>,&nbsp;3<sup>3</sup>,
+etc, each time checking for a new representation.  Finally, at
+<i>d</i><sup>3</sup>&nbsp;=&nbsp;43<sup>3</sup>, an unexpected(?) solution arises:</p>
+
+<blockquote>
+327763000&middot;43<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(300&middot;43)<sup>3</sup>&nbsp;+&nbsp;(670&middot;43)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(339&middot;43)<sup>3</sup>&nbsp;+&nbsp;(661&middot;43)<sup>3</sup>
+&nbsp;=&nbsp;&nbsp;(510&middot;43)<sup>3</sup>&nbsp;+&nbsp;(580&middot;43)<sup>3</sup>
+&nbsp;=&nbsp;4170<sup>3</sup>&nbsp;+&nbsp;29620<sup>3</sup>,
+</blockquote>
+
+<p>and we have found the 4-way sum 26059452841000.</p>
+
+<p>From a computational standpoint, exploiting the magnification technique
+to find <i>n</i>-way sums is essentially a search procedure, whose
+feasibility relies heavily on the speedy detection of the extra
+representation, which is to say, the efficient complete solution of
+<i>s</i>&nbsp;=&nbsp;<i>a</i><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sup>3</sup>
+for <i>a</i> and <i>b</i> given <i>s</i>.  When implementing the
+magnification technique, I found that even a Bresenham search was not
+practical for the large <i>s</i> with which I was concerned.  Fortunately,
+I was able to construct a more efficient algorithm to solve
+<i>s</i>&nbsp;=&nbsp;<i>a</i><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sup>3</sup>,
+using some known favorable properties of <i>s</i>.</p>
+
+<p>First, we note that <i>s</i> is of the form</p>
+
+<blockquote>
+<i>s</i>&nbsp;=&nbsp;(cube)&middot;(<i>n</i>-way&nbsp;sum)
+</blockquote>
+
+<p>We know the cube factor beforehand.  The <i>n</i>-way sum factor
+by definition has <i>n</i> distinct representations as 
+<i>a</i><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sup>3</sup>
+=&nbsp;(<i>a</i>&nbsp;+&nbsp;<i>b</i>)(<i>a</i><sup>2</sup>&nbsp;-&nbsp;<i>ab</i>&nbsp;+&nbsp;<i>b</i><sup>2</sup>),
+that is, <i>n</i> distinct representations as a product of two integers.
+From this observation we conclude that <i>n</i>-way sums should be
+highly factorable (for example, the 3-way sum
+327763000 = 2<sup>3</sup>&middot;5<sup>3</sup>&middot;31&middot;97&middot;109).
+This means that <i>s</i> should be highly factorable, and in practice
+even large <i>s</i> can be factored quickly using trial division.<p>
+
+<p>Given that <i>s</i> is highly factorable, the following is an efficient
+method for solving
+<i>s</i>&nbsp;=&nbsp;<i>a</i><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sup>3</sup>:</p>
+
+<ul>
+<li>Use trial division to obtain the prime factorization of <i>s</i>.</li>
+<li>Use the prime factorization to build a list of all factors of <i>s</i>.</li>
+<li>From this factor list, compose a list of all pairs (<i>p</i>,&nbsp;<i>q</i>)
+with <i>p</i>&nbsp;&lt;=&nbsp;<i>q</i> and <i>pq</i>&nbsp;=&nbsp;<i>s</i>.</li>
+<li>For each pair (<i>p</i>,&nbsp;<i>q</i>) in the pair list, solve
+<i>p</i>&nbsp;=&nbsp;<i>a</i>&nbsp;+&nbsp;<i>b</i> and
+<i>q</i>&nbsp;=&nbsp;<i>a</i><sup>2</sup>&nbsp;-&nbsp;<i>ab</i>+&nbsp;<i>b</i><sup>2</sup>
+for <i>a</i> and <i>b</i>.</li>
+<li>If <i>a</i> and <i>b</i> are both positive integers, then
+(<i>a</i>, <i>b</i>) solves <i>s</i>&nbsp=&nbsp;<i>pq</i>
+&nbsp;=&nbsp;(<i>a</i>&nbsp;+&nbsp;<i>b</i>)(<i>a</i><sup>2</sup>&nbsp;-&nbsp;<i>ab</i>&nbsp;+&nbsp;<i>b</i><sup>2</sup>)
+&nbsp;=&nbsp;<i>a</i><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sup>3</sup>.</li>
+</ul>
+
+<p>It is not hard to show that this method generates all solutions to
+<i>s</i>&nbsp;=&nbsp;<i>a</i><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sup>3</sup>.</p>
+
+<h2>3. The Search for Ta(5)</h2>
+
+<p>The search for the fifth taxicab number arose from an attempt to
+extend sequence
+<a href="http://oeis.org/A003826">A003826</a>
+of <a href="#OEIS">[OEIS]</a>, the sequence of primitive 4-way sums.
+Prior to my work,
+<a href="http://oeis.org/A003826">A003826</a>
+contained four entries, first published in <a href="#RDR91">[RDR91]</a>.
+In order to extend this sequence, I wrote a computer program to search
+for <i>n</i>-way sums.  The program was written in the C programming
+language with 64-bit arithmetic, and ran on a Sun Sparc 5 workstation.
+
+<p>The approach was straightforward: Generate a sequence S of all
+triples of the form (<i>a</i>, <i>b</i>,
+<i>s</i>&nbsp;=&nbsp;<i>a</i><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sup>3</sup>)
+with <i>a</i>&nbsp;&lt;=&nbsp;<i>b</i>, sorted on <i>s</i>,
+and detect and record runs of contiguous triples in S having equal
+<i>s</i> values.  A run of <i>n</i> contiguous triples
+(<i>a</i><sub>1</sub>,&nbsp;<i>b</i><sub>1</sub>,&nbsp;<i>s</i>),
+(<i>a</i><sub>2</sub>,&nbsp;<i>b</i><sub>2</sub>,&nbsp;<i>s</i>),
+...,
+(<i>a</i><sub><i>n</i></sub>,&nbsp;<i>b</i><sub><i>n</i></sub>,&nbsp;<i>s</i>)
+in S indicates that <i>s</i> is the <i>n</i>-way sum</p>
+
+<blockquote>
+<i>s</i>
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub>1</sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub>1</sub><sup>3</sup>
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub>2</sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub>2</sub><sup>3</sup>
+&nbsp;=&nbsp;&nbsp;...
+&nbsp;=&nbsp;&nbsp;<i>a</i><sub><i>n</i></sub><sup>3</sup>&nbsp;+&nbsp;<i>b</i><sub><i>n</i></sub><sup>3</sup>.
+</blockquote>
+
+<p>The run detection part is relatively easy, so the problem really devolves
+to the efficient generation of S.  My algorithm was:<p>
+
+<ol>
+<li>Initialize priority queue Q to contain all triples of the form
+(<i>a</i>&nbsp;=&nbsp;<i>k</i>, <i>b</i>&nbsp;=&nbsp;<i>k</i>,
+<i>s</i>&nbsp;=&nbsp;2<i>k</i><sup>3</sup>) with
+1&nbsp;&lt;=&nbsp<i>s</i>&nbsp;&lt;&nbsp;2<sup>64</sup> (this avoids
+64-bit overflow of <i>s</i>, and translates to
+1&nbsp;&lt;=&nbsp;<i>k</i>&nbsp;&lt;&nbsp;2<sup>21</sup>&nbsp;=&nbsp;2097152).
+Q assigns higher priority to triples with smaller values of <i>s</i>.
+<li>Obtain triple (<i>a</i>,&nbsp;<i>b</i>,&nbsp;<i>s</i>) with smallest
+<i>s</i> value (high priority element) from Q.</li>
+<li>Pass triple (<i>a</i>,&nbsp;<i>b</i>,&nbsp;<i>s</i>) to the run detector.</li>
+<li>Let (<i>a</i>,&nbsp;<i>b</i>,&nbsp;<i>s</i>)
+:=&nbsp(<i>a</i>,&nbsp;<i>b</i>&nbsp;+&nbsp;1,&nbsp;<i>a</i><sup>3</sup>&nbsp;+&nbsp;(<i>b</i>&nbsp;+&nbsp;1)<sup>3</sup>).
+<li>Add (<i>a</i>,&nbsp;<i>b</i>,&nbsp;<i>s</i>) back into Q.</li>
+<li>Go to step 2.</li>
+</ol>
+
+<p>The run detector, for its part, detects and prints runs of
+<i>n</i>&nbsp;&gt;=&nbsp;3 contiguous triples with equal <i>s</i> values
+passed to it, which correspond to <i>n</i>-way sums.  The run detector
+need store no more than five triples at any time.</p>
+
+<p>The only technical concern with this algorithm is that <i>s</i>
+might overflow in step 4.  However, I determined beforehand that
+I would manually interrupt the program long before this could happen,
+which is also why there is no termination condition on the main loop.</p>
+
+<p>I wrote several versions of this program.  In the first, Q was
+implemented as a linked list.  This program verified Leech's 1957 value
+for Ta(3) in less than a second.  After running a month, it also verified
+the four least primitive 4-way sums given in <a href="#RDR91">[RDR91]</a>,
+but was unable to find any new 4-way sums.<p>
+
+<p>Some time later, I applied the combination technique discussed in
+section 2 to the <i>n</i>-way sums that had been computed by this
+first version of this program.  This led me to discover the primitive
+5-way sum</p>
+
+<div align=center>
+<i>t</i>&nbsp;=&nbsp;490593422681271000
+<br>=&nbsp;48369<sup>3</sup>&nbsp;+&nbsp;788631<sup>3</sup>
+<br>=&nbsp;233775<sup>3</sup>&nbsp;+&nbsp;781785<sup>3</sup>
+<br>=&nbsp;285120<sup>3</sup>&nbsp;+&nbsp;776070<sup>3</sup>
+<br>=&nbsp;543145<sup>3</sup>&nbsp;+&nbsp;691295<sup>3</sup>
+<br>=&nbsp;579240<sup>3</sup>&nbsp;+&nbsp;666630<sup>3</sup>
+</div>
+
+<p>Since Ta(5)&nbsp;&lt;=&nbsp;<i>t</i>&nbsp;&lt;&nbsp;2<sup>64</sup>,
+this discovery showed that Ta(5) could in principle be found using
+the same basic 64-bit algorithm with which I had attacked
+<a href="http://oeis.org/A003826">A003826</a>.<p>
+
+<p>However, a quick estimate convinced me that verifying
+Ta(5)&nbsp;=&nbsp;<i>t</i> using the algorithm as it then stood would
+take several years.  This prompted me to make several 
+improvements to the algorithm.  Most notably, Q was reimplemented as a
+heap, and <i>a</i> and <i>b</i> replaced by pointers into an array of
+precomputed cubes.  These and other optimizations speeded up the program
+considerably, reducing a month-long computation via the first version
+to less than one day.  I estimated that Ta(5)&nbsp;=&nbsp;<i>t</i> could
+now be verified in approximately 8 months.</p>
+
+<p>I began running the new program in earnest in October 1997.  After I
+had run the program for about a month, I applied the magnification
+technique described in section 2 to its results.  This led to the
+discovery of the yet smaller 5-way sum 48988659276962496.  On November 17,
+the program verified that this 5-way sum was indeed Ta(5).<p>
+
+<p>I later found that many of the basic search techniques I used to
+find Ta(5) had been used earlier by Bernstein on a variety of similar
+Diophantine problems.  <a href="#B98">[B98]</a> details Bernstein's
+techniques and discoveries.  Though Bernstein did eventually apply his
+methods to sums of cubes, his independent discovery of
+Ta(5)&nbsp;=&nbsp;48988659276962496 came a few months after mine.
+
+<h2>4. Search Results</h2>
+
+<p>The main product of my search for the Ta(5) was a exhaustive list
+of all 3, 4, and 5-way sums of two cubes less than 5&middot;10<sup>16</sup>
+(2-way sums were too numerous to record).  The following table summarizes
+the counts of various types of <i>n</i>-way sums found in the search:</p>
+
+<center>
+<font size=-1><b>
+Table 1:  Counts of <i>n</i>-way sums of two cubes<br>
+<i>s</i> 
+= <i>a</i><sub>1</sub><sup>3</sup> + <i>b</i><sub>1</sub><sup>3</sup>
+= <i>a</i><sub>2</sub><sup>3</sup> + <i>b</i><sub>2</sub><sup>3</sup>
+= ...
+= <i>a</i><sub><i>n</i></sub><sup>3</sup> + <i>b</i><sub><i>n</i></sub><sup>3</sup><br>
+<i>s</i> &lt= 5&middot;10<sup>16</sup>
+</b></font>
+<br>&nbsp;
+<table border=1 cellpadding=5>
+<tr>
+<th>Type of sum</th>
+<th><i>n</i> = 3</th>
+<th><i>n</i> = 4</th>
+<th><i>n</i> = 5</th>
+</tr>
+<tr>
+<th>All<br>
+<font size=-1>No constraints</font></th>
+<td align=right>16159</td>
+<td align=right>143</td>
+<td align=right>1</td>
+</tr>
+
+<tr>
+<th>Primitive<br>
+<font size=-1>gcd(<i>a</i><sub>1</sub>, <i>b</i><sub>1</sub>,
+<i>a</i><sub>2</sub>, <i>b</i><sub>2</sub>, ...,
+<i>a</i><sub><i>n</i></sub>, <i>b</i><sub><i>n</i></sub>) = 1
+</font></th>
+<td align=right>1630</td>
+<td align=right>35</td>
+<td align=right>1</td>
+</tr>
+
+<tr>
+<th>Coprime Pair<br>
+<font size=-1>gcd(<i>a</i><sub><i>i</i></sub>, <i>b</i><sub><i>i</i></sub>) = 1
+for some <i>i</i>
+</font></th>
+<td align=right>892</td>
+<td align=right>9</td>
+<td align=right>1</td>
+</tr>
+
+<tr>
+<th>All Pairs Coprime<br>
+<font size=-1>gcd(<i>a</i><sub><i>i</i></sub>, <i>b</i><sub><i>i</i></sub>) = 1
+for all <i>i</i>
+</font></th>
+<td align=right>81</td>
+<td align=right>0</td>
+<td align=right>0</td>
+</tr>
+
+<tr>
+<th>Prime Occurrence<br>
+<font size=-1><i>a</i><sub><i>i</i></sub> or
+<i>b</i><sub><i>i</i></sub> prime for some <i>i</i>
+</font></th>
+<td align=right>419</td>
+<td align=right>5</td>
+<td align=right>1</td>
+</tr>
+
+<tr>
+<th>Prime Pair<br>
+<font size=-1><i>a</i><sub><i>i</i></sub>, <i>b</i><sub><i>i</i></sub> both prime
+for some <i>i</i>
+</font></th>
+<td align=right>27</td>
+<td align=right>1</td>
+<td align=right>1</td>
+</tr>
+</table></center>
+
+<p>In the following tables, primes are in <font color=red>red</font>, and
+nonprime members of a coprime pair are in <font color=green>green</font>.</p>
+
+<p>The search program found the 1630 least primitive 3-way sums of two cubes,
+too many to include in this article.  Instead, I have composed several small
+tables of selected 3-way sums.</p>
+
+<p>81 3-way sums of two cubes in which all pairs are coprime were found.
+Table 2 list the first 30 of these.  Sums with all pairs coprime are hard to
+find, as they cannot be generated using the combination or magnification
+techniques described in Section 2, and their discovery lends some credence to
+the search algorithm.  The <b><i>s</i></b> column of this table forms
+sequence
+<a href="http://oeis.org/A023050">A023050</a>
+of <a href="#OEIS">[OEIS]</a>.
+</p>
+
+<center>
+<font size=-1><b>
+Table 2:  30 least 3-way sums of two cubes with all pairs coprime<br>
+<i>s</i> 
+= <i>a</i><sub>1</sub><sup>3</sup> + <i>b</i><sub>1</sub><sup>3</sup>
+= <i>a</i><sub>2</sub><sup>3</sup> + <i>b</i><sub>2</sub><sup>3</sup>
+= <i>a</i><sub>3</sub><sup>3</sup> + <i>b</i><sub>3</sub><sup>3</sup><br>
+gcd(<i>a</i><sub>1</sub>, <i>b</i><sub>1</sub>)
+= gcd(<i>a</i><sub>2</sub>, <i>b</i><sub>2</sub>)
+= gcd(<i>a</i><sub>3</sub>, <i>b</i><sub>3</sub>) = 1<br>
+&nbsp
+</b></font>
+<table border=1 cellpadding=3>
+<tr>
+<th>#</th>
+<th><i>s</i></th>
+<th><i>a</i><sub>1</sub></th>
+<th><i>b</i><sub>1</sub></th>
+<th><i>a</i><sub>2</sub></th>
+<th><i>b</i><sub>2</sub></th>
+<th><i>a</i><sub>3</sub></th>
+<th><i>b</i><sub>3</sub></th>
+</tr>
+<tr>
+<td align=right>1</td>
+<td align=right>15170835645</td>
+<td align=right><font color=green>517</font></td>
+<td align=right><font color=green>2468</font></td>
+<td align=right><font color=red>709</font></td>
+<td align=right><font color=green>2456</font></td>
+<td align=right><font color=red>1733</font></td>
+<td align=right><font color=green>2152</font></td>
+</tr>
+<tr>
+<td align=right>2</td>
+<td align=right>208438080643</td>
+<td align=right><font color=green>1782</font></td>
+<td align=right><font color=green>5875</font></td>
+<td align=right><font color=green>3768</font></td>
+<td align=right><font color=green>5371</font></td>
+<td align=right><font color=green>4174</font></td>
+<td align=right><font color=green>5139</font></td>
+</tr>
+<tr>
+<td align=right>3</td>
+<td align=right>320465258659</td>
+<td align=right><font color=green>1986</font></td>
+<td align=right><font color=green>6787</font></td>
+<td align=right><font color=green>2395</font></td>
+<td align=right><font color=green>6744</font></td>
+<td align=right><font color=green>5230</font></td>
+<td align=right><font color=green>5619</font></td>
+</tr>
+<tr>
+<td align=right>4</td>
+<td align=right>1658465000647</td>
+<td align=right><font color=green>3488</font></td>
+<td align=right><font color=green>11735</font></td>
+<td align=right><font color=red>5231</font></td>
+<td align=right><font color=green>11486</font></td>
+<td align=right><font color=red>7127</font></td>
+<td align=right><font color=green>10904</font></td>
+</tr>
+<tr>
+<td align=right>5</td>
+<td align=right>3290217425101</td>
+<td align=right><font color=green>4044</font></td>
+<td align=right><font color=green>14773</font></td>
+<td align=right><font color=green>4917</font></td>
+<td align=right><font color=green>14692</font></td>
+<td align=right><font color=green>8622</font></td>
+<td align=right><font color=green>13837</font></td>
+</tr>
+<tr>
+<td align=right>6</td>
+<td align=right>3938530307257</td>
+<td align=right><font color=green>3057</font></td>
+<td align=right><font color=green>15754</font></td>
+<td align=right><font color=green>5289</font></td>
+<td align=right><font color=green>15592</font></td>
+<td align=right><font color=green>10732</font></td>
+<td align=right><font color=green>13929</font></td>
+</tr>
+<tr>
+<td align=right>7</td>
+<td align=right>7169838686017</td>
+<td align=right><font color=green>6140</font></td>
+<td align=right><font color=red>19073</font></td>
+<td align=right><font color=green>8585</font></td>
+<td align=right><font color=green>18698</font></td>
+<td align=right><font color=red>9929</font></td>
+<td align=right><font color=green>18362</font></td>
+</tr>
+<tr>
+<td align=right>8</td>
+<td align=right>13112542594333</td>
+<td align=right><font color=green>198</font></td>
+<td align=right><font color=red>23581</font></td>
+<td align=right><font color=red>2269</font></td>
+<td align=right><font color=green>23574</font></td>
+<td align=right><font color=green>11602</font></td>
+<td align=right><font color=green>22605</font></td>
+</tr>
+<tr>
+<td align=right>9</td>
+<td align=right>24641518275703</td>
+<td align=right><font color=green>3687</font></td>
+<td align=right><font color=green>29080</font></td>
+<td align=right><font color=green>4575</font></td>
+<td align=right><font color=green>29062</font></td>
+<td align=right><font color=green>15039</font></td>
+<td align=right><font color=green>27694</font></td>
+</tr>
+<tr>
+<td align=right>10</td>
+<td align=right>36592635038993</td>
+<td align=right><font color=red>10457</font></td>
+<td align=right><font color=green>32850</font></td>
+<td align=right><font color=green>15326</font></td>
+<td align=right><font color=green>32073</font></td>
+<td align=right><font color=red>22193</font></td>
+<td align=right><font color=green>29496</font></td>
+</tr>
+<tr>
+<td align=right>11</td>
+<td align=right>36848138663889</td>
+<td align=right><font color=green>6518</font></td>
+<td align=right><font color=green>33193</font></td>
+<td align=right><font color=green>25342</font></td>
+<td align=right><font color=green>27401</font></td>
+<td align=right><font color=green>25625</font></td>
+<td align=right><font color=green>27154</font></td>
+</tr>
+<tr>
+<td align=right>12</td>
+<td align=right>41332017729268</td>
+<td align=right><font color=red>157</font></td>
+<td align=right><font color=green>34575</font></td>
+<td align=right><font color=red>19273</font></td>
+<td align=right><font color=green>32451</font></td>
+<td align=right><font color=green>20679</font></td>
+<td align=right><font color=green>31909</font></td>
+</tr>
+<tr>
+<td align=right>13</td>
+<td align=right>74051580874005</td>
+<td align=right><font color=green>5758</font></td>
+<td align=right><font color=red>41957</font></td>
+<td align=right><font color=green>17354</font></td>
+<td align=right><font color=green>40981</font></td>
+<td align=right><font color=red>25997</font></td>
+<td align=right><font color=green>38368</font></td>
+</tr>
+<tr>
+<td align=right>14</td>
+<td align=right>185496306251347</td>
+<td align=right><font color=green>19906</font></td>
+<td align=right><font color=green>56211</font></td>
+<td align=right><font color=green>25212</font></td>
+<td align=right><font color=red>55339</font></td>
+<td align=right><font color=green>44691</font></td>
+<td align=right><font color=green>45826</font></td>
+</tr>
+<tr>
+<td align=right>15</td>
+<td align=right>198659972280259</td>
+<td align=right><font color=green>14523</font></td>
+<td align=right><font color=green>58048</font></td>
+<td align=right><font color=green>30819</font></td>
+<td align=right><font color=green>55330</font></td>
+<td align=right><font color=green>38482</font></td>
+<td align=right><font color=green>52131</font></td>
+</tr>
+<tr>
+<td align=right>16</td>
+<td align=right>257103717556959</td>
+<td align=right><font color=green>18094</font></td>
+<td align=right><font color=green>63095</font></td>
+<td align=right><font color=green>29728</font></td>
+<td align=right><font color=red>61343</font></td>
+<td align=right><font color=green>32126</font></td>
+<td align=right><font color=red>60727</font></td>
+</tr>
+<tr>
+<td align=right>17</td>
+<td align=right>263279186850871</td>
+<td align=right><font color=green>29824</font></td>
+<td align=right><font color=green>61863</font></td>
+<td align=right><font color=red>36583</font></td>
+<td align=right><font color=green>59844</font></td>
+<td align=right><font color=green>49039</font></td>
+<td align=right><font color=green>52578</font></td>
+</tr>
+<tr>
+<td align=right>18</td>
+<td align=right>265244512323889</td>
+<td align=right><font color=green>32337</font></td>
+<td align=right><font color=green>61396</font></td>
+<td align=right><font color=green>41488</font></td>
+<td align=right><font color=green>57873</font></td>
+<td align=right><font color=green>43900</font></td>
+<td align=right><font color=green>56529</font></td>
+</tr>
+<tr>
+<td align=right>19</td>
+<td align=right>322599256181839</td>
+<td align=right><font color=green>22054</font></td>
+<td align=right><font color=green>67815</font></td>
+<td align=right><font color=green>26671</font></td>
+<td align=right><font color=green>67212</font></td>
+<td align=right><font color=green>38679</font></td>
+<td align=right><font color=green>64210</font></td>
+</tr>
+<tr>
+<td align=right>20</td>
+<td align=right>347866760139759</td>
+<td align=right><font color=green>27215</font></td>
+<td align=right><font color=green>68944</font></td>
+<td align=right><font color=green>38300</font></td>
+<td align=right><font color=green>66319</font></td>
+<td align=right><font color=green>46286</font></td>
+<td align=right><font color=green>62887</font></td>
+</tr>
+<tr>
+<td align=right>21</td>
+<td align=right>351255019778299</td>
+<td align=right><font color=green>14626</font></td>
+<td align=right><font color=green>70347</font></td>
+<td align=right><font color=green>17571</font></td>
+<td align=right><font color=green>70192</font></td>
+<td align=right><font color=green>51003</font></td>
+<td align=right><font color=green>60238</font></td>
+</tr>
+<tr>
+<td align=right>22</td>
+<td align=right>412229923045759</td>
+<td align=right><font color=green>23487</font></td>
+<td align=right><font color=green>73636</font></td>
+<td align=right><font color=green>48319</font></td>
+<td align=right><font color=green>66900</font></td>
+<td align=right><font color=green>49863</font></td>
+<td align=right><font color=green>66058</font></td>
+</tr>
+<tr>
+<td align=right>23</td>
+<td align=right>437031592888969</td>
+<td align=right><font color=green>16473</font></td>
+<td align=right><font color=green>75628</font></td>
+<td align=right><font color=green>21438</font></td>
+<td align=right><font color=green>75313</font></td>
+<td align=right><font color=green>48192</font></td>
+<td align=right><font color=green>68761</font></td>
+</tr>
+<tr>
+<td align=right>24</td>
+<td align=right>632989859046103</td>
+<td align=right><font color=green>5262</font></td>
+<td align=right><font color=green>85855</font></td>
+<td align=right><font color=green>43335</font></td>
+<td align=right><font color=green>82012</font></td>
+<td align=right><font color=green>60354</font></td>
+<td align=right><font color=green>74479</font></td>
+</tr>
+<tr>
+<td align=right>25</td>
+<td align=right>703370246202351</td>
+<td align=right><font color=red>5903</font></td>
+<td align=right><font color=green>88924</font></td>
+<td align=right><font color=green>30487</font></td>
+<td align=right><font color=green>87722</font></td>
+<td align=right><font color=green>59279</font></td>
+<td align=right><font color=green>79108</font></td>
+</tr>
+<tr>
+<td align=right>26</td>
+<td align=right>710103031199289</td>
+<td align=right><font color=green>6505</font></td>
+<td align=right><font color=green>89204</font></td>
+<td align=right><font color=green>16082</font></td>
+<td align=right><font color=red>89041</font></td>
+<td align=right><font color=green>67297</font></td>
+<td align=right><font color=green>74006</font></td>
+</tr>
+<tr>
+<td align=right>27</td>
+<td align=right>782243102336787</td>
+<td align=right><font color=red>14083</font></td>
+<td align=right><font color=green>92030</font></td>
+<td align=right><font color=red>50627</font></td>
+<td align=right><font color=green>86734</font></td>
+<td align=right><font color=green>57451</font></td>
+<td align=right><font color=green>83996</font></td>
+</tr>
+<tr>
+<td align=right>28</td>
+<td align=right>784136775183571</td>
+<td align=right><font color=green>6564</font></td>
+<td align=right><font color=red>92203</font></td>
+<td align=right><font color=green>52995</font></td>
+<td align=right><font color=green>85966</font></td>
+<td align=right><font color=green>67443</font></td>
+<td align=right><font color=green>78154</font></td>
+</tr>
+<tr>
+<td align=right>29</td>
+<td align=right>1135806966295127</td>
+<td align=right><font color=green>32852</font></td>
+<td align=right><font color=green>103239</font></td>
+<td align=right><font color=green>53511</font></td>
+<td align=right><font color=green>99416</font></td>
+<td align=right><font color=green>82695</font></td>
+<td align=right><font color=green>82928</font></td>
+</tr>
+<tr>
+<td align=right>30</td>
+<td align=right>1318372504623603</td>
+<td align=right><font color=green>6616</font></td>
+<td align=right><font color=green>109643</font></td>
+<td align=right><font color=green>38963</font></td>
+<td align=right><font color=green>107986</font></td>
+<td align=right><font color=green>71530</font></td>
+<td align=right><font color=red>98387</font></td>
+</tr>
+</table></center>
+
+<p>27 3-way sums of two cubes were found in which a prime pair occurs.
+Table 3 lists them all.  Immediately it appears that a 3-way sum with
+a prime pair will not admit another coprime pair.  I am hesitant to
+conjecture this, though, since the analogous assertion for 2-way sums
+is not true (e.g,
+6058655748&nbsp;=&nbsp;<font color=red>61</font><sup>3</sup>
++&nbsp;<font color=red>1823</font><sup>3</sup>
+=&nbsp;<font color=red>1049</font><sup>3</sup>
++&nbsp;<font color=red>1699</font><sup>3</sup>
+<a href="#K99">[K99]</a>
+and
+6507811154&nbsp;=&nbsp;<font color=red>31</font><sup>3</sup>
++&nbsp;<font color=red>1867</font><sup>3</sup>
+=&nbsp;<font color=red>397</font><sup>3</sup>
++&nbsp;<font color=red>1861</font><sup>3</sup>
+<a href="#H99">[H99]</a>).
+</p>
+
+<center>
+<font size=-1><b>
+Table 3:  27 least 3-way sums of two cubes involving a prime pair<br>
+<i>s</i> 
+= <i>a</i><sub>1</sub><sup>3</sup> + <i>b</i><sub>1</sub><sup>3</sup>
+= <i>a</i><sub>2</sub><sup>3</sup> + <i>b</i><sub>2</sub><sup>3</sup>
+= <i>a</i><sub>3</sub><sup>3</sup> + <i>b</i><sub>3</sub><sup>3</sup><br>
+<i>a</i><sub><i>i</i></sub> and <i>b</i><sub><i>i</i></sub> both prime for some <i>i</i>
+</b></font>
+<br>&nbsp;
+<table border=1 cellpadding=3>
+<tr>
+<th>#</th>
+<th><i>s</i></th>
+<th><i>a</i><sub>1</sub></th>
+<th><i>b</i><sub>1</sub></th>
+<th><i>a</i><sub>2</sub></th>
+<th><i>b</i><sub>2</sub></th>
+<th><i>a</i><sub>3</sub></th>
+<th><i>b</i><sub>3</sub></th>
+</tr>
+<tr>
+<td align=right>1</td>
+<td align=right>3623721192</td>
+<td align=right>348</td>
+<td align=right>1530</td>
+<td align=right><font color=red>761</font></td>
+<td align=right><font color=red>1471</font></td>
+<td align=right>1098</td>
+<td align=right>1320</td>
+</tr>
+<tr>
+<td align=right>2</td>
+<td align=right>1097813860416</td>
+<td align=right>2862</td>
+<td align=right>10242</td>
+<td align=right><font color=red>5939</font></td>
+<td align=right><font color=red>9613</font></td>
+<td align=right>6372</td>
+<td align=right>9432</td>
+</tr>
+<tr>
+<td align=right>3</td>
+<td align=right>2112174838440</td>
+<td align=right>1304</td>
+<td align=right>12826</td>
+<td align=right><font color=red>2689</font></td>
+<td align=right><font color=red>12791</font></td>
+<td align=right>4762</td>
+<td align=right>12608</td>
+</tr>
+<tr>
+<td align=right>4</td>
+<td align=right>2210606903232</td>
+<td align=right>3100</td>
+<td align=right>12968</td>
+<td align=right><font color=red>7727</font></td>
+<td align=right><font color=red>12049</font></td>
+<td align=right>8968</td>
+<td align=right>11420</td>
+</tr>
+<tr>
+<td align=right>5</td>
+<td align=right>3031368604992</td>
+<td align=right><font color=red>3449</font></td>
+<td align=right><font color=red>14407</font></td>
+<td align=right>8232</td>
+<td align=right>13524</td>
+<td align=right>10976</td>
+<td align=right>11956</td>
+</tr>
+<tr>
+<td align=right>6</td>
+<td align=right>5422497850224</td>
+<td align=right>2574</td>
+<td align=right>17550</td>
+<td align=right>8406</td>
+<td align=right>16902</td>
+<td align=right><font color=red>11443</font></td>
+<td align=right><font color=red>15773</font></td>
+</tr>
+<tr>
+<td align=right>7</td>
+<td align=right>8260081705512</td>
+<td align=right>2826</td>
+<td align=right>20196</td>
+<td align=right><font color=red>5171</font></td>
+<td align=right><font color=red>20101</font></td>
+<td align=right>11184</td>
+<td align=right>19002</td>
+</tr>
+<tr>
+<td align=right>8</td>
+<td align=right>21661703776512</td>
+<td align=right>396</td>
+<td align=right>27876</td>
+<td align=right>16164</td>
+<td align=right>25932</td>
+<td align=right><font color=red>19597</font></td>
+<td align=right><font color=red>24179</font></td>
+</tr>
+<tr>
+<td align=right>9</td>
+<td align=right>65129243036312</td>
+<td align=right>7408</td>
+<td align=right>40150</td>
+<td align=right><font color=red>24169</font></td>
+<td align=right><font color=red>37087</font></td>
+<td align=right>27880</td>
+<td align=right>35158</td>
+</tr>
+<tr>
+<td align=right>10</td>
+<td align=right>189471941528112</td>
+<td align=right>8433</td>
+<td align=right>57375</td>
+<td align=right><font color=red>16931</font></td>
+<td align=right><font color=red>56941</font></td>
+<td align=right>35934</td>
+<td align=right>52302</td>
+</tr>
+<tr>
+<td align=right>11</td>
+<td align=right>315078833433728</td>
+<td align=right>15790</td>
+<td align=right>67762</td>
+<td align=right><font color=red>32083</font></td>
+<td align=right><font color=red>65581</font></td>
+<td align=right>40204</td>
+<td align=right>63004</td>
+</tr>
+<tr>
+<td align=right>12</td>
+<td align=right>633976914708592</td>
+<td align=right><font color=red>7247</font></td>
+<td align=right><font color=red>85889</font></td>
+<td align=right>7646</td>
+<td align=right>85886</td>
+<td align=right>39434</td>
+<td align=right>83042</td>
+</tr>
+<tr>
+<td align=right>13</td>
+<td align=right>743035439587194</td>
+<td align=right><font color=red>39451</font></td>
+<td align=right><font color=red>88007</font></td>
+<td align=right>54283</td>
+<td align=right>83543</td>
+<td align=right>70965</td>
+<td align=right>72789</td>
+</tr>
+<tr>
+<td align=right>14</td>
+<td align=right>1522143500400432</td>
+<td align=right>6186</td>
+<td align=right>115026</td>
+<td align=right><font color=red>10711</font></td>
+<td align=right><font color=red>115001</font></td>
+<td align=right>82322</td>
+<td align=right>98794</td>
+</tr>
+<tr>
+<td align=right>15</td>
+<td align=right>2327887074691584</td>
+<td align=right><font color=red>10337</font></td>
+<td align=right><font color=red>132511</font></td>
+<td align=right>79344</td>
+<td align=right>122280</td>
+<td align=right>92094</td>
+<td align=right>115650</td>
+</tr>
+<tr>
+<td align=right>16</td>
+<td align=right>3945585301003080</td>
+<td align=right><font color=red>23</font></td>
+<td align=right><font color=red>158017</font></td>
+<td align=right>73842</td>
+<td align=right>152448</td>
+<td align=right>118306</td>
+<td align=right>131804</td>
+</tr>
+<tr>
+<td align=right>17</td>
+<td align=right>7074720483285672</td>
+<td align=right><font color=red>19997</font></td>
+<td align=right><font color=red>191899</font></td>
+<td align=right>52938</td>
+<td align=right>190620</td>
+<td align=right>63792</td>
+<td align=right>189594</td>
+</tr>
+<tr>
+<td align=right>18</td>
+<td align=right>11563415577133056</td>
+<td align=right><font color=red>71153</font></td>
+<td align=right><font color=red>223759</font></td>
+<td align=right>83040</td>
+<td align=right>222336</td>
+<td align=right>138336</td>
+<td align=right>207360</td>
+</tr>
+<tr>
+<td align=right>19</td>
+<td align=right>11889715109702976</td>
+<td align=right>77912</td>
+<td align=right>225172</td>
+<td align=right><font color=red>100417</font></td>
+<td align=right><font color=red>221567</font></td>
+<td align=right>171924</td>
+<td align=right>189528</td>
+</tr>
+<tr>
+<td align=right>20</td>
+<td align=right>12595634712801000</td>
+<td align=right><font color=red>10337</font></td>
+<td align=right><font color=red>232663</font></td>
+<td align=right>14760</td>
+<td align=right>232650</td>
+<td align=right>36090</td>
+<td align=right>232380</td>
+</tr>
+<tr>
+<td align=right>21</td>
+<td align=right>13725610143231168</td>
+<td align=right><font color=red>57149</font></td>
+<td align=right><font color=red>238339</font></td>
+<td align=right>82848</td>
+<td align=right>236076</td>
+<td align=right>86568</td>
+<td align=right>235596</td>
+</tr>
+<tr>
+<td align=right>22</td>
+<td align=right>17162266133727288</td>
+<td align=right><font color=red>35831</font></td>
+<td align=right><font color=red>257713</font></td>
+<td align=right>97392</td>
+<td align=right>253230</td>
+<td align=right>159966</td>
+<td align=right>235548</td>
+</tr>
+<tr>
+<td align=right>23</td>
+<td align=right>18293741864569080</td>
+<td align=right>101544</td>
+<td align=right>258366</td>
+<td align=right>154248</td>
+<td align=right>244542</td>
+<td align=right><font color=red>203309</font></td>
+<td align=right><font color=red>214651</font></td>
+</tr>
+<tr>
+<td align=right>24</td>
+<td align=right>27716185298529000</td>
+<td align=right><font color=red>86767</font></td>
+<td align=right><font color=red>300233</font></td>
+<td align=right>198705</td>
+<td align=right>270855</td>
+<td align=right>234000</td>
+<td align=right>246090</td>
+</tr>
+<tr>
+<td align=right>25</td>
+<td align=right>34481992947063480</td>
+<td align=right>72846</td>
+<td align=right>324264</td>
+<td align=right><font color=red>190913</font></td>
+<td align=right><font color=red>301927</font></td>
+<td align=right>217246</td>
+<td align=right>289364</td>
+</tr>
+<tr>
+<td align=right>26</td>
+<td align=right>36149194839121000</td>
+<td align=right>73160</td>
+<td align=right>329450</td>
+<td align=right><font color=red>99371</font></td>
+<td align=right><font color=red>327629</font></td>
+<td align=right>175850</td>
+<td align=right>313160</td>
+</tr>
+<tr>
+<td align=right>27</td>
+<td align=right>47607145051205376</td>
+<td align=right>42501</td>
+<td align=right>362235</td>
+<td align=right><font color=red>156817</font></td>
+<td align=right><font color=red>352367</font></td>
+<td align=right>185876</td>
+<td align=right>345340</td>
+</tr>
+</table></center>
+
+<p>Table 4 gives the two sums discovered involving three primes:</p>
+
+<center>
+<font size=-1><b>
+Table 4:  Two least 3-way sums involving three primes<br>
+<i>s</i> 
+= <i>a</i><sub>1</sub><sup>3</sup> + <i>b</i><sub>1</sub><sup>3</sup>
+= <i>a</i><sub>2</sub><sup>3</sup> + <i>b</i><sub>2</sub><sup>3</sup>
+= <i>a</i><sub>3</sub><sup>3</sup> + <i>b</i><sub>3</sub><sup>3</sup><br>
+Three of <i>a</i><sub>1</sub>, <i>b</i><sub>1</sub>,
+<i>a</i><sub>2</sub>, <i>b</i><sub>2</sub>,
+<i>a</i><sub>3</sub>, <i>b</i><sub>3</sub> prime.<br>
+&nbsp
+</b></font>
+<table border=1 cellpadding=3>
+<tr>
+<th>#</th>
+<th><i>s</i></th>
+<th><i>a</i><sub>1</sub></th>
+<th><i>b</i><sub>1</sub></th>
+<th><i>a</i><sub>2</sub></th>
+<th><i>b</i><sub>2</sub></th>
+<th><i>a</i><sub>3</sub></th>
+<th><i>b</i><sub>3</sub></th>
+</tr>
+<tr>
+<td align=right>1</td>
+<td align=right>4895818255862163</td>
+<td align=right><font color=red>58243</font></td>
+<td align=right><font color=green>167486</font></td>
+<td align=right><font color=green>86048</font></td>
+<td align=right><font color=red>162091</font></td>
+<td align=right><font color=red>115499</font></td>
+<td align=right><font color=green>149704</font></td>
+</tr>
+<tr>
+<td align=right>2</td>
+<td align=right>40778727507646891</td>
+<td align=right><font color=green>52742</font></td>
+<td align=right><font color=red>343787</font></td>
+<td align=right><font color=green>138464</font></td>
+<td align=right><font color=red>336563</font></td>
+<td align=right><font color=green>255650</font></td>
+<td align=right><font color=red>288731</font></td>
+</tr>
+</table></center>
+
+<p>35 primitive 4-way sums were found.  This corroborates and greatly extends
+the list of four originally included in <a href="#RDR91">[RDR91]</a>.
+The <b><i>s</i></b> column of Table 5 forms sequence
+<a href="http://oeis.org/A003826">A003826</a> of
+<a href="#OEIS">[OEIS]</a>.
+As can be seen,
+only nine of the 4-way sums (nos. 6, 7, 17, 19,
+22, 25, 27, 30, and 35) involve a coprime pair, only five (nos.
+7, 17, 22, 25, 30) include a prime, and just one (no. 25) involves
+a prime pair.  Note also that no. 25 bolsters the theory that prime pairs
+in 3-way sums do not admit other coprime pairs.</p>
+
+<center>
+<font size=-1><b>
+Table 5:  35 least primitive 4-way sums of two cubes<br>
+<i>s</i> 
+= <i>a</i><sub>1</sub><sup>3</sup> + <i>b</i><sub>1</sub><sup>3</sup>
+= <i>a</i><sub>2</sub><sup>3</sup> + <i>b</i><sub>2</sub><sup>3</sup>
+= <i>a</i><sub>3</sub><sup>3</sup> + <i>b</i><sub>3</sub><sup>3</sup>
+= <i>a</i><sub>4</sub><sup>3</sup> + <i>b</i><sub>4</sub><sup>3</sup><br>
+gcd(<i>a</i><sub>1</sub>, <i>b</i><sub>1</sub>,
+<i>a</i><sub>2</sub>, <i>b</i><sub>2</sub>,
+<i>a</i><sub>3</sub>, <i>b</i><sub>3</sub>,
+<i>a</i><sub>4</sub>, <i>b</i><sub>4</sub>) = 1
+</b></font>
+<br>&nbsp;
+<table border=1 cellpadding=3>
+<tr>
+<th>#</th>
+<th><i>s</i></th>
+<th><i>a</i><sub>1</sub></th>
+<th><i>b</i><sub>1</sub></th>
+<th><i>a</i><sub>2</sub></th>
+<th><i>b</i><sub>2</sub></th>
+<th><i>a</i><sub>3</sub></th>
+<th><i>b</i><sub>3</sub></th>
+<th><i>a</i><sub>4</sub></th>
+<th><i>b</i><sub>4</sub></th>
+</tr>
+<tr>
+<td align=right>1</td>
+<td align=right>6963472309248</td>
+<td align=right>2421</td>
+<td align=right>19083</td>
+<td align=right>5436</td>
+<td align=right>18948</td>
+<td align=right>10200</td>
+<td align=right>18072</td>
+<td align=right>13322</td>
+<td align=right>16630</td>
+</tr>
+<tr>
+<td align=right>2</td>
+<td align=right>12625136269928</td>
+<td align=right>4275</td>
+<td align=right>23237</td>
+<td align=right>7068</td>
+<td align=right>23066</td>
+<td align=right>10362</td>
+<td align=right>22580</td>
+<td align=right>12939</td>
+<td align=right>21869</td>
+</tr>
+<tr>
+<td align=right>3</td>
+<td align=right>21131226514944</td>
+<td align=right>1539</td>
+<td align=right>27645</td>
+<td align=right>8664</td>
+<td align=right>27360</td>
+<td align=right>11772</td>
+<td align=right>26916</td>
+<td align=right>17176</td>
+<td align=right>25232</td>
+</tr>
+<tr>
+<td align=right>4</td>
+<td align=right>26059452841000</td>
+<td align=right>4170</td>
+<td align=right>29620</td>
+<td align=right>12900</td>
+<td align=right>28810</td>
+<td align=right>14577</td>
+<td align=right>28423</td>
+<td align=right>21930</td>
+<td align=right>24940</td>
+</tr>
+<tr>
+<td align=right>5</td>
+<td align=right>74213505639000</td>
+<td align=right>5895</td>
+<td align=right>41985</td>
+<td align=right>20392</td>
+<td align=right>40358</td>
+<td align=right>20880</td>
+<td align=right>40230</td>
+<td align=right>32790</td>
+<td align=right>33900</td>
+</tr>
+<tr>
+<td align=right>6</td>
+<td align=right>95773976104625</td>
+<td align=right>22020</td>
+<td align=right>43985</td>
+<td align=right><font color=green>27866</font></td>
+<td align=right><font color=green>42009</font></td>
+<td align=right><font color=green>30918</font></td>
+<td align=right><font color=green>40457</font></td>
+<td align=right>35660</td>
+<td align=right>36945</td>
+</tr>
+<tr>
+<td align=right>7</td>
+<td align=right>159380205560856</td>
+<td align=right>4617</td>
+<td align=right>54207</td>
+<td align=right>8436</td>
+<td align=right>54150</td>
+<td align=right>31686</td>
+<td align=right>50340</td>
+<td align=right><font color=red>34499</font></td>
+<td align=right><font color=green>49093</font></td>
+</tr>
+<tr>
+<td align=right>8</td>
+<td align=right>174396242861568</td>
+<td align=right>4041</td>
+<td align=right>55863</td>
+<td align=right>31160</td>
+<td align=right>52432</td>
+<td align=right>36684</td>
+<td align=right>50004</td>
+<td align=right>43200</td>
+<td align=right>45432</td>
+</tr>
+<tr>
+<td align=right>9</td>
+<td align=right>300656502205416</td>
+<td align=right>10500</td>
+<td align=right>66906</td>
+<td align=right>19082</td>
+<td align=right>66472</td>
+<td align=right>30156</td>
+<td align=right>64890</td>
+<td align=right>42885</td>
+<td align=right>60531</td>
+</tr>
+<tr>
+<td align=right>10</td>
+<td align=right>376890885439488</td>
+<td align=right>11184</td>
+<td align=right>72144</td>
+<td align=right>15560</td>
+<td align=right>71992</td>
+<td align=right>27411</td>
+<td align=right>70893</td>
+<td align=right>39296</td>
+<td align=right>68128</td>
+</tr>
+<tr>
+<td align=right>11</td>
+<td align=right>521932420691227</td>
+<td align=right>427</td>
+<td align=right>80514</td>
+<td align=right>32539</td>
+<td align=right>78702</td>
+<td align=right>46228</td>
+<td align=right>75075</td>
+<td align=right>57603</td>
+<td align=right>69160</td>
+</tr>
+<tr>
+<td align=right>12</td>
+<td align=right>573880096718136</td>
+<td align=right>7713</td>
+<td align=right>83079</td>
+<td align=right>16644</td>
+<td align=right>82878</td>
+<td align=right>40204</td>
+<td align=right>79838</td>
+<td align=right>48222</td>
+<td align=right>77292</td>
+</tr>
+<tr>
+<td align=right>13</td>
+<td align=right>809541767245176</td>
+<td align=right>30359</td>
+<td align=right>92113</td>
+<td align=right>41976</td>
+<td align=right>90270</td>
+<td align=right>55548</td>
+<td align=right>86094</td>
+<td align=right>65310</td>
+<td align=right>80976</td>
+</tr>
+<tr>
+<td align=right>14</td>
+<td align=right>926591497348608</td>
+<td align=right>5427</td>
+<td align=right>97485</td>
+<td align=right>30552</td>
+<td align=right>96480</td>
+<td align=right>60568</td>
+<td align=right>88976</td>
+<td align=right>76950</td>
+<td align=right>77802</td>
+</tr>
+<tr>
+<td align=right>15</td>
+<td align=right>1002383007176376</td>
+<td align=right>2233</td>
+<td align=right>100079</td>
+<td align=right>18270</td>
+<td align=right>99876</td>
+<td align=right>50832</td>
+<td align=right>95502</td>
+<td align=right>70238</td>
+<td align=right>86884</td>
+</tr>
+<tr>
+<td align=right>16</td>
+<td align=right>1698430189248000</td>
+<td align=right>25058</td>
+<td align=right>118942</td>
+<td align=right>27075</td>
+<td align=right>118845</td>
+<td align=right>50160</td>
+<td align=right>116280</td>
+<td align=right>55936</td>
+<td align=right>115064</td>
+</tr>
+<tr>
+<td align=right>17</td>
+<td align=right>2983266899506341</td>
+<td align=right><font color=red>27197</font></td>
+<td align=right><font color=green>143632</font></td>
+<td align=right>50256</td>
+<td align=right>141885</td>
+<td align=right>68157</td>
+<td align=right>138672</td>
+<td align=right>98853</td>
+<td align=right>126354</td>
+</tr>
+<tr>
+<td align=right>18</td>
+<td align=right>3281860456534296</td>
+<td align=right>44092</td>
+<td align=right>147302</td>
+<td align=right>85407</td>
+<td align=right>138537</td>
+<td align=right>100548</td>
+<td align=right>131334</td>
+<td align=right>104419</td>
+<td align=right>128933</td>
+</tr>
+<tr>
+<td align=right>19</td>
+<td align=right>3924747381450168</td>
+<td align=right>46755</td>
+<td align=right>156357</td>
+<td align=right>57024</td>
+<td align=right>155214</td>
+<td align=right><font color=green>108629</font></td>
+<td align=right><font color=green>138259</font></td>
+<td align=right>115848</td>
+<td align=right>133326</td>
+</tr>
+<tr>
+<td align=right>20</td>
+<td align=right>3989728990001664</td>
+<td align=right>8829</td>
+<td align=right>158595</td>
+<td align=right>13968</td>
+<td align=right>158568</td>
+<td align=right>49704</td>
+<td align=right>156960</td>
+<td align=right>98536</td>
+<td align=right>144752</td>
+</tr>
+<tr>
+<td align=right>21</td>
+<td align=right>4011064622136936</td>
+<td align=right>21980</td>
+<td align=right>158746</td>
+<td align=right>56371</td>
+<td align=right>156485</td>
+<td align=right>85498</td>
+<td align=right>150164</td>
+<td align=right>103757</td>
+<td align=right>142507</td>
+</tr>
+<tr>
+<td align=right>22</td>
+<td align=right>4145402010642984</td>
+<td align=right>55560</td>
+<td align=right>158394</td>
+<td align=right>69690</td>
+<td align=right>156144</td>
+<td align=right>89546</td>
+<td align=right>150772</td>
+<td align=right><font color=green>102091</font></td>
+<td align=right><font color=red>145517</font></td>
+</tr>
+<tr>
+<td align=right>23</td>
+<td align=right>5342005020171456</td>
+<td align=right>25200</td>
+<td align=right>174636</td>
+<td align=right>36652</td>
+<td align=right>174272</td>
+<td align=right>133011</td>
+<td align=right>144045</td>
+<td align=right>137004</td>
+<td align=right>140448</td>
+</tr>
+<tr>
+<td align=right>24</td>
+<td align=right>10546690302075375</td>
+<td align=right>1935</td>
+<td align=right>219300</td>
+<td align=right>53140</td>
+<td align=right>218255</td>
+<td align=right>92751</td>
+<td align=right>213624</td>
+<td align=right>140567</td>
+<td align=right>198058</td>
+</tr>
+<tr>
+<td align=right>25</td>
+<td align=right>10998043552638016</td>
+<td align=right><font color=red>21587</font></td>
+<td align=right><font color=red>222317</font></td>
+<td align=right>48650</td>
+<td align=right>221606</td>
+<td align=right>95480</td>
+<td align=right>216356</td>
+<td align=right>130232</td>
+<td align=right>206372</td>
+</tr>
+<tr>
+<td align=right>26</td>
+<td align=right>13334625130088808</td>
+<td align=right>5291</td>
+<td align=right>237133</td>
+<td align=right>43290</td>
+<td align=right>236652</td>
+<td align=right>68724</td>
+<td align=right>235194</td>
+<td align=right>166426</td>
+<td align=right>205868</td>
+</tr>
+<tr>
+<td align=right>27</td>
+<td align=right>13796337654911448</td>
+<td align=right><font color=green>19475</font></td>
+<td align=right><font color=green>239797</font></td>
+<td align=right>50838</td>
+<td align=right>239076</td>
+<td align=right>164422</td>
+<td align=right>210680</td>
+<td align=right>186864</td>
+<td align=right>193734</td>
+</tr>
+<tr>
+<td align=right>28</td>
+<td align=right>14923915104314944</td>
+<td align=right>27588</td>
+<td align=right>246088</td>
+<td align=right>84664</td>
+<td align=right>242820</td>
+<td align=right>107664</td>
+<td align=right>239140</td>
+<td align=right>158707</td>
+<td align=right>221901</td>
+</tr>
+<tr>
+<td align=right>29</td>
+<td align=right>17690196319967808</td>
+<td align=right>70148</td>
+<td align=right>258856</td>
+<td align=right>73359</td>
+<td align=right>258609</td>
+<td align=right>95940</td>
+<td align=right>256152</td>
+<td align=right>144666</td>
+<td align=right>244758</td>
+</tr>
+<tr>
+<td align=right>30</td>
+<td align=right>18170126765973000</td>
+<td align=right><font color=green>16123</font></td>
+<td align=right><font color=red>262877</font></td>
+<td align=right>77925</td>
+<td align=right>260595</td>
+<td align=right>95040</td>
+<td align=right>258690</td>
+<td align=right>193080</td>
+<td align=right>222210</td>
+</tr>
+<tr>
+<td align=right>31</td>
+<td align=right>18307821317457672</td>
+<td align=right>81396</td>
+<td align=right>260946</td>
+<td align=right>89832</td>
+<td align=right>260034</td>
+<td align=right>167599</td>
+<td align=right>238697</td>
+<td align=right>197442</td>
+<td align=right>219744</td>
+</tr>
+<tr>
+<td align=right>32</td>
+<td align=right>31943251595185749</td>
+<td align=right>54720</td>
+<td align=right>316749</td>
+<td align=right>131124</td>
+<td align=right>309645</td>
+<td align=right>204725</td>
+<td align=right>285874</td>
+<td align=right>243390</td>
+<td align=right>259749</td>
+</tr>
+<tr>
+<td align=right>33</td>
+<td align=right>40842205643302336</td>
+<td align=right>35964</td>
+<td align=right>344248</td>
+<td align=right>116296</td>
+<td align=right>339900</td>
+<td align=right>189921</td>
+<td align=right>323935</td>
+<td align=right>255004</td>
+<td align=right>289488</td>
+</tr>
+<tr>
+<td align=right>34</td>
+<td align=right>41799396718910376</td>
+<td align=right>120876</td>
+<td align=right>342090</td>
+<td align=right>150376</td>
+<td align=right>337370</td>
+<td align=right>176544</td>
+<td align=right>331098</td>
+<td align=right>206703</td>
+<td align=right>320649</td>
+</tr>
+<tr>
+<td align=right>35</td>
+<td align=right>43819222861788696</td>
+<td align=right>132598</td>
+<td align=right>346184</td>
+<td align=right><font color=green>155591</font></td>
+<td align=right><font color=green>342145</font></td>
+<td align=right>181032</td>
+<td align=right>335862</td>
+<td align=right>202470</td>
+<td align=right>328716</td>
+</tr>
+</table></center>
+
+<p>The only 5-way sum discovered directly by the search was, of course</p>
+
+<div align=center>
+Ta(5) = 48988659276962496 
+<br>= 38787<sup>3</sup> + 365757<sup>3</sup>
+<br>= <font color=red>107839</font><sup>3</sup> + <font color=red>362753</font><sup>3</sup>
+<br>= 205292<sup>3</sup> + 342952<sup>3</sup>
+<br>= 221424<sup>3</sup> + 336588<sup>3</sup>
+<br>= 231518<sup>3</sup> + 331954<sup>3</sup>.
+</div>
+
+<p>here colored to indicate primality.  Surprisingly, this 5-way
+sum includes a prime pair, again confirming that a prime pair in a
+3-way sum admits no other coprime pair.</p>
+
+<p>On the lighter side, a single primitive 3-way sum was found
+containing only even digits, and one containing only odd digits:</p>
+
+<center><table cellpadding=3>
+<tr><td align=center>
+24248680282008000
+<br>= 78300<sup>3</sup> + 287520<sup>3</sup>
+<br>= 208059<sup>3</sup> + 247941<sup>3</sup>
+<br>= 227520<sup>3</sup> + 231900<sup>3</sup>
+</td>
+<td width=50>&nbsp;</td>
+<td align=center>
+9539173995131151
+<br>= 7308<sup>3</sup> + 212079<sup>3</sup>
+<br>= 129367<sup>3</sup> + 194642<sup>3</sup>
+<br>= 160534<sup>3</sup> + 175463<sup>3</sup>
+</td></tr>
+</table></center><p>
+
+<h2>5. Other Results</h2>
+
+<p>By combining results of the search as described in Section 2, it was possible
+to generate several additional primitive sums beyond the search range.  For
+example, the following are some 5-way sums and a 6-way sum:</p>
+
+<center>
+<table cellpadding=3><tr>
+<td align=center>
+<p>490593422681271000
+<br>= 48369<sup>3</sup> + 788631<sup>3</sup>
+<br>= 233775<sup>3</sup> + 781785<sup>3</sup>
+<br>= 285120<sup>3</sup> + 776070<sup>3</sup>
+<br>= 543145<sup>3</sup> + 691295<sup>3</sup>
+<br>= 579240<sup>3</sup> + 666630<sup>3</sup>
+<br>&nbsp;
+</td>
+<td width=50 rowspan=2>&nbsp;</td>
+<td align=center>
+<p>6355491080314102272
+<br>= 103113<sup>3</sup> + 1852215<sup>3</sup>
+<br>= 580488<sup>3</sup> + 1833120<sup>3</sup>
+<br>= 788724<sup>3</sup> + 1803372<sup>3</sup>
+<br>= 1150792<sup>3</sup> + 1690544<sup>3</sup>
+<br>= 1462050<sup>3</sup> + 1478238<sup>3</sup>
+<br>&nbsp;
+</td>
+<td width=50 rowspan=2>&nbsp;</td>
+<td align=center>
+<p>27365551142421413376
+<br>= 167751<sup>3</sup> + 3013305<sup>3</sup>
+<br>= 265392<sup>3</sup> + 3012792<sup>3</sup>
+<br>= 944376<sup>3</sup> + 2982240<sup>3</sup>
+<br>= 1283148<sup>3</sup> + 2933844<sup>3</sup>
+<br>= 1872184<sup>3</sup> + 2750288<sup>3</sup>
+<br>&nbsp;
+</td></tr>
+<tr><td align=center valign=top>
+<p>1199962860219870469632
+<br>= 591543<sup>3</sup> + 10625865<sup>3</sup>
+<br>= 935856<sup>3</sup> + 10624056<sup>3</sup>
+<br>= 3330168<sup>3</sup> + 10516320<sup>3</sup>
+<br>= 6601912<sup>3</sup> + 9698384<sup>3</sup>
+<br>= 8387550<sup>3</sup> + 8480418<sup>3</sup>
+</td>
+<td align=center valign=top>
+<p>111549833098123426841016
+<br>= 1074073<sup>3</sup> + 48137999<sup>3</sup>
+<br>= 8787870<sup>3</sup> + 48040356<sup>3</sup>
+<br>= 13950972<sup>3</sup> + 47744382<sup>3</sup>
+<br>= 24450192<sup>3</sup> + 45936462<sup>3</sup>
+<br>= 33784478<sup>3</sup> + 41791204<sup>3</sup>
+</td>
+<td align=center valign=top>
+8230545258248091551205888
+<br>= 11239317<sup>3</sup> + 201891435<sup>3</sup>
+<br>= 17781264<sup>3</sup> + 201857064<sup>3</sup>
+<br>= 63273192<sup>3</sup> + 199810080<sup>3</sup>
+<br>= 85970916<sup>3</sup> + 196567548<sup>3</sup>
+<br>= 125436328<sup>3</sup> + 184269296<sup>3</sup>
+<br>= 159363450<sup>3</sup> + 161127942<sup>3</sup>
+</td></tr></table>
+</center>
+
+<p>These sums were known to me prior to my discovery
+of Ta(5), and are very small compared to what can be obtained by the methods
+described in <a href="#HW54">[HW54]</a>.  8230545258248091551205888 is
+currently the least known 6-way sum.</p>
+
+<p>&nbsp;</p>
+
+<p>&nbsp;</p>
+
+<h2>References</h2>
+
+<a name="B98">
+<p>[B98] D. J. Bernstein, <em>Enumerating solutions to
+p(a)&nbsp;+&nbsp;q(b)&nbsp;=&nbsp;r(c)&nbsp;+&nbsp;s(d),</em>
+<em>Mathematics of Computation</em>, to appear.</p>
+</a>
+
+<a name="HW54">
+<p>[HW54] G. H. Hardy and E. M. Wright,
+<em>An Introduction to the Theory of Numbers</em>, 3rd ed.,
+Oxford University Press, London & NY, 1954, Thm. 412.</p>
+</a>
+
+<a name="H99">
+<p>[H99] F. Helenius,
+personal communication,
+April 1999.</p>
+</a>
+
+<a name="K99">
+<p>[K99] M. Kleber,
+personal communication,
+April 1999.</p>
+</a>
+
+<a name="R27">
+<p>[R27] S. Ramanujan, Collected Papers,
+ed. G. H. Hardy, P. V. Seshu Aiyar and
+B. M. Wilson, Cambridge Univ. Press, 1927; reprinted,
+Chelsea, NY, 1962.</a>
+
+<a name="RDR91">
+<p>[RDR91] E. Rosenstiel, J. A. Dardis & C. R. Rosenstiel,
+<em>The four least solutions in distinct positive integers of
+the Diophantine equation
+s&nbsp;=&nbsp;x<sup>3</sup>&nbsp;+&nbsp;y<sup>3</sup>
+=&nbsp;z<sup>3</sup>&nbsp;+&nbsp;w<sup>3</sup>
+=&nbsp;u<sup>3</sup>&nbsp;+&nbsp;v<sup>3</sup>
+=&nbsp;m<sup>3</sup>&nbsp;+&nbsp;n<sup>3</sup></em>,
+<em> Bull. Inst. Math. Appl.</em>, <b>27</b>(1991) 155-157;
+<i>MR</i> <b>92i</b>:11134.
+</a>
+
+<a name="OEIS">
+<p>[OEIS] N. J. A Sloane,
+</a>
+<em>Online Encyclopedia of Integer Sequences</em>,
+<a href="http://oeis.org">
+http://oeis.org</a>.<p>
+
+<hr>
+<p>
+<small>(Concerned with sequences
+<a href="http://oeis.org/A011541">A011541</a>
+,
+<a href="http://oeis.org/A023050">A023050</a>
+,
+<a href="http://oeis.org/A003826">A003826</a>
+.)
+</small>
+
+<p>
+<hr>
+<p>
+Received April 7, 1999; revised version received Oct. 15, 1999.
+Published in Journal of Integer Sequences Oct. 17, 1999.
+<p>
+<hr>              
+
+Return to
+<a href="index.html"><b>Journal of Integer Sequences home page</b></a>
+<hr>
+</body>
+</html>
+

@@ -1,0 +1,69 @@
+<html>
+<body>
+<a href="djb.html">D. J. Bernstein</a>
+<br><a href="ntheory.html">More number-theoretic computations</a>
+<h1>sortedsums</h1>
+The latest published sortedsums package is
+<a href="sortedsums/sortedsums-0.53.tar.gz">
+sortedsums-0.53.tar.gz</a>.
+<p>
+I have a
+<a href="papers.html#sortedsums">paper</a>
+explaining the algorithms used here.
+<h2>What is it?</h2>
+sortedsums is a collection of tools for enumerating small solutions to
+certain types of Diophantine equations. For example, there are 14519
+primitive solutions (a,b,c,d) to 5a^3 + 6b^3 = 7c^3 + 8d^3 &gt; 0 with
+max{|a|,|b|,|c|,|d|} &lt;= 10000; ``cubepqrs 5 6 7 8 10000'' prints all of
+them in just 69 minutes on a Pentium-100.
+<p>
+Given integers p[0], p[1], ..., p[n-1] and q[0], q[1], ..., q[n-1],
+sortedpq enumerates pairs (i,j) in increasing order of p[i]+q[j]. It
+uses extra space for just n integers and 2n indices. sortedpp is a
+faster version of sortedpq when p = q; it enumerates pairs (i,j) with
+i &gt;= j, in increasing order of p[i]+p[j].
+<p>
+solvepqrs enumerates (i,j,k,l) such that p[i]+q[j] = r[k]+s[l], in
+increasing order of p[i]+q[j]. solvepppp, solvepprs, solvepqpq, and
+solvepprr are faster versions of solvepqrs.
+<p>
+Several sample applications are included in the sortedsums package:
+<ul>
+<li>cubepqrs enumerates solutions to pa^3 + qb^3 = rc^3 + sd^3, given
+     (p,q,r,s). cubepppp, cubepprs, and cubepqpq are faster versions of
+     cubepqrs.
+<li>two3 enumerates positive integers that can be written in many ways
+     as sums of two cubes. two3p enumerates integers that can be written
+     in many ways as sums of two positive cubes.
+<li>two4 enumerates integers that can be written in two ways as sums of
+     two positive fourth powers. euler4 enumerates fourth powers that
+     can be written as sums of three positive fourth powers.
+</ul>
+<p>
+This work was supported by the National Science Foundation under grant
+DMS-9600083.
+<h2>Results</h2>
+I have a
+<a href="sortedsums/two4.1000000">table</a>
+of all 516 primitive solutions to a^4 + b^4 = c^4 + d^4 with
+0 &lt; b &lt;= a,
+0 &lt; d &lt;= c,
+and
+c &lt; a &lt;= 1000000.
+218 of the solutions were found previously
+by Lander, Parkin, Selfridge, and Zajta.
+<p>
+The fourth power of 8707481 is a sum of three positive fourth powers.
+Same for 12197457, 16003017, and 16430513.
+Other small known solutions are
+422481 (Frye), 2813001 (MacLeod), 20615673 (Elkies), and 638523249 (MacLeod).
+There are no other primitive solutions below 21000000.
+This computation used
+<a href="sortedsums/ward.txt">some observations by Morgan Ward</a>.
+<p>
+48988659276962496 (discovered independently by Wilson),
+391909274215699968, and
+490593422681271000
+can be written in 5 ways as the sum of two positive cubes.
+</body>
+</html>

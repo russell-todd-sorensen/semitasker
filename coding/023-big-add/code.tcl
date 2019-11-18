@@ -7,7 +7,10 @@ set solution {
     # Enter thoughts on an approach to the solution
     # and a final explaination of the actual solution.
     assume solution only if a and b are not equal
-    solutions of the form aa^3 + b^3 = b^3 + a^3
+    solutions of the form a^3 + b^3 = b^3 + a^3 are not 
+    interesting. a != b != c != d
+
+
 }
 
 global log
@@ -28,12 +31,14 @@ proc printLog {logName {joinBy \n} {reset 0}} {
 }
 
 global resHash
+global sums
 global cubes
 global loopCount
 global createCount
 global cubesCreate
 
 proc findMatch {n max} {
+    global sums
     global resHash
     global cubes
     global loopCount 
@@ -47,13 +52,15 @@ proc findMatch {n max} {
     set resHash(0,0) [list 0 {0 0 0 0}]
     for {set i 1} {$i <= $n && ($len <= $max)} {incr i} {
         for {set j 1} {$j <= $n} {incr j} {
-            incr loopCount
-            #if {$i == $j} {
-                #continue
-            #}
-            if {[info exists resHash($j,$i)]} {
+            if {$i == $j} {
                 continue
             }
+            if {[info exists resHash($j,$i)] ||
+                [info exists resHash($j,$i)]
+            } {
+                continue
+            }
+            incr loopCount
             if {![info exists cubes($j)]} {
                 set cubes($j) [expr {$j*$j*$j}]
                 incr cubesCreate
@@ -62,9 +69,9 @@ proc findMatch {n max} {
                 set cubes($i) [expr {$i*$i*$i}]
                 incr cubesCreate
             }
-            lappend result [list $i $j]
-            lappend result [list $j $i]
-            set resHash($i,$j) [list [expr {$cubes($i) + $cubes($j)}] [list $i $j $j $i]]
+            set sum [expr {$cubes($i) + $cubes($j)}]
+            set resHash($i,$j) [list $sum [list $i $j]]
+            lappend sums($sum) [list $i $j]
             incr createCount
             incr len 1
         }
@@ -72,84 +79,131 @@ proc findMatch {n max} {
     return $result
 }
 
-set n 4
-set max [expr {$n * $n}]
+set n 12
 
 set form [ns_conn form]
 set n [ns_set get $form n $n]
-set max [ns_set get $form max $max]
+
+if {$n > 1000} {
+    set n 1000
+}
+set max [expr {$n * $n}]
 
 set result [findMatch $n $max]
 
-# Now create table to show every combo has a twin
-set len 0
-set table "<table cellpadding='2' cellspacing='0' border='1'>
- <tr><th>&nbsp;</th>"
-for {set y 1} {$y <= $n} {incr y} {
-    append table "<th>$y : [expr {$y*$y*$y}]</th>"
-}
-append table "\n </tr>"
-for {set x 1} {$x <= $n} {incr x} {
-    append table "\n<tr><th>$x : [expr {$x*$x*$x}]</th>  "
-    for {set y 1} {$y <= $n} {incr y; incr len} {
-        if {$x <= $y} {
-            if {![info exists resHash($x,$y)]} {
-                append table "<td>&nbsp;</td>"
-                continue
-            }
-            set data $resHash($x,$y)
+set sumlist "<ol>\n"
+set ta 1
+foreach sum [lsort -integer -increasing [array names sums]] {
+    set len [llength $sums($sum)]
+    if { $len > 1} {
+        if {$len > $ta} {
+            set tanum " = <b>Ta($len)</b>"
+            incr ta
         } else {
-            if {![info exists resHash($y,$x)]} {
-                append table "<td>&nbsp;</td>"
-                continue
-            }
-            set data $resHash($y,$x) 
+            set tanum ""
         }
-        append table "<td class='g'>[lindex $data 0]</td>"
+        append sumlist "<li>$sum = $sums($sum)$tanum</li>\n"
     }
-    append table " </tr>"
 }
-append table "\n</table>"
+append sumlist "</ol>"
 
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>
 <title>All Solutions to a*a*a + b*b*b = c*c*c + d*d*d</title>
 <style>
+body {
+    font-family: Arial;
+}
 td.g {
     background-color: green;
 }
+#background {
+    width: 700px;
+}
+blockquote {
+    margin-right: 20px;
+    margin-left: 20px;
+}
+blockquote::before, 
+blockquote::after {
+    font-weight: bold;
+    font-size: 1.5em;
+}
+ul {
+    margin-block-start: 5px;
+    margin-block-end: 5px;
+    list-style-type: none;
+    padding-left: 5px;
+    padding-top: 10px;
+}
+li {
+    padding-left: 5px;
+}
+
 </style>
 </head>
 <body>
+<div id='background'>
+<h2>All solutions to a<sup>3</sup> + b<sup>3</sup> = c<sup>3</sup> + d<sup>3</sup>, a &ne; b &ne; c &ne; d</h2>
+<p>Does this look like an uninteresting computer science problem? Here is a one paragraph background of
+the interest in this simple mathematics:
+<blockquote>
+
+<p>The number 1729 is known as the Hardy–Ramanujan number after a famous visit by
+ Hardy to see Ramanujan at a hospital. In Hardy's words:</p>
+
+<blockquote>I remember once going to see him when he was ill at Putney. I had ridden in
+ taxi cab number 1729 and remarked that the number seemed to me rather a dull one,
+  and that I hoped it was not an unfavorable omen. \"No\", he replied, \"it is a very 
+  interesting number; it is the smallest number expressible as the sum of two
+   cubes in two different ways.</blockquote>
+
+<p>Immediately before this anecdote, Hardy quoted Littlewood as saying, 
+<q>Every positive integer was one of Ramanujan's personal friends.</q>
+
+<p>The two different ways are:
+
+<p>1729 = a1<sup>3</sup> + 12<sup>3</sup> = 9c<sup>3</sup> + 10<sup>3</sup>
+<p>Generalizations of this idea have created the notion of 
+<a href='https://en.wikipedia.org/wiki/Taxicab_number'>taxicab numbers</a>.
+<p>The <b>Ta(n)</b> number for <b>n=2,3...</b> is the <b>smallest integer</b> which is the sum of
+two cubed integers in n different ways. This requires that <b>a<sub>i</sub>, b<sub>i</sub></b>
+are all different.</p>
+</blockquote> 
+<a href='The Fifth Taxicab Number is 48988659276962496.html'>The Fifth Taxicab Number is 48988659276962496</a><br/>
+<a href='Enumerating Solutions to p(a) + q(b) = r(c) + s(d).pdf'>Enumerating Solutions to p(a) + q(b) = r(c) + s(d)</a><br/>
+<a href='soretedsums.html'>sortedsums.html</a><br/>
+<p>The code here was written prior to finding the above resources and I haven't yet looked at how it compares, but
+Dan Bernstein is famous for finding efficient solutions where just the order O(n) is not good enough, cutting
+time or space in half can have significant benefits. </p>
+<a href='source.tcl'>Source Code</a><br>
+<a href='explained.txt'>Solution Explained</a>
+</div>
 <!--  method='POST' encoding='multi-part/formdata' -->
 <form autocomplete='off' spellcheck='false'>
-<ul>
+<ul>Calculate and list solutions for N &leq; 1000:
  <li>
   <label for='n'>N</label>
   <input name='n' id='n' value='$n'>
- </li>
+ </li><!--
  <li>
   <label for='max'>Max Solutions</label>
   <input name='max' id='max' value='$max'>
- </li>
+ </li>-->
  <li>
   <input type='submit' value='Try it'/>
  </li>
  </ul>
 </form>
-<a href='source.tcl'>Source Code</a><br>
-<a href='explained.txt'>Solution Explained</a>
-$table
+
 <pre>
 n = '$n'
 max = '$max'
-loops = '$loopCount'
-createCount = '$createCount'
-cubesCreate = '$cubesCreate'
-matches = '[llength $result]'
-result = [join $result "\n"]
-resHash = '[join [array get resHash] \n]'
+loopCount ='$loopCount' (O(N) = N<sup>2</sup>)
+createCount='$createCount' (Number of cubes created)
 </pre>
+<h3>Sums List</h3>
+$sumlist
 </body>
 </html>"
