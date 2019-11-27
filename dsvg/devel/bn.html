@@ -24,6 +24,7 @@ td.er {
 }
 </style>
 <script src="/js/base-conversion.js"></script>
+<script src="/js/fraction-to-recurring-decimal.js"></script>
 <script src="/chemical-pi/js/pi-digits.js"></script>
 <script src="/js/x2-test.js"></script>
 <script>
@@ -59,7 +60,7 @@ var runTests = function (begin,end,nbegin,nend,maxMatch) {
 
 
     let bc,head,preMatch,matchLen,result,div,repLen;
-    let doNotReduce = false;
+    let doNotReduce = true;
     let failed = false;
     for (;i<k;i++) {
         numer = (nend - Math.trunc((nend-nbegin)*Math.random()))
@@ -71,15 +72,6 @@ var runTests = function (begin,end,nbegin,nend,maxMatch) {
             continue
         }
         result = bc.res
-        if (result == "" && failed == false) {
-            failed = true
-            doNotReduce = true
-            i--
-            continue
-        } else {
-            failed = false
-            doNotReduce = false
-        }
         head = bc.head
         preMatch = bc.preMatch
         repLen = bc.repLen
@@ -188,5 +180,11 @@ let normFloat = function(numer, denom) { // numer and denom both integers
 </head>
 <body>
 <div id="results"></div>
+<pre>
+failing fractions:
+ 12953/50284 = 25759684989260997534006841142311669716013045899292 rf-calc = .25759684989261 actual = much longer...
+ NOTE on Above: .2575968498926099 rounds to 25759684989261
+ Need to start ignoring internal division 
+</pre>
 </body>
 </html>

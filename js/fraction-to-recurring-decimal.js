@@ -1,194 +1,18 @@
 
+var separateWholeAndFraction = function(numer, denom) {
+    let wholePart = 0;
 
-class BaseConvert {
-    constructor(inString,baseN,maxNigits,decPoint) {
-        this.decimalPoint = (decPoint||".")
-        this.inList = inString.split(this.decimalPoint)
-        this.inStr = this.inList[0];
-        this.inFrac = this.inList[1];
-        this.strlen = this.inStr.length
-        this.fracLen = (this.inFrac ? this.inFrac.length : 0)
-        this.bnStr = "";
-        this.bnFrac = "";
-        this.value = "";
-        this.strArr = [];
-        this.strFrac = [];
-        this.baseN = (baseN < 2 ? 2 : (baseN || 16));
-        this.vMap = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz".split("");
-        this.maxNigits = (maxNigits||100); // prevent inf loop
-        this.maxlen = (12 - ("" + this.baseN).length) ;
-        this.maxlen = (this.maxlen < 1) ? 1 : this.maxlen;
+    while (numer >= denom) {
+        wholePart += 1
+        numer -= denom
     }
-
-    convert () {
-        this.value = this.decToBaseN() + this.decimalPoint + this.fracToBaseN();
-        return this.value;
-    }
-
-    decToBaseN () {
-        this.bnStr  = "";
-        let beg = 0;
-        let end = this.maxlen;
-        let slen = ("" + this.inStr).length
-        let rem;
-
-        while (slen - beg >= 1) {
-            this.strArr.push(this.inStr.slice(beg,end))
-            beg += this.maxlen
-            end += this.maxlen
-        }
-        while (this.strArr.length > 0) {
-            rem         = this.divArr()
-            this.bnStr  = this.vMap[rem] + this.bnStr;
-        }
-        if (this.bnStr == "") this.bnStr = "0"
-        return this.bnStr;
-    }
-
-    fracToBaseN () {
-        this.strFrac = this.inFrac.split("");
-        this.bnFrac = "";
-        let i = 0;
-        let car;
-        while (this.strFrac.length > 0 && i < this.maxNigits) {
-            car = this.mulArr()
-            this.bnFrac += this.vMap[car]
-            i++;
-        }
-        return this.bnFrac
-    }
-
-    divArr () {
-        let alen = this.strArr.length
-        let res = []
-        let rem = 0
-        let numi,num,div,len2,begin= 0;
-        for (let i=0;i<alen;i++) {
-            numi = "" + this.strArr[i]
-            len2 = numi.length
-            num  = "" + rem + numi
-            rem  = num % this.baseN
-            div  = "" + (num-rem)/this.baseN
-            if (div.length < len2 && begin) {
-                div = "0".repeat(len2 - div.length) + div
-            }
-            if (div > 0 || begin) {
-                res.push("" + div)
-                begin = 1
-            }
-        }
-        this.strArr = res;
-        return rem;
-    }
-
-    mulArr () {
-        let flen = this.strFrac.length;
-        let res  = [];
-        let rem  = 0;
-        let car  = 0;
-        let begin = 0;
-        let num,mul;
-        for (let i=flen-1;i>=0;i--) {
-            num = this.strFrac[i];
-            if (num == "0" && begin == 0) {
-                continue
-            }
-            begin = 1;
-            mul  = num * this.baseN + car;
-            rem = mul % 10
-            car = (mul - rem)/10
-            res[res.length] = rem
-        }
-        this.strFrac = res.reverse()
-        return car
-    }
+    return {w:wholePart,n:numer,d:denom}
 }
 
-var mapBinaryToA = function (binaryFloat) {
-    return binaryFloat.split("").map(x => {
-        switch (x) {
-        case '0':
-            return 'a';
-            break;
-        case '1':
-            return 'A';
-            break;
-        default:
-            return x;
-            break;
-        }
-    }).join("");
-}
+var reduceFraction2 = function (numer, denom) {
 
-var decimalToBinaryA = function(decimal) {
-    let bn = new BaseConvert(decimal,2).decToBaseN()
-    return mapBinaryToA(bn);
-}
-
-var floatToBinaryA = function (float,maxNigits) { // pure fractions must start with 0.
-    maxNigits = (maxNigits||12)
-    let bn = new BaseConvert(float,2,maxNigits).convert()
-    return mapBinaryToA(bn);
-}
-
-var decimalToHexString = function(decimal) {
-    let bn = new BaseConvert(decimal,16).decToBaseN();
-    return bn;
-}
-
-var floatToHexString = function (float,maxNigits) { // pure fractions must start with 0.
-    float = "" + float
-    let len = float.length
-    maxNigits = (maxNigits||len||12)
-    let bn = new BaseConvert(float,16,maxNigits).convert();
-    return bn;
-}
-
-// pi digits are at https://home.semitasker.com/chemical-pi/data/pi-digits.js
-var testPiDigits = function(piVar, base, howMany) {
-    howMany = (howMany||100)
-    let π = "3." + piVar.substr(0,howMany)
-    let bn = new BaseConvert(π,base,howMany)
-    return bn.convert();
-}
-
-var factorInteger = function (integer) {
-    let primeFactors = []
-    let reduced = integer
-    for (let i=2;i<reduced/2;i++) {
-        let fac = {f:i,n:0}
-        while (reduced % i == 0) {
-            reduced /= i
-            fac.n++
-        }
-        if (fac.n) primeFactors.push(fac)
-    }
-    if (reduced > 1) {
-        primeFactors.push({f:reduced,n:1})
-    }
-    return {integer:integer,reduced:reduced,factors:primeFactors}
-}
-
-var divideAndRemain = function(numer,denom,numDigits) {
-    let bn = new BaseConvert(numer,denom,numDigits);
-    let beg = 0;
-    let end = bn.maxlen;
-    let slen = ("" + bn.inStr).length
-    let div,rem;
-
-    while (slen - beg >= 1) {
-        bn.strArr.push(bn.inStr.slice(beg,end))
-        beg += bn.maxlen
-        end += bn.maxlen
-    }
-
-    rem = bn.divArr();
-    div = bn.strArr.join("");
-
-    return {div:div,rem:rem,bn:bn}
-}
-
-var reduceFraction = function (numerObj, denomObj) {
+    let numerObj = factorInteger(numer)
+    let denomObj = factorInteger(denom)
 
     let nFactors = numerObj.factors;
     let dFactors = denomObj.factors;
@@ -257,7 +81,48 @@ var reduceFraction = function (numerObj, denomObj) {
     return {rf:redu,rp:reduProd,nf:nfact,df:dfact}
 }
 
-var fractionToRecurringDecimal = function (numer,denom,doNotReduce) {
+var fractionToRecurringDecimalBroken = function (numer,denom,doNotReduce) {
+
+    let numerSign = (numer < 0 ? -1 : 1)
+    let denomSign = (denom < 0 ? -1 : 1)
+    let resultSign = numerSign * denomSign;
+    denom *= denomSign;
+    numer *= numerSign;
+
+    let origNumer = numer;
+    let origDenom = denom;
+
+    // Remove value over 1.0 to give fraction 0.xxxx
+    let intPart = 0
+    let decimalParts = separateWholeAndFraction(numer,denom);
+    intPart = decimalParts.w
+    denom = decimalParts.d
+    numer = decimalParts.n
+
+   // reduce denom
+    //let denomFactors = factorInteger(denom);
+    //let numerFactors = factorInteger(numer);
+    let reduc = reduceFraction2(numer,denom);
+//$$$$$$$$$$$$$$$$$$***************** Stopped Here
+    denomFactors.factors = reduc.df
+    numerFactors.factors = reduc.nf
+    numer /= reduc.rp;
+    denom /= reduc.rp;
+}
+
+
+
+// following code will work on almost all input, but is incorrect
+// and will eventually fail. All failures are due to using built in
+// javascript division 
+// one example failure is the following fraction:
+// 12953/50284
+// This gives the result: 0.25759684989261
+// The trailing digit here is 1, but this is rounded from:
+// 0.2575968498926099 I predict that any reliance on floating point
+// calculations will eventually have a case that can't be handled.
+
+var fractionToRecurringDecimalBroken = function (numer,denom,doNotReduce) {
 
     let numerSign = (numer < 0 ? -1 : 1)
     let denomSign = (denom < 0 ? -1 : 1)
@@ -290,7 +155,7 @@ var fractionToRecurringDecimal = function (numer,denom,doNotReduce) {
     console.log(" numer=" + numer + ", denom=" + denom)
 
     if (denom == 3800) {
-        let ddddd = 1;
+        let ddddd = 1; // just used to pause during testing
     }
     let reducedDenom; // broken here
     if (reduc.df && reduc.df.length) {
@@ -446,86 +311,3 @@ var fractionToRecurringDecimal = function (numer,denom,doNotReduce) {
     }
     return {lp:lp,div:trimDiv,trimDiv:trimDiv,repLen:repLen,res:res,matchStr:matchedStr,err:err,preMatch,head:head,matchLen:matchLen}
 }
-
-/*
-    if (arguments.length == 4 && totalDigits && fractionDigits) {
-        if (fractionDigits > totalDigits) {
-            return null;
-        }
-    } else
-    if (arguments.length == 3 && !totalDigits || totalDigits < 1) {
-        return null
-    } else
-    if (fractionDigits) {
-
-    }
-
-1.1 binary 
-
-value of .1         binary = 1/2   =  .5
-value of .01        binary = 1/4   =  .25
-value of .001       binary = 1/8   =  .125
-value of .0001      binary = 1/16  =  .0625
-value of .00001     binary = 1/32  =  .03125
-value of .000001    binary = 1/64  =  .015675
-value of .0000001   binary = 1/128 =  .0078125
-sum of these                          .9922375
-
-
-so .1 decimal       binary ~= .00011  (.09375 base 10)
-   .2 decimal       binary ~= 
-
-
-   try conversion of .75 to .11 binary
-
-   .75 * 2 = 1.5 --> 1.0 shift right 1 spot == .1
-   .5  * 2 = 1.0 --> 1.1 shift right 1 spot == .11
-   only zero remains, finished
-
-
-
-   .1101 base 2 =   0.5
-   .0101 base 2 =   0.25
-   .0001 base 2 =   0.000
-   .0001 base 2 =   0.0625
-                    0.8125
-*/ 
-
-
-/*
- * Binary Numbers Represented as two unique characters:
-
-a = 0
-A = 1
-
-Base 4 Numbers:
-
-a(white) = 0
-A(black) = 1
-a(black) = 2
-A(white) = 3
-
-Numbers 0 thru 128:
-
-1.1 binary 
-
-value of .1         binary = 1/2   =  .5
-value of .01        binary = 1/4   =  .25
-value of .001       binary = 1/8   =  .125
-value of .0001      binary = 1/16  =  .0625
-value of .00001     binary = 1/32  =  .03125
-value of .000001    binary = 1/64  =  .015675
-value of .0000001   binary = 1/128 =  .0078125
-sum of these                          .9922375
-
-so .1 decimal       binary ~= .00011  (.09375)
-   .2 decimal       binary ~= 
-
-
-   try conversion of .75 to .11 binary
-
-   .75 * 2 = 1.5 --> 1.0 shift right 1 spot == .1
-   .5  * 2 = 1.0 --> 1.1 shift right 1 spot == .11
-   only zero remains, finished
-
-*/
