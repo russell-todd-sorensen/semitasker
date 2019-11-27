@@ -1,0 +1,20 @@
+               DANIEL J. BERNSTEIN
+The use of heaps to enumerate sums in sorted order actually appeared much
+earlier in another context, namely William S. Brown’s algorithm for multiplication
+of sparse power series. See [9, exercise 5.2.3–29]; compare [9, exercise 5–18].
+
+
+
+
+                    2. Heaps (The Algorithm)
+A heap is a sequence x1, x2,...,xn satisfying xbk/2c ≤ xk for 2 ≤ k ≤ n: i.e.,
+x1 ≤ x2, x1 ≤ x3, x2 ≤ x4, x2 ≤ x5, x3 ≤ x6, x3 ≤ x7, etc.
+The smallest element of a heap x1, x2,...,xn is x1. Given y, one can permute
+y, x2,...,xn into a new heap by the following algorithm. First set j ← 1. Then
+perform the following steps repeatedly: set k ← 2j; stop if k>n; set k ← k + 1 if
+k<n and xk+1 < xk; stop if y ≤ xk; exchange y, which is now in the jth position,
+with xk; set j ← k. The total number of operations here is O(log n).
+In particular, using O(log n) operations, one can permute xn, x2,...,xn−1 into a
+new heap. By a similar algorithm, also using O(log n) operations, one can permute
+x1, x2,...,xn, y into a new heap
+

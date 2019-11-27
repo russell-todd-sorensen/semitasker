@@ -1,0 +1,74 @@
+global errorInfo
+global poppedValues
+
+if {0} {
+proc permuteHeap {heapName newElement {popSmallest false}} {
+    global poppedValues
+    upvar $heapName heap
+
+    set heap(0) $newElement
+    set n [array size heap]
+
+    set j 1
+    set q $j
+
+    while {[set p [expr {$q << 1}]] < $n} {
+        set p1 [expr {$p + 1}]
+        if {[info exists heap($p1)] 
+            && [info exists heap($p)] 
+            && ($heap($p1) < $heap([expr {$p}]))
+        } {
+            incr p
+        }
+        set heap($q) $heap($p)
+        set q $p
+    }
+    if {$p == $n} {
+        set h($q) $h($p)
+        set q $p
+    }
+    while {($q > $j) && ($heap(0) < $heap([set p [expr {$q >> 1}]]))} {
+        set heap($q) $heap($p) 
+        set q $p 
+    }
+    set heap($q) $heap(0)
+}
+}
+
+
+proc permuteHeap {heapName newElement {popSmallest false}} {
+    global poppedValues
+    upvar $heapName heap
+
+    lset heap 0 $newElement
+    set n [llength heap]
+
+    set j 1
+    set q $j
+
+    while {[set p [expr {$q << 1}]] < $n} {
+        set p1 [expr {$p + 1}]
+        if {($p1 < $n)
+            && ([lindex $heap $p1)] < [lindex $heap $p])
+        } {
+            incr p
+        }
+        lset heap $q [lindex $heap $p] 
+        set q $p
+    }
+    if {$p == $n} {
+        lset heap $q [lindex heap $p]
+        set q $p
+    }
+    while {($q > $j) && ($heap(0) < $heap([set p [expr {$q >> 1}]]))} {
+        lset heap $q [lindex heap $p]
+        set q $p 
+    }
+    lset heap $q [lindex $heap 0] 
+}
+
+set heap [list *]
+permuteHeap heap 5
+permuteHeap heap 4
+
+

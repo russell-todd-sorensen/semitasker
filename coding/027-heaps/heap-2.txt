@@ -1,0 +1,37 @@
+global errorInfo
+proc permuteHeap {heapName j n} {
+
+    upvar $heapName heap
+    set q $j
+
+    while {[set p [expr {$q << 1}]] < $n} {
+        set p1 [expr {$p + 1}]
+        if {($p1 < $n)
+            && ([lindex $heap $p1] < [lindex $heap $p])
+        } {
+            incr p
+            lset heap $q [lindex $heap $p] 
+            set q $p
+        }
+    }
+    if {$p == $n} {
+        lset heap $q [lindex heap $p]
+        set q $p
+    }
+    while {($q > $j) && ([lindex $heap 0] < [lindex $heap [set p [expr {$q >> 1}]]])} {
+        lset heap $q [lindex heap $p]
+        set q $p 
+    }
+    lset heap $q [lindex $heap 0] 
+}
+
+# heap(0) is not for export heap(1) has the smallest value
+
+set heap [list]
+
+set heap [concat 1 1 $heap]
+
+set n 1
+set j 1
+
+permuteHeap heap $j $n
