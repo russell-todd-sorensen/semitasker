@@ -26,8 +26,10 @@ td.er {
 <script src="/js/base-conversion.js"></script>
 <script src="/js/fraction-to-recurring-decimal.js"></script>
 <script src="/chemical-pi/js/pi-digits.js"></script>
+<script src="/js/math.js"></script>
 <script src="/js/x2-test.js"></script>
 <script>
+
 var toggleStyle = function (evt) {
     let styleClass = this.className
     if (styleClass == 'hl') {
@@ -46,79 +48,35 @@ let setClickEvents = function (evt) {
     }
 }
 
-var runTests = function (begin,end,nbegin,nend,maxMatch) {
-
-    let i  = (begin || 2)
-    let k  = (end || 100)
-    nbegin = (nbegin || 1)
-    nend   = (nend || 1)
-    maxMatch = (maxMatch || -1)
-    output = `<table cellspacing='0' cellpadding='2' border='1px'>
-    <tr><th>Numer</th><th>Denom</th><th>Head<th>preMatch</th><th>RepLen</th>
-    <th>MatchLen</th><th>Divide</th><th>Result</th>
-    </tr>`
-
-
-    let bc,head,preMatch,matchLen,result,div,repLen;
-    let doNotReduce = true;
-    let failed = false;
-    for (;i<k;i++) {
-        numer = (nend - Math.trunc((nend-nbegin)*Math.random()))
-        //numer = (numer < 1 ? 1 : numer)
-        denom = i
-        bc = fractionToRecurringDecimal(numer,denom,doNotReduce);
-        matchLen = bc.matchLen
-        if (maxMatch > -1 && matchLen > maxMatch) {
-            continue
-        }
-        result = bc.res
-        head = bc.head
-        preMatch = bc.preMatch
-        repLen = bc.repLen
-        div = bc.div
-        if (bc.err != "" || bc.res == "") {
-            errorClass = " ec"
-        } else {
-            errorClass = ""
-        }
-        output += `
-    <tr id='r-${i}'><td>${numer}</td><td>${denom}</td>
-        <td>${head}</td><td>${preMatch}</td><td>${repLen}</td>
-        <td>${matchLen}</td>
-        <td class='al${errorClass}'>${div}</td>
-        <td class='al${errorClass}'>${result}
-    </tr>\n`
-
-    }
-
-    document.getElementById('results').innerHTML = output
-    setClickEvents(event);
-}
-
-var runTests2 = function (begin,end,nbegin,nend,maxMatch) {
+var runTests2 = function (begin,end,nbegin,nend,maxMatch,maxOutput) {
 
     begin  = (begin || 2)
     end    = (end || 100)
     nbegin = (nbegin || 1)
     nend   = (nend || 1)
     maxMatch = (maxMatch || -1)
+    maxOutput = (maxOutput || 10000)
     output = `<table cellspacing='0' cellpadding='2' border='1px'>
     <tr><th>Numer</th><th>Denom</th><th>Head<th>preMatch</th><th>RepLen</th>
-    <th>MatchLen</th><th>Divide</th><th>Result</th>
+    <th>MatchLen</th><th>Divide</th><th>Reduced</th><th>Factored</th><th>Result</th>
     </tr>`
 
     let bc,head,preMatch,matchLen,result,div,repLen,numer;
     let doNotReduce = true;
     let failed = false;
+    let rational;
+    let maxCounter = 0;
+    bigloop:
     for (let n = nbegin;n<=nend;n++) {
         numer = n
         for (i=begin;i<=end;i++) {
+            if (maxCounter >= maxOutput) {
+                break bigloop;
+            }
             denom = i
             bc = fractionToRecurringDecimal(n,denom,doNotReduce);
+            rational = new Rational(numer,denom);
             matchLen = bc.matchLen
-            if (maxMatch > -1 && matchLen > maxMatch) {
-                continue
-            }
             result = bc.res
             head = bc.head
             preMatch = bc.preMatch
@@ -134,56 +92,15 @@ var runTests2 = function (begin,end,nbegin,nend,maxMatch) {
             <td>${head}</td><td>${preMatch}</td><td>${repLen}</td>
             <td>${matchLen}</td>
             <td class='al${errorClass}'>${div}</td>
-            <td class='al${errorClass}'>${result}
+            <td >${rational.rationalValue}</td>
+            <td >${rational.factoredValue}</td>
+            <td class='al${errorClass}'>${result}</td>
         </tr>\n`
-
+            maxCounter++
         }
     }
     document.getElementById('results').innerHTML = output
     setClickEvents(event);
-}
-
-class Integer {
-    constructor (int) {
-        this.raw = int;
-        this.sign = null;
-        this.value = this.raw * this.getSign();
-        this.exp = Math.trunc(Math.log10(this.value));
-        this.factors;
-        this.reduced;
-        this.factorInteger();
-        this.isPrime = (this.factors.length == 1 ? true : false);
-    }
-    getSign() {
-        if (!this.sign) {
-            this.sign = (this.raw < 0 ? -1 : 1)
-        }
-        return this.sign;
-    };
-    factorInteger() {
-        this.factors = []
-        this.reduced = this.value;
-        for (let i=2;i<this.reduced/2;i++) {
-            let fac = {f:i,n:0}
-            while (this.reduced % i == 0) {
-                this.reduced /= i
-                fac.n++
-            }
-            if (fac.n) this.factors.push(fac)
-        }
-        if (this.reduced > 1) {
-            this.factors.push({f:this.reduced,n:1})
-        }
-    };
-}
-
-class Rational {
-    constructor (numer, denom) {
-        this.numer = new Integer(numer);
-        this.denom = new Integer(denom);
-        this.sign  = this.numer.sign * this.denom.sign;
-
-    }
 }
 
 var normInteger = function (inString) {
@@ -227,6 +144,32 @@ let normFloat = function(numer, denom) { // numer and denom both integers
 </script>
 </head>
 <body>
+<div id="form-container">
+<form action="" method="GET" id="form1">
+<ul>
+ <li>
+    <label for="nb">Numerator Begin:</label>
+    <input id="nb" name="nb" max="8888888888888888" type="number">
+</li>
+<li>
+   <label for="ne">Numerator End:</label>
+   <input id="ne" name="ne" type="number" max="8888888888888888">
+</li>
+<li>
+   <label for="db">Denominator Begin:</label>
+   <input id="db" name="db" type="number" max="88888888">
+</li>
+<li>
+   <label for="de">Denominator End:</label>
+   <input id="de" name="de" type="number" max="88888888">
+</li>
+<li>
+   <label for="submit">Submit:</label>
+   <input id="submit" name="submit" type="submit" value="Submit">
+</li>
+</ul>
+</form>
+</div>
 <div id="results"></div>
 <pre>
 failing fractions:
@@ -234,5 +177,37 @@ failing fractions:
  NOTE on Above: .2575968498926099 rounds to 25759684989261
  Need to start ignoring internal division 
 </pre>
+<script>
+
+var queryValues = {
+    nb: 1,
+    ne: 1,
+    db: 1,
+    de: 1,
+}
+
+var processForm = function() {
+
+    let url = document.URL;
+    let query = url.split("?")[1]
+    if (query) {
+        let terms = query.split("&");
+        let term;
+        if (terms.length) {
+            terms.forEach(element => {
+                term = element.split("=")
+                queryValues[term[0]] = term[1]
+            });
+        }
+    }
+    runTests2(queryValues.db,queryValues.de,queryValues.nb,queryValues.ne, 5000);
+    nb.value = queryValues.nb;
+    ne.value = queryValues.ne;
+    db.value = queryValues.db;
+    de.value = queryValues.de;
+}
+
+processForm()
+</script>
 </body>
 </html>
