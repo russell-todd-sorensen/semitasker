@@ -1,0 +1,197 @@
+<div id="entry_137283" class="ind-entry ng-scope" lj-embed-resizer="" lj-discovery-tags="" lj-screenable="social:widgets:parse"><h3 class="userpic"><img border="0" src="https://l-userpic.livejournal.com/126074641/936728" width="64" height="64" alt="fanf" class="ContextualPopup"></h3><h2>qp tries: smaller and faster than crit-bit tries</h2><h4><a href="https://fanf.livejournal.com/137204.html" title="previous entry" target="_self">« previous entry</a> | <a href="https://fanf.livejournal.com/137485.html" title="next entry" target="_self">next entry »</a><br><b> 4th Oct 2015 | 21:03</b><br></h4><div class="entry-item s2-entrytext"><p>tl;dr: I have developed a data structure called a "qp trie", based on
+    the crit-bit trie. Some simple benchmarks say qp tries have about 1/3
+    less memory overhead and are about <strike>10%</strike> 30% faster than crit-bit tries.</p>
+    
+    <p>"qp trie" is short for "quadbit popcount patricia trie". (Nothing to
+    do with cutie cupid dolls or Japanese mayonnaise!)</p>
+    
+    <p>Get the code from <a href="http://dotat.at/prog/qp/" rel="nofollow" target="_self">http://dotat.at/prog/qp/</a>.</p>
+    
+    <h2>background</h2>
+    
+    <p>Crit-bit tries are an elegant space-optimised variant of PATRICIA
+    tries. Dan Bernstein has a well-known <a href="http://cr.yp.to/critbit.html" rel="nofollow" target="_self">description of crit-bit
+    tries</a>, and Adam Langley has nicely
+    <a href="https://github.com/agl/critbit" rel="nofollow" target="_self">annotated DJB's crit-bit
+    implementation</a>.</p>
+    
+    <p>What struck me was crit-bit tries require quite a lot of indirections
+    to perform a lookup. I wondered if it would be possible to test
+    multiple bits at a branch point to reduce the depth of the trie, and
+    make the size of the branch adapt to the trie's density to keep memory
+    usage low. My initial attempt (over two years ago) was vaguely
+    promising but too complicated, and I gave up on it.</p>
+    
+    <p>A few weeks ago I read about Phil Bagwell's hash array mapped trie
+    (HAMT) which he described in two papers, <a href="http://infoscience.epfl.ch/record/64394/files/triesearches.pdf" rel="nofollow" target="_self">"fast and space efficient
+    trie
+    searches"</a>,
+    and <a href="http://infoscience.epfl.ch/record/64398/files/idealhashtrees.pdf" rel="nofollow" target="_self">"ideal hash
+    trees"</a>.
+    The part that struck me was the <a href="https://en.wikipedia.org/wiki/popcount" rel="nofollow" target="_self">popcount</a> trick he uses to eliminate
+    unused pointers in branch nodes. (This is also described in <a href="http://www.hackersdelight.org" rel="nofollow" target="_self">"Hacker's
+    Delight"</a> by Hank Warren, in the
+    "applications" subsection of chapter 5-1 "Counting 1 bits", which
+    evidently did not strike me in the same way when I read it!)</p>
+    
+    <p>You can use popcount() to implement a sparse array of length <em>N</em>
+    containing <em>M &lt; N</em> members using bitmap of length <em>N</em> and a packed
+    vector of <em>M</em> elements. A member <em>i</em> is present in the array if bit
+    <em>i</em> is set, so <em>M == <code>popcount(bitmap)</code></em>. The index of member <em>i</em> in
+    the packed vector is the popcount of the bits preceding <em>i</em>.</p>
+    
+    <pre><code>    mask = 1 &lt;&lt; i;
+        if(bitmap &amp; mask)
+            member = vector[popcount(bitmap &amp; mask-1)]
+    </code></pre>
+    
+    <h2>qp tries</h2>
+    
+    <p>If we are increasing the fanout of crit-bit tries, how much should we
+    increase it by, that is, how many bits should we test at once? In a
+    HAMT the bitmap is a word, 32 or 64 bits, using 5 or 6 bits from the
+    key at a time. But it's a bit fiddly to extract bit-fields from a
+    string when they span bytes.</p>
+    
+    <p>So I decided to use a quadbit at a time (i.e. a nibble or half-byte)
+    which implies a 16 bit popcount bitmap. We can use the other 48 bits
+    of a 64 bit word to identify the index of the nibble that this branch
+    is testing. A branch needs a second word to contain the pointer to the
+    packed array of "twigs" (my silly term for sub-tries).</p>
+    
+    <p>It is convenient for a branch to be two words, because that is the
+    same as the space required for the key+value pair that you want to
+    store at each leaf. So each slot in the array of twigs can contain
+    either another branch or a leaf, and we can use a flag bit in the
+    bottom of a pointer to tell them apart.</p>
+    
+    <p>Here's the qp trie containing the keys "foo", "bar", "baz". (Note
+    there is only one possible trie for a given set of keys.)</p>
+    
+    <pre><code>[ 0044 | 1 | twigs ] -&gt; [ 0404 | 5 | twigs ] -&gt; [ value | "bar" ]
+                            [    value | "foo" ]    [ value | "baz" ]
+    </code></pre>
+    
+    <p>The root node is a branch. It is testing nibble 1 (the least
+    significant half of byte 0), and it has twigs for nibbles containing 2
+    ('b' == 0x6<strong>2</strong>) or 6 ('f' == 0x6<strong>6</strong>). (Note 1 &lt;&lt; 2 == 0x0004 and 1
+    &lt;&lt; 6 == 0x0040.)</p>
+    
+    <p>The first twig is also a branch, testing nibble 5 (the least
+    significant half of byte 2), and it has twigs for nibbles containing 2
+    ('r' == 0x7<strong>2</strong>) or 10 ('z' == 0x7<strong>a</strong>). Its twigs are both leaves,
+    for "bar" and "baz". (Pointers to the string keys are stored in the
+    leaves - we don't copy the keys inline.)</p>
+    
+    <p>The other twig of the root branch is the leaf for "foo".</p>
+    
+    <p>If we add a key "qux" the trie will grow another twig on the root
+    branch.</p>
+    
+    <pre><code>[ 0244 | 1 | twigs ] -&gt; [ 0404 | 5 | twigs ] -&gt; [ value | "bar" ]
+                            [    value | "foo" ]    [ value | "baz" ]
+                            [    value | "qux" ]
+    </code></pre>
+    
+    <p>This layout is very compact. In the worst case, where each branch has
+    only two twigs, a qp trie has the same overhead as a crit-bit trie,
+    two words (16 bytes) per leaf. In the best case, where each branch is
+    full with 16 twigs, the overhead is one byte per leaf.</p>
+    
+    <p>When storing 236,000 keys from <code>/usr/share/dict/words</code> the overhead is
+    1.44 words per leaf, and when storing a vocabulary of 54,000 keys
+    extracted from the BIND9 source, the overhead is 1.12 words per leaf.</p>
+    
+    <p>For comparison, if you have a parsimonious hash table which stores
+    just a hash code, key, and value pointer in each slot, and which has
+    90% occupancy, its overhead is 1.33 words per item.</p>
+    
+    <p>In the best case, a qp trie can be a quarter of the depth of a
+    crit-bit trie. In practice it is about half the depth. For our example
+    data sets, the average depth of a crit-bit trie is 26.5 branches, and
+    a qp trie is 12.5 for <code>dict/words</code> or 11.1 for the BIND9 words.</p>
+    
+    <p>My benchmarks show qp tries are about 10% faster than crit-bit tries.
+    However I do not have a machine with both a popcount instruction and a
+    compiler that supports it; also, LLVM fails to optimise popcount for a
+    16 bit word size, and GCC compiles it as a subroutine call. So there's
+    scope for improvement.</p>
+    
+    <h2>crit-bit tries revisited</h2>
+    
+    <p>DJB's published crit-bit trie code only stores a set of keys, without
+    any associated values. It's possible to add support for associated
+    values without increasing the overhead.</p>
+    
+    <p>In DJB's code, branch nodes have three words: a bit index, and two
+    pointers to child nodes. Each child pointer has a flag in its least
+    significant bit indicating whether it points to another branch, or
+    points to a key string.</p>
+    
+    <pre><code>[ branch ] -&gt; [ 3      ]
+                  [ branch ] -&gt; [ 5      ]
+                  [ "qux"  ]    [ branch ] -&gt; [ 20    ]
+                                [ "foo"  ]    [ "bar" ]
+                                              [ "baz" ]
+    </code></pre>
+    
+    <p>It is hard to add associated values to this structure without
+    increasing its overhead. If you simply replace each string pointer
+    with a pointer to a key+value pair, the overhead is 50% greater: three
+    words per entry in addition to the key+value pointers.</p>
+    
+    <p>When I wanted to benchmark my qp trie implementation against crit-bit
+    tries, I trimmed the qp trie code to make a crit-bit trie
+    implementation. So my crit-bit implementation stores keys with
+    associated values, but still has an overhead of only two words per
+    item.</p>
+    
+    <pre><code>[ 3 twigs ] -&gt; [ 5   twigs ] -&gt; [ 20  twigs ] -&gt; [ val "bar" ]
+                   [ val "qux" ]    [ val "foo" ]    [ val "baz" ]
+    </code></pre>
+    
+    <p>Instead of viewing this as a trimmed-down qp trie, you can look at it
+    as evolving from DJB's crit-bit tries. First, add two words to each
+    node for the value pointers, which I have drawn by making the nodes
+    wider:</p>
+    
+    <pre><code>[ branch ] -&gt;      [ 3    ]
+                  [ x  branch ] -&gt;      [ 5    ]
+                  [ val "qux" ]    [ x  branch ] -&gt;       [ 20  ]
+                                   [ val "foo" ]    [ val "bar" ]
+                                                    [ val "baz" ]
+    </code></pre>
+    
+    <p>The value pointers are empty (marked x) in branch nodes, which
+    provides space to move the bit indexes up a level. One bit index from
+    each child occupies each empty word. Moving the bit indexes takes
+    away a word from every node, except for the root which becomes a word
+    bigger.</p>
+    
+    <h2>conclusion</h2>
+    
+    <p>This code was pretty fun to write, and I'm reasonably pleased with the
+    results. The debugging was easier than I feared: most of my mistakes
+    were simple (e.g. using the wrong variable, failing to handle a
+    trivial case, muddling up getline()s two length results) and <code>clang
+    -fsanitize=address</code> was a mighty debugging tool.</p>
+    
+    <p>My only big logic error was in Tnext(); I thought it was easy to find
+    the key lexicographically following some arbitrary string not in the
+    trie, but it is not. (This isn't a binary search tree!) You can easily
+    find the keys with a given prefix, if you know in advance the length
+    of the prefix. But, with my broken code, if you searched for an
+    arbitrary string you could end up in a subtrie which was not the
+    subtrie with the longest matching prefix. So now, if you want to
+    delete a key while iterating, you have to find the next key before
+    deleting the previous one.</p>
+    
+    <p><em>finally...</em></p>
+    
+    <p>I have this nice code, but I have no idea what practical use I might
+    put it to!</p>
+    
+    <p><em>postscript...</em></p>
+    
+    <p>I have done some simple tuning of the inner loops and qp tries are now about 30% faster than crit-bit tries.</p></div>
+    <h4><a href="https://fanf.livejournal.com/137283.html" title="permalink" class="Permalink" target="_self">Permalink</a><span class="separator"> | </span><a href="https://fanf.livejournal.com/137283.html?mode=reply" class="comments" rel="nofollow" target="_self">Leave a comment</a><div id="ljqrttopcomment" style="display: none;"></div><span class="separator"> | </span><a class="entrylink entrylink--share" href="https://www.livejournal.com/update.bml?repost_type=c&amp;repost=https://fanf.livejournal.com/137283.html&amp;nodraft=1" title="Share" data-title="qp%20tries%3A%20smaller%20and%20faster%20than%20crit-bit%20tries" data-url="https%3A%2F%2Ffanf.livejournal.com%2F137283.html" target="_self">Share</a><span class="separator"> | </span><a class="entrylink entrylink--flag" href="https://www.livejournal.com/tools/content_flag.bml?user=fanf&amp;itemid=137283" title="Flag" target="_self">Flag</a></h4></div>

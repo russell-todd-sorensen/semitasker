@@ -1,0 +1,86 @@
+#package require Tcl 8.5
+
+set kart 1
+
+if {$kart} {
+    # Key alteration <URL:http://code.dogmap.org/kart/>.
+    proc Bits {key} {
+        set bits {}
+        foreach char [split $key ""] {
+            lappend bits 1 {*}[split [binary scan $char B* b; set b] ""]
+        }
+        lappend bits 0
+    }
+} else {
+    # Length prefix.
+    proc Bits {key} {
+        binary scan [binary format I [string length $key]]$key B* bits
+        split $bits ""
+    }
+}
+
+proc Walk {tree kb} {
+    while {[llength $tree] == 3} {
+        set tree [lindex $tree [expr {1 + [lindex $kb [lindex $tree 0]]}]]
+    }
+    lindex $tree 0
+}
+
+proc insert {cbvar key} {
+    upvar 1 $cbvar critbit
+    if {![info exists critbit] || ![llength $critbit]} {
+        set critbit [list $key]
+    } else {
+        set kb [Bits $key]
+        set other [Walk $critbit $kb]
+        if {$key ne $other} {
+            set ob [Bits $other]
+            for {set m 0} {[lindex $kb $m] == [lindex $ob $m]} {incr m} {}
+
+            set tree $critbit
+            set path {}
+            while {[llength $tree] == 3 && [lindex $tree 0] < $m} {
+                set child [expr {1 + [lindex $kb [lindex $tree 0]]}]
+                set tree [lindex $tree $child]
+                lappend path $child
+            }
+
+            if {![lindex $kb $m]} {
+                lset critbit $path [list $m [list $key] $tree]
+            } else {
+                lset critbit $path [list $m $tree [list $key]]
+            }
+        }
+    }
+}
+
+proc remove {cbvar key} {
+    upvar 1 $cbvar critbit
+    if {[info exists critbit]} {
+        if {[llength $critbit] == 1} {
+            if {$key eq [lindex $critbit 0]} {
+                set critbit {}
+            }
+        } elseif {[llength $critbit] == 3} {
+            set kb [Bits $key]
+            set tree $critbit
+            set path {}
+            while {[llength $tree] == 3} {
+                set child [expr {1 + [lindex $kb [lindex $tree 0]]}]
+                set tree [lindex $tree $child]
+                lappend path $child
+            }
+            if {$key eq [lindex $tree 0]} {
+                lset critbit [lrange $path 0 end-1]\
+                    [lindex $critbit {*}[lrange $path 0 end-1]\
+                    [expr {3 - [lindex $path end]}]]
+            }
+        }
+    }
+}
+
+proc find {cbvar key} {
+    upvar 1 $cbvar critbit
+    expr {[info exists critbit] && [llength $critbit]
+       && $key eq [Walk $critbit [Bits $key]]}
+}
