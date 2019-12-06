@@ -65,7 +65,7 @@ window.addEventListener('DOMContentLoaded', () => {
     fill="black"
     transform="skewX(0)"
     style="font-family:'Keania One', Arial"
-    ><tspan>ABCDEFGHIJKLMNOPQRSTUVWZYZ</tspan>
+    ><tspan>ABCDEFGHIJKLMNOPQRSTUVWXYZ</tspan>
     <tspan dy="100" x="0">abcdefghijklmnopqrstuvwxyz</tspan></text>
  <text id="scroll-value" >25</text>
  <rect id="scroller" height="80" width="300" />
