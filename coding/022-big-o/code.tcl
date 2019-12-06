@@ -15,6 +15,8 @@ proc rec {logName what} {
     lappend $logName $what
 }
 
+proc log2 x "expr {log(\$x)/[expr log(2)]}"
+
 proc printLog {logName {joinBy \n} {reset 0}} {
     global $logName
     set result [join [set $logName] $joinBy]
@@ -32,11 +34,11 @@ proc sqrt {N {end end}} {
 }
 
 proc nLogN {N} {
-    expr {$N * log($N)}
+    expr {$N * [log2 $N]}
 } 
 
 proc logN {N} {
-    expr {log($N)}
+    log2 $N
 }
 
 proc timesN {N {start 1}} {
@@ -44,7 +46,7 @@ proc timesN {N {start 1}} {
 }
 
 proc twoPowLogN {N {end end}} {
-    string range [expr pow(2, log($N))] 0 $end
+    string range [expr {pow(2, [log2 $N])}] 0 $end
 }
 
 proc fib {N} {
@@ -118,9 +120,9 @@ proc calculate {N base} {
  <tr>
   <th>N</th>
   <th>sqrt N</th>
-  <th>log<sub>e</sub> N</th>
-  <th>N*log<sub>e</sub> N</th>
-  <th>2<sup>log<sub>e</sub>N</sup></th>
+  <th>log<sub>2</sub> N</th>
+  <th>N*log<sub>2</sub> N</th>
+  <th>2<sup>log<sub>2</sub>N</sup></th>
   <th>2<sup>N</sup>
   <th>N<sup>2</sup></th>
   <th>fib N</th>
