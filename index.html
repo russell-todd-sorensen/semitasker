@@ -2,11 +2,22 @@
 <html lang="en-US">
 <head>
 <meta charset="utf-8">
+<base href="https://home.semitasker.com" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="rgb(102, 153, 255)" />
+
+<meta name="description" content="Semitasker Home Page: Code by Russell Sorensen.
+    Code examples in HTML5, CSS3, JavaScript, SVG, HTML5 Canvas. 
+    Unique Animation Code for Discrete Step Applications, Front End Apps:
+    Sudoku, Mandelbrot Fractal Explorer, Color Theory: RGB to HSL to HSB to HSI.
+    Backend, Middleware Code: WSDL API, Query Writer: RESTful API to SQL Database" />
 
 <title>SemiTasker: Divide and Conquer!</title>
 
-<link rel="stylesheet" href="/css/main.css" media="all">
-<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" sizes="512x512" href="/images/icons/icon-512x512.png">
+<link rel="apple-touch-icon" href="/images/icons/icon-192x192.png">
+
 <style type="text/css">
 
 body {
@@ -31,7 +42,6 @@ article,section {
 }
 
 section {
-    width: 2000px;
     width: 100%;
 }
 
@@ -139,25 +149,118 @@ section {
 <script>
 if ('serviceWorker' in navigator) {
     // Use the window load event to keep the page load performant
-   // window.addEventListener('load', () => {
-  //      navigator.serviceWorker.register('/sw.js');
-  //  });
+   window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js');
+    });
 }
 </script>
 
-<script src="/js/d3.v3.js" charset="utf-8"></script>
-<script src="/js/jquery-1.7.1.js" charset="utf-8"></script>
-<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js" charset="utf-8"></script>
+</head>
+<body id="body">
+
+<article>
+ <header>
+ <h1 class="shadow"><span 
+     class="inner-shadow">SemiTasker: Divide and Conquer!</span></h1>
+ </header>
+<section id="main">
+<nav class="inner-shadow-x">
+
+<ul>
+ <li><a href="/" 
+        title="Semitasker Home Page">Home</a></li>
+</ul>
+
+<h2>Learn Digits of &pi; in Mouthfuls</h2>
+<ul>
+ <li><a href="/chemical-pi/" 
+        title="Chemical &pi;: Memorizing the digits of &pi; in Mouthfuls"
+        >Chemical &pi;</a></li>
+</ul>
+
+<h2>Live Edit HTML/CSS/JS</h2>
+<ul>
+ <li><a href="/learn-html/learn-html-20.html" 
+        title="Interactive Live Site Editor for HTML5, CSS3, JavaScript and SVG"
+        >Learn HTML5 Tech Editor</a></li>
+</ul>
+
+<h2>HTML 5 Canvas Apps</h2>
+<ul>
+ <li><a href="/mandelbrot/explore.html"
+        title="Mandelbrot Set Explorer">Fractal Explorer</a></li>
+ <li><a href="/fractal/mrcm-affine.html"
+        title="Multiple Reduction Copy Machine Using Affine Transforms"
+        >MRCM Fractal</a></li>
+</ul>
+
+<h2>HTML 5 Apps</h2>
+<ul>
+ <li><a href="/sudoku-max/responsive.html" 
+        title="Sudoku Like Game Player/Solver 1x1 to 32x32"
+        >Sudoku Max</a></li>
+</ul>
+
+<h2>SVG Apps</h2>
+<ul>
+ <li><a href="/learn-html/color-mixer/color-mixer-17.html"
+        title="Interactive Color Pallet Tool">Color Mixer</a></li>
+ <li><a href="/learn-html/color-mixer/rgb-hsl-conversion-5.html"
+        title="RGB to HSL/HSB Conversion Animation">RGBtoHSL Conversion</a></li>
+ <li><a href="/tartans/"
+        title="Tartan Generator">Tartans Woven with SVG</a></li>
+ <li><a href="/svg/filter-mania-improved-5.html"
+        title="Extensive Exploration of SVG Filters">SVG Filter Mania</a></li>
+ <li><a href="/svg/svg-index.html"
+        title="Additional SVG Experiments">More SVG Apps</a></li>
+    <li><a href="/dsvg/devel/clock/static-final-nr.html"
+        title="Correct to the Second: SVG Clock">Clock</a></li>
+</ul>
+
+<h2>Games</h2>
+<ul>
+ <li><a href="/game-of-life/" 
+        title="Game of Life (Conway) in SVG &amp; JQuery">Game of Life</a></li>
+ <li><a href="/games/go/" 
+        title="Go in SVG &amp; D3">Game of Go</a></li>
+ <li><a href="/games/hex/" 
+        title="Hex in SVG &amp; D3">Hex</a></li>
+</ul>
+
+<h2>Backend Code and APIs</h2>
+<ul>
+ <li><a href="/gitweb/gitweb.cgi" 
+        title="Git Repository Index">Live Site Git</a></li>
+ <li><a href="/gitweb/gitweb.cgi?p=semitasker;a=tree;h=refs/heads/gh-pages" 
+        title="Git Repo for this Live Site: Home.SemiTasker.Com">This Website</a></li>
+ <li><a href="/twist/" 
+        title="Tcl Web Services Description Language API">tWSDL API</a></li>
+ <li><a href="/gitweb/gitweb.cgi?p=query-writer/.git"
+        title="Git Repo for Query Writer Middle-Ware Tool">Query Writer</a></li>
+ <li><a href="/gitweb/gitweb.cgi?p=wtk/.git;a=summary"
+        title="Compact and Useful Tcl Web Toolkit: Modular System">Web ToolKit</a></li>
+ <li><a href="/gitweb/gitweb.cgi?p=wtk/.git;a=tree;f=tcl/wtk/modules/t3"
+        title="Templating Tool for Tcl: Pure View Component written in Flex/Bison"
+        >T3: MVC View Component</a></li>
+ <li><a href="/cgit2/cgit.cgi2" 
+        title="CGit Git Repository Browser: Written in C and Very Fast!"
+        >CGit Access to above Repos</a></li>
+</nav>
+
+</section>
+
+</article>
+<footer>
+
+</footer>
+<link rel="stylesheet" href="/css/main.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all" >
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="/js/log-2.js" charset="utf-8"></script>
 <script src="/js/homepage-data.js"></script>
-<script src="/js/data.js"></script>
-<script src="/js/form-save-restore.js"></script>
-<script src="/js/binary-hex-conversions.js"></script>
-<script src="/js/example-library.js"></script>
-<script src="/js/svg-transform.js"></script>
 <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
-
 <script>
 
 function selectImage(id) {
@@ -175,88 +278,11 @@ function selectImage(id) {
 }
 
 $(document).ready(function() {
-    Log.Notice("jQuery Ready!");
+    //Log.Notice("jQuery Ready!");
     Log.Remove();
-    selectImage('body');
+    //selectImage('body');
 });
 
 </script>
-</head>
-<body id="body">
-
-<article>
- <header>
- <h1 class="shadow"><span class="inner-shadow">SemiTasker: Divide and Conquer!</span></h1>
- </header>
-<section id="main">
-<nav class="inner-shadow-x">
-
-<ul>
- <li><a href="/">Home</a></li>
-</ul>
-
-<h2>Learn Digits of &pi; in Mouthfuls</h2>
-<ul>
- <li><a href="/chemical-pi/">Chemical &pi;</a></li>
-</ul>
-
-<h2>Live Edit HTML/CSS/JS</h2>
-<ul>
- <li><a href="/learn-html/learn-html-20.html">Learn HTML Editor</a></li>
-</ul>
-
-<h2>HTML 5 Canvas Apps</h2>
-<ul>
- <li><a href="/mandelbrot/explore.html"
-        title="Mandelbrot Set Explorer">Fractal Explorer</a></li>
- <li><a href="/fractal/mrcm-affine.html"
-        title="Multiple Reduction Copy Machine Using Affine Transforms">MRCM Fractal</a></li>
-</ul>
-
-<h2>HTML 5 Apps</h2>
-<ul>
- <li><a href="/sudoku-max/responsive.html">Sudoku Max</a></li>
-</ul>
-
-<h2>SVG Apps</h2>
-<ul>
- <li><a href="/learn-html/color-mixer/color-mixer-17.html"
-        title="Interactive Color Pallet Tool">Color Mixer</a></li>
- <li><a href="/learn-html/color-mixer/rgb-hsl-conversion-5.html"
-        title="RGB to HSL/HSB Conversion Animation">RGBtoHSL Conversion</a></li>
- <li><a href="/tartans/"
-        title="Tartan Generator">Tartans Woven with SVG</a></li>
- <li><a href="/svg/filter-mania-improved-5.html"
-        title="Extensive Exploration of SVG Filters">SVG Filter Mania</a></li>
- <li><a href="/svg/svg-index.html"
-        title="Additional SVG Experiments">More SVG Apps</a></li>
-    <li><a href="/dsvg/devel/clock/static-final-nr.html"
-        title="SVG Clock">Clock</a></li>
-</ul>
-
-<h2>Games</h2>
-<ul>
- <li><a href="/game-of-life/">Game of Life</a></li>
- <li><a href="/games/go/">Go</a></li>
- <li><a href="/games/hex/">Hex</a></li>
-</ul>
-
-<h2>Backend Code and APIs</h2>
-<ul>
- <li><a href="/gitweb/gitweb.cgi">Live Site Git</a></li>
- <li><a href="/gitweb/gitweb.cgi?p=semitasker;a=tree;h=refs/heads/gh-pages">This Website</a></li>
- <li><a href="/twist/">tWSDL API</a></li>
- <li><a href="/gitweb/gitweb.cgi?p=query-writer/.git">Query Writer</a></li>
- <li><a href="/gitweb/gitweb.cgi?p=wtk/.git;a=summary">Web ToolKit</a></li>
- <li><a href="/gitweb/gitweb.cgi?p=wtk/.git;a=tree;f=tcl/wtk/modules/t3">T3: MVC View Component</a></li>
- <li><a href="/cgit2/cgit.cgi2">CGit Access to above Repos</a></li>
-</nav>
-
-</section>
-
-</article>
-<footer>
-
-</footer>
 </body>
 </html>

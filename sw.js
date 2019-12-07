@@ -27,11 +27,11 @@ self.addEventListener('message', (event) => {
 self.__precacheManifest = [
   {
     "url": "sudoku-max/css/mobile.css",
-    "revision": "45add29473f75fdfdd06fd0776e685a7"
+    "revision": "4a1daf09a49769cdb3beffde66c7270c"
   },
   {
     "url": "sudoku-max/css/sudoku-max-2.css",
-    "revision": "c0c7dd49f08dfe5d1c5b0eeccd6cbcce"
+    "revision": "ec1122315fcaa38d90c922d3bd868521"
   },
   {
     "url": "sudoku-max/css/sudoku-max.css",
@@ -55,7 +55,7 @@ self.__precacheManifest = [
   },
   {
     "url": "sudoku-max/js/sudoku-max-3.js",
-    "revision": "a8f5558a28d12e33eb2a8a45f85bb755"
+    "revision": "b61a20c6cf17c8405c235c288025e3e5"
   },
   {
     "url": "sudoku-max/js/sudoku-max.js",
@@ -106,12 +106,28 @@ self.__precacheManifest = [
     "revision": "b7d76573c40dd166b7efda441fa4a954"
   },
   {
+    "url": "js/base-conversion.js",
+    "revision": "5c472ae86c0950e7591a78b04c40ef44"
+  },
+  {
+    "url": "js/base-n-conversions.js",
+    "revision": "d1d9a68605a3404f0f72f9e4fb8a4d54"
+  },
+  {
     "url": "js/binary-hex-conversions.js",
-    "revision": "ed042edfc6b8587bb265ed5e7ff748ce"
+    "revision": "7be4811f27282eec8cd1c8f8a2a4d013"
   },
   {
     "url": "js/checkbox.js",
     "revision": "4bc2ae84e72b212021e9ab04b17049a1"
+  },
+  {
+    "url": "js/clock-nr.js",
+    "revision": "df449036aea2bf497a3c5e3cd671c501"
+  },
+  {
+    "url": "js/clock.js",
+    "revision": "cae61076c843bab7f7a520b705382ae4"
   },
   {
     "url": "js/color-sliders.js",
@@ -134,6 +150,10 @@ self.__precacheManifest = [
     "revision": "88c16aecaab3ba2c1e29a7bff93ead96"
   },
   {
+    "url": "js/decimal-to-base-n-conversion.js",
+    "revision": "84ef97f3a4435411ea643ed1eebf165b"
+  },
+  {
     "url": "js/dynamic-pages-user-login.js",
     "revision": "3a0fbd2e276170d9bea140eb0d9f3552"
   },
@@ -146,12 +166,28 @@ self.__precacheManifest = [
     "revision": "2c6baac2e0d3e022698f4c262907b49f"
   },
   {
+    "url": "js/fakedate.js",
+    "revision": "a80dddfdd72030340e783e269df6b930"
+  },
+  {
     "url": "js/form-save-restore.js",
     "revision": "6ce5a1c08b6650c767decbf76a7142cd"
   },
   {
     "url": "js/form.js",
     "revision": "f48788572c18f7c71435898d4c2a021d"
+  },
+  {
+    "url": "js/fraction-to-recurring-decimal.js",
+    "revision": "119029a6be8c9ed38177dec1c8206dad"
+  },
+  {
+    "url": "js/heapsort-testing.js",
+    "revision": "c30d7ae4689eba19c9df203ae0e5614c"
+  },
+  {
+    "url": "js/heapsort.js",
+    "revision": "5f051e73c0d4561d536835f03c3e0187"
   },
   {
     "url": "js/homepage-data.js",
@@ -254,6 +290,10 @@ self.__precacheManifest = [
     "revision": "78731060481c05dfc3f52c4543c4d016"
   },
   {
+    "url": "js/math.js",
+    "revision": "72c0825780ec6dc3822246ef4c4de0ec"
+  },
+  {
     "url": "js/mouse-events-2.js",
     "revision": "83190b5c042304aedcf61e023e75b297"
   },
@@ -270,12 +310,32 @@ self.__precacheManifest = [
     "revision": "2dd39f5a23448e14d369095446cedd70"
   },
   {
+    "url": "js/queue-function.js",
+    "revision": "26a20e688710b8badc005b9db8d30771"
+  },
+  {
     "url": "js/schedule-function.js",
-    "revision": "649bc57ee2efd393b9a03e896baac1d6"
+    "revision": "6d97b223e86e247329bdc9b4bcb15963"
   },
   {
     "url": "js/svg-transform.js",
     "revision": "6d2d26509f05a96e88fae289dab8786f"
+  },
+  {
+    "url": "js/three.js/three.js",
+    "revision": "9202db679d51ad43548ac781095ef300"
+  },
+  {
+    "url": "js/three.js/three.min.js",
+    "revision": "872a493a6a6a1b62788213d918e3e443"
+  },
+  {
+    "url": "js/three.js/three.module.js",
+    "revision": "a8b321005de9bc1e9243ab2fe944812f"
+  },
+  {
+    "url": "js/transform.js",
+    "revision": "d270b1aaf779580c67498752f5c5db12"
   },
   {
     "url": "js/vertical-products-2.js",
@@ -359,7 +419,7 @@ self.__precacheManifest = [
   },
   {
     "url": "games/go/index.html",
-    "revision": "08037967055fc012c85e90613a3ab074"
+    "revision": "60f17127dc1d4a19dbbde87e62597032"
   },
   {
     "url": "games/hex/index.html",
@@ -367,7 +427,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "a9eb2563891afed65aaa4f537b5425db"
+    "revision": "4228c2b84466fd353a6c970fbdaa811b"
   },
   {
     "url": "roman/ↈ_ↀ_ↁ_ↇ/index.html",
@@ -380,10 +440,6 @@ self.__precacheManifest = [
   {
     "url": "tartans/index.html",
     "revision": "bba30e6719048b3ca11c2fda605aa05b"
-  },
-  {
-    "url": "sudoku-max/index-newer.html",
-    "revision": "4359abb4b717dfcc0ad8b28fcf4d3a37"
   },
   {
     "url": "sudoku-max/responsive.html",
