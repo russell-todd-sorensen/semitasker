@@ -1,0 +1,40 @@
+
+#---------------------------------------------------------------------
+# Global fastpath parameters
+#---------------------------------------------------------------------
+ns_section      "ns/fastpath" {
+    ns_param        cache               true       ;# default: false
+    ns_param        cachemaxsize        10240000   ;# default: 1024*10000
+    ns_param        cachemaxentry       100000     ;# default: 8192
+    ns_param        mmap                true       ;# default: false
+    ns_param        gzip_static         true       ;# check for static gzip; default: false
+    ns_param        gzip_refresh        true       ;# refresh stale .gz files on the fly using ::ns_gzipfile
+    ns_param        gzip_cmd            "/usr/bin/gzip -9"  ;# use for re-compressing
+    ns_param        minify_css_cmd      "/usr/bin/yui-compressor --type css"
+    ns_param        minify_js_cmd       "/usr/bin/yui-compressor --type js"
+    ns_param        brotli_static       true       ;# check for static brotli files; default: false
+    ns_param        brotli_refresh      true       ;# refresh stale .br files on the fly using ::ns_brotlifile
+    ns_param        brotli_cmd          "/web/servers/ns/bin/brotli -f -Z"  ;# use for re-compressing
+}
+
+- Added brotli support for delivering static content
+  11     ---------------------------------------------------
+  12     The brotli compression format (RFC 7932) achieves better results for
+  13     compression for typical web content compared to e.g. gzip and is
+  14     supported by most current browsers. The definition of static
+  15     content delivery is exactly the same for "brotli" as for static
+  16     "gzip" content.
+  17 
+  18     New configuration options for ns/fastpath:
+  19     * "brotli_static": should static brotli delivery be checked?
+  20     * "brotli_refresh": should outdated brotli compressed files be refreshed?
+  21     * "brotli_cmd": OS-level command with options used for brotli compression
+  22 
+  23   - "ns_conn" additions:
+  24     * New subcommand "ns_conn acceptedcompression" to return accepted
+  25       compressions for the current connection (gzip or brotli)
+  26 
+  27     * New subcommands "ns_conn currentaddr" and "ns_conn currentport"
+  28       to refer to the address and port of the currently open server side
+  29       of the socket.
+  30 
