@@ -1,0 +1,28 @@
+set root /web/servers/ns/semitasker/images/
+set from desktop-background-images
+set to mset-opt
+set i 1
+set totalIn 0
+set totalOut 0
+foreach file [lsort [glob -nocomplain -directory $root/$from -tails *.png]] {
+    set fullFrom $root$from/$file
+    set fullTo $root$to/$file
+
+    set failure [catch {exec /usr/bin/convert $root$from/$file +dither -colors 256 -background black -alpha background -interlace PNG -quality 100 -set comment "Copyright 2010-2020 Russell Sorensen" PNG8:$root$to/$file } result]
+    if {$failure} {
+        puts stdout "failed $result on $file"
+        continue
+    }
+    set origSize [file size $fullFrom]
+    set newSize [file size $fullTo]
+    incr totalIn $origSize
+    incr totalOut $newSize
+    set compression [expr {100.0 - 100.0*((1.0*$newSize)/$origSize)}]
+    puts stdout "$i converted $file from $origSize to $newSize Compression=$compression%"
+    incr i
+}
+
+puts stdout "Total bytes in  = $totalIn"
+puts stdout "Total bytes out = $totalOut"
+
+#convert mset/mset-6203.png +dither -colors 256 -background black -alpha background PNG8:mset-indexed/indexed2-mset-6203.png
