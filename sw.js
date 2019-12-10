@@ -106,254 +106,6 @@ self.__precacheManifest = [
     "revision": "b7d76573c40dd166b7efda441fa4a954"
   },
   {
-    "url": "js/base-conversion.js",
-    "revision": "5c472ae86c0950e7591a78b04c40ef44"
-  },
-  {
-    "url": "js/base-n-conversions.js",
-    "revision": "d1d9a68605a3404f0f72f9e4fb8a4d54"
-  },
-  {
-    "url": "js/binary-hex-conversions.js",
-    "revision": "7be4811f27282eec8cd1c8f8a2a4d013"
-  },
-  {
-    "url": "js/checkbox.js",
-    "revision": "4bc2ae84e72b212021e9ab04b17049a1"
-  },
-  {
-    "url": "js/clock-nr.js",
-    "revision": "df449036aea2bf497a3c5e3cd671c501"
-  },
-  {
-    "url": "js/clock.js",
-    "revision": "cae61076c843bab7f7a520b705382ae4"
-  },
-  {
-    "url": "js/color-sliders.js",
-    "revision": "e0bf57c46ac166d019a68153b2da2d3e"
-  },
-  {
-    "url": "js/d3.js",
-    "revision": "3b3deb02bc7d847c1f5b2175be884931"
-  },
-  {
-    "url": "js/d3.v3.js",
-    "revision": "edbbae7cca2dd0ef5c24207b4136dfa6"
-  },
-  {
-    "url": "js/d3.v4.js",
-    "revision": "3b3deb02bc7d847c1f5b2175be884931"
-  },
-  {
-    "url": "js/data.js",
-    "revision": "88c16aecaab3ba2c1e29a7bff93ead96"
-  },
-  {
-    "url": "js/decimal-to-base-n-conversion.js",
-    "revision": "84ef97f3a4435411ea643ed1eebf165b"
-  },
-  {
-    "url": "js/dynamic-pages-user-login.js",
-    "revision": "3a0fbd2e276170d9bea140eb0d9f3552"
-  },
-  {
-    "url": "js/dynamic-pages-users.js",
-    "revision": "3a0fbd2e276170d9bea140eb0d9f3552"
-  },
-  {
-    "url": "js/example-library.js",
-    "revision": "2c6baac2e0d3e022698f4c262907b49f"
-  },
-  {
-    "url": "js/fakedate.js",
-    "revision": "a80dddfdd72030340e783e269df6b930"
-  },
-  {
-    "url": "js/form-save-restore.js",
-    "revision": "6ce5a1c08b6650c767decbf76a7142cd"
-  },
-  {
-    "url": "js/form.js",
-    "revision": "f48788572c18f7c71435898d4c2a021d"
-  },
-  {
-    "url": "js/fraction-to-recurring-decimal.js",
-    "revision": "119029a6be8c9ed38177dec1c8206dad"
-  },
-  {
-    "url": "js/heapsort-testing.js",
-    "revision": "c30d7ae4689eba19c9df203ae0e5614c"
-  },
-  {
-    "url": "js/heapsort.js",
-    "revision": "5f051e73c0d4561d536835f03c3e0187"
-  },
-  {
-    "url": "js/homepage-data.js",
-    "revision": "b5d7616072afcbe77c4a29588bbb58e9"
-  },
-  {
-    "url": "js/html-utilities.js",
-    "revision": "b8bf16e17ddb79af4f9a2bf01fa27f22"
-  },
-  {
-    "url": "js/jquery-1.7.1.js",
-    "revision": "d813f51ab5ce94302ea039d5e68a7df4"
-  },
-  {
-    "url": "js/jquery-3.1.1.js",
-    "revision": "46836bbc603c9565b5cc061100ccbac8"
-  },
-  {
-    "url": "js/jquery.js",
-    "revision": "7df0a08f438c12a75b267cc83bfa03e8"
-  },
-  {
-    "url": "js/jquery.textareaAutoResize.js",
-    "revision": "1fa3a7014e1f595de50d8c651b2d4fdc"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery-ui.css",
-    "revision": "4f126fe37e7aa8dffed0c20c695ed79c"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.accordion.css",
-    "revision": "edecf04d9573612eaa8117ad99cdf0e4"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css",
-    "revision": "230ad530ef772cc76e8409f8209e045c"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.autocomplete.css",
-    "revision": "bc8cf4cc7944d6f9cea8374882e57639"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.base.css",
-    "revision": "5e0c848bf2c690f00724bb035054f3ff"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.button.css",
-    "revision": "7c77090a958d7b16f216e2a14bdb7f60"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.core.css",
-    "revision": "649ac84c54cda4773efae42ee52102a5"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.datepicker.css",
-    "revision": "1073d0cf9235807dced01db3748576e5"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.dialog.css",
-    "revision": "ff12ab357c78ea60bee2dcc65f7c42c4"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.progressbar.css",
-    "revision": "2e5e863fe4b1e4fb7f12a33b3444fe1b"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.resizable.css",
-    "revision": "5269e7121e121fe6bf6828024d8dd782"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.selectable.css",
-    "revision": "37f9c254641f9caa84275f584e12a328"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.slider.css",
-    "revision": "dfcad5c95a0139b90f924f2c11ce382d"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.tabs.css",
-    "revision": "f26922313bf81aea6f02acd880406e55"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.theme.css",
-    "revision": "6361b2fbeeb913604d10f710409b9a5b"
-  },
-  {
-    "url": "js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js",
-    "revision": "aa878e37c9523cef798915d1361972ff"
-  },
-  {
-    "url": "js/jQuery.Validation.1.9.0.1/Content/Scripts/jquery.validate.js",
-    "revision": "d55af5b3667099e1968f67e883b6fd4d"
-  },
-  {
-    "url": "js/log-2.js",
-    "revision": "d6c4d31a35d79c99102d66b41811d3c9"
-  },
-  {
-    "url": "js/log.js",
-    "revision": "78731060481c05dfc3f52c4543c4d016"
-  },
-  {
-    "url": "js/math.js",
-    "revision": "72c0825780ec6dc3822246ef4c4de0ec"
-  },
-  {
-    "url": "js/mouse-events-2.js",
-    "revision": "83190b5c042304aedcf61e023e75b297"
-  },
-  {
-    "url": "js/mouse-events-3.js",
-    "revision": "83190b5c042304aedcf61e023e75b297"
-  },
-  {
-    "url": "js/mouse-events.js",
-    "revision": "71791addac2bac567cdb847dce21e59b"
-  },
-  {
-    "url": "js/panel-show-hide.js",
-    "revision": "2dd39f5a23448e14d369095446cedd70"
-  },
-  {
-    "url": "js/queue-function.js",
-    "revision": "26a20e688710b8badc005b9db8d30771"
-  },
-  {
-    "url": "js/schedule-function.js",
-    "revision": "6d97b223e86e247329bdc9b4bcb15963"
-  },
-  {
-    "url": "js/svg-transform.js",
-    "revision": "6d2d26509f05a96e88fae289dab8786f"
-  },
-  {
-    "url": "js/three.js/three.js",
-    "revision": "9202db679d51ad43548ac781095ef300"
-  },
-  {
-    "url": "js/three.js/three.min.js",
-    "revision": "872a493a6a6a1b62788213d918e3e443"
-  },
-  {
-    "url": "js/three.js/three.module.js",
-    "revision": "a8b321005de9bc1e9243ab2fe944812f"
-  },
-  {
-    "url": "js/transform.js",
-    "revision": "d270b1aaf779580c67498752f5c5db12"
-  },
-  {
-    "url": "js/vertical-products-2.js",
-    "revision": "d5b6384612e6a77dbe3b4b7d64816231"
-  },
-  {
-    "url": "js/vertical-products-3.js",
-    "revision": "d5b6384612e6a77dbe3b4b7d64816231"
-  },
-  {
-    "url": "js/wrap-page.js",
-    "revision": "08e27341679aacc826018fee4b06f835"
-  },
-  {
-    "url": "js/x-test.js",
-    "revision": "e14a0d269a7a4fd9a301f57d52fad0ce"
-  },
-  {
     "url": "svg/displace-exp.js",
     "revision": "a7a2ad68772b41e5bd4fd6c1b23d4bff"
   },
@@ -386,14 +138,6 @@ self.__precacheManifest = [
     "revision": "54db1ebb1dcedca226720a520ab16288"
   },
   {
-    "url": "main.css",
-    "revision": "5a6cb7290a66ddb7c81c7d539fd43eb4"
-  },
-  {
-    "url": "sw-preinject.js",
-    "revision": "25d16548176209f2bf6aa7c1f4bfe309"
-  },
-  {
     "url": "app-install/housing-roster/www/participants/index.html",
     "revision": "cc2c0c96a3cae5d2213218c412611e62"
   },
@@ -414,6 +158,10 @@ self.__precacheManifest = [
     "revision": "72ac6b6459acbab17fe97bf9bbef7541"
   },
   {
+    "url": "doc2/index.html",
+    "revision": "21002c705ccf5e34720315e00fc1ea22"
+  },
+  {
     "url": "game-of-life/index.html",
     "revision": "ac8db9237ade10c3897fd2133a1d9932"
   },
@@ -427,7 +175,7 @@ self.__precacheManifest = [
   },
   {
     "url": "index.html",
-    "revision": "4228c2b84466fd353a6c970fbdaa811b"
+    "revision": "3a48c1c4858cc011cc0914e88de862cc"
   },
   {
     "url": "roman/ↈ_ↀ_ↁ_ↇ/index.html",
@@ -444,6 +192,14 @@ self.__precacheManifest = [
   {
     "url": "sudoku-max/responsive.html",
     "revision": "c2f9ad710db4b0bf69ec5ddc930dded0"
+  },
+  {
+    "url": "js/log-2.js",
+    "revision": "d6c4d31a35d79c99102d66b41811d3c9"
+  },
+  {
+    "url": "js/homepage-data.js",
+    "revision": "218becf61895ef424bdb7fcc658da5a1"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
