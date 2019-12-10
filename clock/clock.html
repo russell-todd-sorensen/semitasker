@@ -12,14 +12,13 @@
 
 <title>SVG Clock</title>
 
-<link rel="manifest" href="/clock/manifest.json">
-<link rel="icon" sizes="512x512" href="/images/icons/icon-512x512.png">
-<link rel="apple-touch-icon" href="/images/icons/icon-192x192.png">
+<link rel="manifest" href="/clock/clock-manifest.json">
+<link rel="icon" sizes="512x512" href="/clock/images/icons/icon-512x512.png">
+<link rel="apple-touch-icon" href="/clock/images/icons/icon-192x192.png">
 
 <style>
 html,
-body,
-svg {
+body {
     border: none;
     padding: 0;
     margin: 0;
@@ -28,14 +27,14 @@ svg {
 </style>
 
 <script>
-    if ('serviceWorker' in navigator) {
-        // Use the window load event to keep the page load performant
-       window.addEventListener('load', () => {
-            navigator.serviceWorker.register('/sw.js');
-        });
-    }
+if ('serviceWorker' in navigator) {
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/clock/clock-sw.js');
+    });
+}
 </script>
-    
+
 </head>
 <body>
 <svg
@@ -43,15 +42,20 @@ svg {
     xmlns:svg="http://www.w3.org/2000/svg"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
-    xml:base="https://home.semitasker.com/"
+    xml:base="https://home.semitasker.com"
     externalResourcesRequired="true"
-    width="350"
+    width="384"
     height="600"
-    viewbox="0 0 350 600"
+    viewbox="0 0 384 600"
     >
 <style>
+svg,
+body {
+    background-color: rgb(210,210,210);
+}
 svg {
-    background-color: rgba(0,0,0,0.1);
+    margin: auto;
+    margin-left: 10px;
 }
 
 #t5 {
@@ -129,20 +133,6 @@ svg {
 }
 
 </style>
-<script>
-
-var myQueue = new Queue();
-var myClock = new Clock(myQueue);
-
-window.addEventListener('DOMContentLoaded', () => {
-    myClock.setTimezoneOffset(-8);
-    //myClock.set(new fakeDate(fakedate[11]));
-    myClock.start();
-    //setInterval(() => {myQueue.run()},10)
-    myQueue.start(myQueue,10);
-});
-
-</script>
 <defs>
 <!-- NOTE: transform x and y = ((circle radius) * scale) -->
 <path id='circ5'
@@ -199,7 +189,7 @@ window.addEventListener('DOMContentLoaded', () => {
 </defs>
 
 <g id="outer-scale" transform="scale(1.0)" >
-    <g id="outer-translate" transform="translate(50 50)">
+    <g id="outer-translate" transform="translate(67 67)">
         <image id="svg-bg-grid"
                x="-50" y="-50"
                height="1400" width="1000"
@@ -264,9 +254,262 @@ window.addEventListener('DOMContentLoaded', () => {
 </svg>
 <pre id="stats"></pre>
 
-<script src="/js/queue-function.js"></script>
-<script src="/js/clock-nr.js"></script>
-<script src="/js/fakedate.js"></script>
+<script >
+// This code is developed at https://home.semitasker.com/js/queue-function.js //
 
+class Queue {
+    #items = [];
+    #priority = [];
+
+    constructor() {
+        this.numItems = 0;
+        this.numProcessed = 0;
+        this.numQueued = 0;
+        this.intervalId = null;
+        this.running = false;
+    }
+    add (item) {
+        this.numItems++;
+        return this.#items.push(item)
+    }
+    addPriority (item) {
+        this.numItems++;
+        return this.#priority.push(item)
+    }
+    start (me, interval) {
+        if (me === this) {
+            this.intervalId = setInterval(() => {me.run()},interval)
+            this.running = true;
+        }
+        return this.intervalId;
+    }
+    stop () {
+        clearInterval(this.intervalId)
+        this.intervalId = null;
+        this.running = false;
+    }
+    run () {
+        let len = this.#priority.length;
+        let item;
+        if (len) {
+            for (let i = 0;i<len;i++) {
+                item = this.#priority[i]
+                setTimeout(item.func,0,item.data)
+                this.numProcessed++
+            }
+        }
+        this.#priority = [];
+        len = this.#items.length;
+        if (len) {
+            for (let i=0;i<len;i++) {
+                item = this.#items[i];
+                setTimeout(item.func,item.timeout,item.data)
+                this.numProcessed++
+            }
+        }
+        this.#items = [];
+        this.numItems = 0;
+    }
+    getItemCount () {
+        return (this.#items.length + this.#priority.length)
+    }
+    flush () {
+        this.#items = [];
+    }
+    flushPriority () {
+        this.#priority = [];
+    }
+    flushAll () {
+        this.flush();
+        this.flushPriority();
+    }
+}
+
+class QueueItem {
+
+    constructor(queue,func,timeout,data,priorityP) {
+        this.queue = queue;
+        this.func = func;
+        this.timeout = timeout;
+        this.data = data;
+        this.data.queue = queue;
+
+        if (priorityP) {
+            this.priorityP = true;
+            queue.addPriority(this)
+        }
+        else {
+            this.priorityP = false;
+            queue.add(this)
+        }
+    }
+}
+
+</script>
+<script>
+// This code is developed at https://home.semitasker.com/js/clock-nr.js //
+// Clock Hands Movement
+class Clock {
+
+    #queue;
+    #timezoneOffset = -8; // PST
+    #stats = [{h:0,m:0,s:0,ms:0,diff:0}];
+    #days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    #daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    constructor (queue,hourId,minuteId, secondId, subSecondOneId,subSecondTwoId) {
+        this.#queue = (queue?queue:new Queue());
+        this.hourId = (hourId?hourId:"hour-hand");
+        this.minuteId = (minuteId?minuteId:"minute-hand");
+        this.secondId = (secondId?secondId:"second-hand");
+        this.subSecondOneId = (subSecondOneId?subSecondOneId:"sub-second-hand-1");
+        this.subSecondTwoId = (subSecondTwoId?subSecondTwoId:"sub-second-hand-2");
+        this.continueAnimation = false;
+        this.runFunction = this.run;
+
+        this.data = {
+            obj:this,
+            hourId:this.hourId,
+            minuteId:this.minuteId,
+            secondId:this.secondId,
+            subSecondOneId:this.subSecondOneId,
+            subSecondTwoId:this.subSecondTwoId,
+            timezoneOffset:this.#timezoneOffset,
+            queue:this.#queue,
+        }
+        return this
+    }
+    start (animationFunction, timeout, data) {
+        let da = (data?data:this.data)
+        let obj = da.obj;
+        let af = (animationFunction?animationFunction:this.runFunction);
+        let to = (timeout?timeout:1000)
+        obj.continueAnimation = true;
+        this.continueAnimation = true;
+        da.af = af;
+        da.timeout = to;
+        // Initial queue uses priority scheduling
+        new QueueItem(obj.#queue,af,to,da,true)
+    }
+    set (dateObj,dataObj) {
+        let date = (dateObj?dateObj:new Date())
+        let data = (dataObj?dataObj:this.data)
+        let obj  = data.obj
+        let d    = document;
+        let millisecond = date.getMilliseconds();
+        let second = date.getUTCSeconds();
+        let minute = date.getUTCMinutes();
+        let hour = (date.getUTCHours() % 12);
+        let day = date.getUTCDate();
+        let month = date.getUTCMonth() + 1;
+        let year = date.getUTCFullYear();
+        // Adjust for Timezone Difference, if any
+        let tzo = date.getTimezoneOffset();
+        let timezoneOffset = obj.getTimezoneOffset()
+        let origHour = hour;
+        if (tzo == 0) {
+            hour = date.getUTCHours() + timezoneOffset;
+            if (hour < 0) {
+                let i = 0
+                while (hour < 0) {
+                    hour += 12
+                    i++
+                }
+                // quick timezone fix, do better with constructed date
+                hour = hour % 12
+                day -= 1
+            }
+            if (day < 1) {
+                month--
+                if (month < 1) {
+                    year--
+                    month = 12
+                }
+                // back to day
+                day = this.#daysInMonth[month-1]
+            }
+        }
+
+        this.pushStat(hour,minute,second,millisecond);
+
+        let sAngle = second * 6;
+        let mAngle = minute * 6 + (sAngle/60);
+        let hAngle = hour  * 30 + (mAngle/12);
+        let secondElement = d.getElementById(data.secondId)
+        secondElement.setAttribute('transform','rotate(' + sAngle + ')')
+        let minuteElement = d.getElementById(data.minuteId)
+        minuteElement.setAttribute('transform','rotate(' + mAngle + ')')
+        let hourElement = d.getElementById(data.hourId)
+        hourElement.setAttribute('transform','rotate(' + hAngle + ')')
+    }
+    pushStat(hour,minute,second,millisecond) {
+        let prev = this.#stats[this.#stats.length-1]
+        let diff  = (second - prev.s)
+        if (diff < 1) {
+            if (minute == prev.m) {
+                this.print('stats')
+            }
+        }
+        if (this.#stats.length > 70) {
+            //this.print('stats');
+            this.resetStats();
+        }
+        this.#stats.push({h:hour,m:minute,s:second,ms:millisecond,diff:diff});
+    }
+    run (data) {
+        let date = new Date();
+        let millisecond = date.getMilliseconds();
+        let obj  = data.obj;
+        obj.set(date,data);
+        data.continueAnimation = obj.continueAnimation
+        data.timeout = 1000-millisecond
+        return new QueueItem(obj.#queue,data.af,data.timeout,data,false);
+    }
+    stop () {
+        this.continueAnimation = false;
+    }
+    setTimezoneOffset(tz) {
+        this.#timezoneOffset = tz;
+        this.data.timezoneOffset = tz;
+    }
+    getTimezoneOffset() {
+        return this.#timezoneOffset;
+
+    }
+    resetStats() {
+        this.#stats = [{h:0,m:0,s:0,ms:0,diff:0}];
+    }
+    getStats() {
+        return this.#stats;
+    }
+    print(preId) {
+        let pre = document.getElementById(preId)
+        let html = ""
+        for (let i = 0;i<this.#stats.length;i++ ) {
+            html += "h:" + this.#stats[i].h 
+            + ", m:" + this.#stats[i].m
+            + ", s:" + this.#stats[i].s 
+            + " ms: " +  this.#stats[i].ms 
+            + ", diff:" + this.#stats[i].diff
+            + " <br />";
+        }
+        pre.innerHTML = html
+    }
+}
+
+</script>
+
+<script>
+
+var myQueue = new Queue();
+var myClock = new Clock(myQueue);
+
+window.addEventListener('DOMContentLoaded', () => {
+    myClock.setTimezoneOffset(-8);
+    myClock.start();
+    myQueue.start(myQueue,10);
+});
+
+</script>
 </body>
 </html>
