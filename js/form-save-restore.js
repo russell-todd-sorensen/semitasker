@@ -41,7 +41,7 @@ Data.changeFont = function(selectId) {
     $('#current').val(font);
     $('#changeFontButton').click();
   } else {
-		this.Restored[selectId] = true;
+    this.Restored[selectId] = true;
     Log.Notice("Just restoring select font to " + font);
   }
 
@@ -117,7 +117,7 @@ Data.changeStrokeWidth = function (inputId) {
      //   .css('fill',fillColor);
     }
   }
-	else {
+  else {
     var selector;
     for (var i = 1; i < arguments.length; i++) {
       selector = arguments[i];
@@ -208,7 +208,7 @@ Data.changeFontMultiple = function(selectId) {
   call += ");";
   setTimeout(call, 10);
   setTimeout("Data.restoreInput('font-size')", 10);
-	setTimeout("Data.restoreInput('font-weight')",10);
+  setTimeout("Data.restoreInput('font-weight')",10);
 
   return false;
 };
@@ -301,7 +301,7 @@ Data.changeFontMultipleSVG = function(selectId) {
   call += ");";
   setTimeout(call, 10);
   setTimeout("Data.restoreInput('font-size')", 10);
-	setTimeout("Data.restoreInput('stroke-width')",10);
+  setTimeout("Data.restoreInput('stroke-width')",10);
 
   return false;
 };
@@ -520,22 +520,22 @@ Data.setCheckboxes = function (checkboxId,values,restoreFunction) {
 
 
 Data.saveInput = function (inputIdList, restoreFunction, arg2, arg3) {
-	var inputIdArray = inputIdList.split(',');
-	for (var j = 0; j < inputIdArray.length; j++ ) {
-		inputId = inputIdArray[j];
-		var inputSelector = "#" + inputId;
-		var value = $(inputSelector).val();
-		if (value || value == 0) {
-		    Log.Notice('saveInput id=' + inputId + ' value="' + value + '"');
-		    var call = restoreFunction + "('" + inputId  + "'";
-		    for (var i = 2; i<arguments.length; i++) {
-		        call =  call + ",'" + arguments[i] + "'";
-		    }
-		    call += ");"
-		    localStorage.setItem(document.URL + '-ANIMATION-VALUE-' + inputId, value);
-		    localStorage.setItem(document.URL + '-ANIMATION-RESTORE-' + inputId, call);
-  	    }
-	}
+  var inputIdArray = inputIdList.split(',');
+  for (var j = 0; j < inputIdArray.length; j++ ) {
+    inputId = inputIdArray[j];
+    var inputSelector = "#" + inputId;
+    var value = $(inputSelector).val();
+    if (value || value == 0) {
+        Log.Notice('saveInput id=' + inputId + ' value="' + value + '"');
+        var call = restoreFunction + "('" + inputId  + "'";
+        for (var i = 2; i<arguments.length; i++) {
+            call =  call + ",'" + arguments[i] + "'";
+        }
+        call += ");"
+        localStorage.setItem(document.URL + '-ANIMATION-VALUE-' + inputId, value);
+        localStorage.setItem(document.URL + '-ANIMATION-RESTORE-' + inputId, call);
+        }
+  }
 };
 
 Data.restoreInput = function (inputId) {
@@ -543,7 +543,7 @@ Data.restoreInput = function (inputId) {
   var value = localStorage.getItem(document.URL + '-ANIMATION-VALUE-' + inputId);
   var call = localStorage.getItem(document.URL + '-ANIMATION-RESTORE-' + inputId);
   if (value || value == 0) {
-	$('#' + inputId).val(value);
+  $('#' + inputId).val(value);
      setTimeout(call, 10);
   }
 };
@@ -554,10 +554,10 @@ Data.restoreHiddenInput = function (inputId) {
 };
 
 Data.loadSelectOptions = function (selectId,data) {
-	var s = $('#' + selectId);
-	for (var i=0; i< data.length; i++) {
-		s.append("<option value='" + data[i].url + "'>" + data[i].alt + "</option>\n");
-	}
+  var s = $('#' + selectId);
+  for (var i=0; i< data.length; i++) {
+    s.append("<option value='" + data[i].url + "'>" + data[i].alt + "</option>\n");
+  }
 }
 
 
@@ -607,14 +607,14 @@ Data.changeStyle = function (inputId, styleName) {
 
 Data.changeText = function(inputId) {
 
-	var text = $('#' + inputId).val();
-	var selector;
+  var text = $('#' + inputId).val();
+  var selector;
   for (var i = 1; i < arguments.length; i++) {
     selector = arguments[i];
     $(selector).text(text);
   }
-	var call = "Data.saveInput('" + inputId + "','Data.changeText'";
-	for (var i = 1; i< arguments.length; i++) {
+  var call = "Data.saveInput('" + inputId + "','Data.changeText'";
+  for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
 
@@ -624,57 +624,57 @@ Data.changeText = function(inputId) {
 }
 
 Data.toggleFormInputType = function (evt) {
-	var id = '#' + $(this).attr('for');
-	Log.Notice("toggleFormInputType for id=" + id);
-	var parent = $(this).parent();
-	var input = d3.select(id);
-	var type = $(id).attr('type');
-	var numberStyle = "width: 75px;";
-	var rangeStyle = "width: 150px;";
-	if (evt.data) {
-	  numberStyle = evt.data.numberStyle;
-	  rangeStyle = evt.data.rangeStyle;
-	}
-	switch (type) {
-	case 'number':
-		var maximum = input.attr('max');
-		var minimum = input.attr('min');
+  var id = '#' + $(this).attr('for');
+  Log.Notice("toggleFormInputType for id=" + id);
+  var parent = $(this).parent();
+  var input = d3.select(id);
+  var type = $(id).attr('type');
+  var numberStyle = "width: 75px;";
+  var rangeStyle = "width: 150px;";
+  if (evt.data) {
+    numberStyle = evt.data.numberStyle;
+    rangeStyle = evt.data.rangeStyle;
+  }
+  switch (type) {
+  case 'number':
+    var maximum = input.attr('max');
+    var minimum = input.attr('min');
 
-	  input
-		  .attr('type','range');
+    input
+      .attr('type','range');
 
-		d3.select(id + '-min')
-		     .html(minimum);
+    d3.select(id + '-min')
+         .html(minimum);
 
-		d3.select(id + '-max')
-		     .html(maximum);
+    d3.select(id + '-max')
+         .html(maximum);
 
-		d3.select(id)
-		 .transition()
-		 .ease('linear')
-		 .delay(0)
-		 .duration(1000)
-		 .attr('style',rangeStyle);
+    d3.select(id)
+     .transition()
+     .ease('linear')
+     .delay(0)
+     .duration(1000)
+     .attr('style',rangeStyle);
 
-		break;
-	case 'range':
+    break;
+  case 'range':
 
-	  input
-		  .attr('type',"number");
+    input
+      .attr('type',"number");
 
-		d3.select(id + '-min')
-			.html('');
+    d3.select(id + '-min')
+      .html('');
 
-		d3.select(id + '-max')
-			.html('');
+    d3.select(id + '-max')
+      .html('');
 
-		d3.select(id)
-		 .transition()
-		 .ease('linear')
-		 .delay(0)
-		 .duration(1000)
-		 .attr('style', numberStyle);
+    d3.select(id)
+     .transition()
+     .ease('linear')
+     .delay(0)
+     .duration(1000)
+     .attr('style', numberStyle);
 
-		break;
-	}
+    break;
+  }
 };

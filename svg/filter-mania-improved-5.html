@@ -11,7 +11,6 @@
 <link rel="stylesheet" href="/css/logo-maker-1.css">
 <link rel="stylesheet" href="/css/green-form.css" >
 
-
 <style>
 body {
     font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
@@ -91,58 +90,57 @@ body {
     text-align: right;
 }
 
-
 .c1 {
     stroke: #000000;
-    stroke-opacity: .7;
+    stroke-opacity: 0.7;
     stroke-width: 2;
 }
 
 .c2 {
     stroke: #000000;
-    stroke-opacity: .3;
+    stroke-opacity: 0.3;
     stroke-width: 2;
 }
 .c3 {
     stroke: #000000;
-    stroke-opacity: .4;
+    stroke-opacity: 0.4;
     stroke-width: 2;
 }
 .c4 {
     stroke: #000000;
-    stroke-opacity: .5;
+    stroke-opacity: 0.5;
     stroke-width: 2;
 }
 .c6 {
     stroke: #000000;
-    stroke-opacity: .6;
+    stroke-opacity: 0.6;
     stroke-width: 2;
 }
 
 .c12 {
     stroke: #000000;
-    stroke-opacity: .7;
+    stroke-opacity: 0.7;
     stroke-width: 2;
 }
 
 .c22 {
     stroke: #000000;
-    stroke-opacity: .3;
+    stroke-opacity: 0.3;
     stroke-width: 2;
 }
 .c32 {
     stroke: #000000;
-    stroke-opacity: .4;
+    stroke-opacity: 0.4;
     stroke-width: 2;
 }
 .c42 {
     stroke: #000000;
-    stroke-opacity: .5;
+    stroke-opacity: 0.5;
     stroke-width: 2;
 }
 .c62 {
     stroke: #000000;
-    stroke-opacity: .6;
+    stroke-opacity: 0.6;
     stroke-width: 2;
 }
 </style>
@@ -158,12 +156,53 @@ body {
 <script src="/js/panel-show-hide.js"></script>
 <script>
 
+// call saveJSON like this:
+// var myJSON = {x:'a',y:'b'}
+// Data.saveJSON('myJSON',JSON.stringify(myJSON));
+
+Data.saveJSON = function (jsVarName, jsonValue) {
+  Log.Notice("saveJSON value=" + jsonValue);
+  var itemName = document.URL + '-ANIMATION-VALUE-' + jsVarName;
+  localStorage.setItem(itemName, jsonValue);
+  return itemName;
+};
+
+Data.restoreJSON = function (jsVarName) {
+  return (localStorage.getItem(document.URL + '-ANIMATION-VALUE-' + jsVarName));
+};
+
+var myImageURLs = [];
+
 function setStartImage(imageSelectId) {
-	Data.loadSelectOptions(imageSelectId,Data.Images);
-	Data.restoreSelect('imageFilter');
-    Data.restoreSelect('imageFilter2');
-	Data.restoreSelect('imageChoice');
-	SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1');
+  Data.loadSelectOptions('imageFilter',Data.Filters);
+  Data.loadSelectOptions('imageFilter2',Data.Filters);
+  var myImageURLs = JSON.parse(Data.restoreJSON('myImageURLs'));
+  if (myImageURLs && myImageURLs.length > 0) {
+    for (let i = myImageURLs.length-1;i>=0;i--) {
+      if (myImageURLs[i]) {
+        Data.Images.unshift(myImageURLs[i]);
+      }
+    }
+  }
+  Data.loadSelectOptions(imageSelectId,Data.Images);
+  Data.restoreSelect('imageFilter');
+  Data.restoreSelect('imageFilter2');
+  Data.restoreSelect('imageChoice');
+  SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1');
+}
+
+function addImageToMyImageURLs(urlId, altId, setSelectId) {
+  let url = $('#' + urlId).val();
+  let alt = $('#' + altId).val();
+  let newOption = {url:url,alt:alt};
+  myImageURLs = JSON.parse(Data.restoreJSON('myImageURLs'));
+  myImageURLs.push(newOption);
+  Data.saveJSON('myImageURLs',JSON.stringify(myImageURLs));
+  if (setSelectId) {
+    Data.loadSelectOptions(setSelectId,[newOption]); // this just addes the new option 
+    Data.setSelect(setSelectId,url,'Data.restoreSelect');
+    document.getElementById(setSelectId).onchange();
+  }
 }
 
 panelHidden["controls"] = [{
@@ -193,15 +232,40 @@ panelHidden["controls"] = [{
         }
       }
    },
+ ]},{
+  id:'panel2',
+  visible:false,
+  css:{
+    true:{
+      position:'relative'
+    },
+    false:{
+      position:'absolute'
+    }
+  },
+  extra: [
+    {
+      id:'controls',
+      css:{
+        true: {
+          position:'relative',
+          zIndex:0,
+          "background-color":'transparent'
+        },
+        false: {
+          position:'absolute',
+          zIndex:100,
+          "background-color":'#444444'
+        }
+      }
+   },
  ]}
 ];
 
 $(document).ready(function () {
-	Data.loadSelectOptions('imageFilter',Data.Filters);
-	Data.loadSelectOptions('imageFilter2',Data.Filters);
-	setStartImage('imageChoice');
-	//Log.Hide();
-    Log.Remove();
+  setStartImage('imageChoice');
+  //Log.Hide();
+  Log.Remove();
 });
 
 </script>
@@ -215,13 +279,13 @@ $(document).ready(function () {
 <ul id="panel1">
  <li><label for="imageFilter">Select Filter</label>
  <select id="imageFilter"
-  onChange="SvgTransform.changeFilter('imageFilter', '#image2','#graphics-2' )">
+  onChange="SvgTransform.changeFilter('imageFilter', 'image2','graphics-2' )">
 
   </select>
   </li>
  <li><label for="imageFilter2">Select Filter 2</label>
  <select id="imageFilter2"
-  onChange="SvgTransform.changeFilter('imageFilter2', '#clickMe', '#graphics-container')">
+  onChange="SvgTransform.changeFilter('imageFilter2', 'clickMe', 'graphics-container')">
   </select>
   </li>
  <li>
@@ -229,13 +293,36 @@ $(document).ready(function () {
   <select
     id="imageChoice"
     name="imageChoice"
-    onChange="SvgTransform.changeImage('imageChoice','#image2');
+    onChange="SvgTransform.changeImage('imageChoice','image2');
          SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1'); ">
 
  </select>
  </li>
+</ul>
+</fieldset>
+</form>
+<form id="add-image" onsubmit="return false;">
+<fieldset>
+  <legend onclick="togglePanel('controls')" 
+    title="Images will only be available on this device." 
+    >Add Your Own Images</legend>
+<ul id="panel2">
+ <li>
+   <label for="externalImageURL">Image URL:</label>
+   <input id="new-url" name="new-url" value="">
+ </li>
+ <li>
+   <label for="imageAltLabel">Image Name:</label>
+   <input id="new-alt" name="new-alt" value="">
+ </li>
+ <li>
+   <label for="new-image-submit">Add Image:</label>
+   <input name="new-image-submit" id="new-image-submit" 
+    type="button" value="Add Image" 
+    onClick="addImageToMyImageURLs('new-url', 'new-alt','imageChoice')" >
+ </li>
  </ul>
- </fieldset>
+</fieldset>
 </form>
  </div>
  </div>
@@ -730,7 +817,7 @@ $(document).ready(function () {
               0  0   0  0  0;
               1  1   1  1  1
               1 -2  -2 -2  1
-              1 -2  -.7 -2  1
+              1 -2  -0.7 -2  1
               1 -2  -2 -2  1
               1  1   1  1  1"
               begin="0s;clickMe.click" dur="12s" />
@@ -790,7 +877,7 @@ $(document).ready(function () {
                    0  0  0  0  0  0  0
                    2  2  2  3  2  2  2
                    0  0  0  0  0  0  0
-               	   0  0  0  0  0  0  0
+                    0  0  0  0  0  0  0
                   -1  -1  -1  -1  -1 -1 -1"
     edgeMode="duplicate" >
 
@@ -840,9 +927,9 @@ $(document).ready(function () {
     edgeMode="duplicate" >
 </feConvolveMatrix>
 <feComponentTransfer result="poster">
- <feFuncR type="discrete" tableValues="0 .2 .1 .7 .6 .1 .9" />
- <feFuncG type="discrete" tableValues="0 .1 .4 .5 .7 .5 .2" />
- <feFuncB type="discrete" tableValues="0 .5 .2 .2 .9 .7 .1" />
+ <feFuncR type="discrete" tableValues="0 0.2 0.1 0.7 0.6 0.1 0.9" />
+ <feFuncG type="discrete" tableValues="0 0.1 0.4 0.5 0.7 0.5 0.2" />
+ <feFuncB type="discrete" tableValues="0 0.5 0.2 0.2 0.9 0.7 0.1" />
 </feComponentTransfer>
 </filter>
 
@@ -850,7 +937,7 @@ $(document).ready(function () {
 <feConvolveMatrix
     order="3"
     kernelMatrix="1  -1   1
-                  1  .7  -1
+                  1  0.7  -1
                  -1   1  -1 "
     edgeMode="duplicate" >
 
@@ -861,17 +948,17 @@ $(document).ready(function () {
 <filter id="XX8"  color-interpolation="sRGB" >
 <feConvolveMatrix
     order="3"
-    kernelMatrix=".5  -.5   .5
-                  .5  2.0  -.5
-                 -.5   .5  -.5"
+    kernelMatrix=".5  -0.5   0.5
+                  0.5  2.0  -0.5
+                 -0.5   0.5  -0.5"
     edgeMode="duplicate" >
     <animate attributeName="kernelMatrix"
              values="1  -1   1
                      1  1.0  -1
                     -1   1  -1;
-                     .5  -.5   .5
-                     .5  2.0  -.5
-                    -.5   .5  -.5"
+                     0.5  -0.5   0.5
+                     0.5  2.0  -0.5
+                    -0.5   0.5  -0.5"
             begin="clickMe.click"
             dur="12s" />
 </feConvolveMatrix>
@@ -886,7 +973,7 @@ $(document).ready(function () {
   in="SourceGraphic"
   scale="20"
   xChannelSelector="R"
-	yChannelSelector="R" >
+  yChannelSelector="R" >
    <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
  </feDisplacementMap>
 </filter>
@@ -899,7 +986,7 @@ $(document).ready(function () {
   in="SourceGraphic"
   scale="20"
   xChannelSelector="R"
-	yChannelSelector="R" >
+  yChannelSelector="R" >
    <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
  </feDisplacementMap>
 </filter>
@@ -912,7 +999,7 @@ $(document).ready(function () {
   in="SourceGraphic"
   scale="20"
   xChannelSelector="R"
-	yChannelSelector="R" >
+  yChannelSelector="R" >
    <animate attributeName="scale" values="30;5;30" dur="33s" repeatCount="indefinite" />
  </feDisplacementMap>
 </filter>
@@ -925,7 +1012,7 @@ $(document).ready(function () {
   in="SourceGraphic"
   scale="80"
   xChannelSelector="R"
-	yChannelSelector="R" >
+  yChannelSelector="R" >
  </feDisplacementMap>
 </filter>
 
@@ -937,7 +1024,7 @@ $(document).ready(function () {
   in="SourceGraphic"
   scale="80"
   xChannelSelector="R"
-	yChannelSelector="R" >
+  yChannelSelector="R" >
  </feDisplacementMap>
 </filter>
 
@@ -1022,6 +1109,8 @@ $(document).ready(function () {
 </feMorphology>
 </filter>
 
+<!-- NOTE: Matrix values and space separated arrays MUST NOT START with WHITESPACE -->
+
 <filter id="posterize-0">
  <!--<feColorMatrix
      type="matrix"
@@ -1035,9 +1124,9 @@ $(document).ready(function () {
  <feColorMatrix type="saturate" values="0.0" />
 
 <feComponentTransfer>
- <feFuncR type="discrete" tableValues="0  1 .125   1 .25 .375 .75 1 1 1 1" />
- <feFuncG type="discrete" tableValues="0  0    0   0   0    0   0 0 0 1 1" />
- <feFuncB type="discrete" tableValues="0  1 .125   1 .25 .375 .75 1 1 1 1" />
+ <feFuncR type="discrete" tableValues="0  1 0.125 1 0.25 0.375 0.75 1 1 1 1" />
+ <feFuncG type="discrete" tableValues="0  0 0     0 0    0     0    0 0 1 1" />
+ <feFuncB type="discrete" tableValues="0  1 0.125 1 0.25 0.375 0.75 1 1 1 1" />
 </feComponentTransfer>
 
 </filter>
@@ -1112,9 +1201,9 @@ $(document).ready(function () {
     repeatCount="indefinite" />
  </feGaussianBlur>
 <feComponentTransfer>  <!--  DarlMagenta-v    -->
- <feFuncR type="discrete" tableValues="0 .545 1 0 .545 1 0 .545 1 0 .545 1 0 .545 1 0 .545 1" />
- <feFuncG type="discrete" tableValues="0 0    1 0 0    1 0    0 1 0 0    1 0 0    1 0 0    1" />
- <feFuncB type="discrete" tableValues="0 .545 1 0 .545 1 0 .545 1 0 .545 1 0 .545 1 0 .545 1" />
+ <feFuncR type="discrete" tableValues="0 0.545 1 0 0.545 1 0 0.545 1 0 0.545 1 0 0.545 1 0 0.545 1" />
+ <feFuncG type="discrete" tableValues="0 0     1 0 0     1 0 0     1 0 0     1 0 0     1 0 0     1" />
+ <feFuncB type="discrete" tableValues="0 0.545 1 0 0.545 1 0 0.545 1 0 0.545 1 0 0.545 1 0 0.545 1" />
 </feComponentTransfer>
 </filter>
 
@@ -1138,7 +1227,7 @@ $(document).ready(function () {
 
 <filter id="posterize-000-4">
 
- <feColorMatrix type="saturate" values="0.0" />
+ <feColorMatrix type="saturate" values="0.0" /> <!-- T-Mobile -->
 <feGaussianBlur stdDeviation=".75" >
  <animate attributeName="stdDeviation"
     values="1.0;2.0;1.0"
@@ -1148,12 +1237,12 @@ $(document).ready(function () {
     repeatCount="indefinite" />
  </feGaussianBlur>
 <feComponentTransfer>
-    <!--                         White ---------v
-                               Magenta---v v
-                                Black--v v v              -->
- <feFuncR type="discrete" tableValues="0 0.755      1 0 0.755      1 0 0.755      1 0 0.755      1" />
- <feFuncG type="discrete" tableValues="0 0          1 0 0          1 0 0          1 0 0          1" />
- <feFuncB type="discrete" tableValues="0 0.17645   1 0 0.17645   1 0 0.17645   1 0 0.17645   1" />
+    <!--                         White -----------v
+                               Magenta---v        v
+                                Black--v v        v              -->
+ <feFuncR type="discrete" tableValues="0 0.755    1 0 0.755      1 0 0.755      1 0 0.755      1" />
+ <feFuncG type="discrete" tableValues="0 0        1 0 0          1 0 0          1 0 0          1" />
+ <feFuncB type="discrete" tableValues="0 0.17645  1 0 0.17645    1 0 0.17645    1 0 0.17645    1" />
 </feComponentTransfer>
 </filter>
 
@@ -1169,9 +1258,9 @@ $(document).ready(function () {
     repeatCount="indefinite" />
  </feGaussianBlur>
 <feComponentTransfer>
- <feFuncR type="discrete" tableValues="0 .51  .51  .51   .29 .51 .51  .51  .29 0 1" />
- <feFuncG type="discrete" tableValues="0   0  .381 .255   0    0 .381 .255   0 0 1" />
- <feFuncB type="discrete" tableValues="0   0    0   0    .51   0    0    0 .51 0 1" />
+ <feFuncR type="discrete" tableValues="0   0.51 0.51  0.51   0.29  0.51 0.51  0.51  0.29 0 1" />
+ <feFuncG type="discrete" tableValues="0   0    0.381 0.255  0     0    0.381 0.255 0    0 1" />
+ <feFuncB type="discrete" tableValues="0   0    0     0      0.51  0    0     0     0.51 0 1" />
 </feComponentTransfer>
 </filter>
 
@@ -1186,9 +1275,9 @@ $(document).ready(function () {
     repeatCount="indefinite" />
  </feGaussianBlur>
 <feComponentTransfer>
- <feFuncR type="discrete" tableValues="0 .51  .51  .51   .29 .51 .51  .51  .29 0 1" />
- <feFuncG type="discrete" tableValues="0   0  .381 .255   0    0 .381 .255   0 0 1" />
- <feFuncB type="discrete" tableValues="0   0    0   0    .51   0    0    0 .51 0 1" />
+ <feFuncR type="discrete" tableValues="0   0.51  0.51  0.51   0.29  0.51 0.51  0.51  0.29 0 1" />
+ <feFuncG type="discrete" tableValues="0   0     0.381 0.255  0     0    0.381 0.255 0    0 1" />
+ <feFuncB type="discrete" tableValues="0   0     0     0      0.51  0    0     0     0.51 0 1" />
 </feComponentTransfer>
 </filter>
 
@@ -1203,14 +1292,14 @@ $(document).ready(function () {
     repeatCount="indefinite" />
  </feGaussianBlur>
  <feColorMatrix type="matrix"
-   values="1 0 0 0 .05
-           0 1 0 0 .05
-           0 0 1 0 .05
+   values="1 0 0 0 0.05
+           0 1 0 0 0.05
+           0 0 1 0 0.05
            0 0 0 1 0" ></feColorMatrix>
 <feComponentTransfer>
- <feFuncR type="discrete" tableValues="0.5   0 .25   0  .5  .5   0 .25 1" />
- <feFuncG type="discrete" tableValues="0.0  .5  .5   0   0  .5  .5  .5 1" />
- <feFuncB type="discrete" tableValues="0.0  .5   0   0   0   0  .5   0 1" />
+ <feFuncR type="discrete" tableValues="0.5   0    0.25   0   0.5  0.5   0    0.25 1" />
+ <feFuncG type="discrete" tableValues="0.0   0.5  0.5    0   0    0.5   0.5  0.5  1" />
+ <feFuncB type="discrete" tableValues="0.0   0.5  0      0   0    0     0.5  0    1" />
 </feComponentTransfer>
 </filter>
 
@@ -1225,22 +1314,22 @@ $(document).ready(function () {
     repeatCount="indefinite" />
  </feGaussianBlur>
  <feColorMatrix type="matrix"
-                values="1 0 0 0 .05
-                        0 1 0 0 .05
-                        0 0 1 0 .05
+                values="1 0 0 0 0.05
+                        0 1 0 0 0.05
+                        0 0 1 0 0.05
                         0 0 0 1 0">
    <animate attributeName="values"
-            values="1 0 0 0 .05
-                    0 1 0 0 .05
-                    0 0 1 0 .05
+            values="1 0 0 0 0.05
+                    0 1 0 0 0.05
+                    0 0 1 0 0.05
                     0 0 0 1 0;
-                    1 0 0 0 .13
-                    0 1 0 0 .13
-                    0 0 1 0 .13
+                    1 0 0 0 0.13
+                    0 1 0 0 0.13
+                    0 0 1 0 0.13
                     0 0 0 1 0;
-                    1 0 0 0 .05
-                    0 1 0 0 .05
-                    0 0 1 0 .05
+                    1 0 0 0 0.05
+                    0 1 0 0 0.05
+                    0 0 1 0 0.05
                     0 0 0 1 0"
              begin="0s" dur="10s"
              repeatCount="indefinite" />
@@ -1263,23 +1352,23 @@ $(document).ready(function () {
     repeatCount="indefinite" />
  </feGaussianBlur>
  <feColorMatrix type="matrix"
-   values="1 0 0 0 .05
-           0 1 0 0 .05
-           0 0 1 0 .05
+   values="1 0 0 0 0.05
+           0 1 0 0 0.05
+           0 0 1 0 0.05
            0 0 0 1 0"
            >
    <animate attributeName="values"
-            values="1 0 0 0 .05
-                    0 1 0 0 .05
-                    0 0 1 0 .05
+            values="1 0 0 0 0.05
+                    0 1 0 0 0.05
+                    0 0 1 0 0.05
                     0 0 0 1 0;
-                    1 0 0 0 .13
-                    0 1 0 0 .13
-                    0 0 1 0 .13
+                    1 0 0 0 0.13
+                    0 1 0 0 0.13
+                    0 0 1 0 0.13
                     0 0 0 1 0;
-                    1 0 0 0 .05
-                    0 1 0 0 .05
-                    0 0 1 0 .05
+                    1 0 0 0 0.05
+                    0 1 0 0 0.05
+                    0 0 1 0 0.05
                     0 0 0 1 0"
              begin="0s" dur="10s"
              repeatCount="indefinite" />
@@ -1293,7 +1382,7 @@ $(document).ready(function () {
 
 <filter id="posterize-1">
 <feComponentTransfer>
- <feFuncR type="discrete" tableValues="0 .5 1" />
+ <feFuncR type="discrete" tableValues="0 0.5 1" />
  <feFuncG type="discrete" tableValues="0 1" />
  <feFuncB type="discrete" tableValues="0" />
 </feComponentTransfer>
@@ -1301,110 +1390,110 @@ $(document).ready(function () {
 
 <filter id="posterize-2">
 <feComponentTransfer>
- <feFuncR type="discrete" tableValues="0 .5 1" />
- <feFuncG type="discrete" tableValues="0 .5 1" />
- <feFuncB type="discrete" tableValues="0 .5 1" />
+ <feFuncR type="discrete" tableValues="0 0.5 1" />
+ <feFuncG type="discrete" tableValues="0 0.5 1" />
+ <feFuncB type="discrete" tableValues="0 0.5 1" />
 </feComponentTransfer>
 </filter>
 
 <filter id="posterize-3">
 <feComponentTransfer>
- <feFuncR type="discrete" tableValues="0 .25 .5 .75 1" />
- <feFuncG type="discrete" tableValues="0 .25 .5 .75 1" />
- <feFuncB type="discrete" tableValues="0 .25 .5 .75 1" />
+ <feFuncR type="discrete" tableValues="0 0.25 0.5 0.75 1" />
+ <feFuncG type="discrete" tableValues="0 0.25 0.5 0.75 1" />
+ <feFuncB type="discrete" tableValues="0 0.25 0.5 0.75 1" />
 </feComponentTransfer>
 </filter>
 
 <filter id="posterize-5">
 <feComponentTransfer result="poster">
- <feFuncR type="discrete" tableValues="1 .75 .5 .25 0" />
- <feFuncG type="discrete" tableValues="1 .75 .5 .25 0" />
- <feFuncB type="discrete" tableValues="1 .75 .5 .25 0" />
+ <feFuncR type="discrete" tableValues="1 0.75 0.5 0.25 0" />
+ <feFuncG type="discrete" tableValues="1 0.75 0.5 0.25 0" />
+ <feFuncB type="discrete" tableValues="1 0.75 0.5 0.25 0" />
 </feComponentTransfer>
 <feColorMatrix type="hueRotate" values="90" />
 </filter>
 
 <filter id="posterize-6">
 <feComponentTransfer result="poster">
- <feFuncR type="discrete" tableValues=".3 .9 .7 .6 .1" />
- <feFuncG type="discrete" tableValues=".5 .7 .5 .7 .5" />
- <feFuncB type="discrete" tableValues=".7 .6 .2 .9 .7" />
+ <feFuncR type="discrete" tableValues="0.3 0.9 0.7 0.6 0.1" />
+ <feFuncG type="discrete" tableValues="0.5 0.7 0.5 0.7 0.5" />
+ <feFuncB type="discrete" tableValues="0.7 0.6 0.2 0.9 0.7" />
 </feComponentTransfer>
 <!--<feColorMatrix type="hueRotate" values="90" />-->
 </filter>
 
 <filter id="posterize-7">
 <feComponentTransfer result="poster">
- <feFuncR type="discrete" tableValues="0 .2 .1 .7 .6 .1 .9" />
- <feFuncG type="discrete" tableValues="0 .1 .4 .5 .7 .5 .2" />
- <feFuncB type="discrete" tableValues="0 .5 .2 .2 .9 .7 .1" />
+ <feFuncR type="discrete" tableValues="0 0.2 0.1 0.7 0.6 0.1 0.9" />
+ <feFuncG type="discrete" tableValues="0 0.1 0.4 0.5 0.7 0.5 0.2" />
+ <feFuncB type="discrete" tableValues="0 0.5 0.2 0.2 0.9 0.7 0.1" />
 </feComponentTransfer>
 </filter>
 
 <filter id="posterize-7-table">
 <feComponentTransfer result="poster">
- <feFuncR type="table" tableValues="0 .2 .1 .7 .6 .1 .9" />
- <feFuncG type="table" tableValues="0 .1 .4 .5 .7 .5 .2" />
- <feFuncB type="table" tableValues="0 .5 .2 .2 .9 .7 .1" />
+ <feFuncR type="table" tableValues="0 0.2 0.1 0.7 0.6 0.1 0.9" />
+ <feFuncG type="table" tableValues="0 0.1 0.4 0.5 0.7 0.5 0.2" />
+ <feFuncB type="table" tableValues="0 0.5 0.2 0.2 0.9 0.7 0.1" />
 </feComponentTransfer>
 </filter>
 
 <filter id="posterize-8">
 <feComponentTransfer result="poster">
- <feFuncR type="discrete" tableValues="0 .2 .1 .7 .6 .1 .9" />
- <feFuncG type="discrete" tableValues="0 .1 .4 .5 .7 .5 .2" />
- <feFuncB type="discrete" tableValues="0 .5 .2 .2 .9 .7 .1" />
+ <feFuncR type="discrete" tableValues="0 0.2 0.1 0.7 0.6 0.1 0.9" />
+ <feFuncG type="discrete" tableValues="0 0.1 0.4 0.5 0.7 0.5 0.2" />
+ <feFuncB type="discrete" tableValues="0 0.5 0.2 0.2 0.9 0.7 0.1" />
 </feComponentTransfer>
 <feColorMatrix type="hueRotate" values="180" />
 </filter>
 
 <filter id="posterize-9">
 <feComponentTransfer result="poster">
- <feFuncR type="discrete" tableValues="0 .2 .1 .7 1 .1 1" />
- <feFuncG type="discrete" tableValues="0 .1 .4 .5 1 .5 1" />
- <feFuncB type="discrete" tableValues="0 .5 .2 .2 1 .7 1" />
+ <feFuncR type="discrete" tableValues="0 0.2 0.1 0.7 1 0.1 1" />
+ <feFuncG type="discrete" tableValues="0 0.1 0.4 0.5 1 0.5 1" />
+ <feFuncB type="discrete" tableValues="0 0.5 0.2 0.2 1 0.7 1" />
 </feComponentTransfer>
 <feColorMatrix type="hueRotate" values="180" />
 </filter>
 
 <filter id="posterize-10">
 <feComponentTransfer result="poster">
- <feFuncR type="discrete" tableValues="0 .1 .2 .5 .7 1 .1 1" />
- <feFuncG type="discrete" tableValues="0 .4 .1 .3 .5 1 .5 1" />
- <feFuncB type="discrete" tableValues="0 .7 .5 .1 .2 1 .7 1" />
+ <feFuncR type="discrete" tableValues="0 0.1 0.2 0.5 0.7 1 0.1 1" />
+ <feFuncG type="discrete" tableValues="0 0.4 0.1 0.3 0.5 1 0.5 1" />
+ <feFuncB type="discrete" tableValues="0 0.7 0.5 0.1 0.2 1 0.7 1" />
 </feComponentTransfer>
 <feColorMatrix type="hueRotate" values="180" />
 </filter>
 
 <filter id="posterize-11">
 <feComponentTransfer result="poster">
- <feFuncR type="discrete" tableValues="0 .40 .01 .02 .21 .70 .06 .10 .07 1" />
- <feFuncG type="discrete" tableValues="0 .40 .05 .01 .34 .50 .07 .50 .02 1" />
- <feFuncB type="discrete" tableValues="0 .40 .03 .06 .15 .03 .10 .20 .01 1"/>
+ <feFuncR type="discrete" tableValues="0 0.40 0.01 0.02 0.21 0.70 0.06 0.10 0.07 1" />
+ <feFuncG type="discrete" tableValues="0 0.40 0.05 0.01 0.34 0.50 0.07 0.50 0.02 1" />
+ <feFuncB type="discrete" tableValues="0 0.40 0.03 0.06 0.15 0.03 0.10 0.20 0.01 1"/>
 </feComponentTransfer>
 </filter>
 
 <filter id="posterize-4">
 <feComponentTransfer>
- <feFuncR type="discrete" tableValues="0 .1 .2 .3 .4 .50 .60 .70 .80 .9 1" />
- <feFuncG type="discrete" tableValues="0 .1 .2 .3 .4 .50 .60 .70 .80 .9 1" />
- <feFuncB type="discrete" tableValues="0 .1 .2 .3 .4 .50 .60 .70 .80 .9 1" />
+ <feFuncR type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.50 0.60 0.70 0.80 0.9 1" />
+ <feFuncG type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.50 0.60 0.70 0.80 0.9 1" />
+ <feFuncB type="discrete" tableValues="0 0.1 0.2 0.3 0.4 0.50 0.60 0.70 0.80 0.9 1" />
 </feComponentTransfer>
 </filter>
 
 <filter id="posterize-12">
 <feComponentTransfer>
- <feFuncR type="discrete" tableValues="0 1 .30 .70 .20 .1 .9" />
- <feFuncG type="discrete" tableValues="0 1 .30 .70 .20 .1 .9" />
- <feFuncB type="discrete" tableValues="0 1 .30 .70 .20 .1 .9" />
+ <feFuncR type="discrete" tableValues="0 1 0.30 0.70 0.20 0.1 0.9" />
+ <feFuncG type="discrete" tableValues="0 1 0.30 0.70 0.20 0.1 0.9" />
+ <feFuncB type="discrete" tableValues="0 1 0.30 0.70 0.20 0.1 0.9" />
 </feComponentTransfer>
 </filter>
 
 <filter id="posterize-12-table">
 <feComponentTransfer>
- <feFuncR type="table" tableValues="0 1 .30 .70 .20 .1 .9" />
- <feFuncG type="table" tableValues="0 1 .30 .70 .20 .1 .9" />
- <feFuncB type="table" tableValues="0 1 .30 .70 .20 .1 .9" />
+ <feFuncR type="table" tableValues="0 1 0.30 0.70 0.20 0.1 0.9" />
+ <feFuncG type="table" tableValues="0 1 0.30 0.70 0.20 0.1 0.9" />
+ <feFuncB type="table" tableValues="0 1 0.30 0.70 0.20 0.1 0.9" />
 </feComponentTransfer>
 </filter>
 
@@ -1419,9 +1508,9 @@ $(document).ready(function () {
 <filter id="super-saturate">
 <feColorMatrix type="matrix"
  values="3 -1 -1 0 0
-         -1 3 -1 0 0
-         -1 -1 3 0 0
-         0   0 0 1 0" />
+        -1  3 -1 0 0
+        -1 -1  3 0 0
+         0  0  0 1 0" />
 </filter>
 
 <filter id="saturate-red">
@@ -1434,18 +1523,18 @@ $(document).ready(function () {
 
 <filter id="saturate-green">
 <feColorMatrix type="matrix"
- values="1  0  0 0 -.05
-        -1  3 -1 0  .1
-         0  0  1 0 -.05
-         0  0  0 1 0" />
+ values="1  0  0 0 -0.05
+        -1  3 -1 0  0.1
+         0  0  1 0 -0.05
+         0  0  0 1  0" />
 </filter>
 
 <filter id="saturate-blue">
 <feColorMatrix type="matrix"
- values="1 0 0 0 0
-         0 1 0 0 0
-         -1 -1 3 0 0
-         0 0 0 1 0" />
+ values="1  0 0 0 0
+         0  1 0 0 0
+        -1 -1 3 0 0
+         0  0 0 1 0" />
 </filter>
 
 <!-- from https://css-tricks.com/using-svg-to-create-a-duotone-image-effect/ -->
@@ -1486,7 +1575,7 @@ $(document).ready(function () {
 
 var setComponentTransfer = function (selector, index, value) {
     var tableValues = "";
-    for (var i = 0; i<2;i++) {
+    for (var i = 0; i < 2;i++) {
         if (i == index) {
             tableValues = tableValues + value + " ";
         } else {
@@ -1507,71 +1596,71 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 <filter id="sharpen-1" >
  <feGaussianBlur stdDeviation="1,2"/>
  <feConvolveMatrix order="5"
-  kernelMatrix="1 1 1 1 1
-	            1 -2 -2 -2 1
-				1 -2 -.7 -2 1
-				1 -2 -2 -2 1
-				1 1 1 1 1" />
+  kernelMatrix="1  1  1    1 1
+                1 -2 -2   -2 1
+                1 -2 -0.7 -2 1
+                1 -2 -2   -2 1
+                1  1  1    1 1" />
 </filter>
 
 <filter id="sharpen-2" >
  <feGaussianBlur stdDeviation=".5,.5"/>
  <feConvolveMatrix order="5"
-  kernelMatrix="1 1 1 1 1
-	              1 -2 -2 -2 1
-								1 -2 -.7 -2 1
-								1 -2 -2 -2 1
-								1 1 1 1 1" />
+  kernelMatrix="1  1  1    1 1
+                1 -2 -2   -2 1
+                1 -2 -0.7 -2 1
+                1 -2 -2   -2 1
+                1  1  1    1 1" />
 </filter>
 
 <filter id="sharpen-3" >
  <feGaussianBlur stdDeviation="3"/>
  <feConvolveMatrix order="5"
-  kernelMatrix="1  1    1    1   1
-	            1 -2   -2   -2   1
-			    1 -2  -.2   -2   1
-			    1 -2   -2   -2   1
-				1  1    1    1   1" />
+  kernelMatrix="1  1   1    1   1
+                1 -2  -2   -2   1
+                1 -2  -0.2 -2   1
+                1 -2  -2   -2   1
+                1  1   1    1   1" />
 </filter>
 
 <filter id="sharpen-3-1" >
  <feGaussianBlur stdDeviation="3"/>
  <feConvolveMatrix order="5"
-  kernelMatrix="1  1    1    1   1
-	            1 -2   -2   -2   1
-			    1 -2   .2   -2   1
-			    1 -2   -2   -2   1
-				1  1    1    1   1" />
+  kernelMatrix="1  1   1    1   1
+                1 -2  -2   -2   1
+                1 -2   0.2 -2   1
+                1 -2  -2   -2   1
+                1  1   1    1   1" />
 </filter>
 
 <filter id="sharpen-3-2" >
  <feGaussianBlur stdDeviation="3"/>
  <feConvolveMatrix order="5"
-  kernelMatrix="2  1    1    1   2
-	            1 -3   -2   -3   1
-			    1 -2  -.2   -2   1
-			    1 -3   -2   -3   1
-				2  1    1    1   2" />
+  kernelMatrix="2  1   1    1   2
+                1 -3  -2   -3   1
+                1 -2  -0.2 -2   1
+                1 -3  -2   -3   1
+                2  1   1    1   2" />
 </filter>
 
 <filter id="sharpen-3-3" >
  <feGaussianBlur stdDeviation="3"/>
  <feConvolveMatrix order="5"
-  kernelMatrix=".5 .5  .5  .5  .5
-	            .5 -1  -1  -1  .5
-			    .5 -1 -.1  -1  .5
-			    .5 -1  -1  -1  .5
-				.5 .5  .5  .5  .5" />
+  kernelMatrix="0.5  0.5  0.5  0.5  0.5
+                0.5 -1   -1   -1    0.5
+                0.5 -1   -0.1 -1    0.5
+                0.5 -1   -1   -1    0.5
+                0.5  0.5  0.5  0.5  0.5" />
 </filter>
 
 <filter id="sharpen-4" >
  <!--<feGaussianBlur stdDeviation="1"/>-->
  <feConvolveMatrix order="7"
   kernelMatrix="1 0 1  0  1  0 -1
-	            0 1 0 -1  0 -1  0
-				1 0 1  0 -1  0 -1
-				0 1 0  2  0 -1  0
-				1 0 1  0 -1  0 -1
+                0 1 0 -1  0 -1  0
+                1 0 1  0 -1  0 -1
+                0 1 0  2  0 -1  0
+                1 0 1  0 -1  0 -1
                 0 1 0 -1  0 -1  0
                 1 0 1  0  1  0 -1" />
 </filter>
@@ -1580,10 +1669,10 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
  <!--<feGaussianBlur stdDeviation="1"/>-->
  <feConvolveMatrix order="7"
   kernelMatrix="1 -0 1  0  1   0 -1
-	            0 -1 0 -1  0  -1  0
-			   -1  0 1  0 -1   0  1
-				0 1  0  4  0   1  0
-				1  0 1  0 -1   0 -1
+                0 -1 0 -1  0  -1  0
+               -1  0 1  0 -1   0  1
+                0 1  0  4  0   1  0
+                1  0 1  0 -1   0 -1
                 0 -1 0 -1  0  -1  0
                -1 -0 1  0  1   0 -1" />
 </filter>
@@ -1630,27 +1719,27 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 <filter id="blow-6">
 <feConvolveMatrix order="3"
-   kernelMatrix="4 0   0
-                 0 1   0
-                 0 0  -3"
+   kernelMatrix="4 0  0
+                 0 1  0
+                 0 0 -3"
                  />
 </filter>
 
 <filter id="blow-7">
 <feConvolveMatrix order="3"
    kernelMatrix="0 0 0
-                 -3 1 4
-                  0 0 0"
+                -3 1 4
+                 0 0 0"
                  />
 </filter>
 
 <filter id="DD">
 <feComponentTransfer>
- <feFuncR type="table" tableValues=".5 1 1 0 .5 .5 0 0 1 0" />
- <feFuncG type="table" tableValues=".5 1 1 0 .5 .5 0 1 0 0" />
- <feFuncB type="table" tableValues=".5 1 1 0 .5 .5 0 0 0 1" />
+ <feFuncR type="table" tableValues="0.5 1 1 0 0.5 0.5 0 0 1 0" />
+ <feFuncG type="table" tableValues="0.5 1 1 0 0.5 0.5 0 1 0 0" />
+ <feFuncB type="table" tableValues="0.5 1 1 0 0.5 0.5 0 0 0 1" />
 </feComponentTransfer>
-<feGaussianBlur stdDeviation=".5" />
+<feGaussianBlur stdDeviation="0.5" />
 <feColorMatrix type="matrix" result="current"
   values="1 0 0 0 0
           0 1 0 0 0
@@ -1663,15 +1752,15 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
  <feComponentTransfer result="current">
   <feFuncR type="table" tableValues="1 0 0 1" />
   <feFuncB type="table" tableValues="0 1 1 1" />
-  <feFuncA type="table" tableValues=".75 1"/>
+  <feFuncA type="table" tableValues="0.75 1"/>
  </feComponentTransfer>
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
 </filter>
 
 <filter id="table-2" >
  <feComponentTransfer  result="current">
-  <feFuncR type="gamma" amplitude=".7" exponent="1.5"  />
-  <feFuncG type="gamma" amplitude=".2" exponent=".8"  />
+  <feFuncR type="gamma" amplitude="0.7" exponent="1.5"  />
+  <feFuncG type="gamma" amplitude="0.2" exponent="0.8"  />
   <feFuncA type="gamma"  amplitude="1.1" exponent="1.2" />
  </feComponentTransfer>
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
@@ -1680,8 +1769,8 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 <filter id="table-3" >
  <feComponentTransfer  result="current">
   <feFuncR type="table" tableValues="1 0 0" />
-  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0" />
-  <feFuncB type="table" tableValues=".5 1 0" />
+  <feFuncG type="table" tableValues="0.5 0 0.5 0 0.5 0" />
+  <feFuncB type="table" tableValues="0.5 1 0" />
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
@@ -1689,9 +1778,9 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 <filter id="table-4" >
  <feComponentTransfer  result="current">
-  <feFuncR type="table" tableValues="1 0 .5 0 1" />
-  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0" />
-  <feFuncB type="table" tableValues=".5 1 0" />
+  <feFuncR type="table" tableValues="1 0 0.5 0 1" />
+  <feFuncG type="table" tableValues="0.5 0 0.5 0 0.5 0" />
+  <feFuncB type="table" tableValues="0.5 1 0" />
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
@@ -1699,9 +1788,9 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 <filter id="table-5" >
  <feComponentTransfer  result="current">
-  <feFuncR type="table" tableValues="1 0 .5 0 1" />
-  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0" />
-  <feFuncB type="table" tableValues=".5 1 0 1 .5 1" />
+  <feFuncR type="table" tableValues="1 0 0.5 0 1" />
+  <feFuncG type="table" tableValues="0.5 0 0.5 0 0.5 0" />
+  <feFuncB type="table" tableValues="0.5 1 0 1 0.5 1" />
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
@@ -1709,9 +1798,9 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 <filter id="table-6" >
  <feComponentTransfer  result="current">
-  <feFuncR type="table" tableValues=".2 .4 .6 .8 .6 .4 .2" />
-  <feFuncG type="table" tableValues=".5 0 .5 0 .5 0 .5 0 .5" />
-  <feFuncB type="table" tableValues="1 0 .4 0 .4 0 .4 0 .4 0" />
+  <feFuncR type="table" tableValues="0.2 0.4 0.6 0.8 0.6 0.4 0.2" />
+  <feFuncG type="table" tableValues="0.5 0 0.5 0 0.5 0 0.5 0 0.5" />
+  <feFuncB type="table" tableValues="1 0 0.4 0 0.4 0 0.4 0 0.4 0" />
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
@@ -1719,9 +1808,9 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 <filter id="table-7" >
  <feComponentTransfer  result="current">
-  <feFuncR type="table" tableValues=".2 .1 .2 1 .2 1 .2 1" />
-  <feFuncG type="table" tableValues=" .1 1 .1 1 .1 1 .1 1" />
-  <feFuncB type="table" tableValues=".2 .1 .2 1 .2 1 .2 1" />
+  <feFuncR type="table" tableValues="0.2 0.1 0.2 1 0.2 1 0.2 1" />
+  <feFuncG type="table" tableValues="0.1 1 0.1 1 0.1 1 0.1 1" />
+  <feFuncB type="table" tableValues="0.2 0.1 0.2 1 0.2 1 0.2 1" />
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
@@ -1729,9 +1818,9 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 <filter id="table-8" >
  <feComponentTransfer  result="current">
-  <feFuncR type="table" tableValues="0 .1 0 1 0 1 0 1" />
-  <feFuncG type="table" tableValues=" .1 1 .1 1 .1 1 .1 1" />
-  <feFuncB type="table" tableValues=".2 1 .2 1 .2 1 .2 1" />
+  <feFuncR type="table" tableValues="0 0.1 0 1 0 1 0 1" />
+  <feFuncG type="table" tableValues="0.1 1 0.1 1 0.1 1 0.1 1" />
+  <feFuncB type="table" tableValues="0.2 1 0.2 1 0.2 1 0.2 1" />
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
@@ -1779,9 +1868,9 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 <filter id="table-10-4" >
  <feComponentTransfer  result="current">
-  <feFuncR type="table" tableValues=".7 1 0 1 0 0 1 0 1 0 1 0 1 0 1" />
-  <feFuncG type="table" tableValues=".7 0 1 0 0 1 0 1 0 1 0 0 0 1 0" />
-  <feFuncB type="table" tableValues=".7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
+  <feFuncR type="table" tableValues="0.7 1 0 1 0 0 1 0 1 0 1 0 1 0 1" />
+  <feFuncG type="table" tableValues="0.7 0 1 0 0 1 0 1 0 1 0 0 0 1 0" />
+  <feFuncB type="table" tableValues="0.7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
@@ -1791,7 +1880,7 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
  <feComponentTransfer  result="current">
   <feFuncR type="table" tableValues="1 0 1" />
   <feFuncG type="table" tableValues="1 0 1" />
-  <feFuncB type="table" tableValues=".7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
+  <feFuncB type="table" tableValues="0.7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
@@ -1800,7 +1889,7 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 <filter id="table-10-6" >
  <feComponentTransfer  result="current">
   <feFuncR type="table" tableValues="1 0 1" />
-  <feFuncG type="table" tableValues=".7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
+  <feFuncG type="table" tableValues="0.7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
   <feFuncB type="table" tableValues="1 0 1" />
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
@@ -1829,9 +1918,9 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 <filter id="table-10-8" >
  <feComponentTransfer  result="current">
-  <feFuncR type="table" tableValues="0 1 0 .7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
+  <feFuncR type="table" tableValues="0 1 0 0.7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
   <feFuncG type="table" tableValues="0 1 0" />
-  <feFuncB type="table" tableValues="1 0 1 .7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
+  <feFuncB type="table" tableValues="1 0 1 0.7 1 0 1 0 0 1 0 1 0 1 0 1 0 0" />
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
@@ -1878,7 +1967,7 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
   <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1" />
   <feFuncG type="table" tableValues="0 1 0 0 1 0 1 0" >
     <animate attributeName="tableValues"
-      values="1 0 1 0 0 1 0 1;.5 0 .5 0 .5 0 .5 0;1 0 1 0 0 1 0 1"
+      values="1 0 1 0 0 1 0 1;0.5 0 0.5 0 0.5 0 0.5 0;1 0 1 0 0 1 0 1"
       dur="10s" begin="0s" repeatCount="indefinite" />
   </feFuncG>
   <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1" />
@@ -1892,7 +1981,7 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
   <feFuncR type="table" tableValues="1 0 1 0 0 1 0 1" />
   <feFuncG type="table" tableValues="0 1 0 0 1 0 1 0" >
     <animate attributeName="tableValues"
-      values="1 .5 1 .5 .5 1 .5 1;.5 0 .5 0 .5 0 .5 0;1 .5 1 .5 .5 1 .5 1"
+      values="1 0.5 1 0.5 0.5 1 0.5 1;0.5 0 0.5 0 0.5 0 0.5 0;1 0.5 1 0.5 0.5 1 0.5 1"
       dur="10s" begin="0s" repeatCount="indefinite" />
   </feFuncG>
   <feFuncB type="table" tableValues="1 0 1 0 0 1 0 1" />
@@ -1903,19 +1992,19 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 <filter id="table-14" >
  <feComponentTransfer  result="current">
-  <feFuncR type="table" tableValues="1 .75 .5 .25 0" >
+  <feFuncR type="table" tableValues="1 0.75 0.5 0.25 0" >
      <animate attributeName="tableValues"
-      values="1 .75 .5 .25 0;0 .25 .5 .75 1;1 .75 .5 .25 0"
+      values="1 0.75 0.5 0.25 0;0 0.25 0.5 0.75 1;1 0.75 0.5 0.25 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncR>
-  <feFuncG type="table" tableValues="1 .75 .5 .25 0" >
+  <feFuncG type="table" tableValues="1 0.75 0.5 0.25 0" >
     <animate attributeName="tableValues"
-      values="1 .75 .5 .25 0;0 .25 .5 .75 1;1 .75 .5 .25 0"
+      values="1 0.75 0.5 0.25 0;0 0.25 0.5 0.75 1;1 0.75 0.5 0.25 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncG>
-  <feFuncB type="table" tableValues="1 .75 .5 .25 0" >
+  <feFuncB type="table" tableValues="1 0.75 0.5 0.25 0" >
      <animate attributeName="tableValues"
-      values="1 .75 .5 .25 0;0 .25 .5 .75 1;1 .75 .5 .25 0"
+      values="1 0.75 0.5 0.25 0;0 0.25 0.5 0.75 1;1 0.75 0.5 0.25 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncB>
   <feFuncA type="table" tableValues="1"/>
@@ -1971,17 +2060,17 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
  <feComponentTransfer  result="current">
   <feFuncR type="table" tableValues=".7 0 0 2" >
     <animate attributeName="tableValues"
-      values=".7 0 0 2;.9 .2 .2 3;.7 0 0 2"
+      values="0.7 0 0 2;.9 0.2 0.2 3;.7 0 0 2"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncR>
   <feFuncG type="table" tableValues=".7 0 0 2" >
    <animate attributeName="tableValues"
-      values=".7 0 0 2;.9 .2 .2 3;.7 0 0 2"
+      values="0.7 0 0 2;.9 0.2 0.2 3;.7 0 0 2"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncG>
   <feFuncB type="table" tableValues=".7 0 0 2" >
     <animate attributeName="tableValues"
-      values=".7 0 0 2;.9 .2 .2 3;.7 0 0 2"
+      values="0.7 0 0 2;.9 0.2 0.2 3;.7 0 0 2"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncB>
   <feFuncA type="table" tableValues="1"/>
@@ -1991,19 +2080,19 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 <filter id="table-18" >
  <feComponentTransfer  result="current">
-  <feFuncR type="table" tableValues="0 .8 .2 .8 0" >
+  <feFuncR type="table" tableValues="0 0.8 0.2 0.8 0" >
     <animate attributeName="tableValues"
-      values="0 .8 .2 .8 0;0 .9 .4 .3 .8;0 .8 .2 .8 0"
+      values="0 0.8 0.2 0.8 0;0 0.9 0.4 0.3 0.8;0 0.8 0.2 0.8 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncR>
-  <feFuncG type="table" tableValues="0 .8 .2 .8 0" >
+  <feFuncG type="table" tableValues="0 0.8 0.2 0.8 0" >
    <animate attributeName="tableValues"
-      values="0 .8 .2 .8 0;0 .9 .3 .4 .6;0 .8 .2 .8 0"
+      values="0 0.8 0.2 0.8 0;0 0.9 0.3 0.4 0.6;0 0.8 0.2 0.8 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncG>
-  <feFuncB type="table" tableValues="0 .8 .2 .8 0" >
+  <feFuncB type="table" tableValues="0 0.8 0.2 0.8 0" >
     <animate attributeName="tableValues"
-      values="0 .8 .2 .8 0;0 .9 .1 .4 .7;0 .8 .2 .8 0"
+      values="0 0.8 0.2 0.8 0;0 0.9 0.1 0.4 0.7;0 0.8 0.2 0.8 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncB>
   <feFuncA type="table" tableValues="1"/>
@@ -2013,19 +2102,19 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 <filter id="table-19" >
  <feComponentTransfer  result="current">
-  <feFuncR type="table" tableValues="0 .6 .2 .6 0" >
+  <feFuncR type="table" tableValues="0 0.6 0.2 0.6 0" >
     <animate attributeName="tableValues"
-      values="0 .6 .2 .6 0;0 .4 .3 .9 .8;0 .6 .2 .6 0"
+      values="0 0.6 0.2 0.6 0;0 0.4 0.3 0.9 0.8;0 0.6 0.2 0.6 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncR>
-  <feFuncG type="table" tableValues="0 .6 .2 .6 0" >
+  <feFuncG type="table" tableValues="0 0.6 0.2 0.6 0" >
    <animate attributeName="tableValues"
-      values="0 .6 .2 .6 0;0 .4 .3 .9 .6;0 .6 .2 .6 0"
+      values="0 0.6 0.2 0.6 0;0 0.4 0.3 0.9 0.6;0 0.6 0.2 0.6 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncG>
-  <feFuncB type="table" tableValues="0 .8 .2 .8 0" >
+  <feFuncB type="table" tableValues="0 0.8 0.2 0.8 0" >
     <animate attributeName="tableValues"
-      values="0 .6 .2 .6 0;0 .1 .3 .9 .7;0 .6 .2 .6 0"
+      values="0 0.6 0.2 0.6 0;0 0.1 0.3 0.9 0.7;0 0.6 0.2 0.6 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
   </feFuncB>
   <feFuncA type="table" tableValues="1"/>
@@ -2045,7 +2134,7 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 
 
 <g id="clickMe" transform="translate(10,10)" filter="" >
-	<image id="image2" xlink:href="/images/Butterfly 6.jpg" height="100%" x="0" y="0" width="100%"/>
+  <image id="image2" xlink:href="/images/Butterfly 6.jpg" height="100%" x="0" y="0" width="100%"/>
 </g>
 
 
