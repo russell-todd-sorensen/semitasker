@@ -25,18 +25,18 @@ var toggleButton = function (evt) {
 
 var controlSpeed = function(pct) {
     let animIds = ["a0", "a1", "a2", "a3", "a4"];
-    let pathId  = "circ0";
+    let id,gearAnim,dur;
     for (let i=0;i<animIds.length;i++) {
-        let id = animIds[i]
-        let gearAnim = document.getElementById(id)
-        let dur = parseFloat(gearAnim.getAttribute('dur'));
-        dur = (dur*pct) + "s"
-        gearAnim.setAttribute('dur', dur)
+        id = animIds[i];
+        gearAnim = document.getElementById(id)
+        dur = parseFloat(gearAnim.getAttribute("dur"));
+        dur = (dur*pct).toFixed(5) + "s"
+        gearAnim.setAttribute("dur", dur);
     }
 }
 
 var faster = function(evt) {
-    controlSpeed(1/1.1) 
+    controlSpeed(1/1.1)
 }
 
 var slower = function(evt) {
@@ -189,7 +189,11 @@ window.addEventListener('DOMContentLoaded', () => {
         </use>
     </g>
 </g>
-
+<g id="fake-animation">
+    <g transform="">
+        <animateTransform id="a5" attributeName="transform" type="rotate" from="360 0 0" to="0 0 0" dur="0.1s" begin="0.0s;ba.click" end="baend.click" repeatCount="indefinite" />
+    </g>
+</g>
 <g id="button">
     <text id="tstart" x="62.5" y="-100" fill="black" font-size="40" text-anchor="middle" font-weight="bold" font-family="Arial" textLength="100">Start</text>
     <text id="tend" x="62.5" y="-100" fill="black" font-size="40" text-anchor="middle" font-weight="bold" font-family="Arial" textLength="100">Stop</text>
