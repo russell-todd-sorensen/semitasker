@@ -678,3 +678,79 @@ Data.toggleFormInputType = function (evt) {
     break;
   }
 };
+
+Data.setStartImage = function (imageSelectId,noFiltersP) {
+  Data.loadSelectOptions('imageFilter',Data.Filters);
+  Data.loadSelectOptions('imageFilter2',Data.Filters);
+  myImageURLs = JSON.parse(Data.restoreJSON('myImageURLs'));
+  if (myImageURLs && myImageURLs.length > 0) {
+    for (let i = myImageURLs.length-1;i>=0;i--) {
+      if (myImageURLs[i]) {
+        Data.Images.unshift(myImageURLs[i]);
+      }
+    }
+  }
+
+  Data.loadSelectOptions(imageSelectId,Data.Images);
+
+  if (noFiltersP) {
+
+  } else {
+    Data.restoreSelect('imageFilter');
+    Data.restoreSelect('imageFilter2');
+  }
+
+  Data.restoreSelect(imageSelectId);
+  SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1');
+}
+
+Data.setStartImageSlim = function (imageSelectId) {
+  Data.loadSelectOptions('imageFilter',Data.Filters);
+  Data.loadSelectOptions('imageFilter2',Data.Filters);
+  myImageURLs = JSON.parse(Data.restoreJSON('myImageURLs'));
+  if (myImageURLs && myImageURLs.length > 0) {
+    for (let i = myImageURLs.length-1;i>=0;i--) {
+      if (myImageURLs[i]) {
+        Data.Images.unshift(myImageURLs[i]);
+      }
+    }
+  }
+
+  Data.loadSelectOptions(imageSelectId,Data.Images);
+
+  Data.restoreSelect(imageSelectId);
+  //SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1');
+}
+
+Data.addImageToMyImageURLs = function (urlId, altId, setSelectId) {
+  let url = $('#' + urlId).val();
+  let alt = $('#' + altId).val();
+  let newOption = {url:url,alt:alt};
+  myImageURLs = JSON.parse(Data.restoreJSON('myImageURLs'));
+  if (myImageURLs == null) {
+    myImageURLs = [];
+  }
+  myImageURLs.push(newOption);
+  Data.saveJSON('myImageURLs',JSON.stringify(myImageURLs));
+  if (setSelectId) {
+    Data.loadSelectOptions(setSelectId,[newOption]); // this just addes the new option 
+    Data.setSelect(setSelectId,url,'Data.restoreSelect');
+    document.getElementById(setSelectId).onchange();
+  }
+}
+
+
+// call saveJSON like this:
+// var myJSON = {x:'a',y:'b'}
+// Data.saveJSON('myJSON',JSON.stringify(myJSON));
+
+Data.saveJSON = function (jsVarName, jsonValue) {
+  Log.Notice("saveJSON value=" + jsonValue);
+  var itemName = document.URL + '-ANIMATION-VALUE-' + jsVarName;
+  localStorage.setItem(itemName, jsonValue);
+  return itemName;
+};
+
+Data.restoreJSON = function (jsVarName) {
+  return (localStorage.getItem(document.URL + '-ANIMATION-VALUE-' + jsVarName));
+};

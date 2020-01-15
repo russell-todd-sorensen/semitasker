@@ -92,13 +92,13 @@ SvgTransform.adjustImage = function (filterImageId, ellipseId) {
   node = document.getElementById(filterImageId);
   var imageSource = node.getAttributeNS(xlink,'href');
 
-  if (this.Images[imageSource] == undefined) {
-    this.Images[imageSource] = new Image();
-    this.Images[imageSource].crossOrigin = 'use-credentials'; // was anonymous
-    this.Images[imageSource].src = imageSource;
+  if (Data.Images[imageSource] == undefined) {
+    Data.Images[imageSource] = new Image();
+    Data.Images[imageSource].crossOrigin = 'use-credentials'; // was anonymous
+    Data.Images[imageSource].src = imageSource;
 
 
-    this.Images[imageSource].onload = function ( ) {
+    Data.Images[imageSource].onload = function ( ) {
       var height = Data.Images[imageSource].height;
       var width =  Data.Images[imageSource].width;
       //node.setAttribute('height', height);

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>CPC-CHALLENGE MULT-BUTTON</title>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&display=swap');
+</style>
+<style>
+body {
+    font-family: 'ZCOOL QingKe HuangYou';
+    font-family: 'cute font';
+    font-family: 'days one';
+    font-size: 2vw;
+    margin: .8vw;
+}
+#button-bar {
+    display: flex;
+    width: 45vw;
+    justify-content: space-evenly;
+
+}
+#button-bar input {
+    font-size: 1.75vw;
+    padding-left: .6vw;
+    padding-right: .6vw;
+    padding-top: .1vw;
+    padding-bottom: .1vw;
+    border-width: .1vw;
+}
+
+button, input, select, textarea {
+  font-family : inherit;
+  font-size   : 100%;
+  box-sizing: border-box;
+}
+.pre,
+#selection,
+#copy-buffers {
+    padding: .5vw;
+    border-width: .1vw;
+    display: inline-block;
+    width: 45vw;
+    min-height: 20vh;
+    background-color: #bbb;
+    font-family: 'ZCOOL QingKe HuangYou';
+    font-size: 2vw;
+    vertical-align: top;
+    letter-spacing: .1em;
+}
+#side-by-side {
+
+}
+#selection,
+#copy-buffers {
+    background-color: #ccc;
+    border-width: .1vw;
+    font-size: 2vw;
+    color: brown;
+    border-color: black;
+    border-style: solid;
+    min-height: 5vh;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+#copy-buffers {
+    padding-top: 0;
+}
+.copy-buffer {
+    display: block;
+    height: 1.3em;
+}
+.current-buffer {
+    color: green;
+    padding-top: .35em;
+}
+.copy-buffer span { 
+    background-color: rgba(255,0,0,.2);
+    padding: .1vw;
+    padding-left: .3vw;
+    padding-right: .2vw;
+    border: .1vw solid rgba(0,0,0,.25);
+    border-radius: 50%;
+    align-content:center;
+}
+.current-buffer span {
+    background-color: rgba(0,255,0,.2);
+}
+
+#button-bar input {
+
+    display: inline-block;
+    -webkit-transition: width 2s; /* For Safari 3.1 to 6.0 */
+    transition: width 2s;
+}
+
+#button-bar input.enabled {
+    display: inline-block;
+    width:fit-content;
+}
+
+#button-bar input.disabled {
+    display: inline-block;
+    width: 0;
+    padding: 0;
+    border: 0;
+    margin:0;
+}
+</style>
+
+<script>
+
+</script>
+</head>
+<body>
+<form  autocomplete="off" spellcheck="false" onsubmit="return false;" >
+<div id="side-by-side">
+<textarea class="pre" id="source" name="source"
+          onKeyUp="updateContent()"
+          onFocus="updateContent();">This is a system of the broadcast test emergency.</textarea>
+<textarea class="pre" id="preview" onKeyUp="updateContent()"></textarea>
+</div>
+<div id="buffer-display">
+<div id="selection"></div>
+<div id="copy-buffers"></div>
+</div>
+<div id="button-bar">
+    <input type="button" id="copy" name="copy" value="Copy" onClick="copySelection();" />
+    <input type="button" id="cut" name="cut" value="Cut" onClick="copyCutSelection();" onMouseOver="previewCut('source','preview')"/>
+    <input type="button" id="paste" name="paste" value="Paste" onClick="pasteBuffer()" />
+    <input type="button" id="replace" name="replace" value="Replace" onClick="replaceSelectionWithBuffer()" />
+    <input type="button" id="swap" name="swap" value="Swap" onClick="swapSelectionWithBuffer()"/>
+</div>
+</form>
+<script>
+if (Data === undefined) {
+var Data = new Object();
+}
+</script>
+<script src="/js/form-save-restore.js"></script>
+
+<script src="copy-paste-edit.js"></script>
+<script>
+var source = document.getElementById('source');
+source.contentEditable = true;
+//source.onselectionchange = copySelection;
+
+window.addEventListener('DOMContentLoaded', () => {
+    readFromClipboard(buttonState.sourceId);
+});
+
+
+// to avoid having state determined all over the place,
+// run this function whenever any part changes.
+// this will ultimately control the button state
+
+
+</script>
+</body>
+</html>

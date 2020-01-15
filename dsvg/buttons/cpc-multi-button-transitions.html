@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>CPC-CHALLENGE MULT-BUTTON</title>
+<style>
+    @import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&display=swap');
+</style>
+<style>
+body {
+    font-family: 'ZCOOL QingKe HuangYou';
+    font-family: 'cute font';
+    font-family: 'days one';
+    font-size: 2vw;
+    margin: .8vw;
+}
+
+#button-bar {
+    display: flex;
+    width: 45vw;
+    justify-content: space-evenly;
+
+}
+
+#button-bar input {
+    font-size: 1.75vw;
+    padding-left: .6vw;
+    padding-right: .6vw;
+    padding-top: .1vw;
+    padding-bottom: .1vw;
+    border-width: .1vw;
+}
+
+button, input, select, textarea {
+    font-family: inherit;
+    font-size: 100%;
+    box-sizing: border-box;
+}
+
+.pre,
+#selection,
+#copy-buffers {
+    padding: .5vw;
+    border-width: .1vw;
+    display: inline-block;
+    width: 45vw;
+    min-height: 20vh;
+    background-color: #bbb;
+    font-family: 'ZCOOL QingKe HuangYou';
+    font-size: 2vw;
+    vertical-align: top;
+    letter-spacing: .1em;
+}
+
+#selection,
+#copy-buffers {
+    background-color: #ccc;
+    border-width: .1vw;
+    font-size: 2vw;
+    color: brown;
+    border-color: black;
+    border-style: solid;
+    min-height: 5vh;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+#copy-buffers {
+    padding-top: 0;
+}
+
+.copy-buffer {
+    display: block;
+    height: 1.3em;
+}
+
+.current-buffer {
+    color: green;
+    padding-top: .35em;
+}
+
+.copy-buffer span { 
+    background-color: rgba(255,0,0,.2);
+    padding: .1vw;
+    padding-left: .3vw;
+    padding-right: .2vw;
+    border: .1vw solid rgba(0,0,0,.25);
+    border-radius: 50%;
+    align-content:center;
+}
+
+.current-buffer span {
+    background-color: rgba(0,255,0,.2);
+}
+
+#button-bar input {
+    display: inline-flex;
+    -webkit-transition: width 1s, padding 1s, border 1s; /* For Safari 3.1 to 6.0 */
+    transition: width 1s, padding 1s, border 1s;
+
+}
+
+#button-bar input.enabled {
+    display: inline-flex;
+    transition-delay: 1s;
+    transition-timing-function: cubic-bezier(0.99, -0.15, 0.74, 1.26);
+    width:1.5em;
+    
+}
+
+#button-bar input.disabled {
+    transition-timing-function: cubic-bezier(0.99, -0.15, 0.74, 1.26);
+    display: inline-flex;
+    width: 0;
+    padding: 0;
+    border: 0;
+    margin:0;
+/*    padding-left: .0vw;
+    padding-right: .0vw;
+    padding-top: .0vw;
+    padding-bottom: .0vw;
+    border-width: .0vw; */
+}
+
+#copy-cut-tab {
+    width: 45%;
+    border: 1px solid orange;
+}
+
+#prs-tab-group {
+    width: 45%;
+    border: 1px solid green;
+}
+
+#copy-cut-tab,
+#prs-tab-group,
+#paste-tab,
+#replace-swap-tab {
+    display: inline-block;
+    margin: auto;
+    align-items:center;
+}
+
+#paste,
+#replace,
+#swap {
+    margin: auto;
+    text-align: center;
+}
+</style>
+</head>
+<body>
+<form  autocomplete="off" spellcheck="false" onsubmit="return false;" >
+<div id="side-by-side">
+<textarea class="pre" id="source" name="source"
+          onKeyUp="updateContent()"
+          onFocus="updateContent();"
+          >This is a system of the broadcast test emergency.</textarea>
+<textarea class="pre" id="preview"
+          onKeyUp="updateContent()"></textarea>
+</div>
+<div id="buffer-display">
+<div id="selection"></div>
+<div id="copy-buffers"></div>
+</div>
+<div id="button-bar">
+ <div id="copy-cut-tab">
+    <input type="button" id="copy" name="copy" value="C"
+           onClick="copySelection();" />
+    <input type="button" id="cut" name="cut" value="X"
+           onClick="copyCutSelection();"
+           onMouseOver="previewCut('source','preview')"/>
+ </div>
+ <div id="prs-tab-group">
+  <div id="paste-tab">
+    <input type="button" id="paste" name="paste" value="P"
+           onClick="pasteBuffer()" />
+  </div>
+  <div id="replace-swap-tab">
+    <input type="button" id="replace" name="replace" value="R"
+           onClick="replaceSelectionWithBuffer()" />
+    <input type="button" id="swap" name="swap" value="S"
+           onClick="swapSelectionWithBuffer()"/>
+ </div>
+</div>
+</div>
+</form>
+
+<script src="copy-paste-edit-transitions.js"></script>
+<script>
+//var source = document.getElementById('source');
+//source.contentEditable = true;
+//source.onselectionchange = copySelection;
+
+window.addEventListener('DOMContentLoaded', () => {
+    readFromClipboard(buttonState.sourceId);
+});
+
+</script>
+</body>
+</html>
