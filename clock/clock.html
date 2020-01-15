@@ -132,6 +132,9 @@ svg {
     fill: orange;
 }
 
+#controls {
+    padding: 5px;
+}
 </style>
 <defs>
 <!-- NOTE: transform x and y = ((circle radius) * scale) -->
@@ -251,7 +254,15 @@ svg {
 </g>
 <g transform="translate(155 155)" >
 </g>
+<g id="set-timezone-svg">
+
+</g>
 </svg>
+<div id="controls">
+<h3 id="showTimezone">Set Timezone:</h3>
+<input id="timezone" name="timezone" type="number" min="-24.00" max="24.00" value="-5">
+<input type="button" id="update" name="update" value="Update">
+</div>
 <pre id="stats"></pre>
 
 <script >
@@ -405,6 +416,9 @@ class Clock {
         let year = date.getUTCFullYear();
         // Adjust for Timezone Difference, if any
         let tzo = date.getTimezoneOffset();
+        if (tzo < -24 || tzo > 24) {
+            tzo = 0;
+        }
         let timezoneOffset = obj.getTimezoneOffset()
         let origHour = hour;
         if (tzo == 0) {
@@ -430,7 +444,7 @@ class Clock {
             }
         }
 
-        this.pushStat(hour,minute,second,millisecond);
+        //this.pushStat(hour,minute,second,millisecond);
 
         let sAngle = second * 6;
         let mAngle = minute * 6 + (sAngle/60);
@@ -503,13 +517,94 @@ class Clock {
 
 var myQueue = new Queue();
 var myClock = new Clock(myQueue);
+var myTimezone;
 
 window.addEventListener('DOMContentLoaded', () => {
-    myClock.setTimezoneOffset(-8);
-    myClock.start();
-    myQueue.start(myQueue,10);
+    //myTimezone = getTimezone();
+    getTimezone();
+    //myClock.setTimezoneOffset(myTimezone);
+    //myClock.start();
+    //myQueue.start(myQueue,10);
 });
 
+</script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-analytics.js"></script>
+
+<script>
+// Your web app's Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyD9Jx7sI8YBwop0KlSNSqzWEsyyXYx3KW8",
+    authDomain: "semitasker-1.firebaseapp.com",
+    databaseURL: "https://semitasker-1.firebaseio.com",
+    projectId: "semitasker-1",
+    storageBucket: "semitasker-1.appspot.com",
+    messagingSenderId: "891468210357",
+    appId: "1:891468210357:web:a15ecd16c71180f0b69efc",
+    measurementId: "G-Z82D422NBN"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+
+var db = firebase.firestore();
+
+db.enablePersistence()
+  .catch(function(err) {
+      if (err.code == 'failed-precondition') {
+          // Multiple tabs open, persistence can only be enabled
+          // in one tab at a a time.
+          // ...
+      } else if (err.code == 'unimplemented') {
+          // The current browser does not support all of the
+          // features required to enable persistence
+          // ...
+      }
+});
+// Subsequent queries will use persistence, if it was enabled successfully
+
+</script>
+<script>
+const timezoneField = document.querySelector("#timezone");
+const updateButton  = document.querySelector("#update");
+const timezoneHeader = document.querySelector("#showTimezone");
+const tzoField = document.querySelector("#tzo");
+
+const docRef = db.doc("/samples/timezoneData");
+
+var getTimezone = function() {
+    myTimezone = -5; // East Coast
+    docRef.onSnapshot(function (doc) {
+        if (doc && doc.exists) {
+            const myData = doc.data();
+            myTimezone = myData.timezone;
+            timezoneHeader.innerText = "Current Timezone: " + myTimezone;
+        }
+        timezoneField.value = myTimezone;
+        myClock.setTimezoneOffset(parseInt(myTimezone));
+        myClock.start();
+        myQueue.start(myQueue,10);
+    });
+}
+
+update.addEventListener("click",function (evt) {
+    myTimezone = parseInt(timezoneField.value);
+    timezoneHeader.innerText = "Current Timezone: " + myTimezone;
+    myClock.setTimezoneOffset(myTimezone);
+    docRef.set({
+        timezone: myTimezone
+    }).then(function() {
+        console.log("New Timezone =" + myTimezone);
+    }).catch (function (error) {
+        console.log("Error updating timezone: " + error);
+    });
+});
 </script>
 </body>
 </html>
