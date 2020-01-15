@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true">
+<style>
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+#t2 {
+    font-size: 48px;
+    fill: black;
+    font-family: 'Keania One', Arial;
+}
+#svg2 {
+    background-color: white;
+    cursor: pointer;
+}
+.A {
+    font-size: 20px;
+    font-family: Arial;
+}
+#r1 {
+    fill: rgba(0,0,0,0);
+    stroke: red;
+    stroke-width: 2;
+    fill: url('/images/building-1.jpg');
+}
+#mpoints2 {
+}
+#pt1,
+#pt2 {
+    fill: none;
+    stroke: grey;
+    stroke-width: 2px;
+}
+#l1 {
+    stroke: yellow;
+    stroke-width: 2px;
+}
+#c1 {
+    stroke: red;
+    stroke-width: 2px;
+    fill: none;
+
+}
+</style>
+<defs>
+<polygon id="pt1" points="0,0 128,0 128,96 0,96" />
+<polygon id="pt2" points="100,100 228,145 95,60 100,100" />
+
+<filter id="f1" >
+<feImage href="/images/building-1.jpg" result="tile"/>
+<feTile in="tile" result="tile2" />
+</filter>
+
+<filter id="f2" x="0" y="0" width="100%" height="100%">
+<feImage href="/images/building-1.jpg" result="tile" />
+<!--<feTile in="tile" result="tile2" /> -->
+</filter>
+
+<image id="img2" href="/images/desert-1.jpg" />
+
+<clipPath id="cp1">
+<use href="#pt1" x="0" y="0" height="100" width="200" />
+</clipPath>
+
+<clipPath id="cp2">
+<use href="#pt1" x="201" y="0" height="100" width="200" />
+</clipPath>
+
+<clipPath id="cp3">
+<use href="#pt1" x="402" y="0" height="100" width="200" />
+</clipPath>
+
+<clipPath id="cp11">
+<use href="#pt1" x="0" y="0" height="96" width="128" />
+</clipPath>
+
+<clipPath id="cp12">
+<use href="#pt1" x="129" y="0" height="96" width="128" />
+</clipPath>
+
+<clipPath id="cp13">
+<use href="#pt1" x="257" y="0" height="96" width="128" />
+</clipPath>
+
+<clipPath id="cp14">
+<use href="#pt1" x="385" y="0" height="96" width="128" />
+</clipPath>
+
+
+<clipPath id="cp21">
+<use href="#pt2" x="0" y="0" />
+</clipPath>
+
+
+
+</defs>
+<g id="p1" transform="translate(100,100)" >
+ <use id="ref1" href="#pt1" fill="green" filter="url(#f2)" />
+</g>
+<g id="p2" transform="translate(300,100)" >
+ <use id="ref2" href="#pt1" fill="yellow" transform="rotate(20)" filter="url(#f1)"/>
+</g>
+
+<g transform="translate(0,0)" >
+<g id="p3" >
+<use href="#img2" clip-path="url(#cp1)" x="300" y="300" />
+</g>
+<g id="p4" >
+<use href="#img2" clip-path="url(#cp2)" x="300" y="300" />
+</g>
+<g id="p5" >
+<use href="#img2" clip-path="url(#cp3)" x="300" y="300" />
+</g>
+</g>
+
+<g transform="translate(300,800)" >
+<g id="p11" >
+<use href="#img2" clip-path="url(#cp11)" x="0" y="0" />
+<use href="#pt1" x="0" y="0" />
+</g>
+<g id="p12" transform="translate(0,0)">
+<animateTransform attributeName="transform"
+                          attributeType="XML"
+                          type="translate"
+                          values="0 0;0 96;-128 96;-128 0;0 0"
+                          dur="2.0s"
+                          repeatCount="indefinite"/>
+<use href="#img2" clip-path="url(#cp12)" x="0" y="0" />
+<use href="#pt1" x="129" y="0" />
+</g>
+<g id="p13" transform="translate(0,0) rotate(-10)">
+<use href="#img2" clip-path="url(#cp13)" x="0" y="0" />
+<use href="#pt1" x="257" y="0" />
+</g>
+<g id="po14" transform="rotate(10,448,48)">
+<animateTransform attributeName="transform"
+                          attributeType="XML"
+                          type="rotate"
+                          from="0 448 48"
+                          to="359 448 48"
+                          dur="20s"
+                          repeatCount="indefinite"/>
+<g id="p14" >
+<!--<animateTransform attributeName="transform"
+                          attributeType="XML"
+                          type="rotate"
+                          from="0 448 48"
+                          to="359 448 48"
+                          dur="20s"
+                          repeatCount="indefinite"/>-->
+<animateTransform attributeName="transform"
+                          attributeType="XML"
+                          type="translate"
+                          values="0 0;0 96;-128 96;-128 0;0 0"
+                          dur="2.5s"
+                          repeatCount="indefinite"/>
+<use href="#img2" clip-path="url(#cp14)" x="0" y="0" />
+<use href="#pt1" x="385" y="0" />
+<line id="l1" x1="0" y1="0" x2="385" y="96" />
+<circle id="c1" cx="448" cy="48" r="4" />
+</g>
+</g>
+
+<g id="p21" transform="translate(0,0)">
+<use href="#img2" clip-path="url(#cp21)" x="0" y="0" />
+<use href="#pt2" x="0" y="0" />
+</g>
+
+</g>
+
+<script  type="text/javascript" src="/js/d3.v5.js" ></script>
+<script  type="text/javascript" src="/js/geometric.js" ></script>
+
+<script>
+
+// <![CDATA[
+    window.addEventListener('DOMContentLoaded', () => {
+    var centroid = geometric.polygonCentroid([[100,100], [228,145], [95,60], [100,100]])
+    });
+// ]]>
+</script>
+</svg>

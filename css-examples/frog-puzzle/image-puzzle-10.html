@@ -21,32 +21,14 @@ th {
 
 </style>
 
-<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="/js/log-2.js"></script>
-<script src="/js/d3.v3.js"></script>
-<script type="text/javascript" src="js/image-puzzle-7.js"></script>
-
-<script>
-
-$(document).ready(function() {
-
-  Log.Notice("jQuery Ready!");
-
-  //Log.Hide();
-
-});
-
-</script>
 </head>
 <body>
 
 <div id="picture"></div>
 <div id="puzzle"></div>
 
-
-
 <div id="form">
-<form>
+<form onsubmit="return false;">
 <table id="form-table">
 <tr>
  <th>Image:</th>
@@ -61,16 +43,34 @@ $(document).ready(function() {
  <td><input id="rows-n-cols" name="rowsNCols" value="5" type="number"></td>
 </tr>
 <tr>
+ <th>Randomize Time:</th>
+ <td><input id="rand-time" name="rand-time" size="3" value="10" type="number"> Seconds</td>
+</tr>
+<tr>
  <th>Border:</th>
  <td><input id="border" name="border" size="2" value="1" type="number"></td>
 </tr>
 <tr>
-<th colspan="2"><input id="button" onClick="processForm(this);" value="Click to Start Puzzle"></th>
+<th colspan="2"><input id="button" onClick="startNewPuzzle('picture','puzzle','image','tile-size','rows-n-cols','rand-time','border');" value="Click to Start Puzzle"></th>
 </tr>
 </table>
 </form>
-
-
 </div>
+
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+<script type="text/javascript" src="js/image-puzzle-10.js"></script>
+
+<script>
+
+$(document).ready(function() {
+
+  Log.Notice("jQuery Ready!");
+  //Log.Hide();
+
+});
+
+</script>
 </body>
 </html>
