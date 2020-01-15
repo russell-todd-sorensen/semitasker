@@ -4,7 +4,6 @@
 <meta charset="utf-8">
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 <link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
-<link rel="stylesheet" href="logo-maker/css/logo-maker-1.css">
 <link rel="stylesheet" href="/css/green-form.css" >
 <style>
 body {
@@ -121,41 +120,15 @@ h4 {
 <script src="/js/binary-hex-conversions.js"></script>
 <script src="/js/example-library.js"></script>
 <script src="/js/svg-transform.js"></script>
-<script src="logo-maker/js/logo-maker-1.js" ></script>
 
 <script>
 
-// toggleFormInputType overrides same function in svg-transform.js 
 
-function toggleFormInputType (evt) {
-	var id = '#' + $(this).attr('for');
-	var parent = $(this).parent();
-	var type = $(id).attr('type');
-	switch (type) {
-	case 'text':
-	  d3.select(id).attr('type','range');
-		var maximum = d3.select(id).attr('max');
-		var minimum = d3.select(id).attr('min');
-		d3.select(id + '::before').style('content',minimum);
-		d3.select(id + '::after').style('content',maximum);
-		parent.animate({'width': 400},500,'linear');
-		break;
-	case 'range':
-		parent.animate({'width': 400},500,'linear');
-		d3.select(id + '::before').style('content','');
-		d3.select(id + '::after').style('content','');
-	  d3.select(id).attr('type','text');
-		break;
-	}
-
-}
 
 function setStartImage() {
 	Data.restoreSelect('imageChoice');
     SvgTransform.adjustImage('imageX','image-ellipse');
 }
-
-
 
 $(document).ready(function () {
 	$('.cell').bind('click', null, enlargeCell);
@@ -384,8 +357,12 @@ $(document).ready(function () {
 <!-- here comes the script    -->
 <script>
 
+var myImageURLs = [];
+
 $(document).ready(function() {
-	Log.Hide();
+    Log.Hide();
+    Data.setStartImageSlim('imageChoice');
+    SvgTransform.adjustImage('imageX','image-ellipse');
 });
 
 </script>
@@ -401,54 +378,15 @@ $(document).ready(function() {
 <legend>General Animation Options</legend>
 <ul>
  <li><label for="imageChoice">Image:</label> <select id="imageChoice" name="imageChoice"
- onChange="SvgTransform.changeImage('imageChoice', '#imageX', '#imageFilter'); SvgTransform.adjustImage('imageX','image-ellipse');">
-
-<option value="/images/Butterfly%206.jpg">Butterfly 6</option>
-<option value="/images/Butterfly%2017a.jpg">Butterfly 17a</option>
-<option value="/images/Butterfly%2028.jpg">Butterfly 28</option>
-<option value="/images/Butterfly%2057.jpg">Butterfly 57</option>
-<option value="/images/Butterfly%2062.jpg" selected="selected">Butterfly 62</option>
-<option value="/images/Butterfly%2086.jpg">Butterfly 86</option>
-<option value="/images/Grasshopper%201.JPG">Grasshopper 1</option>
-<option value="/images/Ladybug%206.jpg">Ladybug 6</option>
-<option value="/images/building-1.jpg">Building 1</option>
-<option value="/images/sphinx5.jpg">Sphinx 5</option>
-<option value="/images/egypt-2.jpg">Egypt 2</option>
-<option value="/images/EgyptianTomb.jpg">Egyptian Tomb</option>
-<option value="/images/stone-hut-1.jpg">Stone Hut 1</option>
-<option value="/images/stone-wall-1.jpg">Stone Wall 1</option>
-<option value="/images/stone-arch-1.jpg">Stone Arch 1</option>
-<option value="/images/igloo2.jpg">Igloo 2</option>
-<option value="/images/rotunda-statue.jpg">Rotunda Statue</option>
-<option value="/images/staircase-1.jpg">Spiral Staircase 1</option>
-<option value="/images/red-fence-1.jpg">Red Fence 1</option>
-<option value="/images/palace-1.jpg">Palace 1</option>
-<option value="/images/london-plaza-1.jpg">London Plaza 1</option>
-<option value="/images/glass-pyramids.jpg">Glass Pyramid</option>
-<option value="/images/old-man-with-hat.jpg">Old Man with Hat</option>
-<option value="/images/Woman-183.jpg">Woman 183</option>
-<option value="/images/Woman-214.jpg">Woman 214</option>
-<option value="/images/jelly-fish-1.jpg">Jelly Fish 1</option>
-<option value="/images/jelly-fish-2.jpg">Jelly Fish 2</option>
-<option value="/images/fishes-3.gif">Fishes3</option>
-<option value="/images/parrot-1.jpg">Parrot 1</option>
-<option value="/images/parrot-2.jpg">Parrot 2</option>
-<option value="/images/feathers-1.jpg">Peacock Feathers</option>
-<option value="/images/feathers-2.jpg">Peacock</option>
-<option value="/images/Butterfly%2011.jpg">Butterfly 11</option>
-<option value="/images/Butterfly%2017.jpg">Butterfly 17</option>
-<option value="/images/Butterfly%2022.jpg">Butterfly 22</option>
-<option value="/images/Butterfly%2036.png">Butterfly 36</option>
-<option value="/images/Butterfly%2069.png">Butterfly 69</option>
-<option value="/images/desert-1.jpg">Desert 1</option>
-<option value="/images/swan-1.jpg">Swan 1</option>
-<option value="/images/wildmanlogo-1.svg">Wildman Logo 1</option>
-<option value="/images/wildmanlogo-2.svg">Wildman Logo 2</option>
+ onChange="SvgTransform.changeImage('imageChoice', 'imageX', 'imageFilter'); 
+           SvgTransform.adjustImage('imageX','image-ellipse');">
 
 </select>
  </li>
  <li> 
- <label for="gradientChoice">Fill:</label> <select id="gradientChoice" name="gradientChoice" onChange="SvgTransform.changeFill('gradientChoice', '#image-ellipse', 'stroke');" >
+ <label for="gradientChoice">Fill:</label> 
+ <select id="gradientChoice" name="gradientChoice" 
+         onChange="SvgTransform.changeFill('gradientChoice', '#image-ellipse', 'stroke');" >
  <option value="url(#radial-grad-bright)">Radial Gradient Bright</option>
  <option value="#abc">#ABC</option>
  <option value="#444">#444</option>
@@ -517,6 +455,29 @@ $(document).ready(function() {
          onBlur="SvgTransform.rotate('rotate-cy', '#rotate');SvgTransform.SvgText('rotate-cy','#rotate-cy-value');"
          onChange="SvgTransform.rotate('rotate-cy', '#rotate');SvgTransform.SvgText('rotate-cy','#rotate-cy-value');">
   <span id="rotate-cy-value"></span>
+ </li>
+ </ul>
+</fieldset>
+</form>
+<form id="add-image" onsubmit="return false;">
+<fieldset>
+  <legend onclick="togglePanel('controls')" 
+    title="Images will only be available on this device." 
+    >Add Your Own Images</legend>
+<ul id="panel2">
+ <li>
+   <label for="externalImageURL">Image URL:</label>
+   <input id="new-url" name="new-url" value="">
+ </li>
+ <li>
+   <label for="imageAltLabel">Image Name:</label>
+   <input id="new-alt" name="new-alt" value="">
+ </li>
+ <li>
+   <label for="new-image-submit">Add Image:</label>
+   <input name="new-image-submit" id="new-image-submit" 
+    type="button" value="Add Image" 
+    onClick="Data.addImageToMyImageURLs('new-url', 'new-alt','imageChoice')" >
  </li>
  </ul>
 </fieldset>

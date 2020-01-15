@@ -156,54 +156,7 @@ body {
 <script src="/js/panel-show-hide.js"></script>
 <script>
 
-// call saveJSON like this:
-// var myJSON = {x:'a',y:'b'}
-// Data.saveJSON('myJSON',JSON.stringify(myJSON));
-
-Data.saveJSON = function (jsVarName, jsonValue) {
-  Log.Notice("saveJSON value=" + jsonValue);
-  var itemName = document.URL + '-ANIMATION-VALUE-' + jsVarName;
-  localStorage.setItem(itemName, jsonValue);
-  return itemName;
-};
-
-Data.restoreJSON = function (jsVarName) {
-  return (localStorage.getItem(document.URL + '-ANIMATION-VALUE-' + jsVarName));
-};
-
 var myImageURLs = [];
-
-function setStartImage(imageSelectId) {
-  Data.loadSelectOptions('imageFilter',Data.Filters);
-  Data.loadSelectOptions('imageFilter2',Data.Filters);
-  var myImageURLs = JSON.parse(Data.restoreJSON('myImageURLs'));
-  if (myImageURLs && myImageURLs.length > 0) {
-    for (let i = myImageURLs.length-1;i>=0;i--) {
-      if (myImageURLs[i]) {
-        Data.Images.unshift(myImageURLs[i]);
-      }
-    }
-  }
-  Data.loadSelectOptions(imageSelectId,Data.Images);
-  Data.restoreSelect('imageFilter');
-  Data.restoreSelect('imageFilter2');
-  Data.restoreSelect('imageChoice');
-  SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1');
-}
-
-function addImageToMyImageURLs(urlId, altId, setSelectId) {
-  let url = $('#' + urlId).val();
-  let alt = $('#' + altId).val();
-  let newOption = {url:url,alt:alt};
-  myImageURLs = JSON.parse(Data.restoreJSON('myImageURLs'));
-  myImageURLs.push(newOption);
-  Data.saveJSON('myImageURLs',JSON.stringify(myImageURLs));
-  if (setSelectId) {
-    Data.loadSelectOptions(setSelectId,[newOption]); // this just addes the new option 
-    Data.setSelect(setSelectId,url,'Data.restoreSelect');
-    document.getElementById(setSelectId).onchange();
-  }
-}
 
 panelHidden["controls"] = [{
   id:'panel1',
@@ -263,7 +216,7 @@ panelHidden["controls"] = [{
 ];
 
 $(document).ready(function () {
-  setStartImage('imageChoice');
+  Data.setStartImage('imageChoice');
   //Log.Hide();
   Log.Remove();
 });
@@ -319,7 +272,7 @@ $(document).ready(function () {
    <label for="new-image-submit">Add Image:</label>
    <input name="new-image-submit" id="new-image-submit" 
     type="button" value="Add Image" 
-    onClick="addImageToMyImageURLs('new-url', 'new-alt','imageChoice')" >
+    onClick="Data.addImageToMyImageURLs('new-url', 'new-alt','imageChoice')" >
  </li>
  </ul>
 </fieldset>

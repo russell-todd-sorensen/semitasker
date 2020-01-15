@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en_US">
 <head>
-<meta charset="utf-8" >
-
+<meta charset="utf-8" />
+<base href="https://home.semitasker.com" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Orange Green Displace filter</title>
 
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
@@ -157,96 +158,14 @@ body {
 <script src="/js/svg-transform.js"></script>
 <script src="logo-maker/js/logo-maker-1.js" ></script>
 
-<script src="filter-mania-1.js" ></script>
+<script src="js/filter-mania-1.js" ></script>
 
 <script>
-SvgTransform.adjustObjectHeightWidth = function (image) {
-	var I = new Image();
-	var node,nodeId,rectNode;
-	var xlink = 'http://www.w3.org/1999/xlink';
-	node = document.getElementById(image);
-	I.src = node.getAttributeNS(xlink,'href');
-	var height = I.height;
-	var width = I.width;
-  
-	for (var i = 0; i< arguments.length; i++) {
-		nodeId = arguments[i];
-		node = document.getElementById(nodeId);
-		node.setAttribute('height', height);
-		node.setAttribute('width',width);
-	}
-}
 
-SvgTransform.adjustObjectHeightWidth = function (filterImageId) {
-
-	var xlink = 'http://www.w3.org/1999/xlink';
-	var node = document.getElementById(filterImageId);
-	var imageSource = node.getAttributeNS(xlink,'href');
-	
-	if (SvgTransform.Images[imageSource] == undefined) {
-		SvgTransform.Images[imageSource] = new Image();
-		SvgTransform.Images[imageSource].src = imageSource;
-		Log.Notice("defining new image src=" + imageSource);
-	
-		SvgTransform.Images[imageSource].onload = function ( ) {
-			var height = SvgTransform.Images[imageSource].height;
-			var width =  SvgTransform.Images[imageSource].width;
-			var rectNode;
-			Log.Notice('image function img=' + imageSource + ' height=' + height + ' width=' + width);
-			for (var i = 1; i<arguments.length; i++) {
-				rectNode = document.getElementById(arguments[i]);
-				rectNode.setAttribute('height', height*1.2);
-				rectNode.setAttribute('width', width*1.2);
-			}
-		};
-	} else {
-			var height = this.Images[imageSource].height;
-			var width =  this.Images[imageSource].width;
-			var rectNode;
-			
-			Log.Notice('image inline img=' + imageSource + ' height=' + height + ' width=' + width);
-			for (var i = 1; i<arguments.length; i++) {
-				rectNode = document.getElementById(arguments[i]);
-				rectNode.setAttribute('height', height*1.2);
-				rectNode.setAttribute('width', width*1.2);
-			}
-	}
-}
-
-function setStartImage(imageSelectId) {
-	Data.loadSelectOptions(imageSelectId,Data.Images);
-	Data.restoreSelect('imageFilter');
-    Data.restoreSelect('imageFilter2');
-	Data.restoreSelect('imageChoice');
-    SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1');	
-
-}
-
-SvgTransform.changeFilter = function (selectId) { 
-  var filterSelector = '#' + selectId + " option::selected";
-  var filterUrl = $(filterSelector).val();
-  
-
-  var elementSelector, elementId, node;
-  for (var i = 1; i < arguments.length; i++) {
-    elementSelector = arguments[i];
-		elementId = elementSelector.substring(1);
-		node = document.getElementById(elementId);
-		node.setAttribute('filter',filterUrl);
-  }
-
-  var call = "Data.saveSelect('" + selectId + "','SvgTransform.changeFilter'";
-  for (var i = 1; i< arguments.length; i++) {
-    call = call + ",'" + arguments[i] + "'";
-  }
-  
-  call += ");";
-  setTimeout(call, 10);
-  return false;
-}
+var myImageURLs = [];
 
 $(document).ready(function () {
-	setStartImage('imageChoice');
+	Data.setStartImage('imageChoice');
 	Log.Hide();
 });
 
@@ -261,175 +180,44 @@ $(document).ready(function () {
 <legend>General Animation Options</legend>
 <ul>
  <li><label for="imageFilter">Select Filter</label><select id="imageFilter"
-  onChange="SvgTransform.changeFilter('imageFilter', '#image2','#graphics-2' )">
-  <option value="">No Filter</option>
-  <option value="url(#ZZ)">ZZ</option>
-  <option value="url(#X)">X</option>
-  <option value="url(#Y)">Y</option>
-  <option value="url(#X)">Z</option>
-  <option value="url(#XX)">XX</option>
-  <option value="url(#XX2)">XX2 Vertical</option>
-  <option value="url(#XX3)">XX3 Horizontal</option>
-  <option value="url(#XX4)">XX4 Convolve Radial</option>
-  <option value="url(#XX5)">XX5 Blur</option>
-  <option value="url(#XX6)" selected="selected">XX6 Blur Posterize</option>
-  <option value="url(#desaturate-1)">Desaturate 1</option>
-  <option value="url(#desaturate-2)">Desaturate 2</option>
-  <option value="url(#hueRotate-1)">Hue Rotate 45&deg;</option>
-  <option value="url(#hueRotate-2)">Hue Rotate 20&deg;</option>
-  <option value="url(#luminanceToAlpha-1)">Luminance To Alpha 1</option>
-  <option value="url(#posterize-0)">Posterize 0</option>
-  <option value="url(#posterize-00)">Posterize 00</option>
-  <option value="url(#posterize-000)">Posterize 000</option>
-  <option value="url(#posterize-0000)">Posterize 0000</option>
-  <option value="url(#posterize-00000)">Posterize 00000</option>
-  <option value="url(#posterize-000000)">Posterize 000000</option>
-  <option value="url(#posterize-0000000)">Posterize 0000000</option>
-  <option value="url(#posterize-1)">Posterize 1</option>
-  <option value="url(#posterize-2)">Posterize 2</option>
-  <option value="url(#posterize-3)">Posterize 3</option>
-  <option value="url(#posterize-4)">Posterize 4</option>
-  <option value="url(#posterize-5)">Posterize 5</option>
-  <option value="url(#posterize-6)">Posterize 6</option>
-  <option value="url(#posterize-7)">Posterize 7</option>
-  <option value="url(#posterize-7-table)">Posterize 7 table</option>
-  <option value="url(#posterize-8)">Posterize 8</option>
-  <option value="url(#posterize-9)">Posterize 9</option>
-  <option value="url(#posterize-10)">Posterize 10</option>
-  <option value="url(#posterize-11)">Posterize 11</option>
-  <option value="url(#posterize-12)">Posterize 12</option>
-  <option value="url(#posterize-12-table)">Posterize 12 table</option>
-  <option value="url(#sharpen-1)">Sharpen 1</option>
-  <option value="url(#sharpen-2)">Sharpen 2</option>
-  <option value="url(#sharpen-3)">Sharpen 3</option>
-  <option value="url(#sharpen-4)">Sharpen 4</option>
-  <option value="url(#blow-1)">Blow 1 (sharpen)</option>
-  <option value="url(#blow-2)">Blow 2 (sharpen)</option>
-  <option value="url(#blow-3)">Blow 3 (sharpen)</option>
-  <option value="url(#blow-4)">Blow 4 (sharpen)</option>
-  <option value="url(#blow-5)">Blow 5 (sharpen)</option>
-  <option value="url(#blow-6)">Blow 6 (sharpen)</option>
-  <option value="url(#blow-7)">Blow 7 (sharpen)</option>
-  <option value="url(#sticks-filter-1)">Sticks Filter 1</option>
-  <option value="url(#sticks-filter-2)">Sticks Filter 2</option>
-  <option value="url(#super-saturate)">SuperSaturate</option>
-  <option value="url(#saturate-red)">Saturate Red</option>
-  <option value="url(#saturate-green)">Saturate Green</option>
-  <option value="url(#saturate-blue)">Saturate Blue</option>
-  <option value="url(#photo-negative)">Photo Negative</option>
-  <option value="url(#DD)">DD</option>
-  <option value="url(#table-1)">Table 1</option>
-  <option value="url(#table-2)">Table 2</option>
-  <option value="url(#table-3)">Table 3</option>
-  <option value="url(#table-4)">Table 4</option>
-  <option value="url(#table-5)">Table 5</option>
-  <option value="url(#table-6)">Table 6</option>
-  <option value="url(#table-7)">Table 7</option>
-  <option value="url(#table-8)">Table 8</option>
-  <option value="url(#table-9)">Table 9</option>
-  <option value="url(#table-10)">Table 10</option>
-  <option value="url(#table-11)">Table 11 Animated 9-10</option>
-  <option value="url(#table-12)">Table 12 Animated</option>
-  <option value="url(#table-14)">Table 14 Animated Pos to Neg</option>
-  <option value="url(#table-15)">Table 15 Animated</option>
-  <option value="url(#table-16)">Table 16 Animated</option>
-  <option value="url(#table-17)">Table 17 Animated</option>
-  <option value="url(#table-18)">Table 18 Animated</option>
-  <option value="url(#linear-displace-y)">Linear Displace Vert 1</option>
-  <option value="url(#linear-displace-y-2)">Linear Displace Vert 2</option>
-  <option value="url(#displaceX)">DisplaceX</option>
-  <option value="url(#displaceX-2)">DisplaceX 2</option>
-  <option value="url(#displaceX-3)">DisplaceX Linear 45&deg;</option>
-  <option value="url(#fish-eye-1)">Fish Eye 1</option> 
-  <option value="url(#fish-eye-2)">Fish Eye 2</option>
+  onChange="SvgTransform.changeFilter('imageFilter', 'image2','graphics-2' )">
   </select>
   </li>
  <li><label for="imageFilter2">Select Filter 2</label><select id="imageFilter2"
-  onChange="SvgTransform.changeFilter('imageFilter2', '#clickMe', '#graphics-container')">
-  <option value="">No Filter</option>
-  <option value="url(#ZZ)">ZZ</option>
-  <option value="url(#X)">X</option>
-  <option value="url(#Y)">Y</option>
-  <option value="url(#X)" selected="selected">Z</option>
-  <option value="url(#XX)">XX</option>
-  <option value="url(#XX2)">XX2 Vertical</option>
-  <option value="url(#XX3)">XX3 Horizontal</option>
-  <option value="url(#XX4)">XX4 Convolve Radial</option>
-  <option value="url(#XX5)">XX5 Blur</option>
-  <option value="url(#XX6)">XX6 Blur Posterize</option>
-  <option value="url(#desaturate-1)">Desaturate 1</option>
-  <option value="url(#desaturate-2)">Desaturate 2</option>
-  <option value="url(#hueRotate-1)">Hue Rotate 45&deg;</option>
-  <option value="url(#hueRotate-2)">Hue Rotate 20&deg;</option>
-  <option value="url(#luminanceToAlpha-1)">Luminance To Alpha 1</option>
-  <option value="url(#posterize-0)">Posterize 0</option>
-  <option value="url(#posterize-00)">Posterize 00</option>
-  <option value="url(#posterize-000)">Posterize 000</option>
-  <option value="url(#posterize-0000)">Posterize 0000</option>
-  <option value="url(#posterize-1)">Posterize 1</option>
-  <option value="url(#posterize-2)">Posterize 2</option>
-  <option value="url(#posterize-3)">Posterize 3</option>
-  <option value="url(#posterize-4)">Posterize 4</option>
-  <option value="url(#posterize-5)">Posterize 5</option>
-  <option value="url(#posterize-6)">Posterize 6</option>
-  <option value="url(#posterize-7)">Posterize 7</option>
-  <option value="url(#posterize-7-table)">Posterize 7 table</option>
-  <option value="url(#posterize-8)">Posterize 8</option>
-  <option value="url(#posterize-9)">Posterize 9</option>
-  <option value="url(#posterize-10)">Posterize 10</option>
-  <option value="url(#posterize-11)">Posterize 11</option>
-  <option value="url(#posterize-12)">Posterize 12</option>
-  <option value="url(#posterize-12-table)">Posterize 12 table</option>
-  <option value="url(#sharpen-1)">Sharpen 1</option>
-  <option value="url(#sharpen-2)">Sharpen 2</option>
-  <option value="url(#sharpen-3)">Sharpen 3</option>
-  <option value="url(#sharpen-4)">Sharpen 4</option>
-  <option value="url(#blow-1)">Blow 1 (sharpen)</option>
-  <option value="url(#blow-2)">Blow 2 (sharpen)</option>
-  <option value="url(#blow-3)">Blow 3 (sharpen)</option>
-  <option value="url(#blow-4)">Blow 4 (sharpen)</option>
-  <option value="url(#blow-5)">Blow 5 (sharpen)</option>
-  <option value="url(#blow-6)">Blow 6 (sharpen)</option>
-  <option value="url(#blow-7)">Blow 7 (sharpen)</option>
-  <option value="url(#sticks-filter-1)">Sticks Filter 1</option>
-  <option value="url(#sticks-filter-2)">Sticks Filter 2</option>
-  <option value="url(#super-saturate)">SuperSaturate</option>
-  <option value="url(#saturate-red)">Saturate Red</option>
-  <option value="url(#saturate-green)">Saturate Green</option>
-  <option value="url(#saturate-blue)">Saturate Blue</option>
-  <option value="url(#photo-negative)">Photo Negative</option>
-  <option value="url(#DD)">DD</option>
-  <option value="url(#table-1)">Table 1</option>
-  <option value="url(#table-2)">Table 2</option>
-  <option value="url(#table-3)">Table 3</option>
-  <option value="url(#table-4)">Table 4</option>
-  <option value="url(#table-5)">Table 5</option>
-  <option value="url(#table-6)">Table 6</option>
-  <option value="url(#table-7)">Table 7</option>
-  <option value="url(#table-8)">Table 8</option>
-  <option value="url(#table-9)">Table 9</option>
-  <option value="url(#table-10)">Table 10</option>
-  <option value="url(#table-11)">Table 11 Animated 9-10</option>
-  <option value="url(#table-12)">Table 12 Animated</option>
-  <option value="url(#table-14)">Table 14 Animated Pos to Neg</option>
-  <option value="url(#table-15)">Table 15 Animated</option>
-  <option value="url(#table-16)">Table 16 Animated</option>
-  <option value="url(#table-17)">Table 17 Animated</option>
-  <option value="url(#table-18)">Table 18 Animated</option>
-  <option value="url(#linear-displace-y)">Linear Displace Vert 1</option>
-  <option value="url(#linear-displace-y-2)">Linear Displace Ver 2</option>
-  <option value="url(#displaceX)">DisplaceX Radial</option>
-  <option value="url(#displaceX-2)">DisplaceX Linear</option>
-  <option value="url(#displaceX-3)">DisplaceX Linear 45&deg;</option>
-  <option value="url(#fish-eye-1)">Fish Eye 1</option> 
-  <option value="url(#fish-eye-2)">Fish Eye 2</option>
+  onChange="SvgTransform.changeFilter('imageFilter2', 'clickMe', 'graphics-container')">
+
   </select>
   </li>
- <li><label for="imageChoice">Select Image</label> <select id="imageChoice" name="imageChoice" onChange="SvgTransform.changeImage('imageChoice','#image2'); SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1'); ">
-
+ <li><label for="imageChoice">Select Image</label> 
+  <select id="imageChoice" name="imageChoice" 
+    onChange="SvgTransform.changeImage('imageChoice','image2'); 
+              SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1'); ">
 </select>
  </li>
  </ul>
+ </fieldset>
+ </form>
+ <form id="add-image" onsubmit="return false;">
+ <fieldset>
+   <legend onclick="togglePanel('controls')" 
+     title="Images will only be available on this device." 
+     >Add Your Own Images</legend>
+ <ul id="panel2">
+  <li>
+    <label for="externalImageURL">Image URL:</label>
+    <input id="new-url" name="new-url" value="">
+  </li>
+  <li>
+    <label for="imageAltLabel">Image Name:</label>
+    <input id="new-alt" name="new-alt" value="">
+  </li>
+  <li>
+    <label for="new-image-submit">Add Image:</label>
+    <input name="new-image-submit" id="new-image-submit" 
+     type="button" value="Add Image" 
+     onClick="Data.addImageToMyImageURLs('new-url', 'new-alt','imageChoice')" >
+  </li>
+  </ul>
  </fieldset>
  </form>
  </div>
@@ -597,7 +385,7 @@ $(document).ready(function () {
  <use xlink:href="#LG" x="0" y="0" height="100%" width="100%" />
 </mask>
 
-<radialGradient color-interpolation="sRGB" id="FishEye" spreadMethod="none" cx="20%" cy="20%">
+<radialGradient color-interpolation="sRGB" id="FishEye" spreadMethod="repeat" cx="20%" cy="20%">
 <animate attributeName="cx" values="0%;20%;100%;80%;0%" begin="0s" dur="15s" repeatCount="indefinite" />
 <animate attributeName="cy" values="0%;100%;100%;80%;0%" begin="0s" dur="15s" repeatCount="indefinite" />
  <stop stop-color="green" offset="0%" ></stop>
@@ -608,7 +396,7 @@ $(document).ready(function () {
 
 <rect id="FishEyeRect" x="0" y="0" height="900" width="600" style="fill: url(#FishEye); stroke: none;" />
 
-<radialGradient color-interpolation="sRGB" id="FishEye-2" spreadMethod="none" cx="20%" cy="20%">
+<radialGradient color-interpolation="sRGB" id="FishEye-2" spreadMethod="repeat" cx="20%" cy="20%">
 <animate attributeName="cx" values="0%;70%;90%;70%;0%" begin="0s" dur="20s" repeatCount="indefinite" />
 <animate attributeName="cy" values="30%;90%;50%;0%;30%" begin="0s" dur="20s" repeatCount="indefinite" />
  <stop stop-color="red" offset="0%" ></stop>
@@ -1095,12 +883,11 @@ $(document).ready(function () {
     begin="0s" 
     repeatCount="indefinite" />
  </feGaussianBlur>
- <feColorMatrix type="martix"
+ <feColorMatrix type="matrix"
    values="1 0 0 0 .05
            0 1 0 0 .05
            0 0 1 0 .05
-           0 0 0 1 0"
-           />
+           0 0 0 1 0"/>
 <feComponentTransfer>
  <feFuncR type="discrete" tableValues="0.5   0 .25   0  .5  .5   0 .25 1" />
  <feFuncG type="discrete" tableValues="0.0  .5  .5   0   0  .5  .5  .5 1" />
@@ -1118,12 +905,11 @@ $(document).ready(function () {
     begin="0s" 
     repeatCount="indefinite" />
  </feGaussianBlur>
- <feColorMatrix type="martix"
+ <feColorMatrix type="matrix"
    values="1 0 0 0 .05
            0 1 0 0 .05
            0 0 1 0 .05
-           0 0 0 1 0"
-           >
+           0 0 0 1 0" >
    <animate attributeName="values"
             values="1 0 0 0 .05
                     0 1 0 0 .05
@@ -1157,12 +943,11 @@ $(document).ready(function () {
     begin="0s" 
     repeatCount="indefinite" />
  </feGaussianBlur>
- <feColorMatrix type="martix"
+ <feColorMatrix type="matrix"
    values="1 0 0 0 .05
            0 1 0 0 .05
            0 0 1 0 .05
-           0 0 0 1 0"
-           >
+           0 0 0 1 0" >
    <animate attributeName="values"
             values="1 0 0 0 .05
                     0 1 0 0 .05
@@ -1389,56 +1174,49 @@ $(document).ready(function () {
 <feConvolveMatrix order="3"
    kernelMatrix="0 0  0
                  2 1 -2
-                 0 0  0"
-                 />
+                 0 0  0" />
 </filter>
 
 <filter id="blow-2">
 <feConvolveMatrix order="3"
    kernelMatrix="0 0  0
                  2 1 -1
-                 0 0  0"
-                 />
+                 0 0  0" />
 </filter>
 
 <filter id="blow-3">
 <feConvolveMatrix order="3"
    kernelMatrix="0 0  0
                  3 1 -2
-                 0 0  0"
-                 />
+                 0 0  0" />
 </filter>
 
 <filter id="blow-4">
 <feConvolveMatrix order="3"
    kernelMatrix="0 0  0
                  4 1 -3
-                 0 0  0"
-                 />
+                 0 0  0" />
 </filter>
 
 <filter id="blow-5">
 <feConvolveMatrix order="3"
    kernelMatrix="0  4  0
                  0  1  0
-                 0 -3  0"
-                 />
+                 0 -3  0" />
 </filter>
 
 <filter id="blow-6">
 <feConvolveMatrix order="3"
    kernelMatrix="4 0   0
                  0 1   0
-                 0 0  -3"
-                 />
+                 0 0  -3" />
 </filter>
 
 <filter id="blow-7">
 <feConvolveMatrix order="3"
    kernelMatrix="0 0 0
                  -3 1 4
-                  0 0 0"
-                 />
+                  0 0 0" />
 </filter>
 
 <filter id="DD">
@@ -1585,7 +1363,7 @@ $(document).ready(function () {
      <animate attributeName="tableValues" 
       values="1 .75 .5 .25 0;0 .25 .5 .75 1;1 .75 .5 .25 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
-  </feFunkB>
+  </feFuncB>
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
 </filter>
@@ -1606,7 +1384,7 @@ $(document).ready(function () {
     <animate attributeName="tableValues" 
       values="0 0 0 1 0 0 0;1 0 0 1 0 0 1;0 0 0 1 0 0 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
-  </feFunkB>
+  </feFuncB>
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
 </filter>
@@ -1627,7 +1405,7 @@ $(document).ready(function () {
     <animate attributeName="tableValues" 
       values="0 0 0 0 1 0 0 0 0;1 1 0 0 1 0 0 0 1;0 0 0 0 1 0 0 0 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
-  </feFunkB>
+  </feFuncB>
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
 </filter>
@@ -1648,7 +1426,7 @@ $(document).ready(function () {
     <animate attributeName="tableValues" 
       values=".7 0 0 2;.9 .2 .2 3;.7 0 0 2"
       dur="20s" begin="0s" repeatCount="indefinite" />
-  </feFunkB>
+  </feFuncB>
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
 </filter>
@@ -1669,7 +1447,7 @@ $(document).ready(function () {
     <animate attributeName="tableValues" 
       values="0 .8 .2 .8 0;0 .9 .1 .4 .7;0 .8 .2 .8 0"
       dur="20s" begin="0s" repeatCount="indefinite" />
-  </feFunkB>
+  </feFuncB>
   <feFuncA type="table" tableValues="1"/>
  </feComponentTransfer>
 </filter>
