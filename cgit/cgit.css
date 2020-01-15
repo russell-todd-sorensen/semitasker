@@ -143,7 +143,7 @@ div#cgit table.list tr:nth-child(odd) {
 }
 
 div#cgit table.list tr:hover {
-	background: #eee;
+	background: #aaa;
 }
 
 div#cgit table.list tr.nohover {
