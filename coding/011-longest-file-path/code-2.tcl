@@ -175,18 +175,7 @@ li {
     list-style: none;
 }
 </style>
-<script>
-
-var addTab = function(id) {
-
-    var txt = document.getElementById(id);
-    var end = txt.selectionEnd + 1;
-    txt.setRangeText('\t');
-    txt.focus();
-    txt.selectionStart = end;
-}
-
-</script>
+<script src='add-tab.js'></script>
 </head>
 <body>
 <form autocomplete='off' method='POST' encoding='multi-part/formdata'>
