@@ -1,0 +1,55 @@
+<svg version='1.1' 
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ height='800'
+ width='800'
+ viewport='0 0 800 800'
+ baseProfile='full'>
+ <style>
+ svg {
+     fill: orange;
+ }
+ </style>
+<defs>
+<radialGradient id='RG' color-interpolation='sRGB' spreadMethod='repeat'>
+ <stop stop-color='green' offset='0%' ></stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='0%' >
+  <animate attributeName='offset' from='.0' to='.2' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='10%' id='g-1'>
+  <animate attributeName='offset' from='.1' to='.3' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='20%' id='o-1'>
+  <animate attributeName='offset' from='.2' to='.4' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='30%' id='g-2'>
+  <animate attributeName='offset' from='.3' to='.5' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='40%' id='o-2'>
+  <animate attributeName='offset' from='.4' to='.6' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='50%' id='g-3'>
+  <animate attributeName='offset' from='.5' to='.7' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='60%' id='o-3'>
+  <animate attributeName='offset' from='.6' to='.8' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='70%' id='g-4'>
+  <animate attributeName='offset' from='.7' to='.9' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='80%' id='o-4'>
+  <animate attributeName='offset' from='.8' to='1' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='90%' id='g-5'>
+  <animate attributeName='offset' from='.9' to='1' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='100%' id='o-5'>
+ </stop>
+</radialGradient>
+</defs>
+<rect id='RGRect' x='0' y='0' height='700' width='700' style='fill: url(#RG); stroke: none;' />
+
+<use id='RGRect2' xlink:href='#RGRect' transform='translate(50,0)' />
+
+</svg>

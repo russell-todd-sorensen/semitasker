@@ -1,0 +1,93 @@
+<svg version='1.1' 
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ width='2100'
+ height='2100'
+ viewport='0 0 2100 2100'
+ baseProfile='full'>
+ <style>
+ svg {
+     fill: orange;
+     background-color: orange;
+ }
+ </style>
+<defs>
+<radialGradient id='RG' color-interpolation='sRGB' spreadMethod='pad'>
+ <stop stop-color='rgba(0,0,0,0)' offset='-20%' >
+  <animate attributeName='offset' from='-0.20' to='0.0' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='-10%' >
+  <animate attributeName='offset' from='-0.10' to='0.1' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='0%' >
+  <animate attributeName='offset' from='-0.00' to='0.2' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='10%' id='g-1'>
+  <animate attributeName='offset' from='0.1' to='0.3' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='20%' id='o-1'>
+  <animate attributeName='offset' from='0.2' to='0.4' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='30%' id='g-2'>
+  <animate attributeName='offset' from='0.3' to='0.5' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='40%' id='o-2'>
+  <animate attributeName='offset' from='0.4' to='0.6' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='50%' id='g-3'>
+  <animate attributeName='offset' from='0.5' to='0.7' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='60%' id='o-3'>
+  <animate attributeName='offset' from='0.6' to='0.8' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='70%' id='g-4'>
+  <animate attributeName='offset' from='0.7' to='0.9' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='80%' id='o-4'>
+  <animate attributeName='offset' from='0.8' to='1.0' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='90%' id='g-5'>
+  <animate attributeName='offset' from='0.9' to='1.1' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='100%' id='o-5'>
+  <animate attributeName='offset' from='1.0' to='1.2' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='green' offset='110%' id='o-5'>
+  <animate attributeName='offset' from='1.1' to='1.3' dur='3s' repeatCount='indefinite' />
+ </stop>
+ <stop stop-color='rgba(0,0,0,0)' offset='120%' id='o-5'>
+  <animate attributeName='offset' from='1.2' to='1.4' dur='3s' repeatCount='indefinite' />
+ </stop>
+</radialGradient>
+
+<g id="wave-tile">
+<rect id='RGRect' x='0' y='0' height='700' width='700' style='fill: url(#RG); stroke: none;' />
+
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(-350,-350)' />
+<use id='RGRect2' xlink:href='#RGRect' transform='translate(350,0)' />
+
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(-350,350)' />
+<use id='RGRect2' xlink:href='#RGRect' transform='translate(0,-350)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(700,0)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(-350,0)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(1050,0)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(1400,0)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(0,350)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(350,350)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(700,350)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(1050,350)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(350,-350)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(700,-350)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(1050,-350)' />
+<use id='RGRect3' xlink:href='#RGRect' transform='translate(1400,350)' />
+</g>
+
+<filter id="wave-filter-1" >
+ <feImage xlink:href="#wave-tile" result="tile" x="0" y="0" height="700" width="1400" />
+ <feTile in="tile" result="tile" stitchTiles="no-stitch"  />
+ <feComposite in2="SourceGraphic" in="final" operator="atop" />
+</filter>
+</defs>
+<rect id="display-rect" x="30" y="30" height="1600" width="1600" filter="url(#wave-filter-1)" />
+</svg>
