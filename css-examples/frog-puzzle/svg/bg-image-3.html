@@ -105,6 +105,13 @@
 <use href="#pt2" x="0" y="0" />
 </clipPath>
 
+<g id="xyz" >
+    <use href="#img2" clip-path="url(#cp14)" x="0" y="0" />
+    <use href="#pt1" x="385" y="0" />
+    <line id="l1" x1="0" y1="0" x2="385" y="96" />
+    <circle id="c1" cx="448" cy="48" r="4" />
+</g>
+
 </defs>
 <g id="p1" transform="translate(100,100)" >
  <use id="ref1" href="#pt1" fill="green" filter="url(#f2)" />
@@ -166,8 +173,16 @@
                           values="0 0;0 96;-128 96;-128 0;0 0"
                           dur="2.5s"
                           repeatCount="indefinite"/>
-<use href="#img2" clip-path="url(#cp14)" x="0" y="0" />
-<use href="#pt1" x="385" y="0" />
+<use href="#img2" clip-path="url(#cp14)" x="0" y="0" >
+    
+    <animate attributeName="x" attributeType="XML" values="0;-100;0" dur="5s" begin="0s" repeatCount="indefinite" />
+
+</use>
+<use href="#pt1" x="385" y="0" >
+
+    <animate attributeName="x" attributeType="XML" values="385;285;385" dur="5s" begin="0s" repeatCount="indefinite" />
+
+</use>
 <line id="l1" x1="0" y1="0" x2="385" y="96" />
 <circle id="c1" cx="448" cy="48" r="4" />
 </g>
@@ -181,12 +196,18 @@
                                   to="359 141 101.66667"
                                   dur="2s"
                                   repeatCount="indefinite"/>
-<use href="#img2" clip-path="url(#cp21)" x="0" y="0" />
+<use href="#img2" clip-path="url(#cp21)" x="0" y="0" >
+    </use>
 <use href="#pt2" x="0" y="0" />
 <circle id="c2" cx="141" cy="101.66667" r="4" />
 </g>
 
+
+<rect id="abc" fill="url(/images/building-1.jpg)" x="100" y="200" height="90" width="128"/>
 </g>
+
+
+<use href="#xyz" x="385"  y="0"/>
 
 </svg>
 <script src="/js/d3.v5.js" ></script>

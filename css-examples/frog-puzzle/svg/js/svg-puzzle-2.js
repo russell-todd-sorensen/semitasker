@@ -2,8 +2,12 @@
 
 var myPuzzle;
 
-function startNewPuzzle(pictureId,puzzleId,imageId,tileSizeId,dimId,timeId,borderId) {
-  myPuzzle = new ImagePuzzle(pictureId,puzzleId,imageId,tileSizeId,dimId,timeId,borderId)
+function startNewPuzzle(pictureId,svgId,puzzleId,imageId,tileSizeId,dimId,timeId,borderId) {
+  myPuzzle = null;
+  d3.select("#" + puzzleId).html("");
+  d3.select ("#" + svgId + " defs").html("");
+
+  myPuzzle = new ImagePuzzle(pictureId,svgId,puzzleId,imageId,tileSizeId,dimId,timeId,borderId)
 }
 
 class ImagePuzzle  {
@@ -11,6 +15,7 @@ class ImagePuzzle  {
   puzzleImage;
 
   pictureId;
+  svgId;
   puzzleId;
   puzzleDropzone;
   randomMoves;
@@ -38,24 +43,28 @@ class ImagePuzzle  {
   empty;
   rows;
   cols;
+  svg;
+  defs;
+  svgImage;
 
-  constructor (pictureId,puzzleId,imageId,tileSizeId,dimId,timeId,borderId) {
+  constructor (pictureId,svgId,puzzleId,imageId,tileSizeId,dimId,timeId,borderId) {
 
     this.pictureId = pictureId;
+    this.svgId = svgId;
     this.puzzleId = puzzleId;
     this.puzzleImage = new Image();
     Log.Notice("Processing form...");
     this.puzzleImage.src = $('#' + imageId).val();
     Log.Notice("Image=" + this.puzzleImage.src);
-    this.tileDim = $('#' + tileSizeId).val();
-    this.puzzleRowsNCols = $('#'+dimId).val();
-    this.randomizeTime = $('#' + timeId).val();
-    this.borderWidth = $('#' + borderId).val();
+    this.tileDim = parseInt($('#' + tileSizeId).val());
+    this.puzzleRowsNCols = parseInt($('#'+dimId).val());
+    this.randomizeTime = parseInt($('#' + timeId).val());
+    this.borderWidth = parseInt($('#' + borderId).val());
     //image, tileMin, rowsTry, colsTry, border
 
     this.generatePuzzle2(this.puzzleImage);
   }
-  
+
   generatePuzzle2 (image) {
 
     this.height = image.height;
@@ -75,39 +84,51 @@ class ImagePuzzle  {
       Log.Notice("cols=" + this.cols + "width/cols=" + this.width/this.cols);
       this.cols--;
     }
-    
+
     if (this.cols == 0) {
       Log.Error("Cols is zero");
       this.cols = 1;
     }
-      
+
     this.tileWidth = Math.floor(this.width/this.cols);
-    
+
     while (this.rows > 0 && this.height/this.rows < this.tileDim) {
       this.rows--;
     }
-    
+
     if (this.rows == 0) {
       Log.Error("Rows is zero");
       this.rows = 1;
     }
-    
+
     this.tileHeight = Math.floor(this.height/this.rows);
-    
+
     this.puzzleWidth =  this.tileWidth * this.cols + (2*this.borderWidth*this.cols);
     this.puzzleHeight =  this.tileHeight * this.rows + (2*this.borderWidth*this.rows);
-    
+
     Log.Notice("tileHeight=" + this.tileHeight + " tileWidth=" + this.tileWidth);
     Log.Notice ("rows=" + this.rows + " cols=" + this.cols);
-    
+
+    //Beginning point to change to SVG for puzzle generation
+
+    this.svg = d3.select("#" + this.svgId)
+        .attr("width",this.puzzleWidth)
+        .attr("height", this.puzzleHeight)
+        .attr("viewPort","0 0 " + this.puzzleWidth + " " + this.puzzleHeight)
+        .attr("fill", "#aaa");
+
+    this.defs = this.svg.select("defs").html("");
+
+    this.svgImage = this.defs.append("image")
+        .attr("id","image-1")
+        .attr("href",this.puzzleImage.src);
+
     this.puzzle = d3.select('#'+ this.puzzleId)
-      .html("")
-      .style("width",this.puzzleWidth + "px")
-      .style("height",this.puzzleHeight + "px");
-    
+
     this.tileData = new Array();
     this.puzzleDropzone = new Array();
     // create the tileData 
+    let i = 0;
     for (let row = 0; row<this.rows; row++) {
       this.puzzleDropzone[row] = new Array();
       for (let col = 0; col<this.cols; col++) {
@@ -117,50 +138,109 @@ class ImagePuzzle  {
         tmp.tileId = "t-" + row + "-" + col;
         tmp.class = "tile";
         
-        tmp.tileX = this.tileWidth * col + (2*this.borderWidth*col);
-        tmp.tileY = this.tileHeight * row + (2*this.borderWidth*row); 
+        tmp.tileX = this.tileWidth * col ;//+ (2*this.borderWidth*col);
+        tmp.tileY = this.tileHeight * row ;//+ (2*this.borderWidth*row); 
         tmp.obj   = this;
         this.tileData[this.tileData.length] = tmp;
-        this.puzzleDropzone[row][col] = {left: tmp.tileX, top: tmp.tileY, tileId: tmp.tileId};
+        this.puzzleDropzone[row][col] = {
+          index: i + 0, 
+          left: tmp.tileX + 0,
+          tileX: tmp.tileX + 0,
+          top: tmp.tileY + 0, 
+          tileY: tmp.tileY + 0,
+          tileId: tmp.tileId + "", 
+          row:tmp.row + 0, 
+          col:tmp.col + 0, 
+          obj:this
+        };
+
+        i++;
       }
     }
+
+    this.defs
+      .selectAll(".tile-rect")
+      .data(this.tileData)
+      .enter()
+      .append("rect")
+      .attr("id",function(d,i) {
+        return "r-" + d.row + "-" + d.col;
+      })
+      .attr("class","tile-rect")
+      .attr("x",function(d,i) {
+        return d.tileX;
+      })
+      .attr("y",function(d,i) {
+        return d.tileY
+      })
+      .attr("height",this.tileHeight)
+      .attr("width",this.tileWidth);
+
+    this.defs
+      .selectAll("clipPath")
+      .data(this.tileData)
+      .enter()
+      .append("clipPath")
+      .attr("id",function(d,i) {
+        return "cp-" + d.row + "-" + d.col;
+      })
+      .append("use")
+      .attr("href",function(d,i) {
+        return "#r-" + d.row + "-" + d.col;
+      });
 
     this.puzzle
       .selectAll(".tile")
       .data(this.tileData)
       .enter()
-      .append("div")
+      .append("g")
       .attr("title",function(d,i) {
         let title = ""
           + "i='" + i 
-          +  "', id='" + d.tileId 
+          + "', id='" + d.tileId 
           + "', row='" + d.row 
           + "', col='" + d.col 
           + "', bgp ='"
-            + ("-" + (d.tileX - (2*d.col*d.obj.borderWidth)))
-            + "px " 
-            + ("-" + (d.tileY - (2*d.row*d.obj.borderWidth)))
-            + "px"
+          + ("-" + (d.tileX - (2*d.col*d.obj.borderWidth)))
+          + "px " 
+          + ("-" + (d.tileY - (2*d.row*d.obj.borderWidth)))
+          + "px"
           + "'"
         return title;
       })
-      .html(function(d,i) {return "<span>" + i+ "</span>";})
-      .attr("id", function(d,i) {return  d.tileId ;})
+      //.html(function(d,i) {return "<span>" + i+ "</span>";})
+      .attr("id", function(d,i) {return  d.tileId;})
       .attr("class", function(d,i) {return d.class;})
-      .style("top", function(d,i) {return d.tileY + "px";})
-      .style("left", function(d,i) {return d.tileX + "px";})
-      .style("height", this.tileHeight + "px")
-      .style("width",this.tileWidth + "px")
-      .style("background-image","url(" + image.src + ")")
-      .style("background-position",function(d,i) {
-        return "" 
-          + ("-" + (d.tileX - (2*d.col*d.obj.borderWidth))) 
-          + "px " 
-          + ("-" + (d.tileY - (2*d.row*d.obj.borderWidth))) 
-          + "px";
-        }
-      );
+      .attr("transform",function(d,i) {
+        return "translate(0 0)";
+      })
+      .on("click",this.moveTile)
+      .append("use")
+      .attr("href","#image-1")
+      .attr("clip-path",function(d,i) {
+        return "url(#cp-" + d.row + "-" + d.col + ")";
+      });
 
+    this.puzzle
+      .selectAll("g.tile")
+      .append("use")
+      .attr("href",function(d,i) {
+        return "#r-" + d.row + "-" + d.col;
+      });
+
+    this.puzzle
+      .selectAll("g.tile")
+      .append("text")
+      .attr("class","tile-number")
+      .attr("x",function(d,i) {
+        return (d.tileX + (d.obj.tileWidth)/2).toFixed(2)
+      })
+      .attr("y",function(d,i) {
+        return (d.tileY + d.obj.tileHeight - .12*d.obj.tileHeight).toFixed(2);
+      })
+      .text(function(d,i) {
+        return i;
+      })
     // remove the empty piece
     this.emptyY = this.rows-1;
     this.emptyX = 0;
@@ -168,136 +248,10 @@ class ImagePuzzle  {
     d3.select("#" + this.empty.tileId).remove();
     this.empty.tileId = "empty";
 
-    d3.selectAll(".tile")
-      .on("click", this.moveTile );
-
     this.randomizePuzzle();
 
     return;
   }
-
-  /* NOT USING RIGHT NOW
-  generatePuzzle (image) {
-
-    this.height = image.height;
-    this.width  = image.width;
-
-    // this will record the moves generated by the randomize function
-
-    this.cols = this.rows = this.puzzleRowsNCols;
-
-    d3.select("#" + this.pictureId)
-      .style("width", this.width + "px")
-      .style("height", this.height + "px")
-      .style("background-image", "url(" + image.src + ")");
-
-    // test out the puzzle dimensions vs minimum
-    while (this.cols > 0 && this.width/this.cols < this.tileDim) {
-      Log.Notice("cols=" + this.cols + "width/cols=" + this.width/this.cols);
-      this.cols--;
-    }
-    
-    if (this.cols == 0) {
-      Log.Error("Cols is zero");
-      this.cols = 1;
-    }
-      
-    this.tileWidth = Math.floor(this.width/this.cols);
-    
-    while (this.rows > 0 && this.height/this.rows < this.tileDim) {
-      this.rows--;
-    }
-    
-    if (this.rows == 0) {
-      Log.Error("Rows is zero");
-      this.rows = 1;
-    }
-    
-    this.tileHeight = Math.floor(this.height/this.rows);
-    
-    this.puzzleWidth =  this.tileWidth * this.cols + (2*this.borderWidth*this.cols);
-    this.puzzleHeight =  this.tileHeight * this.rows + (2*this.borderWidth*this.rows);
-    
-    Log.Notice("tileHeight=" + this.tileHeight + " tileWidth=" + this.tileWidth);
-    Log.Notice ("rows=" + this.rows + " cols=" + this.cols);
-    
-    this.puzzle = d3.select('#'+ this.puzzleId)
-      .html("")
-      .style("width",this.puzzleWidth + "px")
-      .style("height",this.puzzleHeight + "px");
-    
-    this.tileData = new Array();
-    this.puzzleDropzone = new Array();
-    // create the tileData 
-    for (let row = 0; row<this.rows; row++) {
-      this.puzzleDropzone[row] = new Array();
-      for (let col = 0; col<this.cols; col++) {
-        let tmp = new Object();
-        tmp.row = row;
-        tmp.col = col;
-        tmp.tileId = "t-" + row + "-" + col;
-        tmp.class = "tile";
-        
-        tmp.tileX = this.tileWidth * col + (2*this.borderWidth*col);
-        tmp.tileY = this.tileHeight * row + (2*this.borderWidth*row); 
-        tmp.obj   = this;
-        this.tileData[this.tileData.length] = tmp;
-        this.puzzleDropzone[row][col] = {right: tmp.tileX, bottom: tmp.tileY, tileId: tmp.tileId};
-      }
-    }
-
-    this.puzzle
-      .selectAll(".tile")
-      .data(this.tileData)
-      .enter()
-      .append("div")
-      .attr("title",function(d,i) {
-        let title = ""
-          + "i='" + i 
-          +  "', id='" + d.tileId 
-          + "', row='" + d.row 
-          + "', col='" + d.col 
-          + "', bgp ='" + ("" 
-            + (d.tileX + d.obj.tileWidth - (2*d.col*d.obj.borderWidth)) 
-            + "px " 
-            + (d.tileY + d.obj.tileHeight - (2*d.row*d.obj.borderWidth)) 
-            + "px")
-          + "'"
-        return title;
-      })
-      .html(function(d,i) {return "<span>" + i+ "</span>";})
-      .attr("id", function(d,i) {return  d.tileId ;})
-      .attr("class", function(d,i) {return d.class;})
-      .style("bottom", function(d,i) {return d.tileY + "px";})
-      .style("right", function(d,i) {return d.tileX + "px";})
-      .style("height", this.tileHeight + "px")
-      .style("width",this.tileWidth + "px")
-      .style("background-image","url(" + image.src + ")")
-      .style("background-position",function(d,i) {
-        return "" 
-          + (d.tileX + d.obj.tileWidth - (2*d.col*d.obj.borderWidth)) 
-          + "px " 
-          + (d.tileY + d.obj.tileHeight - (2*d.row*d.obj.borderWidth)) 
-          + "px";
-        }
-      );
-
-    // remove the empty piece
-    this.emptyY = 0;
-    this.emptyX = this.cols-1;
-    this.empty = this.puzzleDropzone[this.emptyY][this.emptyX];
-    d3.select("#" + this.empty.tileId).remove();
-    this.empty.tileId = "empty";
-
-    d3.selectAll(".tile")
-      .on("click", this.moveTile );
-
-    this.randomizePuzzle();
-
-    return;
-  }
-*/
-  
 
   nextMoves(exclude) {
     let row = this.emptyY;
@@ -345,38 +299,6 @@ class ImagePuzzle  {
     Log.Notice("nextMoves choices=" + choices + " exclude=" + exclude);
 
     return choices;
-  }
-
-  // With wrap-around, there will usually be 3 moves, (except when a dim == 2)
-  // and exclude will be the previous (row,col) tuple.
-  westTile(col,row) {
-    return [(col+cols-1)%cols,row]
-  } 
-  nextMovesWrapAround(exclude) {
-    let row = this.emptyY;
-    let col = this.emptyX;
-    let tmpChoices = [1,2,3,4] // go w, e, n, s
-    let choices = [];
-    let excludeX = exclude[0]
-    let excludeY = exclude[1]
-
-    // west
-    let move = [(col+1)%this.cols,(row)] 
-
-    if ( !(( (col+cols-1)%this.cols == excludeX) && (row == excludeY)) ) {
-        choices.push(1)
-    }
-    if ( !(( (col+cols+1)%this.cols == excludeX) && (row == excludeY)) ) {
-        choices.push(2)
-    }
-    if ( !(( (col == excludeX) && (row+rows+1)%rows == excludeY)) ) {
-        choices.push(3)
-    }
-    if ( !(( (col == excludeX) && (row+rows-1)%rows == excludeY)) ) {
-        choices.push(4)
-    }
-
-    return choices
   }
 
   randomizePuzzle() {
@@ -461,31 +383,6 @@ class ImagePuzzle  {
     this.moveTileInterval = setInterval("myPuzzle.moveTiles()", Math.ceil(1000*this.randomizeTime/(origSteps)));
   }
 
-  randomizePuzzleWrapAround() {
-
-    let maxDim = (this.rows<this.cols?this.cols:this.rows);
-    maxDim = (maxDim<4?4:maxDim);
-    let origSteps = maxDim*this.rows*this.cols;
-    let steps = origSteps;
-    let rand;
-    let dropzone;
-    let exclude = [];
-    let choices = [];
-    this.randomMoves = [];
-    // initialize Math.random()
-    let index = Math.floor(Math.random(Date.now)*choices.length);
-
-    while (steps > 0) {
-
-      // avoid moving tile back to where it just came from
-      choices = this.nextMoves(exclude);
-      index = Math.floor(Math.random()*choices.length);
-      steps--;
-    } // end while
-    this.moveIndex = 0;
-    this.moveTileInterval = setInterval("myPuzzle.moveTiles()", Math.ceil(1000*this.randomizeTime/(origSteps)));
-  }
-
   moveTiles() {
 
     if (this.moveIndex >= this.randomMoves.length) {
@@ -497,12 +394,14 @@ class ImagePuzzle  {
     let tileRow = tile[0];
     let tileCol = tile[1];
     let dropzone = this.puzzleDropzone[tileRow][tileCol];
+    let index = dropzone.index;
     let tileId = dropzone.tileId;  
     Log.Notice("In moveTiles() moveIndex=" + this.moveIndex + " tileId=" + tileId);
     //d3.select('#' + tileId)
       //.on("each", moveTile);
-    $('#' + tileId).click();
-
+    //this.puzzle.select('#' + tileId).on("click")(dropzone, {moveIndex:this.moveIndex, tile: tile}, index);
+    $("#" + tileId).click();
+    document.getElementById(tileId).__onclick();
     this.moveIndex++;
   }
 
@@ -565,17 +464,18 @@ class ImagePuzzle  {
     } else {
     
       Log.Notice("Move tile into empty position row=" + d.row 
-        + " col=" + d.col + " from row=" + origRow + " col=" + origCol);  
+        + " col=" + d.col + " from row=" + origRow + " col=" + origCol);
 
+      //d3.select(this)
       d3.select(this)
+      //myObj.puzzle.select('#' + d.tileId)
         .transition()
         .duration(250)
-        .style("top", dropZone.top + "px")
-        .style("left", dropZone.left + "px");
+        .attr("transform", "translate(" + (dropZone.left - d.tileX) + " " + (dropZone.top - d.tileY)  + ")")
       
       // update the tileID stuff here as well
-      myObj.puzzleDropzone[d.row][d.col].tileId = d.tileId;
-      myObj.puzzleDropzone[origRow][origCol].tileId = "empty";
+      myObj.puzzleDropzone[d.row][d.col].tileId = d.tileId; //was myObj
+      myObj.puzzleDropzone[origRow][origCol].tileId = "empty"; // was myObj
 
       Log.Notice("From: dropzone[" + origRow + "][" + origCol + "].tileId=" 
         + myObj.puzzleDropzone[origRow][origCol].tileId );

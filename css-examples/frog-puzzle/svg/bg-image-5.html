@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<title>Moving tiles in SVG</title>
+<style>
+#t2 {
+    font-size: 48px;
+    fill: black;
+    font-family: 'Keania One', Arial;
+}
+#svg2 {
+    background-color: white;
+    cursor: pointer;
+}
+.A {
+    font-size: 20px;
+    font-family: Arial;
+}
+#r1 {
+    fill: rgba(0,0,0,0);
+    stroke: red;
+    stroke-width: 2;
+    fill: url('/images/building-1.jpg');
+}
+#mpoints2 {
+}
+#pt1,
+#pt2 {
+    fill: none;
+    stroke: grey;
+    stroke-width: 2px;
+}
+#l1 {
+    stroke: yellow;
+    stroke-width: 2px;
+}
+#c1,
+#c2 {
+    stroke: red;
+    stroke-width: 2px;
+    fill: none;
+}
+</style>
+</head>
+<body>
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    x="0"
+    y="0"
+    height="1500"
+    width="2000"
+    >
+
+<defs>
+<polygon id="pt1" points="0,0 128,0 128,96 0,96" />
+<polygon id="pt2" points="100,100 228,145 95,60 100,100" />
+
+<filter id="f1" >
+<feImage href="/images/building-1.jpg" result="tile"/>
+<feTile in="tile" result="tile2" />
+</filter>
+
+<filter id="f2" x="0" y="0" width="100%" height="100%">
+<feImage href="/images/building-1.jpg" result="tile" />
+<!--<feTile in="tile" result="tile2" /> -->
+</filter>
+
+<image id="img2" href="/images/desert-1.jpg" />
+
+<rect id="rect-11" height="96" width="128" stroke="#888" fill="none" stroke-width="2" />
+<rect id="rect-12" height="96" width="128" stroke="#888" fill="none" stroke-width="2" x="128" y="0" />
+<rect id="rect-13" height="96" width="128" stroke="#888" fill="none" stroke-width="2" x="256" y="0" />
+<rect id="rect-14" height="96" width="128" stroke="#888" fill="none" stroke-width="2" x="384" y="0" />
+
+<clipPath id="cp11">
+    <use href="#rect-11" />
+</clipPath>
+
+<clipPath id="cp12">
+    <use href="#rect-12" />
+</clipPath>
+
+<clipPath id="cp13">
+    <use href="#rect-13" />
+</clipPath>
+
+<clipPath id="cp14">
+    <use href="#rect-14" />
+</clipPath>
+
+<g id="xyz" >
+    <use href="#img2" clip-path="url(#cp14)" x="0" y="0" />
+    <use href="#pt1" x="385" y="0" />
+    <line id="l1" x1="0" y1="0" x2="385" y="96" />
+    <circle id="c1" cx="448" cy="48" r="4" />
+</g>
+
+</defs>
+  <g id="t-0-0" transform onClick="mouseover(this)">
+    <use href="#img2" clip-path="url(#cp11)" />
+    <use href="#rect-11" />
+  </g>
+  <g id="t-0-1" transform  onClick="mouseover(this)">
+    <use href="#img2" clip-path="url(#cp12)" />
+    <use href="#rect-12"/>
+  </g>
+  <g id="t-0-2" transform  onClick="mouseover(this)">
+    <use href="#img2" clip-path="url(#cp13)" />
+    <use href="#rect-13" />
+  </g>
+  <g id="t-0-3" transform  onClick="mouseover(this)">
+    <use href="#img2" clip-path="url(#cp14)" />
+    <use href="#rect-14" />
+  </g>
+</svg>
+<script src="/js/d3.v5.js" ></script>
+<script src="/js/geometric.js" ></script>
+
+<script>
+
+var centroid 
+window.addEventListener('DOMContentLoaded', () => {
+    centroid = geometric.polygonCentroid([[100,100], [228,145], [95,60], [100,100]])
+});
+
+function mouseover(d) {
+  d3.select(d)
+    .transition()
+      .duration(750)
+      .attr("transform", "translate(0 128)");
+}
+
+</script>
+</body>
+</html>

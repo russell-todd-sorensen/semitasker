@@ -1,0 +1,163 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<title>Frog Puzzle</title>
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="css/svg-puzzle-2.css" media="all">
+
+<style type="text/css">
+/* place any page unique styles here */
+
+body {
+  font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+  font-size: 1.2em;
+}
+
+th {
+  text-align: right;
+  text-transform: capitalize;
+}
+.tile {
+  text-align: center;
+  vertical-align: middle;
+}
+.tile span {
+  display: inline-block;
+  width: 45px;
+  color: white;
+  background-color: rgba(255,255,255,.25);
+  font-size: 36px;
+}
+#puzzle-container {
+    margin: 23px;
+}
+</style>
+</head>
+<body>
+
+<div id="picture"></div>
+<div id="puzzle-container">
+<svg
+  id="svg2"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  externalResourcesRequired="true">
+<style>
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+#t2 {
+font-size: 48px;
+fill: black;
+font-family: 'Keania One', Arial;
+}
+#svg2 {
+background-color: white;
+cursor: pointer;
+}
+.A {
+font-size: 20px;
+font-family: Arial;
+}
+#r1 {
+fill: rgba(0,0,0,0);
+stroke: red;
+stroke-width: 2;
+fill: url('/images/building-1.jpg');
+}
+#mpoints2 {
+}
+#pt1,
+#pt2 {
+fill: none;
+stroke: grey;
+stroke-width: 2px;
+}
+#l1 {
+stroke: yellow;
+stroke-width: 2px;
+}
+#c1 {
+stroke: red;
+stroke-width: 2px;
+fill: none;
+
+}
+.tile-rect {
+    stroke: #888;
+    fill: #000;
+    fill-opacity: 0.05;
+    stroke-width: 2px;
+}
+#svg2,
+#frame,
+#puzzle {
+  background-color: #888;
+  fill: #888;
+}
+#puzzle .tile text {
+  font-size: 1.5em;
+  text-anchor: middle;
+  text-shadow:1px 1px 2.5px rgba(255,255,255,.9),
+  -1px -1px 2.5px rgba(255,255,255,.9),
+  -1px 1px 2.5px rgba(255,255,255,.9),
+   1px -1px 2.5px rgba(255,255,255,.9);
+}
+</style>
+<defs></defs>
+<g id="frame" transform="translate(5 4)">
+<g id="puzzle">
+
+</g>
+</g>
+</svg>
+</div>
+<div id="form">
+<form onsubmit="return false;">
+<table id="form-table">
+<tr>
+ <th>Image:</th>
+ <td><input id="image" name="image" value="https://home.semitasker.com/css-examples/frog-puzzle/images/frog-35.jpg" size="40" type="url"></td>
+</tr>
+<tr>
+ <th>Tile Size:</th>
+ <td><input id="tile-size" name="tileSize" value="75" type="number"></td>
+</tr>
+<tr>
+ <th>Rows &amp; Cols:</th>
+ <td><input id="rowsNCols" name="rowsNCols" value="5" type="number"></td>
+</tr>
+<tr>
+ <th>Randomize Time:</th>
+ <td><input id="rand-time" name="rand-time" size="3" value="10" type="number"> Seconds</td>
+</tr>
+<tr>
+ <th>Border:</th>
+ <td><input id="border" name="border" size="2" value="1" type="number"></td>
+</tr>
+<tr>
+<th colspan="2"><input id="button" 
+    onClick="startNewPuzzle('picture','svg2','puzzle','image','tile-size','rowsNCols','rand-time','border');" 
+    value="Click to Start Puzzle">
+</th>
+</tr>
+</table>
+</form>
+</div>
+
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+<script type="text/javascript" src="js/svg-puzzle-2.js"></script>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+
+  Log.Notice("Page Loaded!");
+  //Log.Hide();
+});
+</script>
+</body>
+</html>
