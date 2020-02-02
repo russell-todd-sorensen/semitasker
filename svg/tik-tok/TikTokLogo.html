@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>TikTok Text</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css"
+      href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="/css/fonts.css" media="all" />
+<style>
+@font-face {
+  font-family: "Bravura";
+  src: 
+      url("/css/fonts/svg/Bravura.svg") format("svg"),
+      url("/css/fonts/woff/Bravura.woff2") format("woff2"),
+      url("/css/fonts/woff/Bravura.woff") format("woff"),;
+}
+
+svg {
+    display: block;
+    background-color: tan;
+    font-family: "Pacifico";
+    font-family: "Leckerli One";
+    font-family: "Bravura";
+    font-family: "Stalinist One";
+}
+
+#base {
+    background-color: white;
+}
+
+#text-input {
+    display: block;
+    width: 20em;
+    font-family: "Stalinist One";
+    font-size: 4em;
+    height: .95em;
+}
+</style>
+
+</head>
+<body>
+<form id="form1" onsubmit="return false;" spellcheck="false">
+<input id="text-input"
+    name="text-input"
+    value="TikTok Text"
+    onkeyup="updateText('textInput','text-input','text-bg','m2-text');"
+    onchange="updateText('textInput','text-input','text-bg','m2-text');"/>
+</form>
+<svg
+ id="svg1"
+ x="0"
+ y="0"
+ width="1000"
+ height="700"
+ viewport="0 0 1000 700"
+ xmlns:svg="http://www.w3.org/2000/svg"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+
+<text id="textInput"></text>
+
+<rect id="red-rect" fill="#F00" height="100%" width="100%" />
+<rect id="anti-red-rect" fill="#0FF" height="100%" width="100%" />
+<rect id="white-bg" fill="#FFF" height="100%" width="100%" />
+
+<rect id="text-bg" fill="#000" height="100%" width="1000"/>
+
+<filter id="tik-tok-filter"  x="-10%" y="-10%"  height="120%" width="120%">
+  <feImage id="img-red" xlink:href="#red-rect" result="red-image" />
+  <feComposite in="red-image" operator="in" in2="SourceGraphic" result="r1" />
+
+  <feOffset in="r1" dx="2" dy="2" result="red-offset" />
+  <feImage id="img-anti-red" xlink:href="#anti-red-rect" result="anti-red-image" />
+
+  <feComposite in="anti-red-image" operator="in" in2="SourceGraphic" result="r2" />
+  <feOffset in="r2" dx="-2" dy="-2" result="anti-red-offset" />
+
+  <feComposite in="red-offset" in2="anti-red-offset" operator="xor" result="offset-final" />
+
+  <feComposite in="red-offset" in2="anti-red-offset" operator="in" result="in-offset" />
+  <feImage id="img-white" xlink:href="#white-bg" result="white-image" />
+
+  <feComposite in="white-image" in2="in-offset" operator="in" result="white-final" />
+
+  <feComposite in="offset-final" in2="white-final" operator="over" result="final" />
+
+</filter>
+</defs>
+<g id="base" >
+<g id="mg4" fill="black" transform="translate(0 0)">
+  <use id="tik-tok-background" xlink:href="#text-bg" />
+  <use xlink:href="#textInput" id="m2-text" x=".1em" y="1em" filter="url(#tik-tok-filter)" font-size="8em" fill="#FFFFFF" />
+</g>
+</g>
+</svg>
+<script>
+
+var updateText = function (textId, inputId, textBgId, displayTextId) {
+    let val = document.getElementById(inputId).value;
+    document.getElementById(textId).innerHTML = val;
+
+    let bbox = document.getElementById(displayTextId).getBBox();
+    let textBg = document.getElementById(textBgId);
+    let svg = document.getElementById('svg1');
+    let x = (bbox.x - 5).toFixed(2)
+    let y = (bbox.y - 5).toFixed(2)
+    let height = (bbox.height).toFixed(2)
+    let width  = (bbox.width  + 25).toFixed(2)
+    svg.setAttribute('x',x)
+    svg.setAttribute('y',y)
+    svg.setAttribute('height',height);
+    svg.setAttribute('width',width);
+    svg.setAttribute('viewport',[x,y,width,height].join(' '));
+    textBg.setAttribute('width',width);
+
+    //updateBackground(textId, inputId, textBgId, displayTextId)
+}
+
+var onBackgroundChange = function () {
+}
+
+var updateBackground = function (textId, inputId, textBgId, displayTextId) {
+    let bbox = document.getElementById(displayTextId).getBBox();
+    let textBg = document.getElementById(textBgId);
+    let svg = document.getElementById('svg1');
+    let x = (bbox.x - 5).toFixed(2)
+    let y = (bbox.y - 5).toFixed(2)
+    let height = (bbox.height).toFixed(2)
+    let width  = (bbox.width  + 25).toFixed(2)
+    svg.setAttribute('x',x)
+    svg.setAttribute('y',y)
+    svg.setAttribute('height',height);
+    svg.setAttribute('width',width);
+    svg.setAttribute('viewport',[x,y,width,height].join(' '));
+    textBg.setAttribute('width',width);
+
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    updateText('textInput','text-input','text-bg','m2-text');
+});
+</script>
+</body>
+</html>

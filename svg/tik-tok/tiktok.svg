@@ -1,0 +1,27 @@
+<svg 
+ xmlns="http://www.w3.org/2000/svg"
+ viewBox="-2000 -30 4859 3363"
+ shape-rendering="geometricPrecision"
+ text-rendering="geometricPrecision"
+ image-rendering="optimizeQuality"
+ fill-rule="evenodd"
+ clip-rule="evenodd">
+ <path d="M2081 0
+    c55 473 319 755 778 785
+    v532c-266 26-499-61-770-225
+    v995c0 1264-1378 1659-1932 753-356-583-138-1606 1004-1647
+    v561c-87 14-180 36-265 65-254 86-398 247-358 531 77 544 1075 705 992-358
+    V1h551z"/>
+<path d="M2081 0
+    c55 473 319 755 778 785" stroke="green" stroke-width="20" stroke-opacity=".5" fill="none" />
+<path d="M0 0
+    c55 473 319 755 778 785" stroke="green" stroke-width="20" stroke-opacity=".5" fill="none" />
+<path d="M778 785
+    v532c-266 26-499-61-770-225" stroke="yellow" stroke-width="20" stroke-opacity=".5" fill="none" />
+<path d="M0 1100
+    v995c0 1264-1378 1659-1932 753-356-583-138-1606 1004-1647" stroke="red" stroke-width="20" stroke-opacity=".5" fill="none" />
+<path d="M-930 1200
+    v561c-87 14-180 36-265 65-254 86-398 247-358 531 77 544 1075 705 992-358" stroke="silver" stroke-width="20" stroke-opacity=".5" fill="none" />
+<path d="M-561 2000
+    V1h561" stroke="tan" stroke-width="20" stroke-opacity=".5" fill="none" />
+</svg>

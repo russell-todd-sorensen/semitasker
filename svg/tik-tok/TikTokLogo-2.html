@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>TikTok Text</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css"
+      href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="/css/fonts.css" media="all" >
+<style>
+@font-face {
+  font-family: "Bravura";
+  src: 
+      url("/css/fonts/svg/Bravura.svg") format("svg"),
+      url("/css/fonts/woff/Bravura.woff2") format("woff2"),
+      url("/css/fonts/woff/Bravura.woff") format("woff"),;
+}
+
+svg {
+    display: block;
+    font-family: "Pacifico";
+    font-family: "Leckerli One";
+    font-family: "Bravura";
+    font-family: "Stalinist One";
+    shape-rendering: geometricPrecision;
+    text-rendering: geometricPrecision;
+    image-rendering: optimizeQuality;
+}
+
+#base {
+    background-color: white;
+}
+
+#text-input {
+    display: block;
+    width: 20em;
+    font-family: "Stalinist One";
+    font-size: 4em;
+    height: .95em;
+}
+form {
+    padding-top: 5px;
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js" defer></script>
+<script src="/dsvg/js/fonts.js" defer></script>
+<script src="/js/d3.v3.js" defer></script>
+<script src="/dsvg/devel/mouse-wheel.js" defer></script>
+</head>
+<body>
+    <svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true">
+<style>
+#t2 {
+    font-size: 48px;
+    fill: black;
+    font-family: 'Keania One', Arial;
+}
+#svg-scroller {
+    fill: silver;
+    cursor: pointer;
+    font-family: 'Days One';
+    font-size: 20px;
+}
+
+#scroller-1 {
+    fill: black;
+    stroke-width: 3px;
+    stroke: silver;
+}
+
+#scroll-value {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+#font-value {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+#scroll-text {
+    font-size: 100px;
+}
+#scroll-font {
+    font-size: 21.5px;
+}
+</style>
+<defs>
+ <text id="scroll-value" >128</text>
+ <rect id="scroller" height="80" width="300" />
+ <text id="font-value">Stalinist One</text>
+ <text id="font-index">90</text>
+ <rect id="font-scroller" height="40" width="300" />
+</defs>
+<g id="controls" transform="scale(1)" >
+<g id="scroll-container"  transform="translate(5,10) scale(1)">
+    <use id="scroller-1" class="scroll" xlink:href="#scroller" />
+    <use id="scroll-text" xlink:href="#scroll-value" x="150" y="75" />
+</g>
+
+<g id="scroll-container"  transform="translate(5,90) scale(1)">
+    <use id="scroller-2" xlink:href="#font-scroller" />
+    <use id="scroll-font" xlink:href="#font-value" x="150" y="26" />
+</g>
+</g>
+<g id="text-group" transform="translate(10,250)">
+<use id="text-display" xlink:href="#t2" x="10" y="10" />
+</g>
+</svg>
+<form id="form1" onsubmit="return false;" spellcheck="false">
+<input id="text-input"
+    name="text-input"
+    value="TikTok Text&#x1D160;"
+    onkeyup="updateText(...updateIds);"
+    onchange="updateText(...updateIds);"/>
+</form>
+
+<svg
+ id="svg1"
+ x="0"
+ y="0"
+ width="1000"
+ height="700"
+ viewport="0 0 1000 700"
+ xmlns:svg="http://www.w3.org/2000/svg"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ shape-rendering="geometricPrecision"
+ text-rendering="geometricPrecision"
+ image-rendering="optimizeQuality">
+<defs>
+
+<text id="textInput"></text>
+
+<rect id="red-rect" fill="#F00" height="100%" width="100%" />
+<rect id="anti-red-rect" fill="#0FF" height="100%" width="100%" />
+<rect id="white-bg" fill="#FFF" height="100%" width="100%" />
+
+<rect id="text-bg" fill="#000" height="100%" width="1000"/>
+
+<filter id="tik-tok-filter"  x="-10%" y="-10%"  height="120%" width="120%">
+  <feImage id="img-red" xlink:href="#red-rect" result="red-image" />
+  <feComposite in="red-image" operator="in" in2="SourceGraphic" result="r1" />
+
+  <feOffset in="r1" dx="2" dy="2" result="red-offset" />
+  <feImage id="img-anti-red" xlink:href="#anti-red-rect" result="anti-red-image" />
+
+  <feComposite in="anti-red-image" operator="in" in2="SourceGraphic" result="r2" />
+  <feOffset in="r2" dx="-2" dy="-2" result="anti-red-offset" />
+
+  <feComposite in="red-offset" in2="anti-red-offset" operator="xor" result="offset-final" />
+
+  <feComposite in="red-offset" in2="anti-red-offset" operator="in" result="in-offset" />
+  <feImage id="img-white" xlink:href="#white-bg" result="white-image" />
+
+  <feComposite in="white-image" in2="in-offset" operator="in" result="white-final" />
+
+  <feComposite in="offset-final" in2="white-final" operator="over" result="final" />
+
+</filter>
+</defs>
+<g id="base" >
+<use id="tik-tok-background" xlink:href="#text-bg" />
+<g id="mg4" fill="black" transform="translate(0 0)" filter="url(#tik-tok-filter)" >
+  <use id="tik-tok-eight-note" xlink:href="#white" x="0.2em" y="0.2em" transform="scale(6)" />
+  <use xlink:href="#textInput" id="m2-text" x="1.75em" y="1.2em" 
+    font-size="8em" fill="#FFFFFF" />
+</g>
+</g>
+</svg>
+
+<script>
+
+var config = {
+    textId: 'm2-text',
+    svgId: 'svg2',
+    formFontSizeId: 'fontSize',
+    formFontFamilyId: 'fontFamily',
+    textHref: '#m2-text',                //the hash is part of the href :(
+    defaultFontIndex: 4,                 // Arial
+    fontSize: 128,
+    updateFontSize: false,
+    fontFamily: 'Arial',
+    updateFontFamily: false,
+}
+
+var replaceStyleProperty = function(doc,refId,property,newValue) {
+    let ele = document.getElementById(refId);
+    let styleCode = ele.getAttributeNS(null,"style");
+    let styleNVArray;
+    let styleProperty;
+    let styleStringArray = []
+    let styleString = ""
+
+    if (styleCode) {
+
+        let styleList = styleCode.split(";")
+        for (var i=0;i<styleList.length;i++) {
+            styleNVArray = styleList[i].split(":")
+            styleProperty = styleNVArray[0].trim().toLowerCase()
+            if (styleProperty == property || styleProperty == "") {
+                continue
+            } else {
+                styleStringArray[styleStringArray.length] = 
+                    styleProperty + ": " + styleNVArray[1];
+            }
+        }
+    }
+
+    styleStringArray[styleStringArray.length] = property + ":" + newValue;
+    styleString = styleStringArray.join(";")
+    ele.setAttributeNS(null,"style",styleString);
+    setTimeout("updateBackground('" + [...updateIds].join("','")  + "')",50);
+}
+var updateText = function (textId, inputId, textBgId, displayTextId) {
+    let val = document.getElementById(inputId).value;
+    document.getElementById(textId).innerHTML = val;
+
+    //updateBackground(textId, inputId, textBgId, displayTextId);// Doesn't work on initial load
+    //$('#' + displayTextId).click(); // doesn't work on initial load.
+    setTimeout("updateBackground('" + [...updateIds].join("','")  + "')",50);
+}
+
+var onResizeText = function () {
+    updateBackground(...updateIds);
+}
+
+var updateBackground = function (textId, inputId, textBgId, displayTextId,displayBoxId) {
+    let bbox = document.getElementById(displayBoxId).getBBox();
+    let textBg = document.getElementById(textBgId);
+    let svg = document.getElementById('svg1');
+    let x = (bbox.x - 5).toFixed(2)
+    let y = (bbox.y - 5).toFixed(2)
+    let height = (bbox.height + 50).toFixed(2)
+    let width  = (bbox.width  + 50).toFixed(2)
+    svg.setAttribute('x',x)
+    svg.setAttribute('y',y)
+    svg.setAttribute('height',height);
+    svg.setAttribute('width',width);
+    svg.setAttribute('viewport',[x,y,width,height].join(' '));
+    textBg.setAttribute('width',width);
+}
+
+var textObj;
+var updateIds = ['textInput','text-input','text-bg','m2-text','mg4']
+
+window.addEventListener('DOMContentLoaded', () => {
+    textObj = document.getElementById('m2-text');
+    textObj.onclick = onResizeText;
+    updateText(...updateIds);
+    //$('#m2-text').click();
+    init();
+});
+</script>
+<svg id="svg3"
+ xmlns:svg="http://www.w3.org/2000/svg"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ viewBox="0 0 48.59 33.63"
+ shape-rendering="geometricPrecision"
+ text-rendering="geometricPrecision"
+ image-rendering="optimizeQuality"
+ fill-rule="evenodd"
+ clip-rule="evenodd"
+ x="0"
+ y="0"
+ width="49.59"
+ height="33.63">
+<defs>
+<path id="tt" d="M20.81 0
+   c0.55 4.73 3.19 7.55 7.78 7.85
+   v5.32c-2.66 0.26-4.99-0.61-7.70-2.25
+   v9.95c0 12.64-13.78 16.59-19.32 7.53-3.56-5.83-1.38-16.06 10.04-16.47
+   v5.61c-0.87 0.14-1.80 0.36-2.65 0.65-2.54 0.86-3.98 2.47-3.58 5.31 0.77 5.44 10.75 7.05 9.92-3.58
+   V0.01h5.51z"/>
+<rect id="r1" x="0" y="0" width="100%" height="100%" />
+</defs>
+<g id="black">
+    <use id="bg-white" x="0" y="0" width="48.59" height="33.63" fill="white" />
+    <use id="tik-tok-black" xlink:href="#tt" x="0" y="0" width="48.59" height="33.63" />
+</g>
+<g id="white">
+    <use id="bg-black" xlink:href="#tt" x="0" y="0" width="48.59" height="33.63" fill="black" />
+    <use id="tik-tok-white" xlink:href="#tt" x="0" y="0" width="48.59" height="33.63" fill="white" />
+</g>
+</svg>
+</body>
+</html>
