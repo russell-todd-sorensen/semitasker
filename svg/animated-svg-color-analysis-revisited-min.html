@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>SVG Color Analysis</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css"
+      href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<link rel="stylesheet" href="/css/fonts.css" media="all" />
+<style>
+@font-face {
+  font-family: "Bravura";
+  src: 
+      url("/css/fonts/svg/Bravura.svg") format("svg"),
+      url("/css/fonts/woff/Bravura.woff2") format("woff2"),
+      url("/css/fonts/woff/Bravura.woff") format("woff"),;
+}
+  svg {
+    font-family: Pacifico;
+    font-family: "Leckerli One";
+    font-family: "Bravura";
+  }
+</style>
+</head>
+<body>
+<svg 
+ x="0" 
+ y="0" 
+ height="6400" 
+ width="2600" 
+ viewport="0 0 325 225"
+ xmlns:svg="http://www.w3.org/2000/svg"
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+
+<rect id="red-rect" fill="#F00" height="100%" width="100%" />
+<rect id="anti-red-rect" fill="#0FF" height="100%" width="100%" />
+<rect id="black-bg" fill="#000" height="100%" width="100%" />
+<rect id="white-bg" fill="#FFF" height="100%" width="100%" />
+
+<filter id="tik-tok-4"  x="-10%" y="-10%"  height="120%" width="120%">
+  <feImage id="img-red" xlink:href="#red-rect" result="red-image" />
+  <feComposite in="red-image" operator="in" in2="SourceGraphic" result="r1" />
+
+  <feOffset in="r1" dx="2" dy="2" result="red-offset" />
+  <feImage id="img-anti-red" xlink:href="#anti-red-rect" result="anti-red-image" />
+
+  <feComposite in="anti-red-image" operator="in" in2="SourceGraphic" result="r2" />
+  <feOffset in="r2" dx="-2" dy="-2" result="anti-red-offset" />
+
+  <feComposite in="red-offset" in2="anti-red-offset" operator="xor" result="offset-final" />
+
+  <feComposite in="red-offset" in2="anti-red-offset" operator="in" result="in-offset" />
+  <feImage id="img-white" xlink:href="#white-bg" result="white-image" />
+
+  <feComposite in="white-image" in2="in-offset" operator="in" result="white-final" />
+
+  <feComposite in="offset-final" in2="white-final" operator="over" result="final" />
+
+</filter>
+</defs>
+
+<g id="mg4" transform="scale(1) translate(20 50)" fill="black">
+  <use id="tik-tok-background" xlink:href="#black-bg" />
+  <text id="m2-text" x="60" y="320" font-size="8em" filter="url(#tik-tok-4)" fill="#FFFFFF">q &#119102;
+    &#x1D13E;</text>
+</g>
+
+</svg>
+
+</body>
+</html>

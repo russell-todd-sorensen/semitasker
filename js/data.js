@@ -1003,16 +1003,17 @@ Data.Images = [
               { url:'/images/mset-opt/mset-6192.png', alt:'mset-6192.png'},
 ];
 
-
 Data.Filters = [
-
   {url: "", alt: "No Filter"},
   {url: "url(#ZZ)", alt: "ZZ"},
   {url: "url(#X)", alt: "X"},
   {url: "url(#X2)", alt: "X2"},
   {url: "url(#X2-Animate)", alt: "X2-Animate"},
+  {url: "url(#X2-2-Animate)", alt: "X2-2-Animate"},
   {url: "url(#X3-Animate)", alt: "X3-Animate"},
   {url: "url(#Y)", alt: "Y"},
+  {url: "url(#Y-2)", alt: "Y-2"},
+  {url: "url(#Y-3)", alt: "Y-3"},
   {url: "url(#X)", alt: "Z"},
   {url: "url(#XX)", alt: "XX"},
   {url: "url(#XX2)", alt: "XX2 Vertical"},

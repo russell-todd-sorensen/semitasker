@@ -91,9 +91,9 @@ border: solid #060 1px;
 }
 </style>
 
-<script type="text/ecmascript" src="../../js/jquery-1.7.1.js"></script>
-<script type="text/javascript" src="../../js/d3.v3.js"></script>
-<script type="text/javascript" src="../../js/log-2.js"></script>
+<script type="text/ecmascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/d3.v3.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
 <script type="text/javascript" src="displace-exp.js"></script>
 <script>
 
@@ -547,7 +547,9 @@ $(document).ready(function () {
  		scale="5"
     xChannelSelector="R"
 		in="red-component" in2="red-component"
-		result="displaceRed" />
+		result="displaceRed" >
+	<animate attributeName="scale" values="5;0;15;5" begin="0s" dur="10s" repeatCount="indefinite" />
+	</feDisplacementMap>
     
  <feDisplacementMap id="displace-all-map-green"
  		scale="5"
@@ -586,7 +588,9 @@ $(document).ready(function () {
  		scale="5"
     xChannelSelector="R"
 		in="anti-red-component" in2="anti-red-component"
-		result="displaceAntiRed" />
+		result="displaceAntiRed" >
+		<animate attributeName="scale" values="5;0;15;5" begin="0s" dur="10s" repeatCount="indefinite" />
+	</feDisplacementMap>
     
  <feDisplacementMap id="displace-map-anti-green"
  		scale="5"
@@ -753,10 +757,10 @@ I.A.M.
 <rect x="5" y="5" height="105" width="150" style="stroke: orange; stroke-width: 1; fill: none;" />
 <use id="blue-image-large" xlink:href="#imageX" style="filter: url(#displace-blue);" x="5" y="5"/>
 </g>
-<g transform="translate(160,110)" >
+<g transform="translate(160,110)">
 
 <rect x="5" y="5" height="105" width="150" style="stroke: orange; stroke-width: 1; fill: none;" />
-<use id="all-colors-large" xlink:href="#imageX" style="filter: url(#displace-all);" x="5" y="5"/>
+<use id="all-colors-large" xlink:href="#imageX"  style="filter: url(#displace-all-anti);" x="5" y="5"/>
 </g>
 
 

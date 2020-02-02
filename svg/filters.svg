@@ -1,285 +1,6 @@
-<!DOCTYPE html>
-<html lang="en_US">
-<head>
-<meta charset="utf-8" >
-
-<title>Filter Mania!</title>
-
-<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
-<link rel="stylesheet" type="text/css"
-      href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
-<link rel="stylesheet" href="/css/logo-maker-1.css">
-<link rel="stylesheet" href="/css/green-form.css" >
-
-<style>
-body {
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-}
-.cell {
-    display: none;
-}
-#bottom-middle-cell {
-    display: block;
-}
-
-.a {
-    color: #ed1c24;
-}
-.b {
-    color: #f68b1f;
-}
-.c {
-    color: #00a651;
-}
-.d {
-    color: #00abbd;
-}
-.e {
-    color: #ffa;
-    background-color: #aaa;
-}
-
-#font-form {
-    display: block;
-    position: absolute;
-    top: 10px;
-    left: 10px;
-}
-
-.font-form-on {
-    /*position: absolute;
-    top: 10px;
-    right: 10px;*/
-}
-
-/* override #panel  styles */
-#panel fieldset {
-    width: 400px;
-}
-
-/* for the font-distort form */
-
-#distort-font ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    width: 400px;
-}
-
-#distort-font li {
-
-}
-
-#distort-font label {
-    cursor: pointer;
-}
-
-#distort-font li.expand {
-    width: 400;
-}
-
-#panel input,
-#panel input[type="range"] {
-    display: inline-block;
-}
-
-#panel li.expand span {
-    display: inline-block;
-    width: 4em;
-    text-align: right;
-}
-
-.c1 {
-    stroke: #000000;
-    stroke-opacity: 0.7;
-    stroke-width: 2;
-}
-
-.c2 {
-    stroke: #000000;
-    stroke-opacity: 0.3;
-    stroke-width: 2;
-}
-.c3 {
-    stroke: #000000;
-    stroke-opacity: 0.4;
-    stroke-width: 2;
-}
-.c4 {
-    stroke: #000000;
-    stroke-opacity: 0.5;
-    stroke-width: 2;
-}
-.c6 {
-    stroke: #000000;
-    stroke-opacity: 0.6;
-    stroke-width: 2;
-}
-
-.c12 {
-    stroke: #000000;
-    stroke-opacity: 0.7;
-    stroke-width: 2;
-}
-
-.c22 {
-    stroke: #000000;
-    stroke-opacity: 0.3;
-    stroke-width: 2;
-}
-.c32 {
-    stroke: #000000;
-    stroke-opacity: 0.4;
-    stroke-width: 2;
-}
-.c42 {
-    stroke: #000000;
-    stroke-opacity: 0.5;
-    stroke-width: 2;
-}
-.c62 {
-    stroke: #000000;
-    stroke-opacity: 0.6;
-    stroke-width: 2;
-}
-</style>
-<script src="/js/jquery-1.7.1.js"></script>
-<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
-<script src="/js/d3.v3.js"></script>
-<script src="/js/log-2.js"></script>
-<script src="/js/data.js"></script>
-<script src="/js/form-save-restore.js"></script>
-<script src="/js/binary-hex-conversions.js"></script>
-<script src="/js/example-library.js"></script>
-<script src="/js/svg-transform.js"></script>
-<script src="/js/panel-show-hide.js"></script>
-<script>
-
-var myImageURLs = [];
-
-panelHidden["controls"] = [{
-  id:'panel1',
-  visible:true,
-  css:{
-    true:{
-      position:'relative'
-    },
-    false:{
-      position:'absolute'
-    }
-  },
-  extra: [
-    {
-      id:'controls',
-      css:{
-        true: {
-          position:'relative',
-          zIndex:0,
-          "background-color":'transparent'
-        },
-        false: {
-          position:'absolute',
-          zIndex:100,
-          "background-color":'#444444'
-        }
-      }
-   },
- ]},{
-  id:'panel2',
-  visible:false,
-  css:{
-    true:{
-      position:'relative'
-    },
-    false:{
-      position:'absolute'
-    }
-  },
-  extra: [
-    {
-      id:'controls',
-      css:{
-        true: {
-          position:'relative',
-          zIndex:0,
-          "background-color":'transparent'
-        },
-        false: {
-          position:'absolute',
-          zIndex:100,
-          "background-color":'#444444'
-        }
-      }
-   },
- ]}
-];
-
-$(document).ready(function () {
-  Data.setStartImage('imageChoice');
-  //Log.Hide();
-  Log.Remove();
-});
-
-</script>
-</head>
-<body>
-<div id="font-form" class="font-form-on">
-<div id="panel">
-<form id="distort-font">
-<fieldset>
-<legend onClick="togglePanel('controls');">General Animation Options</legend>
-<ul id="panel1">
- <li><label for="imageFilter">Select Filter</label>
- <select id="imageFilter"
-  onChange="SvgTransform.changeFilter('imageFilter', 'image2','graphics-2' )">
-
-  </select>
-  </li>
- <li><label for="imageFilter2">Select Filter 2</label>
- <select id="imageFilter2"
-  onChange="SvgTransform.changeFilter('imageFilter2', 'clickMe', 'graphics-container')">
-  </select>
-  </li>
- <li>
-  <label for="imageChoice">Select Image</label>
-  <select
-    id="imageChoice"
-    name="imageChoice"
-    onChange="SvgTransform.changeImage('imageChoice','image2');
-         SvgTransform.adjustObjectHeightWidth('image2', 'RGRect', 'linear-displace-rect-1'); ">
-
- </select>
- </li>
-</ul>
-</fieldset>
-</form>
-<form id="add-image" onsubmit="return false;">
-<fieldset>
-  <legend onclick="togglePanel('controls')" 
-    title="Images will only be available on this device." 
-    >Add Your Own Images</legend>
-<ul id="panel2">
- <li>
-   <label for="externalImageURL">Image URL:</label>
-   <input id="new-url" name="new-url" value="">
- </li>
- <li>
-   <label for="imageAltLabel">Image Name:</label>
-   <input id="new-alt" name="new-alt" value="">
- </li>
- <li>
-   <label for="new-image-submit">Add Image:</label>
-   <input name="new-image-submit" id="new-image-submit" 
-    type="button" value="Add Image" 
-    onClick="Data.addImageToMyImageURLs('new-url', 'new-alt','imageChoice')" >
- </li>
- </ul>
-</fieldset>
-</form>
- </div>
- </div>
- <svg
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg
    id="iam-svg"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -660,41 +381,23 @@ $(document).ready(function () {
 <filter id="X2-Animate"  color-interpolation="sRGB">
 <feConvolveMatrix
     order="3"
-    kernelMatrix="-1  -1 -1
-                  -1  20 -1
-                  -1  -1 -1"
+    kernelMatrix="-1 -1 -1
+                  -1  10 -1
+                  -1 -1 -1"
     edgeMode="duplicate" >
  <animate
     attributeName="kernelMatrix"
-    values="-1  -1 -1
-            -1   8 -1
-            -1  -1 -1;
+    values="-1 -1 -1
+            -1  0 -1
+            -1 -1 -1;
             -1 -1 -1
             -1  0 -1
             -1 -1 -1;
             -1 -1 -1
-            -1  5 -1
-            -1 -1 -1;
-            -1 -1 -1
-            -1  10 -1
-            -1 -1 -1;
-            -1 -1 -1
-            -1  15 -1
-            -1 -1 -1;
-            -1 -1 -1
             -1 20 -1
             -1 -1 -1;
             -1 -1 -1
             -1 20 -1
-            -1 -1 -1;
-            -1 -1 -1
-            -1  15 -1
-            -1 -1 -1;
-            -1 -1 -1
-            -1  10 -1
-            -1 -1 -1;
-            -1 -1 -1
-            -1  5 -1
             -1 -1 -1;
             -1 -1 -1
             -1  0 -1
@@ -706,29 +409,7 @@ $(document).ready(function () {
     dur="24s"
     repeatCount="indefinite" />
 </feConvolveMatrix>
-</filter><filter id="X2-2-Animate"  color-interpolation="sRGB">
-  <feConvolveMatrix
-      order="3"
-      kernelMatrix="-1  -1 -1
-                    -1  6 -1
-                    -1  -1 -1"
-      edgeMode="duplicate" >
-   <animate
-      attributeName="kernelMatrix"
-      values="-1  -1 -1
-              -1   6 -1
-              -1  -1 -1;
-              -1 -1 -1
-              -1  10 -1
-              -1 -1 -1;
-              -1  -1 -1
-              -1  6 -1
-              -1  -1 -1;"
-      begin="0s;clickMe.click"
-      dur="24s"
-      repeatCount="indefinite" />
-  </feConvolveMatrix>
-  </filter>
+</filter>
 <filter id="X3-Animate"  color-interpolation="sRGB">
 <feConvolveMatrix
     order="3"
@@ -779,28 +460,6 @@ $(document).ready(function () {
     edgeMode="duplicate" />
 </filter>
 
-<filter id="Y-2"  color-interpolation="sRGB">
-  <feConvolveMatrix
-      order="5"
-      kernelMatrix="1  1   1  1  1
-                    1 -2  -2 -2  1
-                    1 -2  0.5  -2  1
-                    1 -2  -2 -2  1
-                    1  1   1  1  1"
-      edgeMode="duplicate" />
-  </filter>
- 
-<filter id="Y-3"  color-interpolation="sRGB">
-  <feConvolveMatrix
-      order="5"
-      kernelMatrix="0.1  0.1  0.1  0.1  0.1
-                    0.1 -0.2 -0.2 -0.2  0.1
-                    0.1 -0.2 -1.5 -0.2  0.1
-                    0.1 -0.2 -0.2 -0.2  0.1
-                    0.1  0.1  0.1  0.1  0.1"
-      edgeMode="duplicate" />
-  </filter>
-  
 <filter id="Z"  color-interpolation="sRGB">
 <feConvolveMatrix
     order="3"
@@ -825,8 +484,7 @@ $(document).ready(function () {
               1 -2  -2 -2  1
               1  1   1  1  1"
     edgeMode="duplicate" >
-  <animate attributeName="kernelMatrix" 
-      values="0  0  0  0  0
+  <animate attributeName="kernelMatrix" values="0  0  0  0  0
               0  0   0  0  0
               0  0   1  0  0
               0  0   0  0  0
@@ -1177,9 +835,9 @@ $(document).ready(function () {
     repeatCount="indefinite" />
  </feGaussianBlur>
 <feComponentTransfer>
-    <!--                         White ----v
-                               Magenta---v v
-                                Black--v v v              -->
+    <!--                         White- - -v
+                               Magenta- -v v
+                                Black- v v v              -->
  <feFuncR type="discrete" tableValues="0 1 1 0 1 1 0 1 1 0 1 1" />
  <feFuncG type="discrete" tableValues="0 0 1 0 0 1 0 0 1 0 0 1" />
  <feFuncB type="discrete" tableValues="0 1 1 0 1 1 0 1 1 0 1 1" />
@@ -1253,9 +911,9 @@ $(document).ready(function () {
     repeatCount="indefinite" />
  </feGaussianBlur>
 <feComponentTransfer>
-    <!--                         White -----------v
-                               Magenta---v        v
-                                Black--v v        v              -->
+    <!--                         White - - - - - -v
+                               Magenta- -v        v
+                                Black- v v        v              -->
  <feFuncR type="discrete" tableValues="0 0.755    1 0 0.755      1 0 0.755      1 0 0.755      1" />
  <feFuncG type="discrete" tableValues="0 0        1 0 0          1 0 0          1 0 0          1" />
  <feFuncB type="discrete" tableValues="0 0.17645  1 0 0.17645    1 0 0.17645    1 0 0.17645    1" />
@@ -1588,7 +1246,7 @@ $(document).ready(function () {
 </filter>
 
 <script>
-
+// <![CDATA[
 var setComponentTransfer = function (selector, index, value) {
     var tableValues = "";
     for (var i = 0; i < 2;i++) {
@@ -1606,7 +1264,7 @@ setComponentTransfer("#dm1FuncR", 1, 0.5);
 setComponentTransfer("#dm1FuncG", 1, 0.9);
 setComponentTransfer("#dm1FuncB", 1, 0.2);
 //setComponentTransfer("#dm1FuncA", 2, 1.0);
-
+// ]]>
 </script>
 
 <filter id="sharpen-1" >
@@ -2138,7 +1796,6 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
  <feComposite in="current" in2="SourceGraphic" operator="atop" />
 </filter>
 
-
 <g id="image-bits-1" transform="scale(100)">
  <g filter="url(#blow-2)">
   <rect x="0" y="0" height="3" width="3" fill="#FF00FF" stroke="none" />
@@ -2146,33 +1803,201 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
  </g>
 </g>
 
+
+
+<!-- TicTocLike  Filter -->
+
+<rect id="red-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #FF0000;" />
+<rect id="green-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #00FF00;" />
+<rect id="blue-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #0000FF;" />
+
+<rect id="anti-red-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #00FFFF;" />
+<rect id="anti-green-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #FF00FF;" />
+<rect id="anti-blue-rect" height="100" width="100" x="0" y="0" style="stroke: none; fill: #FFFF00;" />
+
+<!-- primary color filters -->
+<filter id="color-red" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#FF0000"  result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="red-component" />
+</filter> 
+
+<filter id="color-green" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#00FF00"  result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="green-component" />
+</filter> 
+
+<filter id="color-blue" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#0000FF"  result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="blue-component" />
+</filter> 
+
+<!-- anti color filters -->
+<filter id="anti-color-red" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#00FFFF"  result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="anti-red-component" />
+</filter> 
+
+<filter id="anti-color-green" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#FF00FF"  result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="anti-green-component" />
+</filter> 
+
+<filter id="anti-color-blue" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#FFFF00"  result="tile" />
+ <feTile in="tile" result="tile" />
+ <feBlend mode="darken" in="tile" in2="SourceGraphic" result="anti-blue-component" />
+</filter> 
+
+<!-- displacement filters: primary colors -->
+
+<filter id="displace-red" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <!--<feImage xlink:href="#red-rect" height="100" width="100" result="red-tile" />-->
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#FF0000"  result="red-tile" />
+ <feTile in="red-tile" result="red-tile" />
+ <feBlend mode="darken" in="red-tile" in2="SourceGraphic" result="red-component" />
+
+ <feDisplacementMap id="displace-red-map"
+    scale="5"
+    xChannelSelector="R"
+    yChannelSelector="A"
+    in="red-component" in2="red-component"
+    result="displaceRed" />
+
+  <feComposite in="displaceRed" in2="SourceGraphic" operator="arithmetic"
+    k1="0" k2="1" k3="0" k4="0"  result="r1" />
+     
+  <feComposite in="r1" in2="SourceGraphic" operator="arithmetic"
+    k1="0" k2="1" k3="0" k4="0"  result="r2" />
+</filter>
+
+<filter id="displace-green" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <!--<feImage xlink:href="#green-rect" height="100" width="100" result="green-tile" />-->
+
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#00FF00"  result="green-tile" />
+ <feTile in="green-tile" result="green-tile" />
+ <feBlend mode="darken" in="green-tile" in2="SourceGraphic" result="green-component" />
+
+ <feDisplacementMap id="displace-green-map"
+    scale="5"
+    xChannelSelector="G"
+    yChannelSelector="A"
+    in="green-component" in2="green-component"
+    result="displaceGreen" />
+
+ <feComposite in="displaceGreen" in2="SourceGraphic" operator="arithmetic"
+    k1="0" k2="1" k3="0" k4="0"  result="r1" />
+     
+ <feComposite in="r1" in2="SourceGraphic" operator="arithmetic"
+    k1="0" k2="1" k3="0" k4="0"  result="r2" />
+</filter>
+
+
+<filter id="displace-blue" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <!--<feImage xlink:href="#blue-rect" height="100" width="100" result="blue-tile" />-->
+
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#0000FF"  result="blue-tile" />
+ <feTile in="blue-tile" result="blue-tile" />
+ <feBlend mode="darken" in="blue-tile" in2="SourceGraphic" result="blue-component" />
+
+ <feDisplacementMap id="displace-blue-map"
+    scale="5"
+    xChannelSelector="B"
+    yChannelSelector="A"
+    in="blue-component" in2="blue-component"
+    result="displaceBlue" />
+
+ <feComposite in="displaceBlue" in2="SourceGraphic" operator="arithmetic"
+    k1="0" k2="1" k3="0" k4="0"  result="r1" />
+     
+ <feComposite in="r1" in2="SourceGraphic" operator="arithmetic"
+    k1="0" k2="1" k3="0" k4="0"  result="r2" />
+</filter>
+
+
+<filter id="displace-all" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#FF0000"  result="red-tile" />
+ <feTile in="red-tile" result="red-tile" />
+ <feBlend mode="darken" in="red-tile" in2="SourceGraphic" result="red-component" />
+
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#00FF00"  result="green-tile" />
+ <feTile in="green-tile" result="green-tile" />
+ <feBlend mode="darken" in="green-tile" in2="SourceGraphic" result="green-component" />
+
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#0000FF"  result="blue-tile" />
+ <feTile in="blue-tile" result="blue-tile" />
+ <feBlend mode="darken" in="blue-tile" in2="SourceGraphic" result="blue-component" />
+
+ <feDisplacementMap id="displace-all-map-red"
+    scale="5"
+    xChannelSelector="R"
+    in="red-component" in2="red-component"
+    result="displaceRed" />
+    
+ <feDisplacementMap id="displace-all-map-green"
+    scale="5"
+    yChannelSelector="G"
+    in="green-component" in2="green-component"
+    result="displaceGreen" />
+
+ <feDisplacementMap id="displace-all-map-blue"
+    scale="5"
+    xChannelSelector="B"
+    yChannelSelector="B"
+    in="blue-component" in2="blue-component"
+    result="displaceBlue" />
+
+ <feComposite in="displaceRed" in2="displaceGreen" operator="arithmetic"
+    k1="0" k2="1" k3="1" k4="0"  result="r1" />
+  <feComposite in="r1" in2="displaceBlue" operator="arithmetic"
+    k1="0" k2="1" k3="1" k4="0"  result="r2" />
+<!--  <feComposite in="r2" in2="SourceGraphic" operator="in" /> -->
+</filter>
+
+<filter id="displace-all-anti" color-interpolation-filters="sRGB" x="0" y="0" height="100%" width="100%">
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#00FFFF"  result="anti-red-tile" />
+ <feTile in="anti-red-tile" result="anti-red-tile" />
+ <feBlend mode="darken" in="anti-red-tile" in2="SourceGraphic" result="anti-red-component" />
+
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#FF00FF"  result="anti-green-tile" />
+ <feTile in="anti-green-tile" result="anti-green-tile" />
+ <feBlend mode="darken" in="anti-green-tile" in2="SourceGraphic" result="anti-green-component" />
+
+ <feFlood x="0" y="0" height="100" width="100" flood-color="#FFFF00"  result="anti-blue-tile" />
+ <feTile in="anti-blue-tile" result="anti-blue-tile" />
+ <feBlend mode="darken" in="anti-blue-tile" in2="SourceGraphic" result="anti-blue-component" />
+
+ <feDisplacementMap id="displace-map-anti-red"
+    scale="50"
+    xChannelSelector="R"
+    in="anti-red-component" in2="anti-red-component"
+    result="displaceAntiRed" />
+    
+ <feDisplacementMap id="displace-map-anti-green"
+    scale="50"
+    yChannelSelector="G"
+    in="anti-green-component" in2="anti-green-component"
+    result="displaceAntiGreen" />
+
+ <feDisplacementMap id="displace-map-anti-blue"
+    scale="50"
+    xChannelSelector="B"
+    yChannelSelector="B"
+    in="anti-blue-component" in2="anti-blue-component"
+    result="displaceAntiBlue" />
+
+ <feComposite in="displaceAntiRed" in2="displaceAntiGreen" operator="arithmetic"
+    k1="0" k2="1" k3="1" k4="0"  result="r1" />
+ <feComposite in="r1" in2="displaceAntiBlue" operator="arithmetic"
+    k1="0" k2="1" k3="1" k4="0"  result="r2" /> 
+ <!--<feComposite in="anti-red-tile" in2="anti-red-tile"  operator="arithmetic"
+    k1="0" k2="1" k3="0" k4="0"  />-->
+</filter>
+
 </defs>
-
-
-<g id="clickMe" transform="translate(10,10)" filter="" >
-  <image id="image2" xlink:href="/images/Butterfly 6.jpg" height="100%" x="0" y="0" width="100%"/>
-</g>
-
-
- <g id="graphics-1"  transform="translate(550,0)" >
-  <text style="font-size: 120; fill: #abc; stroke: none;"
-        mask="#RG-mask" x="0" y="100">This is some text</text>
-  <use xlink:href="#rgb-grad-rect-1" x="360" y="20" fill="url(#red-grad)" />
-  <use xlink:href="#rgb-grad-rect-1" x="360" y="50" fill="url(#green-grad)"  />
-  <use xlink:href="#rgb-grad-rect-1" x="360" y="80" fill="url(#blue-grad)"/>
- </g>
-
-<g id="graphics-container"  transform="translate(550,0)">
- <g id="graphics-2" filter="">
-  <text style="font-size: 120; fill: #abc; stroke: none;"
-        mask="#RG-mask" x="0" y="100">This is some text</text>
-   <use xlink:href="#rgb-grad-rect-1" x="100" y="20" fill="url(#red-grad)" />
-   <use xlink:href="#rgb-grad-rect-1" x="100" y="50" fill="url(#green-grad)"  />
-   <use xlink:href="#rgb-grad-rect-1" x="100" y="80" fill="url(#blue-grad)"/>
- </g>
-</g>
-
 </svg>
-
-</body>
-</html>
