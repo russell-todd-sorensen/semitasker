@@ -1,4 +1,39 @@
+class HexConvert {
+    hexMap = {
+        "0":0,
+        "1":1,
+        "2":2,
+        "3":3,
+        "4":4,
+        "5":5,
+        "6":6,
+        "7":7,
+        "8":8,
+        "9":9,
+        "A":10,"a":10,
+        "B":11,"b":11,
+        "C":12,"c":12,
+        "D":13,"d":13,
+        "E":14,"e":14,
+        "F":15,"f":15
+    };
+    hexIntArray = [];
+    hexBase = 16;
+    value;
 
+    constructor (hexInteger) {
+        this.hexIntArray = ("" + hexInteger).split("");
+
+    };
+
+    toDecimal () {
+        this.value = 0;
+        for (let i=0;i<this.hexIntArray.length;i++) {
+            this.value = this.value*this.hexBase + this.hexMap[this.hexIntArray[i]];
+        }
+        return this.value;
+    }
+}
 
 class BaseConvert {
     constructor(inString,baseN,maxNigits,decPoint) {
@@ -119,6 +154,8 @@ var mapBinaryToA = function (binaryFloat) {
         }
     }).join("");
 }
+
+
 
 var decimalToBinaryA = function(decimal) {
     let bn = new BaseConvert(decimal,2).decToBaseN()
