@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Longest Valid Parentheses</title>
+<style>
+</style>
+<script src=""></script>
+
+<script>
+/* from: https://leetcode.com/problems/longest-valid-parentheses/
+Given a string containing just the characters '(' and ')', find
+ the length of the longest valid (well-formed) parentheses substring.
+
+Example 1:
+
+Input: "(()"
+Output: 2
+Explanation: The longest valid parentheses substring is "()"
+Example 2:
+
+Input: ")()())"
+Output: 4
+Explanation: The longest valid parentheses substring is "()()"
+
+*/
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+
+class Candidate {
+    startIndex;
+    endIndex;
+    balance;
+    maxValid = 0;
+    value = "";
+    validValue = "";
+    constructor(start) {
+        this.startIndex = start;
+        this.endIndex = -1;
+        this.balance = 1;
+        this.value = "(";
+        return this;
+    }
+    openP (current) {
+        this.balance++;
+        this.endIndex = current;
+        this.value+= "(";
+        return this.balance;
+    }
+    closeP (current) {
+        this.balance--;
+        this.value+= ")";
+        switch (this.balance) {
+        case 0: 
+            this.maxValid = current - this.startIndex + 1;
+            this.endIndex = current;
+            this.validValue = this.value;
+            break;
+        }
+        return this.balance;
+    }
+    toString () {
+        return this.value
+    }
+}
+
+var candidateList = [];
+
+var printCandidates=function() {
+    console.log(candidateList)
+}
+
+var longestValidParentheses = function(s) {
+
+    candidateList = [];
+    let longest = 1, // this is an impossible length
+        v,
+        cand,
+        max,
+        all = [];
+
+    for (let i=0;i<s.length;i++) {
+        v = s[i]
+        printCandidates();
+        switch (v) {
+        case "(":
+            for (let j=0;j<candidateList.length;j++) {
+                candidateList[j].openP(i);
+                
+            }
+            candidateList.unshift(new Candidate(i))
+            break;
+        case ")":
+            if (candidateList.length == 0) {
+                break; // valid can't start with )
+            }
+            for (let j=0;j<candidateList.length;j++) {
+                cand = candidateList[j];
+                cand.closeP(i);
+                if (cand.balance == 0) {
+                    max = cand.maxValid;
+                    if (max > longest) {
+                        longest = max;
+                        all = [cand];
+                    } else if (max == longest) {
+                        all.push(cand)
+                    }
+                } else 
+                if (cand.balance == -1) {
+                    candidateList.shift();
+                    j--
+                }
+            }
+            break;
+        default: 
+            return 0;
+            break;
+        }
+    }
+
+    return all;
+};
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

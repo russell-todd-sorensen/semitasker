@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Longest Valid Parentheses</title>
+<style>
+</style>
+<script src=""></script>
+
+<script>
+/* from: https://leetcode.com/problems/longest-valid-parentheses/
+Given a string containing just the characters '(' and ')', find
+ the length of the longest valid (well-formed) parentheses substring.
+
+Example 1:
+
+Input: "(()"
+Output: 2
+Explanation: The longest valid parentheses substring is "()"
+Example 2:
+
+Input: ")()())"
+Output: 4
+Explanation: The longest valid parentheses substring is "()()"
+
+*/
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+
+//candidate = [balance,len]
+
+var longestValidParentheses = function(s) {
+
+    let candidateList = [];
+    let longest = 1, // this is an impossible length
+        v,
+        max,
+        cbalance;
+
+    for (let i=0,vi=0;i<s.length;i++,vi++) {
+        v = s[i]
+        switch (v) {
+        case "(":
+            for (let j=0;j<candidateList.length;j++) {
+                candidateList[j][0]++
+                candidateList[j][1]++
+            }
+            candidateList.push([1,1])
+            break;
+        case ")":
+            if (candidateList.length == 0) {
+                break;
+            }
+            for (let j=candidateList.length-1;j>=0;j--) {
+                cbalance = --candidateList[j][0];
+                candidateList[j][1]++
+                if ( cbalance == 0) {
+                    max = candidateList[j][1]
+                    if (max > longest) {
+                        longest = max
+                    }
+                } else
+                if ( cbalance == -1) {
+                    candidateList.pop();
+                }
+            }
+            break;
+        default: 
+            vi--;
+            break;
+        }
+    }
+    return (longest < 2 ? 0 : longest);
+};
+// using stack with index of opening brackets to track current length
+longestValidParentheses = function(s) {
+    let sLen = s.length
+    let stack = [-1]
+    let maxLen = 0
+    for (let i = 0; i < sLen; i++) {
+        // for opening bracket, push index to array to track position
+        if (s[i] === "(") {
+            stack.push(i)
+        } else {
+            stack.pop()
+            const stackLen = stack.length
+            // if stack is empty, push the current index which denotes the start of the next substring
+            if (stackLen === 0) {
+                stack.push(i)
+            } else {
+                // otherwise, current substring is valid, get current length from current index to value at top of stack
+                const curLen = i - stack[stackLen - 1]
+                if (curLen > maxLen) {
+                    maxLen = curLen
+                }
+            }
+        }
+    }
+    return maxLen
+};
+
+var testCases = [
+    {val: "", len: 0},
+    {val: " ", len: 0},
+    {val: "() ", len: 2},
+    {val: ")", len: 0},
+    {val: "(", len: 0},
+    {val: "()", len: 2},
+    {val: ")))((()", len: 2},
+    {val: "()()", len: 4},
+    {val: "(()())", len: 6},
+    {val: "()()()))((", len: 6},
+    {val: ")))((()))", len: 6},
+    {val: "())()())))()()()()", len: 8},
+    {val: "())()())))(()()()()", len: 8},
+    {val: "((((()))))", len: 10},
+    {val: "(()(()())((())()(())", len: 10},
+    {val: "()()()()())", len: 10},
+    {val: "()()()()(()))", len: 12},
+    {val: "()()()()(()))(()(()())((())()(())", len: 12},
+    {val: "))(((((())()())(()))())()))())))))", len: 24},
+    {val: "((((((((()(())(())(((()))))))))()))))", len: 36},
+    {val: "((((((((((()(())(())(((()))))))))()))))", len: 38},
+    {val: ")())(()))((())))(((()))))((((())))))(((((()))))))(", len: 12},
+    //{val: , len: },
+    //{val: , len: },
+    //{val: , len: },
+   /// {val: , len: },
+
+]
+
+
+var testAll = function(testArray) {
+    let input,
+        result,
+        target;
+    for (let i=0;i<testArray.length;i++) {
+        input = testArray[i];
+        target = input.len;
+        let result = longestValidParentheses(input.val);
+        if (result == target) {
+            console.log(`PASS max of '${input.val}' = '${result}'`);
+        } else {
+            console.log(`FAIL max of '${input.val}' = '${result}' should be '${target}'`);
+        }
+    }
+}
+
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

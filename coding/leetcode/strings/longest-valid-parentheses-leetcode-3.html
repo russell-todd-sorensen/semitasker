@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Longest Valid Parentheses</title>
+<style>
+</style>
+<script src=""></script>
+
+<script>
+/* from: https://leetcode.com/problems/longest-valid-parentheses/
+Given a string containing just the characters '(' and ')', find
+ the length of the longest valid (well-formed) parentheses substring.
+
+Example 1:
+
+Input: "(()"
+Output: 2
+Explanation: The longest valid parentheses substring is "()"
+Example 2:
+
+Input: ")()())"
+Output: 4
+Explanation: The longest valid parentheses substring is "()()"
+
+*/
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+
+class Candidate {
+    startIndex;
+    endIndex;
+    balance;
+    maxValid = 0;
+    constructor(start) {
+        this.startIndex = start;
+        this.balance = 1;
+        return this;
+    }
+    openP (current) {
+        this.balance++;
+        return this.balance;
+    }
+    closeP (current) {
+        this.balance--;
+        if (this.balance == 0) {
+            this.maxValid = current - this.startIndex + 1;
+            this.endIndex = current;
+        }
+        return this.balance;
+    }
+}
+
+var candidateList = [];
+
+var longestValidParentheses = function(s) {
+
+    candidateList = [];
+    let longest = 1, // this is an impossible length
+        v,
+        cand,
+        max;
+
+    for (let i=0,vi=0;i<s.length;i++,vi++) {
+        v = s[i]
+        switch (v) {
+        case "(":
+            for (let j=0;j<candidateList.length;j++) {
+                candidateList[j].openP(vi);
+            }
+            candidateList.unshift(new Candidate(vi))
+            break;
+        case ")":
+            if (candidateList.length == 0) {
+                break;
+            }
+            for (let j=0;j<candidateList.length;j++) {
+                cand = candidateList[j]
+                cand.closeP(vi);
+                if (cand.balance == 0) {
+                    max = cand.maxValid;
+                    if (max > longest) {
+                        longest = max
+                    }
+                } else
+                if (cand.balance == -1) {
+                    candidateList.shift();
+                    j--
+                }
+            }
+            break;
+        default: 
+            vi--;
+            break;
+        }
+    }
+    return (longest < 2 ? 0 : longest);
+};
+
+
+var testCases = [
+    {val: "", len: 0},
+    {val: " ", len: 0},
+    {val: "() ", len: 2},
+    {val: ")", len: 0},
+    {val: "(", len: 0},
+    {val: "()", len: 2},
+    {val: ")))((()", len: 2},
+    {val: "()()", len: 4},
+    {val: "(()())", len: 6},
+    {val: "()()()))((", len: 6},
+    {val: ")))((()))", len: 6},
+    {val: "())()())))()()()()", len: 8},
+    {val: "())()())))(()()()()", len: 8},
+    {val: "((((()))))", len: 10},
+    {val: "(()(()())((())()(())", len: 10},
+    {val: "()()()()())", len: 10},
+    {val: "()()()()(()))", len: 12},
+    {val: "()()()()(()))(()(()())((())()(())", len: 12},
+    {val: "))(((((())()())(()))())()))())))))", len: 24},
+    {val: "((((((((()(())(())(((()))))))))()))))", len: 36},
+    {val: "((((((((((()(())(())(((()))))))))()))))", len: 38},
+    {val: ")())(()))((())))(((()))))((((())))))(((((()))))))(", len: 12},
+    {val: "a", len: 0},
+    {val: " a", len: 0},
+    {val: "(a) ", len: 2},
+    {val: ")a", len: 0},
+    {val: " a(", len: 0},
+    {val: "()a", len: 2},
+    {val: ")))a(((a)", len: 2},
+    {val: "(a)(a)", len: 4},
+    {val: "(()a()a)", len: 6},
+    {val: "()(a)()))((", len: 6},
+    {val: ")))(((a)))", len: 6},
+    {val: "()a)()())))(a)()()()", len: 8},
+    {val: "())()())a))(()(a)()()", len: 8},
+    {val: "((((())a)))", len: 10},
+    {val: "(()a(()())(((a))()(())", len: 10},
+    {val: "()()()()a())", len: 10},
+    {val: "()(a)()()(()))", len: 12},
+    {val: "()()()()(()a))(()(()())((())()(())", len: 12},
+    {val: "))(((((())()())(())a)())()))())))))", len: 24},
+    {val: "((((((((a()(())(())(((()))))))))()))))", len: 36},
+    {val: "(((((((((a(()(())(())(((()))))))))()))))", len: 38},
+    {val: ")())(()))((())a))(((()))))((((())))))(((((()))))))(", len: 12},
+    {val: " a ", len: 0},
+    {val: " ", len: 0},
+    {val: "()a ", len: 2},
+    {val: "a)", len: 0},
+    {val: "a(", len: 0},
+    {val: "a()", len: 2},
+    {val: "a)))((()a", len: 2},
+    {val: "()a()", len: 4},
+    {val: "a(a(a)a(a)a)a", len: 6},
+    {val: "()()(a)a)a)a((aa", len: 6},
+    {val: "a)))a(((a))a)a", len: 6},
+    {val: "())(a)())))a()()()(a)", len: 8},
+    {val: "(a))()()))a)a(()()(a)()", len: 8},
+    {val: "(a(((()a))))", len: 10},
+    {val: "(()((a)())(((a))()(()a)", len: 10},
+    {val: "()a(aaa)a()(a)(a))", len: 10},
+    {val: "(a)()()a()a(()))a", len: 12},
+    {val: "()()(a)()(())a)(()(()())a((())a()(()a)", len: 12},
+    {val: "))(a(((a(())()a())(())a)())()a))()a)))a))", len: 24},
+    {val: "(((((a((((a)(())(())a(((()a))))))a))()))a))", len: 36},
+    {val: "(((a((((((((a)(())(())(a((()))))))a))())a)))", len: 38},
+    {val: ")()a)(())a)((())a))(((()))a))((((())a))))((((a(()))))))a(", len: 12},
+    {val: "(this is a test)", len: 2},
+    {val: "(what will not work talked'd)( a  )(          )  ) )   ((", len: 6},
+    {val: "( )  (   ) ( a  )  adkj serl ker )a)a  ((aa", len: 6},
+    //{val: , len: },
+    //{val: , len: },
+    //{val: , len: },
+   /// {val: , len: },
+
+]
+
+
+var testAll = function(testArray) {
+    let input,
+        result,
+        target;
+    for (let i=0;i<testArray.length;i++) {
+        input = testArray[i];
+        target = input.len;
+        let result = longestValidParentheses(input.val);
+        if (result == target) {
+            console.log(`PASS max of '${input.val}' = '${result}'`);
+        } else {
+            console.log(`FAIL max of '${input.val}' = '${result}' should be '${target}'`);
+        }
+    }
+}
+
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+
