@@ -1,0 +1,183 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>3D Visualization</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/heapsort.js"></script>
+<script src="js/sudoku-max-class-1.js" ></script>
+
+<style>
+#spacer {
+    height: 200px;
+    width: 100%;
+    display: block;
+    background-color: rgba(0,255,255,.25);
+}
+
+#default-example {
+    background:rgba(0,0,0,.2)
+}
+
+.row {
+    margin: 0;
+    padding: 0;
+    border: none;
+    perspective: none;
+    transform-style:preserve-3d;
+}
+
+.row .cell {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-image-width: 0;
+    display: inline-block;
+    width:100px;
+    height:100px;
+    perspective:55000px;
+    transform-style:preserve-3d
+}
+
+.box-1 .face {background-color:hsl(0,50%,50%);}
+.box-2 .face {background-color:hsl(70,50%,50%);}
+.box-3 .face {background-color:hsl(140,50%,50%);}
+.box-4 .face {background-color:hsl(210,50%,50%);}
+.box-5 .face {background-color:hsl(280,50%,50%);}
+.box-6 .face {background-color:hsl(350,50%,50%);}
+.box-7 .face {background-color:hsl(60,50%,50%);}
+.box-8 .face {background-color:hsl(130,50%,50%);}
+.box-9 .face {background-color:hsl(200,50%,50%);}
+
+.box-1 {
+    transform: translateZ(0px);
+}
+.box-2 {
+    transform: translateZ(100px);
+}
+.box-3 {
+    transform: translateZ(200px);
+}
+.box-4 {
+    transform: translateZ(300px);
+}
+.box-5 {
+    transform: translateZ(400px);
+}
+.box-6 {
+    transform: translateZ(500px);
+}
+.box-7 {
+    transform: translateZ(600px);
+}
+.box-8 {
+    transform: translateZ(700px);
+}
+.box-9 {
+    transform: translateZ(800px);
+}
+
+.face {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:100%;
+    position:absolute;
+    perspective: none;
+    transform-style: preserve-3d;
+    backface-visibility:inherit;
+    font-size:60px;
+    color:#fff;
+    border: .5px solid black;
+}
+
+.front {
+    transform:translateZ(50px)
+}
+.back {
+    transform:rotateY(180deg) translateZ(50px);
+}
+.right {
+    transform:rotateY(90deg) translateZ(50px);
+}
+.left {
+    transform:rotateY(-90deg) translateZ(50px);
+}
+.top {
+    transform:rotateX(90deg) translateZ(50px);
+}
+.bottom {
+    transform:rotateX(-90deg) translateZ(50px);
+}
+
+#cube {
+    padding: 0;
+    margin: 0;
+    border: none;
+    perspective: none;
+    transform-style: preserve-3d;
+    /* transform: translateX(300px);
+    transform: translateX(550px) translateY(00px) rotate3d(1,0.25,1,-25deg) rotate3d(0,1,0,75deg) rotate3d(0,0,1,-30deg) translateZ(-1500px);
+    transform: translateX(550px) rotate3d(0,1,0,-90deg); */
+}
+
+</style>
+
+</head>
+<body>
+
+<div id="sudoku-3d"><div id="cube"></div></div>
+
+<script>
+
+//var data = puzzle.slice(1,activeCells);
+puzzleString = "E1234500000000000000000453P"
+
+var generate3DPuzzle = function() {
+    let faces = ["front","back","right","left","top","bottom"];
+    let cubeHandle = d3.select("#cube");
+    let index = 0;
+    let box,rowHandle,cellHandle,type,content;
+    for (let row=1;row<=puzzleDimension;row++) {
+        rowHandle = cubeHandle
+            .append("div")
+            .attr("id","row-" + row)
+            .attr("class","row");
+        for (let col=1;col<=puzzleDimension;col++) {
+            index++
+            box = cellBox[index]
+            type = cellType[index]
+            content =  type == "F" ? puzzleString[index] : cellMask[index] 
+            cellHandle =  rowHandle
+                .append("div")
+                .attr("id","c-" + row + "-" + col + "-" + box)
+                .attr("class", ["cell", "row-" + row, "col-" + col, "box-" + box,"type-" + type].join(" "));
+            for (let i=0;i<faces.length;i++) {
+                cellHandle
+                    .append("div")
+                    .attr("class",["face", faces[i], "ctype-" + type].join(" "))
+                    .text(content);
+            }
+        }
+    }
+}
+
+
+$(document).ready(function() {
+
+    Log.Notice('Document Ready');
+    //Log.Remove();
+    setupSudoku(1,5,"E1122311233412234445345555P0");
+    generate3DPuzzle();
+    genHeap();
+});
+</script>
+</body>
+</html>

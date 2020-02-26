@@ -1,0 +1,507 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<base href="https://home.semitasker.com" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="rgb(102, 153, 255)">
+<title>CodePenChallenge CPC-COLOR</title>
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<style>
+
+svg {
+    background-color: #000;
+}
+
+html, body {
+    background-color: #000;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    font-family: "Consolas Bold";
+    font-family: "Agency FB Bold";
+    font-family: "Tw Cen MT";
+    font-weight: bold;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+#slider-box-1 {
+    position: relative;
+    display: none;
+}
+
+.text, .label, .label-2, #mode-controls {
+    fill: #CCCCDD;
+    font-size: 15px;
+    letter-spacing: 1.00px;
+    font-family: "Agency FB";
+    font-family: "Tw Cen MT";
+}
+
+.label:hover {
+    fill: #E0C64A;
+}
+
+#no-show {
+    display: block;
+}
+
+.control-line {
+    stroke: #444;
+    stroke-width: 1;
+}
+
+#mode-controls {
+    letter-spacing: 1px;
+}
+
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="js/color-mixer-17.js" ></script>
+</head>
+<body>
+<svg 
+    id="swatch-app-0"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0" y="0" width="1440" height="925" viewBox="0 0 1440 925">
+<defs id="defs-0">
+    
+    <g id="lollypop-1">
+     <circle cx="10" cy="20" r="10"></circle>
+     <line x1="10" y1="10" x2="10" y2="0"></line>
+    </g>
+    
+    <g id="lollypop-2">
+     <circle cx="5" cy="10" r="5"></circle>
+     <line x1="5" y1="5" x2="5" y2="0"></line>
+    </g>
+    
+    <g id="lollypop-3">
+     <line x1="0" y1="10" x2="5" y2="10"></line>
+     <circle cx="10" cy="10" r="5"></circle>
+     <line x1="15" y1="10" x2="20" y2="10"></line>
+    </g>
+    
+    <g id="lollypop-4">
+     <line x1="0" y1="10" x2="5" y2="10"></line>
+     <circle cx="10" cy="10" r="5"></circle>
+     <!--<line x1="15" y1="10" x2="20" y2="10" />-->
+    </g>
+    
+    <g id="lollypop-5">
+     <line x1="5" y1="5" x2="5" y2="0"></line>
+     <circle cx="5" cy="10" r="5"></circle>
+     <line x1="5" y1="15" x2="5" y2="20"></line>
+    </g>
+    
+    <!-- gradient-hsl-1 remains fixed at all times -->
+    <linearGradient id="gradient-hsl-1" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+     <stop offset="0%" stop-color="#FF0000" stop-opacity="1.0" id="hsl-lg-4-0" />
+     <stop offset="16.67%" stop-color="#FFFF00" stop-opacity="1.0" id="hsl-lg-4-17" />
+     <stop offset="33.3%" stop-color="#00FF00" stop-opacity="1.0" id="hsl-lg-4-33" />
+     <stop offset="50%" stop-color="#00FFFF" stop-opacity="1.0" id="hsl-lg-4-50" />
+     <stop offset="66.67%" stop-color="#0000FF" stop-opacity="1.0" id="hsl-lg-4-67" />
+     <stop offset="83.3%" stop-color="#FF00FF" stop-opacity="1.0" id="hsl-lg-4-83" />
+     <stop offset="100%" stop-color="#FF0000" stop-opacity="1.0" id="hsl-lg-4-100" />
+    </linearGradient>
+    
+    <linearGradient id="gradient-hsl-2" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+     <stop offset="0%" stop-color="#FF0000" stop-opacity="1.0" id="hsl-lg-2-0" />
+     <stop offset="16.67%" stop-color="#FFFF00" stop-opacity="1.0" id="hsl-lg-2-17" />
+     <stop offset="33.3%" stop-color="#00FF00" stop-opacity="1.0" id="hsl-lg-2-33" />
+     <stop offset="50%" stop-color="#00FFFF" stop-opacity="1.0" id="hsl-lg-2-50" />
+     <stop offset="66.67%" stop-color="#0000FF" stop-opacity="1.0" id="hsl-lg-2-67" />
+     <stop offset="83.3%" stop-color="#FF00FF" stop-opacity="1.0" id="hsl-lg-2-83" />
+     <stop offset="100%" stop-color="#FF0000" stop-opacity="1.0" id="hsl-lg-2-100" />
+    </linearGradient>
+    
+    <linearGradient id="gradient-main-hsl" gradientUnits="objectBoundingBox" x1="50%" y1="0%" x2="50%" y2="100%" color-interpolation="sRGB">
+     <stop id="stop-1" offset="0%" stop-color="#000000" stop-opacity="1.0" />
+     <stop id="stop-2" offset="0%" stop-color="#808080" stop-opacity="1.0" />
+     <stop id="stop-3" offset="100%" stop-color="#000000" stop-opacity="0.0" />
+    </linearGradient>
+    
+    <path id="triangle-2" d="M 5 0 L 10 10 L 0 10 Z"/>
+    <rect id="rect-field-3" stroke="hsl(180,0%,60%)" fill="none" stroke-width="1" height="15" width="48"/>
+    <rect id="rect-field-4" stroke="hsl(180,0%,60%)" fill="none" stroke-width="1" height="15" width="72"/>
+    <rect id="rect-field-5" stroke-width="1" height="15" width="72"/>
+    <linearGradient id="gradient-0" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-0-0" stop-color="#00BBCC"/>
+        <stop offset="100" stop-opacity="1.0" id="lg-0-100" stop-color="#FFBBCC"/>
+    </linearGradient>
+    <linearGradient id="gradient-1" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-1-0" stop-color="#AA00CC"/>
+        <stop offset="100" stop-opacity="1.0" id="lg-1-100" stop-color="#AAFFCC"/>
+    </linearGradient>
+    <linearGradient id="gradient-2" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-2-0" stop-color="#AABB00"/>
+        <stop offset="100" stop-opacity="1.0" id="lg-2-100" stop-color="#AABBFF"/>
+    </linearGradient>
+    <linearGradient id="gradient-3" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-3-0" stop-color="hsl(0,25%,73.3%)"/>
+        <stop offset="17%" stop-opacity="1.0" id="lg-3-17" stop-color="hsl(61,25%,73.3%)"/>
+        <stop offset="33%" stop-opacity="1.0" id="lg-3-33" stop-color="hsl(119,25%,73.3%)"/>
+        <stop offset="50%" stop-opacity="1.0" id="lg-3-50" stop-color="hsl(180,25%,73.3%)"/>
+        <stop offset="67%" stop-opacity="1.0" id="lg-3-67" stop-color="hsl(241,25%,73.3%)"/>
+        <stop offset="83%" stop-opacity="1.0" id="lg-3-83" stop-color="hsl(299,25%,73.3%)"/>
+        <stop offset="100%" stop-opacity="1.0" id="lg-3-100" stop-color="hsl(360,25%,73.3%)"/>
+    </linearGradient>
+    <linearGradient id="gradient-4" gradientUnits="objectBoundingBox" color-interpolation="sRGB" x1="50%" y1="0%" x2="50%" y2="100%">
+        <stop offset="0%" stop-opacity="1.0" id="lg-4-0" stop-color="hsl(210,0%,73.3%)"/>
+        <stop offset="100%" stop-opacity="1.0" id="lg-4-100" stop-color="hsl(210,100%,73.3%)"/>
+    </linearGradient>
+    <linearGradient id="gradient-5" gradientUnits="objectBoundingBox" color-interpolation="sRGB" x1="50%" y1="0%" x2="50%" y2="100%">
+        <stop offset="0%" stop-opacity="1.0" id="lg-5-0" stop-color="hsl(210,25%,0%)"/>
+        <stop offset="50%" stop-opacity="1.0" id="lg-5-50" stop-color="hsl(210,25%,50%)"/>
+        <stop offset="100%" stop-opacity="1.0" id="lg-5-100" stop-color="hsl(210,25%,100%)"/>
+    </linearGradient>
+    <linearGradient id="gradient-6" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-6-0" offset="0%" stop-color="hsl(0,100%,50%)"/>
+        <stop id="lg-6-17" offset="17%" stop-color="hsl(60,100%,50%)"/>
+        <stop id="lg-6-33" offset="33%" stop-color="hsl(120,100%,50%)" />
+        <stop id="lg-6-50" offset="50%" stop-color="hsl(180,100%,50%)" />
+        <stop id="lg-6-67" offset="67%" stop-color="hsl(240,100%,50%)" />
+        <stop id="lg-6-83" offset="83%" stop-color="hsl(300,100%,50%)" />
+        <stop id="lg-6-100" offset="100%" stop-color="hsl(360,100%,50%)" />
+    </linearGradient>
+    <linearGradient id="gradient-7" gradientUnits="objectBoundingBox" color-interpolation="sRGB" x1="50%" y1="0%" x2="50%" y2="100%">
+        <stop id="lg-7-0" offset="0%" stop-color="white" stop-opacity="1.0" />
+        <stop id="lg-7-100" offset="100%" stop-color="white" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="gradient-8" gradientUnits="objectBoundingBox" color-interpolation="sRGB" x1="50%" y1="0%" x2="50%" y2="100%">
+        <stop id="lg-8-0" offset="0%" stop-color="black" stop-opacity="1.0" />
+        <stop id="lg-8-100" offset="100%" stop-color="black" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="gradient-9" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-9-0" stop-color="#00CC57" />
+        <stop offset="100" stop-opacity="1.0" id="lg-9-100" stop-color="#FFCC57" />
+    </linearGradient>
+    <linearGradient id="gradient-10" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-10-0" stop-color="#500057" />
+        <stop offset="100" stop-opacity="1.0" id="lg-10-100" stop-color="#50FF57" />
+    </linearGradient>
+    <linearGradient id="gradient-11" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-11-0" stop-color="#50CC00" />
+        <stop offset="100" stop-opacity="1.0" id="lg-11-100" stop-color="#50CCFF" />
+    </linearGradient>
+    <linearGradient id="gradient-12" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-12-0" stop-color="hsl(0,54.9%,55.7%)" />
+        <stop offset="17%" stop-opacity="1.0" id="lg-12-17" stop-color="hsl(61,54.9%,55.7%)" />
+        <stop offset="33%" stop-opacity="1.0" id="lg-12-33" stop-color="hsl(119,54.9%,55.7%)" />
+        <stop offset="50%" stop-opacity="1.0" id="lg-12-50" stop-color="hsl(180,54.9%,55.7%)" />
+        <stop offset="67%" stop-opacity="1.0" id="lg-12-67" stop-color="hsl(241,54.9%,55.7%)" />
+        <stop offset="83%" stop-opacity="1.0" id="lg-12-83" stop-color="hsl(299,54.9%,55.7%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-12-100" stop-color="hsl(360,54.9%,55.7%)" />
+    </linearGradient>
+    <linearGradient id="gradient-13" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-13-0" stop-color="hsl(123.4,0%,55.7%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-13-100" stop-color="hsl(123.4,100%,55.7%)" />
+    </linearGradient>
+    <linearGradient id="gradient-14" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-14-0" stop-color="hsl(123.4,54.9%,0%)" />
+        <stop offset="50%" stop-opacity="1.0" id="lg-14-50" stop-color="hsl(123.4,54.9%,50%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-14-100" stop-color="hsl(123.4,54.9%,100%)" />
+    </linearGradient>
+    <linearGradient id="gradient-15" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-15-0" offset="0%" stop-color="hsl(0,100%,50%)" />
+        <stop id="lg-15-17" offset="17%" stop-color="hsl(60,100%,50%)" />
+        <stop id="lg-15-33" offset="33%" stop-color="hsl(120,100%,50%)" />
+        <stop id="lg-15-50" offset="50%" stop-color="hsl(180,100%,50%)" />
+        <stop id="lg-15-67" offset="67%" stop-color="hsl(240,100%,50%)" />
+        <stop id="lg-15-83" offset="83%" stop-color="hsl(300,100%,50%)" />
+        <stop id="lg-15-100" offset="100%" stop-color="hsl(360,100%,50%)" />
+    </linearGradient>
+    <linearGradient id="gradient-16" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-16-0" offset="0%" stop-color="white" stop-opacity="1.0" />
+        <stop id="lg-16-100" offset="100%" stop-color="white" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="gradient-17" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-17-0" offset="0%" stop-color="black" stop-opacity="1.0" />
+        <stop id="lg-17-100" offset="100%" stop-color="black" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="gradient-18" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-18-0" stop-color="#00CC50" />
+        <stop offset="100" stop-opacity="1.0" id="lg-18-100" stop-color="#FFCC50" />
+    </linearGradient>
+    <linearGradient id="gradient-19" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-19-0" stop-color="#AC0050" />
+        <stop offset="100" stop-opacity="1.0" id="lg-19-100" stop-color="#ACFF50" />
+    </linearGradient>
+    <linearGradient id="gradient-20" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-20-0" stop-color="#ACCC00" />
+        <stop offset="100" stop-opacity="1.0" id="lg-20-100" stop-color="#ACCCFF" />
+    </linearGradient>
+    <linearGradient id="gradient-21" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-21-0" stop-color="hsl(0,54.9%,55.7%)" />
+        <stop offset="17%" stop-opacity="1.0" id="lg-21-17" stop-color="hsl(61,54.9%,55.7%)" />
+        <stop offset="33%" stop-opacity="1.0" id="lg-21-33" stop-color="hsl(119,54.9%,55.7%)" />
+        <stop offset="50%" stop-opacity="1.0" id="lg-21-50" stop-color="hsl(180,54.9%,55.7%)" />
+        <stop offset="67%" stop-opacity="1.0" id="lg-21-67" stop-color="hsl(241,54.9%,55.7%)" />
+        <stop offset="83%" stop-opacity="1.0" id="lg-21-83" stop-color="hsl(299,54.9%,55.7%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-21-100" stop-color="hsl(360,54.9%,55.7%)" />
+    </linearGradient>
+    <linearGradient id="gradient-22" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-22-0" stop-color="hsl(75.5,0%,55.7%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-22-100" stop-color="hsl(75.5,100%,55.7%)" />
+    </linearGradient>
+    <linearGradient id="gradient-23" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-23-0" stop-color="hsl(75.5,54.9%,0%)" />
+        <stop offset="50%" stop-opacity="1.0" id="lg-23-50" stop-color="hsl(75.5,54.9%,50%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-23-100" stop-color="hsl(75.5,54.9%,100%)" />
+    </linearGradient>
+    <linearGradient id="gradient-24" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-24-0" offset="0%" stop-color="hsl(0,100%,50%)" />
+        <stop id="lg-24-17" offset="17%" stop-color="hsl(60,100%,50%)" />
+        <stop id="lg-24-33" offset="33%" stop-color="hsl(120,100%,50%)" />
+        <stop id="lg-24-50" offset="50%" stop-color="hsl(180,100%,50%)" />
+        <stop id="lg-24-67" offset="67%" stop-color="hsl(240,100%,50%)" />
+        <stop id="lg-24-83" offset="83%" stop-color="hsl(300,100%,50%)" />
+        <stop id="lg-24-100" offset="100%" stop-color="hsl(360,100%,50%)" />
+    </linearGradient>
+    <linearGradient id="gradient-25" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-25-0" offset="0%" stop-color="white" stop-opacity="1.0" />
+        <stop id="lg-25-100" offset="100%" stop-color="white" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="gradient-26" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-26-0" offset="0%" stop-color="black" stop-opacity="1.0" />
+        <stop id="lg-26-100" offset="100%" stop-color="black" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="gradient-27" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-27-0" stop-color="#0093CC" />
+        <stop offset="100" stop-opacity="1.0" id="lg-27-100" stop-color="#FF93CC" />
+    </linearGradient>
+    <linearGradient id="gradient-28" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-28-0" stop-color="#5000CC" />
+        <stop offset="100" stop-opacity="1.0" id="lg-28-100" stop-color="#50FFCC" />
+    </linearGradient>
+    <linearGradient id="gradient-29" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-29-0" stop-color="#509300" />
+        <stop offset="100" stop-opacity="1.0" id="lg-29-100" stop-color="#5093FF" />
+    </linearGradient>
+    <linearGradient id="gradient-30" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-30-0" stop-color="hsl(0,54.9%,55.7%)" />
+        <stop offset="17%" stop-opacity="1.0" id="lg-30-17" stop-color="hsl(61,54.9%,55.7%)" />
+        <stop offset="33%" stop-opacity="1.0" id="lg-30-33" stop-color="hsl(119,54.9%,55.7%)" />
+        <stop offset="50%" stop-opacity="1.0" id="lg-30-50" stop-color="hsl(180,54.9%,55.7%)" />
+        <stop offset="67%" stop-opacity="1.0" id="lg-30-67" stop-color="hsl(241,54.9%,55.7%)" />
+        <stop offset="83%" stop-opacity="1.0" id="lg-30-83" stop-color="hsl(299,54.9%,55.7%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-30-100" stop-color="hsl(360,54.9%,55.7%)" />
+    </linearGradient>
+    <linearGradient id="gradient-31" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-31-0" stop-color="hsl(207.6,0%,55.7%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-31-100" stop-color="hsl(207.6,100%,55.7%)" />
+    </linearGradient>
+    <linearGradient id="gradient-32" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-32-0" stop-color="hsl(207.6,54.9%,0%)" />
+        <stop offset="50%" stop-opacity="1.0" id="lg-32-50" stop-color="hsl(207.6,54.9%,50%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-32-100" stop-color="hsl(207.6,54.9%,100%)" />
+    </linearGradient>
+    <linearGradient id="gradient-33" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-33-0" offset="0%" stop-color="hsl(0,100%,50%)" />
+        <stop id="lg-33-17" offset="17%" stop-color="hsl(60,100%,50%)" />
+        <stop id="lg-33-33" offset="33%" stop-color="hsl(120,100%,50%)" />
+        <stop id="lg-33-50" offset="50%" stop-color="hsl(180,100%,50%)" />
+        <stop id="lg-33-67" offset="67%" stop-color="hsl(240,100%,50%)" />
+        <stop id="lg-33-83" offset="83%" stop-color="hsl(300,100%,50%)" />
+        <stop id="lg-33-100" offset="100%" stop-color="hsl(360,100%,50%)" />
+    </linearGradient>
+    <linearGradient id="gradient-34" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-34-0" offset="0%" stop-color="white" stop-opacity="1.0" />
+        <stop id="lg-34-100" offset="100%" stop-color="white" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="gradient-35" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-35-0" offset="0%" stop-color="black" stop-opacity="1.0" />
+        <stop id="lg-35-100" offset="100%" stop-color="black" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="gradient-36" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-36-0" stop-color="#00507A" />
+        <stop offset="100" stop-opacity="1.0" id="lg-36-100" stop-color="#FF507A" />
+    </linearGradient>
+    <linearGradient id="gradient-37" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-37-0" stop-color="#CC007A" />
+        <stop offset="100" stop-opacity="1.0" id="lg-37-100" stop-color="#CCFF7A" />
+    </linearGradient>
+    <linearGradient id="gradient-38" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-38-0" stop-color="#CC5000" />
+        <stop offset="100" stop-opacity="1.0" id="lg-38-100" stop-color="#CC50FF" />
+    </linearGradient>
+    <linearGradient id="gradient-39" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-39-0" stop-color="hsl(0,54.9%,55.7%)" />
+        <stop offset="17%" stop-opacity="1.0" id="lg-39-17" stop-color="hsl(61,54.9%,55.7%)" />
+        <stop offset="33%" stop-opacity="1.0" id="lg-39-33" stop-color="hsl(119,54.9%,55.7%)" />
+        <stop offset="50%" stop-opacity="1.0" id="lg-39-50" stop-color="hsl(180,54.9%,55.7%)" />
+        <stop offset="67%" stop-opacity="1.0" id="lg-39-67" stop-color="hsl(241,54.9%,55.7%)" />
+        <stop offset="83%" stop-opacity="1.0" id="lg-39-83" stop-color="hsl(299,54.9%,55.7%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-39-100" stop-color="hsl(360,54.9%,55.7%)" />
+    </linearGradient>
+    <linearGradient id="gradient-40" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-40-0" stop-color="hsl(339.7,0%,55.7%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-40-100" stop-color="hsl(339.7,100%,55.7%)" />
+    </linearGradient>
+    <linearGradient id="gradient-41" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-41-0" stop-color="hsl(339.7,54.9%,0%)" />
+        <stop offset="50%" stop-opacity="1.0" id="lg-41-50" stop-color="hsl(339.7,54.9%,50%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-41-100" stop-color="hsl(339.7,54.9%,100%)" />
+    </linearGradient>
+    <linearGradient id="gradient-42" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-42-0" offset="0%" stop-color="hsl(0,100%,50%)" />
+        <stop id="lg-42-17" offset="17%" stop-color="hsl(60,100%,50%)" />
+        <stop id="lg-42-33" offset="33%" stop-color="hsl(120,100%,50%)" />
+        <stop id="lg-42-50" offset="50%" stop-color="hsl(180,100%,50%)" />
+        <stop id="lg-42-67" offset="67%" stop-color="hsl(240,100%,50%)" />
+        <stop id="lg-42-83" offset="83%" stop-color="hsl(300,100%,50%)" />
+        <stop id="lg-42-100" offset="100%" stop-color="hsl(360,100%,50%)" />
+    </linearGradient>
+    <linearGradient id="gradient-43" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-43-0" offset="0%" stop-color="white" stop-opacity="1.0" />
+        <stop id="lg-43-100" offset="100%" stop-color="white" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="gradient-44" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-44-0" offset="0%" stop-color="black" stop-opacity="1.0" />
+        <stop id="lg-44-100" offset="100%" stop-color="black" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="gradient-45" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-45-0" stop-color="#0050CC" />
+        <stop offset="100" stop-opacity="1.0" id="lg-45-100" stop-color="#FF50CC" />
+    </linearGradient>
+    <linearGradient id="gradient-46" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-46-0" stop-color="#BB00CC" />
+        <stop offset="100" stop-opacity="1.0" id="lg-46-100" stop-color="#BBFFCC" />
+    </linearGradient>
+    <linearGradient id="gradient-47" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0" stop-opacity="1.0" id="lg-47-0" stop-color="#BB5000" />
+        <stop offset="100" stop-opacity="1.0" id="lg-47-100" stop-color="#BB50FF" />
+    </linearGradient>
+    <linearGradient id="gradient-48" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-48-0" stop-color="hsl(0,54.9%,55.7%)" />
+        <stop offset="17%" stop-opacity="1.0" id="lg-48-17" stop-color="hsl(61,54.9%,55.7%)" />
+        <stop offset="33%" stop-opacity="1.0" id="lg-48-33" stop-color="hsl(119,54.9%,55.7%)" />
+        <stop offset="50%" stop-opacity="1.0" id="lg-48-50" stop-color="hsl(180,54.9%,55.7%)" />
+        <stop offset="67%" stop-opacity="1.0" id="lg-48-67" stop-color="hsl(241,54.9%,55.7%)" />
+        <stop offset="83%" stop-opacity="1.0" id="lg-48-83" stop-color="hsl(299,54.9%,55.7%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-48-100" stop-color="hsl(360,54.9%,55.7%)" />
+    </linearGradient>
+    <linearGradient id="gradient-49" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-49-0" stop-color="hsl(291.8,0%,55.7%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-49-100" stop-color="hsl(291.8,100%,55.7%)" />
+    </linearGradient>
+    <linearGradient id="gradient-50" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop offset="0%" stop-opacity="1.0" id="lg-50-0" stop-color="hsl(291.8,54.9%,0%)" />
+        <stop offset="50%" stop-opacity="1.0" id="lg-50-50" stop-color="hsl(291.8,54.9%,50%)" />
+        <stop offset="100%" stop-opacity="1.0" id="lg-50-100" stop-color="hsl(291.8,54.9%,100%)" />
+    </linearGradient>
+    <linearGradient id="gradient-51" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-51-0" offset="0%" stop-color="hsl(0,100%,50%)" />
+        <stop id="lg-51-17" offset="17%" stop-color="hsl(60,100%,50%)" />
+        <stop id="lg-51-33" offset="33%" stop-color="hsl(120,100%,50%)" />
+        <stop id="lg-51-50" offset="50%" stop-color="hsl(180,100%,50%)" />
+        <stop id="lg-51-67" offset="67%" stop-color="hsl(240,100%,50%)" />
+        <stop id="lg-51-83" offset="83%" stop-color="hsl(300,100%,50%)" />
+        <stop id="lg-51-100" offset="100%" stop-color="hsl(360,100%,50%)" />
+    </linearGradient>
+    <linearGradient id="gradient-52" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-52-0" offset="0%" stop-color="white" stop-opacity="1.0" />
+        <stop id="lg-52-100" offset="100%" stop-color="white" stop-opacity="0.0" />
+    </linearGradient>
+    <linearGradient id="gradient-53" gradientUnits="objectBoundingBox" color-interpolation="sRGB">
+        <stop id="lg-53-0" offset="0%" stop-color="black" stop-opacity="1.0" />
+        <stop id="lg-53-100" offset="100%" stop-color="black" stop-opacity="0.0" />
+    </linearGradient>
+    </defs>
+    
+    <g transform="translate(0,605)">
+        <line id="control-line-top" class="control-line" x1="0" y1="22.5" x2="1440" y2="22.5" />
+        <line id="control-line-middle" class="control-line" x1="0" y1="52.5" x2="1440" y2="52.5" />
+        <line id="control-line-bottom" class="control-line" x1="0" y1="82.5" x2="1440" y2="82.5"></line>
+    </g>
+
+    <g id="color-3" transform="translate(585,605)">
+        <rect id="swatch-3" x="0" y="-255" height="255" width="255" fill="#5093CC" stroke="none" strokeWidth="0" />
+        <g id="swatch-3-rgb-sliders" style="display: block;">
+            <rect x="0" height="5" width="255" fill="url(#gradient-27)" stroke="none" id="r-27" y="20" />
+            <use x="75" y="25" minX="0" maxX="255" xlink:href="#lollypop-2" fill="#5093CC" stroke="#eee" stroke-width="1" id="slider-27" class="pointer" />
+            <rect x="0" height="5" width="255" fill="url(#gradient-28)" stroke="none" id="r-28" y="50" />
+            <use x="142" y="55" minX="0" maxX="255" xlink:href="#lollypop-2" fill="#5093CC" stroke="#eee" stroke-width="1" id="slider-28" class="pointer" />
+            <rect x="0" height="5" width="255" fill="url(#gradient-29)" stroke="none" id="r-29" y="80" />
+            <use x="199" y="85" minX="0" maxX="255" xlink:href="#lollypop-2" fill="#5093CC" stroke="#eee" stroke-width="1" id="slider-29" class="pointer" />
+        </g>
+        <g id="swatch-3-hsl-sliders" style="display: none;">
+            <rect x="0" height="5" width="255" fill="url(#gradient-30)" stroke="none" id="r-30" y="20" />
+            <use x="142.05" y="25" minX="0" maxX="255" xlink:href="#lollypop-2" fill="hsl(207.6,54.9%,55.7%)" stroke="#eee" stroke-width="1" id="slider-30" class="pointer" />
+            <rect x="0" height="5" width="255" fill="url(#gradient-31)" stroke="none" id="r-31" y="50" />
+            <use x="134.995" y="55" minX="0" maxX="255" xlink:href="#lollypop-2" fill="hsl(207.6,54.9%,55.7%)" stroke="#eee" stroke-width="1" id="slider-31" class="pointer" />
+            <rect x="0" height="5" width="255" fill="url(#gradient-32)" stroke="none" id="r-32" y="80" />
+            <use x="137.035" y="85" minX="0" maxX="255" xlink:href="#lollypop-2" fill="hsl(207.6,54.9%,55.7%)" stroke="#eee" stroke-width="1" id="slider-32" class="pointer" />
+        </g>
+        <g id="swatch-3-hsb-sliders" style="display: none;">
+            <rect x="0" height="5" width="255" fill="url(#gradient-33)" stroke="none" id="r-33" y="20" />
+            <rect x="0" height="5" width="255" fill="rgba(255,255,255,0.392)" stroke="none" id="r-33-sat" y="20" />
+            <rect x="0" height="5" width="255" fill="rgba(0,0,0,0.2)" stroke="none" id="r-33-brt" y="20" />
+            <use x="142.05" y="25" minX="0" maxX="255" xlink:href="#lollypop-2" fill="hsl(207.6,54.9%,55.7%)" stroke="#eee" stroke-width="1" id="slider-33" class="pointer" />
+            <rect x="0" height="5" width="255" fill="rgba(0,138,255,1.0)" stroke="none" id="r-34-hue" y="50" />
+            <rect x="0" height="5" width="255" fill="url(#gradient-34)" stroke="none" id="r-34" y="50" />
+            <rect x="0" height="5" width="255" fill="rgba(0,0,0,0.2)" stroke="none" id="r-34-brt" y="50" />
+            <use x="150.04" y="55" minX="0" maxX="255" xlink:href="#lollypop-2" fill="hsl(207.6,54.9%,55.7%)" stroke="#eee" stroke-width="1" id="slider-34" class="pointer" />
+            <rect x="0" height="5" width="255" fill="rgba(0,138,255,1.0)" stroke="none" id="r-35-hue" y="80" />
+            <rect x="0" height="5" width="255" fill="rgba(255,255,255,0.392)" stroke="none" id="r-35-sat" y="80" />
+            <rect x="0" height="5" width="255" fill="url(#gradient-35)" stroke="none" id="r-35" y="80" />
+            <use x="199" y="85" minX="0" maxX="255" xlink:href="#lollypop-2" fill="hsl(207.6,54.9%,55.7%)" stroke="#eee" stroke-width="1" id="slider-35" class="pointer" />
+        </g>
+        <g id="swatch-3-controls" transform="translate(0,100)">
+            <g id="swatch-3-rgb-controls" transform="translate(0,25)">
+                <text id="swatch-3-rgbd-label" x="0" y="13" class="label pointer">RGB</text>
+                <g id="swatch-3-rgbd-value" transform="translate(30,0)">
+                    <use xlink:href="#rect-field-3" x="10" y="0" />
+                    <text id="swatch-3-rgbd-rd" class="text" x="13" y="13" title="80">80</text>
+                    <use xlink:href="#rect-field-3" x="64" y="0" />
+                    <text id="swatch-3-rgbd-gd" class="text" x="67" y="13" title="147">147</text>
+                    <use xlink:href="#rect-field-3" x="118" y="0" />
+                    <text id="swatch-3-rgbd-bd" class="text" x="121" y="13" title="204">204</text>
+                </g>
+            </g>
+            <g id="swatch-3-hsl-controls" transform="translate(0,50)">
+                <text id="swatch-3-hsl-label" x="0" y="13" class="label pointer">HSL</text>
+                <g id="swatch-3-hsl-value" transform="translate(30,0)">
+                    <use xlink:href="#rect-field-3" x="10" y="0" />
+                    <text id="swatch-3-hsl-h" class="text" x="13" y="13" title="207.6">207.6</text>
+                    <use xlink:href="#rect-field-3" x="64" y="0" />
+                    <text id="swatch-3-hsl-s" class="text" x="67" y="13" title="54.9">54.9%</text>
+                    <use xlink:href="#rect-field-3" x="118" y="0" />
+                    <text id="swatch-3-hsl-l" class="text" x="121" y="13" title="55.7">55.7%</text>
+                </g>
+            </g>
+            <g id="swatch-3-hsb-controls" transform="translate(0,75)">
+                <text id="swatch-3-hsb-label" x="0" y="13" class="label pointer">HSB</text>
+                <g id="swatch-3-hsb-value" transform="translate(30,0)">
+                    <use xlink:href="#rect-field-3" x="10" y="0" />
+                    <text id="swatch-3-hsb-hue" class="text" x="13" y="13" title="207.6">207.6</text>
+                    <use xlink:href="#rect-field-3" x="64" y="0" />
+                    <text id="swatch-3-hsb-sat" class="text" x="67" y="13" title="60.8">60.8%</text>
+                    <use xlink:href="#rect-field-3" x="118" y="0" />
+                    <text id="swatch-3-hsb-brt" class="text" x="121" y="13" title="80">80%</text>
+                </g>
+            </g>
+            <g id="swatch-3-hex-controls" transform="translate(0,100)">
+                <text class="label-2" id="swatch-3-hex-label" x="0" y="13">HEX</text>
+                <g id="swatch-3-hex-value" transform="translate(30,0)">
+                    <use xlink:href="#rect-field-4" x="10" y="0" />
+                    <text id="swatch-3-hex-hexValue" class="text" x="13" y="13" title="#5093CC">#5093CC</text>
+                </g>
+            </g>
+        </g>
+    </g>
+ </svg>
+ </body>
+ </html>

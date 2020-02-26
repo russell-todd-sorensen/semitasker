@@ -1,0 +1,269 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>3D Visualization</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" href="css/sudoku-max.css" media="all" type="text/css" >
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+
+<script type="text/javascript" src="js/sudoku-max-2.js" ></script>
+<script type="text/javascript" src="js/controls.js"></script>
+
+<script>
+var symbols, symbol_index, rowMask, colMask, boxMask, cellMask;
+
+var defaultSymbols = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcd";
+var puzzleDimension = 9;
+
+var symbolIndex = new Array(defaultSymbols.length);
+var i = 0
+for (; i<defaultSymbols.length; i++) {
+	symbolIndex[defaultSymbols[i]] = i;
+
+}
+symbols = new Array(puzzleDimension+1);
+//symbol_index = new Array(256);
+symbol_index = new Array(puzzleDimension+1);
+
+for (var i = 0; i< puzzleDimension; i++) {
+    symbols[i] = defaultSymbols[i];
+    symbol_index[defaultSymbols[i]] = i;
+}
+
+symbols[puzzleDimension] = "0";
+symbol_index["0"] = puzzleDimension;
+
+// mask arrays
+rowMask = new Array(puzzleDimension+1);
+colMask = new Array(puzzleDimension+1);
+boxMask = new Array(puzzleDimension+1);
+cellMask = new Array(puzzleDimension*puzzleDimension+1);
+var choices = new Array(puzzleDimension+1);
+
+rowMask[0] = colMask[0] = boxMask[0] = cellMask[0] = ( (1<<puzzleDimension)-1 );
+
+for (var i = 1; i<=puzzleDimension; i++) {
+	rowMask[i] = rowMask[0];
+	colMask[i] = colMask[0];
+	boxMask[i] = boxMask[0];
+    cellMask[i] = cellMask[0];
+}
+
+choices[0] = []
+choices[1] = [3,4]
+choices[2] = [3,4,5,6]
+choices[3] = [7,8,9,4]
+choices[4] = [7,8,9,3]
+choices[5] = [4,5,6]
+choices[6] = [3,4,5]
+choices[7] = [1]
+choices[8] = [2]
+choices[9] = [5,7,8,9]
+
+for (var i = 1;i<=puzzleDimension;i++) {
+    for (var j = 0;j<choices[i].length;j++) {
+        cellMask[i] &= ~(1<<((choices[i][j])-1));
+    }
+}
+
+
+</script>
+
+<script>
+
+$(document).ready(function() {
+
+  Log.Notice('Document Ready');
+  //Log.Remove();
+ });
+</script>
+
+<style>
+.panel--red {
+  /* perspective function in transform property */
+  height: 400px;
+  transform: perspective(400px) rotateY(-45deg);
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  font-size: 200px;
+  padding: 50px;
+  margin-top: 50px;
+  display: inline-block;
+}
+.panel--yellow {
+  /* perspective function in transform property */
+  height: 400px;
+  width: 400px;
+  transform: perspective(400px) rotateY(0) translateZ(100px);
+  background-color: yellow;
+  color: white;
+  font-weight: bold;
+  font-size: 200px;
+  padding: 50px;
+  margin-top: 50px;
+  display: inline-block;
+}
+.panel--blue {
+  /* perspective function in transform property */
+  height: 400px;
+  transform: perspective(400px) rotateY(45deg);
+  background-color: blue;
+  color: white;
+  font-weight: bold;
+  font-size: 200px;
+  padding: 50px;
+  margin-top: 50px;
+  display: inline-block;
+}
+#spacer {
+    height: 200px;
+    width: 100%;
+    display: block;
+    background-color: rgba(0,255,255,.25);
+}
+
+
+#default-example{
+    background:linear-gradient(skyblue,khaki)
+}
+
+#example-element{
+    width:100px;
+    height:100px;
+    perspective:55000px;
+    transform-style:preserve-3d
+}
+
+#example-element-2{
+    width:100px;
+    height:100px;
+    perspective:55000px;
+    transform-style:preserve-3d;
+    transform: translateY(-100px) translateZ(100px) ;
+}
+
+#example-element-3{
+    width:100px;
+    height:100px;
+    perspective:55000px;
+    transform-style:preserve-3d;
+    transform: translateY(-100px);
+}
+
+.face{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;height:100%;
+    position:absolute;
+    backface-visibility:inherit;
+    font-size:60px;color:#fff
+}
+.front{
+    background:rgba(90,90,90,.7);
+    transform:translateZ(50px)
+}
+.back{
+    background:rgba(0,210,0,.7);
+    transform:rotateY(180deg) translateZ(50px);
+}
+.right{
+    background:rgba(210,0,0,.7);
+    transform:rotateY(90deg) translateZ(50px);
+}
+.left{
+    background:rgba(0,0,210,.7);
+    transform:rotateY(-90deg) translateZ(50px);
+}
+.top{
+    background:rgba(210,210,0,.7);
+    transform:rotateX(90deg) translateZ(50px);
+}
+.bottom{
+    background:rgba(210,0,210,.7);
+    transform:rotateX(-90deg) translateZ(50px);
+}
+
+.front2{
+    background:rgba(90,90,90,.7);
+    transform:translateZ(50px);
+}
+.back2{
+    background:rgba(0,210,0,.7);
+    transform:rotateY(180deg) translateZ(50px);
+}
+.right2{
+    background:rgba(210,0,0,.7);
+    transform:rotateY(90deg) translateZ(50px);
+}
+.left2{
+    background:rgba(0,0,210,.7);
+    transform:rotateY(-90deg) translateZ(50px);
+}
+.top2{
+    background:rgba(210,210,0,.7);
+    transform:rotateX(90deg) translateZ(50px);
+}
+.bottom2{
+    background:rgba(210,0,210,.7);
+    transform:rotateX(-90deg) translateZ(50px);
+}
+
+#default-example {
+    transform: translateX(50px) rotate3d(0, 1, 0, -90deg);
+    width:100px;
+    height:200px;
+    perspective: 50000px;
+    transform-style:preserve-3d;
+}
+</style>
+
+</head>
+<body>
+<div class="panel--red">Hi</div>
+<div class="panel--yellow">Yi</div>
+<div class="panel--blue">ho</div>
+
+<!-- transform: rotate3d(1, 1, 1, 45deg); 
+transform: rotate3d(0);
+
+
+
+-->
+<div id="spacer"></div>
+
+<section id="default-example" class="default-example">
+    <div id="example-element" class="transition-all" style="">
+        <div class="face front">1</div>
+        <div class="face back">2</div>
+        <div class="face right">3</div>
+        <div class="face left">4</div>
+        <div class="face top">5</div>
+        <div class="face bottom">6</div>
+    </div>
+    <div id="example-element-2" class="transition-all" style="">
+        <div class="face front">1</div>
+        <div class="face back">2</div>
+        <div class="face right">3</div>
+        <div class="face left">4</div>
+        <div class="face top">5</div>
+        <div class="face bottom">6</div>
+    </div>
+    <div id="example-element-3" class="transition-all" style="">
+        <div class="face front2">1</div>
+        <div class="face back2">2</div>
+        <div class="face right2">3</div>
+        <div class="face left2">4</div>
+        <div class="face top2">5</div>
+        <div class="face bottom2">6</div>
+    </div>
+</section>
+</body>
+</html>
