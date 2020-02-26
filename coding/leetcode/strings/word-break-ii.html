@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title></title>
+<style>
+</style>
+<script>
+/*
+140. Word Break II
+Hard
+
+1455
+
+321
+
+Add to List
+
+Share
+Given a non-empty string s and a dictionary wordDict containing a list of non-empty words, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences.
+
+Note:
+
+The same word in the dictionary may be reused multiple times in the segmentation.
+You may assume the dictionary does not contain duplicate words.
+Example 1:
+
+Input:
+s = "catsanddog"
+wordDict = ["cat", "cats", "and", "sand", "dog"]
+Output:
+[
+  "cats and dog",
+  "cat sand dog"
+]
+Example 2:
+
+Input:
+s = "pineapplepenapple"
+wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
+Output:
+[
+  "pine apple pen apple",
+  "pineapple pen apple",
+  "pine applepen apple"
+]
+Explanation: Note that you are allowed to reuse a dictionary word.
+Example 3:
+
+Input:
+s = "catsandog"
+wordDict = ["cats", "dog", "sand", "and", "cat"]
+Output:
+[]
+*/
+
+/**
+ * @param {string} s
+ * @param {string[]} wordDict
+ * @return {string[]}
+ */
+
+
+var wordBreak = function (s, wordDict) {
+    let root = new Object();
+    let dlen = wordDict.length;
+    for (let i=0;i<dlen;i++) {
+        let word = wordDict[i]
+        let tmp = root;
+        for (let letter of word.split("")) {
+            if (!tmp[letter]) {
+                tmp[letter] = [];
+            }
+            tmp = tmp[letter];
+        }
+        tmp.word = word;
+    }
+
+    console.log(s);
+    let sa = s.split(""),
+        salen = sa.length,
+        combos = [],
+        letter,
+        tmp = root,
+        path = "",
+        paths = []
+    for (let i=0;i<salen;i++) {
+        letter = sa[i]
+        path += letter
+        if (tmp[letter]) {
+            if (tmp[letter].word) {
+                paths.push([tmp[letter].word]);
+            }
+            tmp = tmp[letter]
+        } else {
+            break
+        }
+    }
+
+    console.log(paths)
+};
+
+
+var dict = ["a", "app", "apple", "pen", "applepen", "pine", "pineapple"]
+
+
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+
