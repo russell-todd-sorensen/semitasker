@@ -1,0 +1,906 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="darkolivegreen" >
+<meta name="description" content="Tartan Generator WebApp: code by Russell Sorensen.
+Generates tartan image given tartan threadcount and corresponding color pallet." >
+
+<title>Tartan Web App</title>
+
+<style>
+/***************** TARTAN-APP.CSS  ******************/
+html, body {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+#svg1 {
+    border: solid black 1px;
+    zoom: 1.0;
+    overflow: visible;
+    background-color: transparent;
+}
+
+#svg-container {
+    margin-top: 0;
+}
+
+#vertical-rows {
+    display: inline;
+    fill: none;
+}
+
+#horizontal-rows {
+    display: inline;
+    fill: none;
+}
+
+#tartans fieldset {
+    width: 440px;
+    background-color: darkolivegreen;
+    color: white;
+    border: 2px solid #222;
+    border: none;
+    margin-bottom: 7px;
+}
+
+#tartans legend {
+    padding: 2px 5px;
+    font-size: larger;
+    font-weight: bolder;
+    color: white;
+    background-color: #d2691e;
+    border: 2px solid #222;
+}
+
+/* redefine border */
+#tartans fieldset,
+#tartans legend {
+    border: none;
+}
+
+#tartans ul {
+    list-style: none;
+    margin-left: -25px;
+}
+
+#tartans select#tartan {
+    display: inline-block;
+}
+
+#tartans select#tartan option, #tartans input {
+    color: darkolivegreen;
+    font-weight: bold;
+}
+
+#tartans label {
+    display: inline-block;
+    width: 140px;
+}
+
+#tartans label::after {
+    content: ':';
+}
+
+#tartans label.inline {
+    display: inline;
+}
+
+#tartans input.submit {
+    float: right;
+    border: 1px solid #222;
+}
+
+#tartans input.submit:hover {
+    border: 1px solid red;
+}
+
+#tartans #tartan {
+    width: 250px;
+}
+/*************** wrap css **********************/
+body {
+   /* background-image: url(images/aberdeen-small-2.svg); */
+    background-position: top 0px left 0px;
+    background-color: rgba(0,0,0,0.5);
+}
+
+#main {
+    font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: #d2691e;
+}
+
+.transparent {
+    background-color: rgba(255,255,255,0);
+}
+
+#body {
+    margin: 5px;
+    margin-top: 10px;
+    padding: 0;
+    min-width: 1100px;
+}
+
+#nav {
+    display: inline-block;
+    width: 210px;
+    height: 740px;
+    vertical-align: top;
+}
+
+#nav ul {
+    list-style: none;
+    list-style-position: inside;
+}
+
+#nav ul li {
+    color: white;
+    width: 100%;
+    background-color: #d2691e;
+    /*font-size: 1em;
+    line-height: 1em;*/
+    font-weight: bold;
+    margin-bottom: 5px;
+    margin-left: -25px;
+    padding: 5px;
+}
+
+#nav a:link, a:visited {
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+    width: 95%;
+}
+
+#nav a:hover, #nav a:active {
+    color: darkolivegreen;
+    text-shadow: 2px 2px 5px white;
+}
+
+#nav li:hover, #nav li:active {
+    box-shadow: 2px 2px 2px darkolivegreen;
+}
+
+#content {
+   display: inline-block;
+   margin-left: 0;
+   vertical-align: top;
+   padding: 0;
+   font-weight: bold;
+}
+
+#content h2 {
+    font-size: 2.5em;
+    color: darkolivegreen;
+    text-align: center;
+    line-height: .1em;
+}
+
+#content p::first-letter {
+    font-weight: bold;
+    font-size: 2em;
+    color: darkolivegreen;
+}
+
+#content p::first-line {
+    margin-left: 10px;
+    line-height: 1.3em;
+}
+
+#footer {
+    font-size: 3em;
+    line-height: 1em;
+    font-weight: bold;
+    padding: 10px;
+    margin: 5px;
+    min-width: 1050px;
+    text-align: center;
+    color: skyblue;
+    text-shadow: 0px 0px 15px purple;
+}
+#arrow {
+    display: inline-block;
+    height: 1px;
+    width: 1px;
+    border: 10px solid rgba(255, 255, 255, 0);
+    border-left-color: darkgreen;
+    vertical-align: bottom;
+}
+
+#nav ul li.current {
+    text-align: right;
+    color: darkgreen;
+    text-shadow: 0px 0px 5px white;
+
+}
+
+#formContainer {
+    display: inline-block;
+    vertical-align: top;
+}
+
+#main {
+    position: relative;
+}
+#formContainer {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+</style>
+
+</head>
+<body>
+
+<div id="main">
+
+<div id="content" class="transparent">
+  <div id="svg-container">
+    <svg id="svg1"><!--comment--></svg>
+  </div>
+</div><!-- end content div -->
+
+ 
+<div id="formContainer">
+<form id="tartans">
+<fieldset>
+<legend>Tartan Options</legend>
+<ul>
+  <li><label for="tartan">Tartan Pattern</label>
+  <select name="tartan" id="tartan" onChange="fadeOutButton('svg-button');">
+
+  </select>
+  </li>
+  <li>
+  <label for="threads">Thread Count</label>
+   <input id="threads" name="threads" type="number" pattern="[0-1]{0,1}[0-9]{1,4}"
+          size="4" value="100" min="4" max="19999" onChange="fadeOutButton('svg-button');" >
+  </li>
+  <li>
+  <label>For Export</label>
+  <input id="forExportYes" class="forExport" name="forExport"
+        type="radio" value="yes" onChange="calculateThreads('forExportYes');fadeOutButton('svg-button');">
+  <label class="inline" for="forExportYes">Yes</label>
+  <input id="forExportNo" name="forExport" class="forExport"
+        type="radio" value="no" onChange="fadeOutButton('svg-button');">
+  <label class="inline" for="forExportNo">No</label>
+  </li>
+  <li>
+  <label>Reverse</label>
+  <input id="reverseYes" class="reverse" name="reverse"
+        type="radio" value="yes" onChange="fadeOutButton('svg-button');">
+  <label class="inline" for="reverseYes">Yes</label>
+  <input id="reverseNo" name="reverse" class="reverse"
+        type="radio" value="no" onChange="fadeOutButton('svg-button');">
+  <label class="inline" for="reverseNo">No</label>
+  </li>
+  <li><label for="weave">Weave</label>
+  <select name="weave" id="weave" onChange="fadeOutButton('svg-button');" >
+   <option value="2" selected="selected">Over 2 Threads Under 2 Threads</option>
+   <option value="3">Over 3 Threads Under 3 Threads</option>
+   <option value="4">Over 4 Threads Under 4 Threads</option>
+   <option value="1">Over 1 Threads Under 1 Threads</option>
+  </select>
+  </li>
+
+  <li><label for="submit">Operation</label>
+  <input id="generate-button" type="button" class="operation"
+        value="Generate Tartan" id="submit" onClick="doTartan();fadeInButton('svg-button');">
+  <input id="svg-button" type="button" class="operation"
+        value="Generate SVG Document" onClick="myTartan.writeSvgImage();">
+  </li>
+</ul>
+</fieldset>
+</form>
+</div><!-- end formContainer -->
+
+</div><!-- end main div -->
+<script>
+var Log = {
+    Logger: "log2",
+    LogParent: "log-parent",
+    LogCloseTag: "log-close-button",
+    Notice: function() {},
+    Warning: function() {},
+    Error: function() {},
+    Debug: function() {},
+    Hide: function() {},
+    Show: function() {},
+    Remove: function() {},
+    logMsg: function() {},
+}
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+////////////////////// TARTAN.JS /////////////////////////////
+
+var svg;
+var subWindow; // used in displaying svg in separate window
+var myTartan;
+
+class Tartan {
+    threadX = 0;
+    threadY = 0;
+    currentPixelX = 0;
+    currentPixelY = 0;
+    side = 4;
+    end = 2;
+    threadBox = 4; // this.side / this.end * 2
+    threadCount = 0;
+    threadsToWeave = 0;
+    svgData = "";
+    data = null;
+    currentClass = null;
+    datasetExp;
+    dsStyleArray;
+    reverseData;
+    svgBody;
+    svgContainer;
+    height;
+    width;
+    svg;
+
+    constructor(dataId, threads, forExport, reverseThreads, tartanOptions) {
+
+        this.data = tartanDataObjects[parseInt(dataId)];
+
+        if (forExport === "yes") {
+            this.threadCount = this.data.getThreadCount();
+        } else {
+            this.threadCount = threads ? threads : 100;
+        }
+
+        let threadSchedule = this.data.getThreadSchedule()
+        Log.Notice("forExport=" + forExport + " data=" + threadSchedule);
+        this.datasetExp = new Array();
+        this.dsStyleArray = new Array();
+        if (reverseThreads === "yes") {
+            this.reverseData = new Array();
+            for (let i = threadSchedule.length-1; i >= 0; i--) {
+                this.reverseData[this.reverseData.length] = threadSchedule[i];
+            }
+            this.init(this.reverseData, this.datasetExp, this.dsStyleArray, this.threadCount, tartanOptions );
+        } else {
+            this.init(threadSchedule, this.datasetExp, this.dsStyleArray, this.threadCount, tartanOptions );
+        }
+    }
+
+    weave (colorArray, styleArray) {
+        this.svgBody = d3.select(document.body);
+        this.svgContainer =  this.svgBody.select("#svg-container");
+        this.svgContainer.html("");
+        this.width = this.threadsToWeave * this.end;
+        this.height = this.width;
+        this.viewbox =  [0, 0, this.width, this.height].join(" ")
+        this.svg = this.svgContainer
+            .append("svg")
+            .attr("version", "1.1")
+            .attr("id", "svg1")
+            .attr("xmlns", "http://www.w3.org/2000/svg")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr('height', this.height)
+            .attr('width', this.width)
+            .attr('viewbox', this.viewbox);
+
+        this.writeStyle(this.svg, styleArray);
+
+        let horizontalRows = this.svg
+          .append("g")
+          .attr("id","horizontal-rows")
+          .attr("x", 0)
+          .attr("y", 0);
+
+        let x1, x2, y1, y2, cssClass;
+
+        while (this.threadY < this.threadsToWeave) {
+
+            x1 = 0;
+            y1 = (this.threadY + .5)*this.end;
+            x2 = this.threadsToWeave * this.end;
+            y2 = y1;
+            cssClass = colorArray[this.threadY%this.threadCount] 
+                + " hor-" 
+                + this.threadY % this.threadBox; // right?
+
+            Log.Notice("horizontalRows threadY=" + this.threadY + ", x1=" + x1 + ", y1=" + y1);
+
+            horizontalRows
+                .append("line")
+                .attr("class", cssClass)
+                .attr("x1", x1)
+                .attr("y1", y1)
+                .attr("x2", x2)
+                .attr("y2", y2);
+
+            this.threadY++;
+        }
+
+        let verticalCols = this.svg
+            .append("g")
+            .attr("id","vertical-cols")
+            .attr("x", 0)
+            .attr("y", 0);
+
+        this.threadX=0;
+        this.threadY=0;
+        this.currentPixelX = 0;
+        this.currentPixelY = 0;
+
+        while (this.threadX < this.threadsToWeave) {
+
+            x1 = (this.threadX + 0.5)*this.end;
+            y1 = 0;
+            x2 = x1;
+            y2 = this.threadsToWeave * this.end;
+            cssClass = colorArray[this.threadX%this.threadCount]
+                + " vert-" 
+                + this.threadX % this.threadBox;
+
+            verticalCols
+                .append("line")
+                .attr("class", cssClass)
+                .attr("x1", x1)
+                .attr("y1", y1)
+                .attr("x2", x2)
+                .attr("y2", y2);
+
+          this.threadX++;
+        }
+
+        Log.Notice("colorArray.length=" + colorArray.length);
+
+        // de-initialize tartan
+        this.threadX=0;
+        this.threadY=0;
+        this.currentPixelX = 0;
+        this.currentPixelY = 0;
+        this.threadCount = 0;
+        this.threadsToWeave = 0;
+
+        this.svgData = this.svgContainer.html();
+    };
+
+    writeStyle (svg, styleArray) {
+
+        var style = "";
+
+        for (var i = 0; i<styleArray.length; i++) {
+            var color = styleArray[i][1];
+
+            style = style
+                + "\n." + styleArray[i][0] + " \{\n"  // this is a CSS Class
+                + "fill: none;\n"
+                + "stroke: " + color + ";\n"
+                + "stroke-dasharray: " + this.side + ", " + this.side + ";\n"
+                + "stroke-width: " + this.end  + ";\n"
+                + "\}\n";
+        }
+
+        for (var i = 0; i< parseInt(2*this.side / this.end ); i++) {
+            style = style
+                + "\n.hor-" + i + " \{\n"
+                + "stroke-dashoffset: " + parseInt(i * this.end) + ";\n"
+                + "\}\n\n"
+                + "\n.vert-" + i + " \{\n"
+                + "stroke-dashoffset: " + parseInt(this.side + i * this.end) + ";\n"
+                + "\}\n\n";
+        }
+
+        this.svg
+            .append("style")
+            .text(style);
+    };
+
+    getOptions(tartanOptions) {
+        // nothing here yet
+        for (let option in tartanOptions) {
+            this[option] = tartanOptions[option];
+        }
+    };
+
+    writeSvgImage() {
+
+        let svgHandle = $("#svg1"),
+            styleHandle = $("body style"),
+            width = this.width,
+            height = this.height,
+            viewbox = this.viewbox;
+
+        subWindow = window.open(
+            "#svg",  // url to open
+            "example", // window name
+            "height="
+                + height + ",width=" + width + ",toolbar=yes,menubar=yes,"
+                + "scrollbars=yes,resizable=yes,chrome=true,titlebar=true", // options
+            "true" // replace (removes current document)
+        );
+
+        let svgDoc = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n"
+            + "<!DOCTYPE svg PUBLIC \"-//W3C//DTD SVG 1.1//EN\" "
+            + "\"http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd\">\n";
+
+        svgDoc += this.svgData;
+
+        subWindow.document.write(svgDoc);
+    };
+
+    init(inputArray, outputArray, styleArray, threadsToWeave, tartanOptions) {
+
+        this.getOptions(tartanOptions);
+
+        this.expandColorArray(inputArray, outputArray, styleArray);
+        Log.Notice("outputArray=" + outputArray);
+        this.threadCount = outputArray.length;
+
+        if (arguments.length >= 4) {
+            this.threadsToWeave = threadsToWeave;
+        } else {
+            this.threadsToWeave = this.threadCount;
+        }
+
+        this.weave(outputArray, styleArray);
+
+        Log.Notice("Finished with tartan");
+    };
+    expandColorArray(inArray, outArray, styleArray) {
+
+        let index = 0,
+            key,
+            color,
+            colorName,
+            repeat,
+            found = false,
+            styleId,
+            styleIndex = 0,
+            lastRepeat;
+
+        for (let i = 0; i<inArray.length; i++) {
+            key = inArray[i].key;
+            color = '#' + this.data.getPallet()[key].value;
+            colorName = this.data.getPallet()[key].name;
+            repeat = inArray[i].value;
+            found = false;
+
+            for (let k = 0; k < styleArray.length; k++) {
+                if (styleArray[k][1] == color) {
+                    found = true;
+                    styleId = styleArray[k][0];
+                    break;
+                }
+            }
+
+            if (!found) {
+                styleId = "c" + styleArray.length;
+                styleArray[styleIndex] = [styleId, color, colorName];
+                styleIndex++;
+            }
+            for (let j = 0; j < repeat; j++) {
+                outArray[index] = styleId;
+                index++;
+            }
+            lastRepeat = repeat;
+        }
+
+        // add reversed array
+        if (this.data.getSymmetry() == "reflect fcp") {
+            for (let i = outArray.length - lastRepeat-1; i >= inArray[0].value; i--) {
+                outArray[index] = outArray[i];
+                index++;
+            }
+        }
+        Log.Notice("finished expandColorArray");
+    }
+};
+
+function doTartan(evt) {
+
+    let id = $('#tartan option:selected').attr("value"),
+        weave = $('#weave option:selected').attr("value"),
+        forExport = $('#tartans input.forExport:checked').attr("value"),
+        reverseThreads = $('#tartans input.reverse:checked').attr("value"),
+        threads = $('#tartans input#threads').val();
+
+    Log.Notice("threads=" + threads);
+
+    if (reverseThreads == undefined) {
+        reverseThreads = "no";
+    }
+    if (forExport == undefined) {
+        forExport = "no";
+    }
+    if (parseInt(threads) > 3  && parseInt(threads) < 20000 ) {
+        // do nothing
+    } else {
+        threads = 100;
+    }
+
+    Log.Notice("id= " + id + " threads='" + threads + "' weave =" + weave );
+
+    if (parseInt(id) == 0) {
+        return false;
+    }
+
+    myTartan = new Tartan(id, threads, forExport, reverseThreads, {side: weave * 2, threadBox: weave * 2});
+}
+
+function simulateUserInteraction() {
+    $('#tartan option[value=1]').attr("selected","");
+    $('#forExportYes').click();
+    let threads = $('#threads').val();
+    $('#forExportNo').click();
+    $('#reverseNo').click();
+    $('#threads').val(2*parseInt(threads));
+    $('#generate-button').click();
+}
+/////////////////// END TARTAN.JS ////////////////////////////
+
+/////////////////// TARTAN-APP-DATA.JS ///////////////////////
+var TartanRawData = new Array();
+TartanRawData.push(["Choose a Tartan Pattern","",""]);
+TartanRawData.push(["Ailsa Craig",
+    "K=101010BLACK;DY=E8C000YELLOW;DN=5C5C5CDARK GREY;W=E0E0E0WHITE;XR=C80000BASIC RED;N=888888GRAY;R=C80000RED;WW=F8F8F8WILSON WHITE;",
+    "R10WW4N40DY4K32WW36K4WW10","reflect fcp"]);
+TartanRawData.push(["Aberdeen","P=780078PURPLE;A=5C8CA8AZURE;LG=289C18LIGHT GREEN;K=101010BLACK;R=C80000RED;C=A00048CRIMSON;WW=F8F8F8WILSON WHITE;"
+,"WW4C6R46WW4K32LG8WW2R12C6WW2C6R12WW2A20WW4P6R16C6WW4C6R16P6WW4K24LG8K24WW4P6R16C6WW4C6R16P6WW4P12A8WW4A8P12WW4K32LG8WW4LG8K32WW4P12A8WW4A8P12WW4P6R16C6WW4C6R16P6WW4K24LG8K24WW4P6R16C6WW4C6R16P6WW4A20WW2R12C6WW2C6R12WW2LG8","repeat"]);
+TartanRawData.push(["Alister Grant 'Mohr', the Laird's Champion",
+"K=101010BLACK;R=B13E0FRED;G=777733GREEN;LG=BDBD65LIGHT GREEN;",
+"G60K8LG20K8R10LG10R30","reflect fcp"]);
+TartanRawData.push(["Allison (1882)",
+"DB=080848BLUE;Y=E8C000YELLOW;G=005020MOD GREEN;K=101010BLACK;W=E0E0E0WHITE;B=2C4084BLUE;R=DC0000RED;",
+"DB64Y3G12K3G12W3DB15B4R21DB3Y2","reflect fcp"]);
+TartanRawData.push(["Anderson (Highland Society of London)",
+"R=DC0000RED;A=3C82AFBLUE;K=101010BLACK;W=E0E0E0WHITE;Y=E8C000YELLOW;B=2C4084BLUE;G=005020MOD GREEN;",
+"R12A20R4K4R4A54K12W12K8Y4K8Y4K16R4B16R8G20R4B4R8B4R4G20R12","reflect fcp"]);
+TartanRawData.push(["Banause-Zunft zu Olte",
+"Y=E8C000YELLOW;HG=285800HUNTING GREEN;LG=289C18LIGHT GREEN;W=E0E0E0WHITE;NB=003C64NAVY BLUE;DR=880000DARK RED;",
+"Y4HG8NB2DR6NB6HG6LG2DR64NB28W6Y4","reflect fcp"]);
+TartanRawData.push(["Baillie Dress",
+"DT=441800DARK BROWN;DW=B8B8B8OFF WHITE;OT=603800OLIVE BROWN;W=E0E0E0WHITE;T=604000BROWN;LT=A08858LIGHT BROWN;",
+"T8W44T40LT6T6LT6T6LT48","reflect fcp"]);
+TartanRawData.push(["Sommerville",
+"R=C80000RED;Y=E8C000YELLOW;CLR=E87878CORAL;W=E0E0E0WHITE;ET=4C0000EARTH;HG=285800HUNTING GREEN;LN=C0C0C0LIGHT GRAY;MY=D09800M YELLOW;NB=003C64NAVY BLUE;ZR=A00000RUST;G=006818GREEN;B=2C2C80BLUE;"
+,
+"W4R6CLR12R96B8R4G32CLR10R6CLR10B40R10G6R10G108R6CLR10Y4","reflect fcp"]);
+TartanRawData.push(["Salich-Plaja of St. Genis",
+"G=006818GREEN;R=C80000BASIC RED;Y=E8C000YELLOW;K=101010BLACK;W=E0E0E0WHITE;B=2C2C80BLUE;",
+"B26W6B26K6B6K16B6K30Y6R6G6W6R6W6G6R6Y6K30B6K16B6K6B26W6","repeat"]);
+TartanRawData.push(["Satchidananda",
+"O=D87C00ORANGE;T=604000BROWN;DY=E8C000YELLOW;W=E0E0E0WHITE;LB=2888C4LIGHT BLUE;AA=789484ANC AZURE;CC=EC34C4ALAZARIN;AR=FC5000BRIGHT ORANGE;",
+"T12W4AR4DY10AR40W4LB20DY8T36DY8LB20W4AR40DY10AR4W4","repeat"]);
+TartanRawData.push(["Kinnieson",
+"RB=1C0070ROYAL BLUE;G=006818GREEN;DR=880000DARK RED;MY=D09800M YELLOW;K=101010BLACK;LN=C0C0C0LIGHT GRAY;SB=A8ACE8SKY BLUE;PH=6C0070HEATHER;",
+"RB8K65LN38G4LN38G4LN38K64DR8K64LN38MY4LN38MY4LN38K64","repeat"]);
+TartanRawData.push(["MacFarlane Dress",
+"K=101010BLACK;CW=FCFCFCCLEAR;DB=202060DARK BLUE;DG=003820DARK GREEN;R=C80000RED;",
+"DB8CW4R12K2DB24DG8DB4R12DB2R12CW4DG16R4CW32R8","reflect fcp"]);
+TartanRawData.push(["Clark",
+"B=2C4084BLUE;K=101010BLACK;W=E0E0E0WHITE",
+"B8W8B38K38W8K38W8B14W8B22W8","reflect fcp"]);
+TartanRawData.push(["Gordon, Red (1819)",
+"A=5C8CA8AZURE;K=101010BLACK;CLR=E87878CORAL;HG=285800HUNTING GREEN;P=780078PURPLE;S=C8002CSCARLET;W=E0E0E0WHITE;",
+"P32W4CLR14W4K28A12W4P30W4HG34A12HG12S16K12S16K4S16K12S16HG12A12HG34W4P30W4A12K28W4CLR14W4","repeat"]);
+TartanRawData.push(["Dundee (2003)",
+"LSB=98C8E8LIGHT SKY;WG=408060WTHRD GREEN;DR=880000DARK RED;WW=FCFCFCWILSON WHITE;K=101010BLACK;LO=EC8048LGT ORANGE;",
+"WW12K12WW6LSB30LO12WW6K6WW6LO12WG42DR6K42DR6LO70","repeat"]);
+TartanRawData.push(["Abercrombie (Wilsons No 2/64)",
+"K=101010BLACK;P=5A008CPURPLE;G=005020MOD GREEN;Y=E8C000YELLOW;",
+"K4P24K24G24Y4G24K24","reflect fcp"]);
+TartanRawData.push(["Alexander of Menstry",
+"LN=A0A0A0LIGHT GRAY;LB=2888C4LIGHT BLUE;WW=F8F8F8WILSON WHITE;N=888888GRAY;K=101010BLACK;MP=9C68A4MAUVE;G=006818GREEN;B=2C2C80BLUE;",
+"G10MP4G4MP18K18LN18B60WW10","reflect fcp"]);
+TartanRawData.push(["Alexander of Menstry Dress",
+"B=2C2C80BLUE;WW=F8F8F8WILSON WHITE;LN=A0A0A0LIGHT GRAY;K=101010BLACK;P=780078PURPLE;G=006818GREEN;",
+"G10P4G4P18K18LN18WW60B10","reflect fcp"]);
+TartanRawData.push(["Argyle Dress",
+"K=101010BLACK;B=2C2C80BLUE;G=006818GREEN;R=C80000RED;W=E0E0E0WHITE;",
+"B8K6G34K34B30K6R8K6B30K34W6B8W50B6W12B6W50B8W6K34G34K6","repeat"]);
+TartanRawData.push(["Wolfe",
+"AG=00643CANC GREEN;AR=E86000ANC RED;AY=DC943CANC YELLOW;",
+"AY8AR72AG8AR26AG26AR8AG8AR8AG26AR26AG8AR72","repeat"]);
+TartanRawData.push(["Bruce of Kinnaird",
+"XR=C80000BASIC RED; K=101010BLACK; CW=FCFCFCCLEAR; YT=D8B000TAN YELLOW; AA=789484ANC AZURE; WG=408060WTHRD GREEN; CLR=E87878CORAL;",
+"XR48WG44K4CW12K4YT4K30AA12CLR12CW4",
+"reflect fcp"]);
+TartanRawData.push(["Brodie Dress",
+"K=101010BLACK; R=C80000RED; W=FCFCFCWILSON WHITE; B=2C2C80BLUE;",
+"B12W40K36R66K12",
+"reflect fcp"]);
+TartanRawData.push(["Barclay Dress",
+"AK=1C1C1CANC BLACK;DY=E8C000YELLOW;WY=E0E0E0WHITE;GO=BC8C00DARK GOLD;",
+"WY10DY64AK64DY10",
+"reflect fcp"]);
+TartanRawData.push(["Baxter",
+"K=101010BLACK;CW=FCFCFCCLEAR;DR=880000DARK RED;FSB=2474E8FS BLUE;G=006818GREEN;MY=D09800M YELLOW;",
+"FSB8G64K4FSB8K4MY16K4MY16K4FSB8K4DR64CW8",
+"reflect fcp"]);
+TartanRawData.push(["Alexander of Menstry Hunting",
+"A=5C8CA8AZURE;LP=B468ACMAUVE;CLR=E87878CORAL;WW=F8F8F8WILSON WHITE;B=2C2C80BLUE;LN=A0A0A0LIGHT GRAY;N=888888GRAY;K=101010BLACK;G=006818GREEN;P=780078PURPLE;WG=408060WTHRD GREEN;LSB=98C8E8LIGHT SKY;",
+"LP10WG4LP4WG52K18LN18LSB26WW10",
+"reflect fcp"]);
+
+//// New 
+TartanRawData.push(["Chapman (Personal)",
+"WW=FCFCFCWILSON WHITE;MP=9C68A4MAUVE;HG=285800HUNTING GREEN;K=101010BLACK;R=C80000RED;",
+"K72HG4K4HG4K36MP36K6WW6K6MP36K36HG4K4HG4K36MP36K6R6",
+"reflect fcp"]);
+TartanRawData.push(["Carlisle Ancient",
+"DR=880000DARK RED;FSB=2474E8FS BLUE;MY=D09800M YELLOW;",
+"FSB44MY8DR4MY8DR4",
+"reflect fcp"]);
+TartanRawData.push(["Campbell",
+"K=101010BLACK; OG=5C6428OLIVE GREEN;B=345064CAMP BLUE;",
+"B28K6B6K6B6K32OG32K6OG32K32B32K6B6",
+"reflect fcp"]);
+TartanRawData.push(["Buchanan Old Dress",
+"K=101010BLACK;W=E0E0E0WHITE;Y=E8C000YELLOW;R=DC0000RED;",
+"K80W50K20Y16K6Y16K20R50W8",
+"reflect fcp"]);
+TartanRawData.push(["Cameron Hose #2",
+"LC=C80050LGT CRIMSON;R=DC0000RED;W=E0E0E0WHITE;K=101010BLACK;",
+"LC6R6W46R6LC6R46K4R6",
+"reflect fcp"]);
+TartanRawData.push(["",
+"",
+"",
+""]);
+
+////////////////// END TARTAN-APP-DATA.JS ////////////////////
+function fadeInButton(id, speed) {
+    if (arguments.length < 2) {
+        var speed = 1000
+    }
+    $('#' + id).fadeIn(speed)
+}
+function fadeOutButton(id, speed) {
+    if (arguments.length < 2) {
+        var speed = 1000
+    }
+    $('#' + id).fadeOut(speed)
+}
+
+function calculateThreads(id) {
+    let datasetId = $('#tartan option:selected').val(),
+        threadCount = tartanDataObjects[datasetId].getThreadCount();
+    $('#threads').val(threadCount);
+}
+
+class TartanData {
+
+    #name;
+    #pallet;
+    #threadSchedule;
+    #symmetry;
+    #threadCount = 0;
+
+    constructor(name,pallet,threadSchedule,symmetry) {
+        this.#name = name;
+        this.#symmetry = (symmetry ? symmetry.toLowerCase() : "reflect fcp");
+        this.createPallet(pallet);
+        this.createSchedule(threadSchedule);
+        this.calculateThreadCount();
+        return this;
+    };
+    createPallet(pallet) {
+        this.#pallet = new Object();
+        let colors = pallet.split(";");
+        let color,colorArray,colorKey,colorName,colorValue;
+        for (let i=0, color;i<colors.length;i++) {
+            color = colors[i].trim();
+            if (color == "") {
+                continue;
+            }
+            colorArray = color.split("=");
+            colorKey = colorArray[0]
+            colorValue = colorArray[1].substr(0,6)
+            colorName = colorArray[1].substr(6);
+            this.#pallet[colorKey.toUpperCase()] = {
+                name: colorName.toUpperCase(),
+                value: colorValue.toUpperCase()
+            }
+        }
+    };
+    createSchedule(threadSchedule) {
+        this.#threadSchedule = new Array();
+        let pos = 0,
+            char,
+            key,
+            val,
+            count = 0;
+        while (pos < threadSchedule.length) {
+            key = "";
+            val = 0
+            char = threadSchedule[pos]
+            while(!(parseInt(char) > -1)) {
+                key += char.toUpperCase();
+                pos++;
+                char = threadSchedule[pos]
+            }
+            val += parseInt(char);
+            pos++
+            char = threadSchedule[pos]
+            while(pos < threadSchedule.length && (parseInt(char) > -1)) {
+                val = val*10 + parseInt(char)
+                pos++
+                char = threadSchedule[pos]
+            }
+            this.#threadSchedule[count++] = {
+                key: key,
+                value: val
+            }
+        }
+    };
+    calculateThreadCount() {
+        this.#threadCount = 0;
+        let multiplier = 2,
+            i = 0;
+        if (this.#symmetry == "repeat") {
+            multiplier = 1;
+        }
+
+        for (; i< this.#threadSchedule.length; i++) {
+            this.#threadCount += this.#threadSchedule[i].value * multiplier;
+        }
+        if (this.#threadCount == 0) {
+            return
+        }
+        if (this.#symmetry == "reflect fcp") {
+            this.#threadCount -= (this.#threadSchedule[0].value + this.#threadSchedule[i-1].value);
+        }
+    };
+    getThreadCount() {
+        if (this.#threadCount == 0) {
+            this.calculateThreadCount();
+        }
+        return this.#threadCount;
+    };
+    getThreadSchedule() {
+        return this.#threadSchedule;
+    };
+    getName() {
+        return this.#name;
+    };
+    getPallet() {
+        return this.#pallet;
+    }
+    getSymmetry() {
+        return this.#symmetry;
+    }
+};
+var tartanDataObjects = new Array();
+var sc;
+window.addEventListener('DOMContentLoaded', () => {
+    // svg document cannot be generated prior to tartan generation
+    fadeOutButton('svg-button',10);
+
+    for (let i=0;i<TartanRawData.length;i++) {
+        tartanDataObjects.push(new TartanData(...TartanRawData[i]))
+    }
+
+    var body = d3.select(document.body);
+    var select = body.select('form#tartans select#tartan');
+    select
+        .selectAll('#tartan option')
+        .data(tartanDataObjects)
+        .enter()
+        .append("option")
+        .attr("value", function(d,i) {
+            return i;
+        })
+        .text(function(d,i) {
+            return d.getName() + " (" + d.getThreadCount() + ")";
+        });
+
+
+    simulateUserInteraction();
+    Log.Hide();
+    // Log.Remove();
+});
+</script>
+
+</body>
+</html>

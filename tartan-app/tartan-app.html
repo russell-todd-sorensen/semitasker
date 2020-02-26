@@ -1,0 +1,282 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="darkolivegreen" >
+<meta name="description" content="Tartan Generator WebApp: code by Russell Sorensen.
+Generates tartan image given tartan threadcount and corresponding color pallet." >
+
+<title>Tartan Web App</title>
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all" >
+<link rel="stylesheet" type="text/css" href="css/tartan-app.css" media="all" />
+
+
+<style>
+#header {
+    display: none;
+}
+</style>
+
+</head>
+<body>
+
+<div id="main">
+ 
+<div id="formContainer">
+<form id="tartans">
+<fieldset>
+ <legend>Tartan Options</legend>
+ <ul>
+  <li><label for="tartan">Tartan Pattern</label>
+  <select name="tartan" id="tartan" onChange="fadeOutButton('svg-button');">
+
+  </select>
+  </li>
+  <li>
+  <label for="threads">Thread Count</label>
+   <input id="threads" name="threads" type="number" pattern="[0-1]{0,1}[0-9]{1,4}"
+          size="4" value="100" min="4" max="19999" onChange="fadeOutButton('svg-button');" >
+  </li>
+  <li>
+  <label>For Export</label>
+   <input id="forExportYes" class="forExport" name="forExport"
+          type="radio" value="yes" onChange="calculateThreads('forExportYes');fadeOutButton('svg-button');">
+    <label class="inline" for="forExportYes">Yes</label>
+   <input id="forExportNo" name="forExport" class="forExport"
+          type="radio" value="no" onChange="fadeOutButton('svg-button');">
+    <label class="inline" for="forExportNo">No</label>
+  </li>
+  <li>
+  <label>Reverse</label>
+   <input id="reverseYes" class="reverse" name="reverse"
+          type="radio" value="yes" onChange="fadeOutButton('svg-button');">
+  <label class="inline" for="reverseYes">Yes</label>
+   <input id="reverseNo" name="reverse" class="reverse"
+          type="radio" value="no" onChange="fadeOutButton('svg-button');">
+  <label class="inline" for="reverseNo">No</label>
+  </li>
+  <li><label for="weave">Weave</label>
+  <select name="weave" id="weave" onChange="fadeOutButton('svg-button');" >
+   <option value="2" selected="selected">Over 2 Threads Under 2 Threads</option>
+   <option value="3">Over 3 Threads Under 3 Threads</option>
+   <option value="4">Over 4 Threads Under 4 Threads</option>
+   <option value="1">Over 1 Threads Under 1 Threads</option>
+  </select>
+  </li>
+
+  <li><label for="submit">Operation</label>
+    <input id="generate-button" type="button" class="operation"
+           value="Generate Tartan" id="submit" onClick="doTartan();fadeInButton('svg-button');">
+    <input id="svg-button" type="button" class="operation"
+           value="Generate SVG Document" onClick="myTartan.writeSvgImage();">
+  </li>
+</ul>
+</fieldset>
+<fieldset>
+    <legend>Define New Tartan</legend>
+<ul>
+  <li>
+  <label for="tartanName">Tartan Name</label>
+  <input type="text" id="tartanName" name="tartanName" value="Ailsa Craig" >
+  </li>
+  <li>
+  <label for="threadCount">Thread Schedule</label>
+  <textarea id="threadCount" name="threadCount" cols="40" 
+        rows="10" >R10WW4N40DY4K32WW36K4WW10</textarea>
+  </li>
+  <li>
+  <label for="colorPallet">Color Pallet</label>
+  <textarea id="colorPallet" name="colorPallet" cols="40"
+   rows="10" >
+K=101010BLACK;
+DY=E8C000YELLOW;
+DN=5C5C5CDARK GREY;
+W=E0E0E0WHITE;
+XR=C80000BASIC RED;
+N=888888GRAY;
+R=C80000RED;
+WW=F8F8F8WILSON WHITE;</textarea>
+  </li>
+  <li>
+  <input id="addNewTartan" name="addNewTartan" type="button"
+         value="Add New Tartan" onClick="addNewTartan()" >
+  </li>
+</ul>
+</fieldset>
+</form>
+</div><!-- end formContainer -->
+
+<div id="content" class="transparent">
+  <div id="svg-container">
+    <svg id="svg1"><!--comment--></svg>
+  </div>
+</div><!-- end content div -->
+
+<div id="thread-schedule">
+    <div id="threadTable"><!-- data auto-generated --></div><!-- end threadTable -->
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/log-2.js" charset="utf-8"></script>
+<script src="js/tartan.js"></script>
+<script src="js/tartan-app-data.js"></script>
+
+<script>
+
+function fadeInButton(id, speed) {
+    if (arguments.length < 2) {
+        var speed = 1000
+    }
+    $('#' + id).fadeIn(speed)
+}
+function fadeOutButton(id, speed) {
+    if (arguments.length < 2) {
+        var speed = 1000
+    }
+    $('#' + id).fadeOut(speed)
+}
+
+function calculateThreads(id) {
+    let datasetId = $('#tartan option:selected').val(),
+        threadCount = tartanDataObjects[datasetId].getThreadCount();
+    $('#threads').val(threadCount);
+}
+
+class TartanData {
+
+    #name;
+    #pallet;
+    #threadSchedule;
+    #symmetry;
+    #threadCount = 0;
+
+    constructor(name,pallet,threadSchedule,symmetry) {
+        this.#name = name;
+        this.#symmetry = (symmetry ? symmetry.toLowerCase() : "reflect fcp");
+        this.createPallet(pallet);
+        this.createSchedule(threadSchedule);
+        this.calculateThreadCount();
+        return this;
+    };
+    createPallet(pallet) {
+        this.#pallet = new Object();
+        let colors = pallet.split(";");
+        let color,colorArray,colorKey,colorName,colorValue;
+        for (let i=0, color;i<colors.length;i++) {
+            color = colors[i].trim();
+            if (color == "") {
+                continue;
+            }
+            colorArray = color.split("=");
+            colorKey = colorArray[0]
+            colorValue = colorArray[1].substr(0,6)
+            colorName = colorArray[1].substr(6);
+            this.#pallet[colorKey.toUpperCase()] = {
+                name: colorName.toUpperCase(),
+                value: colorValue.toUpperCase()
+            }
+        }
+    };
+    createSchedule(threadSchedule) {
+        this.#threadSchedule = new Array();
+        let pos = 0,
+            char,
+            key,
+            val,
+            count = 0;
+        while (pos < threadSchedule.length) {
+            key = "";
+            val = 0
+            char = threadSchedule[pos]
+            while(!(parseInt(char) > -1)) {
+                key += char.toUpperCase();
+                pos++;
+                char = threadSchedule[pos]
+            }
+            val += parseInt(char);
+            pos++
+            char = threadSchedule[pos]
+            while(pos < threadSchedule.length && (parseInt(char) > -1)) {
+                val = val*10 + parseInt(char)
+                pos++
+                char = threadSchedule[pos]
+            }
+            this.#threadSchedule[count++] = {
+                key: key,
+                value: val
+            }
+        }
+    };
+    calculateThreadCount() {
+        this.#threadCount = 0;
+        let multiplier = 2,
+            i = 0;
+        if (this.#symmetry == "repeat") {
+            multiplier = 1;
+        }
+
+        for (; i< this.#threadSchedule.length; i++) {
+            this.#threadCount += this.#threadSchedule[i].value * multiplier;
+        }
+        if (this.#threadCount == 0) {
+            return
+        }
+        if (this.#symmetry == "reflect fcp") {
+            this.#threadCount -= (this.#threadSchedule[0].value + this.#threadSchedule[i-1].value);
+        }
+    };
+    getThreadCount() {
+        if (this.#threadCount == 0) {
+            this.calculateThreadCount();
+        }
+        return this.#threadCount;
+    };
+    getThreadSchedule() {
+        return this.#threadSchedule;
+    };
+    getName() {
+        return this.#name;
+    };
+    getPallet() {
+        return this.#pallet;
+    }
+    getSymmetry() {
+        return this.#symmetry;
+    }
+};
+var tartanDataObjects = new Array();
+var sc;
+window.addEventListener('DOMContentLoaded', () => {
+    // svg document cannot be generated prior to tartan generation
+    fadeOutButton('svg-button',10);
+
+    for (let i=0;i<TartanRawData.length;i++) {
+        tartanDataObjects.push(new TartanData(...TartanRawData[i]))
+    }
+
+    var body = d3.select(document.body);
+    var select = body.select('form#tartans select#tartan');
+    select
+        .selectAll('#tartan option')
+        .data(tartanDataObjects)
+        .enter()
+        .append("option")
+        .attr("value", function(d,i) {
+            return i;
+        })
+        .text(function(d,i) {
+            return d.getName() + " (" + d.getThreadCount() + ")";
+        });
+
+    // For testing only: 
+    sc = tartanDataObjects[1];
+
+    Log.Hide();
+    // Log.Remove();
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Untitled Document</title>
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css" >
+
+<style>
+#svg1 {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    height: 200px;
+    width: 400px;   
+    border: solid black 1px;
+    zoom: 3.0;
+    fill: #444;
+}
+
+.c1 {
+    fill: green;
+}
+
+.c1-under {
+    fill: green;
+    z-index: -1000;
+}
+
+.c2 {
+    fill: grey;
+}
+.c2-under {
+    fill: grey;
+    z-index: -1000;
+}
+.c3 {
+    fill: red;
+}
+.c3-under {
+    fill: red;
+    z-index: -1000;
+}
+.c4 {
+    fill: tan;
+}
+.c4-under {
+    fill: tan;
+    z-index: -1000;
+}
+
+</style>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" 
+ src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+<script src="/js/d3.v3.js"></script>
+
+
+<script>
+
+var tiles = 10;
+var row = 0;
+var col = 0;
+var start = 0;
+var svg;
+var dataset;
+
+$(document).ready(function() {
+	  svg = d3.select(document.body)
+  	.append("svg")
+		.attr('id','svg1');
+
+	dataset = [
+		{
+			class: "c1",
+			repeat: 2
+		},
+		{
+			class: "c2",
+			repeat: 2
+		},
+		{
+			class: "c3",
+			repeat: 4
+		},
+		{
+			class: "c2",
+			repeat: 2
+		},
+		{
+			class: "c4",
+			repeat: 6
+		}
+	];
+	for (var dl = 0; dl < dataset.length; dl++) {
+		var repeat = dataset[dl].repeat;
+		var rclass = dataset[dl].class;
+		var rclass2 = rclass + "-under";
+		Log.Notice("dl=" + dl + " repeat=" + repeat + " rclass=" + rclass);
+		for ( var r = 0; r< repeat; r++ ) {
+			start = (row % 2 == 0 ? 0 : 2);
+			Log.Notice("  row=" + row + " start=" + start);
+			var g = svg
+				.append("g")
+					.attr("id", "row-" + row);
+			for (var t = 0; t<tiles;t++) {
+					g.append("rect")
+						.attr("class", rclass)
+						.attr("height", 2)
+						.attr("width", 4)
+						.attr("x", start + 8*t)
+						.attr("y", row * 2);
+					g.append("rect")
+					  .attr("class", rclass2)
+						.attr("height", 2)
+						.attr("width", 4)
+						.attr("x", start + 8*t + 4)
+						.attr("y", row * 2);
+			}
+			var g = svg
+				.append("g")
+					.attr("id", "col-" + col);
+			for (var t = 0; t<tiles;t++) {
+					g.append("rect")
+						.attr("class", rclass)
+						.attr("height", 4)
+						.attr("width", 2)
+						.attr("y", start + 8*t)
+						.attr("x", col * 2);
+					g.append("rect")
+					  .attr("class", rclass2)
+						.attr("height", 2)
+						.attr("width", 4)
+						.attr("x", start + 8*t + 4)
+						.attr("y", col * 2);
+			}
+			col++;
+			row++;
+		}
+	}
+	if (false) {
+	// now do columns
+	for (var dl = 0; dl < dataset.length; dl++) {
+		var repeat = dataset[dl].repeat;
+		var rclass = dataset[dl].class;
+		
+		Log.Notice("dl=" + dl + " repeat=" + repeat + " rclass=" + rclass);
+		for ( var r = 0; r< repeat; r++ ) {
+			start = (col % 2 == 0 ? 2 : 0);
+			Log.Notice("  col=" + col + " start=" + start);
+			var g = svg
+				.append("g")
+					.attr("id", "col-" + col);
+			for (var t = 0; t<tiles;t++) {
+					g.append("rect")
+						.attr("class", rclass)
+						.attr("height", 4)
+						.attr("width", 2)
+						.attr("y", start + 8*t)
+						.attr("x", col * 2);
+			}
+			col++;
+		}
+	}
+	}
+	
+});
+
+ Log.Hide();
+</script>
+
+</head>
+<body>
+<!--
+<svg id="svg2">
+<rect x="0" y="0" height="2" width="4" class="hc1"/>
+<rect x="8" y="0" height="2" width="4" class="hc1"/>
+<rect x="16" y="0" height="2" width="4" class="hc1"/>
+<rect x="24" y="0" height="2" width="4" class="hc1"/>
+<rect x="32" y="0" height="2" width="4" class="hc1"/>
+<rect x="40" y="0" height="2" width="4" class="hc1"/>
+<rect x="48" y="0" height="2" width="4" class="hc1"/>
+<rect x="56" y="0" height="2" width="4" class="hc1"/>
+<rect x="64" y="0" height="2" width="4" class="hc1"/>
+<rect x="72" y="0" height="2" width="4" class="hc1"/>
+<rect x="80" y="0" height="2" width="4" class="hc1"/>
+<rect x="88" y="0" height="2" width="4" class="hc1"/>
+<rect x="96" y="0" height="2" width="4" class="hc1"/>
+
+
+</svg>
+-->
+</body>
+</html>
