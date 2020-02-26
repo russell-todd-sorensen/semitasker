@@ -6,7 +6,8 @@
 <title>HeapSort</title>
 <style>
 </style>
-<script src=""></script>
+
+<script src="/js/d3.v3.js"></script>
 
 <script>
     /*
@@ -194,7 +195,7 @@ class Heap {
         this.heap.unshift(entry);
         this.entries++;
         //this.permute(1,this.entries);
-        this.ops++;
+        //this.ops++;
         return this.heap;
     }
     peek(pos) {
@@ -365,6 +366,117 @@ function sumLogN(n) {
     }
     return total;
 }
+
+
+
+var testHeapArray = [18,12,11,10,6,16,5,9,1,7,2,3,4,8,5]
+var demoArray = [{apos:1,b:"b1",sum:5},
+{apos:1,b:"b1",sum:5},
+{apos:2,b:"b2",sum:8},
+{apos:3,b:"b3",sum:4},
+{apos:4,b:"b4",sum:3},
+{apos:5,b:"b5",sum:15},
+{apos:6,b:"b6",sum:7},
+{apos:7,b:"b7",sum:1},
+{apos:8,b:"b8",sum:2},
+{apos:9,b:"b9",sum:13},
+{apos:10,b:"b10",sum:12},
+{apos:11,b:"b11",sum:6},
+{apos:12,b:"b12",sum:10},
+{apos:13,b:"b13",sum:11},
+{apos:14,b:"b14",sum:9},
+{apos:15,b:"b15",sum:14}
+]
+
+h3.heap = demoArray
+h3.entries = 15;
+var cellsPerRow = 1
+var currentCol = 1
+var graph_config = {
+    heap: h3,
+    id: "heap",
+    svgId: "svg1",
+    scale: 1.0,
+    height: 1500,
+    width: 1000,
+    margin: 5,
+    cellWidth: 40,
+    cellHeight: 40,
+    fontSize: 20,
+    valueField: "sum",
+
+}
+
+var showHeap = function(config) {
+    let myHeap = config.heap;
+    let svgHeap = d3.select("#" + config.svgId);
+    let len = myHeap.getEntries();
+    let cellWidth = config.cellWidth;
+
+    let data = myHeap.heap;
+    svgHeap
+        .selectAll('rect')
+        .data(data)
+        .enter()
+        .append("rect")
+        .attr("x",function(d,i) {
+            if (i < 2) {
+                return 500-20
+                cellsPerRow = 1
+                currentCol = 1
+            } else {
+                cellsPerRow *= 2
+                let row  = Math.floor(Math.log2(i))
+                cellsPerRow = Math.pow(2,(row-1))
+                let gaps = cellsPerRow+1;
+                let gap = 1000/gaps;
+                //let rows = Math.log2(data.length-1)
+                return Math.round((gap)*(currentCol++));
+            }
+        })
+        .attr("y",function(d,i) {
+            if (i == 0) {
+                return 10
+            } else {
+                let rows = Math.log2(data.length-1)
+                let row  = Math.floor(Math.log2(i))
+                return (10 + (row + 1) * 80) 
+            }
+        });
+        svgHeap
+        .selectAll('text')
+        .data(data)
+        .enter()     
+        .append("text")
+        .attr("x",function(d,i) {
+            if (i < 2) {
+                return 500
+                cellsPerRow = 1
+                currentCol = 1
+            } else {
+                let row  = Math.floor(Math.log2(i))
+                cellsPerRow  = Math.pow(2,(row-1))
+                let gaps = cellsPerRow+1;
+                let gap = 1000/gaps;
+                //let rows = Math.log2(data.length-1)
+                return Math.round((gap)*(currentCol++));
+            }
+        })
+        .attr("y",function(d,i) {
+            if (i == 0) {
+                return 45
+            } else {
+                let rows = Math.log2(data.length-1)
+                let row  = Math.floor(Math.log2(i))
+                return ( (row +1) * 80) + 45
+            }
+        })
+        .text(function(d,i) {
+            return d.sum
+        });
+
+}
+
 </script>
 
 </head>
@@ -372,6 +484,38 @@ function sumLogN(n) {
 <pre>
 This is a test.
 </pre>
+<svg 
+    id="svg1"    
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    height="2000"
+    width="1000"
+    >
+<style>
+rect {
+    height: 40px;
+    width: 40px;
+    stroke: yellow;
+    stroke-width: 3px;
+    opacity: .3;
+}
+text {
+    stroke: none;
+    fill: black;
+    font-size: 20px;
+    text-anchor: middle;
+}
+</style>
+<defs>
+
+</defs>
+
+<g id="heap"></g>
+
+</svg>
 </body>
 </html>
 
