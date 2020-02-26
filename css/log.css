@@ -15,7 +15,6 @@
     max-height:150px;
     overflow-y:scroll;
     overflow-x:visible;
-    overflow-style: marquee-block;
 }
 
 #log-close-button {
@@ -51,7 +50,7 @@
 }
 
 @media print {
-	#log-parent {
-		display: none;
-	}
+    #log-parent {
+        display: none;
+    }
 }
