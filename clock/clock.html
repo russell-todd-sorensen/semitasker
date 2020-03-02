@@ -445,7 +445,6 @@ class Clock {
         }
 
         //this.pushStat(hour,minute,second,millisecond);
-
         let sAngle = second * 6;
         let mAngle = minute * 6 + (sAngle/60);
         let hAngle = hour  * 30 + (mAngle/12);
@@ -455,6 +454,14 @@ class Clock {
         minuteElement.setAttribute('transform','rotate(' + mAngle + ')')
         let hourElement = d.getElementById(data.hourId)
         hourElement.setAttribute('transform','rotate(' + hAngle + ')')
+        let timeString = this.format(hour) + ":" + this.format(minute) + ":" + this.format(second);
+        document.querySelector("title").textContent = "SVG Clock: " + timeString;
+    }
+    format (number,digits) {
+        digits = digits?digits:2;
+        let fmt = "" + number;
+        fmt = "0".repeat(digits - fmt.length) + fmt;
+        return fmt;
     }
     pushStat(hour,minute,second,millisecond) {
         let prev = this.#stats[this.#stats.length-1]
