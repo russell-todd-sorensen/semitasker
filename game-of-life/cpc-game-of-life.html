@@ -1,3 +1,298 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" />
+<title>CPC-Game-Of-Life</title>
+<link rel="stylesheet" href="https://home.semitasker.com/css/fonts.css" media="all">
+<style>
+html,
+body {
+    background-color: black;
+}
+
+svg {
+    fill: black;
+}
+
+#gameBoard rect2 {
+    stroke: #555;
+    stroke-width: .5px;
+}
+.cell-alive {
+    /*fill: black; */
+    fill: url(#rg1);
+}
+
+.cell-dead {
+    fill: white;
+}
+
+#boardBoundary {
+    stroke: #666;
+    stroke-width: 2px;
+    fill: none;
+}
+
+#controls {
+    font-family: "Rubik";
+    letter-spacing: -1px;
+    color: black;
+    background-color: white;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#controls ul {
+    font-family: inherit;
+    list-style: none;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    width: 300px;
+}
+#controls ul li {
+    display: block;
+}
+#controls li label {
+    display: inline-block;
+    width: 75px;
+    padding: 2px;
+    font-family: "Rubik";
+    font-weight: bold;
+}
+
+#controls ul {
+    position: relative;
+}
+
+#controls input[type="number"] {
+    display: inline-block;
+    font-family: "Rubik";
+    font-size: 15px;
+    width: 60px;
+}
+
+#controls select {
+    display: inline-block;
+    font-family: "Rubik";
+    font-weight: bold;
+    font-size: 16px;
+    width: 174px;
+    justify-self: right;
+}
+
+
+/* this is how you change the font of select options!!! */
+#theory { /* select id */
+    font-family: "Rubik";
+    font-size: 16px;
+}
+
+#controls #fadeInColor,
+#controls #fadeOutColor,
+#controls #fadeEndColor {
+    width: 170px;
+    font-family: "Rubik";
+    font-size: 16px;
+}
+#controls li {
+    padding: 2px;
+}
+#controls #infinite-world {
+    color: hsla(0,85%,25%,1.0);
+    font-family: "Rubik";
+    font-weight: bold;
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/d3.v3.js"></script>
+
+<script language="javascript">
+
+var Log = {}
+Log.Notice = function() {}
+Log.Hide = function() {}
+Log.Remove = function() {}
+Log.Debug = function() {}
+
+// included here to avoid loading https://home.semitasker.com/js/schedule-function.js 
+
+function scheduleFunction(funcRef, timeout, rescheduleOnSuccessP, passArgsP, args) {
+
+    if (arguments.length > 1) {
+        if (timeout <= 0 ) {
+            timeout = 10; //milliseconds
+        }
+    }
+    else {
+        var timeout = 10; //ms
+    }
+
+    if (arguments.length < 3) {
+        var rescheduleOnSuccessP = false;
+    }
+
+    if (arguments.length > 3) {
+        if (passArgsP) {
+            var funcArgs = args;
+        }
+        else {
+            var funcArgs = {};
+        }
+    }
+    else {
+        var passArgsP = false;
+        var funcArgs = {};
+    }
+
+    var result = funcRef(funcArgs);
+
+    if (result.continueAnimation == false) {
+        result = false;
+    } 
+    else if (result.timeout && !isNaN(parseInt(result.timeout))) {
+        timeout = parseInt(result.timeout)
+    }
+
+    if (rescheduleOnSuccessP && result) {
+        setTimeout(scheduleFunction, timeout,
+            funcRef, timeout,
+            rescheduleOnSuccessP,
+            passArgsP, funcArgs);
+    }
+}
+
+var width   =  150;
+var height  =   75;
+var cellDim =   15;
+var xOffset =   20;
+var yOffset =   30;
+
+window.addEventListener('DOMContentLoaded', () => {
+  gameInitWrap();
+  startAnimationPre();
+});
+</script>
+
+</head>
+<body>
+<div id="controls">
+<form onSubmit="return false;" id="controlsForm">
+<input type="hidden" name="gameId" id="gameId" value="0" />
+<ul>
+<fieldset>
+<legend>Game of Life Options</legend>
+<li>
+ <label for="animationFunctionId">Anim Fn:</label>
+ <select name="animationFunctionId" id="animationFunctionId">
+  <option value="0" selected>Game Of Life</option>
+  <option value="1">Majority Rule</option>
+  <option value="2">One Out of Eight</option>
+  <option value="3">Parity Rule</option>
+  <option value="4">Parity Rule 2</option>
+  <option value="5">North South 1</option>
+  <option value="6">North South 2</option>
+ </select>
+</li>
+<li>
+<label for="timeout">Step Time:</label>
+<input type="number" name="timeout" id="timeout" value="100" min="20" step="5" max="10000" />
+</li>
+<li>
+<label for="fadeIn">Fade In:</label>
+<input type="number" name="fadeIn" id="fadeIn" value="500" min="0" step="10" max="10000" />
+</li>
+<li>
+<label for="fadeInColor">FI Color:</label>
+<input type="text" name="fadeInColor" id="fadeInColor" value="hsla(0,85%,50%,0.75)" />
+</li>
+<li>
+<label for="fadeOut">Fade Out:</label>
+<input type="number" name="fadeOut" id="fadeOut" value="1000" min="0" step="10" max="15000" />
+</li>
+<li>
+<label for="fadeOutColor">FO Color:</label>
+<input type="text" name="fadeOutColor" id="fadeOutColor" value="hsla(0,85%,70%,0.75)" />
+</li>
+<li>
+<label for="fadeEnd">Fade End:</label>
+<input type="number" name="fadeEnd" id="fadeEnd" value="3000" min="0" step="10" max="15000" />
+</li>
+<li>
+<label for="fadeEndColor">FE Color:</label>
+<input type="text" name="fadeEndColor" id="fadeEndColor" value="hsla(270,0%,0%,1.0)" />
+</li>
+<li>
+<label for="persist">Persist:</label>
+<input type="checkbox" name="persist" id="persist" value="true"/>
+</li>
+<li>
+<label for="cellsWide">Cells Wide:</label>
+<input type="number" name="cellsWide" id="cellsWide" value="100" min="10" step="5" max="1500" />
+</li>
+<li>
+<label for="cellsHigh">Cells High:</label>
+<input type="number" name="cellsHigh" id="cellsHigh" value="50" min="10" step="5" max="1500" />
+</li>
+<li>
+<label for="ease">Ease:</label>
+<select id="ease" name="ease" >
+ <option value="linear">Linear</option>
+ <option value="bounce">Bounce</option>
+ <option value="bounce-in">Bounce In</option>
+ <option value="bounce-out">Bounce Out</option>
+ <option value="bounce-in-out">Bounce In/Out</option>
+</select>
+</li>
+<li>
+<label for="randomSeedValue">Living %:</label>
+<input type="number" name="randomSeedValue" id="randomSeedValue"
+       value="14.00" min="0.00" max="100.00" step="0.05" />
+</li>
+<li>
+<label>Initialize:</label>
+<button id="infinite-world" onClick="gameInitWrap();">Infinite World!</button>
+<button id="finite-world" onClick="gameInitWrap()">No Wrap.</button>
+</li>
+<li>
+<label >Animate:</label>
+<button onClick="startAnimationPre();">Start</button>
+<button onClick="stopAnimation();">Pause</button>
+</li>
+</fieldset>
+</ul>
+</form>
+</div>
+<div id="board">
+<svg
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="5000"
+    height="2500"
+    viewBox="0 0 5000 2500">
+<defs>
+    <rect id="r1" height="15" width="15" rx="5" ry="5" />
+</defs>
+<g id="info" x="200" y="0" >
+<text x="400" y="10" fill="black" stroke="black">
+  <tSpan>Cell:</tSpan>
+  <tSpan id="cellNumber" dx="0" dy="0">0</tSpan>
+  <tSpan>Neighbors:</tSpan>
+  <tSpan id="cellNeighbors" dx="0" dy="0">0</tSpan>
+</text>
+</g>
+<g id="gameBoard">
+
+</g>
+
+</svg>
+</div><!-- end of board -->
+<script>
 
 
 var Games = new Array();
@@ -21,9 +316,9 @@ var gameOfLife = function (width, height, initData) {
         this.cellNeighbors = new Array(this.cellCount);
         var nb; // neighbor index array
         for (var row=0;row<this.height;row++) {
-          for (var col=0;col<this.width;col++) {// note incr of cellIndex
-              this.cellState[cellIndex] = 0;
-              nb = new Object();
+            for (var col=0;col<this.width;col++) {// note incr of cellIndex
+                this.cellState[cellIndex] = 0;
+                nb = new Object();
                 nb.c = cellIndex;
                 if (row>0) {
                     if (col>0) {
@@ -73,8 +368,129 @@ var gameOfLife = function (width, height, initData) {
                 else {
                     nb.sw = nb.s = nb.se = null;
                 }
-            this.cellNeighbors[cellIndex] = nb;
-            cellIndex++;
+                this.cellNeighbors[cellIndex] = nb;
+                cellIndex++;
+            }
+        }
+    };
+
+    this.initWrap = function () {
+        var cellIndex = 0;
+        this.cellState = new Array(this.cellCount);
+        this.neighborhood = new Array(this.cellCount);
+        this.cellNeighbors = new Array(this.cellCount);
+        var nb; // neighbor index array
+        for (var row=0;row<this.height;row++) {
+            for (var col=0;col<this.width;col++) {
+                this.cellState[cellIndex] = 0;
+                nb = new Object();
+                nb.c = cellIndex;
+
+                if (row > 0 
+                    && row < (this.height-1) 
+                    && col > 0 
+                    && col < (this.width-1)) 
+                {
+                    nb.nw = nb.c - this.width -1;
+                    nb.n  = nb.nw + 1;
+                    nb.ne = nb.n + 1;
+                    nb.w  = nb.c -1;
+                    nb.e  = nb.c + 1;
+                    nb.sw = nb.c + this.width - 1;
+                    nb.s  = nb.sw + 1;
+                    nb.se = nb.s  + 1;
+                    this.cellNeighbors[cellIndex] = nb;
+                    cellIndex++;
+                    continue;
+                }
+
+                if (row == 0) {
+                    if (col == 0) { // upper left corner
+                        nb.nw = this.cellCount -1;
+                        nb.n  = this.cellCount - this.width;
+                        nb.ne = nb.n + 1;
+                        nb.w  = this.width -1;
+                        nb.e  = nb.c + 1;
+                        nb.sw = nb.w + this.width;
+                        nb.s  = nb.c + this.width;
+                        nb.se = nb.s + 1;
+                    } 
+                    else if (col == this.width-1) { // upper right corner
+                        nb.nw = this.cellCount -2;
+                        nb.n  = nb.nw + 1;
+                        nb.ne = this.width * (this.height -1);
+                        nb.w  = nb.c -1;
+                        nb.e  = 0;
+                        nb.sw = nb.c + this.width -1;
+                        nb.s  = nb.sw + 1;
+                        nb.se = nb.c + 1;
+                    }
+                    else { // rest of top row
+                        nb.nw = this.width * (this.height-1) + col - 1;
+                        nb.n  = nb.nw + 1;
+                        nb.ne = nb.n + 1;
+                        nb.w  = nb.c - 1;
+                        nb.e  = nb.c + 1;
+                        nb.sw = nb.c + this.width -1;
+                        nb.s  = nb.sw + 1;
+                        nb.se = nb.s + 1;
+                    }
+                }
+                else if (row == this.height-1) {
+                    if (col == 0) { // lower left corner
+                        nb.nw = nb.c -1;
+                        nb.n  = nb.c - this.width;
+                        nb.ne = nb.n + 1;
+                        nb.w  = nb.c + this.width -1;
+                        nb.e  = nb.c + 1;
+                        nb.sw = this.width -1;
+                        nb.s  = 0;
+                        nb.se = 1;
+                    }
+                    else if (col == this.width-1) { // lower right corner
+                        nb.nw = nb.c - this.width - 1;
+                        nb.n  = nb.nw + 1;
+                        nb.ne = nb.n - this.width + 1;
+                        nb.w  = nb.c -1;
+                        nb.e  = nb.ne + this.width;
+                        nb.sw = this.width -2;
+                        nb.s  = nb.sw + 1;
+                        nb.se = 0;
+                    } else { // rest of bottom row
+                        nb.nw = nb.c - this.width -1;
+                        nb.n  = nb.nw + 1;
+                        nb.ne = nb.n  + 1;
+                        nb.w  = nb.c  - 1;
+                        nb.e  = nb.c  + 1;
+                        nb.sw = col   - 1;
+                        nb.s  = nb.sw + 1;
+                        nb.se = nb.s  + 1;
+                    }
+                } else {
+                    if (col == 0) { // rest of left-most column
+                        nb.nw = nb.c  - 1;
+                        nb.n  = nb.c  - this.width;
+                        nb.ne = nb.n  + 1;
+                        nb.w  = nb.c  + this.width -1;
+                        nb.e  = nb.c  + 1;
+                        nb.sw = nb.c  + (this.width*2) -1;
+                        nb.s  = nb.c  + this.width;
+                        nb.se = nb.s  + 1;
+                    }
+                    else if (col == this.width -1) { // rest of right-most column
+                        nb.nw = nb.c  - this.width -1;
+                        nb.n  = nb.nw + 1;
+                        nb.ne = nb.n  - this.width + 1;
+                        nb.w  = nb.c  - 1;
+                        nb.e  = nb.n  + 1;
+                        nb.sw = nb.c  + this.width -1;
+                        nb.s  = nb.sw + 1;
+                        nb.se = nb.c  + 1;
+                    }
+                }
+
+                this.cellNeighbors[cellIndex] = nb;
+                cellIndex++;
             }
         }
     };
@@ -84,8 +500,10 @@ var gameOfLife = function (width, height, initData) {
         var indexChoice,cell;
         var swapIndex = indexArray.length;
         for (var i = 0; i<indexArray.length;i++) {
-            indexArray[i] = i;
+            //indexArray[i] = i;
+            this.cellState[i] = (Math.random() <= percent ? 1 : 0);
         }
+        return;
         for (var i = 0; i<livingCellCount;i++) {
             indexChoice = Math.floor(Math.random()*swapIndex);
             cell = indexArray[indexChoice];
@@ -201,7 +619,6 @@ function createGameBoard(id,gameId) {
     document.getElementById(id).nodeValue="";
     var g = d3.select('#' + id);
 
-
     g.selectAll('rect')
         .data(Games[gameId].cellNeighbors)
         .enter()
@@ -221,9 +638,9 @@ function createGameBoard(id,gameId) {
         })
         .attr('fill', function (d,i) {
             if (Games[gameId].cellState[i] == 1) {
-                return '#000';
+                return formData.data.fadeInColor;
             } else {
-                return '#FFF';
+                return 'hsla(0,0%,0%,1.0)';
             }
          })
         .on('mouseover', function (d,i) {
@@ -269,7 +686,7 @@ function cellDie (data,id) {
         .transition()
         .ease(data.ease)
         .duration(data.fadeOut)
-        .attr('fill','#33f')
+        .attr('fill',data.fadeOutColor)
         .each('end', function (d,i) {
              // was processGameOfLifeForm()
             if (formData.data.persist) {
@@ -278,12 +695,11 @@ function cellDie (data,id) {
             var objId = formData.data.objId;
             var myGame = Games[objId];
             var cell = d3.select(this);
-            var fill = '#FFF';
             cell
                 .transition()
                 .ease(formData.data.ease)
                 .duration(formData.data.fadeEnd)
-                .attr('fill',fill);
+                .attr('fill',data.fadeEndColor);
         });
 
     myGame.cellState[id] = 0;
@@ -298,7 +714,7 @@ function cellAlive (data,id) {
         .transition()
         .ease(data.ease)
         .duration(data.fadeIn)
-        .attr('fill','#f33');
+        .attr('fill',data.fadeInColor);
 
     myGame.cellState[id] = 1;
 }
@@ -514,20 +930,57 @@ var processGameOfLifeForm = function () {
             objId:gameId,
             randomSeedValue:parseFloat($('#randomSeedValue').val())/100,
             fadeIn:parseInt($('#fadeIn').val()),
+            fadeInColor:$('#fadeInColor').val(),
             fadeOut:parseInt($('#fadeOut').val()),
+            fadeOutColor:$('#fadeOutColor').val(),
             fadeEnd:parseInt($('#fadeEnd').val()),
+            fadeEndColor:$('#fadeEndColor').val(),
             persist:($('#persist').attr('checked') == undefined ? false : true),
+            cellsWide:parseInt($('#cellsWide').val()),
+            cellsHigh:parseInt($('#cellsHigh').val()),
             ease:$('#ease option:selected').val(),
         }
     };
 }
 
+function gameInitWrap() {
+
+    formData = null;
+    var gameboard = document.getElementById('gameBoard');
+    gameboard.innerHTML = "";
+
+    formData   = processGameOfLifeForm();
+    var data   = formData.data;
+    // these are global variables
+    width      = data.cellsWide;
+    height     = data.cellsHigh;
+    var objId  = data.objId;
+
+    Games[objId] = new gameOfLife(width,height,{});
+
+    var myGame = Games[objId];
+
+    myGame.initWrap();
+    myGame.randomSeed(data.randomSeedValue);
+
+    createGameBoard('gameBoard',objId);
+}
+
 function gameInit() {
 
-    formData = processGameOfLifeForm();
+    formData = null;
+    var gameboard = document.getElementById('gameBoard');
+    gameboard.innerHTML = "";
 
-    var data = formData.data;
-    var objId = data.objId;
+    formData   = processGameOfLifeForm();
+    var data   = formData.data;
+    // these are global variables
+    width      = data.cellsWide;
+    height     = data.cellsHigh;
+    var objId  = data.objId;
+
+    Games[objId] = new gameOfLife(width,height,{});
+
     var myGame = Games[objId];
 
     myGame.init();
@@ -535,3 +988,8 @@ function gameInit() {
 
     createGameBoard('gameBoard',objId);
 }
+
+
+</script>
+</body>
+</html>

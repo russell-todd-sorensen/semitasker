@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" />
+<title>Game of Life 3</title>
+<link rel="stylesheet" href="/css/main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+<style>
+html,
+body {
+    background-color: black;
+}
+svg {
+    fill: black;
+}
+#gameBoard rect2 {
+    stroke: #555;
+    stroke-width: .5px;
+}
+.cell-alive {
+    /*fill: black; */
+    fill: url(#rg1);
+}
+
+.cell-dead {
+    fill: white;
+}
+
+#boardBoundary {
+    stroke: #666;
+    stroke-width: 2px;
+    fill: none;
+}
+
+
+
+#controls {
+    font-family: "Consolas Bold";
+    letter-spacing: -1px;
+    color: black;
+    background-color: white;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#controls ul {
+    font-family: inherit;
+    list-style: none;
+    padding: 0;
+    width: 200px;
+}
+
+
+#controls input,
+#controls select {
+    display: inline-block;
+    font-family: "Consolas Bold";
+    font-size: 15px;
+    width: 162px;
+    margin-left: 12px;
+}
+
+#controls input[type=range],
+#controls input[type=number] {
+    width: 130px;
+}
+
+/* this is how you change the font of select options!!! */
+#theory { /* select id */
+    font-family: "Consolas Bold";
+    font-size: 16px;
+}
+
+#mode-controls {
+    letter-spacing: 1px;
+}
+
+#controls input[type=number] {
+    width: 60px;
+}
+
+#timeout,
+#colorOffsetAmount,
+#fractalImageId {
+
+}
+
+#controls #pixelJump input[type=number] {
+    width: 50px;
+}
+
+#controls select {
+    width: 100px;
+}
+
+#controls #randomSeedValue {
+    width: 35px;
+}
+
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="/js/schedule-function.js"></script>
+<script src="/js/mouse-events.js"></script>
+<script src="js/game-of-life-3.js"></script>
+
+<script language="javascript">
+
+var width   =  150;
+var height  =   75;
+var cellDim =   15;
+var xOffset =   20;
+var yOffset =   30;
+
+$(document).ready(function() {
+
+  Log.Notice('Game of Life: Ready');
+
+  //Games[0] = new gameOfLife(width,height,{});
+
+  //Log.Notice('game of life game.cellCount=' + Games[0].cellCount);
+  Log.Remove();
+});
+</script>
+
+</head>
+<body>
+<div id="controls">
+<form onSubmit="return false;" id="controlsForm">
+<input type="hidden" name="gameId" id="gameId" value="0" />
+<ul>
+<fieldset>
+<legend>Game of Life Options</legend>
+<li>
+ <label for="animationFunctionId">Anim Fn:</label>
+ <select name="animationFunctionId" id="animationFunctionId">
+  <option value="0" selected>Game Of Life</option>
+  <option value="1">Majority Rule</option>
+  <option value="2">One Out of Eight</option>
+  <option value="3">Parity Rule</option>
+  <option value="4">Parity Rule 2</option>
+  <option value="5">North South 1</option>
+  <option value="6">North South 2</option>
+ </select>
+</li>
+<li>
+<label for="timeout">Step Time:</label>
+<input type="number" name="timeout" id="timeout" value="100" min="20" step="5" max="10000" />
+</li>
+<li>
+<label for="fadeIn">Fade In:</label>
+<input type="number" name="fadeIn" id="fadeIn" value="500" min="0" step="10" max="10000" />
+</li>
+<li>
+<label for="fadeInColor">Fade In Color:</label>
+<input type="text" name="fadeInColor" id="fadeInColor" value="hsla(0,85%,50%,0.75)" />
+</li>
+<li>
+<label for="fadeOut">Fade Out:</label>
+<input type="number" name="fadeOut" id="fadeOut" value="1000" min="0" step="10" max="15000" />
+</li>
+<li>
+<label for="fadeOutColor">Fade Out Color:</label>
+<input type="text" name="fadeOutColor" id="fadeOutColor" value="hsla(0,85%,70%,0.75)" />
+</li>
+<li>
+<label for="fadeEnd">Fade End:</label>
+<input type="number" name="fadeEnd" id="fadeEnd" value="3000" min="0" step="10" max="15000" />
+</li>
+<li>
+<label for="fadeEndColor">Fade End Color:</label>
+<input type="text" name="fadeEndColor" id="fadeEndColor" value="hsla(270,0%,0%,1.0)" />
+</li>
+<li>
+<label for="persist">Persist:</label>
+<input type="checkbox" name="persist" id="persist" value="true"/>
+</li>
+<li>
+<label for="cellsWide">Cells Wide:</label>
+<input type="number" name="cellsWide" id="cellsWide" value="100" min="10" step="5" max="1500" />
+</li>
+<li>
+<label for="cellsHigh">Cells High:</label>
+<input type="number" name="cellsHigh" id="cellsHigh" value="50" min="10" step="5" max="1500" />
+</li>
+<li>
+<label for="ease">Ease:</label>
+<select id="ease" name="ease" >
+ <option value="linear">Linear</option>
+ <option value="bounce">Bounce</option>
+ <option value="bounce-in">Bounce In</option>
+ <option value="bounce-out">Bnc Out</option>
+ <option value="bounce-in-out">Bnc I/O</option>
+</select>
+</li>
+<li>
+<label for="randomSeedValue">Living %:</label>
+<input type="number" name="randomSeedValue" id="randomSeedValue"
+       value="14.00" min="0.05" max="100.00" step="0.05" />
+</li>
+<li>
+<button onClick="gameInit();">Init Game</button>
+</li>
+<li>
+<button onClick="startAnimationPre();" >Start</button>
+</li>
+<li>
+<button onClick="stopAnimation();">Stop</button>
+</li>
+</fieldset>
+</ul>
+</form>
+</div>
+<div id="board">
+<svg
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="5000"
+    height="2500"
+    viewBox="0 0 5000 2500">
+<defs>
+<radialGradient id="rg1" color-interpolation="sRGB" spreadMethod="repeat">
+ <stop stop-color="#444" offset="0%" ></stop>
+ <stop stop-color="#abc" offset="0%" >
+  <animate attributeName="offset" from=".0" to=".2" dur="3s" repeatCount="indefinite" />
+ </stop>
+ <stop stop-color="#37a" offset="100%" >
+  <animate attributeName="offset" from="1.0" to="0.5" dur="7s" repeatCount="indefinite" />
+ </stop>
+</radialGradient>
+</defs>
+<g id="info" x="200" y="0" >
+<text x="400" y="10" fill="black" stroke="black">
+  <tSpan>Cell:</tSpan>
+  <tSpan id="cellNumber" dx="0" dy="0">0</tSpan>
+  <tSpan>Neighbors:</tSpan>
+  <tSpan id="cellNeighbors" dx="0" dy="0">0</tSpan>
+</text>
+</g>
+<g id="gameBoard">
+
+</g>
+
+</svg>
+</div><!-- end of board -->
+<script>
+
+
+</script>
+</body>
+</html>

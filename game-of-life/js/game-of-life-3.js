@@ -21,9 +21,9 @@ var gameOfLife = function (width, height, initData) {
         this.cellNeighbors = new Array(this.cellCount);
         var nb; // neighbor index array
         for (var row=0;row<this.height;row++) {
-          for (var col=0;col<this.width;col++) {// note incr of cellIndex
-              this.cellState[cellIndex] = 0;
-              nb = new Object();
+            for (var col=0;col<this.width;col++) {// note incr of cellIndex
+                this.cellState[cellIndex] = 0;
+                nb = new Object();
                 nb.c = cellIndex;
                 if (row>0) {
                     if (col>0) {
@@ -73,8 +73,8 @@ var gameOfLife = function (width, height, initData) {
                 else {
                     nb.sw = nb.s = nb.se = null;
                 }
-            this.cellNeighbors[cellIndex] = nb;
-            cellIndex++;
+                this.cellNeighbors[cellIndex] = nb;
+                cellIndex++;
             }
         }
     };
@@ -84,8 +84,10 @@ var gameOfLife = function (width, height, initData) {
         var indexChoice,cell;
         var swapIndex = indexArray.length;
         for (var i = 0; i<indexArray.length;i++) {
-            indexArray[i] = i;
+            //indexArray[i] = i;
+            this.cellState[i] = (Math.random() <= percent ? 1 : 0);
         }
+        return;
         for (var i = 0; i<livingCellCount;i++) {
             indexChoice = Math.floor(Math.random()*swapIndex);
             cell = indexArray[indexChoice];
@@ -221,9 +223,9 @@ function createGameBoard(id,gameId) {
         })
         .attr('fill', function (d,i) {
             if (Games[gameId].cellState[i] == 1) {
-                return '#000';
+                return formData.data.fadeInColor;
             } else {
-                return '#FFF';
+                return 'hsla(0,0%,0%,1.0)';
             }
          })
         .on('mouseover', function (d,i) {
@@ -269,7 +271,7 @@ function cellDie (data,id) {
         .transition()
         .ease(data.ease)
         .duration(data.fadeOut)
-        .attr('fill','#33f')
+        .attr('fill',data.fadeOutColor)
         .each('end', function (d,i) {
              // was processGameOfLifeForm()
             if (formData.data.persist) {
@@ -278,12 +280,11 @@ function cellDie (data,id) {
             var objId = formData.data.objId;
             var myGame = Games[objId];
             var cell = d3.select(this);
-            var fill = '#FFF';
             cell
                 .transition()
                 .ease(formData.data.ease)
                 .duration(formData.data.fadeEnd)
-                .attr('fill',fill);
+                .attr('fill',data.fadeEndColor);
         });
 
     myGame.cellState[id] = 0;
@@ -298,7 +299,7 @@ function cellAlive (data,id) {
         .transition()
         .ease(data.ease)
         .duration(data.fadeIn)
-        .attr('fill','#f33');
+        .attr('fill',data.fadeInColor);
 
     myGame.cellState[id] = 1;
 }
@@ -514,9 +515,14 @@ var processGameOfLifeForm = function () {
             objId:gameId,
             randomSeedValue:parseFloat($('#randomSeedValue').val())/100,
             fadeIn:parseInt($('#fadeIn').val()),
+            fadeInColor:$('#fadeInColor').val(),
             fadeOut:parseInt($('#fadeOut').val()),
+            fadeOutColor:$('#fadeOutColor').val(),
             fadeEnd:parseInt($('#fadeEnd').val()),
+            fadeEndColor:$('#fadeEndColor').val(),
             persist:($('#persist').attr('checked') == undefined ? false : true),
+            cellsWide:parseInt($('#cellsWide').val()),
+            cellsHigh:parseInt($('#cellsHigh').val()),
             ease:$('#ease option:selected').val(),
         }
     };
@@ -524,10 +530,19 @@ var processGameOfLifeForm = function () {
 
 function gameInit() {
 
-    formData = processGameOfLifeForm();
+    formData = null;
+    var gameboard = document.getElementById('gameBoard');
+    gameboard.innerHTML = "";
 
-    var data = formData.data;
-    var objId = data.objId;
+    formData   = processGameOfLifeForm();
+    var data   = formData.data;
+    // these are global variables
+    width      = data.cellsWide;
+    height     = data.cellsHigh;
+    var objId  = data.objId;
+
+    Games[objId] = new gameOfLife(width,height,{});
+
     var myGame = Games[objId];
 
     myGame.init();
