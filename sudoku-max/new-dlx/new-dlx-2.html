@@ -1,0 +1,887 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>New DLX Algorithm</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/heapsort.js"></script>
+
+
+
+<style>
+#spacer {
+    height: 200px;
+    width: 100%;
+    display: block;
+    background-color: rgba(0,255,255,.25);
+}
+
+#default-example {
+    background:rgba(0,0,0,.2)
+}
+
+.row {
+    margin: 0;
+    padding: 0;
+    border: none;
+    perspective: none;
+    transform-style:preserve-3d;
+}
+
+.row .cell {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-image-width: 0;
+    display: inline-block;
+    width:100px;
+    height:100px;
+    perspective:55000px;
+    transform-style:preserve-3d
+}
+
+.box-1 .face {background-color:hsl(0,50%,50%);}
+.box-2 .face {background-color:hsl(70,50%,50%);}
+.box-3 .face {background-color:hsl(140,50%,50%);}
+.box-4 .face {background-color:hsl(210,50%,50%);}
+.box-5 .face {background-color:hsl(280,50%,50%);}
+.box-6 .face {background-color:hsl(350,50%,50%);}
+.box-7 .face {background-color:hsl(60,50%,50%);}
+.box-8 .face {background-color:hsl(130,50%,50%);}
+.box-9 .face {background-color:hsl(200,50%,50%);}
+
+.box-1 {
+    transform: translateZ(0px);
+}
+.box-2 {
+    transform: translateZ(100px);
+}
+.box-3 {
+    transform: translateZ(200px);
+}
+.box-4 {
+    transform: translateZ(300px);
+}
+.box-5 {
+    transform: translateZ(400px);
+}
+.box-6 {
+    transform: translateZ(500px);
+}
+.box-7 {
+    transform: translateZ(600px);
+}
+.box-8 {
+    transform: translateZ(700px);
+}
+.box-9 {
+    transform: translateZ(800px);
+}
+
+.face {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:100%;
+    position:absolute;
+    perspective: none;
+    transform-style: preserve-3d;
+    backface-visibility:inherit;
+    font-size:60px;
+    color:#fff;
+    border: .5px solid black;
+}
+
+.front {
+    transform:translateZ(50px)
+}
+.back {
+    transform:rotateY(180deg) translateZ(50px);
+}
+.right {
+    transform:rotateY(90deg) translateZ(50px);
+}
+.left {
+    transform:rotateY(-90deg) translateZ(50px);
+}
+.top {
+    transform:rotateX(90deg) translateZ(50px);
+}
+.bottom {
+    transform:rotateX(-90deg) translateZ(50px);
+}
+
+#cube {
+    padding: 0;
+    margin: 0;
+    border: none;
+    perspective: none;
+    transform-style: preserve-3d;
+    /* transform: translateX(300px);
+    transform: translateX(550px) translateY(00px) rotate3d(1,0.25,1,-25deg) rotate3d(0,1,0,75deg) rotate3d(0,0,1,-30deg) translateZ(-1500px);
+    transform: translateX(550px) rotate3d(0,1,0,-90deg); */
+}
+
+</style>
+
+</head>
+<body>
+
+<div id="sudoku-3d"><div id="cube"></div></div>
+<div id="my-results"></div>
+<div id="t"></div>
+<script src="../js/sudoku-formatting.js" ></script>
+<script>
+
+var Puzzles = [];
+Puzzles[0]  = "E003020600900305001001806400008102900700000008006708200002609500800203009005010300P"
+Puzzles[1]  = "E900300007500900200000024300000008060460090013090400000003570000001009002700002005P";// x-wing
+Puzzles[2]  = "E030000000000903201670020030900807000007000500000306007080090016102508000000000020P"
+Puzzles[3]  = "E000000000012034567034506182001058206008600001020007050003705028080060700207083615P"
+Puzzles[4]  = "E000000000000012034001500026000400078070801302803207041007008060306145087508706413P"
+Puzzles[5]  = "E200080300060070084030500209000105408000000000402706000301007040720040060004010003P"
+Puzzles[6]  = "E000000001000002000003000045000000260000030000040500000000010704206008000300000000P"
+Puzzles[7]  = "E000000000000001023004056000000400000070000605800009000000700080005300000060000000P"
+Puzzles[8]  = "E000000014970000000000200000000003605001000000000000200060000730200140000000800000P"
+Puzzles[9]  = "E100000500000000802000900000600000040000070010080050000400107000050000300000400000P"
+Puzzles[10] = "E000000001000000020003004000000005400060000700810000000000060000002109000007000850P"
+Puzzles[11] = "E000000012000000003002300400001800005060070800000009000008500000900040500470006000P";//Platinum Blond
+Puzzles[12] = "E520106000301080000000000200005900102009002000200064030000003006600005004080000000P"
+Puzzles[13] = "E950000004082000031000000805000000000104003000537400000210840007009307000070201308P"
+Puzzles[14] = "E800000000003600000070090200050007000000045700000100030001000068008500010090000400P"; // Most Difficult ?
+Puzzles[15] = "E000000008003000400090020060000079000000061200060502070008000500010000020405000003P"
+
+//////////////////////////////// SUDOKU TESTING CODE /////////////////////////////
+// Global variables with fixed values:
+var on = true;
+var off = false;
+var count = 0;
+var solutions = 0;
+var MAX_COUNT = 2000000000;
+var MAX_SOLUTIONS = 2;
+var defaultSymbolsProto = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+var defaultSymbols      = "" + defaultSymbolsProto;
+
+var symbolIndex = new Array(defaultSymbols.length);
+
+
+for (let i = 0; i<defaultSymbols.length; i++) {
+    symbolIndex[defaultSymbols[i]] = i;
+}
+
+// Global variables which might get redefined:
+var boxCols = 3;
+var boxRows = 3;
+var puzzleString = "";
+var boxMapString = "";
+var puzzleName = "No Name";
+var symbolOptions; // symbol sets available in list of puzzles
+var xhrArray  = new Array();
+
+// Globals which must be defined later:
+var puzzle;
+var puzzleDimension;
+var activeCells;
+var symbols;
+var symbol_index;
+var cellRow;
+var cellCol;
+var cellBox;
+var cellType;
+var cellMask;
+var cellVisits;
+var cellI;
+var rowMask;
+var colMask;
+var boxMask;
+var rowMinimums;
+var colMinimums;
+var boxMinimums;
+var boxMapString;
+var setupComplete = false;
+var foundSolutions;
+
+
+var initialize = function () {
+    count = 0;
+    solutions = 0;
+    setupComplete = false;
+    puzzle = [];
+    cellVisits = [];
+    boxCols = 3;
+    boxRows = 3;
+    puzzleString = "";
+    boxMapString = "";
+    puzzleName = "No Name";
+    foundSolutions = [];
+    rowFilled = [];
+    colFilled = [];
+    boxFilled = [];
+    rowMinimums = [];
+    colMinimums = [];
+    boxMinimums = [];
+}
+
+
+function setupSudoku() {
+
+    Log.Notice( "Running setupSudoku()...");
+    var doCellBox = true;
+
+    if (setupSudoku.arguments.length > 1) {
+        args = setupSudoku.arguments;
+        boxCols = args[0];
+        boxRows = args[1];
+    }
+    puzzleDimension = boxCols * boxRows;
+    activeCells = puzzleDimension * puzzleDimension;
+    puzzle = new Array(activeCells+3);
+    cellVisits = new Array(activeCells+3)
+    cellVisits[0] = 0;
+
+    boxStyle("50","50");
+
+    puzzle[0] = "E";
+    for (let i = 1; i <= activeCells; i++) {
+        puzzle[i] = "0";
+    }
+
+    if (puzzleString.length > 0) {
+        for (let i = 1; i <= activeCells; i++) {
+            puzzle[i] = puzzleString[i];
+            cellVisits[i] = 0;
+        }
+    }
+
+    puzzle[activeCells+1] = "P";
+    puzzle[activeCells+2] = "0";
+    cellVisits[activeCells+1] = 0;
+    cellVisits[activeCells+2] = 0;
+
+    // working arrays
+    cellRow  = new Array(activeCells+2);
+    cellCol  = new Array(activeCells+2);
+    cellBox  = new Array(activeCells+2);
+    cellType = new Array(activeCells+3);
+    cellMask = new Array(activeCells+2);
+    cellI    = new Array(activeCells+2);
+
+    cellValue = 0;
+    cellRow[0] = cellCol[0] = cellBox[0] = 0;
+    cellType[0] = "E"; //exit puzzle
+    cellType[activeCells+1] = "P"; //print puzzle
+    cellType[activeCells+2] = "0"; // was used in C++ program, not really needed here
+
+
+    symbols = new Array(puzzleDimension+1);
+    symbol_index = new Array(puzzleDimension+1);
+
+    for (let i = 0; i< puzzleDimension; i++) {
+        symbols[i] = defaultSymbols[i];
+        symbol_index[defaultSymbols[i]] = i;
+    }
+
+    symbols[puzzleDimension] = "0";
+    symbol_index["0"] = puzzleDimension;
+
+    allMask = ( (1<<puzzleDimension)-1 );
+    // mask arrays
+    rowMask = new Array(puzzleDimension+1).fill(allMask);
+    colMask = new Array(puzzleDimension+1).fill(allMask);
+    boxMask = new Array(puzzleDimension+1).fill(allMask);
+    rowMinimums = new Array(puzzleDimension+1);
+    colMinimums = new Array(puzzleDimension+1);
+    boxMinimums = new Array(puzzleDimension+1);
+    
+    for (let i=0;i<puzzleDimension+1;i++) {
+        rowMinimums[i] = new Array(puzzleDimension+1);
+        colMinimums[i] = new Array(puzzleDimension+1);
+        boxMinimums[i] = new Array(puzzleDimension+1);
+        for (let j=0;j<puzzleDimension+1;j++) {
+            rowMinimums[i][j] = []
+            colMinimums[i][j] = []
+            boxMinimums[i][j] = []
+        }
+    }
+
+    if ((setupSudoku.arguments.length > 2) && (args[2].length == activeCells + 3) ) {
+        doCellBox = false;
+        for (let i = 0; i<args[2].length; i++) {
+            cellBox[i] = args[2][i];
+        }
+        Log.Notice("Created Box Cell Map = " + cellBox);
+    }
+
+    for (let i = 1; i <= activeCells; i++) {
+        cellRow[i] = ( Math.floor((i-1) / puzzleDimension ) + 1);
+        cellCol[i] = ( ((i-1) % puzzleDimension ) + 1);
+        if (doCellBox) {
+            cellBox[i] = (Math.floor((cellCol[i]-1)/boxRows)) + 1 + Math.floor((cellRow[i]-1)/boxCols)*boxCols;
+        }
+        if (puzzle[i] == '0') {
+            cellType[i] = 'A';
+            cellMask[i] = 0;
+        } else {
+            cellType[i] = 'F';
+            cellValue = symbol_index[puzzle[i]];
+            rowMask[cellRow[i]] &= ~(1<<cellValue);
+            colMask[cellCol[i]] &= ~(1<<cellValue);
+            boxMask[cellBox[i]] &= ~(1<<cellValue);
+            cellMask[i] = (1<<cellValue);
+        }
+    } // end cell setup
+    for (let i=1;i<=activeCells;i++) {
+        if (cellMask[i] == 0) {
+            cellMask[i] = rowMask[cellRow[i]] & colMask[cellCol[i]] & boxMask[cellBox[i]];
+        } else
+        if (cellType[i] == 'F') {
+            cellMask[i] = 1<<symbol_index[puzzle[i]]
+        } else {
+            Log.Notice("cell " + i + " type=" + cellType[i] + ", cellMask=" + cellMask[i])
+        }
+        for (let j=0;j<puzzleDimension;j++) {
+            if (cellMask[i] & 1<<j) {
+                rowMinimums[cellRow[i]][j+1].push(i);
+                colMinimums[cellCol[i]][j+1].push(i);
+                boxMinimums[cellBox[i]][j+1].push(i);
+            }
+        }
+    }
+    Log.Notice( "Start puzzle = " + puzzle);
+    setupComplete = true;
+}
+
+
+//////////// HEAPSORT TO ORDER CELLS BY VARIOUS CRITERIA /////
+
+class SudokuCellType {
+    values = [];
+    len = 0;
+    visited = 0;
+    col = 0;
+    row = 0;
+    rxc = 0;
+    lrc = 0;
+    compareFns = [
+        {
+            fn: function(obj) {
+                return (this.len < obj.len);
+            },
+            descr: "this.len < obj.len (normal)",
+        },
+        {
+            fn: function(obj) {
+                return (this.len > obj.len);
+            },
+            descr: "this.len > obj.len (reverse)",
+        },
+        {
+            fn: function(obj) {
+               return (this.mask < obj.mask)
+            },
+            descr: "this.mask < obj.mask (normal)"
+        },
+        {
+            fn: function(obj) {
+               return (this.mask > obj.mask)
+            },
+            descr: "this.mask > obj.mask (reverse)"
+        },
+        {
+            fn: function(obj) {
+               return (this.index < obj.index)
+            },
+            descr: "this.index < obj.index (normal)"
+        },
+        {
+            fn: function(obj) {
+               return (this.index > obj.index)
+            },
+            descr: "this.index > obj.index (reverse)"
+        },
+        {
+            fn: function(obj) {
+                return (this.rxc < obj.rxc);
+            },
+            descr: "this.rxc < obj.rxc (normal)"
+        },
+        {
+            fn: function(obj) {
+                return (this.box < obj.box);
+            },
+            descr: "this.box < obj.box (normal)"
+        },
+        {
+            fn: function(obj) {
+                return (this.col < obj.col);
+            },
+            descr: "this.col < obj.col (normal)"
+        },
+        {
+            fn: function(obj) {
+                return (this.lrc < obj.lrc);
+            },
+            descr: "this.lrc < obj.lrc (normal)"
+        },
+    ]
+
+    constructor(index,type,compIdx) {
+        this.index = index;
+        this.type = type;
+        this.mask = this.calcMask();
+        this.setValues();
+        this.calcRxC();
+        this.compIdx = compIdx?compIdx:0;
+        this.lt = this.compareFns[this.compIdx].fn;
+        return this;
+    }
+    calcMask() {
+        return rowMask[cellRow[this.index]] & colMask[cellCol[this.index]] & boxMask[cellBox[this.index]];
+    }
+    setValues() {
+        this.values = [];
+        for (let i=0;i<puzzleDimension;i++) {
+            if (this.mask & 1<<i) {
+                this.values.push(i)
+            }
+        }
+        this.len = this.values.length;
+    }
+    calcRxC() {
+        this.col = cellCol[this.index];
+        this.row = cellRow[this.index];
+        this.box = cellBox[this.index];
+        this.rxc = this.col * this.row;
+        this.lrc = this.col < this.row ? this.col : this.row;
+    }
+    reCalc() {
+        this.mask = this.calcMask();
+        this.setValues();
+    }
+    getValues () {
+        return this.values;
+    }
+    value () {
+        return this.len
+    }
+}
+
+var cellHeap; 
+var cellArray = [];
+
+
+var genHeap = function(compareId) {
+    cellArray = [];
+    cellHeap = new Heap(SudokuCellType);
+    let compIdx = compareId?compareId:0,
+        cellp,
+        cell,
+        AC,
+        found = true,
+        counter = 0
+        cellCount = puzzleDimension*puzzleDimension;
+
+    for (let i=0;i<=cellCount;i++) {
+        if (cellType[i] == "A") {
+            cellHeap.add(new SudokuCellType(i,"A",compIdx))
+        } else 
+        if (cellType[i] == "F") {
+            cellArray.push(new SudokuCellType(i,"F",compIdx))
+            rowMinimums[cellRow[i]][parseInt(puzzle[i])] = null;
+            colMinimums[cellCol[i]][parseInt(puzzle[i])] = null;
+            boxMinimums[cellBox[i]][parseInt(puzzle[i])] = null;
+        }
+    }
+
+    cellHeap.init();
+    cellp = cellHeap.peek(1);
+    while (found) {
+        found = false;
+        while (cellp && cellp.len == 1) {
+            counter++;
+            found = true;
+            cell = cellHeap.pop();
+            cell.type = "FA"
+            cellArray.push(cell)
+            // new value for puzzle cell
+            AC = cell.index;
+            cellI[AC] = cell.values[0];
+            puzzle[AC] = symbols[cellI[AC]];
+            rowMask[cellRow[AC]] &= ~(1<< cellI[AC]);
+            colMask[cellCol[AC]] &= ~(1<< cellI[AC]);
+            boxMask[cellBox[AC]] &= ~(1<< cellI[AC]);
+            rowMinimums[cellRow[AC]][cellI[AC]] = null;
+            colMinimums[cellCol[AC]][cellI[AC]] = null;
+            boxMinimums[cellBox[AC]][cellI[AC]] = null;
+            cellp = cellHeap.peek(1);
+        }
+        if (found) {
+            for (let i=0;i<cellHeap.heap.length;i++) {
+                cellHeap.heap[i].reCalc()
+            }
+            cellHeap.init()
+            cellp = cellHeap.peek(1)
+        }
+    }
+    cellArray.push(new SudokuCellType(0,"E",compIdx))
+    let start = cellArray.length;
+    while (cellHeap.getEntries() > 0 && counter < cellCount+1) {
+        cellArray.push(cellHeap.pop())
+        counter++
+    }
+    cellArray.push(new SudokuCellType(cellCount+1,"P",compIdx));
+    return start;
+}
+
+var genHeapBasic = function(compareId) {
+    compIdx = compareId?compareId:0
+    cellArray = [];
+    cellHeap = new Heap(SudokuCellType);
+    for (let i=0;i<=(puzzleDimension*puzzleDimension);i++) {
+        if (cellType[i] == "A") {
+            cellHeap.add(new SudokuCellType(i,"A",compIdx))
+        } 
+    }
+
+    cellHeap.init();
+}
+
+var selectCellHeuristic = function(index) {
+    let min = Infinity,
+        cellList = null,
+        result = null,
+        len;
+    for (let r=1;r<=puzzleDimension;r++) {
+        for (let n=1;n<=puzzleDimension;n++) {
+            if (rowMinimums[r][n] && rowMinimums[r][n].length < min) {
+                cellList = rowMinimums[r][n];
+                min = cellList.length;
+                result = {cellList:cellList, region:"row",id:r,n:n}
+                if (min == 1) {
+                    return result;
+                }
+            }
+        }
+    }
+    for (let c=1;c=puzzleDimension;c++) {
+        for (let n=1;n<=puzzleDimension;n++) {
+            if (colMinimums[c][n] && colMinimums[c][n].length < min) {
+                cellList = colMinimums[c][n];
+                min = cellList.length;
+                result = {cellList:cellList, region:"col",id:c,n:n}
+                if (min == 1) {
+                    return result;
+                }
+            }
+        }
+    }
+    for (let b=1;b=puzzleDimension;b++) {
+        for (let n=1;n<=puzzleDimension;n++) {
+            if (boxMinimums[b][n] && boxMinimums[b][n].length < min) {
+                cellList = boxMinimums[b][n];
+                min = cellList.length;
+                result = {cellList:cellList, region:"box", min:min, id:b, n:n}
+                if (min == 1) {
+                    return result;
+                }
+            }
+        }
+    }
+    return result
+
+}
+
+var solveSudokuWithHeap = function(compareId) {
+
+    let compIdx = compareId?compareId:0
+    Log.Notice( "Starting solveSudokuWithHeap...");
+
+    if (!setupComplete) {
+        if (boxMapString.length > 0) {
+            setupSudoku(boxCols,boxRows,boxMapString);
+        } else {
+            setupSudoku(boxCols,boxRows);
+        }
+    }
+
+    count = 0;
+    solutions = 0;
+
+    // print puzzle before solving:
+    //printPuzzleFormatted(6);
+
+    let start = genHeap(compIdx),
+        loopIndex = start,
+        exitCell = start-1,
+        Dir = 1, // direction -1 or 1
+        AC;
+
+    bigLoop:
+    while (loopIndex > exitCell && count < MAX_COUNT && solutions < MAX_SOLUTIONS) {
+        //AC = cellArray[loopIndex].index;
+        AC = selectCellHeuristic(loopIndex);
+        cellArray[loopIndex].visited++;
+        count++;
+
+        if (cellType[AC] == "F") {
+            loopIndex += Dir;
+            continue;
+        }
+        if (cellType[AC] == "P") {
+            solutions++;
+            foundSolutions.push({sol:puzzle.join(""),count:count,id:solutions})
+            console.log("solution " + solutions + ", val: " + puzzle.join(""));
+
+            Dir = -1;
+            loopIndex += Dir;
+            continue;
+        }
+        if (cellType[AC] != "A") {
+            Log.Error("Unexpected cellType = " + cellType[AC].toString());
+            break bigLoop;
+        }
+
+        // cellType is A
+
+        if (Dir == 1) {
+            cellMask[AC] = rowMask[cellRow[AC]] & colMask[cellCol[AC]] & boxMask[cellBox[AC]];
+            cellI[AC] = 0;
+
+            while ( (cellI[AC] <= puzzleDimension) && ( (cellMask[AC] & (1<<cellI[AC])) == 0) )  {
+                cellI[AC]++;
+            }
+            if (cellI[AC] > puzzleDimension) {
+                puzzle[AC] = "0";
+                Dir = -1;
+                loopIndex += Dir;
+                continue;
+            }
+            // new value for puzzle cell
+            puzzle[AC] = symbols[cellI[AC]];
+            rowMask[cellRow[AC]] &= ~(1<< cellI[AC]);
+            colMask[cellCol[AC]] &= ~(1<< cellI[AC]);
+            boxMask[cellBox[AC]] &= ~(1<< cellI[AC]);
+
+            loopIndex += Dir;
+            // end Dir = 1
+        } else {
+            //Dir = -1
+
+            cellValue = 1<<cellI[AC]; // always works
+
+            // add old value back to masks
+            rowMask[cellRow[AC]] |= cellValue;
+            colMask[cellCol[AC]] |= cellValue;
+            boxMask[cellBox[AC]] |= cellValue;
+
+            while (( ++cellI[AC] <= puzzleDimension) && ( (cellMask[AC] & (1<<cellI[AC])) == 0) ) {
+                //loop
+            }
+            if (cellI[AC] > puzzleDimension) {
+                puzzle[AC] = "0";
+                loopIndex += Dir;
+                continue;
+            }
+
+            // try next value and reverse direction
+            puzzle[AC] = symbols[cellI[AC]];
+            rowMask[cellRow[AC]] &= ~(1<< cellI[AC]);
+            colMask[cellCol[AC]] &= ~(1<< cellI[AC]);
+            boxMask[cellBox[AC]] &= ~(1<< cellI[AC]);
+
+            Dir = 1;
+            loopIndex += Dir;
+            continue;
+        } // end Dir = -1
+    } // end while
+    Log.Notice("End count = " + count + " End puzzle = " + puzzle );
+}
+
+/////////////////////////// END SUDOKU TESTING CODE //////////////////////////////
+//var data = puzzle.slice(1,activeCells);
+var generate3DPuzzle = function() {
+    let faces = ["front","back","right","left","top","bottom"];
+    let cubeHandle = d3.select("#cube");
+    let index = 0;
+    let box,rowHandle,cellHandle,type,content;
+    for (let row=1;row<=puzzleDimension;row++) {
+        rowHandle = cubeHandle
+            .append("div")
+            .attr("id","row-" + row)
+            .attr("class","row");
+        for (let col=1;col<=puzzleDimension;col++) {
+            index++
+            box = cellBox[index]
+            type = cellType[index]
+            content =  type == "F" ? puzzleString[index] : cellMask[index] 
+            cellHandle =  rowHandle
+                .append("div")
+                .attr("id","c-" + row + "-" + col + "-" + box)
+                .attr("class", ["cell", "row-" + row, "col-" + col, "box-" + box,"type-" + type].join(" "));
+            for (let i=0;i<faces.length;i++) {
+                cellHandle
+                    .append("div")
+                    .attr("class",["face", faces[i], "ctype-" + type].join(" "))
+                    .text(content);
+            }
+        }
+    }
+}
+
+var solveAll = function (sudokuArray,displaySelector) {
+    let len = sudokuArray.length,
+        ds = d3.select(displaySelector),
+        results,
+        puzzleObj,
+        sol,
+        cid = [4], // was [4,7,8]
+        compareId,
+        compareDescr,
+        ul = ds.append("ul");
+
+    for (let i=0;i<len;i++) {
+        for (let k=0;k<cid.length;k++) {
+            compareId = cid[k];
+            initialize();
+            puzzleObj = sudokuArray[i];
+            puzzleString = puzzleObj.puzzle_string;
+            boxCols = puzzleObj.box_cols;
+            boxRows = puzzleObj.box_rows;
+            boxMapString = puzzleObj.box_map;
+            if (boxMapString.length == 0) {
+                //puzzleString = puzzleString.split("").reverse().join("")
+            }
+            remapSymbols = puzzleObj.remap_symbols;
+            puzzleName   = puzzleObj.name;
+            if (boxMapString.length > 0) {
+                boxMapString = "E" + boxMapString + "P0";
+            }
+
+            setupSudoku();
+            solveSudokuWithHeap(compareId);
+            for (let j=0;j<foundSolutions.length;j++) {
+                sol = foundSolutions[j]
+                ul
+                    .append("li")
+                    .text(`${i} CID: ${compareId}, Count: ${sol.count}, ${sol.sol}, Total Count: ${count}`);
+            }
+        }
+        ul.append("li")
+    }
+}
+
+
+function loadXHRFile(url,callback) {
+  let i = xhrArray.length;
+  xhrArray[i] = new XMLHttpRequest();
+  let newXHR3 = xhrArray[i];
+  newXHR3.open("GET", url, true);
+  newXHR3.onreadystatechange = callback;
+  newXHR3.ondataavailable = null;
+  newXHR3.send(null);
+}
+
+function getSudokuPuzzlesCSV(evt) {
+    if (evt.currentTarget.readyState < 4) {
+        return;
+    }
+
+    parseSudokuPuzzlesCSV(evt.currentTarget.responseText);
+}
+
+
+var sudokuData;
+
+var parseSudokuPuzzlesCSV = function (csv) {
+
+    sudokuData = d3.csv.parse(csv, function(d,i) {
+
+        let name = d["puzzle_name"],
+            box_cols = d["box_cols"],
+            box_rows = d["box_rows"],
+            box_map  = d["box_map"],
+            puzzle_string =  d["puzzle_string"],
+            remap_symbols = d["remap_symbols"],
+            notes = d["notes"],
+            puzzle_length = puzzle_string.length,
+            puzzle_dimension, 
+            dimension_root;
+
+        if (!(box_cols && box_rows)) {
+
+            if (puzzle_length == 0) {
+                puzzle_string = "0"
+                puzzle_length = 1;
+                box_cols = 1;
+                box_rows = 1;
+            }
+
+            puzzle_dimension = Math.pow(puzzle_length,.5);
+            dimension_root = Math.pow(puzzle_dimension,.5);
+            if (dimension_root != Math.floor(dimension_root)) {
+                // puzzle not perfect square, box_cols and box_rows should be set.
+                box_cols = 0;
+                box_rows = 0;
+            } else {
+                box_cols = box_rows = dimension_root;
+            }
+        }
+
+        else if (parseInt(box_cols) && parseInt(box_rows)) {
+            let expected_length = (box_cols*box_cols*box_rows*box_rows)
+            if (puzzle_length < expected_length ) {
+                for (let i = puzzle_length;i<expected_length;i++) {
+                    puzzle_string += "0"
+                }
+            }
+        }
+
+        puzzle_string = "E" + puzzle_string + "P";
+
+        if (!box_map) {
+            box_map = "";
+        }
+        if (!notes) {
+            notes = "";
+        }
+        if (!name) {
+            name = "Puzzle(" + puzzle_dimension + ") " + i + ", box_cols="+ box_cols + ", box_rows=" + box_rows;
+        }
+        if (!remap_symbols) {
+            remap_symbols = "";
+        }
+        let search =  name + ' ' + notes;
+
+        return {
+            search: search,
+            name: name,
+            box_cols: box_cols,
+            box_rows: box_rows,
+            box_map: box_map,
+            puzzle_string: puzzle_string,
+            remap_symbols: remap_symbols,
+            notes: notes,
+            puzzle_length: puzzle_length
+        };
+    });
+
+    Log.Debug("done loading sudoku-puzzles csv file");
+
+    solveAll(sudokuData,"#my-results");
+};
+
+$(document).ready(function() {
+
+    loadXHRFile("../data-2/number-sub-2.txt",getSudokuPuzzlesCSV);
+    Log.Notice('Document Ready');
+});
+</script>
+</body>
+</html>

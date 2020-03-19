@@ -1,0 +1,826 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>3D Visualization</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/heapsort.js"></script>
+
+
+
+<style>
+#spacer {
+    height: 200px;
+    width: 100%;
+    display: block;
+    background-color: rgba(0,255,255,.25);
+}
+
+#default-example {
+    background:rgba(0,0,0,.2)
+}
+
+.row {
+    margin: 0;
+    padding: 0;
+    border: none;
+    perspective: none;
+    transform-style:preserve-3d;
+}
+
+.row .cell {
+    margin: 0;
+    padding: 0;
+    border: none;
+    border-image-width: 0;
+    display: inline-block;
+    width:100px;
+    height:100px;
+    perspective:55000px;
+    transform-style:preserve-3d
+}
+
+.box-1 .face {background-color:hsl(0,50%,50%);}
+.box-2 .face {background-color:hsl(70,50%,50%);}
+.box-3 .face {background-color:hsl(140,50%,50%);}
+.box-4 .face {background-color:hsl(210,50%,50%);}
+.box-5 .face {background-color:hsl(280,50%,50%);}
+.box-6 .face {background-color:hsl(350,50%,50%);}
+.box-7 .face {background-color:hsl(60,50%,50%);}
+.box-8 .face {background-color:hsl(130,50%,50%);}
+.box-9 .face {background-color:hsl(200,50%,50%);}
+
+.box-1 {
+    transform: translateZ(0px);
+}
+.box-2 {
+    transform: translateZ(100px);
+}
+.box-3 {
+    transform: translateZ(200px);
+}
+.box-4 {
+    transform: translateZ(300px);
+}
+.box-5 {
+    transform: translateZ(400px);
+}
+.box-6 {
+    transform: translateZ(500px);
+}
+.box-7 {
+    transform: translateZ(600px);
+}
+.box-8 {
+    transform: translateZ(700px);
+}
+.box-9 {
+    transform: translateZ(800px);
+}
+
+.face {
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    width:100%;
+    height:100%;
+    position:absolute;
+    perspective: none;
+    transform-style: preserve-3d;
+    backface-visibility:inherit;
+    font-size:60px;
+    color:#fff;
+    border: .5px solid black;
+}
+
+.front {
+    transform:translateZ(50px)
+}
+.back {
+    transform:rotateY(180deg) translateZ(50px);
+}
+.right {
+    transform:rotateY(90deg) translateZ(50px);
+}
+.left {
+    transform:rotateY(-90deg) translateZ(50px);
+}
+.top {
+    transform:rotateX(90deg) translateZ(50px);
+}
+.bottom {
+    transform:rotateX(-90deg) translateZ(50px);
+}
+
+#cube {
+    padding: 0;
+    margin: 0;
+    border: none;
+    perspective: none;
+    transform-style: preserve-3d;
+    /* transform: translateX(300px);
+    transform: translateX(550px) translateY(00px) rotate3d(1,0.25,1,-25deg) rotate3d(0,1,0,75deg) rotate3d(0,0,1,-30deg) translateZ(-1500px);
+    transform: translateX(550px) rotate3d(0,1,0,-90deg); */
+}
+
+</style>
+
+</head>
+<body>
+
+<div id="sudoku-3d"><div id="cube"></div></div>
+<div id="my-results"></div>
+<div id="t"></div>
+<script src="js/sudoku-formatting.js" defer ></script>
+<script>
+
+var Puzzles = [];
+Puzzles[0]  = "E003020600900305001001806400008102900700000008006708200002609500800203009005010300P"
+Puzzles[1]  = "E900300007500900200000024300000008060460090013090400000003570000001009002700002005P";// x-wing
+Puzzles[2]  = "E030000000000903201670020030900807000007000500000306007080090016102508000000000020P"
+Puzzles[3]  = "E000000000012034567034506182001058206008600001020007050003705028080060700207083615P"
+Puzzles[4]  = "E000000000000012034001500026000400078070801302803207041007008060306145087508706413P"
+Puzzles[5]  = "E200080300060070084030500209000105408000000000402706000301007040720040060004010003P"
+Puzzles[6]  = "E000000001000002000003000045000000260000030000040500000000010704206008000300000000P"
+Puzzles[7]  = "E000000000000001023004056000000400000070000605800009000000700080005300000060000000P"
+Puzzles[8]  = "E000000014970000000000200000000003605001000000000000200060000730200140000000800000P"
+Puzzles[9]  = "E100000500000000802000900000600000040000070010080050000400107000050000300000400000P"
+Puzzles[10] = "E000000001000000020003004000000005400060000700810000000000060000002109000007000850P"
+Puzzles[11] = "E000000012000000003002300400001800005060070800000009000008500000900040500470006000P";//Platinum Blond
+Puzzles[12] = "E520106000301080000000000200005900102009002000200064030000003006600005004080000000P"
+Puzzles[13] = "E950000004082000031000000805000000000104003000537400000210840007009307000070201308P"
+Puzzles[14] = "E800000000003600000070090200050007000000045700000100030001000068008500010090000400P"; // Most Difficult ?
+Puzzles[15] = "E000000008003000400090020060000079000000061200060502070008000500010000020405000003P"
+
+var solveAll = function (sudokuArray,displaySelector) {
+    let len = sudokuArray.length,
+        ds = d3.select(displaySelector),
+        results,
+        puzzleObj,
+        sol,
+        cid = [4,7,8],
+        compareId,
+        compareDescr,
+        ul = ds.append("ul");
+
+    for (let i=0;i<len;i++) {
+        for (let k=0;k<cid.length;k++) {
+            compareId = cid[k];
+            initialize();
+            puzzleObj = sudokuArray[i];
+            puzzleString = puzzleObj.puzzle_string;
+            boxCols = puzzleObj.box_cols;
+            boxRows = puzzleObj.box_rows;
+            boxMapString = puzzleObj.box_map;
+            if (boxMapString.length == 0) {
+                //puzzleString = puzzleString.split("").reverse().join("")
+            }
+            remapSymbols = puzzleObj.remap_symbols;
+            puzzleName   = puzzleObj.name;
+            if (boxMapString.length > 0) {
+                boxMapString = "E" + boxMapString + "P0";
+            }
+
+            setupSudoku();
+            solveSudokuWithHeap(compareId);
+            for (let j=0;j<foundSolutions.length;j++) {
+                sol = foundSolutions[j]
+                ul
+                    .append("li")
+                    .text(`${i} CID: ${compareId}, Count: ${sol.count}, ${sol.sol}, Total Count: ${count}`);
+            }
+        }
+        ul.append("li")
+    }
+}
+
+function loadXHRFile(url,callback) {
+  var i = xhrArray.length;
+  xhrArray[i] = new XMLHttpRequest();
+  var newXHR3 = xhrArray[i];
+  newXHR3.open("GET", url, true);
+  newXHR3.onreadystatechange = callback;
+  newXHR3.ondataavailable = null;
+  newXHR3.send(null);
+}
+
+function getSudokuPuzzlesCSV(evt) {
+    if (evt.currentTarget.readyState < 4) {
+        return;
+    }
+
+    parseSudokuPuzzlesCSV(evt.currentTarget.responseText);
+
+    //$('#puzzle-data').attr('max', sudokuData.length-1);
+    //$('#puzzle-data').attr('placeholder', '0 to ' + (sudokuData.length-1) + ' or -1 to enter puzzle');
+}
+
+
+var sudokuData;
+
+var parseSudokuPuzzlesCSV = function (csv) {
+
+    sudokuData = d3.csv.parse(csv, function(d,i) {
+
+        var name = d["puzzle_name"];
+        var box_cols = d["box_cols"];
+        var box_rows = d["box_rows"];
+        var box_map  = d["box_map"];
+        var puzzle_string =  d["puzzle_string"];
+        var remap_symbols = d["remap_symbols"];
+        var notes = d["notes"];
+        var puzzle_length = puzzle_string.length;
+        var puzzle_dimension, 
+            dimension_root;
+
+        if (!(box_cols && box_rows)) {
+
+            if (puzzle_length == 0) {
+                puzzle_string = "0"
+                puzzle_length = 1;
+                box_cols = 1;
+                box_rows = 1;
+            }
+
+            puzzle_dimension = Math.pow(puzzle_length,.5);
+            dimension_root = Math.pow(puzzle_dimension,.5);
+            if (dimension_root != Math.floor(dimension_root)) {
+                // puzzle not perfect square, box_cols and box_rows should be set.
+                box_cols = 0;
+                box_rows = 0;
+            } else {
+                box_cols = box_rows = dimension_root;
+            }
+        }
+
+        else if (parseInt(box_cols) && parseInt(box_rows)) {
+            var expected_length = (box_cols*box_cols*box_rows*box_rows)
+            if (puzzle_length < expected_length ) {
+                for (var i = puzzle_length;i<expected_length;i++) {
+                    puzzle_string += "0"
+                }
+            }
+        }
+
+        puzzle_string = "E" + puzzle_string + "P";
+
+        if (!box_map) {
+            box_map = "";
+        }
+        if (!notes) {
+            notes = "";
+        }
+        if (!name) {
+            name = "Puzzle(" + puzzle_dimension + ") " + i + ", box_cols="+ box_cols + ", box_rows=" + box_rows;
+        }
+        if (!remap_symbols) {
+            remap_symbols = "";
+        }
+        var search =  name + ' ' + notes;
+
+        return {
+            search: search,
+            name: name,
+            box_cols: box_cols,
+            box_rows: box_rows,
+            box_map: box_map,
+            puzzle_string: puzzle_string,
+            remap_symbols: remap_symbols,
+            notes: notes,
+            puzzle_length: puzzle_length
+        };
+    });
+
+    Log.Debug("done loading sudoku-puzzles csv file");
+
+    solveAll(sudokuData,"#my-results");
+};
+
+// code shamelessly stolen from: Rafal Szymanski <me@rafal.io>
+// https://github.com/rafalio/dancing-links-java/blob/master/src/dlx/DancingLinks.java
+
+var nodesMade = 0;
+
+class DancingNode {
+    L;
+    R;
+    U;
+    D;
+    C;
+    constructor(c) {
+        this.L = this.R = this.U = this.D = this;
+        if (c) {
+            this.C = c;
+        }
+        nodesMade++;
+    }
+    hookDown (node1) {
+        // this.C == node1.C
+        node1.D = this.D;
+        node1.D.U = node1;
+        node1.U = this;
+        this.D = node1;
+        return node1;
+    }
+    hookRight (node1) {
+        node1.R = this.R;
+        node1.R.L = node1;
+        node1.L = this;
+        this.R = node1;
+        return node1;
+    }
+    unlinkLR() {
+        this.L.R = this.R;
+        this.R.L = this.L;
+        updates++;
+    }
+    relinkLR() {
+        this.L.R = this.R.L = this;
+        updates++;
+    }
+    unlinkUD() {
+        this.U.D = this.D;
+        this.D.U = this.U;
+        updates++;
+    }
+    relinkUD() {
+        this.U.D = this.D.U = this;
+        updates++;
+    }
+}
+
+class ColumnNode extends DancingNode {
+    size;
+    name;
+    constructor(name) {
+        super();
+        this.size = 0;
+        this.name = name;
+        this.C = this;
+    }
+    cover() {
+        this.unlinkLR();
+        for (let i = this.D;i != this;i = i.D) {
+            for (let j = i.R;j != i; j = j.R) {
+                j.unlinkUD();
+                j.C.size--;
+            }
+        }
+    }
+    uncover() {
+        for (let i = this.U; i != this; i = i.U) {
+            for (let j = i.L; j != i; j = j.L) {
+                j.C.size++;
+                j.relinkUD();
+            }
+        }
+        this.relinkLR();
+    }
+
+}
+
+class DancingLinks{
+    verbose = true;
+    header;
+    solutions = 0;
+    updates = 0;
+    handler;
+    answer = [];
+    colSelector = 0;
+    rowSelector = 0;
+    selectorHist = [];
+
+    constructor(grid, solHandler) {
+        this.header = this.makeDLXBoard(grid);
+        this.handler = solHandler?solHandler:new DefaultHandler();
+    }
+
+    search (k) {
+        if (this.header.R == this.header) { // all columns are removed
+            if (this.verbose) {
+                Log.Notice("----------------------------------------");
+                Log.Notice("Solution #" + this.solutions + "\n");
+            }
+            this.handler.handleSolution(this.answer);
+            if (this.verbose) {
+                Log.Notice("updates at solution: " + updates)
+                Log.Notice("-----------------------------------------");
+            }
+            this.solutions++
+        } else {
+            let c = this.selectColumnNodeHeuristic();
+            c.cover();
+
+            for (let r = c.D;r != c; r = r.D) {
+                this.answer.push(r);
+
+                for (let j = r.R; j != r; j = j.R) {
+                    j.C.cover();
+                }
+
+                this.search(k+1);
+
+                r = this.answer.pop(this.answer.length -1); // should work w/o number
+                c = r.C;
+
+                for (let j = r.L; j != r; j = j.L) {
+                    j.C.uncover();
+                }
+            }
+            c.uncover();
+        }
+    }
+
+    selectColumnNodeNaive() {
+        return this.header.R;
+    }
+
+    selectColumnNodeHeuristic() {
+        let min = Infinity,
+            ret = null,
+            sel = 0;
+        for (let c = this.header.R; c != this.header; c = c.R) {
+            sel++;
+            if (c.size < min) {
+                min = c.size;
+                ret = c;
+                if (min == 1) {
+                    break;
+                }
+            }
+        }
+        this.colSelector += sel;
+        if (ret) {
+            this.selectorHist.push({cname: ret.C.name,sel:sel,total:this.colSelector});
+        } else {
+            this.selectorHist.push({cname: "null",sel:sel,total:this.colSelector});
+        }
+        return ret;
+    }
+
+    printBoard() {
+        let ret;
+        Log.Notice("Board Config: ");
+        for (let tmp=this.header.R; tmp != this.header; tmp=tmp.R) {
+            for (let d = tmp.D; d != tmp; d = d.D) {
+                ret = "";
+                ret += d.C.name + " --> ";
+                for (let i = d.R; i != d; i = i.R) {
+                    ret += i.C.name + " -->";
+                }
+                Log.Notice(ret);
+            }
+        }
+    }
+
+    makeDLXBoard(grid) {
+        let COLS = grid[0].length;
+        let ROWS = grid.length;
+
+        let headerNode = new ColumnNode("header");
+        let columnNodes = new Array();
+
+        for (let i=0; i < COLS; i++) {
+            let n = new ColumnNode(i);
+            columnNodes.push(n);
+            headerNode = headerNode.hookRight(n);
+        }
+        headerNode = headerNode.R.C;
+
+        for (let i = 0; i < ROWS; i++) {
+            let prev = null;
+            for (let j = 0; j < COLS; j++) {
+                if (grid[i][j] == 1) {
+                    let col = columnNodes[j];
+                    let newNode = new DancingNode(col);
+                    if (prev == null) {
+                        prev = newNode;
+                    }
+                    col.U.hookDown(newNode);
+                    prev = prev.hookRight(newNode);
+                    col.size++;
+                }
+            }
+        }
+        headerNode.size = COLS;
+
+        return headerNode;
+    }
+
+    showInfo() {
+        Log.Notice("Number of updates: " + updates);
+    }
+
+    runSolver() {
+        this.solutions = 0;
+        updates = 0;
+        this.answer = new Array();
+        this.search(0);
+        if (this.verbose) {
+            this.showInfo();
+        }
+    }
+
+}
+
+class AbstractSudokuSolver {
+    S = 9;
+    side = 3; // really ?
+    #initialized = false;
+    #validated = false;
+    runSolver(sudoku) {};
+    sudoku2D = null;
+
+    constructor (sudoku) {
+        this.sudoku2D = this.fromCharArray(sudoku);
+        this.S = this.sudoku2D.length;
+        this.side = Math.sqrt(this.S);
+        this.#validated = this.validateSudoku(this.sudoku2D);
+        this.#initialized = this.#validated;
+        return this;
+    }
+
+    solve() {
+        if (this.#validated) {
+            return this.runSolver(this.sudoku2D);
+        } else {
+            return false;
+        }
+    }
+
+    fromCharArray (s) {
+        this.side = Math.floor(Math.sqrt(s.length))
+        this.S = this.side;
+        let row,
+            index = 0,
+            num,
+            sud = new Array();
+        for (let i = 0; i < this.S;i++) {
+            row = new Array(this.S).fill(0);
+            for (let j = 0; j < this.S;j++) {
+                num = parseInt(s[index++])
+                if (num >= 1 && num <= this.S) {
+                    row[j] = num;
+                }
+            }
+            sud.push(row);
+        }
+        this.#initialized = true;
+        return sud;
+    }
+
+    printSolution(result) {
+        let N = result.length,
+            ret;
+        for (let i = 0; i < N; i++) {
+            ret  = result[i].join(" ");
+            Log.Notice(ret);
+        }
+    }
+    validateSudoku(grid) {
+        return true;
+        let N = grid.length,
+            val,
+            side;
+        if ( N != 9 || N != 16) {
+            return false; // only works for 9x9 and 16x16
+        }
+
+        for (let i=0;i<N;i++) {
+            if (grid[i].length != N) {
+                return false;
+            }
+            for (let j=0;j<N;j++) {
+                val = grid[i][j]
+                if ( !(val >= 0 || val <= N) ) {
+                    return false; // 0 means not filled in
+                }
+            }
+        }
+
+        let b = new Array(N+1);
+
+        for (let i=0;i<N;i++) {
+            for (let j=0;j<N;j++) {
+                if (grid[i][j] == 0) {
+                    continue;
+                }
+                if (b[grid[i][j]]) {
+                    return false;
+                }
+                b[grid[j][i]] = true;
+            }
+
+            b.fill(false)
+        }
+
+        side = Math.floor(Math.sqrt(N)); // assumes square regions/boxes
+
+        for (let i=0;i<N;i += side) {
+            for (let j=0;j<N;j += side) {
+                for (let d1=0;d1<side;d1++) {
+                    for (let d2=0;d2<side;d2++) {
+                        if (grid[i+d1][j+d2] == 0) {
+                            continue
+                        }
+                        if (b[grid[i+d1][j+d2]]) {
+                            return false;
+                        }
+                        b[grid[i+d1][j+d2]] = true;
+                    }
+                }
+                b.fill(false);
+            }
+        }
+        // grid passes:
+        return true;
+    }
+}
+
+class SudokuDLX extends AbstractSudokuSolver {
+
+    constructor (sudoku) {
+        super(sudoku);
+    }
+
+    makeExactCoverGrid(sudoku) {
+        let R = this.sudokuExactCover();
+        const s = this.S;
+        for (let i=1;i<=s;i++) {
+            for (let j=1;j<=s;j++) {
+                let n = sudoku[i-1][j-1];
+                if (n != 0) {
+                    for (let num=1;num <=s;num++) {
+                        if (num != n) {
+                            R[this.getIdx(i,j,num)].fill(0);
+                        }
+                    }
+                }
+            }
+        }
+        return R;
+    }
+
+    sudokuExactCover() {
+        let cols = 9*9*9,
+            rows = 9*9*4,
+            hBase = 0,
+            R = new Array(cols);
+            for (let i=0;i<cols;i++) {
+                R[i] = new Array(rows).fill(0);
+            }
+
+        // row-column constraints
+        for (let r=1;r<=this.S;r++) {
+            for (let c=1;c<=this.S;c++,hBase++) {
+                for (let n=1;n<=this.S;n++) {
+                    R[this.getIdx(r,c,n)][hBase] = 1;
+                }
+            }
+        }
+
+        // row-number constraints
+        for (let r=1;r<=this.S;r++) {
+            for (let n=1;n<=this.S;n++,hBase++) {
+                for (let c1=1;c1<=this.S;c1++) {
+                    R[this.getIdx(r,c1,n)][hBase] = 1;
+                }
+            }
+        }
+
+        // column-number constraints
+        for (let c=1;c<=this.S;c++) {
+            for (let n=1;n<=this.S;n++,hBase++) {
+                for (let r1=1;r1<=this.S;r1++) {
+                    R[this.getIdx(r1,c,n)][hBase] = 1
+                }
+            }
+        }
+
+        // box-number constraints
+        for (let br=1;br<=this.S;br+= this.side) {
+            for (let bc=1;bc<=this.S;bc += this.side) {
+                for (let n=1;n<=this.S;n++, hBase++) {
+                    for (let rDelta=0;rDelta<this.side;rDelta++) {
+                        for (let cDelta=0;cDelta<this.side;cDelta++) {
+                            R[this.getIdx(br+rDelta,bc+cDelta,n)][hBase] = 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        return R;
+    }
+
+    getIdx(row, col, num) {
+        let s = this.S;
+        return ((row-1)*s*s + (col-1)*s + (num-1));
+    }
+
+    generateAllSolutions() {
+        let cover = this.sudokuExactCover(),
+            dlx = new DancingLinks(cover, new SudokuHandler(this.S));
+        dlx.runSolver();
+    }
+
+    runSolver() {
+        let cover = this.makeExactCoverGrid(this.sudoku2D),
+            dlx = new DancingLinks(cover, new SudokuHandler(this.S));
+        dlx.runSolver();
+    }
+}
+
+class SolutionHandler {
+    size;
+    constructor (boardSize) {
+        this.size = boardSize;
+    };
+}
+
+class SudokuHandler extends SolutionHandler {
+    constructor(boardSize) {
+        super(boardSize);
+    }
+    handleSolution (answer) {
+        let result = this.parseBoard(answer);
+        //AbstractSudokuSolver.printSolution(result);
+        SUDOKU.printSolution(result);
+    }
+    parseBoard(answer) {
+        let len = this.size,
+            result = new Array(len);
+
+        for (let i=0;i<len;i++) {
+            result[i] = new Array(len).fill(0)
+        }
+
+        for (let i=0;i<answer.length;i++) {
+            let n = answer[i],
+                rcNode = n,
+                min = parseInt(rcNode.C.name),
+                ans1,
+                ans2,
+                r,
+                c,
+                num;
+            for (let tmp= n.R;tmp != n; tmp=tmp.R) {
+                let val = parseInt(tmp.C.name);
+                if (val < min) {
+                    min = val;
+                    rcNode = tmp;
+                }
+            }
+            ans1 = parseInt(rcNode.C.name);
+            ans2 = parseInt(rcNode.R.C.name);
+            r    = Math.floor(ans1/len);
+            c    = ans1 % len;
+            num  = (ans2 % len) + 1;
+            result[r][c] = num;
+        }
+        return result;
+    }
+}
+
+var updates = 0;
+
+var hardest = [
+    [8,0,0,0,0,0,0,0,0],
+    [0,0,3,6,0,0,0,0,0],
+    [0,7,0,0,9,0,2,0,0],
+    [0,5,0,0,0,7,0,0,0],
+    [0,0,0,0,4,5,7,0,0],
+    [0,0,0,1,0,0,0,3,0],
+    [0,0,1,0,0,0,0,6,8],
+    [0,0,8,5,0,0,0,1,0],
+    [0,9,0,0,0,0,4,0,0]
+]; // apparently the hardest sudoku
+
+var hardestSudokuStr = "";
+for (let q=0;q<hardest.length;q++) {
+    hardestSudokuStr += hardest[q].join("")
+}
+
+var testStr = new Array()
+testStr.push("800000300005020800021000005000006040500410008100080002009000000000700000200050003");
+testStr.push("100000700006080100089000006000004050600590001900010008002000000000300000800060007");
+testStr.push("020400080007000003080237010201000090090000804000900000010800040508000000000060000")
+
+var SUDOKU = new SudokuDLX(testStr[0]);
+
+
+$(document).ready(function() {
+
+    //loadXHRFile("./data-2/number-sub.txt",getSudokuPuzzlesCSV);
+    Log.Notice('Document Ready');
+});
+</script>
+<div id="answer">812753649943682175675491283154237896369845721287169534521974368438526917796318452</div>
+</body>
+</html>

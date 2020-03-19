@@ -139,7 +139,7 @@
 
 //var data = puzzle.slice(1,activeCells);
 puzzleString = "E1234500000000000000000453P"
-
+puzzleString = Puzzles[13]
 var generate3DPuzzle = function() {
     let faces = ["front","back","right","left","top","bottom"];
     let cubeHandle = d3.select("#cube");
@@ -174,10 +174,12 @@ $(document).ready(function() {
 
     Log.Notice('Document Ready');
     //Log.Remove();
-    setupSudoku(1,5,"E1122311233412234445345555P0");
-    generate3DPuzzle();
-    genHeap();
+    //setupSudoku(1,5,"E1122311233412234445345555P0");
+    setupSudoku();
+    //generate3DPuzzle();
+    //genHeap2();
 });
 </script>
+<div id="t"></div>
 </body>
 </html>

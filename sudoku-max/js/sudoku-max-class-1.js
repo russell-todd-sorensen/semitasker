@@ -5,7 +5,7 @@ var on = true;
 var off = false;
 var count = 0;
 var solutions = 0;
-var MAX_COUNT = 500000000;
+var MAX_COUNT = 2000000000;
 var MAX_SOLUTIONS = 2;
 var defaultSymbolsProto = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 var defaultSymbols      = "" + defaultSymbolsProto;
@@ -16,7 +16,6 @@ var symbolIndex = new Array(defaultSymbols.length);
 var i = 0
 for (; i<defaultSymbols.length; i++) {
     symbolIndex[defaultSymbols[i]] = i;
-
 }
 
 //symbolIndex["0"] = i;
@@ -32,16 +31,20 @@ var symbolOptions; // symbol sets available in list of puzzles
 var xhrArray  = new Array();
 
 var Puzzles = [];
-Puzzles[0] = "E900300007500900200000024300000008060460090013090400000003570000001009002700002005P";// x-wing
-Puzzles[1] = "E030000000000903201670020030900807000007000500000306007080090016102508000000000020P"
-Puzzles[2] = "E000000000012034567034506182001058206008600001020007050003705028080060700207083615P"
-Puzzles[3] = "E000000000000012034001500026000400078070801302803207041007008060306145087508706413P"
-Puzzles[4] = "E003020600900305001001806400008102900700000008006708200002609500800203009005010300P"
-Puzzles[5] = "E200080300060070084030500209000105408000000000402706000301007040720040060004010003P"
-Puzzles[6] = "E000000001000002000003000045000000260000030000040500000000010704206008000300000000P"
-Puzzles[7] = "E000000000000001023004056000000400000070000605800009000000700080005300000060000000P"
-Puzzles[8] = "E000000014970000000000200000000003605001000000000000200060000730200140000000800000P"
-Puzzles[9] = "E100000500000000802000900000600000040000070010080050000400107000050000300000400000P"
+Puzzles[0]  = "E900300007500900200000024300000008060460090013090400000003570000001009002700002005P";// x-wing
+Puzzles[1]  = "E030000000000903201670020030900807000007000500000306007080090016102508000000000020P"
+Puzzles[2]  = "E000000000012034567034506182001058206008600001020007050003705028080060700207083615P"
+Puzzles[3]  = "E000000000000012034001500026000400078070801302803207041007008060306145087508706413P"
+Puzzles[4]  = "E003020600900305001001806400008102900700000008006708200002609500800203009005010300P"
+Puzzles[5]  = "E200080300060070084030500209000105408000000000402706000301007040720040060004010003P"
+Puzzles[6]  = "E000000001000002000003000045000000260000030000040500000000010704206008000300000000P"
+Puzzles[7]  = "E000000000000001023004056000000400000070000605800009000000700080005300000060000000P"
+Puzzles[8]  = "E000000014970000000000200000000003605001000000000000200060000730200140000000800000P"
+Puzzles[9]  = "E100000500000000802000900000600000040000070010080050000400107000050000300000400000P"
+Puzzles[10] = "E000000001000000020003004000000005400060000700810000000000060000002109000007000850P"
+Puzzles[11] = "E000000012000000003002300400001800005060070800000009000008500000900040500470006000P";//Platinum Blond
+Puzzles[12] = "E520106000301080000000000200005900102009002000200064030000003006600005004080000000P"
+Puzzles[13] = "E950000004082000031000000805000000000104003000537400000210840007009307000070201308P"
 puzzleString=Puzzles[2];
 
 
@@ -56,6 +59,7 @@ var cellCol;
 var cellBox;
 var cellType;
 var cellMask;
+var cellVisits;
 var cellI;
 var rowMask;
 var colMask;
@@ -74,8 +78,6 @@ var baseFontSize = 72; // variable from 72 to 108
 //   allows adding non-rectangular box shapes.
 
 
-
-
 function setupSudoku() {
 
     Log.Notice( "Running setupSudoku()...");
@@ -89,6 +91,8 @@ function setupSudoku() {
     puzzleDimension = boxCols * boxRows;
     activeCells = puzzleDimension * puzzleDimension;
     puzzle = new Array(activeCells+3);
+    cellVisits = new Array(activeCells+3)
+    cellVisits[0] = 0;
 
     boxStyle("50","50");
 
@@ -100,11 +104,14 @@ function setupSudoku() {
     if (puzzleString.length > 0) {
         for (var i = 1; i <= activeCells; i++) {
             puzzle[i] = puzzleString[i];
+            cellVisits[i] = 0;
         }
     }
 
     puzzle[activeCells+1] = "P";
     puzzle[activeCells+2] = "0";
+    cellVisits[activeCells+1] = 0;
+    cellVisits[activeCells+2] = 0;
 
     // working arrays
     cellRow  = new Array(activeCells+2);
@@ -163,9 +170,7 @@ function setupSudoku() {
             cellType[i] = 'A';
         } else {
             cellType[i] = 'F';
-            //cellValue = symbolIndex[puzzle[i]];
             cellValue = symbol_index[puzzle[i]];
-            Log.Notice( "cellValue(" + i + ") = " + cellValue);
             rowMask[cellRow[i]] &= ~(1<<cellValue);
             colMask[cellCol[i]] &= ~(1<<cellValue);
             boxMask[cellBox[i]] &= ~(1<<cellValue);
@@ -521,7 +526,7 @@ var solveSudoku = function() {
 
     bigLoop:
     while (AC > 0 && count < MAX_COUNT && solutions < MAX_SOLUTIONS) {
-
+        cellVisits[AC]++;
         count++;
 
         if (cellType[AC] == "F") {
@@ -531,7 +536,7 @@ var solveSudoku = function() {
         if (cellType[AC] == "P") {
             Log.Notice( puzzle.toString());
             solutions++;
-            printPuzzleFormatted(3);
+            console.log(printPuzzleFormatted(3));
             Dir = -1;
             AC += Dir;
             continue;
@@ -909,15 +914,60 @@ var parseSudokuPuzzlesCSV = function (csv) {
 class SudokuCellType {
     values = [];
     len = 0;
+    visited = 0;
+    compareFns = [
+        {
+            fn: function(obj) {
+                return (this.len < obj.len);
+            },
+            descr: "this.len < obj.len (normal)",
+        },
+        {
+            fn: function(obj) {
+                return (this.len > obj.len);
+            },
+            descr: "this.len > obj.len (reverse)",
+        },
+        {
+            fn: function(obj) {
+               return (this.mask < obj.mask)
+            },
+            descr: "this.mask < obj.mask (normal)"
+        },
+        {
+            fn: function(obj) {
+               return (this.mask > obj.mask)
+            },
+            descr: "this.mask > obj.mask (reverse)"
+        },
+        {
+            fn: function(obj) {
+               return (this.index < obj.index)
+            },
+            descr: "this.index < obj.index (normal)"
+        },
+        {
+            fn: function(obj) {
+               return (this.index > obj.index)
+            },
+            descr: "this.index > obj.index (reverse)"
+        }
+    ]
 
-    constructor(index,type) {
+    constructor(index,type,compIdx) {
         this.index = index;
         this.type = type;
-        this.mask = rowMask[cellRow[index]] & colMask[cellCol[index]] & boxMask[cellBox[index]];
-        this.setValues()
+        this.mask = this.calcMask();
+        this.setValues();
+        this.compIdx = compIdx?compIdx:0;
+        this.lt = this.compareFns[this.compIdx].fn
         return this;
     }
+    calcMask() {
+        return rowMask[cellRow[this.index]] & colMask[cellCol[this.index]] & boxMask[cellBox[this.index]];
+    }
     setValues() {
+        this.values = [];
         for (let i=0;i<puzzleDimension;i++) {
             if (this.mask & 1<<i) {
                 this.values.push(i)
@@ -925,11 +975,12 @@ class SudokuCellType {
         }
         this.len = this.values.length;
     }
+    reCalc() {
+        this.mask = this.calcMask();
+        this.setValues();
+    }
     getValues () {
         return this.values;
-    }
-    lt (obj) {
-        return (this.len < obj.len)
     }
     value () {
         return this.len
@@ -937,14 +988,180 @@ class SudokuCellType {
 }
 
 var cellHeap; 
+var cellArray = [];
 
-var genHeap = function() {
+var genHeap = function(compareId) {
+    compIdx = compareId?compareId:0
+    cellArray = [];
+    cellHeap = new Heap(SudokuCellType);
+    let cellp,
+        cell,
+        AC,
+        found = true,
+        counter = 0
+        cellCount = puzzleDimension*puzzleDimension;
+
+    for (let i=0;i<=cellCount;i++) {
+        if (cellType[i] == "A") {
+            cellHeap.add(new SudokuCellType(i,"A",compIdx))
+        } else 
+        if (cellType[i] == "F") {
+            cellArray.push(new SudokuCellType(i,"F",compIdx))
+        }
+    }
+
+    cellHeap.init();
+    cellp = cellHeap.peek(1);
+    while (found) {
+        found = false;
+        while (cellp.len == 1) {
+            counter++;
+            found = true;
+            cell = cellHeap.pop();
+            cell.type = "FA"
+            cellArray.push(cell)
+            // new value for puzzle cell
+            AC = cell.index;
+            cellI[AC] = cell.values[0];
+            puzzle[AC] = symbols[cellI[AC]];
+            rowMask[cellRow[AC]] &= ~(1<< cellI[AC]);
+            colMask[cellCol[AC]] &= ~(1<< cellI[AC]);
+            boxMask[cellBox[AC]] &= ~(1<< cellI[AC]);
+            cellp = cellHeap.peek(1);
+        }
+        if (found) {
+            for (let i=0;i<cellHeap.heap.length;i++) {
+                cellHeap.heap[i].reCalc()
+            }
+            cellHeap.init()
+            cellp = cellHeap.peek(1)
+        }
+    }
+    cellArray.push(new SudokuCellType(0,"E",compIdx))
+    let start = cellArray.length;
+    while (cellHeap.getEntries() > 0 && counter < cellCount+1) {
+        cellArray.push(cellHeap.pop())
+        counter++
+    }
+    cellArray.push(new SudokuCellType(cellCount+1,"P",compIdx));
+    return start;
+}
+
+var genHeapBasic = function(compareId) {
+    compIdx = compareId?compareId:0
+    cellArray = [];
     cellHeap = new Heap(SudokuCellType);
     for (var i=0;i<=(puzzleDimension*puzzleDimension);i++) {
         if (cellType[i] == "A") {
-            cellHeap.add(new SudokuCellType(i,"A"))
+            cellHeap.add(new SudokuCellType(i,"A",compIdx))
         } 
     }
 
     cellHeap.init();
+}
+
+
+var solveSudokuWithHeap = function() {
+
+    Log.Notice( "Starting solveSudokuWithHeap...");
+
+    if (!setupComplete) {
+        if (boxMapString.length > 0) {
+              setupSudoku(boxCols,boxRows,boxMapString);
+        } else {
+            setupSudoku(boxCols,boxRows);
+        }
+    }
+
+    count = 0;
+    solutions = 0;
+
+    // print puzzle before solving:
+    printPuzzleFormatted(6);
+
+    //genHeap2();
+    let start = genHeap2(),
+        loopIndex = start,
+        exitCell = start-1,
+        Dir = 1, // direction -1 or 1
+        AC;
+
+    bigLoop:
+    while (loopIndex > exitCell && count < MAX_COUNT && solutions < MAX_SOLUTIONS) {
+        AC = cellArray[loopIndex].index;
+        cellArray[loopIndex].visited++;
+        count++;
+
+        if (cellType[AC] == "F") {
+            loopIndex += Dir;
+            continue;
+        }
+        if (cellType[AC] == "P") {
+            Log.Notice( puzzle.toString());
+            solutions++;
+            console.log(printPuzzleFormatted(3));
+            
+            Dir = -1;
+            loopIndex += Dir;
+            continue;
+        }
+        if (cellType[AC] != "A") {
+            Log.Error("Unexpected cellType = " + cellType[AC].toString());
+            break bigLoop;
+        }
+
+        // cellType is A
+
+        if (Dir == 1) {
+            cellMask[AC] = rowMask[cellRow[AC]] & colMask[cellCol[AC]] & boxMask[cellBox[AC]];
+            cellI[AC] = 0;
+
+            while ( (cellI[AC] <= puzzleDimension) && ( (cellMask[AC] & (1<<cellI[AC])) == 0) )  {
+                cellI[AC]++;
+            }
+            if (cellI[AC] > puzzleDimension) {
+                puzzle[AC] = "0";
+                Dir = -1;
+                loopIndex += Dir;
+                continue;
+            }
+            // new value for puzzle cell
+            puzzle[AC] = symbols[cellI[AC]];
+            rowMask[cellRow[AC]] &= ~(1<< cellI[AC]);
+            colMask[cellCol[AC]] &= ~(1<< cellI[AC]);
+            boxMask[cellBox[AC]] &= ~(1<< cellI[AC]);
+
+            loopIndex += Dir;
+            // end Dir = 1
+        } else {
+            //Dir = -1
+
+            cellValue = 1<<cellI[AC]; // always works
+
+            // add old value back to masks
+            rowMask[cellRow[AC]] |= cellValue;
+            colMask[cellCol[AC]] |= cellValue;
+            boxMask[cellBox[AC]] |= cellValue;
+
+            while (( ++cellI[AC] <= puzzleDimension) && ( (cellMask[AC] & (1<<cellI[AC])) == 0) ) {
+                //loop
+            }
+            if (cellI[AC] > puzzleDimension) {
+                puzzle[AC] = "0";
+                loopIndex += Dir;
+                continue;
+            }
+
+            // try next value and reverse direction
+            puzzle[AC] = symbols[cellI[AC]];
+            rowMask[cellRow[AC]] &= ~(1<< cellI[AC]);
+            colMask[cellCol[AC]] &= ~(1<< cellI[AC]);
+            boxMask[cellBox[AC]] &= ~(1<< cellI[AC]);
+
+            Dir = 1;
+            loopIndex += Dir;
+            continue;
+        } // end Dir = -1
+    } // end while
+    Log.Notice("End count = " + count + " End puzzle = " + puzzle );
 }
