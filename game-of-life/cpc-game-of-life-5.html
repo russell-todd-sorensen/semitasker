@@ -529,20 +529,20 @@ window.addEventListener('DOMContentLoaded', () => {
     <label for="cellsWide">Cells: </label>Wide:
     <input type="number" name="cellsWide" id="cellsWide" value="100" min="10" step="5" max="1500" />
     &nbsp;&nbsp;Width:
-    <input type="number" name="cellWidth" id="cellWidth" value="15" min="1" step="0.1" max="150" />
+    <input type="number" name="cellWidth" id="cellWidth" value="14.0" min="1" step="0.1" max="150" />
     </li>
     <li>
     <label for="cellsHigh">Cells: </label>High:
     <input type="number" name="cellsHigh" id="cellsHigh" value="100" min="10" step="5" max="1500" />
     Height: 
-    <input type="number" name="cellHeight" id="cellHeight" value="15" min="1" step="0.1" max="150" />
+    <input type="number" name="cellHeight" id="cellHeight" value="14.0" min="1" step="0.1" max="150" />
     </li>
     <li>
     <label>Radius:</label>
         <span class="radius">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X:
-         <input type="text" name="cellRx" id="cellRx" value="25.0" min="0" step="1" max="100"/></span>
+         <input type="text" name="cellRx" id="cellRx" value="3.0" min="0" step="1" max="100"/></span>
          <span class="radius">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y: 
-         <input type="text" name="cellRy" id="cellRy" value="25.0" min="0" step="1" max="100"/></span>
+         <input type="text" name="cellRy" id="cellRy" value="3.0" min="0" step="1" max="100"/></span>
     </li>
     </fieldset>
     </ul>
@@ -1320,6 +1320,23 @@ function cellAlive (data,id) {
     myGame.cellState[id] = 1;
 }
 
+var neighborDataRules = [];
+
+
+neighborDataRules["all"] = [
+    [
+        {dir:"nw",val:1},
+        {dir:"n",val:1},
+        {dir:"ne",val:1},
+        {dir:"w",val:1},
+        {dir:"c",val:1},
+        {dir:"e",val:1},
+        {dir:"sw",val:1},
+        {dir:"s",val:1},
+        {dir:"se",val:1},
+    ],
+]
+
 animationFunctions[0] = function (data) {
 
     let gameId = data.gameId,
@@ -1660,7 +1677,7 @@ animationFunctions[6] = function (data) { // north south 2
     return myGame.continueAnimation;
 }
 
-animationFunctions[15] = function (data) { // parity rule
+animationFunctions[15] = function (data) { // generic parity rule
 
     let gameId = data.gameId,
         myGame = Games[gameId],
