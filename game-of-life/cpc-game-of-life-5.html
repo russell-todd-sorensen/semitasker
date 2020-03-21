@@ -114,6 +114,18 @@ svg {
     display: inline-block;
     vertical-align: top;
 }
+.parity-cells button {
+    height: 20px;
+    width: 20px;
+}
+#controls #parity-cell-groups li.parity-cells-group {
+    display: inline-block;
+    width: auto;
+}
+
+#controls #parity-cell-groups thead {
+    text-align: center;
+}
 </style>
 
 <script src="/js/jquery-1.7.1.js"></script>
@@ -260,6 +272,7 @@ var showHint = function(hintId) {
     case 12:
     case 13:
     case 14:
+    case 15:
         hint = "A few cells..."
         pct  = "0.0"
         $("#timeout").val(5000);
@@ -290,10 +303,118 @@ var showHint = function(hintId) {
     $('#randomSeedValue').val(pct);
 }
 
+var parityCellGroups = [];
+
+class ParityCellGroup {
+    labels25 = [
+        "nwnw","nwn","nn","nen","nene",
+        "nww", "nw", "n","ne","nee",
+        "ww", "w", "c", "e", "ee",
+        "sww", "sw", "s", "se", "see",
+        "swsw", "sws", "ss", "ses", "sese"
+    ];
+    labels9 = [
+        "nw","n","ne",
+        "w", "c", "e",
+        "sw", "s", "se" 
+    ];
+    values = [];
+    labels = "labels9";
+    size = 0;
+    nwnw;nwn;nn;nen;nene;
+    nww; nw; n; ne; nee;
+    ww;  w;  c; e;  ee;
+    sww; sw; s; se; see;
+    swsw;sws;ss;ses;sese;
+    
+    constructor(groupName,size,values) {
+        this.name = groupName;
+        this.size = size?size:9;
+        this.labels = this.size == 25 ? "labels25" : "labels9";
+        this.setValues(values);
+    }
+    getLabels() {
+        return this[this.labels];
+    }
+    getValue(dir) {
+        return this[dir]?this[dir]:0;
+    }
+    getValueObjects() {
+        let result = [],
+            labels = this[this.labels];
+        
+        for (let i=0;i<this.size;i++) {
+            if (this.values[i]) {
+                result.push({dir:labels[i],val:this.values[i]});
+            }
+        }
+        return result;
+    }
+    setValue(dir,value) {
+        this[dir] = value;
+    }
+    setValues(values) {
+        this.values = values?values:new Array(this.size).fill(0);
+        let label = this[this.labels],
+            labeldir;
+        for (let i=0;i<this.size;i++) {
+            labeldir = label[i];
+            this[labeldir] = this.values[i] ;
+        }
+    }
+    setFormValues(init) {
+        let labels = this[this.labels]
+        let len = labels.length,
+            selector;
+        for (let i=0;i<len;i++) {
+            selector = "#parity-group-" + this.name + " #" + labels[i];
+            $(selector).val(this.values[i]);
+            document.querySelector(selector).innerText = this.values[i];
+            if (init) {
+                $(selector).bind("click", {group:this,i:i}, this.toggleCellValue);
+            }
+        }
+    }
+    getFormValues() {
+        let labels = this[this.labels]
+        let len = labels.length,
+            selector;
+        for (let i=0;i<len;i++) {
+            selector = "#parity-group-" + this.name + " #" + labels[i];
+            this.values[i] = $(selector).val();
+        }
+    }
+    toggleCellValue(evt) {
+        let data = evt.data,
+            group = data.group, // local object 'this' covered
+            index = data.i;
+
+        group.values[index]++;
+
+        if (group.values[index] == 2) {
+            group.values[index] = -1
+        }
+        // Note: 'this' is the element clicked on!!
+        this.value = group.values[index];
+        this.innerText = this.value;
+    }
+}
+
+
 window.addEventListener('DOMContentLoaded', () => {
-  //gameInitWrap();
-  //startAnimationPre();
-  //showHint("hint");
+    //gameInitWrap();
+    //startAnimationPre();
+    //showHint("hint");
+
+    parityCellGroups[0] = new ParityCellGroup("rulea",9);
+    parityCellGroups[1] = new ParityCellGroup("ruleb",9);
+    parityCellGroups[2] = new ParityCellGroup("rulec",9);
+    let len = parityCellGroups.length
+    for (let i=0;i<len;i++) {
+        parityCellGroups[i].setFormValues(true);
+    }
+
+
 });
 </script>
 
@@ -325,6 +446,7 @@ window.addEventListener('DOMContentLoaded', () => {
       <option value="12">Parity Rule 8</option>
       <option value="13">Parity Rule 9</option>
       <option value="14">Parity Rule 10</option>
+      <option value="15">Parity Rule A,B,C</option>
       <option value="5">North South</option>
       <option value="6">East West</option>
      </select>
@@ -343,6 +465,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <li>
     <label >Animate:</label>
     <button onClick="startAnimationPre('gameId');">Start</button>
+    <button onClick="startAnimationPre('gameId','round-robin');">Round Robin</button>
     <button onClick="stopAnimation('gameId');">Pause</button>
     </li>
     </fieldset>
@@ -423,30 +546,77 @@ window.addEventListener('DOMContentLoaded', () => {
     </li>
     </fieldset>
     </ul>
-   <!-- <ul>
-    <fieldset>
+   <ul>
+    <fieldset id="parity-cell-groups">
     <legend>Parity Cells Tri-State</legend>
-    <li>
-        <table id="parity-cells">
+    <li class="parity-cells-group">
+        <table id="parity-group-rulea" class="parity-cells">
+            <thead><tr><th colspan="3">Rule A</th></tr></thead>
+            <tbody>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><button id="nw" name="nw" value=""> </button></td>
+                <td><button id="n" name="n" value=""> </button></td>
+                <td><button id="ne" name="ne" value=""> </button></td>
             </tr>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><button id="w" name="w" value=""> </button></td>
+                <td><button id="c" name="c" value=""> </button></td>
+                <td><button id="e" name="e" value=""> </button></td>
             </tr>
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><button id="sw" name="sw" value=""> </button></td>
+                <td><button id="s" name="s" value=""> </button></td>
+                <td><button id="se" name="se" value=""> </button></td>
             </tr>
+            </tbody>
+        </table>
+    </li>
+    <li class="parity-cells-group">
+        <table id="parity-group-ruleb" class="parity-cells">
+            <thead><tr><th colspan="3">Rule B</th></tr></thead>
+            <tbody>
+            <tr>
+                <td><button id="nw" name="nw" value=""> </button></td>
+                <td><button id="n" name="n" value=""> </button></td>
+                <td><button id="ne" name="ne" value=""> </button></td>
+            </tr>
+            <tr>
+                <td><button id="w" name="w" value=""> </button></td>
+                <td><button id="c" name="c" value=""> </button></td>
+                <td><button id="e" name="e" value=""> </button></td>
+            </tr>
+            <tr>
+                <td><button id="sw" name="sw" value=""> </button></td>
+                <td><button id="s" name="s" value=""> </button></td>
+                <td><button id="se" name="se" value=""> </button></td>
+            </tr>
+            </tbody>
+        </table>
+    </li>
+    <li class="parity-cells-group">
+        <table id="parity-group-rulec" class="parity-cells">
+            <thead><tr><th colspan="3">Rule C</th></tr></thead>
+            <tbody>
+            <tr>
+                <td><button id="nw" name="nw" value=""> </button></td>
+                <td><button id="n" name="n" value=""> </button></td>
+                <td><button id="ne" name="ne" value=""> </button></td>
+            </tr>
+            <tr>
+                <td><button id="w" name="w" value=""> </button></td>
+                <td><button id="c" name="c" value=""> </button></td>
+                <td><button id="e" name="e" value=""> </button></td>
+            </tr>
+            <tr>
+                <td><button id="sw" name="sw" value=""> </button></td>
+                <td><button id="s" name="s" value=""> </button></td>
+                <td><button id="se" name="se" value=""> </button></td>
+            </tr>
+            </tbody>
         </table>
     </li>
     </fieldset>
-    </ul>-->
+    </ul>
     </form>
     </div>
 <script>
@@ -496,6 +666,7 @@ class gameOfLife {
     continueAnimation = false;
     randomInitArea = null;
     directions = ['nw','n','ne','w','e','sw','s','se'];
+    animationStep = 0;
 
     constructor (configId, wrap) {
         this.configId = configId;
@@ -993,19 +1164,35 @@ class gameOfLife {
             this.neighborhood[i] = parity;
         }
     }
-    pollNeighbor(cellId) {
-        let cell = this.cellNeighbors[cellId],
-            dir,
-            total = 0;
-        for (let d in this.directions) {
-            dir = this.directions[d];
-            if (cell[dir] == null) {
-                continue;
-            }
-            total += this.cellState[cell[dir]];
-        }
+    pollNeighborGeneric(pollDirections) {
 
-        return total;
+        let total,
+            d,
+            dir,
+            cell,
+            parity,
+            val;
+        for (let i=0;i<this.cellCount;i++) {
+            cell = this.cellNeighbors[i];
+            total = 0;
+            for (let j=0;j<pollDirections.length;j++) {
+                d = pollDirections[j]
+                dir = d.dir;
+                val = d.val;
+                switch (val) {
+                case 0: 
+                    break;
+                case 1: 
+                    total += this.cellState[cell[dir]];
+                    break;
+                case -1: 
+                    total -= this.cellState[cell[dir]];
+                    break;
+                }
+            }
+            parity = total%2;
+            this.neighborhood[i] = parity;
+        }
     }
 }
 
@@ -1473,12 +1660,44 @@ animationFunctions[6] = function (data) { // north south 2
     return myGame.continueAnimation;
 }
 
-var startAnimationPre = function(formGameId) {
+animationFunctions[15] = function (data) { // parity rule
+
+    let gameId = data.gameId,
+        myGame = Games[gameId],
+        ruleABC = data.ruleABC,
+        len = ruleABC.length,
+        parity;
+    for (let j=0;j<len;j++) {
+        if (data.roundRobin && myGame.animationStep%len != j) {
+            continue;
+        }
+        myGame.pollNeighborGeneric(ruleABC[j]);
+
+        for (var i=0;i<myGame.cellCount;i++) {
+            parity = myGame.neighborhood[i];
+            if (parity == myGame.cellState[i]) {
+                continue; // no change in state;
+            } else if (parity == 1) {
+                cellAlive(data,i);
+            } else {
+                cellDie(data,i);
+            }
+        }
+    }
+    myGame.animationStep++;
+    return myGame.continueAnimation;
+}
+
+var startAnimationPre = function(formGameId,roundRobin) {
 
     let gameId = parseInt($('#' + formGameId).val()),
         options = Games[gameId].config.options,
         animationFunctionId =options.animationFunctionId,
         timeout = options.timeout;
+        options.roundRobin = roundRobin?true:false;
+        if (options.roundRobin) {
+            Games[gameId].animationStep = 0;
+        } 
 
     startAnimation(animationFunctionId,timeout,options);
 }
@@ -1504,9 +1723,16 @@ var stopAnimation = function(formGameId) {
 
 var processGameOfLifeForm = function () {
 
-    let gameId=parseInt($('#gameId').val());
-    let id = parseInt($('#animationFunctionId option:selected').val())
-    let timeout = parseInt($('#timeout').val())
+    let gameId=parseInt($('#gameId').val()),
+        id = parseInt($('#animationFunctionId option:selected').val()),
+        timeout = parseInt($('#timeout').val()),
+        ruleABC = [],
+        len = parityCellGroups.length;
+    if (id == 15) {
+        for (let i=0;i<len;i++) {
+            ruleABC[i] = parityCellGroups[i].getValueObjects();
+        }
+    }
     return {
         id:id,
         timeout:timeout,
@@ -1530,6 +1756,7 @@ var processGameOfLifeForm = function () {
             ease:$('#ease option:selected').val(),
             cellRx:$('#cellRx').val(),
             cellRy:$('#cellRy').val(),
+            ruleABC:ruleABC,
         }
     };
 }
