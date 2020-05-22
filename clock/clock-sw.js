@@ -59,7 +59,7 @@ self.__precacheManifest = [
   },
   {
     "url": "clock.html",
-    "revision": "7f47e80911a7f27c3fee5881d2b13d16"
+    "revision": "5fafb6530a2cb922b444c7692b9666c8"
   }
 ].concat(self.__precacheManifest || []);
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
