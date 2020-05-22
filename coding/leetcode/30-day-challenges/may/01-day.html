@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 1</title>
+<!--
+First Bad Version
+You are a product manager and currently leading a 
+team to develop a new product. Unfortunately, the 
+latest version of your product fails the quality 
+check. Since each version is developed based on 
+the previous version, all the versions after a 
+bad version are also bad.
+
+Suppose you have n versions [1, 2, ..., n] and 
+you want to find out the first bad one, which 
+causes all the following ones to be bad.
+
+You are given an API bool isBadVersion(version) 
+which will return whether version is bad. 
+Implement a function to find the first bad 
+version. You should minimize the number of 
+calls to the API.
+
+Example:
+
+Given n = 5, and version = 4 is the first bad version.
+
+call isBadVersion(3) -> false
+call isBadVersion(5) -> true
+call isBadVersion(4) -> true
+
+Then 4 is the first bad version. 
+-->
+<script>
+/**
+ * Definition for isBadVersion()
+ * 
+ * @param {integer} version number
+ * @return {boolean} whether the version is bad
+ * isBadVersion = function(version) {
+ *     ...
+ * };
+ */
+
+var data = [true]
+function isBadVersion(n) {
+    return data[n]
+}
+
+/**
+ * @param {function} isBadVersion()
+ * @return {function}
+ */
+var solution = function(isBadVersion) {
+    /**
+     * @param {integer} n Total versions
+     * @return {integer} The first bad version
+     */
+    return function(n) {
+
+        let min = 1,
+            max = n,
+            cur = Math.floor(n/2) + 1,
+            found = false;
+
+        while (!found) {
+            bad = isBadVersion(cur)
+            if (bad) {
+                max = cur-1
+                cur = min + Math.ceil((max-min)/2)
+            } else {
+                min = cur
+                cur = min + Math.ceil((max-min)/2)
+            }
+            if (max-min < 2) {
+                found = true
+            }
+        }
+
+        return min
+    };
+};
+</script>
+</head>
+<body>
+<pre>
+First Bad Version
+
+You are a product manager and currently leading a 
+team to develop a new product. Unfortunately, the 
+latest version of your product fails the quality 
+check. Since each version is developed based on 
+the previous version, all the versions after a 
+bad version are also bad.
+
+Suppose you have n versions [1, 2, ..., n] and 
+you want to find out the first bad one, which 
+causes all the following ones to be bad.
+
+You are given an API bool isBadVersion(version) 
+which will return whether version is bad. 
+Implement a function to find the first bad 
+version. You should minimize the number of 
+calls to the API.
+
+Example:
+
+Given n = 5, and version = 4 is the first bad version.
+
+call isBadVersion(3) -> false
+call isBadVersion(5) -> true
+call isBadVersion(4) -> true
+
+Then 4 is the first bad version. 
+
+
+/**
+ * @param {function} isBadVersion()
+ * @return {function}
+ */
+
+var solution = function(isBadVersion) {
+    /**
+     * @param {integer} n Total versions
+     * @return {integer} The first bad version
+     */
+    return function(n) {
+        
+    };
+};
+</pre>
+</body>
+</html>
+
+

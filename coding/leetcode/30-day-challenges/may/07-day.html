@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 7</title>
+<!--
+Cousins in Binary Tree
+
+In a binary tree, the root node is at depth 0, and children 
+of each depth k node are at depth k+1.
+
+Two nodes of a binary tree are cousins if they have the same 
+depth, but have different parents.
+
+We are given the root of a binary tree with unique values, 
+and the values x and y of two different nodes in the tree.
+
+Return true if and only if the nodes corresponding to the 
+values x and y are cousins.
+
+
+Example 1:
+
+       1
+     /   \
+    2     3
+   /
+  4
+
+Input: root = [1,2,3,4], x = 4, y = 3
+Output: false
+Example 2:
+
+
+       1
+     /   \
+    2     3
+     \     \
+      4     5
+
+Input: root = [1,2,3,null,4,null,5], x = 5, y = 4
+Output: true
+Example 3:
+
+       1
+     /   \
+    2     3
+     \    
+      4 
+
+
+Input: root = [1,2,3,null,4], x = 2, y = 3
+Output: false
+
+
+Note:
+
+The number of nodes in the tree will be between 2 and 100.
+Each node has a unique integer value from 1 to 100.
+
+-->
+<script>
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @param {number} x
+ * @param {number} y
+ * @return {boolean}
+ */
+function TreeNode(val, left, right) {
+
+    this.val = (val===undefined ? 0 : val);
+    this.left = (left===undefined ? null : left);
+    this.right = (right===undefined ? null : right);
+
+    return this;
+}
+
+var search = function (node,x,y,pv,found,depth) {
+
+    switch (node.val) {
+    case x: 
+        found.x = depth;
+        found.px = pv;
+        break;
+    case y: 
+        found.y = depth;
+        found.py = pv;
+        break;
+    default:
+        if (node.left) {
+            found = search(node.left,x,y,node.val,found,depth+1)
+        }
+        if (node.right) {
+            found = search(node.right,x,y,node.val,found,depth+1)
+        }
+    }
+    return found;
+}
+
+var isCousins = function(root, x, y) {
+
+    let found = search(root,x,y,0,{x:0,px:0,y:0,py:0},0),
+        result = false;
+
+    if ((found.px != found.py) && found.x == found.y) {
+        result = true
+    }
+
+    return result;
+};
+
+var makeNode = function (arr,len,idx) {
+    if (idx >= len || arr[idx] == null) {
+        return null;
+    }
+    let leftIdx = (idx * 2),
+        rightIdx = (leftIdx + 1),
+        leftNode = null,
+        rightNode = null;
+
+    if (leftIdx < len) {
+        leftNode = makeNode(arr,len,leftIdx);
+    }
+    if (rightIdx < len) {
+        rightNode = makeNode(arr,len,rightIdx);
+    }
+    return new TreeNode(arr[idx],leftNode,rightNode);
+}
+
+var root = {}
+// Note: null pushed into 0 pos: arr[0] == null;
+var testIt = function (arr,x,y) {
+
+    arr.unshift(null);
+
+    let len = arr.length,
+        idx = 1;
+
+    root = makeNode(arr,len,idx);
+
+    return isCousins(root,x,y);
+}
+
+</script>
+</head>
+<body>
+<pre>
+
+Cousins in Binary Tree
+
+In a binary tree, the root node is at depth 0, and children 
+of each depth k node are at depth k+1.
+
+Two nodes of a binary tree are cousins if they have the same 
+depth, but have different parents.
+
+We are given the root of a binary tree with unique values, 
+and the values x and y of two different nodes in the tree.
+
+Return true if and only if the nodes corresponding to the 
+values x and y are cousins.
+
+
+Example 1:
+
+       1
+     /   \
+    2     3
+   /
+  4
+
+Input: root = [1,2,3,4], x = 4, y = 3
+Output: false
+Example 2:
+
+
+       1
+     /   \
+    2     3
+     \     \
+      4     5
+
+Input: root = [1,2,3,null,4,null,5], x = 5, y = 4
+Output: true
+Example 3:
+
+       1
+     /   \
+    2     3
+     \    
+      4 
+
+
+Input: root = [1,2,3,null,4], x = 2, y = 3
+Output: false
+
+
+Note:
+
+The number of nodes in the tree will be between 2 and 100.
+Each node has a unique integer value from 1 to 100.
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+
+function TreeNode(val, left, right) {
+
+    this.val = (val===undefined ? 0 : val);
+    this.left = (left===undefined ? null : left);
+    this.right = (right===undefined ? null : right);
+
+    return this;
+}
+
+
+var makeNode = function (arr,len,idx) {
+    if (idx &gt;= len || arr[idx] == null) {
+        return null;
+    }
+    let leftIdx = (idx * 2),
+        rightIdx = (leftIdx + 1),
+        leftNode = null,
+        rightNode = null;
+
+    if (leftIdx &lt; len) {
+        leftNode = makeNode(arr,len,leftIdx);
+    }
+    if (rightIdx &lt; len) {
+        rightNode = makeNode(arr,len,rightIdx);
+    }
+    return new TreeNode(arr[idx],leftNode,rightNode);
+}
+
+
+var search = function (node,x,y,found,depth) {
+
+    switch (node.val) {
+    case x: 
+        found.x = depth;
+        break;
+    case y: 
+        found.y = depth;
+        break;
+    default:
+        if (node.left) {
+            found = search(node.left,x,y,found,depth+1)
+        }
+        if (node.right) {
+            found = search(node.right,x,y,found,depth+1)
+        }
+    }
+    return found;
+}
+
+
+/**
+ * @param {TreeNode} root
+ * @param {number} x
+ * @param {number} y
+ * @return {boolean}
+ */
+var isCousins = function(root, x, y) {
+
+    let found = search(root,x,y,{x:0,y:0},0),
+        result = false;
+
+    if (found.x &gt; 0 && found.y &gt; 0 && found.x == found.y) {
+        result = true
+    }
+
+    return result;
+};
+
+
+// Note: null pushed into 0 pos: arr[0] == null;
+var testIt = function (arr,x,y) {
+
+    arr.unshift(null);
+
+    let len = arr.length,
+        idx = 1,
+        root = makeNode(arr,len,idx);
+
+    return isCousins(root,x,y);
+}
+
+</pre>
+</body>
+</html>
+
+

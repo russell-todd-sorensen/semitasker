@@ -1,0 +1,351 @@
+
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>hello, world CPC-challenge</title>
+
+<link rel="stylesheet" href="https://home.semitasker.com/css/fonts.css" media="all">
+<script src="https://home.semitasker.com/dsvg/js/fonts.js"></script>
+</head>
+<body>
+<svg 
+    version="1.1" 
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:ev="http://www.w3.org/2001/xml-events"     
+    baseProfile="full"
+    id="svg1"
+    >
+<style>
+#t1 {
+    font-family: monospace, 'Rubik';
+    font-size: 20vh;
+    fill: url(#g1);
+    stroke-width: 1px;
+    stroke: url(#g4);
+}
+#r1 {
+    fill: #fff;
+    stroke: none;
+}
+#svg-scroller {
+    fill: silver;
+    cursor: pointer;
+    font-family: 'Days One';
+    font-size: 20px;
+}
+
+#scroller-1 {
+    fill: black;
+    stroke-width: 3px;
+    stroke: silver;
+}
+#scroller-2 {
+    fill: rgb(0,109,216);
+}
+#scroll-value {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+#font-value {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+#scroll-text {
+    font-size: 100px;
+}
+#scroll-font {
+    font-size: 21.5px;
+}
+#svg1 {
+    display: inline-block;
+}
+</style>
+
+<defs>
+<linearGradient id="g1" color-interpolation="sRGB">
+ <stop offset="0%" stop-color="#ff0000" />
+ <stop offset="16.7%" stop-color="#ffff00" />
+ <stop offset="34%" stop-color="#00ff00" />
+ <stop offset="50%" stop-color="#00ffff" />
+ <stop offset="67%" stop-color="#0000ff" />
+ <stop offset="83%" stop-color="#ff00ff" />
+ <stop offset="100%" stop-color="#ff0000" />
+</linearGradient>
+<radialGradient id="g3" color-interpolation="sRGB" fx="0%" fy="56%" spreadMethod="reflect">
+<animate id="rga1" attributeName="fx" values="-5%;0%;5%;10%;50%;95%;100%;105%;110%;105%;100%;95%;50%;5%;0%;-5%" dur="100s" begin="0s" repeatCount="indefinite" /><!--50%;45%;30%;50%;96%;100%;96%;50%-->
+ <animate id="rga1" attributeName="fy" values="56%;51%;52%;53%;54%;55%;56%" dur="23s" begin="0s" repeatCount="indefinite" /><!--100%;110%;100%;70%;50%;10%;50%;75%;96%;100%-->
+ <stop offset="0%" stop-color="rgb(0,109,216)" stop-opacity="1.0" />
+ <stop offset="16.7%" stop-color="rgb(109,216,0)" stop-opacity="1.0" />
+ <stop offset="34%" stop-color="rgb(0,109,216)" stop-opacity="1.0" />
+ <stop offset="50%" stop-color="rgb(109,216,0)" stop-opacity="1.0" />
+ <stop offset="67%" stop-color="rgb(0,109,216)" stop-opacity="1.0" />
+ <stop offset="83%" stop-color="rgb(109,216,0)" stop-opacity="1.0" />
+ <stop offset="100%" stop-color="rgb(0,109,216)" stop-opacity="1.0" />
+</radialGradient>
+
+<radialGradient id="g4" color-interpolation="sRGB" fx="50%" fy="100%" spreadMethod="reflect">
+
+ <stop offset="0%" stop-color="rgb(109,216,0)" stop-opacity="1.0" />
+ <stop offset="16.7%" stop-color="rgb(0,109,216)" stop-opacity="1.0" />
+ <stop offset="34%" stop-color="rgb(0,109,216)" stop-opacity="1.0" />
+ <stop offset="50%" stop-color="rgb(0,109,216)" stop-opacity="1.0" />
+ <stop offset="67%" stop-color="rgb(109,216,0)" stop-opacity="1.0" />
+ <stop offset="83%" stop-color="rgb(0,109,216)" stop-opacity="1.0" />
+ <stop offset="100%" stop-color="rgb(109,216,0)" stop-opacity="1.0" />
+</radialGradient>
+
+<rect id="fr1" x="0" y="0" height="20" width="60" fill="url(#g3)" filter="url(#f1)" />
+<rect id="fr2" x="0" y="0" height="20" width="60" fill="url(#g3)" />
+
+<linearGradient id="g2" color-interpolation="sRGB">
+ <stop offset="0%" stop-color="#808080" />
+ <stop offset="100%" stop-color="#000000" />
+</linearGradient>
+
+<filter id="f1">
+ <feColorMatrix type="hueRotate" values="0" >
+  <animate id="anim1" attributeName="values" values="0" begin="0s" dur="41s" repeatCount="indefinite" />
+ </feColorMatrix>
+</filter>
+
+<filter id="f2" >
+ <feImage xlink:href="#fr1" result="image" />
+ <feComposite operator="atop" in2="SourceGraphic" in="image" />
+</filter>
+
+<filter id="f3" >
+ <feImage xlink:href="#fr2" result="image" />
+ <feComposite operator="atop" in2="SourceGraphic" in="image" />
+</filter>
+<text id="scroll-value" >20vh</text>
+<rect id="scroller-x" height="800" width="1500" fill="url(#g1)" filter="url(#f1)" />
+<rect id="scroller" height="80" width="300" fill="url(#g1)" filter="url(#f1)" />
+ <text id="font-value">monospace</text>
+ <rect id="scroller-test" height="600" width="1500" fill="url(#g1)" filter="url(#f1)" />
+ <text id="font-index">100</text>
+ <rect id="font-scroller" height="40" width="300" />
+</defs>
+
+<g transform="translate(0,0) scale(1)">
+<rect id="r1" x="0" y="0"  />
+<text id="t1" x="2" y="15" text-anchor="left" filter="url(#f2)"></text>
+</g>
+
+<g id="controls" transform="translate(0, 350) scale(1)" >
+    <g id="scroll-container"  transform="translate(50,10) scale(1)">
+        <use id="scroller-1" class="scroll" xlink:href="#scroller" filter="url(#f2)" />
+        <use id="scroll-text" xlink:href="#scroll-value" x="150" y="75" />
+    </g>
+    
+    <g id="scroll-container"  transform="translate(50,90) scale(1)">
+        <use id="scroller-2" xlink:href="#font-scroller" />
+        <use id="scroll-font" xlink:href="#font-value" x="150" y="26" />
+    </g>
+</g>
+
+<g id="grad-test" transform="translate(10,500)">
+    <use id="grad-shape" x="0" y="0" class="scroll" xlink:href="#scroller-x" filter="url(#f2)" />
+</g>
+</svg>
+<script>
+function init() {
+    let textObj = document.getElementById('t1'),
+        svgObj = document.getElementById('svg1'),
+        controlsObj = document.getElementById('controls'),
+        rectObj = document.getElementById('r1'),
+        rectObj2 = document.getElementById('fr1'),
+        location = "" + document.location,
+        locationList = location.split("?"),
+        queryString = locationList[locationList.length-1],
+        text = queryString.split("&")[0],
+        re = /(%20|\+)/g,
+        help_text = "";
+
+    if (locationList.length == 1 || text == "" || text.substr(0,4) == "key=") {
+        text = "hello,+world"
+        help_text = "Edit the Query String to change the message."
+    }
+
+    textObj.innerHTML = text.replace(re," ");
+    svgObj.style.fill = '#000';
+    
+    
+    let
+        hfact = 1.2,
+        wfact = 1.2
+        fontSize = 20,
+        textBB = textObj.getBBox(),
+        textWidth = textBB.width,
+        textHeight = textBB.height,
+        scrollerXAdd = 1500,
+        scrollerYAdd = 900;
+  
+    textObj.setAttributeNS("","y", textHeight*hfact)
+    rectObj.setAttributeNS('','width', textWidth * wfact);
+    rectObj.setAttributeNS('','height',textHeight * hfact);
+    rectObj2.setAttributeNS('','width', textWidth * wfact);
+    rectObj2.setAttributeNS('','height',textHeight * hfact);
+    svgObj.setAttributeNS("","width",textWidth*wfact + scrollerXAdd);
+    svgObj.setAttributeNS("","height",textHeight*hfact + scrollerYAdd);
+    svgObj.setAttributeNS("","viewBox",[0,0,textWidth*wfact+scrollerXAdd,textHeight*hfact + scrollerYAdd].join(" "));
+    controlsObj.setAttributeNS("","transform","translate(" + [0,textHeight*hfact+50].join(",") + ") scale(1)" );
+}
+</script>
+
+<script>
+
+var config = {
+    textId: 't1',
+    pointsId: 'mPoints2',
+    svgId: 'svg1',
+    formFontSizeId: 'fontSize',
+    formFontFamilyId: 'fontFamily',
+    textHref: '#t2',                //the hash is part of the href :(
+    defaultFontIndex: 100,            // monospace
+    fontSize: 20,
+    updateFontSize: false,
+    fontFamily: 'monospace, Rubik',
+    updateFontFamily: false,
+    noClasses: 0,
+    noId: 0,
+    height: 50,
+    width: 63.65,
+    svgHeight: null,
+    svgWidth: null,
+    callbacks: [],
+};
+
+let replaceStyleProperty = function(doc,refId,property,newValue) {
+    let ele = doc.getElementById(refId);
+    let styleCode = ele.getAttributeNS(null,"style");
+    let styleNVArray;
+    let styleProperty;
+    let styleStringArray = []
+    let styleString = ""
+
+    if (styleCode) {
+
+        let styleList = styleCode.split(";")
+        for (var i=0;i<styleList.length;i++) {
+            styleNVArray = styleList[i].split(":")
+            styleProperty = styleNVArray[0].trim().toLowerCase()
+            if (styleProperty == property || styleProperty == "") {
+                continue
+            } else {
+                styleStringArray[styleStringArray.length] = 
+                    styleProperty + ": " + styleNVArray[1];
+            }
+        }
+    }
+
+    styleStringArray[styleStringArray.length] = property + ":" + newValue;
+    styleString = styleStringArray.join(";")
+    ele.setAttributeNS(null,"style",styleString);
+}
+
+var scrollValues = new Array();
+var scrollRef;
+scrollValues[0] = {
+    value:25,
+    id:'scroll-text',
+    wheelId:'scroller-1'
+};
+scrollValues[1] = {
+    value:13,
+    id:'scroll-font',
+    wheelId:'scroller-2',
+};
+
+
+var handleScroll = function (evt) {
+    evt.cancelBubble = true;
+    evt.preventDefault = true;
+    let wheelDelta = evt.wheelDelta;
+    let delta = 10;
+    console.log('In handleScroll timestamp: '
+        + evt.timeStamp
+        + ', wheelDelta='
+        + wheelDelta);
+    let valueRef = document.getElementById('scroll-value')
+    let value = parseFloat(valueRef.innerHTML)*10;
+    if (evt.ctrlKey) {
+        delta = 1
+    }
+    if (wheelDelta < 0) {
+        value -= delta
+    } else {
+        value += delta
+    }
+    valueRef.innerHTML = "" + (value/10) + "vh" ;
+    replaceStyleProperty(SVGDoc,textId,'font-size',value/10 + "vh");
+    return false;
+}
+
+var handleFontScroll = function (evt) {
+    evt.cancelBubble = true;
+    evt.preventDefault = true;
+    let wheelDelta = evt.wheelDelta;
+    console.log('In handleFontScroll timestamp: '
+        + evt.timeStamp
+        + ', wheelDelta='
+        + wheelDelta);
+    let indexRef = document.getElementById('font-index')
+    let index = parseInt(indexRef.innerHTML);
+    let len = intToFontArray.length
+    while (index < 0) {
+        index += len
+    }
+    let fontRef = document.getElementById('font-value')
+
+    if (wheelDelta < 0) {
+        index = (index - 1) % len
+    } else {
+        index = (index + 1) % len
+    }
+    while (index < 0) {
+        index += len; 
+    }
+    let fontText = intToFontArray[index]
+    let trimmed  = fontText.slice(1,fontText.length-1)
+    indexRef.innerHTML = index;
+    fontRef.innerHTML  = trimmed;
+    fontRef.style = "font-family: " + fontText + ";"
+    fontRef.title = trimmed;
+    replaceStyleProperty(SVGDoc,textId,"font-family", fontText);
+    return false;
+}
+
+var SVGDoc = 'svg1',
+    textId;
+
+var init2 = function() {
+    scrollRef1 = document.getElementById(scrollValues[0]["wheelId"]);
+    scrollRef1.onmousewheel = handleScroll;
+    scrollRef2 = document.getElementById(scrollValues[0]["id"]);
+    scrollRef2.onmousewheel = handleScroll;
+    scrollRef3 = document.getElementById(scrollValues[1]["wheelId"])
+    scrollRef3.onmousewheel = handleFontScroll
+    scrollRef4 = document.getElementById(scrollValues[1]["id"]);
+    scrollRef4.onmousewheel = handleFontScroll
+
+    SVGDoc = document.getElementById(config.svgId);
+    textId = config.textId;
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+  init();
+  init2();
+});
+  
+</script>
+<p id="instructions">Add a query string to change the text.</p>
+<a href="?try me">Example=try me</a>
+</body>
+</html>

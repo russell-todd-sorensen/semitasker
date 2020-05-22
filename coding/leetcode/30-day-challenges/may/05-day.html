@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 5</title>
+<!--
+First Unique Character in a String
+Given a string, find the first non-repeating character 
+in it and return it's index. If it doesn't exist, 
+return -1.
+
+Examples:
+
+s = "leetcode"
+return 0.
+
+s = "loveleetcode",
+return 2.
+Note: You may assume the string contain only 
+lowercase letters.
+-->
+<script>
+/**
+ * @param {string} s
+ * @return {number}
+ */
+
+
+var firstUniqChar = function(s) {
+
+    s = s.split("");
+    let len = s.length,
+        seen = {},
+        min = -1,
+        nrc = [];
+
+    for (let i=len-1,ch=null;i>=0;i--) {
+        ch = s[i];
+        if (seen[ch]) {
+            seen[ch] = -1
+        } else {
+            seen[ch] = i
+            nrc.unshift({ch:ch,i:i})
+        }
+    }
+    for (let j=0,cobj=null;j<nrc.length;j++) {
+        cobj = nrc[j]
+        if (seen[cobj.ch] > -1) {
+            min = cobj.i
+            break;
+        }
+    }
+    return min
+
+};
+</script>
+</head>
+<body>
+<pre>
+First Unique Character in a String
+Given a string, find the first non-repeating character 
+in it and return it's index. If it doesn't exist, 
+return -1.
+
+Examples:
+
+s = "leetcode"
+return 0.
+
+s = "loveleetcode",
+return 2.
+Note: You may assume the string contain only 
+lowercase letters.
+
+/**
+ * @param {string} s
+ * @return {number}
+ */
+
+var firstUniqChar = function(s) {
+
+    s = s.split("");
+    let len = s.length,
+        seen = {},
+        min = -1,
+        nrc = [];
+
+    for (let i=len-1,ch=null;i&gt;=0;i--) {
+        ch = s[i];
+        if (seen[ch]) {
+            seen[ch] = -1
+        } else {
+            seen[ch] = i
+            nrc.unshift({ch:ch,i:i})
+        }
+    }
+
+    for (let j=0,cobj=null;j&lt;nrc.length;j++) {
+        cobj = nrc[j]
+        if (seen[cobj.ch] &gt; -1) {
+            min = cobj.i
+            break;
+        }
+    }
+
+    return min
+};
+</pre>
+</body>
+</html>
+
+

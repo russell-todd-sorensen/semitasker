@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 18</title>
+<!--
+Permutation in String
+
+Given two strings s1 and s2, write a function to return 
+true if s2 contains the permutation of s1. In other words, 
+one of the first string's permutations is the substring 
+of the second string.
+
+
+Example 1:
+
+Input: s1 = "ab" s2 = "eidbaooo"
+Output: True
+Explanation: s2 contains one permutation of s1 ("ba").
+
+Example 2:
+
+Input:s1= "ab" s2 = "eidboaoo"
+Output: False
+ 
+
+Note:
+
+The input strings only contain lower case letters.
+The length of both given strings is in range [1, 10,000].
+   Show Hint #1  
+   Show Hint #2  
+   Show Hint #3  
+   Show Hint #4  
+-->
+<script>
+
+/**
+ * @param {string} s1
+ * @param {string} s2
+ * @return {boolean}
+ */
+
+var checkInclusionOld = function(s1, s2) { // reusing code from prev day (May 17).
+
+    let s     = s2;
+        p     = s1;
+        sLen  = s.length,
+        pLen  = p.length,
+        zeroA = {sIdx:0,len:0,chars:{}},
+        endA  = {sIdx:0,len:pLen,chars:{}},
+        fifo  = [], // out <== fifo <== in
+        char  = null,
+        tchar = null,
+        results = false;
+
+    for (let i=0;i<pLen;i++) {
+        char = p[i];
+        if (endA.chars[char]) {
+            endA.chars[char]++
+        } else {
+            zeroA.chars[char] = 0;
+            endA.chars[char] = 1;
+        }
+    }
+
+    for (let i=0;i<sLen;i++) {
+        char = s[i];
+        if (fifo.length < pLen) { //try to add
+            if (endA.chars[char]) {
+                if (zeroA.chars[char] < endA.chars[char]) {
+                    zeroA.chars[char]++
+                    fifo.push(char)
+                } else {
+                    while (fifo.length && zeroA.chars[char] == endA.chars[char]) {
+                        tchar = fifo.shift();
+                        zeroA.chars[tchar]--;
+                    }
+                    fifo.push(char);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                    zeroA.chars[char]++;
+                    continue;
+                }
+                if (fifo.length == pLen) {
+                    results = true;
+                    break;
+                }
+            } else {
+                while (fifo.length) {
+                    tchar = fifo.shift();
+                    zeroA.chars[tchar]--
+                }
+            }
+        } else {
+            break;
+        }
+    }
+
+    return results;
+};
+
+var checkInclusion = function(s1, s2) { // reusing code from prev day.
+
+    let s     = s2;
+        p     = s1;
+        sLen  = s.length,
+        pLen  = p.length,
+        zeroA = {sIdx:0,len:0,chars:{}},
+        endA  = {sIdx:0,len:pLen,chars:{}},
+        fifo  = [], // out <== fifo <== in
+        char  = null,
+        tchar = null,
+        results = false;
+
+    for (let i=0;i<pLen;i++) {
+        char = p[i];
+        if (endA.chars[char]) {
+            endA.chars[char]++
+        } else {
+            zeroA.chars[char] = 0;
+            endA.chars[char] = 1;
+        }
+    }
+
+    for (let i=0;i<sLen;i++) {
+        char = s[i];
+        if (fifo.length < pLen) { //try to add
+            if (endA.chars[char]) {
+                if (zeroA.chars[char] < endA.chars[char]) {
+                    zeroA.chars[char]++
+                    fifo.push(char)
+                } else {
+                    while (fifo.length && zeroA.chars[char] == endA.chars[char]) {
+                        tchar = fifo.shift();
+                        zeroA.chars[tchar]--;
+                    }
+                    fifo.push(char);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
+                    zeroA.chars[char]++;
+                    continue;
+                }
+                if (fifo.length == pLen) {
+                    results = true;
+                    break;
+                }
+            } else {
+                while (fifo.length) {
+                    tchar = fifo.shift();
+                    zeroA.chars[tchar]--
+                }
+            }
+        } else {
+            break;
+        }
+    }
+
+    return results;
+};
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

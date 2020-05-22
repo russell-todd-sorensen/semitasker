@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 10</title>
+<style>
+</style>
+<!--
+    Min Stack
+Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.
+
+push(x) -- Push element x onto stack.
+pop() -- Removes the element on top of the stack.
+top() -- Get the top element.
+getMin() -- Retrieve the minimum element in the stack.
+ 
+
+Example:
+
+MinStack minStack = new MinStack();
+minStack.push(-2);
+minStack.push(0);
+minStack.push(-3);
+minStack.getMin();   -> Returns -3.
+minStack.pop();
+minStack.top();      -> Returns 0.
+minStack.getMin();   -> Returns -2.
+ 
+-->
+
+<script>
+
+class MinStack {
+
+    stack = [];
+    len = 0;
+
+    constructor() {
+
+    }
+
+    push(val) {
+        let min = val;
+        if (this.len) {
+            min = val<this.stack[0].min?val:this.stack[0].min;
+        }
+        this.stack.unshift({val:val,min:min});
+        this.len++;
+    }
+
+    pop() {
+        if (this.len) {
+            let node = this.stack.shift();
+            this.len--;
+            return node.val;
+        } else {
+            return null;
+        }
+    }
+
+    top() {
+        if (this.len) {
+            return this.stack[0].val;
+        } else {
+            return null;
+        }
+    }
+
+    getMin() {
+        if (this.len) {
+            return this.stack[0].min;
+        } else {
+            return null;
+        }
+    }
+}
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

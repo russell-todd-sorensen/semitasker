@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 9</title>
+<!--
+Valid Perfect Square
+
+Given a positive integer num, write a function 
+which returns True if num is a perfect square 
+else False.
+
+Note: Do not use any built-in library function 
+such as sqrt.
+
+Example 1:
+
+Input: 16
+Output: true
+Example 2:
+
+Input: 14
+Output: false
+-->
+<script>
+/**
+ * @param {number} num
+ * @return {boolean}
+ */
+var isPerfectSquareOld = function(num) {
+
+    if (num == 1) return true;
+
+    let factor  = 2,
+        factors = {},
+        reduced = 0 + num,
+        remain  = 0,
+        result  = true;
+
+    while (reduced >= factor) {
+        remain = reduced % factor;
+        if (remain == 0) {
+            reduced /= factor;
+            if (factors[factor]) {
+                factors[factor]++;
+            } else {
+                factors[factor] = 1;
+            }
+        } else {
+            factor++;
+        }
+    }
+
+    for (let i in factors) {
+        if (factors[i] % 2) {
+            result = false;
+            break;
+        }
+    }
+
+    return result;
+};
+
+var isPerfectSquareOld2 = function(num) {
+
+    if (num == 1) return true;
+
+    let factor  = 2,
+        factors = {},
+        reduced = 0 + num,
+        remain  = 0,
+        result  = true;
+
+    while (reduced >= factor) {
+        remain = reduced % factor;
+        if (remain == 0) {
+            reduced /= factor;
+            if (factors[factor]) {
+                factors[factor]++;
+            } else {
+                factors[factor] = 1;
+            }
+        } else {
+            factor++;
+        }
+    }
+
+    for (let i in factors) {
+        if (factors[i] % 2) {
+            result = false;
+            break;
+        }
+    }
+
+    return result;
+};
+
+var factorIt = function(num) {
+
+    if (num == 1) return {1:2};
+
+    let factor  = 2,
+        factors = {},
+        reduced = 0 + num,
+        remain  = 0,
+        result  = true,
+        count   = 0;
+
+    while (reduced >= factor) {
+        count++
+        remain = reduced % factor;
+        if (remain == 0) {
+            reduced /= factor;
+            if (factors[factor]) {
+                factors[factor]++;
+            } else {
+                factors[factor] = 1;
+            }
+        } else {
+            factor++;
+        }
+    }
+
+    for (let i in factors) {
+        if (factors[i] % 2) {
+            result = false;
+            break;
+        }
+    }
+    factors.count = count;
+    return factors;
+};
+
+var factorIt2 = function(num) {
+
+    if (num == 1) return {1:2};
+
+    let factor  = 2,
+        fSquared = factor*factor,
+        factors = {},
+        reduced = 0 + num,
+        remain  = 0,
+        result  = true,
+        count   = 0;
+
+    while (reduced >= factor) {
+        count++
+        remain = reduced % factor;
+        if (remain == 0) {
+            reduced /= factor;
+            if (factors[factor]) {
+                factors[factor]++;
+            } else {
+                factors[factor] = 1;
+            }
+        } else {
+            if (factors[factor] && (factors[factor] % 2 != 0) ) {
+                result = false;
+                break;
+            }
+            factor++;
+        }
+    }
+
+    for (let i in factors) {
+        if (factors[i] % 2) {
+            result = false;
+            break;
+        }
+    }
+
+    factors.count = count;
+    return factors;
+};
+
+var factorIt3 = function(num,factorsP) {
+
+    if (num == 1) return {1:2};
+
+    let factor  = 2,
+        fSquared = factor*factor,
+        factors = {},
+        reduced = 0 + num,
+        remain  = 0,
+        result  = true,
+        count   = 0;
+
+    while (reduced >= fSquared) {
+
+        count++;
+        remain = reduced % factor;
+
+        if (remain == 0) {
+            reduced /= factor;
+            fSquared = fSquared/factor;
+            if (factors[factor]) {
+                factors[factor]++;
+            } else {
+                factors[factor] = 1;
+            }
+        } else {
+            if (factors[factor] && (factors[factor] % 2 != 0) ) {
+                result = false;
+                break;
+            }
+            factor++;
+            fSquared = factor*factor;
+        }
+    }
+
+    while (result) {
+        if (reduced != 1) {
+            result = false;
+            break;
+        }
+        for (let i in factors) {
+            if (factors[i] % 2) {
+                result = false;
+                break;
+            }
+        }
+        break;
+    }
+    factors.count = count;
+    factors.reduced = reduced;
+    factors.remain = remain;
+    factors.ps = result;
+    return factorsP?factors:result;
+};
+
+var isPerfectSquareFat = function(num,factorsP) {
+
+    if (num == 1) return true;
+
+    let itr     = 2,
+        factor  = itr*itr,
+        factors = {},
+        reduced = 0 + num,
+        remain  = 1,
+        result  = true,
+        count   = 0;
+
+    itr++;
+
+    while (reduced >= factor) {
+
+        count++;
+        remain = reduced % factor;
+
+        if (remain == 0) {
+            if (factors[factor]) {
+                factors[factor]++;
+            } else {
+                factors[factor] = 1;
+            }
+
+            reduced /= factor;
+
+            if (factor > reduced) {
+                factor = itr*itr
+                itr++
+            }
+        } else {
+            factor = itr*itr
+            itr++
+        }
+    }
+    if (remain != 0) {
+        result = false
+    }
+    if (reduced != 1) {
+        result = false
+    }
+    factors.count = count;
+    factors.reduced = reduced;
+    factors.ps = result;
+    return factorsP?factors:result;
+};
+
+var isPerfectSquare = function(num,factorsP) {
+
+    if (num == 1) return true;
+
+    let factor  = 2,
+        fSquared = factor*factor,
+        factors = {},
+        reduced = 0 + num,
+        remain  = 0,
+        result  = true;
+
+    while (reduced >= fSquared) {
+
+        remain = reduced % factor;
+
+        if (remain == 0) {
+            reduced /= factor;
+            fSquared = fSquared/factor;
+            if (factors[factor]) {
+                factors[factor]++;
+            } else {
+                factors[factor] = 1;
+            }
+        } else {
+            if (factors[factor] && (factors[factor] % 2 != 0) ) {
+                result = false;
+                break;
+            }
+            factor++;
+            fSquared = factor*factor;
+        }
+    }
+
+    while (result) {
+        if (reduced != 1) {
+            result = false;
+            break;
+        }
+        for (let i in factors) {
+            if (factors[i] % 2) {
+                result = false;
+                break;
+            }
+        }
+        break;
+    }
+
+    factors.reduced = reduced;
+    factors.ps = result;
+    return factorsP?factors:result;
+};
+
+var testIt = function(beg,end) {
+    let results = [],
+        result = false,
+        resold = false,
+        onemore = 0;
+
+    for (let i=beg;i<=end;i++) {
+        result = isPerfectSquare(i);
+        if (result || onemore) {
+            onemore = onemore?onemore-1:onemore;
+            resold = factorIt3(i);
+            if (result) {
+                onemore = 3
+            }
+            results.push({i:i,isps:isPerfectSquare(i,true),resold:resold});
+        }
+    }
+    return results;
+}
+
+var testIt2 = function(beg,end,sampleEvery) {
+    let results = [],
+        result1 = false,
+        result2 = false,
+        sample  = sampleEvery?sampleEvery:end; 
+
+
+    for (let i=beg;i<=end;i++) {
+        result1 = isPerfectSquare(i);
+        result2 = factorIt3(i);
+        if (result1 != result2 || (i % sample) == 0 ) {
+            results.push({i:i,isps:isPerfectSquare(i,true),resold:factorIt3(i,true)});
+        }
+    }
+    return results;
+}
+
+</script>
+</head>
+<body>
+<pre>
+Valid Perfect Square
+
+Given a positive integer num, write a function 
+which returns True if num is a perfect square 
+else False.
+
+Note: Do not use any built-in library function 
+such as sqrt.
+
+Example 1:
+
+Input: 16
+Output: true
+Example 2:
+
+Input: 14
+Output: false
+
+
+Solution Idea: Factor the number and check if there
+are even numbers of each prime factor:
+16 = {2:4} => 4 % 2 = 0 (true)
+Refined: check as you go for odd # of one factor.
+
+/**
+ * @param {number} num
+ * @return {boolean}
+ */
+var isPerfectSquare = function(num) {
+
+    let factor  = 2,
+        factors = {},
+        reduced = 0 + num,
+        remain  = 0,
+        result  = true;
+
+    while (reduced &gt;= factor) {
+        remain = reduced % factor;
+        if (remain == 0) {
+            reduced /= factor;
+            if (factors[factor]) {
+                factors[factor]++;
+            } else {
+                factors[factor] = 1;
+            }
+        } else {
+            factor++;
+        }
+    }
+
+    for (let i in factors) {
+        if (factors[i] % 2) {
+            result = false;
+            break;
+        }
+    }
+
+    return result;
+};
+
+var testIt = function(beg,end) {
+    let results = [];
+
+    for (let i=beg;i&lt;=end;i++) {
+        results.push({i:i,isps:isPerfectSquare(i)});
+    }
+    return results;
+}
+</pre>
+</body>
+</html>
+
+

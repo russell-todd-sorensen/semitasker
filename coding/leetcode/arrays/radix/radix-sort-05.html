@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Radix Sort</title>
+<style>
+</style>
+
+<!--
+Problem is to find in O(n) time and constant space
+one un-matched integer in list of integers.
+
+Radix sort can be used as a starting point, which 
+has O(kn) time. However, radix sort sorts the entire 
+list, which isn't needed here. After each pass, the 
+half with an even number of members is thrown away. 
+This should take about a total of 2N operations.
+
+The reasoning behind radix sorting is purely a trick of
+the finite precision of integers, so it is an engineering
+argument, not a mathematical one. Once you limit the size
+of the inputs, the sorting cost is fixed. For an integer
+size of 32 bits and memory the same size, you could only have
+2^31-1 pairs of matched numbers, you couldn't even keep track
+in one integer the number of operations required. The bottom line
+is that the efficiency of the algo, although theoretical, is never
+reached in practice.
+
+The current problem might be better cast as bucket sort.
+Looking at the lowest value binary digit, sort into bucket0
+and bucket1, repeat with the bucket with odd number of members.
+-->
+<script src=""></script>
+
+<script>
+
+var unPairedInteger = function (arr) {
+
+    let len = arr.length,
+        n = 0,
+        min = 0,
+        loopBreak = 0,
+        range = [{n:n,len:len,a:arr.slice(0)}],
+        found = false,
+        k=0,
+        answer,
+        low,
+        high,
+        val;
+
+    while (!found && loopBreak < 1000) {
+        low = [];
+        high = [];
+        len = arr.length;
+        k += len;
+        for (let i=0;i<len;i++) {
+            val = arr[i]
+            if ((val & 1<<n) == 0) {
+                low.push(val);
+            } else {
+                high.push(val);
+            }
+        }
+
+        if (low.length%2) {
+            arr = low 
+        } else {
+            arr = high
+        }
+
+        range.push({n:n,len:len,k:k,a:arr.slice(0)});
+
+        if (arr.length == 1) {
+            answer = arr[0];
+            break;
+        } else {
+            n++
+        }
+
+        loopBreak++
+    }
+
+    return {answer:answer,n:n,ranges:range}
+}
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>

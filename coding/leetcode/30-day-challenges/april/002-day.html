@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge Day 2</title>
+<style>
+</style>
+<!--
+Happy Number
+Write an algorithm to determine if a number n is "happy".
+
+A happy number is a number defined by the following process:
+ Starting with any positive integer, replace the number by 
+ the sum of the squares of its digits, and repeat the process
+  until the number equals 1 (where it will stay), or it loops 
+  endlessly in a cycle which does not include 1. Those numbers
+   for which this process ends in 1 are happy numbers.
+
+Return True if n is a happy number, and False if not.
+
+Example: 
+
+Input: 19
+Output: true
+Explanation: 
+12 + 92 = 82
+82 + 22 = 68
+62 + 82 = 100
+12 + 02 + 02 = 1
+-->
+<script src=""></script>
+
+<script>
+/**
+ * @param {number} n
+ * @return {boolean}
+ */
+var sums = [];
+var loopDetails = [];
+var isHappy = function(n) {
+
+    let an = "" + n,
+        al,
+        len,
+        val,
+        prev = "",
+        result = false,
+        maxLoops = 10000,
+        loops = 0;
+    sums = [];
+    loopDetails = [];
+
+    
+    while (loops<maxLoops && prev != an) {
+        if (sums[an]) {
+            result = false
+            break;
+        } else {
+            sums[an] = true;
+            loopDetails.push("" + an)
+        }
+        al = an.split("");
+        len = al.length;
+        val=0;
+        for (let i=0;i<len;i++) {
+            val += (parseInt(al[i])**2)
+        }
+        if (val == 1) {
+            result = true;
+            break;
+        } else {
+            prev = an;
+            an   = "" + val;
+        }
+        loops++;
+    }
+    console.log(loopDetails)
+    return result;
+};
+
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

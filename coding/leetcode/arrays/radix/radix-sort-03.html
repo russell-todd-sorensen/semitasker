@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Radix Sort</title>
+<style>
+</style>
+
+<!--
+Problem is to find in O(n) time and constant space
+one un-matched integer in list of integers.
+
+Radix sort can be used as a starting point, which 
+has O(kn) time. However, radix sort sorts the entire 
+list, which isn't needed here. After each pass, the 
+half with an even number of members is thrown away. 
+This should take about a total of 2N operations.
+
+The reasoning behind radix sorting is purely a trick of
+the finite precision of integers, so it is an engineering
+argument, not a mathematical one. Once you limit the size
+of the inputs, the sorting cost is fixed. For an integer
+size of 32 bits and memory the same size, you could only have
+2^31-1 pairs of matched numbers, you couldn't even keep track
+in one integer the number of operations required. The bottom line
+is that the efficiency of the algo, although theoretical, is never
+reached in practice.
+
+The current problem might be better cast as bucket sort.
+Looking at the lowest value binary digit, sort into bucket0
+and bucket1, repeat with the bucket with odd number of members.
+-->
+<script src=""></script>
+
+<script>
+
+var unPairedInteger = function (arr) {
+
+    let len = arr.length,
+        lowIndex = 0,
+        highIndex = len-1,
+        n = 0,
+        min = 0,
+        loopBreak = 0,
+        range = [{n:n,low:lowIndex,high:highIndex}],
+        found = false,
+        lowLen,
+        highLen,
+        tmpToHigh,
+        tmpToLow,
+        tmpVal,
+        answer,
+        i,
+        j,
+        lastI,
+        lastJ;
+
+    bigloop: 
+    while (!found && loopBreak < 1000) {
+        
+        for (i=lastI=lowIndex, j=lastJ=highIndex;i<j && loopBreak<1000;i++,j--) {
+            loopBreak++
+            while (i<=j && ((arr[i] & 1<<n) == 0)) {
+                i++;
+            }
+            if (i>j) {
+                break;
+            }
+            tmpToHigh = arr[i]
+            while (j>=i && ((arr[j] & 1<<n) != 0)) {
+                j--
+            }
+            if (i>j) {
+                break;
+            }
+            tmpToLow = arr[j];
+
+            tmp = tmpToLow,
+            arr[j] = tmpToHigh,
+            arr[i] = tmp
+            lastI = i;
+            lastJ = j;
+        }
+
+        lowLen  = lastI-lowIndex+2;
+        highLen = highIndex-lowLen+1;
+
+        if (lowLen%2) { // use low slice
+            highIndex = i;
+        } else {
+            lowIndex = i;
+        }
+        if (highIndex-lowIndex == 0) {
+            found = true
+            answer = arr[lowIndex]
+            range.push({n:n,low:lowIndex,high:highIndex,a:[arr[lowIndex]]});
+        } else {
+            n++
+            range.push({n:n,low:lowIndex,high:highIndex,a:arr.slice(lowIndex,highIndex+1)});
+        }
+        loopBreak++;
+    }
+
+    return {answer:answer,ranges:range}
+}
+
+testCases = [
+    [1,2,1,2,3]
+]
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

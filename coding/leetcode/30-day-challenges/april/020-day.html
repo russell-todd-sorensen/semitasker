@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 20</title>
+<!--
+Construct Binary Search Tree from Preorder Traversal
+Return the root node of a binary search tree that matches 
+the given preorder traversal.
+
+(Recall that a binary search tree is a binary tree where 
+for every node, any descendant of node.left has a 
+value < node.val, and any descendant of node.right has a 
+value > node.val.  Also recall that a preorder traversal 
+displays the value of the node first, 
+then traverses node.left, then traverses node.right.)
+
+ 
+
+Example 1:
+
+Input: [8,5,1,7,10,12]
+Output: [8,5,10,1,7,null,12]
+
+ 
+
+Note: 
+
+1 <= preorder.length <= 100
+The values of preorder are distinct.
+    
+-->
+<script>
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {number[]} preorder
+ * @return {TreeNode}
+ */
+
+
+ function TreeNode(val) {
+    this.val = val;
+    this.left = this.right = null;
+}
+
+
+var bstFromPreorder = function(preorder) {
+
+    let len = preorder.length,
+        result = [],
+        cur = preorder[0],
+        root = new TreeNode(cur),
+        node = root,
+        val,
+        left,
+        right,
+        tmpNode;
+// messed up
+
+    for (let i=1;i<len;i++) {
+        val = preorder[i];
+        tmpNode = new TreeNode(val)
+        if (val < cur) {
+            tmpNode.left = new TreeNode(val);
+        } else {
+            tmpNode.right = new TreeNode(val)
+        }
+        node = tmpNode;
+
+    }
+
+};
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

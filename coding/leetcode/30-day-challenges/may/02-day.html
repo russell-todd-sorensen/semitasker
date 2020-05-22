@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 2</title>
+<!--
+Jewels and Stones
+You're given strings J representing the types of stones that 
+are jewels, and S representing the stones you have.  Each 
+character in S is a type of stone you have.  You want to 
+know how many of the stones you have are also jewels.
+
+The letters in J are guaranteed distinct, and all characters 
+in J and S are letters. Letters are case sensitive, so "a" is 
+considered a different type of stone from "A".
+
+Example 1:
+
+Input: J = "aA", S = "aAAbbbb"
+Output: 3
+Example 2:
+
+Input: J = "z", S = "ZZ"
+Output: 0
+Note:
+
+S and J will consist of letters and have length at most 50.
+The characters in J are distinct.
+-->
+<script>
+/**
+ * @param {string} J
+ * @param {string} S
+ * @return {number}
+ */
+var numJewelsInStones2 = function(J, S) {
+
+    let type = {},
+        count = 0,
+        jLen = J.length,
+        sLen = S.length;
+
+    for (let i=0;i<jLen;i++) {
+        type[J[i]] = 1
+    }
+    for (let j=0;j<sLen;j++) {
+        if (type[S[j]]) {
+            count++;
+        }
+    }
+    return count;
+};
+
+var numJewelsInStones1 = function(J, S) {
+
+    J = J.split("");
+    S = S.split("");
+
+    let type = {},
+        count = 0,
+        jLen = J.length,
+        sLen = S.length;
+
+    for (let i=0;i<jLen;i++) {
+        type[J[i]] = 1
+    }
+    let res = S.filter(x => type[x])
+    return res.length;
+};
+
+
+
+var numJewelsInStones3 = function(J, S) {
+
+    J = J.split("");
+    S = S.split("");
+    let type = {};
+
+    J.forEach(x => type[x] =1);
+
+    let res = S.filter(x => type[x]);
+
+    return res.length;
+};
+
+var numJewelsInStones4 = function(J, S) {
+
+    let type = {},
+        count = 0;
+
+    J.split("").forEach(x => type[x] =1);
+
+    S.split("").forEach(x => type[x]?count++:null);
+
+    return count;
+};
+
+var numJewelsInStones = function(J, S) {
+
+    let type = new Array(256).fill(0),
+        count = 0,
+        jLen = J.length,
+        sLen = S.length;
+
+    for (let i=0;i<jLen;i++) {
+        type[J.charCodeAt(i)] = 1
+    }
+    for (let j=0;j<sLen;j++) {
+        count += type[S.charCodeAt(j)]
+    }
+    return count;
+};
+
+
+</script>
+</head>
+<body>
+<pre>
+    Jewels and Stones
+    You're given strings J representing the types of stones that 
+    are jewels, and S representing the stones you have.  Each 
+    character in S is a type of stone you have.  You want to 
+    know how many of the stones you have are also jewels.
+    
+    The letters in J are guaranteed distinct, and all characters 
+    in J and S are letters. Letters are case sensitive, so "a" is 
+    considered a different type of stone from "A".
+    
+    Example 1:
+    
+    Input: J = "aA", S = "aAAbbbb"
+    Output: 3
+    Example 2:
+    
+    Input: J = "z", S = "ZZ"
+    Output: 0
+    Note:
+    
+    S and J will consist of letters and have length at most 50.
+    The characters in J are distinct.
+
+/**
+ * @param {string} J
+ * @param {string} S
+ * @return {number}
+ */
+var numJewelsInStones = function(J, S) {
+
+    let type = {},
+        count = 0,
+        jLen = J.length,
+        sLen = S.length;
+
+    for (let i=0;i&amp;jLen;i++) {
+        type[J[i]] = 1
+    }
+    for (let j=0;j&amp;sLen;j++) {
+        if (type[S[j]]) {
+            count++;
+        }
+    }
+    return count;
+};
+
+</pre>
+</body>
+</html>
+
+

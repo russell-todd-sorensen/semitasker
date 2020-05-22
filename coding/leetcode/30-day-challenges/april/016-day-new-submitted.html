@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 16</title>
+<!--
+Valid Parenthesis String
+
+Given a string containing only three types of characters: '(', ')' 
+and '*', write a function to check whether this string is valid. We 
+define the validity of a string by these rules:
+
+Any left parenthesis '(' must have a corresponding right parenthesis ')'.
+Any right parenthesis ')' must have a corresponding left parenthesis '('.
+Left parenthesis '(' must go before the corresponding right parenthesis ')'.
+'*' could be treated as a single right parenthesis ')' or a single left 
+parenthesis '(' or an empty string.
+
+An empty string is also valid.
+
+Example 1:
+Input: "()"
+Output: True
+Example 2:
+Input: "(*)"
+Output: True
+Example 3:
+Input: "(*))"
+Output: True
+
+Note:
+The string size will be in the range [1, 100].
+    
+-->
+<script>
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+
+// basically a dfa with final state=0,
+// which means that at least one possible string
+// has a zero balance,
+// Since the empty string is valid, the inital state
+// will be valid=true and {"0":0}
+var checkValidString = function(s) {
+
+    let slen      = s.length,
+        valid     = true,
+        totalObj  = {"0":0}, //start in valid state since empty string is valid
+        found     = false,
+        addArray  = [],
+        alen,
+        total,
+        tmpObj,
+        tmpLen,
+        val,
+        ch;
+
+    for (let j=0;j<slen;j++) {
+        ch = s[j]
+        switch (ch) {
+        case "(":
+            addArray = [1]
+            break;
+        case ")": 
+            addArray = [-1]
+            break;
+        case "*": 
+            addArray = [-1,0,1]
+            break;
+        }
+        alen = addArray.length;
+        tmpObj = {};
+        tmpLen = 0;
+        for (let k=0;k<alen;k++) {
+            val = addArray[k];
+            found = false;
+            for (let m in totalObj) {
+                total = parseInt(totalObj[m]) + val
+                found = true;
+                if (total < 0) {
+                    continue
+                } else {
+                    if (tmpObj[total] != undefined) {
+                        continue;
+                    } else {
+                        tmpObj[total] = total;
+                        tmpLen++;
+                    }
+                }
+            }
+            if (!found) {
+                if (val>-1) {
+                    tmpObj[val] = val;
+                }
+            }
+        }
+
+        if (tmpLen == 0) {
+            valid = false;
+            break;
+        } else {
+            valid = (tmpObj["0"] != undefined)?true:false;
+        } 
+        totalObj = tmpObj;
+    }
+
+    return valid;
+}
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

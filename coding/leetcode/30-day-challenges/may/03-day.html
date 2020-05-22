@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 3</title>
+<!--
+Ransom Note
+Given an arbitrary ransom note string and another string 
+containing letters from all the magazines, write a 
+function that will return true if the ransom note can be 
+constructed from the magazines ; otherwise, it will 
+return false.
+
+Each letter in the magazine string can only be used once 
+in your ransom note.
+
+Note:
+You may assume that both strings contain only lowercase 
+letters.
+
+canConstruct("a", "b") -> false
+canConstruct("aa", "ab") -> false
+canConstruct("aa", "aab") -> true
+-->
+<script>
+/**
+ * @param {string} ransomNote
+ * @param {string} magazine
+ * @return {boolean}
+ */
+
+var canConstruct = function(ransomNote, magazine) {
+
+    let letterCounts = {},
+        mLetters = magazine.split(""),
+        rLetters = ransomNote.split(""),
+        mLen = mLetters.length,
+        rLen = rLetters.length,
+        result = true;
+        
+
+    for (let i=0,l=undefined;i<mLen;i++) {
+        l = mLetters[i];
+        if (letterCounts[l]) {
+            letterCounts[l]++
+        }
+        else {
+            letterCounts[l] = 1;
+        }
+    }
+    for (let j=0,l=undefined;j<rLen;j++) {
+        l = rLetters[j];
+        if (letterCounts[l]) {
+            letterCounts[l]--
+        }
+        else {
+            result = false;
+            break;
+        }
+    }
+
+    return result;
+};
+
+
+</script>
+</head>
+<body>
+<pre>Ransom Note
+Given an arbitrary ransom note string and another string 
+containing letters from all the magazines, write a 
+function that will return true if the ransom note can be 
+constructed from the magazines ; otherwise, it will 
+return false.
+
+Each letter in the magazine string can only be used once 
+in your ransom note.
+
+Note:
+You may assume that both strings contain only lowercase 
+letters.
+
+canConstruct("a", "b") -> false
+canConstruct("aa", "ab") -> false
+canConstruct("aa", "aab") -> true
+/**
+  * @param {string} ransomNote
+  * @param {string} magazine
+  * @return {boolean}
+  */
+var canConstruct = function(ransomNote, magazine) {
+
+};
+</pre>
+</body>
+</html>
+
+

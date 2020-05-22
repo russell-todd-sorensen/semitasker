@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 16</title>
+<!--
+Valid Parenthesis String
+
+Given a string containing only three types of characters: '(', ')' 
+and '*', write a function to check whether this string is valid. We 
+define the validity of a string by these rules:
+
+Any left parenthesis '(' must have a corresponding right parenthesis ')'.
+Any right parenthesis ')' must have a corresponding left parenthesis '('.
+Left parenthesis '(' must go before the corresponding right parenthesis ')'.
+'*' could be treated as a single right parenthesis ')' or a single left 
+parenthesis '(' or an empty string.
+
+An empty string is also valid.
+
+Example 1:
+Input: "()"
+Output: True
+Example 2:
+Input: "(*)"
+Output: True
+Example 3:
+Input: "(*))"
+Output: True
+
+Note:
+The string size will be in the range [1, 100].
+    
+-->
+<script>
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
+
+
+var checkValidString = function(s) {
+
+    if (s == "") {
+        return true;
+    }
+
+    let candidateList = {},
+        cLength = 0,
+        foundBalance = false,
+        pushedZero = false,
+        valid = false,
+        nonStar = false,
+        cbalance,
+        tmpList,
+        tmpLen,
+        val,
+        ch;
+
+    for (let i=0;i<s.length;i++) {
+        ch = s[i]
+        switch (ch) {
+        case "(":
+            if (cLength == 0) {
+                candidateList[1] = 1;
+                cLength = 1;
+                break;
+            }
+            tmpList = {};
+            tmpLen = 0;
+            for (let j in candidateList) {
+                val = parseInt(candidateList[j])
+                tmpList[val+1]=val+1
+                tmpLen++
+            }
+            candidateList = tmpList;
+            cLength = tmpLen;
+            break;
+        case ")":
+            if (cLength == 0) {
+                return false;
+            }
+            tmpList = {};
+            tmpLen = 0;
+            pushedZero = false;
+            for (let j in candidateList) {
+                cbalance = parseInt(candidateList[j]);
+                if ( cbalance == 0) {
+                    continue;
+                } else 
+                if (cbalance-1 == 0) {
+                    if(!pushedZero) {
+                        tmpList[0] = 0;
+                        pushedZero = true;
+                        tmpLen++;
+                    }
+                } else
+                if (!tmpList[cbalance-1]) {
+                    tmpList[cbalance-1] = cbalance-1;
+                    tmpLen++;
+                }
+            }
+            candidateList = tmpList;
+            cLength = tmpLen;
+
+            if (cLength == 0) {
+                return false;
+            }
+            break;
+        case "*":
+            if (cLength == 0) {
+                if (s == "*") {
+                    return true;
+                }
+                candidateList = {0:0,1:1};
+                cLength = 2;
+                break;
+            }
+            tmpList = {};
+            tmpLen = 0;
+            foundBalance = false;
+            pushedZero = false;
+            for (let j in candidateList) {
+                cbalance = parseInt(candidateList[j]);
+                if (tmpList[cbalance] == undefined) {
+                    tmpList[cbalance] = cbalance;
+                    tmpLen++;
+                }
+                if (cbalance == 0) {
+                    // only valid choice is opening paren, only need one copy of balanced
+                    if (!tmpList[1]) {
+                        tmpList[1] = 1;
+                        tmpLen++;
+                    }
+                } else { 
+                    // cbalance must be greater than zero
+                    if (cbalance-1 == 0 ) {
+                        if(tmpList[0] == undefined) {
+                            tmpList[0] = 0;
+                            tmpLen++;
+                        }
+                    } else {
+                        if (!tmpList[cbalance-1]) {
+                            tmpList[cbalance-1] = cbalance-1;
+                            tmpLen++;
+                        }
+                    }
+                    if (!tmpList[cbalance+1]) {
+                        tmpList[cbalance+1]=cbalance+1;
+                        tmpLen++;
+                    }
+                }
+            }
+            candidateList = tmpList;
+            cLength = tmpLen;
+            break;
+        default: 
+            break;
+        }
+    }
+
+    for (let j in candidateList) {
+        if (candidateList[j] == 0) {
+            valid = true;
+            break;
+        }
+    }
+
+    return valid;
+};
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

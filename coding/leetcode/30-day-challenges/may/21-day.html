@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 21</title>
+<!--
+Count Square Submatrices with All Ones
+
+Given a m * n matrix of ones and zeros, return how 
+many square submatrices have all ones.
+
+
+Example 1:
+
+Input: matrix =
+[
+  [0,1,1,1],
+  [1,1,1,1],
+  [0,1,1,1]
+]
+
+Output: 15
+
+Explanation:
+
+There are 10 squares of side 1.
+There are 4 squares of side 2.
+There is  1 square of side 3.
+Total number of squares = 10 + 4 + 1 = 15.
+Example 2:
+
+Input: matrix =
+[
+  [1,0,1],
+  [1,1,0],
+  [1,1,0]
+]
+
+Output: 7
+
+Explanation:
+
+There are 6 squares of side 1.
+There is 1 square of side 2.
+Total number of squares = 6 + 1 = 7.
+
+
+Constraints:
+
+1 <= arr.length <= 300
+1 <= arr[0].length <= 300
+0 <= arr[i][j] <= 1
+   Show Hint #1
+   Show Hint #2
+
+
+Idea:
+ Step 1: scan entire 2d array, count 1's,
+also create a list of line-segments:
+0,1,1,1 => [2x2,2x3,3x2], 
+ Step 2: for each segment, scan down to find
+    segment length -1 matching segments.
+-->
+<script>
+/**
+ * @param {number[][]} matrix
+ * @return {number}
+ */
+
+var countSquares = function(matrix) {
+
+    let rows = matrix.length,
+        cols = matrix[0].length,
+        maxs = rows>cols?rows:cols,
+        segl = 0,
+        segs = new Array(maxs+1),
+        sqrs = [],
+        mseg = 0,
+        prev = 0,
+        seg = {r:0,c:0,l:0};
+
+    for (let i=0;i<=maxs;i++) {
+        segs[i] = [];
+    }
+
+    for (let row=0,ri=0,col=0;row<rows;row++) {
+        ri = matrix[row];
+        mseg = 0;
+        segl = 0;
+        col  = 0;
+        prev = 0;
+        for (let val;col<cols;col++) {
+            val = ri[col];
+            if (prev) {
+                if (val) {
+                    segl++
+                } else {
+                    mseg = segl>mseg?segl:mseg;
+                    seg = {r:row,c:col-segl,l:segl}
+                    segs[0].push(seg)
+                    segs[segl].push(seg)
+                    prev = 0;
+                    segl = 0;
+                }
+            } else {
+                if (val) {
+                    segl = 1;
+                    prev = 1;
+                }
+            }
+        }
+        mseg = segl>mseg?segl:mseg;
+        if (prev) {
+            seg = {r:row,c:col-segl,l:segl}
+            segs[0].push(seg);
+            segs[segl].push(seg) // note: col was incr
+        }
+    }
+    return {mseg:mseg,segs:segs}
+
+};
+
+var ex = [];
+
+ex[0] = [
+  [1,0,1],
+  [1,1,0],
+  [1,1,0]
+];
+
+ex[1] = [
+  [0,1,1,1],
+  [1,1,1,1],
+  [0,1,1,1]
+];
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

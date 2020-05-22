@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>HeapSort</title>
+<style>
+</style>
+<script src=""></script>
+
+<script>
+
+class SimpleType {
+    constructor(val) {
+        this.val = val;
+        return this;
+    }
+    lt (b) {
+        return (this.val < b.val)
+    }
+    eq (b) {
+        return (this.sum == b.sum)
+    }
+    value () {
+        return this.val;
+    }
+}
+
+class ComplexType {
+    constructor(apos,b,sum) {
+        this.apos = (apos?apos:0);
+        this.b = (b?b:0);
+        this.sum = (sum?sum:0);
+        return this;
+    }
+    lt (b) {
+        return (this.sum < b.sum)
+    }
+    eq (b) {
+        return (this.sum == b.sum)
+    }
+    value () {
+        return this.sum;
+    }
+}
+
+class CTReverse {
+    constructor(apos,b,sum) {
+        this.apos = (apos?apos:0);
+        this.b = (b?b:0);
+        this.sum = (sum?sum:0);
+        return this;
+    }
+    lt (b) {
+        return (this.sum > b.sum)
+    }
+    value () {
+        return this.sum;
+    }
+}
+
+
+
+class Heap {
+    heap = [];
+    entries = 0;
+    ops = 0; // for counting O()
+    history = [];
+    failedAt = -1; // result of verify();
+    constructor (type) {
+        this.entryType = type;
+        this.heap[0] = new this.entryType();
+        return this;
+    }
+    lt (aIdx, bIdx) { // will use object at aIdx to compare with bIdx
+        // not used
+    }
+    add (entry,pos) {
+        let entryPos = (pos?pos:this.heap.length)
+        this.heap[entryPos] = entry;
+        if (entryPos > 0) {
+            this.entries++
+        }
+        return entryPos;
+    }
+    add0 (entry) {
+        this.heap[0] = entry;
+    }
+    get (pos) {
+        if (pos && pos < 0) {
+            return null;
+        }
+        let entryPos = (pos?pos:0)
+        if (entryPos < this.heap.length) {
+            return this.heap[entryPos]
+        } else {
+            return null;
+        }
+    }
+    getEntries () {
+        return this.entries;
+    }
+    permute (j,n) {
+
+        this.history[this.history.length] = this.heap;
+
+        let q;
+        var p;
+
+        q = j;
+
+        p = q<<1;
+
+        while (p < n) {
+            this.ops++;
+            /*if (this.heap[p + 1].sum < this.heap[p].sum) { */
+            if (this.heap[p+1].lt(this.heap[p])) {
+                ++p;
+            }
+            this.heap[q] = this.heap[p]
+            q = p
+            p = q<<1
+        }
+        if (p == n) {
+            this.ops++;
+            this.heap[q] = this.heap[p]
+            q = p;
+        }
+        p = q>>1
+        while ((q > j) && (this.ops++) && (this.heap[0].lt(this.heap[p]))) { 
+            this.heap[q] = this.heap[p];
+            q = p;
+            p = q>>1
+        }
+        this.ops++;
+        this.heap[q] = this.heap[0];
+    } 
+    permuteRemove (j,n) {
+
+        this.history[this.history.length] = this.heap;
+
+        let q;
+        var p;
+
+        q = j;
+
+        p = q<<1;
+
+        while (p < n) {
+            this.ops++;
+            if (this.heap[p+1].lt(this.heap[p])) {
+                ++p;
+            }
+            this.heap[q] = this.heap[p]
+            q = p
+            p = q<<1
+        }
+        if (p == n) {
+            this.ops++;
+            this.heap[q] = this.heap[p]
+            q = p;
+        }
+        p = q>>1
+        while ((q > j) && (this.ops++) && (this.heap[0].lt(this.heap[p]))) { 
+            this.heap[q] = this.heap[p];
+            q = p;
+            p = q>>1
+        }
+        this.ops++;
+        this.heap[q] = this.heap[0];
+    } 
+    init(jOver) {
+        let n = this.getEntries();
+        let j = Math.floor(n / 2) + 1;
+        j = (jOver?jOver:j)
+        while (j > 1) {
+            --j;
+            this.add0(this.peek(j))
+            this.permute(j,n)
+        }
+    }
+    push(entry) { // remove the 0th element and push on two copies
+        this.heap.shift()
+        this.heap.unshift(entry);
+        this.heap.unshift(entry);
+        this.entries++;
+        this.ops++;
+        return this.heap;
+    }
+    pushSort(entry) { // remove the 0th element and push on two copies
+        this.heap.shift()
+        this.heap.unshift(entry);
+        this.heap.unshift(entry);
+        this.entries++;
+        this.ops++;
+        this.permuteRemove(1,this.entries)
+    }
+    peek(pos) {
+        if (pos && pos<=this.entries) {
+            return this.heap[pos]
+        } else {
+            return null;
+        }
+    }
+    pop() {
+        if (this.entries == 0) {
+            return null;
+        }
+        let tmp = this.heap[1]
+        this.heap[0] = this.heap[this.entries]
+        this.heap[this.entries] = null;
+        this.heap.pop(); //removed the unused element
+        this.entries--
+        if (this.entries > 0) {
+            this.permute(1,this.entries)
+        }
+        return tmp;
+    }
+    sort() {
+        let len = 0 + this.entries;
+        for (let i = 0;i<len;i++) {
+            let tmp = this.heap[1]
+            this.heap[0] = this.heap[this.entries]
+            this.permute(1,this.entries)
+            this.heap[this.entries] = tmp;
+            this.entries--
+        }
+    }
+    getOps() {
+        return this.ops;
+    }
+    resetOps() {
+        let ops = this.ops;
+        this.ops = 0;
+        return ops;
+    }
+}
+
+var h
+
+var snapshot = [];
+var failedAt = [];
+var ordered  = [];
+
+function pushRandom(heap,n,min,max) {
+    let h = heap;
+    for (let i = 0;i<n;i++) {
+        val = Math.ceil((Math.random()*(max-min))+min)
+        h.push(new ComplexType(i,('b' + i), val))
+    }
+}
+
+function pushRandomReverse(heap,n,min,max) {
+    let h = heap;
+    for (let i = 0;i<n;i++) {
+        val = Math.ceil((Math.random()*(max-min))+min)
+        h.push(new CTReverse(i,('b' + i), val))
+    }
+}
+
+function testHeapSort(n,min,max) {
+
+    h = new Heap(ComplexType);
+    let val;
+    let verified = true;
+    snapshot = [];
+    ordered  = [];
+
+    for (let i = 0;i<n;i++) {
+        val = Math.ceil((Math.random()*(max-min))+min)
+        h.push(new ComplexType(i,('b' + i), val))
+        snapshot[snapshot.length] = h.heap.map(x => (x==null?0:x.sum))
+    }
+    h.init()
+    console.log('Added n=' 
+        + n + ', ops=' 
+        + h.getOps() 
+        + ', n*log2(n)=' 
+        + (n * (Math.ceil(1000*Math.log2(n))/1000)));
+
+    while (h.getEntries() > 0) {
+        snapshot[snapshot.length] = h.heap.map(x => (x==null?0:x.sum))
+        ordered[ordered.length] = h.pop().sum
+    }
+
+    snapshot[snapshot.length] = h.heap.map(x => (x==null?0:x.sum))
+
+    console.log('Added and Removed n=' 
+        + n + ', ops=' 
+        + h.getOps() 
+        + ', 2*n*log2(n)=' 
+        + (2 * n * Math.ceil(1000*Math.log2(n))/1000));
+
+    console.log('[' + ordered.toString() + ']');
+
+    let i = 0;
+    let passed = true;
+    let blurb = ""
+    while (i < (n-1)) {
+        if (ordered[i] > ordered[i+1]) {
+            passed = false
+            blurb = "ordered["+i+"]=''" + ordered[i] + "'' and ordered[" + (i+1) + "]=''" + ordered[i+1] + "'"
+            break
+        }
+        i++
+    }
+    console.log("Popped values: " + passed + " " + blurb);
+}
+
+function testHeapSort2(n,min,max) {
+
+    h = new Heap(ComplexType);
+    let val;
+    let verified = true;
+    snapshot = [];
+    ordered  = [];
+
+    for (let i = 0;i<n;i++) {
+        val = Math.ceil((Math.random()*(max-min))+min)
+        h.pushSort(new ComplexType(i,('b' + i), val))
+        snapshot[snapshot.length] = h.heap.map(x => (x==null?0:x.sum))
+    }
+    console.log('Added n=' 
+        + n + ', ops=' 
+        + h.getOps() 
+        + ', n*log2(n)=' 
+        + (n * (Math.ceil(1000*Math.log2(n))/1000)));
+
+    while (h.getEntries() > 0) {
+        snapshot[snapshot.length] = h.heap.map(x => (x==null?0:x.sum))
+        ordered[ordered.length] = h.pop().sum
+    }
+
+    snapshot[snapshot.length] = h.heap.map(x => (x==null?0:x.sum))
+
+    console.log('Added and Removed n=' 
+        + n + ', ops=' 
+        + h.getOps() 
+        + ', 2*n*log2(n)=' 
+        + (2 * n * Math.ceil(1000*Math.log2(n))/1000));
+
+    console.log('[' + ordered.toString() + ']');
+
+    let i = 0;
+    let passed = true;
+    let blurb = ""
+    while (i < (n-1)) {
+        if (ordered[i] > ordered[i+1]) {
+            passed = false
+            blurb = "ordered["+i+"]=''" + ordered[i] + "'' and ordered[" + (i+1) + "]=''" + ordered[i+1] + "'"
+            break
+        }
+        i++
+    }
+    console.log("Popped values: " + passed + " " + blurb);
+}
+
+
+var arr2 = [10, 23, 13, 31, 62, 30, 33, 116, 89, 107, 54, 111, 200, 135, 140, 132, 144, 133, 144, 177];
+var arrt = [111,111,19,40,40,46,41,118,48,120,46,63,120,170,198,76,140,151,194]
+
+function makeHeap (arr) {
+    var h = new Heap();
+    h.heap = []
+    for (let i = 0;i<arr.length;i++) {
+        h.heap.push(new ComplexType(i,i,arr[i]));
+        h.entries++
+    }
+    h.entries--
+    return h
+}
+
+var arr3 = [66,93,72,76,5,81,44,19,63,3,89,10,65,46,100,39,86,81,54,16]
+var h3 = new Heap(SimpleType);
+
+function addEntries (h,arr) {
+    let test = 0;
+    for (let i = 0;i<arr.length;i++) {
+        h.push(new ComplexType(i,'b'+i,arr[i]))
+        test = i;
+    }
+    return h
+}
+
+function addEntriesReverse (h,arr) {
+    let test = 0;
+    for (let i = 0;i<arr.length;i++) {
+        h.push(new CTReverse(i,'b'+i,arr[i]))
+        test = i;
+    }
+    return h
+}
+
+function sumLogN(n) {
+    let total = 0;
+    for (let i=n;i>0;i--) {
+        total += Math.log2(i)
+    }
+    return total;
+}
+</script>
+
+</head>
+<body>
+<pre>
+This is a test.
+</pre>
+</body>
+</html>
+
+

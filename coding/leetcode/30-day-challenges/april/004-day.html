@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 4</title>
+<style>
+</style>
+<!--
+Move Zeroes
+Given an array nums, write a function to move all 0's to the 
+end of it while maintaining the relative order of the non-zero 
+elements.
+
+Example:
+
+Input: [0,1,0,3,12]
+Output: [1,3,12,0,0]
+Note:
+
+You must do this in-place without making a copy of the array.
+Minimize the total number of operations.
+
+-->
+<script src=""></script>
+
+<script>
+/**
+ * @param {number[]} nums
+ * @return {void} Do not return anything, modify nums in-place instead.
+ */
+
+/*
+    Since the "moved zeros" have known value we don't need to keep track
+    of their actual value, keep track of the holes and fill them as 
+    non-zero values are found.
+*/
+
+var moveZeroes = function(nums) {
+
+    let len = nums.length,
+        val,
+        zeros = [],
+        zlen = 0;
+
+    for (let i=0;i<len;i++) {
+        val = nums[i];
+        if (val == 0) {
+            zeros.unshift(i);
+            zlen++;
+        } else
+        if (zlen) {
+            nums[zeros.pop()] = val;
+            zeros.unshift(i);
+        }
+    }
+    while (zlen) {
+        nums[len-zlen] = 0;
+        zlen--;
+    }
+};
+
+
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

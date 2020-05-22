@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 18</title>
+<!--
+
+Minimum Path Sum
+
+Given a m x n grid filled with non-negative numbers, find a path 
+from top left to bottom right which minimizes the sum of all 
+numbers along its path.
+
+Note: You can only move either down or right at any point in 
+time.
+
+Example:
+
+Input:
+[
+  [1,3,1],
+  [1,5,1],
+  [4,2,1]
+]
+Output: 7
+Explanation: Because the path 1→3→1→1→1 minimizes the sum.
+
+1 - 3 - 1
+|   |   |
+1 - 5 - 1
+|   |   |
+4 - 2 - 1
+
+[[1,3,1],[1,5,1],[4,2,1]]
+-->
+<script>
+/**
+ * @param {number[][]} grid
+ * @return {number}
+ */
+var minPathSum = function(grid) {
+
+    let width = grid[0].length,
+        height = grid.length,
+        maxX = width-1,
+        maxY = height-1,
+        paths = [],
+        path,
+        len,
+        min = Infinity,
+        found,
+        x = 0,
+        y = 0;
+
+    paths.unshift([grid[x][y],[x,y]]);
+
+
+    while (paths.length >0) {
+
+        found = false;
+        path  = paths.pop();
+        len   = path[0];
+        x     = path[1][0];
+        y     = path[1][1];
+
+        if (x<maxX) {
+            paths.unshift([len+grid[x+1][y],[x+1,y]]);
+            found = true;
+        }
+        if (y<maxY) {
+            paths.unshift([len+grid[x][y+1],[x,y+1]]);
+            found = true;
+        }
+        if (!found) { // end of path
+            if (len<min) {
+                min = len;
+            }
+        }
+    }
+    return min;
+
+};
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

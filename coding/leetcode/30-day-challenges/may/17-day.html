@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 17</title>
+<!--
+Find All Anagrams in a String
+
+Given a string s and a non-empty string p, find all the 
+start indices of p's anagrams in s.
+
+Strings consists of lowercase English letters only and 
+the length of both strings s and p will not be larger 
+than 20,100.
+
+The order of output does not matter.
+
+Example 1:
+
+Input:
+s: "cbaebabacd" p: "abc"
+
+Output:
+[0, 6]
+
+Explanation:
+The substring with start index = 0 is "cba", which is an anagram of "abc".
+The substring with start index = 6 is "bac", which is an anagram of "abc".
+
+Example 2:
+
+Input:
+s: "abab" p: "ab"
+
+Output:
+[0, 1, 2]
+
+Explanation:
+The substring with start index = 0 is "ab", which is an anagram of "ab".
+The substring with start index = 1 is "ba", which is an anagram of "ab".
+The substring with start index = 2 is "ab", which is an anagram of "ab".
+-->
+<script>
+/**
+ * @param {string} s
+ * @param {string} p
+ * @return {number[]}
+ */
+
+class Anagram {
+    start  = 0;
+    len   = 0;
+    chars = {};
+
+    constructor(start,str) {
+        this.start = start;
+        if (str && str.length) {
+            let chars = str.split("");
+            this.len = chars.length;
+            for (let i=0,char;i<this.len;i++) {
+                char = str[i];
+                if (this.chars[char]) {
+                    this.chars[char]++;
+                }
+                else {
+                    this.chars[char] = 1;
+                }
+            }
+        }
+    };
+    compareLen(end) {
+        let len = this.len;
+        return (end.len<len?-1:end.len==len?0:1);
+    };
+    match(end) { // if match return start index, else -1 or 1 (min length of valid anagram > 1)
+        let cmp = this.compareLen(end);
+        if (cmp != 0) {
+            return cmp;
+        } 
+        for (let [char, count] of Object.entries(this.chars)) {
+            if (end[char] && end[char] == count) {
+                continue 
+            }
+            else {
+                return (-1);
+            }
+        }
+        return this.start
+    };
+    addChar(char,count) {
+            this.chars[char] = count;
+    };
+    addChars(chars) {
+        this.chars = chars;
+    }
+}
+var findAnagrams = function(s, p) {
+
+    let sLen  = s.length,
+        pLen  = p.length,
+        zeroA = {sIdx:0,len:0,chars:{}},
+        endA  = {sIdx:0,len:pLen,chars:{}},
+        stack = [],
+        char  = null;
+
+    for (let i=0;i<pLen;i++) {
+        char = p[i];
+        if (endA.chars[char]) {
+            endA.chars[char]++
+        } else {
+            zeroA.chars[char] = 0;
+            endA.chars[char] = 1;
+        }
+    }
+    return {endA:endA,zeroA:zeroA}
+
+};
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

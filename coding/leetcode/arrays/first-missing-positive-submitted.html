@@ -74,12 +74,44 @@ lists[26] = [1]
 lists[27] = [0,2,2,1,1]
 
 
-var results = []
-for (var i = 0;i<lists.length;i++) {
-    results[i] = firstMissingPositive(lists[i])
+var bruteForce = function(arr) {
+
+    arr.sort();
+    let result = -1,
+        found = false,
+        first = -1,
+        next = 0,
+        i = 0;
+
+    for (;i<arr.length;i++) {
+        if (arr[i]<=0) {
+            continue
+        } else {
+            foundPos = arr[i]
+            break;
+        }
+    }
+    if (foundPos == -1 || foundPos >= 2) {
+        return 1
+    }
+    i++
+    next = arr[i]
+
+    while(next-first == 1) {
+        first = next;
+        next = arr[i];
+        i++
+    }
+    return arr[i-1]+1
 }
 
-console.log ("result = " + results)
+var results = []
+for (var i = 0;i<lists.length;i++) {
+    results.push([i,lists[i],firstMissingPositive(lists[i]),bruteForce(lists[i])])
+}
+
+console.log(results)
+
 </script>
 </head>
 <body>

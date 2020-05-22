@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 19</title>
+<!--
+Search in Rotated Sorted Array
+Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+
+(i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
+
+You are given a target value to search. If found in the array return its index, otherwise return -1.
+
+You may assume no duplicate exists in the array.
+
+Your algorithm's runtime complexity must be in the order of O(log n).
+
+Example 1:
+
+Input: nums = [4,5,6,7,0,1,2], target = 0
+Output: 4
+Example 2:
+
+Input: nums = [4,5,6,7,0,1,2], target = 3
+Output: -1
+
+-->
+<script>
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+
+ /*
+    I'm guessing that modular arithmetic is the answer.
+  */ 
+var search = function(nums, target) {
+
+    let len = nums.length,
+        step = len
+        index = 0,
+        val = nums[index],
+        minIdx = 0,
+        maxIdx = len-1,
+        min = val,
+        max = val,
+        cur = val,
+        dif = target-cur,
+        steps = [],
+        loopCount = 0,
+        oneCount = 0;
+
+        steps.push({idx:index,step:step,val:val,dif:dif,min:min,max:max})
+
+        while (Math.abs(dif) > 1 && loopCount<len) {
+            loopCount++;
+            if (step > 1) {
+                step = step>>1
+            } else {
+                step = 1
+            }
+            if (dif < 0) {
+                index = (len + index-step)%len
+            } else {
+                index = (index + step)%len
+            }
+            if (index > (len+maxIdx)%len) {
+                maxIdx = index
+            }
+            if (index < (len+minIdx)%len) {
+                minIdx = index;
+            }
+            if (step == 1) {
+            }
+            val = nums[index]
+            if (val<min) {
+                min = val
+            } else
+            if (val>max) {
+                max=val
+            }
+            
+            dif = target-val;
+            steps.push({idx:index,step:step,val:val,dif:dif,min:min,max:max})
+        }
+        
+
+        return {index:(dif==0?index:dif==-1?(len+index-1)%len:dif==1?(len+index+1)%len:null),minIdx:minIdx,maxIdx:maxIdx,steps:steps};
+
+};
+
+let arr = [40,45,50,60,70,90,0,10,15,20,25,35]
+</script>
+</head>
+<body>
+<pre>
+    Search in Rotated Sorted Array
+    Suppose an array sorted in ascending order is rotated at some pivot unknown to you beforehand.
+    
+    (i.e., [0,1,2,4,5,6,7] might become [4,5,6,7,0,1,2]).
+    
+    You are given a target value to search. If found in the array return its index, otherwise return -1.
+    
+    You may assume no duplicate exists in the array.
+    
+    Your algorithm's runtime complexity must be in the order of O(log n).
+    
+    Example 1:
+    
+    Input: nums = [4,5,6,7,0,1,2], target = 0
+    Output: 4
+    Example 2:
+    
+    Input: nums = [4,5,6,7,0,1,2], target = 3
+    Output: -1
+    /**
+    * @param {number[]} nums
+    * @param {number} target
+    * @return {number}
+    */
+   
+    /*
+       I'm guessing that modular arithmetic is the answer.
+     */ 
+   var search = function(nums, target) {
+   
+   };
+    
+</pre>
+</body>
+</html>
+
+

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 6</title>
+<style>
+</style>
+<!--
+Group Anagrams
+Given an array of strings, group anagrams together.
+
+Example:
+
+Input: ["eat", "tea", "tan", "ate", "nat", "bat"],
+Output:
+[
+  ["ate","eat","tea"],
+  ["nat","tan"],
+  ["bat"]
+]
+Note:
+
+All inputs will be in lowercase.
+The order of your output does not matter.
+-->
+
+<script>
+/**
+ * @param {string[]} strs
+ * @return {string[][]}
+ */
+
+var groupAnagrams = function(strs) {
+    let result = [],
+        len = strs.length,
+        map = {},
+        word,
+        key
+
+    for (let i=0;i<len;i++) {
+        word = strs[i];
+        key = word.split("").sort();
+        if (map[key] != undefined) {
+            result[map[key]].push(word);
+        } 
+        else {
+            map[key] = result.length;
+            result[map[key]]=[word];
+        }
+    }
+    return result;
+};
+
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

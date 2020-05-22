@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 6</title>
+<!--
+Majority Element
+Given an array of size n, find the majority element. 
+The majority element is the element that appears more 
+than ⌊ n/2 ⌋ times.
+
+You may assume that the array is non-empty and the 
+majority element always exist in the array.
+
+Example 1:
+
+Input: [3,2,3]
+Output: 3
+Example 2:
+
+Input: [2,2,1,1,1,2,2]
+Output: 2
+-->
+<script>
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+
+
+var majorityElement = function(nums) {
+
+    const len = nums.length,
+        halfN = Math.floor(len/2);
+
+    let counts = {},
+        idx = 0,
+        num = nums[idx];
+
+    counts[num] = 1;
+    idx++;
+
+    while (idx<len && counts[num] <= halfN) {
+        num = nums[idx];
+        if (counts[num]) {
+            counts[num]++;
+        } else {
+            counts[num] = 1;
+        }
+        idx++
+    }
+
+    return num;
+};
+
+
+</script>
+</head>
+<body>
+<pre>
+Majority Element
+Given an array of size n, find the majority element. 
+The majority element is the element that appears more 
+than ⌊ n/2 ⌋ times.
+
+You may assume that the array is non-empty and the 
+majority element always exist in the array.
+
+Example 1:
+
+Input: [3,2,3]
+Output: 3
+Example 2:
+
+Input: [2,2,1,1,1,2,2]
+Output: 2
+
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+
+
+var majorityElement = function(nums) {
+
+    let len = nums.length,
+        halfN = Math.floor(len/2),
+        counts = {},
+        idx = 0,
+        num = nums[idx];
+
+    counts[num] = 1;
+    idx++;
+
+    while (idx&lt;len && counts[num] &lt;= halfN) {
+        num = nums[idx];
+        if (counts[num]) {
+            counts[num]++;
+        } else {
+            counts[num] = 1;
+        }
+        idx++
+    }
+
+    return num;
+};
+
+
+
+</pre>
+</body>
+</html>
+
+

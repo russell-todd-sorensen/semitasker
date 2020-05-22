@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 12</title>
+<style>
+</style>
+<!--
+Last Stone Weight
+We have a collection of stones, each stone has a positive integer weight.
+
+Each turn, we choose the two heaviest stones and smash them together.  Suppose the stones have weights x and y with x <= y.  The result of this smash is:
+
+If x == y, both stones are totally destroyed;
+If x != y, the stone of weight x is totally destroyed, and the stone of weight y has new weight y-x.
+At the end, there is at most 1 stone left.  Return the weight of this stone (or 0 if there are no stones left.)
+
+ 
+
+Example 1:
+
+Input: [2,7,4,1,8,1]
+Output: 1
+Explanation: 
+We combine 7 and 8 to get 1 so the array converts to [2,4,1,1,1] then,
+we combine 2 and 4 to get 2 so the array converts to [2,1,1,1] then,
+we combine 2 and 1 to get 1 so the array converts to [1,1,1] then,
+we combine 1 and 1 to get 0 so the array converts to [1] then that's the value of last stone.
+ 
+
+Note:
+
+1 <= stones.length <= 30
+1 <= stones[i] <= 1000
+
+-->
+<script>
+/**
+ * @param {number[]} stones
+ * @return {number}
+ */
+
+
+ class SimpleTypeReverse {
+    constructor(val) {
+        this.val = val;
+        return this;
+    }
+    lt (b) {
+        return (this.val > b.val) // sorts and returns largest value first
+    }
+    eq (b) {
+        return (this.val == b.val)
+    }
+    value () {
+        return this.val;
+    }
+}
+
+class Heap {
+    heap = [];
+    entries = 0;
+    ops = 0; // for counting O()
+    constructor (type) {
+        this.entryType = type;
+        this.heap[0] = new this.entryType();
+        return this;
+    }
+    add (entry,pos) {
+        let entryPos = (pos?pos:this.heap.length)
+        this.heap[entryPos] = entry;
+        if (entryPos > 0) {
+            this.entries++
+        }
+        return entryPos;
+    }
+    add0 (entry) {
+        this.heap[0] = entry;
+    }
+    get (pos) {
+        if (pos && pos < 0) {
+            return null;
+        }
+        let entryPos = (pos?pos:0)
+        if (entryPos < this.heap.length) {
+            return this.heap[entryPos]
+        } else {
+            return null;
+        }
+    }
+    getEntries () {
+        return this.entries;
+    }
+    permute (j,n) {
+
+        let q,
+            p;
+
+        q = j;
+
+        p = q<<1;
+
+        while (p < n) {
+            this.ops++;
+            if (this.heap[p+1].lt(this.heap[p])) {
+                ++p;
+            }
+            this.heap[q] = this.heap[p]
+            q = p
+            p = q<<1
+        }
+        if (p == n) {
+            this.ops++;
+            this.heap[q] = this.heap[p]
+            q = p;
+        }
+        p = q>>1
+        while ((q > j) && (this.ops++) && (this.heap[0].lt(this.heap[p]))) { 
+            this.heap[q] = this.heap[p];
+            q = p;
+            p = q>>1
+        }
+        this.ops++;
+        this.heap[q] = this.heap[0];
+    }
+    init(jOver) {
+        let n = this.getEntries();
+        let j = Math.floor(n / 2) + 1;
+        j = (jOver?jOver:j)
+        while (j > 1) {
+            --j;
+            this.add0(this.peek(j))
+            this.permute(j,n)
+        }
+    }
+    push(entry) { // remove the 0th element and push on two copies
+        this.heap.shift()
+        this.heap.unshift(entry);
+        this.heap.unshift(entry);
+        this.entries++;
+        this.ops++;
+        return this.heap;
+    }
+    pushSort(entry) { // remove the 0th element and push on two copies
+        this.heap.shift()
+        this.heap.unshift(entry);
+        this.heap.unshift(entry);
+        this.entries++;
+        this.ops++;
+        this.permute(1,this.entries)
+    }
+    peek(pos) {
+        if (pos && pos<=this.entries) {
+            return this.heap[pos]
+        } else {
+            return null;
+        }
+    }
+    pop() {
+        if (this.entries == 0) {
+            return null;
+        }
+        let tmp = this.heap[1]
+        this.heap[0] = this.heap[this.entries]
+        this.heap[this.entries] = null;
+        this.heap.pop(); //removed the unused element
+        this.entries--
+        if (this.entries > 0) {
+            this.permute(1,this.entries)
+        }
+        return tmp;
+    }
+    sort() { // in place sort
+        let len = 0 + this.entries;
+        for (let i = 0;i<len;i++) {
+            let tmp = this.heap[1]
+            this.heap[0] = this.heap[this.entries]
+            this.permute(1,this.entries)
+            this.heap[this.entries] = tmp;
+            this.entries--
+        }
+    }
+    getOps() {
+        return this.ops;
+    }
+    resetOps() {
+        let ops = this.ops;
+        this.ops = 0;
+        return ops;
+    }
+}
+
+
+var lastStoneWeight = function(stones) {
+    let len = stones.length, 
+        stone1,
+        stone2;
+
+    if (len == 1) {
+        return stones[0];
+    }
+
+    if (len == 2) {
+        if (stones[0] > stones[1]) {
+            return stones[0]-stones[1]
+        } else {
+            return stones[1]-stones[0]
+        }
+    }
+
+    let heap = new Heap(SimpleTypeReverse),
+        diff,
+        lastStone;
+
+    for (let i=0;i<len;i++) {
+        heap.push(new SimpleTypeReverse(stones[i]))
+    }
+    heap.init();
+
+    while (heap.getEntries() > 2) {
+        stone1 = heap.pop();
+        stone2 = heap.pop();
+        
+        diff = stone1.val - stone2.val;
+
+        if (diff > 0) {
+            heap.pushSort(new SimpleTypeReverse(diff))
+        }
+    }
+    if (heap.getEntries() == 2) {
+        stone1 = heap.pop();
+        stone2 = heap.pop();
+        lastStone = stone1.val - stone2.val;
+    } else {
+        lastStone = heap.pop().val;
+    }
+    return lastStone;
+};
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

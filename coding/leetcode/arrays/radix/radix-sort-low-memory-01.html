@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Radix Sort</title>
+<script src="./highly-composite-numbers.js"></script>
+<style>
+</style>
+
+<!--
+Problem is to find in O(n) time and constant space
+one un-matched integer in list of integers.
+
+Radix sort can be used as a starting point, which 
+has O(kn) time. However, radix sort sorts the entire 
+list, which isn't needed here. After each pass, the 
+half with an even number of members is thrown away. 
+This should take about a total of 2N operations.
+
+The reasoning behind radix sorting is purely a trick of
+the finite precision of integers, so it is an engineering
+argument, not a mathematical one. Once you limit the size
+of the inputs, the sorting cost is fixed. For an integer
+size of 32 bits and memory the same size, you could only have
+2^31-1 pairs of matched numbers, you couldn't even keep track
+in one integer the number of operations required. The bottom line
+is that the efficiency of the algo, although theoretical, is never
+reached in practice.
+
+The current problem might be better cast as bucket sort.
+Looking at the lowest value binary digit, sort into bucket0
+and bucket1, repeat with the bucket with odd number of members.
+
+What about using log2(N) buckets
+-->
+<!-- Sorting into log2(N) buckets -->
+<script>
+
+var pickNumBuckets = function(len) {
+
+    let bucketList = [2,3,5,7,11,13,17,19,23,29,31],
+        log2 = Math.ceil(Math.log2(len)),
+        answer;
+    
+    switch (log2) {
+    case 0: 
+    case 1: 
+    case 2:
+        answer = 2;
+        break;
+    case 3: 
+        answer = 3;
+        break;
+    case 4: 
+    case 5: 
+        answer = 5;
+        break;
+    case 6: 
+    case 7: 
+    case 8: 
+        answer = 7;
+        break;
+    case 9: 
+    case 10: 
+    case 11: 
+        answer = 11;
+        break;
+    case 12: 
+    case 13: 
+    case 14:
+    case 15: 
+        answer = 13;
+        break;
+    case 16: 
+    case 17: 
+        answer = 17; 
+    case 18: 
+    case 19: 
+    case 20: 
+        answer = 19;
+        break;
+    case 21: 
+    case 22: 
+    case 23: 
+    case 24: 
+    case 25: 
+        answer = 23;
+        break;
+    case 26: 
+    case 27: 
+    case 28: 
+    case 29: 
+        answer = 29;
+        break;
+    default: 
+        answer = 31;
+        break;
+    }
+    return answer;
+}
+var highlyCompositeNumbers = [
+
+]
+var chooseHighlyCompositeNumber = function (n) {
+    let hcn = [1, 2, 4, 6, 12, 24, 36, 48, 60, 120, 180, 
+        240, 360, 720, 840, 1260, 1680, 2520, 5040, 7560, 
+        10080, 15120, 20160, 25200, 27720, 45360, 50400, 
+        55440, 83160, 110880, 166320, 221760, 277200, 
+        332640, 498960, 554400, 665280, 720720, 1081080, 
+        1441440, 2162160]
+
+        TwoTo63 = 9223372036854776000;
+    return TwoTo63;
+}
+
+var unPairedInteger = function (arr) {
+
+    let len = arr.length,
+        numBuckets = pickNumBuckets(len),
+        buckets = new Array(numBuckets),
+        n = 0,
+        range = [{n:n,len:len,k:0,nBuckets:numBuckets,a:arr.slice(0)}],
+        found = false,
+        k=0,
+        total = 0,
+        loopBreak = 0,
+        maxLoop = 3*len,
+        answer,
+        val,
+        bucket;
+
+    while (!found && loopBreak < maxLoop) {
+        k += len;
+        if (numBuckets > 2) {
+            while (arr.length > 0) {
+                bucket = arr[0]%numBuckets
+                if (buckets[bucket]) {
+                    buckets[bucket].push(arr.shift()); // reuse memory
+                } else {
+                    buckets[bucket] = [arr.shift()];
+                }
+            }
+        } else {
+            while (arr.length > 0) {
+                bucket = ((arr[0] & 1<<n)==0)?0:1;
+                if (buckets[bucket]) {
+                    buckets[bucket].push(arr.shift()); // reuse memory
+                } else {
+                    buckets[bucket] = [arr.shift()];
+                }
+            }
+        }
+        for (let j in buckets) {
+            k++
+            if ((buckets[j].length%2) == 1) {
+                arr = buckets[j]
+                len = arr.length
+                numBuckets--;
+                if (numBuckets == 16 || numBuckets == 8) {
+                    numBuckets--;
+                }
+                if (numBuckets <2) {
+                    numBuckets = 2;
+                }
+                range.push({n:n,len:len,k:k,nBuckets:numBuckets,a:arr.slice(0)})
+                buckets = new Array()
+                break;
+            }
+        }
+        if (arr.length == 1) {
+            answer = arr[0]
+            found = true;
+            break;
+        } else if (len == 3 && (arr[0] == arr[1] && arr[1] == arr[2])) { // to handle common auto-generated array problems
+            answer = arr[0];
+            found = true;
+            break;
+        }
+        n++
+        loopBreak++
+    }
+    if (!found) {
+        for (let i=1;i<len;i++) {
+            if (arr[0] != arr[i]) {
+                found = false
+                break;
+            }
+            found = true; // uuugly
+        } 
+        if (found) {
+            answer = arr[0];
+        }
+    }
+
+    return {answer:answer,n:n,k:k,ranges:range}
+}
+
+var testArray = []
+var testHigh = []
+var hcn = new HighlyCompositeNumbers();
+
+var testRandom = function(n,answerVal,low,high,highPower) {
+    testArray = [];
+    testHigh = [];
+    low = (low?low:0);
+    high = (high?high:100);
+    highPower = (highPower?highPower:5)
+    answerVal = answerVal?answerVal:hcn.getMaxBelow( Math.floor(Math.log2(Math.abs(high))));
+
+    let val;
+
+    for (let i=0;i<n;i++) {
+        if (i == Math.ceil((n-1)/2)) {
+            testArray.push(answerVal);
+            testHigh.push(hcn.getMaxBelow( Math.floor(Math.log2(Math.abs(high))+highPower)))
+            continue;
+        }
+        val = Math.round(low + (Math.random()*(high-low)));
+        testArray.push(val);
+        testHigh.push(val<<highPower);
+        testArray.push(val);
+        testHigh.push(val<<highPower);
+    }
+    let answer = unPairedInteger(testArray);
+    let answerHigh = unPairedInteger(testHigh);
+    return {answer:answer,answerHigh:answerHigh};
+}
+
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>

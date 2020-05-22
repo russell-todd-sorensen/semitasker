@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 11</title>
+<style>
+</style>
+<!--
+Diameter of Binary Tree
+Given a binary tree, you need to compute the length of the diameter
+of the tree. The diameter of a binary tree is the length of the 
+longest path between any two nodes in a tree. This path may or may 
+not pass through the root.
+
+Example:
+Given a binary tree
+          1
+         / \
+        2   3
+       / \     
+      4   5    
+Return 3, which is the length of the path [4,2,1,3] or [5,2,1,3].
+
+Note: The length of path between two nodes is represented by 
+the number of edges between them.
+
+-->
+<script>
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val) {
+ *     this.val = val;
+ *     this.left = this.right = null;
+ * }
+ */
+/**
+ * @param {TreeNode} root
+ * @return {number}
+ */
+
+
+
+class TreeNode {
+    val;
+    left;
+    right;
+
+    constructor(val,left,right) {
+        this.val = val;
+        this.left = left?left:null;
+        this.right = right?right:null;
+        return this;
+    }
+}
+
+var traverseChild = function(root) {
+    let leftMeasure = {maxL:-1,maxD:0},
+        rightMeasure = {maxL:-1,maxD:0},
+        result = 0,
+        maxD = 0,
+        maxD2 = 2,
+        maxL  = 1,
+        maxL2 = 1
+    
+    if (root.left) {
+        leftMeasure = traverseChild(root.left);
+    }
+    if (root.right) {
+        rightMeasure = traverseChild(root.right);
+    }
+    if (leftMeasure.maxD>rightMeasure.maxD) {
+        maxD = leftMeasure.maxD
+    } else {
+        maxD = rightMeasure.maxD
+    }
+    maxD2 = maxD2 + leftMeasure.maxL+rightMeasure.maxL;
+    if (maxD2 > maxD) {
+        maxD = maxD2
+    }
+    maxL = maxL + leftMeasure.maxL
+    maxL2 = maxL2 + rightMeasure.maxL
+    if (maxL2 > maxL) {
+        maxL = maxL2
+    }
+    return {maxL:maxL,maxD:maxD}
+}
+
+var diameterOfBinaryTree = function(root) {
+    let leftMeasure = {maxL:-1,maxD:0},
+        rightMeasure = {maxL:-1,maxD:0},
+        result = 0,
+        max = 0,
+        max2 = 2;
+    if (!root) {
+        return 0
+    }
+    if (root.left) {
+        leftMeasure = traverseChild(root.left);
+    }
+    if (root.right) {
+        rightMeasure = traverseChild(root.right);
+    }
+    
+    if (leftMeasure.maxD>rightMeasure.maxD) {
+        max = leftMeasure.maxD
+    } else {
+        max = rightMeasure.maxD
+    }
+    max2 = max2 + leftMeasure.maxL+rightMeasure.maxL
+    if (max2>max) {
+        max = max2
+    }
+    return max;
+
+};
+
+var myRoot = new TreeNode(1)
+myRoot.left = new TreeNode(2)
+myRoot.right = new TreeNode(3)
+myRoot.left.left = new TreeNode(4)
+myRoot.left.right = new TreeNode(5)
+
+var myRoot2 = new TreeNode(6)
+/*          6
+/*         / \
+          1   7
+         / \
+        2   3
+       / \     
+      4   5    
+      answer = 4
+*/ 
+
+
+myRoot2.left = myRoot
+myRoot2.right = new TreeNode(7);
+
+/*          6
+/*         / \
+          1   ---------7
+         / \            \
+        2   3            1
+       / \              / \
+      4   5            2   3
+                      / \     
+                     4   5
+    answer = 7
+
+*/
+myRoot2.right.right = myRoot;
+
+var myRoot3 = new TreeNode(0)
+myRoot3.left = myRoot2;
+// answer is still 7;
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
+
+

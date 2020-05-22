@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>LeetCode 30-Day Challenge: Day 20</title>
+<!--
+
+Kth Smallest Element in a BST
+
+Given a binary search tree, write a function kthSmallest 
+to find the kth smallest element in it.
+
+Note:
+You may assume k is always valid, 1 ≤ k ≤ BST's total 
+elements.
+
+Example 1:
+
+Input: root = [3,1,4,null,2], k = 1
+   3
+  / \
+ 1   4
+  \
+   2
+
+Output: 1
+
+Example 2:
+
+Input: root = [5,3,6,2,4,null,null,1], k = 3
+       5
+      / \
+     3   6
+    / \
+   2   4
+  /
+ 1
+
+Output: 3
+
+Follow up:
+What if the BST is modified (insert/delete operations) 
+often and you need to find the kth smallest frequently? 
+How would you optimize the kthSmallest routine?
+
+   Show Hint #1  
+   Show Hint #2  
+   Show Hint #3  
+   Show Hint #4  
+-->
+<script>
+/**
+ * Definition for a binary tree node.
+ * function TreeNode(val, left, right) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.left = (left===undefined ? null : left)
+ *     this.right = (right===undefined ? null : right)
+ * }
+ */
+function TreeNode(val, left, right) {
+
+    this.val = (val===undefined ? 0 : val);
+    this.left = (left===undefined ? null : left);
+    this.right = (right===undefined ? null : right);
+
+    return this;
+}
+
+
+class Btree {
+
+    root = null;
+    arr  = [];
+
+    constructor(val,arr) {
+        this.arr = arr?arr:[val];
+        this.build();
+    };
+    build() {
+        let a = this.arr,
+            len = a.length,
+            val = a[0];
+
+        this.root = new TreeNode(val);
+
+        for (let i=1;i<len;i++) {
+            val = a[i];
+            this.insert(val);
+        }
+    };
+    insert(val) {
+        let r = this.root,
+            tmp = r.val,
+            found = false;
+
+        while (!found) {
+            if (val < tmp) {
+                if (r.left == null) {
+                    r.left = new TreeNode(val);
+                    found = true;
+                } else {
+                    r = r.left;
+                    tmp = r.val;
+                }
+            } else {
+                if (r.right == null) {
+                    r.right = new TreeNode(val);
+                    found = true;
+                } else {
+                    r = r.right;
+                    tmp = r.val;
+                }
+            }
+        }
+    };
+
+}
+
+var root = {}
+// Note: null pushed into 0 pos: arr[0] == null;
+var testIt = function (arr,k) {
+
+    let bt = new Btree(null,arr);
+    root = bt.root;
+    return kthSmallest(root,k);
+}
+
+// this just finds the smallest
+var kthSmallestOld = function(root, k) {
+
+    let node = root,
+        least = node.val,
+        found = false,
+        nodeStack = [root];
+
+    while (!found) {
+        if (node.left) {
+            node = node.left;
+            least = node.val;
+            nodeStack.push(node);
+        } else {
+            break;
+        }
+    }
+    return least;
+};
+
+var find = function (node, k, found) {
+
+    if (found.length >= k) {
+        return found;
+    }
+    if (node.left) {
+        found = find (node.left,k,found);
+    } else {
+        found.push(node.val)
+    }
+    if (found.length >= k) {
+        return found;
+    }
+    if (node.left) {
+        found.push(node.val)
+    }
+    if (found.length >= k) {
+        return found;
+    }
+    if (node.right) {
+        found = find (node.right, k, found)
+    }
+
+    return found;
+}
+
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {number}
+ */
+var kthSmallest = function (root, k) {
+
+    return find (root, k, [])[k-1];
+}
+</script>
+</head>
+<body>
+<pre>
+
+Kth Smallest Element in a BST
+
+Given a binary search tree, write a function kthSmallest 
+to find the kth smallest element in it.
+
+Note:
+You may assume k is always valid, 1 ≤ k ≤ BST's total 
+elements.
+
+Example 1:
+
+Input: root = [3,1,4,null,2], k = 1
+   3
+  / \
+ 1   4
+  \
+   2
+
+Output: 1
+
+Example 2:
+
+Input: root = [5,3,6,2,4,null,null,1], k = 3
+       5
+      / \
+     3   6
+    / \
+   2   4
+  /
+ 1
+
+Output: 3
+
+Follow up:
+What if the BST is modified (insert/delete operations) 
+often and you need to find the kth smallest frequently? 
+How would you optimize the kthSmallest routine?
+
+   Show Hint #1  
+   Show Hint #2  
+   Show Hint #3  
+   Show Hint #4  
+
+Idea: first find the smallest member and then trace back up to find
+next, next, etc.
+
+function TreeNode(val, left, right) {
+
+    this.val = (val===undefined ? 0 : val);
+    this.left = (left===undefined ? null : left);
+    this.right = (right===undefined ? null : right);
+
+    return this;
+}
+
+class Btree {
+
+    root = null;
+    arr  = [];
+
+    constructor(val,arr) {
+        this.arr = arr?arr:[val];
+        this.build();
+    };
+    build() {
+        let a = this.arr,
+            len = a.length,
+            val = a[0];
+
+        this.root = new TreeNode(val);
+
+        for (let i=1;i&lt;len;i++) {
+            val = a[i];
+            this.insert(val);
+        }
+    };
+    insert(val) {
+        let r = this.root,
+            tmp = r.val,
+            found = false;
+
+        while (!found) {
+            if (val &lt; tmp) {
+                if (r.left == null) {
+                    r.left = new TreeNode(val);
+                    found = true;
+                } else {
+                    r = r.left;
+                    tmp = r.val;
+                }
+            } else {
+                if (r.right == null) {
+                    r.right = new TreeNode(val);
+                    found = true;
+                } else {
+                    r = r.right;
+                    tmp = r.val;
+                }
+            }
+        }
+    };
+
+}
+
+var root = {}
+// Note: null pushed into 0 pos: arr[0] == null;
+var testIt = function (arr,k) {
+
+    let bt = new Btree(null,arr);
+    root = bt.root;
+    return kthSmallest(root,k);
+}
+
+// this just finds the smallest
+var kthSmallestOld = function(root, k) {
+
+    let node = root,
+        least = node.val,
+        found = false,
+        nodeStack = [root];
+
+    while (!found) {
+        if (node.left) {
+            node = node.left;
+            least = node.val;
+            nodeStack.push(node);
+        } else {
+            break;
+        }
+    }
+    return least;
+};
+
+var find = function (node, k, found) {
+
+    if (found.length &gt;= k) {
+        return found;
+    }
+    if (node.left) {
+        found = find (node.left,k,found);
+    } else {
+        found.push(node.val)
+    }
+    if (found.length &gt;= k) {
+        return found;
+    }
+    if (node.left) {
+        found.push(node.val)
+    }
+    if (found.length &gt;= k) {
+        return found;
+    }
+    if (node.right) {
+        found = find (node.right, k, found)
+    }
+
+    return found;
+}
+
+/**
+ * @param {TreeNode} root
+ * @param {number} k
+ * @return {number}
+ */
+
+var kthSmallest = function (root, k) {
+
+    return find (root, k, [])[k-1];
+}
+</pre>
+</body>
+</html>
+
+
