@@ -39,6 +39,17 @@ svg {
     letter-spacing: -1px;
     color: black;
     background-color: white;
+    padding-right: 10px;
+}
+#controls,
+#board {
+    display: inline-block;
+    vertical-align: top;
+}
+#controls fieldset {
+    display: inline-block;
+    width: auto;
+    max-width: 300px;
 }
 
 #controls ul {
@@ -46,10 +57,13 @@ svg {
     list-style: none;
     padding-top: 2px;
     padding-bottom: 2px;
+    padding-inline-start: 5px;
+    margin-block-start: 5px;
+    margin-block-end: 5px;
 }
 #controls ul li {
     display: inline-block;
-    width: 300px;
+    /*width: 250px; */
 }
 #controls li label {
     display: inline-block;
@@ -110,7 +124,8 @@ svg {
 }
 
 #controls ul {
-    width: 300px;
+   /* width: 360px; */
+    width: auto;
     display: inline-block;
     vertical-align: top;
 }
@@ -126,6 +141,65 @@ svg {
 #controls #parity-cell-groups thead {
     text-align: center;
 }
+#controls #parity-cell-container {
+   /* width: auto; */
+    width: 352px;
+}
+
+#controls #parity-cell-groups {
+    width: 326px;
+    max-width: 326px;
+}
+#controls #timing-options {
+    max-width: 180px;
+}
+#controls #game-of-life-options {
+    max-width: 284px;
+}
+#controls #color-options {
+    max-width: 260px;
+}
+#controls #board-dimensions {
+    max-width: 265px;
+}
+#controls #board-dimensions label {
+    width: 50px;
+}
+#controls #board-dimensions input[type=number] {
+    width: 50px;
+}
+#controls #board-dimensions input[type=text] {
+    width: 50px;
+    font-family: Rubik;
+    font-size: 15px;
+}
+
+
+@media (max-aspect-ratio: 8/5) {
+    #controls {
+        width: 375px;
+    }
+    #controls ul {
+        width: 360px;
+    }
+    #controls #board-dimensions {
+        max-width: 326px;
+    }
+    #controls #parity-cell-groups {
+        width: 326px;
+        max-width: 326px;
+    }
+    #controls #timing-options {
+        max-width: 326px;
+    }
+    #controls #game-of-life-options {
+        max-width: 326px;
+    }
+    #controls #color-options {
+        max-width: 326px;
+    }
+}
+
 </style>
 
 <script src="/js/jquery-1.7.1.js"></script>
@@ -196,8 +270,8 @@ class GOLConfig {
     svgId      = null;    // this.boardId + "-" + this.gameId;
     refRectId  = null;    // "ref-rect-" + this.gameId;
     gId        = null;    // this.boardID + "-r-" + this.gameId;
-    xOffset    =  20;
-    yOffset    =  30;
+    xOffset    =  20;     // x position of surrounding grey box
+    yOffset    =   5;     // y position of surrounding grey box
     width      = 150;     // number of cells wide
     height     =  75;     // number of cells high
     cellDim    =  15;     // this is the fixed grid size
@@ -282,10 +356,10 @@ var showHint = function(hintId) {
     case 15:
         hint = "A few cells..."
         pct  = "1"
-        $("#timeout").val(200);
-        $("#fadeIn").val(200);
-        $("#fadeOut").val(200);
-        $("#fadeEnd").val(200);
+        $("#timeout").val(2500);
+        $("#fadeIn").val(1000);
+        $("#fadeOut").val(1000);
+        $("#fadeEnd").val(1000);
         break;
     case 0:
     default:
@@ -396,6 +470,16 @@ class ParityCellGroup {
         this.value = group.values[index];
         this.innerText = this.value;
     }
+    isValid() {
+        let valid = false;
+        for (let i=0;i<this.size;i++) {
+            if (this.values[i]) {
+                valid = true;
+                break;
+            }
+        }
+        return valid;
+    }
 }
 
 
@@ -407,12 +491,12 @@ window.addEventListener('DOMContentLoaded', () => {
     parityCellGroups[0] = new ParityCellGroup("rulea",9);
     parityCellGroups[1] = new ParityCellGroup("ruleb",9);
     parityCellGroups[2] = new ParityCellGroup("rulec",9);
+    parityCellGroups[3] = new ParityCellGroup("ruled",9);
     let len = parityCellGroups.length
     for (let i=0;i<len;i++) {
         parityCellGroups[i].setFormValues(true);
     }
-
-
+    Log.Remove();
 });
 </script>
 
@@ -426,7 +510,7 @@ window.addEventListener('DOMContentLoaded', () => {
     <form id="controlsForm" onSubmit="return false;" spellcheck="false">
     <input type="hidden" name="gameId" id="gameId" value="0" />
     <ul>
-    <fieldset>
+    <fieldset id="game-of-life-options">
     <legend>Game of Life Options</legend>
     <li>
      <label for="animationFunctionId">Anim Fn:</label>
@@ -467,7 +551,7 @@ window.addEventListener('DOMContentLoaded', () => {
     </fieldset>
     </ul>
     <ul>
-    <fieldset>
+    <fieldset id="timing-options">
     <legend>Timing Options</legend>
     <li>
     <label for="timeout">Step Time:</label>
@@ -488,7 +572,7 @@ window.addEventListener('DOMContentLoaded', () => {
     </fieldset>
     </ul>
     <ul>
-    <fieldset>
+    <fieldset id="color-options">
     <legend>Color Options</legend>
     <li>
     <label for="fadeInColor">Fade In:</label>
@@ -496,7 +580,7 @@ window.addEventListener('DOMContentLoaded', () => {
     </li>
     <li>
     <label for="fadeOutColor">Fade Out:</label>
-    <input type="text" name="fadeOutColor" id="fadeOutColor" value="hsla(0,85%,70%,0.75)" />
+    <input type="text" name="fadeOutColor" id="fadeOutColor" value="hsla(180,85%,70%,0.75)" />
     </li>
     <li>
     <label for="fadeEndColor">Fade End:</label>
@@ -515,34 +599,35 @@ window.addEventListener('DOMContentLoaded', () => {
     </fieldset>
     </ul>
     <ul>
-    <fieldset>
+    <fieldset id="board-dimensions">
     <legend>Board Dimensions/Cell Shape</legend>
-    <li>
+    <input type="hidden" name="persist" id="persist" value="true"/>
+    <!--<li>
     <label for="persist">Persist:</label>
-    <input type="checkbox" name="persist" id="persist" value="true"/>
-    </li>
+    </li>-->
     <li>
-    <label for="cellsWide">Cells: </label>Wide:
-    <input type="number" name="cellsWide" id="cellsWide" value="100" min="10" step="5" max="1500" />
-    &nbsp;&nbsp;Width:
-    <input type="number" name="cellWidth" id="cellWidth" value="14.0" min="1" step="0.1" max="150" />
-    </li>
-    <li>
-    <label for="cellsHigh">Cells: </label>High:
+    <label for="cellsWide">Board: </label>&nbsp;Wide:
+    &nbsp;&nbsp;<input type="number" name="cellsWide" id="cellsWide" value="100" min="10" step="5" max="1500" />
+    High:&nbsp;&nbsp;&nbsp;&nbsp;
     <input type="number" name="cellsHigh" id="cellsHigh" value="100" min="10" step="5" max="1500" />
+
+    </li>
+    <li>
+    <label for="cellsWidth">Cell: </label>
+    Width: <input type="number" name="cellWidth" id="cellWidth" value="14.0" min="1" step="0.1" max="150" />
     Height: 
     <input type="number" name="cellHeight" id="cellHeight" value="14.0" min="1" step="0.1" max="150" />
     </li>
     <li>
     <label>Radius:</label>
-        <span class="radius">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;X:
+        <span class="radius">X:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
          <input type="text" name="cellRx" id="cellRx" value="3.0" min="0" step="1" max="100"/></span>
-         <span class="radius">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Y: 
+         <span class="radius">Y: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
          <input type="text" name="cellRy" id="cellRy" value="3.0" min="0" step="1" max="100"/></span>
     </li>
     </fieldset>
     </ul>
-   <ul>
+   <ul id="parity-cell-container">
     <fieldset id="parity-cell-groups">
     <legend>Parity Cells Tri-State</legend>
     <li class="parity-cells-group">
@@ -592,6 +677,28 @@ window.addEventListener('DOMContentLoaded', () => {
     <li class="parity-cells-group">
         <table id="parity-group-rulec" class="parity-cells">
             <thead><tr><th colspan="3">Rule C</th></tr></thead>
+            <tbody>
+            <tr>
+                <td><button id="nw" name="nw" value=""> </button></td>
+                <td><button id="n" name="n" value=""> </button></td>
+                <td><button id="ne" name="ne" value=""> </button></td>
+            </tr>
+            <tr>
+                <td><button id="w" name="w" value=""> </button></td>
+                <td><button id="c" name="c" value=""> </button></td>
+                <td><button id="e" name="e" value=""> </button></td>
+            </tr>
+            <tr>
+                <td><button id="sw" name="sw" value=""> </button></td>
+                <td><button id="s" name="s" value=""> </button></td>
+                <td><button id="se" name="se" value=""> </button></td>
+            </tr>
+            </tbody>
+        </table>
+    </li>
+    <li class="parity-cells-group">
+        <table id="parity-group-ruled" class="parity-cells">
+            <thead><tr><th colspan="3">Rule D</th></tr></thead>
             <tbody>
             <tr>
                 <td><button id="nw" name="nw" value=""> </button></td>
@@ -892,279 +999,6 @@ class gameOfLife {
         return;
     };
 
-    pollNeighbors() {
-        let total,
-            dir,
-            cell;
-        for (let i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            total = 0;
-            for (let d in this.directions) {
-                dir = this.directions[d];
-                if (cell[dir] == null) continue;
-                total += this.cellState[cell[dir]];
-            }
-            this.neighborhood[i] = total;
-        }
-    }
-    pollNeighborParity() {
-        let cell,
-            total,
-            parity;
-        for (var i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            total = this.cellState[i];
-            if (cell['s'] != null)
-                total += this.cellState[cell['s']];
-            if (cell['w'] != null)
-                total += this.cellState[cell['w']];
-            if (cell['n'] != null)
-                total += this.cellState[cell['n']];
-            if (cell['e'] != null)
-                total += this.cellState[cell['e']];
-
-            parity = total%2;
-            this.neighborhood[i] = parity;
-        }
-    }
-    pollNeighborParity2() {
-        let cell,
-            total,
-            parity;
-        for (var i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            total = this.cellState[i];
-            if (cell['sw'] != null)
-                total += this.cellState[cell['sw']];
-            if (cell['nw'] != null)
-                total += this.cellState[cell['nw']];
-            if (cell['ne'] != null)
-                total += this.cellState[cell['ne']];
-            if (cell['se'] != null)
-                total += this.cellState[cell['se']];
-
-            parity = total%2;
-            this.neighborhood[i] = parity;
-        }
-    }
-    pollNeighborParity3() {
-        let cell,
-            total,
-            parity;
-        for (var i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            total = this.cellState[i];
-            if (cell['sw'] != null)
-                total += this.cellState[cell['sw']];
-            if (cell['nw'] != null)
-                total += this.cellState[cell['nw']];
-            if (cell['ne'] != null)
-                total += this.cellState[cell['ne']];
-            if (cell['se'] != null)
-                total += this.cellState[cell['se']];
-            if (cell['s'] != null)
-                total += this.cellState[cell['s']];
-            if (cell['w'] != null)
-                total += this.cellState[cell['w']];
-            if (cell['n'] != null)
-                total += this.cellState[cell['n']];
-            if (cell['e'] != null)
-                total += this.cellState[cell['e']];
-
-            parity = total%2;
-            this.neighborhood[i] = parity;
-        }
-    }
-    pollNeighborParity4() {
-        let cell,
-            total,
-            parity;
-        for (let i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            total = this.cellState[i];
-            if (cell['sw'] != null)
-                total += this.cellState[cell['sw']];
-            if (cell['nw'] != null)
-                total += this.cellState[cell['nw']];
-            if (cell['e'] != null)
-                total += this.cellState[cell['e']];
-
-            parity = total%2;
-            this.neighborhood[i] = parity;
-        }
-    }
-    pollNeighborParity5() {
-        let cell,
-            total,
-            parity;
-        for (let i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            total = this.cellState[i];
-            if (cell['sw'] != null)
-                total += this.cellState[cell['sw']];
-            if (cell['nw'] != null)
-                total += this.cellState[cell['nw']];
-            if (cell['se'] != null)
-                total += this.cellState[cell['se']];
-            if (cell['s'] != null)
-                total += this.cellState[cell['s']];
-
-            parity = total%2;
-            this.neighborhood[i] = parity;
-        }
-    }
-    pollNeighborParity6() {
-        let cell,
-            total,
-            parity;
-        for (let i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            total = this.cellState[i];
-            if (cell['nw'] != null)
-                total += this.cellState[cell['nw']];
-            if (cell['ne'] != null)
-                total += this.cellState[cell['ne']];
-            if (cell['s'] != null)
-                total += this.cellState[cell['s']];
-            if (cell['n'] != null)
-                total += this.cellState[cell['n']];
-            parity = total%2;
-            this.neighborhood[i] = parity;
-        }
-    }
-    pollNeighborParity7() {
-        let cell,
-            total,
-            parity;
-        for (let i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            total = this.cellState[i];
-            if (cell['sw'] != null)
-                total += this.cellState[cell['sw']];
-            if (cell['nw'] != null)
-                total += this.cellState[cell['nw']];
-            if (cell['se'] != null)
-                total += this.cellState[cell['se']];
-            if (cell['s'] != null)
-                total += this.cellState[cell['s']];
-            if (cell['w'] != null)
-                total += this.cellState[cell['w']];
-
-            parity = total%2;
-            this.neighborhood[i] = parity;
-        }
-    }
-    pollNeighborParity8() {
-        var cell,total,parity;
-        for (let i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            total = this.cellState[i];
-            if (cell['n'] != null)
-                total += this.cellState[cell['n']];
-            if (cell['e'] != null)
-                total += this.cellState[cell['e']];
-            if (cell['s'] != null)
-                total += this.cellState[cell['s']];
-            if (cell['w'] != null)
-                total += this.cellState[cell['w']];
-
-            parity = total%2;
-            this.neighborhood[i] = parity;
-        }
-    }
-    pollNeighborParity9() {
-        let cell,
-            total,
-            parity;
-        for (let i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            total = this.cellState[i];
-            if (cell['n'] != null)
-                total += this.cellState[cell['n']];
-            if (cell['e'] != null)
-                total -= this.cellState[cell['e']]; // note -= 
-            if (cell['s'] != null)
-                total += this.cellState[cell['s']];
-            if (cell['w'] != null)
-                total += this.cellState[cell['w']];
-
-            parity = total%2;
-            this.neighborhood[i] = parity;
-        }
-    }
-    pollNeighborParity10() {
-        let cell,
-            total,
-            parity;
-        for (let i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            total = this.cellState[i];
-            total = 0; // this deletes the middle cell
-            if (cell['sw'] != null)
-                total += this.cellState[cell['sw']];
-            if (cell['nw'] != null)
-                total += this.cellState[cell['nw']];
-            if (cell['ne'] != null)
-                total += this.cellState[cell['ne']];
-            if (cell['se'] != null)
-                total += this.cellState[cell['se']];
-            if (cell['s'] != null)
-                total += this.cellState[cell['s']];
-            if (cell['w'] != null)
-                total += this.cellState[cell['w']];
-            if (cell['n'] != null)
-                total -= this.cellState[cell['n']];// deletes south
-            if (cell['e'] != null)
-                total += this.cellState[cell['e']]; // deletes west
-
-            parity = total%2;
-            this.neighborhood[i] = parity;
-        }
-    }
-    pollNeighborNorthSouth1() {
-        let cell,
-            parity,
-            totalNorthSouth,
-            totalEastWest;
-        for (let i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            totalNorthSouth = this.cellState[i];
-            if (cell['s'] != null)
-                totalNorthSouth += this.cellState[cell['s']];
-            if (cell['n'] != null)
-                totalNorthSouth += this.cellState[cell['n']];
-            totalEastWest = this.cellState[i];
-            if (cell['e'] != null)
-                totalEastWest += this.cellState[cell['e']];
-            if (cell['w'] != null)
-                totalEastWest += this.cellState[cell['w']];
-
-            parity = (totalNorthSouth-totalEastWest)%2;
-            this.neighborhood[i] = parity;
-        }
-    }
-    pollNeighborNorthSouth2() {
-        let cell,
-            parity
-            totalNorthSouth,
-            totalEastWest;
-        for (var i=0;i<this.cellCount;i++) {
-            cell = this.cellNeighbors[i];
-            totalNorthSouth = this.cellState[i];
-            if (cell['s'] != null)
-                totalNorthSouth += this.cellState[cell['s']];
-            if (cell['n'] != null)
-                totalNorthSouth += this.cellState[cell['n']];
-            totalEastWest = this.cellState[i];
-            if (cell['e'] != null)
-                totalEastWest += this.cellState[cell['e']];
-            if (cell['w'] != null)
-                totalEastWest += this.cellState[cell['w']];
-
-            parity = (totalEastWest-totalNorthSouth)%2;
-            this.neighborhood[i] = parity;
-        }
-    }
     pollNeighborGeneric(pollDirections) {
 
         let total,
@@ -1191,7 +1025,7 @@ class gameOfLife {
                     break;
                 }
             }
-            //parity = total%2;
+
             this.neighborhood[i] = total;
         }
     }
@@ -1436,7 +1270,6 @@ animationFunctions[0] = function (data) {
     let gameId = data.gameId,
         myGame = Games[gameId];
 
-    //myGame.pollNeighbors();
     myGame.pollNeighborGeneric(neighborDataRules["gol"][0])
 
     for (var i=0;i<myGame.cellCount;i++) {
@@ -1468,8 +1301,6 @@ animationFunctions[1] = function (data) { // majority rule
 
     let gameId = data.gameId,
         myGame = Games[gameId];
-
-    //myGame.pollNeighborsGeneric();
 
     myGame.pollNeighborGeneric(neighborDataRules["gol"][0])
 
@@ -1504,8 +1335,6 @@ animationFunctions[2] = function (data) { // one-out-of-eight
     let gameId = data.gameId,
         myGame = Games[gameId];
 
-    //myGame.pollNeighbors();
-
     myGame.pollNeighborGeneric(neighborDataRules["gol"][0])
 
     for (var i=0;i<myGame.cellCount;i++) {
@@ -1529,7 +1358,6 @@ animationFunctions[3] = function (data) { // parity rule
         myGame = Games[gameId],
         parity;
 
-    //myGame.pollNeighborParity();
     myGame.pollNeighborGeneric(neighborDataRules["parity1"][0])
 
     for (var i=0;i<myGame.cellCount;i++) {
@@ -1550,8 +1378,6 @@ animationFunctions[4] = function (data) { // parity rule 2
     let gameId = data.gameId,
         myGame = Games[gameId],
         parity;
-
-    //myGame.pollNeighborParity2();
 
     myGame.pollNeighborGeneric(neighborDataRules["parity2"][0])
 
@@ -1574,8 +1400,6 @@ animationFunctions[7] = function (data) { // parity rule 3
         myGame = Games[gameId],
         parity;
 
-    //myGame.pollNeighborParity3();
-
     myGame.pollNeighborGeneric(neighborDataRules["all"][0])
 
     for (var i=0;i<myGame.cellCount;i++) {
@@ -1596,8 +1420,6 @@ animationFunctions[8] = function (data) { // parity rule 4
     let gameId = data.gameId,
         myGame = Games[gameId],
         parity;
-
-    //myGame.pollNeighborParity4();
 
     myGame.pollNeighborGeneric(neighborDataRules["parity4"][0])
 
@@ -1620,7 +1442,6 @@ animationFunctions[9] = function (data) { // parity rule 5
         myGame = Games[gameId],
         parity;
 
-    //myGame.pollNeighborParity5();
     myGame.pollNeighborGeneric(neighborDataRules["parity5"][0])
 
     for (var i=0;i<myGame.cellCount;i++) {
@@ -1642,7 +1463,6 @@ animationFunctions[10] = function (data) { // parity rule 6
         myGame = Games[gameId],
         parity;
 
-    //myGame.pollNeighborParity6();
     myGame.pollNeighborGeneric(neighborDataRules["parity6"][0])
 
     for (var i=0;i<myGame.cellCount;i++) {
@@ -1664,7 +1484,6 @@ animationFunctions[11] = function (data) { // parity rule 7
         myGame = Games[gameId],
         parity;
 
-    //myGame.pollNeighborParity7();
     myGame.pollNeighborGeneric(neighborDataRules["parity7"][0])
 
     for (var i=0;i<myGame.cellCount;i++) {
@@ -1686,7 +1505,6 @@ animationFunctions[12] = function (data) { //majority rule 2
         myGame = Games[gameId],
         parity;
 
-    //myGame.pollNeighborParity8();
     myGame.pollNeighborGeneric(neighborDataRules["all"][0])
 
     for (var i=0;i<myGame.cellCount;i++) {
@@ -1720,7 +1538,6 @@ animationFunctions[13] = function (data) { // parity rule 9
         myGame = Games[gameId],
         parity;
 
-    //myGame.pollNeighborParity9();
     myGame.pollNeighborGeneric(neighborDataRules["parity9"][0])
 
     for (var i=0;i<myGame.cellCount;i++) {
@@ -1742,7 +1559,6 @@ animationFunctions[14] = function (data) { // parity rule 10
         myGame = Games[gameId],
         parity;
 
-    //myGame.pollNeighborParity10();
     myGame.pollNeighborGeneric(neighborDataRules["parity10"][0])
 
     for (var i=0;i<myGame.cellCount;i++) {
@@ -1755,49 +1571,6 @@ animationFunctions[14] = function (data) { // parity rule 10
             cellDie(data,i);
         }
     }
-    return myGame.continueAnimation;
-}
-
-animationFunctions[5] = function (data) { // north south 1
-
-    let gameId = data.gameId,
-        myGame = Games[gameId],
-        parity;
-
-    myGame.pollNeighborNorthSouth1();
-
-    for (var i=0;i<myGame.cellCount;i++) {
-        parity = myGame.neighborhood[i];
-        if (parity == myGame.cellState[i]) {
-            continue; // no change in state;
-        } else if (parity == 1) {
-            cellAlive(data,i);
-        } else {
-            cellDie(data,i);
-        }
-    }
-
-    return myGame.continueAnimation;
-}
-animationFunctions[6] = function (data) { // north south 2
-
-    let gameId = data.gameId,
-        myGame = Games[gameId],
-        parity;
-
-    myGame.pollNeighborNorthSouth2();
-
-    for (var i=0;i<myGame.cellCount;i++) {
-        parity = myGame.neighborhood[i];
-        if (parity == myGame.cellState[i]) {
-            continue; // no change in state;
-        } else if (parity == 1) {
-            cellAlive(data,i);
-        } else {
-            cellDie(data,i);
-        }
-    }
-
     return myGame.continueAnimation;
 }
 
@@ -1815,7 +1588,7 @@ animationFunctions[15] = function (data) { // generic parity rule
         myGame.pollNeighborGeneric(ruleABC[j]);
 
         for (var i=0;i<myGame.cellCount;i++) {
-            parity = myGame.neighborhood[i];
+            parity = myGame.neighborhood[i]%2;
             if (parity == myGame.cellState[i]) {
                 continue; // no change in state;
             } else if (parity == 1) {
@@ -1836,9 +1609,9 @@ var startAnimationPre = function(formGameId,roundRobin) {
         animationFunctionId =options.animationFunctionId,
         timeout = options.timeout;
         options.roundRobin = roundRobin?true:false;
-        if (options.roundRobin) {
-            Games[gameId].animationStep = 0;
-        } 
+    if (options.roundRobin) {
+        Games[gameId].animationStep = 0;
+    } 
 
     startAnimation(animationFunctionId,timeout,options);
 }
@@ -1880,7 +1653,9 @@ var processGameOfLifeForm = function () {
         }
     if (id == 15) {
         for (let i=0;i<len;i++) {
-            ruleABC[i] = parityCellGroups[i].getValueObjects();
+            if (parityCellGroups[i].isValid()) {
+                ruleABC[i] = parityCellGroups[i].getValueObjects();
+            }
         }
     }
     return {
@@ -1938,6 +1713,21 @@ function gameInit() {
     Games[gameId] = new gameOfLife(gameId,false);
 
     createGameBoard(gameId);
+}
+
+var BASE64_MARKER = ';base64,';
+
+function convertDataURIToBinary(dataURI) {
+  var base64Index = dataURI.indexOf(BASE64_MARKER) + BASE64_MARKER.length;
+  var base64 = dataURI.substring(base64Index);
+  var raw = window.atob(base64);
+  var rawLength = raw.length;
+  var array = new Uint8Array(new ArrayBuffer(rawLength));
+
+  for(i = 0; i < rawLength; i++) {
+    array[i] = raw.charCodeAt(i);
+  }
+  return array;
 }
 
 </script>
