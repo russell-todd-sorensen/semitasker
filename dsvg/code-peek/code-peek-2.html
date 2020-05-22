@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<base href="https://home.semitasker.com" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="rgb(102, 153, 255)" />
+
+<title>Code Peek 2</title>
+
+<link rel="stylesheet" href="/css/fonts.css" media="all" >
+
+<style>
+
+#test {
+    background-color: black;
+    color: white;
+    font-size: 3em;
+    font-family: "Stalinist One";
+}
+
+#text-input {
+    display: block;
+    width: 20em;
+    font-family: "Stalinist One";
+    font-size: 4em;
+    height: .95em;
+}
+form {
+    padding-top: 5px;
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js" defer></script>
+<script src="/dsvg/js/fonts.js" defer></script>
+<script src="/js/d3.v3.js" defer></script>
+</head>
+<body>
+<div id="test">This is a test.</div>
+<script>
+var onSelectCodePeek = function (evt) {
+    let what = event;
+    let th = this;
+    console.log("onSelectCodePeek start");
+}
+
+var initCodePeek = function(what) {
+    let elem = document.getElementById(what);
+    elem.addEventListener('onclick',onSelectCodePeek)
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    initCodePeek("test");
+});
+</script>
+
+
+</body>
+</html>

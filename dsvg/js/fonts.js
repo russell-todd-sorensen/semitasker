@@ -100,7 +100,7 @@ let fontString = `'Roboto', sans-serif
 'Galindo', cursive`;
 
 // add default font:
-fontString = "'Arial', sans-serif\n" + fontString;
+fontString = "'monospace', Rubik\n" + fontString;
 
 var fontDict = fontString.split("\n").sort();
 
