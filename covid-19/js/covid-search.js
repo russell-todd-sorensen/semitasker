@@ -1,4 +1,4 @@
-// chemical-pi-search.js
+// covid-search.js
 
 var fieldToSearch = 'search';
 
@@ -8,7 +8,6 @@ var outputType = 'list';
 var searchLists = new Array();
 var tmpSearchList;
 var index = 0;
-var chemicalPiData;
 
 var ChemicalPi = {
     configureSearchField: function (selectId) {
@@ -39,7 +38,8 @@ var ChemicalPi = {
         searchLength = searchString.length;
     },
     write: function (tmpList,outputSelector,type) {
-            var chemicalPi;
+            let searchList;
+
             tmpSearchList = tmpList;
             $(outputSelector).html('');
 
@@ -59,15 +59,15 @@ var ChemicalPi = {
             }
 
             for (var i = 0;i<tmpSearchList.length;i++) {
-                chemicalPi = tmpSearchList[i];
+                searchList = tmpSearchList[i];
 
                 switch (type) {
                   case 'list':
                   default:
                     $(outputSelector)
                       .append('<li class="cust icon-people" onfocus="ChemicalPi.show('
-                        + chemicalPi.id + ')" tabIndex="' + (i+10)
-                        + '">' + chemicalPi.element + '</li>\n');
+                        + searchList.id + ')" tabIndex="' + (i+10)
+                        + '">' + searchList.element + '</li>\n');
                     break;
                 } // end switch
             } // end for
@@ -119,48 +119,41 @@ var ChemicalPi = {
         }
     },
     find: function (list, id) { // returns index of participant in list, with given id
-        var chemicalPi;
+        let searchList;
         id = parseInt(id);
         for (var i = 0; i<list.length;i++) {
-            chemicalPi = list[i];
-            if (chemicalPi.id == id) {
+            searchList = list[i];
+            if (searchList.id == id) {
                 return i;
             }
         }
         return -1;
     },
     findByName: function (list, name) {
-        var chemicalPi;
+        let searchList;
         for (var i = 0; i<list.length;i++) {
-            chemicalPi = list[i];
-            if (chemicalPi.name == name) {
+            searchList = list[i];
+            if (searchList.name == name) {
                 return i;
             }
         }
         return -1;
 
     },
-    show: function (id) {
-        var index = ChemicalPi.find(chemicalPiData,id);
-        var startPiIndex, endPiIndex, elementPiDigits, digitString = '';
-        var activeClass = "active";
+    show: function (id,theSearchList) {
+        let index = ChemicalPi.find(theSearchList,id),
+            startIndex,
+            endIndex,
+            digitString = '',
+            activeClass = "active";
+
         if (index == -1) {
             $('#profile').html('');
         } else {
-            var chemicalPi = chemicalPiData[index];
-            startPiIndex = parseInt(chemicalPi.atomicNumber) * 10;
-            endPiIndex = startPiIndex + 10;
-            for (var i = startPiIndex; i < endPiIndex; i++) {
-              digitString += ' '
-              digitString += piDigits[i];
-            }
             Log.Notice('show(' + id + ') index="' + index + '"' + ' index+1="' + (index+1) + '"');
-            var nextElement = chemicalPiData[index+1].symbol;
-            var chemicalPiImage = '';
-            var mouthful = '<nobr><b>' + chemicalPi.symbol + '</b> - ' + digitString + ' - <b>' + nextElement + '</b></nobr>';
-            var mouthfulTitle = chemicalPi.symbol + ' ' + digitString + ' ' + nextElement;
-            $('title').html(mouthfulTitle);
-            var html = '\n<div id="panel">';
+            let theData = theSearchList[index],
+                html = '\n<div id="panel">';
+
             html += '\n<fieldset id="element-info">';
             html += '\n<div id="photo" onerror="this.style.display=\'none\'" style="background-image: url(images/';
             html += chemicalPiImage;
@@ -231,8 +224,13 @@ var ChemicalPi = {
     setup: function setup () {
 
         searchLists['all'] = {
-            list: chemicalPiData,
+            list: covidStateData,
             name: 'all',
+            fields: {}
+        }
+        searchLists['county'] = {
+            list: covidCountyData,
+            name: 'county',
             fields: {}
         }
         searchLists['tmp'] = {
