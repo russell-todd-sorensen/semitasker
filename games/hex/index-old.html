@@ -30,17 +30,6 @@
     background-color: #a3f;
 }
 
-.token-player1 {
-    stroke-width: 0.5;
-    fill: #f3a;
-    stroke: #000;
-}
-.token-player2 {
-    stroke-width: 0.5;
-    fill: #a3f;
-    stroke: #000;
-}
-
 #background {
     position: absolute;
     top: -150px;
@@ -69,7 +58,8 @@
     margin-top: 10px;
 }
 
-#p1, #p2 {
+#p1, 
+#p2 {
     padding: 3px;
 }
 #hexgame {
@@ -92,39 +82,21 @@
     stroke-linecap:butt;
     stroke-linejoin:miter;
     stroke-opacity:1;
-    font-family:'Lucida Sans Unicode'
-}
-
-.backing-hexagonX {
-    fill: rgba(150,200,25,.85);
-    stroke: #231F20;
-    stroke-miterlimit: 10;
-}
-
-.large-hexagonX {
-    fill: rgba(150,200,25,.40);
-    stroke: #231F20;
-    stroke-miterlimit: 10;
-}
-
-.hexagonX {
-    fill: #999;
-    stroke: #231F20;
-    stroke-miterlimit: 10;
+    font-family:'Lucida Sans Unicode';
 }
 </style>
 
 <script src="/js/jquery-1.7.1.js"></script>
 <script src="/js/d3.v3.js"></script>
 <script src="/js/log.js"></script>
-<script src="js/hex-class.js"></script>
+<script src="js/hex.js"></script>
 
 <script>
 var startingCentroid = [325,350];
 var hexSide = 75;
 // Default hexagon attributes
 var hexAttrs = {
-    "fill": "#fff",
+    "fill": "#faa",
     "class": "hexagon",
     "stroke": "#231F20",
     "stroke-miterlimit": 10
@@ -136,12 +108,7 @@ var hexGame;
 $(document).ready(function() {
     Log.Notice("jQuery in ready!");
 
-    hexGame = new playHex(startingCentroid,
-        hexSide,
-        hexAttrs,
-        backingHexFill,
-        largeHexFill
-    );
+    playHex();
 
     Log.Notice("Done");
     Log.Hide();
@@ -154,23 +121,23 @@ $(document).ready(function() {
 
 <div id="svg">
 <svg version="1.1"
-    id="hexgame"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    x="0px"
-    y="0px"
-    width="1500px"
-    height="700px"
-    viewBox="0 0 1500 700"
-    enable-background="new 0 0 1000 700"
-    fill="transparent"
-    xml:space="preserve"
+     id="hexgame"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     x="0px"
+     y="0px"
+       width="1500px"
+     height="700px"
+     viewBox="0 0 1500 700"
+     enable-background="new 0 0 1000 700"
+     fill="transparent"
+     xml:space="preserve"
      >
-<text
-    x="-60"
-    y="600"
-    id="hex-background"
-    xml:space="preserve">HEX</text>
+     <text
+       x="-60"
+       y="600"
+       id="hex-background"
+       xml:space="preserve">HEX</text>
 </svg>
 </div>
 <div id="rules">
