@@ -1,8 +1,12 @@
 //var newXHR3;
 var xhrArray = new Array();
 
-var covidStateData;
-var covidCountyData;
+var covidStateData = [],
+    covidCountyData = [],
+    covidPopData = [],
+    stateTable,
+    countyTable,
+    popTable;
 
 function loadCsvFile(filename) {
     var urlBase = "./";
@@ -42,31 +46,60 @@ function getCovidCountyTableCSV(evt) {
     parseCovidCountyTableCSV(evt.currentTarget.responseText);
 }
 
+function get2019PopulationTableCSV(evt) {
+    if (evt.currentTarget.readyState < 4) {
+        return;
+    }
+
+    parse2019PopulationTableCSV(evt.currentTarget.responseText);
+}
+
 parseCovidStateTableCSV = function (csv) {
     covidStateData = d3.csvParse(csv, function(d,i) {
         return {
-            id: parseInt(d["fips"]),
-            state: d["state"],
+            id: i,
+            fips: parseInt(d["fips"]),
+            sname: d["state"],
+            cname: "all",
             date: d["date"],
             cases: parseInt(d["cases"]),
             deaths: parseInt(d["deaths"]),
         };
     });
     console.log("done loading CovidStatesTable csv file");
-    //setup();
+    stateTable = new DataTable("stateTable",covidStateData);
 };
+
 parseCovidCountyTableCSV = function (csv) {
     covidCountyData = d3.csvParse(csv, function(d,i) {
         return {
-            id: parseInt(d["fips"]),
-            state: d["state"],
-            county: d["county"],
+            id: i,
+            fips: parseInt(d["fips"]),
+            sname: d["state"],
+            cname: d["county"],
             date: d["date"],
             cases: parseInt(d["cases"]),
             deaths: parseInt(d["deaths"]),
         };
     });
     console.log("done loading CovidCountyTable csv file");
-    //setup();
+    countyTable = new DataTable("countyTable",covidCountyData);
+    countyTable.setup();
 };
-//date,state,fips,cases,deaths
+
+parse2019PopulationTableCSV = function (csv) {
+    covidPopData = d3.csvParse(csv, function(d,i) {
+        return {
+            id: i,
+            fips: parseInt(d["STATE"]),
+            sname: d["NAME"],
+            cname: "all",
+            pop: d["POPESTIMATE2019"],
+            change: d["NPOPCHG_2019"],
+            births: d["BIRTHS2019"],
+            deaths: d["DEATHS2019"],
+        };
+    });
+    console.log("done loading 2019PopulationTable csv file");
+    popTable = new DataTable("popTable",covidPopData);
+};

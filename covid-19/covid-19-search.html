@@ -62,7 +62,8 @@ body, html {
     margin: auto;
     padding: 0;
     display: block;
-    width: 40%;
+    width: 90%;
+    text-align: center;
 }
 
 #panel input,
@@ -391,6 +392,7 @@ $(document).ready(function() {
     Log.Notice("Starting to get data");
     loadXHRFile("./data/us-states.csv",getCovidStateTableCSV);
     loadXHRFile("./data/us-counties.csv",getCovidCountyTableCSV);
+    loadXHRFile("./data/nst-est2019-alldata.csv",get2019PopulationTableCSV);
     //Log.Remove();
     //appendPi('piSpan');
     //appendPiClass('piClass')
@@ -403,44 +405,35 @@ $(document).ready(function() {
 
 <form id="panel" onSubmit="javascript:return false;">
 <fieldset id='search-form'>
-<h3><span id='piSpan'>Chemical </span></h3>
+<h3><span id='piSpan'>Covid-19 Incidence Data</span></h3>
 <ul>
+ <li>
+  <label for="searchTable">Search Table</label>
+  <select id="searchTable" name="searchTable" tabIndex="7"
+        onChange="stateTable.configureSearchTable('searchTable')">
+    <option value="stateTable">State Table</option>
+    <option value="countyTable">County Table</option>
+  </select>
+</li>
  <li><label for="fieldToSearch">Search Field:</label>
  <select id="fieldToSearch" tabIndex="7"
-  onChange="ChemicalPi.configureSearchField('fieldToSearch')">
-   <option value="search">All Fields</option>
-   <option value="element">Element Name</option>
-   <option value="symbol">Symbol</option>
-   <option value="atomicNumber">Atomic Number</option>
-   <option value="period">Period</option>
-   <option value="group">Group</option>
-   <option value="yearOfDiscovery">Year of Discovery</option>
-   <option value="discoverer">Discoverer</option>
-   <option value="type">Type</option>
-   <option value="phase">Phase</option>
-   <option value="ElectronConfiguration">Electron Configuration</option>
-   <option value="displayColumn">Display Column</option>
-   <option value="displayRow">Display Row</option>
-   <option value="density">Density</option>
-   <option value="meltingPointK">Melting Point (K)</option>
-   <option value="boilingPointK">Boiling Point (K)</option>
-   <option value="specificHeatCapacity">Specific Heat</option>
-   <option value="ionicRadius">Ionic Radius</option>
-   <option value="atomicRadius">Atomic Radius</option>
-   <option value="firstIonizationPotential">First Ion Potential</option>
-   <option value="mostStableCrystal">Most Stable Crystal</option>
+  onChange="stateTable.configureSearchField('fieldToSearch')">
+   <option value="fips">FIPS</option>
+   <option value="sname">State Name</option>
+   <option value="cname">County Name</option>
+   <option value="date">Date</option>
   </select>
   </li>
   <li style="display:none;"><label for="outputType">Output Type</label>
   <select id="outputType" name="outputType" tabIndex="8"
-   onChange="Customer.configureOutputType('outputType')">
+   onChange="configureOutputType('outputType')">
     <option value="list" selected="selected">Link List</option>
   </select>
 
   </li>
   <li><label for="searchTerms">Search For:</label>
   <input type="text" id="searchTerms" name="searchTerms" tabIndex="9"
-   onKeyUp="ChemicalPi.search('searchTerms','#selection');" />
+   onKeyUp="stateTable.search('searchTerms','#selection');" />
   </li>
  </ul>
  </fieldset>

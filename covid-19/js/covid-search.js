@@ -8,37 +8,54 @@ var outputType = 'list';
 var searchLists = new Array();
 var tmpSearchList;
 var index = 0;
+var currentDataTable = null;
 
-var ChemicalPi = {
-    configureSearchField: function (selectId) {
+class DataTable {
+
+    tableName;
+    tableData;
+
+    constructor (tableName,tableData) {
+        this.tableName = tableName;
+        this.tableData = tableData;
+    }
+
+    configureSearchTable (selectId) {
         fieldToSearch = $('#' + selectId + ' option:selected').val();
-        Data.saveSelect(selectId,'ChemicalPi.restoreSearchField');
-    },
-    restoreSearchField: function (selectId) {
+        Data.saveSelect(selectId, this.tableName + '.restoreSearchTable');
+    };
+    restoreSearchTable (selectId) {
         fieldToSearch = $('#' + selectId + ' option:selected').val();
-    },
-    configureSearchList: function (selectId) {
+    };
+    configureSearchField (selectId) {
+        fieldToSearch = $('#' + selectId + ' option:selected').val();
+        Data.saveSelect(selectId, this.tableName + '.restoreSearchField');
+    };
+    restoreSearchField (selectId) {
+        fieldToSearch = $('#' + selectId + ' option:selected').val();
+    };
+    configureSearchList (selectId) {
         ChemicalPi.restoreSearchList(selectId);
-        Data.saveCheckbox(selectId,'ChemicalPi.restoreSearchList');
-    },
-    restoreSearchList: function (selectId) {
+        Data.saveCheckbox(selectId, this.tableName + '.restoreSearchList');
+    };
+    restoreSearchList (selectId) {
         searchList = $('#' + selectId + ':checked').val();
         tmpSearchList = searchLists[searchList].list;
-    },
-    configureOutputType: function (selectId) {
+    };
+    configureOutputType (selectId) {
         ChemicalPi.restoreOutputType(selectId);
-        Data.saveSelect(selectId,'ChemicalPi.restoreOutputType');
-    },
-    restoreOutputType: function (selectId) {
+        Data.saveSelect(selectId, this.tableName + '.restoreOutputType');
+    };
+    restoreOutputType (selectId) {
         outputType = $('#' + selectId + ' option:selected').val();
-    },
-    restoreSearchString: function (inputId) {
+    };
+    restoreSearchString (inputId) {
         Data.restoreInput(inputId);
         var searchString = $('#' + inputId).val();
         searchLength = searchString.length;
-    },
-    write: function (tmpList,outputSelector,type) {
-            let searchList;
+    };
+    write (tmpList,outputSelector,type) {
+            let searchItem;
 
             tmpSearchList = tmpList;
             $(outputSelector).html('');
@@ -59,24 +76,26 @@ var ChemicalPi = {
             }
 
             for (var i = 0;i<tmpSearchList.length;i++) {
-                searchList = tmpSearchList[i];
+                searchItem = tmpSearchList[i];
 
                 switch (type) {
                   case 'list':
                   default:
                     $(outputSelector)
-                      .append('<li class="cust icon-people" onfocus="ChemicalPi.show('
-                        + searchList.id + ')" tabIndex="' + (i+10)
-                        + '">' + searchList.element + '</li>\n');
+                      .append('<li class="cust icon-people" onfocus="' 
+                        +  this.tableName + '.show('
+                        + searchItem.id + ', tmpSearchList)" tabIndex="' + (i+10)
+                        + '">' + searchItem.cname + ', ' + searchItem.sname + '</li>\n');
                     break;
                 } // end switch
             } // end for
 
-    },
-    search: function (inputId, outputSelector) {
-        evt = event;
-        var searchString = $('#' + inputId).val();
-        var searchRegExp = new RegExp(searchString,"i");
+    };
+    search (inputId, outputSelector) {
+        let evt = event,
+            searchItem = {},
+            searchString = $('#' + inputId).val(),
+            searchRegExp = new RegExp(searchString,"i");
 
         if (tmpSearchList.length == 0) {
             tmpSearchList = searchLists[searchList].list;
@@ -89,59 +108,66 @@ var ChemicalPi = {
         }
 
         searchLength = searchString.length;
-        var match = [];
-        var tmpTmpSearchList = [];
-        var myString = '';
-        for (var i = 0;i<tmpSearchList.length;i++) {
-            chemicalPi = tmpSearchList[i];
-            myString = '' + chemicalPi[fieldToSearch];
+
+        let match = [],
+            tmpTmpSearchList = [],
+            myString = '';
+
+        for (let i = 0;i<tmpSearchList.length;i++) {
+            searchItem = tmpSearchList[i];
+            myString = '' + searchItem[fieldToSearch];
             match = myString.match(searchRegExp);
             if (match) {
-                tmpTmpSearchList.push(chemicalPi);
+                tmpTmpSearchList.push(searchItem);
             }
         }
 
         if (tmpTmpSearchList.length > 0) {
 
-            ChemicalPi.write(tmpTmpSearchList,outputSelector);
+            this.write(tmpTmpSearchList,outputSelector);
 
             if (tmpTmpSearchList.length == 1) {
-                ChemicalPi.show(tmpTmpSearchList[0].id);
+                this.show(tmpTmpSearchList[0].id);
             }
 
-            Data.saveInput(inputId,'ChemicalPi.restore');
+            Data.saveInput(inputId, this.tableName + '.restore');
         } else {
             // restore previous search term
-            if (evt.key == "Backspace") return;
-            var newSearchString = searchString.substring(0,searchString.length-1)
+            if (evt.key == "Backspace") {
+                return;
+            }
+
+            let newSearchString = searchString.substring(0,searchString.length-1)
+
             $('#' + inputId).val(newSearchString);
             searchLength = newSearchString.length;
         }
-    },
-    find: function (list, id) { // returns index of participant in list, with given id
-        let searchList;
+    };
+    find (list, id) { // returns index of participant in list, with given id
+        let searchItem = {};
         id = parseInt(id);
+
         for (var i = 0; i<list.length;i++) {
-            searchList = list[i];
-            if (searchList.id == id) {
+            searchItem = list[i];
+            if (searchItem.id == id) {
                 return i;
             }
         }
         return -1;
-    },
-    findByName: function (list, name) {
-        let searchList;
+    };
+    findByName (list, name) {
+        let searchItem;
         for (var i = 0; i<list.length;i++) {
-            searchList = list[i];
-            if (searchList.name == name) {
+            searchItem = list[i];
+            if (searchItem.name == name) {
                 return i;
             }
         }
         return -1;
 
-    },
-    show: function (id,theSearchList) {
-        let index = ChemicalPi.find(theSearchList,id),
+    };
+    show (id,theSearchList) {
+        let index = this.find(theSearchList,id),
             startIndex,
             endIndex,
             digitString = '',
@@ -154,50 +180,24 @@ var ChemicalPi = {
             let theData = theSearchList[index],
                 html = '\n<div id="panel">';
 
-            html += '\n<fieldset id="element-info">';
-            html += '\n<div id="photo" onerror="this.style.display=\'none\'" style="background-image: url(images/';
-            html += chemicalPiImage;
-            html += '");"></div>';
-            html += '\n<legend>Element Information</legend>';
+            html += '\n<fieldset id="search-info">';
+            html += '\n<legend>COVID-19 Data</legend>';
             html += '\n<ul>';
-            html += '\n<li ><label>Element Name</label><span class="';
-            html += activeClass + '"><a href="https://www.chemicool.com/elements/';
-            html += chemicalPi.element + '.html">' + chemicalPi.element + '</a>';
+            html += '\n<li ><label>Location</label><span class="';
+            html += 'location' + '"><a href="https://w/';
+            html += theData.sname + '.html">' + theData.cname + ' ' + theData.sname + '</a>';
             html += '</span></li>';
-            html += '\n<li><label>Symbol</label>' + chemicalPi.symbol + '</li>';
-            html += '\n<!--<li><label>&pi; Digits</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' + digitString + '</li>-->';
-            html += '\n<li><label>Mouthful</label>' + mouthful + '</li>';
-
-            html += '\n<li><label>Atomic Number</label>' + chemicalPi.atomicNumber + '</li>';
-
-            html += '\n<li><label>Atomic Weight</label>' + chemicalPi.atomicWeight + '</li>';
-
-            html += '\n<li><label>Period</label>' + '<pre>' + chemicalPi.period + '</pre></li>';
-            html += '\n<li><label>Group</label>' + chemicalPi.group + '</li>';
-            html += '\n<li><label>Phase</label>' + chemicalPi.phase + '</li>';
-            html += '\n<li><label>Most Stbl Cr</label>' + chemicalPi.mostStableCrystal + '</li>';
-            html += '\n<li><label>Type</label>' + chemicalPi.type + '</li>';
-            html += '\n<li><label>Ionic Radius</label>' + chemicalPi.ionicRadius + '</li>';
-            html += '\n<li><label>Atomic Radius</label>' + chemicalPi.atomicRadius + '</li>';
-            html += '\n<li><label>Electronegativity</label>' + chemicalPi.electronegativity + '</li>';
-            html += '\n<li><label>1st Ion Potential</label>' + chemicalPi.firstIonizationPotential + '</li>';
-            html += '\n<li><label>Density</label>' + chemicalPi.density + '</li>';
-            html += '\n<li><label>Melting Point</label>' + chemicalPi.meltingPointK + '&deg;K</li>';
-            html += '\n<li><label>Boiling Point</label>' + chemicalPi.boilingPointK + '&deg;K</li>';
-            html += '\n<li><label>Isotopes</label>' + chemicalPi.isotopes + '</li>';
-            html += '\n<li><label>Discovered By</label>' + chemicalPi.discoverer + '</li>';
-            html += '\n<li><label>Year Discovered</label>' + chemicalPi.yearOfDiscovery + '</li>';
-            html += '\n<li><label>Specific Heat</label>' + chemicalPi.specificHeatCapacity + '</li>';
-            html += '\n<li><label>Electron Configuration</label>' + chemicalPi.electronConfiguration + '</li>';
-            html += '\n<li><label>Column</label>' + chemicalPi.displayColumn + '</li>';
-            html += '\n<li><label>Row</label>' + chemicalPi.displayRow + '</li>';
-
+            html += '\n<li><label>FIPS</label>' + theData.fips + '</li>';
+            html += '\n<li><label>Date</label>' + theData.date + '</li>';
+            html += '\n<li><label>Cases</label>' + theData.cases + '</li>';
+            html += '\n<li><label>Deaths</label>' + theData.deaths + '</li>';
             html += '\n</ul>';
             html += '\n</fieldset>';
             html += '\n</div>'
 
             $('#profile').html(html);
 
+            let photo = null;
             if (photo) {
               $('#photo').resizable({
                     alsoResize: null,
@@ -220,8 +220,8 @@ var ChemicalPi = {
             }
         }
         return index;
-    },
-    setup: function setup () {
+    };
+    setup () {
 
         searchLists['all'] = {
             list: covidStateData,
@@ -233,24 +233,27 @@ var ChemicalPi = {
             name: 'county',
             fields: {}
         }
+        searchLists['population'] = {
+            list: covidPopData,
+            name: 'pop',
+            fields: {}
+        }
         searchLists['tmp'] = {
             list: tmpSearchList,
             name: 'tmp',
             fields: {}
         }
-        Log.Notice("ChemicalPi.setup()");
+        Log.Notice(this.name + ".setup()");
+        Data.restoreSelect('searchTable');
         Data.restoreSelect('fieldToSearch');
         Data.restoreCheckbox('searchList');
         Data.restoreSelect('outputType');
 
         tmpSearchList = searchLists[searchList].list;
         searchLists['tmp'].list = tmpSearchList;
-    },
-    merge: function () {
+    };
+    merge () {
 
-
-
-    },
-
-
+    };
 };
+
