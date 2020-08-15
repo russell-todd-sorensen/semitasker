@@ -71,12 +71,17 @@ section {
     background-color: rgba(255,255,255,.90);
     color: #69F;
     margin: 0;
+    margin-left: -10px;
     border-style: solid;
     padding: 5px;
+    padding-left: 15px;
 }
 
 nav h2 {
     font-size: 20px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-left: 10px;
 }
 
 nav li {
@@ -130,7 +135,7 @@ footer {
 }
 
 .inner-shadow-z {
-text-shadow: 1px 1px 3px rgba(255,255,255,.2),
+    text-shadow: 1px 1px 3px rgba(255,255,255,.2),
                 -1px -1px 3px rgba(255,255,255,.2),
                 -1px 1px 3px rgba(255,255,255,.2),
                  1px -1px 3px rgba(255,255,255,.2);
@@ -177,7 +182,7 @@ section {
 <script>
 if ('serviceWorker' in navigator) {
     // Use the window load event to keep the page load performant
-   window.addEventListener('load', () => {
+    window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js');
     });
 }
@@ -339,7 +344,6 @@ $(document).ready(function() {
 <rect id="white-bg" fill="#FFF" height="100%" width="100%" />
 <rect id="black-bg" fill="#000" height="100%" width="100%" />
 <rect id="text-bg" fill="#000" height="100%" width="100%"/>
-
 
 <filter id="tik-tok-filter-black" x="-10%" y="-10%"  height="120%" width="120%" >
     <feImage id="img-red" xlink:href="#red-rect" result="red-image" />
