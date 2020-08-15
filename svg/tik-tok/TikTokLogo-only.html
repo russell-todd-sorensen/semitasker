@@ -40,6 +40,11 @@ svg {
 form {
     padding-top: 5px;
 }
+#form1,
+#svg2,
+#svg3 {
+    display: none;
+}
 </style>
 
 <script src="/js/jquery-1.7.1.js" defer></script>
@@ -127,9 +132,9 @@ form {
  id="svg1"
  x="0"
  y="0"
- width="1000"
- height="700"
- viewport="0 0 1000 700"
+ width="220"
+ height="250"
+ viewport="0 0 220 250"
  xmlns:svg="http://www.w3.org/2000/svg"
  xmlns="http://www.w3.org/2000/svg"
  xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -150,11 +155,11 @@ form {
   <feImage id="img-red" xlink:href="#red-rect" result="red-image" />
   <feComposite in="red-image" operator="in" in2="SourceGraphic" result="r1" />
 
-  <feOffset in="r1" dx="2" dy="2" result="red-offset" />
+  <feOffset in="r1" dx="2.5" dy="2.5" result="red-offset" />
   <feImage id="img-anti-red" xlink:href="#anti-red-rect" result="anti-red-image" />
 
   <feComposite in="anti-red-image" operator="in" in2="SourceGraphic" result="r2" />
-  <feOffset in="r2" dx="-2" dy="-2" result="anti-red-offset" />
+  <feOffset in="r2" dx="-2.5" dy="-2.5" result="anti-red-offset" />
 
   <feComposite in="red-offset" in2="anti-red-offset" operator="xor" result="offset-final" />
 
@@ -183,13 +188,11 @@ form {
     <use id="tik-tok-white" xlink:href="#tt" x="0" y="0" width="48.59" height="33.63" fill="white" />
 </g>
 </defs>
-<g id="base" >
-<use id="tik-tok-background" xlink:href="#text-bg" />
-<g id="mg4" fill="black" transform="translate(0 0)" filter="url(#tik-tok-filter)" >
-  <!--<use id="tik-tok-eight-note" xlink:href="#white" x="0.2em" y="0.2em" transform="scale(6)" />-->
-  <use xlink:href="#textInput" id="m2-text" x="1.75em" y="1.2em" 
-    font-size="8em" fill="#FFFFFF" />
-</g>
+<g id="tt-logo" transform="translate(10,10)">
+    <use id="tik-tok-background-2" xlink:href="#text-bg" />
+    <g id="mg10" fill="black" transform="translate(0 0)" filter="url(#tik-tok-filter)" >
+        <use id="tik-tok-eight-note" xlink:href="#white" x="0.2em" y="0.2em" transform="scale(6)" />
+    </g>
 </g>
 </svg>
 
@@ -270,11 +273,11 @@ var textObj;
 var updateIds = ['textInput','text-input','text-bg','m2-text','mg4']
 
 window.addEventListener('DOMContentLoaded', () => {
-    textObj = document.getElementById('m2-text');
-    textObj.onclick = onResizeText;
-    updateText(...updateIds);
+    //textObj = document.getElementById('m2-text');
+    //textObj.onclick = onResizeText;
+    //updateText(...updateIds);
     //$('#m2-text').click();
-    init();
+    //init();
 });
 </script>
 <svg id="svg3"
