@@ -7,23 +7,23 @@ proc ::htclient::statusMachine { client } {
     set state [getVar $client state]
 
     switch -exact -- $state {
-	httpversion {
-	    htHTTPVersion $client
-	}
-	statuscode {
-	    htStatusCode $client
-	}
-	reasonphrase {
-	    htReasonPhrase $client
-	}
-	cleanup {
-	    log Debug "htCleanup $client"
-	    htCleanup $client
-	}
-	default {
-	    log Error "statusMachine: unknown state $state"
-	    htError $client
-	}
+        httpversion {
+            htHTTPVersion $client
+        }
+        statuscode {
+            htStatusCode $client
+        }
+        reasonphrase {
+            htReasonPhrase $client
+        }
+        cleanup {
+            log Debug "htCleanup $client"
+            htCleanup $client
+        }
+        default {
+            log Error "statusMachine: unknown state $state"
+            htError $client
+        }
     }
 }
 
@@ -39,7 +39,8 @@ Note that every state machine also share the final two states:
 
 Looking through this code:
 
-<a href="http://junom.com/gitweb/gitweb.perl?p=htclient.git;a=blob;f=htclient.tcl" rel="nofollow">http://junom.com/gitweb/gitweb.perl?p=htclient.git;a=blob;f=htclient.tcl</a>
+<a href="http://junom.com/gitweb/gitweb.perl?p=htclient.git;a=blob;f=htclient.tcl" 
+    rel="nofollow">http://junom.com/gitweb/gitweb.perl?p=htclient.git;a=blob;f=htclient.tcl</a>
 
 I see exactly one use of [while], but it isn't used as a loop
 construct. The only loop in the htclient code is provided by the event
@@ -63,11 +64,11 @@ proc ::htclient::htSend { client } {
     flush $sock
 
     if {![htPending output $sock]} {
-	log Debug "htSend sent '[getVar $client request]'"
-	setVar $client state httpversion
+        log Debug "htSend sent '[getVar $client request]'"
+        setVar $client state httpversion
     } else {
-	log Debug "htSend still sending pending = [htPending input $sock]"
-	setVar $client state sendwait
+        log Debug "htSend still sending pending = [htPending input $sock]"
+        setVar $client state sendwait
     }
 
     log Debug "htSend end state $client = [getVar $client state]"
@@ -90,17 +91,15 @@ proc ::htclient::htSendChunk { client } {
 
     set lastChunk 0
 
-    if {$clientSendBufIndex($client) + $chunkSize &lt;= $requestLength} {
-	set chunkEnd [expr {$clientSendBufIndex($client) + $chunkSize - 1}]
-	set chunk [string range [getVar $client request]
-$clientSendBufIndex($client) $chunkEnd]
-	set clientSendBufIndex($client) [expr {$chunkEnd +1}]
+    if {$clientSendBufIndex($client) + $chunkSize <= $requestLength} {
+        set chunkEnd [expr {$clientSendBufIndex($client) + $chunkSize - 1}]
+        set chunk [string range [getVar $client request] $clientSendBufIndex($client) $chunkEnd]
+        set clientSendBufIndex($client) [expr {$chunkEnd +1}]
     } else {
-	set chunkEnd end
-	set chunk [string range [getVar $client request]
-$clientSendBufIndex($client) $chunkEnd]
-	set clientSendBufIndex($client) $requestLength
-	set lastChunk 1
+        set chunkEnd end
+        set chunk [string range [getVar $client request] $clientSendBufIndex($client) $chunkEnd]
+        set clientSendBufIndex($client) $requestLength
+        set lastChunk 1
     }
 
     set sock [getVar $client sock]
@@ -110,17 +109,16 @@ $clientSendBufIndex($client) $chunkEnd]
     flush $sock
 
     if {$lastChunk} {
-	if {![htPending output $sock]} {
-	    log Debug "htSendChunk sent '[getVar $client request]'"
-	    setVar $client state httpversion
-	} else {
-	    log Debug "htSendChunk still sending pending = [htPending input $sock]"
-	    setVar $client state sendwait
-	}
+        if {![htPending output $sock]} {
+            log Debug "htSendChunk sent '[getVar $client request]'"
+            setVar $client state httpversion
+        } else {
+            log Debug "htSendChunk still sending pending = [htPending input $sock]"
+            setVar $client state sendwait
+        }
     }
 
-    log Debug "htSendChunk end state $client = [getVar $client state]
-chunkEnd = $chunkEnd"
+    log Debug "htSendChunk end state $client = [getVar $client state] chunkEnd = $chunkEnd"
     log Debug "htSendChunk sent: '$chunk'"
 }
 
@@ -158,19 +156,19 @@ solve some puzzles is many orders of magnitude higher than the typical
 puzzle).
 
 
-&gt; In the view of various other people, dividing sequential logic into separate
-&gt; "sub-events" is a work-around for not having coroutines, and is harder to
-&gt; maintain.
+> In the view of various other people, dividing sequential logic into separate
+> "sub-events" is a work-around for not having coroutines, and is harder to
+> maintain.
 
 It's called modular programming. The new NRE core follows this concept
 (a little) by dividing a single command implementation into three
 potentially reusable C functions.
 
-&gt; A more modular approach may involve an object storing the state, and the
-&gt; logic being split into different methods. &nbsp;The effect is the same: if you
-&gt; don't have coroutines, you may have to refactor your code to use events.
+> A more modular approach may involve an object storing the state, and the
+> logic being split into different methods. The effect is the same: if you
+> don't have coroutines, you may have to refactor your code to use events.
 
-You can't handle I/O in Tcl without events, my htclient code proves
+You can't handle I/O in Tcl without events, my htClient code proves
 (it is still example code, but is large enough to demonstrate
 capabilities) you don't need coroutines or complicated code to use
 events.
