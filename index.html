@@ -38,6 +38,7 @@
 <meta name="msapplication-wide310x150logo" content="/images/icons/mstile-310x150.png" />
 <meta name="msapplication-square310x310logo" content="/images/icons/mstile-310x310.png" />
 
+<link rel="stylesheet" href="/css/fonts.css" media="all" >
 <style type="text/css">
 
 body {
@@ -164,6 +165,13 @@ section {
     margin-left: -15px;
 }
 
+#ttsvg {
+    display: inline-block;
+    background-color: transparent;
+    font-family: Shojumaru;
+    font-weight: bold;
+    height: 1.6em;
+}
 </style>
 
 <script>
@@ -231,10 +239,19 @@ if ('serviceWorker' in navigator) {
         title="Tartan Generator">Tartans Woven with SVG</a></li>
  <li><a href="/svg/filter-mania-improved-5.html"
         title="Extensive Exploration of SVG Filters">SVG Filter Mania</a></li>
+ <li><a href="/clock/clock.html"
+        title="Correct to the Second: SVG Clock">SVG Clock</a></li>
+ <li><a href="/svg/tik-tok/TikTokLogo-codepen.html" id="tik-tok-text"
+        title="TikTok Text𝅘𝅥𝅮 "><svg id="ttsvg">
+        <g id="base" >
+            <g id="mg4" transform="translate(0 0)" filter="url(#tik-tok-filter-black)" >
+                <use id="m2-text" xlink:href="#textInput" x="0.2em" y="1.1em" 
+                    font-size="1.2em" />
+            </g>
+        </g>
+        </svg></a></li>
  <li><a href="/svg/svg-index.html"
         title="Additional SVG Experiments">More SVG Apps</a></li>
-    <li><a href="/clock/clock.html"
-        title="Correct to the Second: SVG Clock">SVG Clock</a></li>
 </ul>
 
 <h2>Games</h2>
@@ -303,5 +320,64 @@ $(document).ready(function() {
 });
 
 </script>
+<svg
+    id="svg-bg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    image-rendering="optimizeQuality"
+    fill-rule="evenodd"
+    clip-rule="evenodd">
+<defs>
+
+<text id="textInput-orig">TikTok Text𝅘𝅥𝅮 </text>
+<text id="textInput">TikTok Text&#x1D160;</text>
+<rect id="red-rect" fill="#F00" height="100%" width="100%" />
+<rect id="anti-red-rect" fill="#0FF" height="100%" width="100%" />
+<rect id="white-bg" fill="#FFF" height="100%" width="100%" />
+<rect id="black-bg" fill="#000" height="100%" width="100%" />
+<rect id="text-bg" fill="#000" height="100%" width="100%"/>
+
+
+<filter id="tik-tok-filter-black" x="-10%" y="-10%"  height="120%" width="120%" >
+    <feImage id="img-red" xlink:href="#red-rect" result="red-image" />
+    <feComposite in="red-image" operator="in" in2="SourceGraphic" result="r1" />
+  
+    <feOffset in="r1" dx="1" dy="1" result="red-offset" >
+        <animate id="black-filter-red-offset-dx" attributeName="dx" values="2; 0; -2; 0; -2; 0;  2; 0; 2" dur="0.2s" begin="ttsvg.click;ttsvg.mouseover"
+            repeatCount="4" />
+        <animate id="black-filter-red-offset-dy" attributeName="dy" values="2; 0; -2; 0;  2; 0; -2; 0; 2" dur="0.2s" begin="ttsvg.click;ttsvg.mouseover"
+            repeatCount="4" />
+    </feOffset>
+    <feImage id="img-anti-red" xlink:href="#anti-red-rect" result="anti-red-image" />
+  
+    <feComposite in="anti-red-image" operator="in" in2="SourceGraphic" result="r2" />
+    <feOffset in="r2" dx="-1" dy="-1" result="anti-red-offset" >
+    <animate id="black-filter-anti-red-offset-dx" attributeName="dx" values="-2; 0; 2; 0; 0;  2; 0; -2; 0; -2" dur="0.3s" begin="ttsvg.click;ttsvg.mouseover"
+        repeatCount="3" />
+    <animate id="black-filter-anti-red-offset-dy" attributeName="dy" values="-2; 0; 0; 2; 0; -2; 0;  2; 0; -2" dur="0.3s" begin="ttsvg.click;ttsvg.mouseover"
+        repeatCount="3" />
+    </feOffset>
+  
+    <feComposite in="red-offset" in2="anti-red-offset" operator="xor" result="offset-final" />
+  
+    <feComposite in="red-offset" in2="anti-red-offset" operator="in" result="in-offset" />
+    <feImage id="img-black" xlink:href="#black-bg" result="black-image" />
+  
+    <feComposite in="black-image" in2="in-offset" operator="in" result="black-final" />
+  
+    <feComposite in="offset-final" in2="black-final" operator="over" result="final" />
+</filter>
+
+<rect id="r1" x="0" y="0" width="100%" height="100%" />
+<g id="black">
+    <use id="bg-white" xlink:href="#tt" x="0" y="0" width="48.59" height="33.63" fill="white" />
+    <use id="tik-tok-black" xlink:href="#tt" x="0" y="0" width="48.59" height="33.63" />
+</g>
+</defs>
+</svg>
+
 </body>
 </html>
