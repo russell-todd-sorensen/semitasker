@@ -220,7 +220,8 @@ var calculateRect = function (evt)  {
     var dxCurrent = obj.rect.end.x - obj.rect.start.x;
     var dyCurrent = obj.rect.end.y - obj.rect.start.y;
 
-    Log.Debug('calculateRect dxCurrent ="' + dxCurrent + '" dyCurrent="' + dyCurrent + '"');
+    Log.Debug('calculateRect dxCurrent ="' + dxCurrent
+        + '" dyCurrent="' + dyCurrent + '"');
 
     var heightToWidthRatio = dyCurrent/dxCurrent;
     var height = obj.height*1.0;
@@ -230,23 +231,36 @@ var calculateRect = function (evt)  {
     var dyNew = (obj.maxY-obj.minY)/height*dyCurrent;
 
     var rectMinX = obj.rect.start.x
-        + (obj.minX-obj.offsetLeft)*(obj.rect.end.x-obj.rect.start.x)/width;
+        + (obj.minX-obj.offsetLeft)
+        * (obj.rect.end.x-obj.rect.start.x)
+        / width;
 
-    var rectMinY = (obj.rect.start.y
-        + (height-(obj.maxY-obj.offsetTop))*(obj.rect.end.y-obj.rect.start.y)/height) ;
+    var rectMinY = obj.rect.start.y
+        + (height-(obj.maxY-obj.offsetTop))
+        * (obj.rect.end.y-obj.rect.start.y)
+        / height;
     var rectMaxX = obj.rect.end.x
-        - (width-(obj.maxX-obj.offsetLeft))*(obj.rect.end.x-obj.rect.start.x)/width;
+        - (width-(obj.maxX-obj.offsetLeft))
+        * (obj.rect.end.x-obj.rect.start.x)
+        / width;
     var rectMaxY = obj.rect.end.y
-        - (obj.minY-obj.offsetTop)*(obj.rect.end.y-obj.rect.start.y)/height;
+        - (obj.minY-obj.offsetTop)
+        * (obj.rect.end.y-obj.rect.start.y)
+        / height;
 
     Log.Debug('calculateRect \nwidth=' + width
-        + '\nheight=' + height + '\nminX =' + obj.minX
-        + '\nminY=' + obj.minY + '\nmaxX=' + obj.maxX
+        + '\nheight=' + height 
+        + '\nminX =' + obj.minX
+        + '\nminY=' + obj.minY 
+        + '\nmaxX=' + obj.maxX
         + '\nmaxY=' + obj.maxY
-        + '\nrectMinX=' + rectMinX + '\nrectMinY=' + rectMinY
-        + '\nrectMaxX=' + rectMaxX + '\nrectMaxY=' + rectMaxY);
+        + '\nrectMinX=' + rectMinX 
+        + '\nrectMinY=' + rectMinY
+        + '\nrectMaxX=' + rectMaxX 
+        + '\nrectMaxY=' + rectMaxY);
 
-    Log.Debug('calculateRect dxNew=' + dxNew + ' dyNew=' + dyNew);
+    Log.Debug('calculateRect dxNew=' + dxNew 
+        + ' dyNew=' + dyNew);
 
     var rectTmp = obj.rectTmp;
 
@@ -276,7 +290,8 @@ var captureHandle;
 
 var resolve = function() {
     if (imageData) {
-        $('#imageGallery').append('<img height="20" src="' + imageData + '">');
+        $('#imageGallery')
+            .append('<img height="20" src="' + imageData + '">');
         clearInterval(captureHandle);
     }
 }
@@ -357,4 +372,61 @@ var modifyPhoto = function () {
     var objId = data.objId;
     var myPhotoObject = myPhotos[objId];
     var photoUrl = data.photoSrc;
+}
+
+class Pixel {
+    red = 0;
+    green = 0;
+    blue = 0;
+    alpha = 0;
+    hue = 0;
+    hsl = {hue:0,sat:0,lev:0};
+    hsb = {hue:0,sat:0,brt:0};
+    ref = [this.red,this.green,this.blue,this.alpha].join("-")
+    hex = "#000";
+    model = {};
+
+    constructor(red,green,blue,alpha) {
+        this.red = red?red:0;
+        this.green = green?green:0;
+        this.blue = blue?blue:0;
+        this.alpha = alpha?alpha:0;
+        this.ref = [this.red,this.green,this.blue,this.alpha].join("-");
+        this.initModel();
+    }
+    initModel() {
+        this.model = rgb2hsl(this.red,this.green,this.blue);
+        this.hue = this.model.h;
+        this.hsl = {hue:this.hue,sat:this.model.s,lev:this.model.l,alp:this.alpha};
+        this.hsb = {hue:this.hue,sat:this.model.sat,brt:this.model.brt,alp:this.alpha};
+        this.hex = this.model.hex;
+    }
+}
+
+var queryPhoto = function () {
+    var formData = processForm();
+    var data = formData.data;
+    var objId = data.objId;
+    var obj = myPhotos[objId];
+    var photoUrl = data.photoSrc;
+
+    // dummy event object so we can use calculateMinMaxXY
+    var dummy = new Object();
+    dummy.data = obj;
+
+    calculateMinMaxXY(dummy);
+
+    var queryWidth  = obj.maxX-obj.minX;
+    var querywHeight = obj.maxY-obj.minY;
+
+    var queryData = obj.context.getImageData(
+        obj.minX-obj.offsetLeft,
+        obj.minY-obj.offsetTop,
+        obj.maxX-obj.minX,
+        obj.maxY-obj.minY
+    );
+
+
+    var colorCounts = new Object();
+
 }

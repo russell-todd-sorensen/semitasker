@@ -7,8 +7,6 @@
 <style>
  @import url(main.css);
 </style>
-<!--<link rel="stylesheet" href="main.css" type="text/css">
-<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">-->
 
 <script src="/js/jquery-1.7.1.js"></script>
 <script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
@@ -22,7 +20,8 @@
 <script src="/js/schedule-function.js"></script>
 <script src="/js/mouse-events.js"></script>
 <script src="/js/panel-show-hide.js"></script>
-<script src="js/photo-edit.js"></script>
+<script src="/mandelbrot/js/color-conversion.js"></script>
+<script src="./js/photo-edit.js"></script>
 
 <script language="javascript">
 
@@ -89,28 +88,32 @@ $(document).ready(function() {
 <legend onClick="togglePanel('controls');">Options</legend>
 <ul id="panel1">
 <li>
- <label for="photoSrc" id="photoSrcControl">photo URL:</label>
+ <label for="photoSrc" id="photoSrcControl">Photo URL:</label>
  <div id="photoSrcContainer">
   <input type="text" id="photoSrc" name="photoSrc" size="30"
          onChange="Data.saveInput('photoSrc','Log.Notice')">
  </div>
 </li>
 <li>
- <label for="b1" id="buttonControl">photo:</label>
+  <label for="photoOp" id="photoOpControl">Operation:</label>
+  <select id="photoOp"
+          name="photoOp"
+          onChange="Data.saveSelect('photoOp','Log.Notice')">
+   <option value="crop">Crop Image Selection</option>
+   <option value="profile">Profile Image Selection</option>
+ </select>
+ </li>
+<li>
+ <label for="b1" id="buttonControl">Execute:</label>
  <div id="loadPhoto">
   <button id="b1" onClick="loadPhoto();"
           value="Load Photo" >Load</button>
   <button id="b4" onClick="cropPhoto();"
           value="Mod Photo" >Modify</button>
+  <button id="b5" onClick="queryPhoto();"
+          value="Query Photo" >Query</button>
+
  </div>
-</li>
-<li>
- <label for="photoOp" id="photoOpControl">Operation:</label>
- <select id="photoOp"
-         name="photoOp"
-         onChange="Data.saveSelect('photoOp','Log.Notice')">
-  <option value="crop">Crop</option>
-</select>
 </li>
 </ul>
 </fieldset>

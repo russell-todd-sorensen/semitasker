@@ -13,6 +13,11 @@ div#photoSrcContainer {
     display: inline-block;
 }
 
+#photoSrc {
+    height: 1.5em;
+    font-size: 1.1em;
+}
+
 #main,
 #main2 {
     position: relative;
@@ -40,7 +45,7 @@ div#photoSrcContainer {
 }
 
 #controls {
-    color: white;
+    color: rgb(182,182,182);
     display: inline-block;
     position: relative;
     left: 0;
@@ -70,27 +75,42 @@ div#photoSrcContainer {
   display: inline-block;
   padding-bottom: 3px;
   padding-top: 3px;
-  font-family: sans serif, "Tw Cen MT Bold";
+  font-family: proxima-nova, helvetica, Arial, sans-serif;
+  font-weight: 400;
+  color: rgb(182,182,182);
 }
 
 #controls li input {
     display: inline-block;
-    font-family: sans serif, "Tw Cen MT Bold";
-    font-size: 15px;
+    font-family: proxima-nova, helvetica, Arial, sans-serif;
+    font-size: 1.2em;
     margin-left: 0px;
-    width: 275px;
+    width: 500px;
+    height: 1.5em;
+    color: rgb(73, 73, 73);
+    font-weight: 400;
 }
 
 #controls li select option {
-    width: 175px;
+    width: 400px;
+    font-family: proxima-nova, helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    color: rgb(73, 73, 73);
 }
-
-
-
-
+#controls #photoOp,
+#controls #photoOp option {
+    width: 400px;
+    font-family: proxima-nova, helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    height: 1.5em;
+    color: rgb(73, 73, 73);
+    font-weight: 400;
+}
 
 #controls li input[type=range] {
     width: 175px;
+    color: rgb(73, 73, 73);
+    font-weight: 400;
 }
 
 /* this is how you change the font of select options!!! */
@@ -111,9 +131,11 @@ div#photoSrcContainer {
     padding-top: 3px;
     padding-bottom: 3px;
     display: inline-block;
-    font-family: sans serif, "Tw Cen MT Bold";
+    font-family: proxima-nova, helvetica, Arial, sans-serif;
     margin-left: 0px;
-    font-size: 16px;
+    font-size: 1.2em;
+    color: rgb(73, 73, 73);
+    font-weight: 400;
 }
 
 #b4 {
@@ -130,8 +152,10 @@ div#photoSrcContainer {
     padding-left: 10px;
     width: 72px;
     display: inline-block;
-    font-family: sans serif, "Tw Cen MT Bold";
+    font-family: proxima-nova, helvetica, Arial, sans-serif;
     font-size: 15px;
+    color: rgb(73, 73, 73);
+    font-weight: 400;
 }
 
 #mode-controls {
@@ -147,7 +171,7 @@ div#photoSrcContainer {
 #loadPhoto,
 #animateImage,
 #captureCanvas {
-  width: 205px;
+  width: 250px;
   display: inline-block;
   vertical-align: top;
 }
@@ -163,7 +187,7 @@ div#photoSrcContainer {
 }
 
 #controls .expand .min-max > span {
-    font-family: sans serif, "Tw Cen MT Bold";
+    font-family: proxima-nova, helvetica, Arial, sans-serif;
     font-size: 15px;
 }
 
@@ -177,4 +201,11 @@ div#photoSrcContainer {
     bottom: 3px;
     left: 3px;
     background-color: silver;
+}
+
+#controls legend {
+    font-family: proxima-nova, helvetica, Arial, sans-serif;
+    font-size: 1.2em;
+    color: rgb(182, 182, 182);
+    font-weight: 400;
 }
