@@ -7,7 +7,8 @@ var rectInit = new Array();
 var minimumPixelImageHeight = 768;
 
 function logStartMove(evt) {
-    Log.Notice('logStartMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
+    Log.Notice('logStartMove was called evt.offsetX='
+        + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
 }
 
 function captureMouseUp(evt) {
@@ -23,11 +24,13 @@ function unbindMouseUp(evt) {
 }
 
 function logDragMove(evt) {
-    Log.Notice('logDragMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
+    Log.Notice('logDragMove was called evt.offsetX='
+        + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
 }
 
 function logEndMove(evt) {
-    Log.Notice('logEndMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
+    Log.Notice('logEndMove was called evt.offsetX='
+        + evt.offsetX + ' evt.offsetY=' + evt.offsetY)
 }
 
 //// Initial Rectangle is different for different fractal types ////
@@ -52,7 +55,7 @@ rectInit[1] = {
         y: 1.5
     }
 };
-//////////////////// THIS IS THE FRACTAL IMAGE OBJECT  /////////////////////////////////////////////
+//////////////////// THIS IS THE FRACTAL IMAGE OBJECT  /////////////
 
 var fractalImage = function(canvasId,boxId,height,width,startUpData) {
     this.id = canvasId;
