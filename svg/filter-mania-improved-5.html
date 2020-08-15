@@ -949,6 +949,14 @@ $(document).ready(function () {
 </feComponentTransfer>
 </filter>
 
+<filter id="XX6-2"  color-interpolation="sRGB" >
+  <feComponentTransfer result="poster">
+   <feFuncR type="discrete" tableValues="0 1" />
+   <feFuncG type="discrete" tableValues="0 1" />
+   <feFuncB type="discrete" tableValues="0 1" />
+  </feComponentTransfer>
+</filter>
+
 <filter id="XX7"  color-interpolation="sRGB" >
 <feConvolveMatrix
     order="3"
@@ -1396,6 +1404,17 @@ $(document).ready(function () {
 </feComponentTransfer>
 </filter>
 
+<filter id="posterize-00000000">
+  <!--<feColorMatrix type="saturate" values="0.0" />-->
+  <feColorMatrix type="matrix"
+    values="1 0 0 0 0.05
+            0 1 0 0 0.05
+            0 0 1 0 0.05
+            0 0 0 1 0"
+            >
+   </feColorMatrix>
+ </filter>
+ 
 <filter id="posterize-1">
 <feComponentTransfer>
  <feFuncR type="discrete" tableValues="0 0.5 1" />
