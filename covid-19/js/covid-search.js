@@ -1,14 +1,28 @@
 // covid-search.js
+class Day {
+    date;
+    day;
+    #base;
+    #ms = (60*60*24*1000);
 
-var fieldToSearch = 'search';
+    constructor(dateString,baseDate) {
+        this.#base = baseDate?baseDate:new Date('2019-12-31');
+        this.date = new Date(dateString);
+        this.ms = this.date;
+        this.day = this.offset(this.date);
+    }
+    offset(dateObj) {
+        return (Math.floor((dateObj - this.#base)/this.#ms));
+    }
+    toString() {
+        return "" + this.day
+    }
+};
 
-var searchLength = 0;
-var searchList = 'all';
-var outputType = 'list';
-var searchLists = new Array();
-var tmpSearchList;
-var index = 0;
-var currentDataTable = null;
+
+
+var dayZeroDate = new Date('2019-12-31'),
+    dayZero = new Day(dayZeroDate);
 
 class DataTable {
 
@@ -21,11 +35,11 @@ class DataTable {
     }
 
     configureSearchTable (selectId) {
-        fieldToSearch = $('#' + selectId + ' option:selected').val();
+        tableToSearch = $('#' + selectId + ' option:selected').val();
         Data.saveSelect(selectId, this.tableName + '.restoreSearchTable');
     };
     restoreSearchTable (selectId) {
-        fieldToSearch = $('#' + selectId + ' option:selected').val();
+        tableToSearch = $('#' + selectId + ' option:selected').val();
     };
     configureSearchField (selectId) {
         fieldToSearch = $('#' + selectId + ' option:selected').val();
@@ -91,6 +105,11 @@ class DataTable {
             } // end for
 
     };
+
+    writeGraph(svgContainerId) {
+        
+    };
+
     search (inputId, outputSelector) {
         let evt = event,
             searchItem = {},
@@ -221,39 +240,26 @@ class DataTable {
         }
         return index;
     };
-    setup () {
 
-        searchLists['all'] = {
-            list: covidStateData,
-            name: 'all',
-            fields: {}
-        }
-        searchLists['county'] = {
-            list: covidCountyData,
-            name: 'county',
-            fields: {}
-        }
-        searchLists['population'] = {
-            list: covidPopData,
-            name: 'pop',
-            fields: {}
-        }
-        searchLists['tmp'] = {
-            list: tmpSearchList,
-            name: 'tmp',
-            fields: {}
-        }
-        Log.Notice(this.name + ".setup()");
-        Data.restoreSelect('searchTable');
-        Data.restoreSelect('fieldToSearch');
-        Data.restoreCheckbox('searchList');
-        Data.restoreSelect('outputType');
-
-        tmpSearchList = searchLists[searchList].list;
-        searchLists['tmp'].list = tmpSearchList;
-    };
     merge () {
 
     };
 };
 
+var initialSetup = function () {
+
+    slLists = []; // just to make sure if called again.
+
+    for (let [key, value] of Object.entries(searchLists)) {
+        if (key == "tmp") {
+            continue;
+        }
+        slLists.push(value)
+    }
+
+    // TEMPORARY
+    Log.Notice(this.name + ".setup()");
+
+    configureSearchList("searchList",true);
+
+};

@@ -377,7 +377,7 @@ var toggleExtraInfo = function(id,ref) {
     return false;
 }
 
-searchList = 'all';
+searchList = 'state';
 
 function appendPi(id) {
     $('#' + id).append('\u03C0');
@@ -387,12 +387,67 @@ function appendPiClass(className) {
     $('.' + className).append('\u03C0');
 }
 
+var configureSearchList = function (selectId,initialP) {
+
+    let searchListSelect = d3.select("#" + selectId);
+
+    if (initialP) {
+        searchListSelect
+            .selectAll("option")
+            .data(slLists)
+            .attr("value",function(d,i) {
+                Log.Notice("value=" + d.name)
+                return d.name;
+            })
+            .text(function(d,i) {return d.name});
+
+        Data.restoreSelect('searchList');
+    } else {
+        Data.saveSelect(selectId);
+    }
+
+    searchList = $('#' + selectId + ' option:selected').val();
+
+    tmpSearchList = searchLists[searchList].list;
+    searchTable = searchLists[searchList].table;
+    searchFields = searchLists[searchList].fields;
+
+    let sfSelectId = "fieldToSearch",
+        searchFieldSelect = d3.select("#" + sfSelectId);
+
+    searchFieldSelect
+        .selectAll("option")
+        .data(searchFields)
+        .attr("value",function(d,i) {
+            console.log("field=" + d.name);
+            return d.name;
+        })
+        .text(function (d,i) {
+            console.log("descr=" + d.descr);
+            return d.descr;
+        });
+
+    searchData = searchLists[searchList].data
+    Data.restoreSelect(sfSelectId,'Log.Notice');
+
+};
+
+var configureSearchField =  function (selectId) {
+    fieldToSearch = $('#' + selectId + ' option:selected').val();
+    Data.saveSelect(selectId,'Log.Notice');
+};
+
+var search = function(inputId,outputSelector) {
+    let searchObj = searchLists[searchList].table
+    searchObj.search(inputId,outputSelector);
+}
+
 $(document).ready(function() {
 
     Log.Notice("Starting to get data");
     loadXHRFile("./data/us-states.csv",getCovidStateTableCSV);
     loadXHRFile("./data/us-counties.csv",getCovidCountyTableCSV);
-    loadXHRFile("./data/nst-est2019-alldata.csv",get2019PopulationTableCSV);
+    loadXHRFile("./data/nst-est2019-alldata.csv",get2019statePopTableCSV);
     //Log.Remove();
     //appendPi('piSpan');
     //appendPiClass('piClass')
@@ -408,20 +463,26 @@ $(document).ready(function() {
 <h3><span id='piSpan'>Covid-19 Incidence Data</span></h3>
 <ul>
  <li>
-  <label for="searchTable">Search Table</label>
-  <select id="searchTable" name="searchTable" tabIndex="7"
-        onChange="stateTable.configureSearchTable('searchTable')">
-    <option value="stateTable">State Table</option>
-    <option value="countyTable">County Table</option>
+  <label for="searchList">Search List</label>
+  <select id="searchList" name="searchList" tabIndex="7"
+    onChange="configureSearchList('searchList')">
+    <option></option>
+    <option></option>
+    <option></option>
+    <option></option>
+    <option></option>
+    <option></option>
   </select>
 </li>
  <li><label for="fieldToSearch">Search Field:</label>
  <select id="fieldToSearch" tabIndex="7"
-  onChange="stateTable.configureSearchField('fieldToSearch')">
-   <option value="fips">FIPS</option>
-   <option value="sname">State Name</option>
-   <option value="cname">County Name</option>
-   <option value="date">Date</option>
+  onChange="configureSearchField('fieldToSearch')">
+  <option></option>
+  <option></option>
+  <option></option>
+  <option></option>
+  <option></option>
+  <option></option>
   </select>
   </li>
   <li style="display:none;"><label for="outputType">Output Type</label>
@@ -433,7 +494,7 @@ $(document).ready(function() {
   </li>
   <li><label for="searchTerms">Search For:</label>
   <input type="text" id="searchTerms" name="searchTerms" tabIndex="9"
-   onKeyUp="stateTable.search('searchTerms','#selection');" />
+   onKeyUp="search('searchTerms','#selection');" />
   </li>
  </ul>
  </fieldset>
@@ -447,14 +508,34 @@ $(document).ready(function() {
 <ul id="panel">
   <fieldset id="links">
   <legend>Links to References</legend>
-  <li><a href="">Interactive IUPAC Periodic Table of Elements and Isotopes</a></li>
-  <li><a href="">IUPAC Periodic Table Nov 28, 2016</a></li>
-  <li><a href="">John Conway&apos;s Chemical <span class='piClass'></span> Paper (Page 1)</a></li>
-  <li><a href="">First 9,999 Digits of <span class='piClass'></span> After Decimal</a></li>
   <li><a href="https://www.kff.org/other/state-indicator/confirmed-covid-19-cases-and-deaths/?currentTimeframe=0&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D">Confirmed COVID-19 Cases and Deaths</a></li>
   <li><a href="https://www2.census.gov/programs-surveys/popest/datasets/2010-2019/national/">Population Data US Census</a></li>
 </fieldset>
 </ul>
+<p>Possible Output Graph: overall average to date. This graph will go up
+and then go down over time, or may also go up, which would indicate a big 
+problem as higher average implies things are getting worse.</p>
 
+<div id="svgContainer">
+<svg 
+    version="1.1"
+    id="covidGraph"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0px"
+    y="0px"
+    width="1500px"
+    height="700px"
+    viewBox="0 0 1500 700"
+    enable-background="new 0 0 1000 700"
+    fill="rgba(0,0,0,0.25)"
+    xml:space="preserve"
+>
+<defs id="svgDefs">
+
+</defs>
+
+</svg>
+</div>
 </body>
 </html>

@@ -1,12 +1,14 @@
 //var newXHR3;
-var xhrArray = new Array();
-
-var covidStateData = [],
+var xhrArray = new Array(),
+    covidStateData = [],
     covidCountyData = [],
-    covidPopData = [],
+    covidStatePopData = [],
+    covidCountyPopData = [],
     stateTable,
     countyTable,
-    popTable;
+    statePopTable,
+    countyPopTable,
+    tableNameToObj = [];
 
 function loadCsvFile(filename) {
     var urlBase = "./";
@@ -46,12 +48,12 @@ function getCovidCountyTableCSV(evt) {
     parseCovidCountyTableCSV(evt.currentTarget.responseText);
 }
 
-function get2019PopulationTableCSV(evt) {
+function get2019statePopTableCSV(evt) {
     if (evt.currentTarget.readyState < 4) {
         return;
     }
 
-    parse2019PopulationTableCSV(evt.currentTarget.responseText);
+    parse2019statePopTableCSV(evt.currentTarget.responseText);
 }
 
 parseCovidStateTableCSV = function (csv) {
@@ -66,8 +68,10 @@ parseCovidStateTableCSV = function (csv) {
             deaths: parseInt(d["deaths"]),
         };
     });
-    console.log("done loading CovidStatesTable csv file");
+
+    Log.Notice("done loading CovidStatesTable csv file");
     stateTable = new DataTable("stateTable",covidStateData);
+    tableNameToObj["stateTable"] = stateTable;
 };
 
 parseCovidCountyTableCSV = function (csv) {
@@ -82,13 +86,15 @@ parseCovidCountyTableCSV = function (csv) {
             deaths: parseInt(d["deaths"]),
         };
     });
-    console.log("done loading CovidCountyTable csv file");
+
+    Log.Notice("done loading CovidCountyTable csv file");
     countyTable = new DataTable("countyTable",covidCountyData);
-    countyTable.setup();
+    tableNameToObj["countyTable"] = countyTable;
+    initialSetup();
 };
 
-parse2019PopulationTableCSV = function (csv) {
-    covidPopData = d3.csvParse(csv, function(d,i) {
+parse2019statePopTableCSV = function (csv) {
+    covidStatePopData = d3.csvParse(csv, function(d,i) {
         return {
             id: i,
             fips: parseInt(d["STATE"]),
@@ -100,6 +106,212 @@ parse2019PopulationTableCSV = function (csv) {
             deaths: d["DEATHS2019"],
         };
     });
-    console.log("done loading 2019PopulationTable csv file");
-    popTable = new DataTable("popTable",covidPopData);
+
+    Log.Notice("done loading 2019StatePopulationTable csv file");
+    statePopTable = new DataTable("statePopTable",covidStatePopData);
+    tableNameToObj["statePopTable"] = statePopTable;
+};
+
+
+let fieldToSearch = "sname",
+    tableToSearch = "stateTable",
+    searchList = 'state',
+    outputType = 'list',
+    searchLength = 0,
+    searchLists = new Array(),
+    tmpSearchList,
+    index = 0,
+    slLists = [];
+
+searchLists['state'] = {
+    list: covidStateData,
+    table: stateTable,
+    name: 'state',
+    fields: [
+        {
+            name:"id",
+            type: "integer",
+            descr: "Internal Reference Number",
+        },
+        {
+            name:"fips",
+            type:"integer",
+            descr:"Federal Jurisdictional Code", 
+        },
+        {
+            name:"sname",
+            type:"string",
+            descr:"State Name",
+        },
+        {
+            name:"cname",
+            type:"string",
+            value:"all",
+            descr:"County Name",
+        },
+        {
+            name:"date",
+            type:"date",
+            descr:"Date for this datapoint",
+        },
+        {
+            name:"cases",
+            type:"integer",
+            descr:"total positive cases",
+        },
+        {
+            name:"deaths",
+            type:"integer",
+            descr:"total deaths",
+        }
+    ],
+}
+searchLists['county'] = {
+    data: covidCountyData,
+    table: countyTable,
+    name: 'county',
+    fields: [
+        {
+            name:"id",
+            type: "integer",
+            descr: "Internal Reference Number",
+        },
+        {
+            name:"fips",
+            type:"integer",
+            descr:"Federal Jurisdictional Code", 
+        },
+        {
+            name:"sname",
+            type:"string",
+            descr:"State Name",
+        },
+        {
+            name:"cname",
+            type:"string",
+            descr:"County Name",
+        },
+        {
+            name:"date",
+            type:"date",
+            descr:"Date for this datapoint",
+        },
+        {
+            name:"cases",
+            type:"integer",
+            descr:"total positive cases",
+        },
+        {
+            name:"deaths",
+            type:"integer",
+            descr:"total deaths",
+        }]
+},
+searchLists['statePop'] = {
+    data: covidStatePopData,
+    name: 'statePop',
+    fields: [
+        {
+            name:"id",
+            type: "integer",
+            descr: "Internal Reference Number",
+        },
+        {
+            name:"fips",
+            type:"integer",
+            descr:"Federal Jurisdictional Code", 
+        },
+        {
+            name:"jurType",
+            type:"string",
+            descr:"Jurisdiction Type (FIPS)"
+        },
+        {
+            name:"sname",
+            type:"string",
+            descr:"State Name",
+        },
+        {
+            name:"cname",
+            type:"string",
+            descr:"County Name",
+        },
+        {
+            name:"population",
+            type:"integer",
+            descr:"Population of Jurisdiction.",
+        },
+        {
+            name:"change",
+            type:"integer",
+            descr:"Change since last year.",
+        },
+        {
+            name:"births",
+            type:"integer",
+            descr:"total births over year",
+        },
+        {
+            name:"deaths",
+            type:"integer",
+            descr:"total deaths over year",
+        }
+    ]
+},
+searchLists['countyPop'] = {
+    data: covidCountyPopData,
+    name: 'countyPop',
+    fields: [
+        {
+            name:"id",
+            type: "integer",
+            descr: "Internal Reference Number",
+        },
+        {
+            name:"fips",
+            type:"integer",
+            descr:"Federal Jurisdictional Code", 
+        },
+        {
+            name:"jurType",
+            type:"string",
+            descr:"Jurisdiction Type (FIPS)"
+        },
+        {
+            name:"sname",
+            type:"string",
+            descr:"State Name",
+        },
+        {
+            name:"cname",
+            type:"string",
+            descr:"County Name",
+        },
+        {
+            name:"population",
+            type:"integer",
+            descr:"Population of Jurisdiction.",
+        },
+        {
+            name:"change",
+            type:"integer",
+            descr:"Change since last year.",
+        },
+        {
+            name:"births",
+            type:"integer",
+            descr:"total births over year",
+        },
+        {
+            name:"deaths",
+            type:"integer",
+            descr:"total deaths over year",
+        }
+    ],
+};
+
+searchLists['tmp'] = {
+    list: tmpSearchList,
+    name: 'tmp',
+    fields: {},
 };
