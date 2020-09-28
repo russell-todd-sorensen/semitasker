@@ -1,15 +1,14 @@
-// we need the following script
-importScripts('precision.js');
-
 // web worker mandelbrot calculation
-
 self.addEventListener('message',  function(evt) {
   var data = evt.data;
   var objectInfo = data.objectInfo;
   var col = 0;
   var row = objectInfo.height-1;
+  var print = 0;
+  var index = 0;
   var counter;
   var finite;
+  var value;
   var currentIndex;
   var tmpXSquared,tmpYSquared,tmpYbyTmpX,newX,newY,tmpX,tmpY,cY,cX,lastImaginaryPolarity;
   var profile = {
@@ -18,39 +17,21 @@ self.addEventListener('message',  function(evt) {
     minimum: objectInfo.counterMax,
     infinite: 0
   };
-  var skew = 0;
   var counters = [];
   var polarity = [];
   var coord    = [];
 
   var fractalTypeId = data.fractalTypeId;
-
-  var dx = Math.abs((objectInfo.endX-objectInfo.startX)/objectInfo.width);
-  var dy = Math.abs((objectInfo.endY-objectInfo.startY)/objectInfo.height);
-
-  // temp hack to get point grid tool up and running.
-  data.dx = dx;
-  data.dy = dy;
-
-  var mpArray = maxPrecision([
-    objectInfo.endX,objectInfo.startX,
-    objectInfo.endY,objectInfo.startY,
-    objectInfo.width,
-    objectInfo.height],
-    0
-  );
-
+  console.log('fractalTypeId=' + fractalTypeId);
 
   for (var x = objectInfo.startX, col = 0;
     col<objectInfo.width && x < objectInfo.endX;
-    x+=dx, col++)
+    x+=Math.abs((objectInfo.endX-objectInfo.startX)/objectInfo.width), col++)
   {
-    x = parseFloat((x).toPrecision(8))
     for (var y = objectInfo.startY, row=objectInfo.height-1;
       row >= 0 && y < objectInfo.endY;
-      y+=dy, row-- )
+      y+=Math.abs((objectInfo.endY-objectInfo.startY)/objectInfo.height), row-- )
     {
-      y = parseFloat((y).toPrecision(8))
       counter = 0;
       finite = true;
       newX = x;
@@ -166,7 +147,10 @@ self.addEventListener('message',  function(evt) {
 
       // record if last imaginary part is positive or negative.
       lastImaginaryPolarity = (newY > 0) ? true : false;
+      // quick hack ()
 
+      //if (lastImaginaryPolarity) counter++;
+      // profile counters
       if (profile.counts[counter])
       {
         profile.counts[counter]++;
@@ -182,17 +166,12 @@ self.addEventListener('message',  function(evt) {
         }
       }
 
-      //currentIndex = 4*((objectInfo.width-1)*row + col);
-      
-      // skew causes image to shift and skew
-      // 1 => 45deg skew, 50% shift
-      // 0 => normal 
-      currentIndex = 4*((objectInfo.width-skew)*row + col);
+      currentIndex = 4*(objectInfo.width*row + col);
 
       counters[currentIndex] = counter;
       polarity[currentIndex] = lastImaginaryPolarity;
-      //coord[currentIndex/4] = [x,y,col,row];
-      coord[currentIndex/4] = {x:x,y:y,col:col,row:row};
+      coord[currentIndex] = [x,y,col,row];
+      index++;
     }
   }
 

@@ -14,6 +14,21 @@ Data.writeFontFamilySelect = function( selector ) {
   }
 };
 
+Data.writeFontFamilySelectGeneric = function(selector, fonts) {
+
+    fonts = fonts?fonts.propertyIsEnumerable(0)?fonts:["Fira Code"]:Data.chromeFonts;
+
+    let selection = $(selector),
+        font  = fonts.length?fonts[0]:(fonts.push("Fira Code"));
+
+    selection.html("");
+
+    for (let i = 0; i < fonts.length; i++) {
+        font = fonts.fontFamily[i];
+        selection.append(`\n <option value="${font}">${font}</option>`);
+    }
+};
+
 Data.changeFont = function(selectId) {
 
   var font = $('#' + selectId + " option::selected").val();

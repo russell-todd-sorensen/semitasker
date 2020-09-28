@@ -55,6 +55,19 @@ rectInit[1] = {
         y: 1.5
     }
 };
+
+// This is a small rect for testing
+rectInit[2] = {
+    start: {
+        x: -2.025,
+        y: -0.025
+    },
+    end: {
+        x: -1.925,
+        y:  0.025
+    }
+};
+
 //////////////////// THIS IS THE FRACTAL IMAGE OBJECT  /////////////
 
 var fractalImage = function(canvasId,boxId,height,width,startUpData) {
@@ -243,6 +256,12 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
             this.rect.end.x   = rectInit[fractalTypeId].end.x*1;
             this.rect.end.y   = rectInit[fractalTypeId].end.y*1;
         }
+        /////////// FOR TESTING /////////////////
+        if (fractalTypeId == 2) { // for testing
+            this.height = 10;
+            this.width = 10;
+        }
+        //////// FINISH FOR TESTING /////////////
 
         objectInfo.startX = this.rect.start.x*1;
         objectInfo.startY = this.rect.start.y*1;
@@ -338,7 +357,7 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
     };
 
     // Web Worker to calculate counters
-    this.worker = new Worker('js/mset-web-worker-code-generalized.js');
+    this.worker = new Worker('js/mset-web-worker-code-generalized-arb.js');
     this.worker.addEventListener('message', drawImageFromWorker)
 
     this.continueAnimation = false;
@@ -364,12 +383,13 @@ var fractalImage = function(canvasId,boxId,height,width,startUpData) {
 var CurrentData;
 var drawImageFromWorker = function (evt) {
     var data = evt.data;
-    CurrentData = data;
     var objId = data.objId;
     var fractal = myFractalImages[objId];
+    CurrentData = data;
     fractal.counters = data.counters;
     fractal.polarity = data.polarity;
     fractal.drawImage(data);
+    CurrentData.pixels = fractal.pixels;
 };
 
 var profileCounters = function (counters) {

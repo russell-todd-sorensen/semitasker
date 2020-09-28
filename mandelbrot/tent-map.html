@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Tent Map w/ Mandelbrot Set Iterator</title>
+<style>
+.red {
+    color: red;
+}
+td {
+    text-align: right;
+    font-family:'Fira Code', 'Lucida Sans Unicode', monospace;
+}
+</style>
+<script src="/js/decimal.js"></script>
+<script src="js/tent-map.js"></script>
+<script>
+
+var msetTentMap = function (zrn,zin,cr,ci) {
+    
+    let zr = cr - (zin*zin) + (zrn*zrn),
+        zi = ci + 2*(zrn*zin);
+
+    return [zr,zi,cr,ci]
+}
+
+var runTests = function (cr,ci,absv,max,fixd) {
+
+    cr   = (cr    || 0),
+    ci   = (ci    || 0),
+    absv = (absv  || 4),
+    max  = (max   || 100),
+    fixd = (fixd  || 17);
+
+    let args = [0,0,cr,ci],
+        magv = cr*cr + ci*ci,
+        i  = 0,
+        zr = 0,
+        zi = 0,
+        results = [args],
+        output  = `<table cellspacing='0' cellpadding='2' border='1px'>
+    <tr><th>I</th><th>Real</th><th>Imaginary<th>Magv</th><th>Escape Val</th>
+    </tr>`;
+
+    for (;i<max && magv<absv;i++) {
+        output += `
+    <tr><td>${i}</td><td>${zr.toFixed(fixd)}</td>
+        <td>${zi.toFixed(fixd)}</td><td>${magv.toFixed(fixd)}</td>
+        <td>${absv}</td>
+    </tr>\n`;
+        args = msetTentMap(...args);
+        results.push(args);
+        zr = args[0];
+        zi = args[1];
+        magv = zr*zr + zi*zi;
+    }
+    output += `
+    <tr><td>${i}</td><td>${zr.toFixed(fixd)}</td>
+        <td>${zi.toFixed(fixd)}</td><td>${magv.toFixed(fixd)}</td>
+        <td>${absv}</td>
+    </tr>\n`;
+    document.getElementById('results').innerHTML = output
+}
+
+</script>
+</head>
+<body>
+<div id="results"></div>
+</body>
+</html>
