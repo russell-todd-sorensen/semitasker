@@ -14,7 +14,7 @@ addToPixels[1] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255};
     }
@@ -55,7 +55,7 @@ addToPixels[2] = function (data) {
     var pixelJump = data.pixelJump;
 
     var colors = new Array(fractal.counterMax);
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255};
     }
@@ -95,7 +95,7 @@ addToPixels[3] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255};
     }
@@ -137,7 +137,7 @@ addToPixels[4] = function (data) {
     var pixelJump = data.pixelJump;
 
     var colors = new Array(fractal.counterMax);
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255};
     }
@@ -186,7 +186,7 @@ addToPixels[5] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -236,7 +236,7 @@ addToPixels[6] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -286,7 +286,7 @@ addToPixels[7] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -337,7 +337,7 @@ addToPixels[8] = function (data) {
 
   var colors = new Array(fractal.counterMax);
 
-  for (var i = 0; i<=fractal.counterMax;i++)
+  for (var i = 0; i<fractal.counterMax;i++)
   {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
   }
@@ -388,7 +388,7 @@ addToPixels[9] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -438,7 +438,7 @@ addToPixels[10] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255};
     }
@@ -488,7 +488,7 @@ addToPixels[11] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -536,7 +536,7 @@ addToPixels[12] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++) {
+    for (var i = 0; i<fractal.counterMax;i++) {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
@@ -594,7 +594,7 @@ addToPixels[13] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255};
     }
@@ -644,7 +644,7 @@ addToPixels[14] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -694,7 +694,7 @@ addToPixels[15] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -805,7 +805,7 @@ addToPixels[17] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -861,7 +861,7 @@ addToPixels[18] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -903,7 +903,7 @@ addToPixels[19] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -990,7 +990,7 @@ addToPixels[20] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1033,7 +1033,7 @@ addToPixels[21] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1082,7 +1082,7 @@ addToPixels[22] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1116,7 +1116,7 @@ addToPixels[23] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1199,7 +1199,7 @@ addToPixels[24] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1275,7 +1275,7 @@ addToPixels[25] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1363,7 +1363,7 @@ addToPixels[26] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1446,7 +1446,7 @@ addToPixels[27] = function (data) {
     var row,point;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1605,7 +1605,7 @@ addToPixels[29] = function (data) {
     var row,point;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1684,7 +1684,7 @@ addToPixels[30] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1770,7 +1770,7 @@ addToPixels[31] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1856,7 +1856,7 @@ addToPixels[32] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -2058,7 +2058,7 @@ addToPixels[35] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255};
     }
@@ -2132,7 +2132,7 @@ addToPixels[36] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255};
     }
@@ -2203,7 +2203,7 @@ addToPixels[37] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -2238,7 +2238,7 @@ addToPixels[38] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -2304,7 +2304,7 @@ addToPixels[39] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:255,g:255,b:255,a:255,hex:'#FFFFFF'};
     }
@@ -2377,7 +2377,7 @@ addToPixels[40] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:255,g:255,b:255,a:255,hex:'#FFFFFF'};
     }
@@ -2461,7 +2461,7 @@ addToPixels[41] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:255,g:255,b:255,a:255,hex:'#FFFFFF'};
     }
@@ -2542,7 +2542,7 @@ addToPixels[42] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:255,g:255,b:255,a:255,hex:'#FFFFFF'};
     }
@@ -2617,7 +2617,7 @@ addToPixels[43] = function (data) {
     var row,point;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -2829,7 +2829,7 @@ addToPixels[47] = function (data) {
     var row,point;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -2923,7 +2923,7 @@ addToPixels[48] = function (data) {
     var counterOffset = 0;
     var hueNormalized = 3600;
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (var i = 0; i<fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
         if (counter == fractal.profile.maximum+1)
