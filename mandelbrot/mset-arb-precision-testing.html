@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Tent Map w/ Mandelbrot Set Iterator</title>
+<style>
+.red {
+    color: red;
+}
+#results td {
+    text-align: right;
+    font-family:'Fira Code', 'Lucida Sans Unicode', monospace;
+}
+</style>
+<script src="/js/decimal.js"></script>
+<script>
+
+var msetTestIteration = function (evt) {
+    let data = evt.data,
+        objectInfo = data.objectInfo;
+
+    // Decimal does not make it though the transporter, reconstruct here
+    objectInfo.startX = new Decimal(objectInfo.startX);
+    objectInfo.startY = new Decimal(objectInfo.startY);
+    objectInfo.endX   = new Decimal(objectInfo.endX);
+    objectInfo.endY   = new Decimal(objectInfo.endY);
+
+    let counter,
+        finite,
+        currentIndex,
+        tmpXSquared,tmpYSquared,tmpYbyTmpX,newX,newY,tmpX,tmpY,cY,cX,lastImaginaryPolarity,
+        profile = {
+            counts: [],
+            maximum: 0,
+            minimum: objectInfo.counterMax,
+            infinite: 0
+        },
+        skew = 0,
+        counters = [],
+        polarity = [],
+        coord    = [],
+        fractalTypeId = data.fractalTypeId,
+        dx = Decimal.abs((objectInfo.endX.minus(objectInfo.startX)).div(objectInfo.width)),
+        dy = Decimal.abs((objectInfo.endY.minus(objectInfo.startY)).div(objectInfo.height));
+
+        // temp hack to get point grid tool up and running.
+    data.dx = dx;
+    data.dy = dy;
+
+    for (let x = objectInfo.startX, col = 0;
+        col<objectInfo.width && x.lt(objectInfo.endX);
+        x = x.plus(dx), col++)
+    {
+        for (let y = objectInfo.startY, row=objectInfo.height-1;
+            row >= 0 && y.lt(objectInfo.endY);
+            y = y.plus(dy), row-- )
+        {
+            counter = 0;
+            finite = true;
+            newX = new Decimal(0);//x;
+            newY = new Decimal(0);//y;
+            tmpX = new Decimal(0);//x;
+            tmpY = new Decimal(0);//y;
+            cY = y.times(1);
+            cX = x.times(1);
+            tmpXSquared = tmpX.times(tmpX);
+            tmpYSquared = tmpY.times(tmpY);
+            tmpYbyTmpX  = tmpY.times(tmpX);
+
+            switch (fractalTypeId) {
+            case 1:
+                tmpYbyTmpX = Decimal.abs(tmpYbyTmpX);
+                break;
+            case 0:
+            default:
+                break;
+            }
+
+            while (counter <= objectInfo.counterMax && finite)
+            {
+
+                newY = cY.plus(tmpYbyTmpX.times(2));
+                newX = cX.minus(tmpYSquared.plus(tmpXSquared));
+                tmpX = newX.times(1);
+                tmpY = newY.times(1);
+                tmpXSquared = tmpX.times(tmpX);
+                tmpYSquared = tmpY.times(tmpY);
+                tmpYbyTmpX  = tmpY.times(tmpX);
+
+                switch (fractalTypeId) {
+                case 1:
+                    tmpYbyTmpX = Decimal.abs(tmpYbyTmpX);
+                    break;
+                default:
+                    break;
+                }
+
+                switch (objectInfo.finiteMeasureFunction) {
+                case 1:
+                    if ((tmpXSquared.plus(tmpYSquared)).gt(objectInfo.finiteMeasure))
+                    {
+                        finite = false;
+                    }
+                    break;
+                case 2:
+                    if ((Decimal.sqrt(tmpXSquared.plus(tmpYSquared))).gt(objectInfo.finiteMeasure))
+                    {
+                        finite = false;
+                    }
+                    break;
+                case 3:
+                    if ((Decimal.abs(tmpYbyTmpX)).gt(objectInfo.finiteMeasure))
+                    {
+                        finite = false;
+                    }
+                    break;
+                case 4:
+                    if ((Decimal.abs(tmpY).plus(Decimal.abs(tmpX))).gt(objectInfo.finiteMeasure))
+                    {
+                        finite = false;
+                    }
+                    break;
+                case 5:
+                    if ((Decimal.abs(tmpY.plus(tmpX))).gt(objectInfo.finiteMeasure))
+                    {
+                        finite = false;
+                    }
+                    break;
+                case 6:
+                    if ((Decimal.abs(tmpYbyTmpX).toPower(.6)).gt(objectInfo.finiteMeasure))
+                    {
+                        finite = false;
+                    }
+                    break;
+                case 7:
+                    if (
+                        (tmpX.lt(-2.00000))  ||
+                        (tmpX.gt(.47118534)) ||
+                        (Decimal.abs(tmpY).gt(1.227571))
+                       )
+                    {
+                        finite = false;
+                    }
+                    break;
+                case 8:
+                    if (
+                        ( (tmpX.lt(-2.00000) )  || (tmpX.gt(.47118534)))
+                        &&
+                        (Decimal.abs(tmpY).gt(1.227571))
+                    )
+                    {
+                        finite = false;
+                    }
+                    break;
+                case 9:
+                    if (
+                        (Decimal.abs(tmpX).gt(2.0))
+                        &&
+                        (Decimal.abs(tmpY).gt(1.227571))
+                    )
+                    {
+                        finite = false;
+                    }
+                    break;
+                }
+
+                counter++;
+            }
+
+            counter--;
+
+            // record if last imaginary part is positive or negative.
+            lastImaginaryPolarity = (newY.gt(0)) ? true : false;
+
+            if (profile.counts[counter])
+            {
+                profile.counts[counter]++;
+            }
+            else {
+                profile.counts[counter] = 1;
+                if (counter > profile.maximum)
+                {
+                    profile.maximum = counter;
+                }
+                if (counter < profile.minimum) {
+                    profile.minimum = counter;
+                }
+            }
+
+            //currentIndex = 4*((objectInfo.width-1)*row + col);
+            
+            // skew causes image to shift and skew
+            // 1 => 45deg skew, 50% shift
+            // 0 => normal 
+            currentIndex = 4*((objectInfo.width-skew)*row + col);
+
+            counters[currentIndex] = counter;
+            polarity[currentIndex] = lastImaginaryPolarity;
+            //coord[currentIndex/4] = [x,y,col,row];
+            coord[currentIndex/4] = {x:x.toJSON(),y:y.toJSON(),col:col,row:row};
+        }
+    }
+
+  data.profile  = profile;
+  data.counters = counters;
+  data.polarity = polarity;
+  data.coord    = coord;
+  data.dx       = data.dx.toJSON();
+  data.dy       = data.dy.toJSON();
+
+  objectInfo.startX = objectInfo.startX.toJSON();
+  objectInfo.startY = objectInfo.startY.toJSON();
+  objectInfo.endX   = objectInfo.endX.toJSON();
+  objectInfo.endY   = objectInfo.endY.toJSON();
+
+}
+
+
+
+
+
+var msetTentMap = function (zrn,zin,cr,ci) {
+    
+    let zr = cr.minus(zin.times(zin)).plus(zrn.times(zrn)),
+        zi = ci.plus((zrn.times(zin).times(2)));
+
+    return [zr,zi,cr,ci]
+}
+
+var msetOuterPrep = function(zrn,zin,cr,ci,absv,max) {
+
+    msetInnerLoop(0,0,cr,ci,absv,max)
+
+}
+
+var msetInnerLoop = function (zrn,zin,cr,ci,absv,max) {
+
+    let objectInfo = {
+            counterMax: max,
+            finiteMeasureFunction: 1,
+            fractalTypeId: 0,
+            finiteMeasure: absv,
+        },
+        cX = cr,
+        cY = ci,
+        newX = new Decimal(0),//x;
+        newY = new Decimal(0),//y;
+        tmpX = new Decimal(0),//x;
+        tmpY = new Decimal(0),//y;
+        tmpXSquared = tmpX.times(tmpX),
+        tmpYSquared = tmpY.times(tmpY),
+        tmpYbyTmpX  = tmpY.times(tmpX),
+        counter=0,
+        finite = true,
+        magv = new Decimal(0);
+
+    loop1:
+    while (counter <= objectInfo.counterMax && finite)
+    {
+        switch (objectInfo.finiteMeasureFunction) {
+        case 1:
+            magv = tmpXSquared.plus(tmpYSquared);
+            if (magv.gt(objectInfo.finiteMeasure))
+            {
+                finite = false;
+            }
+            break;
+        }
+        console.log(`i=${counter}, zr=${newX.toString()},zi=${newY.toString()}, cr=${cX.toString()}, ci=${cY.toString()}, magv=${magv.toString()}`);
+ 
+        if (!finite) {
+            break loop1;
+        }
+
+        newY = cY.plus(tmpYbyTmpX.times(2));
+        newX = cX.minus(tmpYSquared).plus(tmpXSquared);
+        tmpX = newX.times(1);
+        tmpY = newY.times(1);
+        tmpXSquared = tmpX.times(tmpX);
+        tmpYSquared = tmpY.times(tmpY);
+        tmpYbyTmpX  = tmpY.times(tmpX);
+
+        //console.log(`i=${counter}, zr=${newX.toString()},zi=${newY.toString()}, cr=${cX.toString()}, ci=${cY.toString()}`);
+
+        switch (objectInfo.fractalTypeId) {
+        case 1:
+            tmpYbyTmpX = Decimal.abs(tmpYbyTmpX);
+            break;
+        default:
+            break;
+        }
+        counter++;
+    }
+}
+
+var runTests = function (crIn,ciIn,absvIn,maxIn,fixdIn) {
+    let fixd = (fixdIn  || 20);
+    Decimal.set({precision: fixd});
+    let cr   = new Decimal(crIn    || 0),
+        ci   = new Decimal(ciIn    || 0),
+        absv = new Decimal(absvIn  || 4),
+        max  =            (maxIn   || 100),
+        i    = 0,
+        zr   = new Decimal(0),
+        zi   = new Decimal(0),
+        args = [zr,zi,cr,ci],
+        magv = zr.times(zr).plus(zi.times(zi)) ;//cr*cr + ci*ci,
+        results = [args],
+        output  = `<table cellspacing='0' cellpadding='2' border='1px'>
+    <tr><th>I</th><th>Real</th><th>Imaginary<th>Magv</th><th>Escape Val</th>
+    </tr>`;
+
+    for (;i<max && magv.lt(absv);i++) {
+        output += `
+    <tr><td>${i}</td><td>${zr.toFixed(fixd)}</td>
+        <td>${zi.toFixed(fixd)}</td><td>${magv.toFixed(fixd)}</td>
+        <td>${absv.toString()}</td>
+    </tr>\n`;
+        args = msetTentMap(...args);
+        results.push(args);
+        zr = args[0];
+        zi = args[1];
+        magv = zr.times(zr).plus(zi.times(zi));
+    }
+    output += `
+    <tr><td>${i}</td><td>${zr.toFixed(fixd)}</td>
+        <td>${zi.toFixed(fixd)}</td><td>${magv.toFixed(fixd)}</td>
+        <td>${absv.toString()}</td>
+    </tr>\n`;
+    document.getElementById('results').innerHTML = output
+
+    msetOuterPrep(0,0,cr,ci,absv,max);
+}
+
+</script>
+</head>
+<body>
+<div id="results"></div>
+</body>
+</html>

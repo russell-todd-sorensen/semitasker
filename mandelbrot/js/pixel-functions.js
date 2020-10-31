@@ -14,12 +14,12 @@ addToPixels[1] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         modulus = (p+1)%4;
         counter = fractal.counters[p];
@@ -55,12 +55,12 @@ addToPixels[2] = function (data) {
     var pixelJump = data.pixelJump;
 
     var colors = new Array(fractal.counterMax);
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
         hue = ((counter*10+fractal.animationIndex)%360)/10;
@@ -95,12 +95,12 @@ addToPixels[3] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
         hue = ((counter+fractal.animationIndex)%3600)/10;
@@ -137,12 +137,12 @@ addToPixels[4] = function (data) {
     var pixelJump = data.pixelJump;
 
     var colors = new Array(fractal.counterMax);
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
 
@@ -186,12 +186,12 @@ addToPixels[5] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
 
@@ -236,12 +236,12 @@ addToPixels[6] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
 
@@ -286,12 +286,12 @@ addToPixels[7] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
 
         counter = fractal.counters[p];5
@@ -337,12 +337,12 @@ addToPixels[8] = function (data) {
 
   var colors = new Array(fractal.counterMax);
 
-  for (var i = 0; i<fractal.counterMax;i++)
+  for (var i = 0; i<=fractal.counterMax;i++)
   {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
   }
 
-  for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+  for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
   {
         counter = fractal.counters[p];
 
@@ -388,12 +388,12 @@ addToPixels[9] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
 
         counter = fractal.counters[p];
@@ -426,7 +426,6 @@ addToPixels[9] = function (data) {
     return fractal.continueAnimation;
 };
 
-
 addToPixels[10] = function (data) {
     var objId = data.objId;
     var amount = data.amount;
@@ -438,12 +437,12 @@ addToPixels[10] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
 
@@ -479,42 +478,28 @@ addToPixels[10] = function (data) {
 };
 
 addToPixels[11] = function (data) {
-    var objId = data.objId;
-    var amount = data.amount;
-    var fractal = myFractalImages[objId];
-    var counter;
-    var hue,sat,brt,rgb;
-    var hueFactor = 2*360/fractal.counterMax;
-    var pixelJump = data.pixelJump;
-    var colors = new Array(fractal.counterMax);
+    let objId = data.objId,
+        amount = data.amount,
+        fractal = myFractalImages[objId],
+        counter,
+        pixelJump = data.pixelJump,
+        colors = new Array(fractal.counterMax+1).fill({r:255,g:255,b:255,a:255,hex:"#FFFFFF"}),
+        rgb = {r:0,g:0,b:0,a:255,hex:'#000000'}; // black;
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (let p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
     {
-        colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
-    }
+        counter = fractal.counters[p/4];
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
-    {
-        counter = fractal.counters[p];
-
-        if (counter == fractal.profile.maximum)
-        {
-            rgb = {r:0,g:0,b:0,a:255,hex:'#000000'}; // black;
-        }
-        else {
-            rgb = {r:255,g:255,b:255,a:255,hex:'#FFFFFF'}; // white;
+        if (counter != fractal.profile.maximum) {
+            continue
         }
 
-        fractal.pixels[p] = rgb.r;
+        fractal.pixels[p]   = rgb.r;
         fractal.pixels[p+1] = rgb.g;
         fractal.pixels[p+2] = rgb.b;
         fractal.pixels[p+3] = 255;
 
-        colors[counter].r = rgb.r;
-        colors[counter].g = rgb.g;
-        colors[counter].b = rgb.b;
-        colors[counter].hex = '#' + toHex(rgb.r) + toHex(rgb.g) + toHex(rgb.b);
-        colors[counter].a = 255;
+        colors[counter] = rgb;
     }
 
     fractal.colors = colors;
@@ -536,11 +521,11 @@ addToPixels[12] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++) {
+    for (var i = 0; i<=fractal.counterMax;i++) {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
 
@@ -594,12 +579,12 @@ addToPixels[13] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
 
@@ -635,45 +620,33 @@ addToPixels[13] = function (data) {
 };
 
 addToPixels[14] = function (data) {
-    var objId = data.objId;
-    var amount = data.amount;
-    var fractal = myFractalImages[objId];
-    var counter;
-    var hue,sat,brt,rgb;
-    var hueFactor = 2*360/fractal.counterMax;
-    var pixelJump = data.pixelJump;
-    var colors = new Array(fractal.counterMax);
+    let objId = data.objId,
+        amount = data.amount,
+        fractal = myFractalImages[objId],
+        counter,
+        hue,sat,brt,rgb,
+        hueFactor = 2*360/fractal.counterMax,
+        pixelJump = data.pixelJump,
+        colors = new Array(fractal.counterMax+1).fill({r:0,g:0,b:0,a:255,hex:'#000000'}),
+        color;
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (let p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
     {
-      colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
-    }
+        counter = fractal.counters[p/4];
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
-    {
-        counter = fractal.counters[p];
+        hue = ((Math.round(counter*hueFactor+fractal.animationIndex))%360);
+        sat = (counter%8)*.125 + .125;
+        brt = 1.200 - ((counter+fractal.animationIndex)%20)*.05 ;
+        rgb = hsl2rgb(hue, (sat>.7?.7:sat), (brt>1?1:brt));
 
-        if (counter == fractal.profile.maximum)
-        {
-            rgb = {r:0,g:0,b:0,a:255,hex:'#000000'}; // black;
-        }
-        else {
-            hue = ((Math.round(counter*hueFactor+fractal.animationIndex))%360);
-            sat = (counter%8)*.125 + .125;
-            brt = 1.200 - ((counter+fractal.animationIndex)%20)*.05 ;
-            rgb = hsl2rgb(hue, (sat>.7?.7:sat), (brt>1?1:brt));
-        }
-
-        fractal.pixels[p] = rgb.r;
+        fractal.pixels[p]   = rgb.r;
         fractal.pixels[p+1] = rgb.g;
         fractal.pixels[p+2] = rgb.b;
         fractal.pixels[p+3] = 255;
 
-        colors[counter].r = rgb.r;
-        colors[counter].g = rgb.g;
-        colors[counter].b = rgb.b;
-        colors[counter].hex = '#' + toHex(rgb.r) + toHex(rgb.g) + toHex(rgb.b);
-        colors[counter].a = 255;
+        color = {r:rgb.r,g:rgb.g,b:rgb.b,a:255,hex:'#' + toHex(rgb.r) + toHex(rgb.g) + toHex(rgb.b)}
+ 
+        colors[counter] = color;
     }
 
     fractal.colors = colors;
@@ -694,13 +667,13 @@ addToPixels[15] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-//    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
-    for (var p = (((fractal.animationIndex)%(pixelJump/4))*4);p<fractal.pixels.length; p+=pixelJump)
+//    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
+    for (var p = (((fractal.animationIndex)%(pixelJump/4))*4);p<fractal.pixels.length-4; p+=pixelJump)
     {
 
         counter = fractal.counters[p];
@@ -777,7 +750,7 @@ addToPixels[16] = function (data) {
       colors[i] = rgb;
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
 
@@ -805,12 +778,12 @@ addToPixels[17] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
 
@@ -861,12 +834,12 @@ addToPixels[18] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
         fractal.pixels[p+0] = fractal.colors[counter].r;
@@ -903,12 +876,12 @@ addToPixels[19] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
 
@@ -990,12 +963,12 @@ addToPixels[20] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
         hue = ((fractal.counters[p]*10+fractal.animationIndex)%360)/10;
@@ -1033,12 +1006,12 @@ addToPixels[21] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
         if (fractal.colors[counter])
@@ -1082,12 +1055,12 @@ addToPixels[22] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
         fractal.pixels[p+0] = fractal.colors[counter].r;
@@ -1116,7 +1089,7 @@ addToPixels[23] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1126,7 +1099,7 @@ addToPixels[23] = function (data) {
     context.lineWidth = 1;
     context.save();
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         pixelIndex = p/4;
         x = pixelIndex % fractal.width;
@@ -1199,7 +1172,7 @@ addToPixels[24] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1214,7 +1187,7 @@ addToPixels[24] = function (data) {
     other = fractal.animationIndex%fractal.counterMax/255;
     //context.setTransform(1,rotation,0,other,0,0,0);//(1,.477,0,1,150,-250)
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
 
         pixelIndex = p/4;
@@ -1275,7 +1248,7 @@ addToPixels[25] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1293,7 +1266,7 @@ addToPixels[25] = function (data) {
     other = fractal.animationIndex%fractal.counterMax/255;
     context.setTransform(1,rotation,0,other,0,0,0);//(1,.477,0,1,150,-250)
     Log.Notice('addToPixels[25] rotation = "' + rotation + '", other = "' + other + '"');
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4;
          p+=pixelJump)
     {
         fractal.pixels[p+0] = 255;
@@ -1309,7 +1282,7 @@ addToPixels[25] = function (data) {
     var lineCount = 0;
     var x,y,pixelIndex,offset;
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         pixelIndex = p/4;
         x = pixelIndex % fractal.width;
@@ -1363,7 +1336,7 @@ addToPixels[26] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1374,7 +1347,7 @@ addToPixels[26] = function (data) {
 
     if (fractal.animationRow%fractal.height == 0)
     { // clear the decks
-        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4;
                  p+=pixelJump)
         {
             counter = fractal.counters[p];
@@ -1446,7 +1419,7 @@ addToPixels[27] = function (data) {
     var row,point;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1456,7 +1429,7 @@ addToPixels[27] = function (data) {
     if (fractal.animationRow%fractal.height == 0)
     { // clear the decks
 
-        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4;
                  p+=pixelJump)
         {
             counter = fractal.counters[p];
@@ -1534,7 +1507,7 @@ addToPixels[28] = function (data) {
 
     if (fractal.animationRow%fractal.height == 0)
     { // clear the decks
-        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4;
                  p+=pixelJump)
         {
             counter = fractal.counters[p];
@@ -1605,7 +1578,7 @@ addToPixels[29] = function (data) {
     var row,point;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1614,7 +1587,7 @@ addToPixels[29] = function (data) {
 
     if (fractal.animationRow%fractal.height == 0)
     { // clear the decks
-        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4;
                  p+=pixelJump)
         {
             counter = fractal.counters[p];
@@ -1684,7 +1657,7 @@ addToPixels[30] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1694,7 +1667,7 @@ addToPixels[30] = function (data) {
     if (fractal.animationRow%fractal.height == 0)
     { // clear the decks
 
-        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4;
                  p+=pixelJump)
         {
             counter = fractal.counters[p];
@@ -1770,7 +1743,7 @@ addToPixels[31] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1779,7 +1752,7 @@ addToPixels[31] = function (data) {
 
     if (fractal.animationRow%fractal.height == 0)
     { // clear the decks
-        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4;
                  p+=pixelJump)
         {
             counter = fractal.counters[p];
@@ -1856,7 +1829,7 @@ addToPixels[32] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -1865,7 +1838,7 @@ addToPixels[32] = function (data) {
 
     if (fractal.animationRow%fractal.height == 0)
     { // clear the decks
-        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4;
                  p+=pixelJump)
         {
             counter = fractal.counters[p];
@@ -1939,7 +1912,7 @@ addToPixels[33] = function (data) {
 
     pixelColors[data.pixelColorsId](data);
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         pixelIndex = p/4;
         x = pixelIndex % fractal.width;
@@ -1982,7 +1955,7 @@ addToPixels[34] = function (data) {
     if (fractal.animationRow%fractal.height == 0)
     { // clear the decks
 
-        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4;
                  p+=pixelJump)
         {
             counter = fractal.counters[p];
@@ -2058,12 +2031,12 @@ addToPixels[35] = function (data) {
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
 
         counter = fractal.counters[p];
@@ -2132,12 +2105,12 @@ addToPixels[36] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
         pixelCount = fractal.profile.counts[counter];
@@ -2203,12 +2176,12 @@ addToPixels[37] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
         fractal.pixels[p+0] = fractal.colors[counter].r;
@@ -2238,7 +2211,7 @@ addToPixels[38] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -2253,7 +2226,7 @@ addToPixels[38] = function (data) {
     other = (fractal.rotationIndex%fractal.counterMax)/fractal.counterMax;
     context.setTransform(1,rotation,0,other,0,0,0);//(1,.477,0,1,150,-250)
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
 
         pixelIndex = p/4;
@@ -2304,7 +2277,7 @@ addToPixels[39] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:255,g:255,b:255,a:255,hex:'#FFFFFF'};
     }
@@ -2319,7 +2292,7 @@ addToPixels[39] = function (data) {
     other = (fractal.rotationIndex%fractal.counterMax)/fractal.counterMax;
     context.setTransform(1,rotation,0,other,0,0,0);//(1,.477,0,1,150,-250)
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
 
         pixelIndex = p/4;
@@ -2377,7 +2350,7 @@ addToPixels[40] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:255,g:255,b:255,a:255,hex:'#FFFFFF'};
     }
@@ -2393,7 +2366,7 @@ addToPixels[40] = function (data) {
     other = (fractal.rotationIndex%fractal.counterMax)/fractal.counterMax;
     context.setTransform(1,rotation,0,other,0,0,0);//(1,.477,0,1,150,-250)
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
 
         pixelIndex = p/4;
@@ -2461,7 +2434,7 @@ addToPixels[41] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:255,g:255,b:255,a:255,hex:'#FFFFFF'};
     }
@@ -2479,7 +2452,7 @@ addToPixels[41] = function (data) {
     other = (fractal.rotationIndex%fractal.counterMax)/fractal.counterMax;
     context.setTransform(1,rotation,0,other,0,0,0);//(1,.477,0,1,150,-250)
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
 
         pixelIndex = p/4;
@@ -2542,7 +2515,7 @@ addToPixels[42] = function (data) {
 
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:255,g:255,b:255,a:255,hex:'#FFFFFF'};
     }
@@ -2558,7 +2531,7 @@ addToPixels[42] = function (data) {
     other = (fractal.rotationIndex%fractal.counterMax)/fractal.counterMax;
     context.setTransform(1,rotation,0,other,0,0,0);//(1,.477,0,1,150,-250)
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
 
         pixelIndex = p/4;
@@ -2617,7 +2590,7 @@ addToPixels[43] = function (data) {
     var row,point;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -2626,7 +2599,7 @@ addToPixels[43] = function (data) {
 
     if (fractal.animationRow%fractal.height == 0)
     { // clear the decks
-        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4;
                  p+=pixelJump)
         {
             counter = fractal.counters[p];
@@ -2699,7 +2672,7 @@ addToPixels[44] = function (data) {
     var colors = new Array(fractal.counterMax);
     var counter, polarity, grayscale;
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = data.counters[p];
         polarity = data.polarity[p];
@@ -2741,7 +2714,7 @@ addToPixels[45] = function (data) {
     var colors = new Array(fractal.counterMax);
     var counter, polarity, grayscale;
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = data.counters[p];
         polarity = data.polarity[p];
@@ -2783,7 +2756,7 @@ addToPixels[46] = function (data) {
     var colors = new Array(fractal.counterMax);
     var counter, polarity, grayscale;
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
     {
         counter = fractal.counters[p];
         polarity = fractal.polarity[p];
@@ -2829,7 +2802,7 @@ addToPixels[47] = function (data) {
     var row,point;
     var colors = new Array(fractal.counterMax);
 
-    for (var i = 0; i<fractal.counterMax;i++)
+    for (var i = 0; i<=fractal.counterMax;i++)
     {
         colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
     }
@@ -2838,7 +2811,7 @@ addToPixels[47] = function (data) {
 
     if (fractal.animationRow%fractal.height == 0)
     { // clear the decks
-        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length;
+        for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4;
                  p+=pixelJump)
         {
             counter = fractal.counters[p];
@@ -2900,91 +2873,57 @@ addToPixels[47] = function (data) {
 
 
 addToPixels[48] = function (data) {
-    var objId = data.objId;
-    var amount = data.amount;
-    var fractal = myFractalImages[objId];
-    var counter;
-    var hue,sat,brt,rgb;
-    var maxBrt = data.maxBrt;
-    var minBrt = data.minBrt;
-    var maxSat = data.maxSat;
-    var minSat = data.minSat;
-    var maxInt = data.maxInt;
-    var minInt = data.minInt;
-    var maxLevel = data.maxLevel;
-    var minLevel = data.minLevel;
-    var colorModel = data.hslOrHsb;
-    var hueFactor = data.hueFactor;
-    var rampFactor = data.rampFactor;
-    var pixelJump = data.pixelJump;
-    var colors = new Array(fractal.counterMax);
+    let objId = data.objId,
+        amount = data.amount,
+        fractal = myFractalImages[objId],
+        counter,
+        hue,sat,brt,rgb,
+        maxBrt = data.maxBrt,
+        minBrt = data.minBrt,
+        maxSat = data.maxSat,
+        minSat = data.minSat,
+        maxInt = data.maxInt,
+        minInt = data.minInt,
+        maxLevel = data.maxLevel,
+        minLevel = data.minLevel,
+        colorModel = data.hslOrHsb,
+        hueFactor = data.hueFactor,
+        rampFactor = data.rampFactor,
+        pixelJump = data.pixelJump,
+        colors = new Array(fractal.counterMax+1).fill({r:0,g:0,b:0,a:255,hex:'#000000'}),
+        counterNormalized = 1,
+        counterOffset = 0,
+        hueNormalized = 3600;
 
-    var counterNormalized = 1;
-    var counterOffset = 0;
-    var hueNormalized = 3600;
+    for (let p = (((fractal.animationIndex)%(pixelJump))*4);p<fractal.pixels.length; p+=pixelJump) {
 
-    for (var i = 0; i<fractal.counterMax;i++)
-    {
-        colors[i] = {r:0,g:0,b:0,a:255,hex:'#000000'};
-        if (counter == fractal.profile.maximum+1)
-        {
-             rgb = {r:0,g:0,b:0,a:255,hex:'#000000'}; // black;
-        }
+        counter = fractal.counters[p/4];
 
-    }
-
-    for (var p = (((fractal.animationIndex)%(pixelJump/4))*4);p<fractal.pixels.length; p+=pixelJump)
-    {
-
-        counter = fractal.counters[p];
-
-        if (counter == fractal.profile.maximum+1)
-        {
-          rgb = {r:0,g:0,b:0,a:255,hex:'#000000'}; // black;
-        }
-        else {
+        if (counter == fractal.profile.maximum+1) {
+          rgb = {r:0,g:0,b:0,a:255,hex:'#000000'};
+        } else {
             counterOffset = counter + fractal.animationIndex;
             counterNormalized = counterOffset / fractal.profile.maximum;
-
-            hue = ((Math.round(counter*hueFactor+fractal.animationIndex))%3600)/10;
-            hueNormalized /= hueFactor
-            hue = ((counterNormalized * hueNormalized)%3600)/10
-            switch (colorModel) {
-            case    'hsl':
-                    break;
-            case     'hsi':
-                    break;
-            default:
-
-            }
+            hueNormalized /= hueFactor;
+            hue = ((counterNormalized * hueNormalized)%3600)/10;
             sat = (counter%8)*.125 + .125;
-            brt = 1.200 - ((counter+fractal.animationIndex)%200)*.005 ;
+            brt = 1.200 - ((counter+fractal.animationIndex)%200)*.005;
+
             rgb = hsl2rgb(hue, (sat>1?1:sat), (brt>1?1:brt));
         }
-        fractal.pixels[p] = rgb.r;
+
+        fractal.pixels[p]   = rgb.r;
         fractal.pixels[p+1] = rgb.g;
         fractal.pixels[p+2] = rgb.b;
-        fractal.pixels[p+3] = 255;
+        fractal.pixels[p+3] = rgb.a;
 
-        colors[counter].r = rgb.r;
-        colors[counter].g = rgb.g;
-        colors[counter].b = rgb.b;
-        colors[counter].hex = '#' + toHex(rgb.r) + toHex(rgb.g) + toHex(rgb.b);
-        colors[counter].a = 255;
+        colors[counter] = rgb;
     }
 
     fractal.colors = colors;
     drawColors(data);
     fractal.context.putImageData(fractal.imageData,0,0);
-    var pixelSlice = [];
-    for (var i = 0;i < 20;i++) {
-        pixelSlice.push(fractal.imageData.data[i]);
-    }
-    //console.log("animationIndex='" + fractal.animationIndex
-        //+ "' p='" + ((fractal.animationIndex%pixelJump)*4)
-        //+ "' p2='" + (pixelJump - 4)
-        //+ "' p3='" + (((fractal.animationIndex)%(pixelJump/4))*4)
-        //+  "' pixels=" + pixelSlice  );
     fractal.animationIndex += amount;
+
     return fractal.continueAnimation;
 };

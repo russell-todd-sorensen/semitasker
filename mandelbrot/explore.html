@@ -5,206 +5,13 @@
 <title>Mandelbrot Set Visualization</title>
 <link rel="stylesheet" href="main.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="css/mset.css" media="all">
 
-<style>
-
-body,html {
-  background-color: black;
-  margin:0;
-  padding:0;
-  border:0;
-}
-
-#main,
-#main2 {
-    position: relative;
-    display: inline-block;
-    border: 3px solid black;
-    vertical-align: top;
-}
-
-#myCanvas,
-#myCanvas2 {
-    border: none;
-    background-clip:padding-box;
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-#box,
-#box2 {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: rgba(255,0,0,.1);
-    border: 1px solid black;
-}
-
-#controls {
-    color: white;
-    display: inline-block;
-    position: relative;
-    left: 0;
-    top: 0;
-    padding: 2px;
-}
-
-#colors {
-    border: 2px solid #555;
-    position: absolute;
-    right: 5px;
-    top: 3px;
-}
-
-#currentColors {
-
-
-}
-
-#controls ul {
-    list-style: none;
-    padding: 0;
-}
-
-#controls li label {
-  width: 90px;
-  display: inline-block;
-  padding-bottom: 3px;
-  padding-top: 3px;
-  font-family: sans serif, "Tw Cen MT Bold";
-}
-
-#controls li input {
-    display: inline-block;
-    font-family: sans serif, "Tw Cen MT Bold";
-    font-size: 15px;
-    margin-left: 0px;
-}
-
-#controls li select option {
-    width: 75px;
-}
-
-#controls li input {
-    display: inline-block;
-    width: 75px;
-}
-
-#controls li input[type=range] {
-    width: 75px;
-}
-
-/* this is how you change the font of select options!!! */
-#animationFunctionId,
-#fractalImageId,
-#fractalTypeId,
-#pixelColorsId,
-#refColorId,
-#scaleCounterId,
-#hslOrHsb,
-#b1,
-#b2,
-#b3,
-#b4,
-#b5,
-#finiteMeasureFunction
-{ /* select id */
-    width: 78.75px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    display: inline-block;
-    font-family: sans serif, "Tw Cen MT Bold";
-    margin-left: 0px;
-    font-size: 16px;
-}
-
-#b4 {
-    display: none;
-}
-
-#animationFunctionId option,
-#fractalImageId option,
-#fractalTypeId option,
-#pixelColorsId option,
-#refColorId option,
-#scaleCounterId option,
-#hslOrHsb option,
-#finiteMeasureFunction option {
-    padding-left: 10px;
-    width: 72px;
-    display: inline-block;
-    font-family: sans serif, "Tw Cen MT Bold";
-    font-size: 15px;
-}
-
-#mode-controls {
-    letter-spacing: 1px;
-}
-
-#timeout,
-#colorOffsetAmount,
-#fractalImageId {
-
-}
-
-#drawImage,
-#animateImage,
-#captureCanvas {
-  width: 75px;
-  display: inline-block;
-  vertical-align: top;
-}
-
-#buttonControl,
-#buttonControl2 {
-  vertical-align: top;
-}
-
-.min-max {
-    display: inline-block;
-    vertical-align: bottom;
-}
-
-#controls .expand .min-max > span {
-    font-family: sans serif, "Tw Cen MT Bold";
-    font-size: 15px;
-}
-
-#captureCanvas {
-    background-color: green;
-}
-
-#imageGallery {
-    padding: 3px;
-    position: absolute;
-    bottom: 3px;
-    left: 3px;
-    background-color: silver;
-}
-
-#pickContainer {
-    display: block;
-    width: 715px; /* 256*11/4 */
-    position: absolute;
-    bottom: 50px;
-}
-
-.cp {
-    height: 10px;
-    width: 10px;
-    display: inline-block;
-    padding: 0;
-    margin: 0;
-    border: .5px solid black;
-}
-
-</style>
 <style id="colorStyles"></style>
 
-<script src="/js/jquery-1.7.1.js"></script>
-<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/d3.v3.js"></script>
+<script src="/js/decimal.js"></script>
 <script src="/js/log-2.js"></script>
 <script src="/js/data.js"></script>
 <script src="/js/form-save-restore.js"></script>
@@ -215,7 +22,10 @@ body,html {
 <script src="js/precision.js"></script>
 <script src="/js/mouse-events.js"></script>
 <script src="/js/panel-show-hide.js"></script>
+<script src="js/rect-init.js"></script>
 <script src="js/mset.js"></script>
+<script src="js/mset-form.js"></script>
+<script src="js/mset-drawing.js"></script>
 <script src="js/color-conversion.js"></script>
 <script src="js/scale-counters.js"></script>
 <script src="js/reference-colors.js"></script>
@@ -225,183 +35,59 @@ body,html {
 <script src="js/draw-colors.js"></script>
 <script src="js/magnify-points.js"></script>
 <script src="js/tent-map.js"></script>
-<script language="javascript">
+<script src="js/mset-interactive.js"></script>
+<script src="js/test-data.js"></script>
 
-var myCounters = [1,2,3,4,5,6,1,4,6,7,2,5,1,4,9];
+<script>
 
-var exampleRect = {
-   start: {
-      x: 0.4529654240128,
-      y: 0.3506321791478193
-   },
-   end: {
-      x: 0.4529653461376,
-      y: 0.3506321445512928
-   }
-};
+window.addEventListener('DOMContentLoaded', () => {
 
-panelHidden["controls"] = [{
-  id:'panel1',
-  visible:true,
-  css:{
-    true:{
-      position:'relative'
-    },
-    false:{
-      position:'absolute'
-    }
-  },
-  extra: [
-    {
-      id:'controls',
-      css:{
-        true: {
-          position:'relative',
-          zIndex:0,
-          "background-color":'transparent'
-        },
-        false: {
-          position:'absolute',
-          zIndex:100,
-          "background-color":'#444444'
-        }
-      }
-   },
- ]}
-];
+    Log.Notice('Document Loading...');
 
-var writeColorPicker = function(pickerContainerId, styleId) {
+    // this must be run before doing the restoreInput code below
+    $('#controls .expand label')
+        .click({rangeStyle:"width: 150px;",numberStyle:"width: 75px;"},
+            Data.toggleFormInputType);
 
-    var formData = processForm();
-    var data = formData.data;
-    var objId = data.objId;
-    var fractal = myFractalImages[objId];
-    var myColors = fractal.colors;
-    //Log.Notice('writeColorPicker');
-    var container = d3.select('#pickContainer');
-    container.html("");
+    // restore form values
+    Data.restoreSelect('animationFunctionId');
+    Data.restoreInput('fractalImageId');
+    Data.restoreSelect('fractalTypeId');
+    Data.restoreSelect('scaleTypeId');
+    Data.restoreInput('maxWidth');
+    Data.restoreInput('maxHeight');
+    Data.restoreInput('timeout');
+    Data.restoreInput('colorOffsetAmount');
+    Data.restoreInput('pixelJump');
+    Data.restoreSelect('pixelColorsId');
+    Data.restoreSelect('refColorId');
+    Data.restoreSelect('scaleCounterId');
+    Data.restoreInput('hueFactor');
+    Data.restoreInput('rampFactor');
+    Data.restoreSelect('hslOrHsb');
+    Data.restoreInput('minLevel');
+    Data.restoreInput('maxLevel');
+    Data.restoreInput('minSat');
+    Data.restoreInput('maxSat');
+    Data.restoreInput('minBrt');
+    Data.restoreInput('maxBrt');
+    Data.restoreInput('minInt');
+    Data.restoreInput('maxInt');
+    Data.restoreInput('finiteMeasure'); // may need decimal.js
+    Data.restoreSelect('finiteMeasureFunction');
+    Data.restoreSelect('pickedColor');
+    Data.restoreInput('counterMax');
 
-    container.selectAll('.cp')
-        .data(myColors)
-        .enter()
-        .append('div')
-        .attr('class',function(d,i) {return 'cp n-' + i})
-        .attr('id',function(d,i) {
-          if (d.hex) {
-            var hex = d.hex;
-            hex = hex.substr(1);
-            return 'cp-' + hex;
-          } else {
-            return 'num-' + i
-          }
-        })
-        .style("background-color", function(d,i) {
-            if (d.hex) {
-              return  d.hex;
-            } else {
-              return '#123';
-            }
-        });
-    container.selectAll('.cp')
-        .on('click', LogStuff);
+    //myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
+    //            'box',1000,2000,{colorCanvasId:'currentColors'});
+    myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
+                'box',35,35,{colorCanvasId:'currentColors'});
+    myFractalImages[myFractalImageId].initColorArray();
 
-}
-
-var LogStuff = function(d,i,e) {
-    Log.Notice('LogStuff color=' + d.hex)
-}
-
-var bindMouseBox = function () {
-
-    $(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',
-                   myFractalImages[myFractalImageId],startMove);
-
-}
-
-var bindClick = function () {
-    $(myFractalImages[myFractalImageId].mouseBox).unbind('mousedown').bind('click',
-                   myFractalImages[myFractalImageId],captureClick);
-}
-
-var unbindClick = function () {
-    $(myFractalImages[myFractalImageId].mouseBox).unbind('click');
-}
-
-function captureClick(evt) {
-    var myEvent = evt;
-    var fractal = CurrentData;
-    var offsetX = myEvent.offsetX;
-    var offsetY = myEvent.offsetY;
-    Log.Notice('click captured offsetX=' + offsetX + ' offsetY=' + offsetY);
-    actualWidth  = fractal.objectInfo.endX - fractal.objectInfo.startX;
-    actualHeight = fractal.objectInfo.endY - fractal.objectInfo.startY;
-    pixelWidth  = fractal.objectInfo.width;
-    pixelHeight = fractal.objectInfo.height;
-    // Pixels Offsets are measured:
-    //                    from left to right for X
-    //                    from top to bottom for Y
-    // However we need to access the pixel array which is one dimensional
-    // So Pixel 0 is at:
-    // offsetX = 0 and offsetY = 0
-
-    unbindClick()
-    bindMouseBox()
-}
-
-function doScale(horizontalId,verticalId) {
-  var hValue = $('#' + horizontalId).attr('checked') ? -1 : 1;
-  var vValue = $('#' + verticalId).attr('checked') ? -1 : 1;
-  var scale = 'transform: scale(' + hValue + ',' + vValue + ')';
-  $('#myCanvas').attr('style',scale);
-}
-
-$(document).ready(function() {
-
-  Log.Notice('Document Ready');
-
-  // this must be run before doing the restoreInput code below
-  $('#controls .expand label')
-    .click({rangeStyle:"width: 150px;",numberStyle:"width: 75px;"},
-           Data.toggleFormInputType);
-
-  // restore form values
-  Data.restoreSelect('animationFunctionId');
-  Data.restoreInput('fractalImageId');
-  Data.restoreInput('fractalTypeId');
-  Data.restoreInput('timeout');
-  Data.restoreInput('colorOffsetAmount');
-  Data.restoreInput('pixelJump');
-  Data.restoreSelect('pixelColorsId');
-  Data.restoreSelect('refColorId');
-  Data.restoreSelect('scaleCounterId');
-  Data.restoreInput('hueFactor');
-  Data.restoreInput('rampFactor');
-  Data.restoreSelect('hslOrHsb');
-  Data.restoreInput('minLevel');
-  Data.restoreInput('maxLevel');
-  Data.restoreInput('minSat');
-  Data.restoreInput('maxSat');
-  Data.restoreInput('minBrt');
-  Data.restoreInput('maxBrt');
-  Data.restoreInput('minInt');
-  Data.restoreInput('maxInt');
-  Data.restoreInput('finiteMeasure');
-  Data.restoreSelect('finiteMeasureFunction');
-  Data.restoreSelect('pickedColor');
-  Data.restoreInput('counterMax');
-
-  //myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
-  //            'box',1000,2000,{colorCanvasId:'currentColors'});
-  myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
-               'box',35,35,{colorCanvasId:'currentColors'});
-  myFractalImages[myFractalImageId].initColorArray();
-
-  bindMouseBox();
-  Log.Remove();
+    bindMouseBox();
+  //  setTimeout("Log.Remove()", 20);
 });
 </script>
-
-
 </head>
 <body>
 <div id="controls" >
@@ -425,14 +111,45 @@ $(document).ready(function() {
         onChange="Data.saveInput('fractalImageId','Log.Notice')" />
 </li>
 <li>
-  <label for="fractalTypeId">FractalType:</label>
+  <label for="fractalTypeId">Fractal:</label>
   <select id="fractalTypeId" name="fractalTypeId"
           onChange="Data.saveInput('fractalTypeId','Log.Notice')" >
     <option value="0" selected="selected">M-Set</option>
     <option value="1" id="burning-ship" >Brn Ship</option>
-    <option value="2" id="testing-pixels" >Testing</option>
+    <option value="2" id="testing-pixels" >Test:10x10</option>
+    <option value="3" id="testing-pixels-real" >Real</option>
+    <option value="4" id="testing-pixels" >Test:100x100</option>
   </select>
- </li>
+</li>
+<li>
+  <label for="scaleTypeId">ScaleType:</label>
+  <select id="scaleTypeId" name="scaleTypeId"
+        onChange="Data.saveInput('scaleTypeId','Log.Notice')" >
+    <option value="0,0" id="scale-0-0" selected="selected">H/W Ratio</option>
+    <option value="1,0" id="scale-1-0" selected="selected">Pixel Width</option>
+    <option value="0,1" id="scale-0-1" >Pixel Height</option>
+    <option value="500,0" id="scale-500-0" >Width: 500</option>
+    <option value="0,500" id="scale-0-500" >Height: 500</option>
+    <option value="200,0" id="scale-200-0" >Width: 200</option>
+    <option value="0,200" id="scale-0-200" >Height: 200</option>
+    <option value="100,0" id="scale-100-0" >Width: 100</option>
+    <option value="0,100" id="scale-0-100" >Height: 100</option>
+    <option value="10,0" id="scale-10-0" >Width: 10</option>
+    <option value="0,10" id="scale-0-10" >Height: 10</option>
+  </select>
+</li>
+<li>
+ <label for="maxWidth">Max W:</label>
+ <input type="number" value="0" min="0" max="10000"
+        step="1" id="maxWidth" name="maxWidth"
+        onChange="Data.saveInput('maxWidth','Log.Notice')" />
+</li>
+<li>
+  <label for="maxHeight">Max H:</label>
+  <input type="number" value="0" min="0" max="10000"
+         step="1" id="maxHeight" name="maxHeight"
+         onChange="Data.saveInput('maxHeight','Log.Notice')" />
+</li>
 <li>
  <label for="finiteMeasure">F Measure:</label>
  <input type="number" value="256" min=".5" max="8192"
@@ -443,7 +160,7 @@ $(document).ready(function() {
  <label for="counterMax">Max Iter:</label>
  <input type="number" value="256" min="2" max="8192"
         step="1" id="counterMax" name="counterMax"
-        onChange="Data.saveInput('counterMax','Log.Notice')" />
+        onChange="Data.saveInput('counterMax','Log.Notice',' restored.')" />
 </li>
 <li>
  <label for="finiteMeasureFunction">F Function:</label>
@@ -553,66 +270,66 @@ $(document).ready(function() {
  <label for="pixelColorsId">Colors:</label>
   <select id="pixelColorsId" name="pixelColorsId"
           onChange="Data.saveSelect('pixelColorsId','Log.Notice');" >
-   <option value="0">0</option>
-   <option value="1">1</option>
-   <option value="2">2</option>
-   <option value="3">3</option>
-   <option value="4">4</option>
-   <option value="5">5</option>
-   <option value="6">6</option>
-   <option value="7">7</option>
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
   </select>
 </li>
 <li>
  <label for="refColorId">RefColorId:</label>
   <select id="refColorId" name="refColorId"
           onChange="Data.saveSelect('refColorId','Log.Notice');" >
-   <option value="0">0</option>
-   <option value="1">1</option>
-   <option value="2" >2</option>
-   <option value="3">3</option>
-   <option value="4">4</option>
-   <option value="5">5</option>
-   <option value="6">6</option>
-   <option value="7">7</option>
+    <option value="0">0</option>
+    <option value="1">1</option>
+    <option value="2" >2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
   </select>
 </li>
 <li>
  <label for="scaleCounterId">Ht Scale:</label>
   <select id="scaleCounterId" name="scaleCounterId"
           onChange="Data.saveSelect('scaleCounterId','Log.Notice');" >
-   <option value="0"><span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span>0</option>
-   <option value="1">1</option>
-   <option value="2">2</option>
-   <option value="3">3</option>
-   <option value="4">4</option>
-   <option value="5">5</option>
-   <option value="6">6</option>
-   <option value="7">7</option>
-   <option value="8">8</option>
-   <option value="9">9</option>
-   <option value="10">10</option>
-   <option value="11">11</option>
-   <option value="12">12</option>
-   <option value="13">13</option>
-   <option value="14">14</option>
-   <option value="15">15</option>
-   <option value="16">16</option>
-   <option value="17">17</option>
-   <option value="18">18</option>
-   <option value="19">19</option>
-   <option value="20">20</option>
-   <option value="21">21</option>
-   <option value="22">22</option>
-   <option value="23">23</option>
-   <option value="24">24</option>
-   <option value="25">25</option>
-   <option value="26">26</option>
-   <option value="27">27</option>
-   <option value="28">28</option>
-   <option value="29">29</option>>
-   <option value="30">30</option>
-   <option value="31">31</option>
+    <option value="0"><span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span>0</option>
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+    <option value="9">9</option>
+    <option value="10">10</option>
+    <option value="11">11</option>
+    <option value="12">12</option>
+    <option value="13">13</option>
+    <option value="14">14</option>
+    <option value="15">15</option>
+    <option value="16">16</option>
+    <option value="17">17</option>
+    <option value="18">18</option>
+    <option value="19">19</option>
+    <option value="20">20</option>
+    <option value="21">21</option>
+    <option value="22">22</option>
+    <option value="23">23</option>
+    <option value="24">24</option>
+    <option value="25">25</option>
+    <option value="26">26</option>
+    <option value="27">27</option>
+    <option value="28">28</option>
+    <option value="29">29</option>
+    <option value="30">30</option>
+    <option value="31">31</option>
   </select>
 </li>
 <li class="expand">
@@ -742,7 +459,7 @@ $(document).ready(function() {
   <button id="b2" onClick="startAnimationPre()"
           value="Start Animation" >Start</button>
   <button id="b3" onClick="stopAnimation();"
-         value="Stop Animation" >Stop</button>
+          value="Stop Animation" >Stop</button>
  </div>
 </li>
 <li>
@@ -756,7 +473,7 @@ $(document).ready(function() {
  <label for="b5" id="buttonControl4">Capture:</label>
  <div id="captureCanvas">
  <button id="b5" name="b5" onClick="captureCanvas2('image/png')"
-        value="Canvas to PNG" >PNG</button>
+         value="Canvas to PNG" >PNG</button>
  </div>
 </li>
 
@@ -790,9 +507,9 @@ $(document).ready(function() {
   xmlns:xlink="http://www.w3.org/1999/xlink"
   x="-20"
   y="-20"
-  width="240"
-  height="240"
-  viewBox="-20 -20 240 240"
+  width="2050"
+  height="2050"
+  viewBox="-20 -20 2050 2050"
   shape-rendering="geometricPrecision"
   text-rendering="geometricPrecision"
   image-rendering="optimizeQuality"
@@ -800,51 +517,67 @@ $(document).ready(function() {
   clip-rule="evenodd">
 <style>
 #all {
-  background-color: white;
-  stroke:#888;
+    background-color: white;
+    stroke:#888;
 }
-#pointsContainer .point {
-  stroke-width: 0.25;
-  stroke: #800;
+#pointsContainer rect,
+#pointsContainer circle,
+#pointsContainer use {
+    stroke-width: 0.25;
+    stroke: #800;
+}
+#grid-old line {
+    stroke-dasharray:  18 2;
+    stroke-dashoffset:   -1;
+    stroke-width:      0.25;
+    stroke-linecap:   miter;
 }
 #grid line {
-   stroke-dasharray:  18 2;
-   stroke-dashoffset:   -1;
-   stroke-width:      0.25;
-   stroke-linecap:   miter;
+    stroke-dasharray:  1 19;
+    stroke-dashoffset:   -5.75;
+    stroke-width:      250%;
+    stroke-linecap:   miter;
+    stroke: rgba(0,0,0,0.5);
 }
+#point-def-rect {
+    height:18;
+    width:18;
+}
+
+#coordsContainer text {
+    stroke: none;
+    fill: black;
+    font-family:"Fira Code";
+}
+
 </style>
 <defs id="svg-defs">
-<g id="grid" >
-  <line x1="-20" y1="-20" x2="220" y2="-20" />
-  <line x1="-20" y1="0"   x2="220" y2="0"  />
-  <line x1="-20" y1="20"  x2="220" y2="20"  />
-  <line x1="-20" y1="40"  x2="220" y2="40" />
-  <line x1="-20" y1="60"  x2="220" y2="60"  />
-  <line x1="-20" y1="80"  x2="220" y2="80"  />
-  <line x1="-20" y1="100" x2="220" y2="100"  />
-  <line x1="-20" y1="120" x2="220" y2="120"  />
-  <line x1="-20" y1="140" x2="220" y2="140"  />
-  <line x1="-20" y1="160" x2="220" y2="160"  />
-  <line x1="-20" y1="180" x2="220" y2="180"  />
-  <line x1="-20" y1="200" x2="220" y2="200"  />
-  <line x1="-20" y1="220" x2="220" y2="220"  />
-</g>
 
+<g id="grid" >
+  <line x1="-10%" y1="-10%" x2="110%" y2="-10%"></line>
+</g>
 <g id="grid-v" >
+<!--  This works, but need to investigate full extent of line  -->
  <use xlink:href="#grid" transform="rotate(90,0,0) translate(0,-220)" />
 </g>
-<!--    -->
 <g id="whole-grid" x="-10" y="-10">
   <use xlink:href="#grid" />
   <use xlink:href="#grid-v" />
 </g>
 <circle id="point-def-circle" class="point" r="0.5" />
-<rect   id="point-def-rect" class="point" height="1" width="1" />
+<rect   id="point-def-rect" height="18" width="18" />
 </defs>
 <use id="complete-grid" xlink:href="#whole-grid" />
 
 <g x="0" y="0" id="pointsContainer" transform="scale(1)">
+
+</g>
+<g x="0" y="0" id="coordsContainer" transform="scale(1)">
+ <rect id="bg-rect" height="80" width="220" fill="white"/>
+ <text x="2" y="15" id="x-coord" >X:</text>
+ <text x="2" y="35" id="y-coord" >Y:</text>
+ <text x="2" y="55" id="polarity" >P:</text>
+ <text x="2" y="75" id="iter-count" >C:</text>
 
 </g>
 </svg>

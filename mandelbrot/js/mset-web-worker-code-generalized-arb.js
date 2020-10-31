@@ -1,156 +1,203 @@
 // we need the following script
+importScripts("/js/decimal.js");
 importScripts('precision.js');
 
 // web worker mandelbrot calculation
 
 self.addEventListener('message',  function(evt) {
     let data = evt.data,
-        objectInfo = data.objectInfo,
-        counter,
+        objectInfo = data.objectInfo;
+
+    // Decimal does not make it though the transporter, reconstruct here
+    objectInfo.startX = new Decimal(objectInfo.startX);
+    objectInfo.startY = new Decimal(objectInfo.startY);
+    objectInfo.endX   = new Decimal(objectInfo.endX);
+    objectInfo.endY   = new Decimal(objectInfo.endY);
+
+    let counter,
         finite,
+        magv,
         currentIndex,
         tmpXSquared,tmpYSquared,tmpYbyTmpX,newX,newY,tmpX,tmpY,cY,cX,lastImaginaryPolarity,
         profile = {
-            counts: [],
-            maximum: 0,
+            counts: new Array(objectInfo.counterMax+1).fill(0),
+            maximum: 1,
             minimum: objectInfo.counterMax,
             infinite: 0
         },
+        crossReal = !(objectInfo.startY.s == objectInfo.endY.s),
+        crossImag = !(objectInfo.startX.s == objectInfo.endX.s),
+        dx,dy,row0,col0;
+
+    if (crossReal) {
+        if (objectInfo.height%2 == 0) {
+            objectInfo.height++;
+        }
+        // figure out which row will be at cr = 0
+        if (objectInfo.height == 1) {
+            dy = Decimal(0);
+            row0 = 0;
+        } else {
+            dy = Decimal.abs((objectInfo.endY.minus(objectInfo.startY)).div(objectInfo.height-1));
+            row0 = Decimal.abs(objectInfo.endY.divToInt(dy)).toNumber();
+        }
+    } else {
+        if (objectInfo.height == 1) {
+            dy = Decimal(0);
+            row0 = 0;
+        } else {
+            dy = Decimal.abs((objectInfo.endY.minus(objectInfo.startY)).div(objectInfo.height-1));
+            row0 = objectInfo.height;
+        }
+    }
+    let iCoords = new Array(objectInfo.height).fill(0);
+    iCoords[row0] = new Decimal(0.0);
+    for (let i=0; i<objectInfo.height;i++) {
+        if (iCoords[i]) {
+            continue;
+        }
+        if (i < row0) {
+            iCoords[i] = objectInfo.endY.minus(dy.times(i))
+        } else {
+            iCoords[i] = Decimal(0).minus(dy.times(i - row0))
+        }
+    }
+
+    if (crossImag) {
+        if (objectInfo.width%2 == 0) {
+            objectInfo.width++;
+        }
+        // figure out which col will be at ci = 0
+        if (objectInfo.width == 1) {
+            dx = Decimal(0);
+            col0 = 0;
+        } else {
+            dx = Decimal.abs((objectInfo.endX.minus(objectInfo.startX)).div(objectInfo.width-1));
+            col0 = Decimal.abs(objectInfo.startX.divToInt(dx)).toNumber();
+        }
+    } else {
+        if (objectInfo.height == 1) {
+            dx = Decimal(0)
+            col0 = 0
+        } else {
+            dx = Decimal.abs((objectInfo.endX.minus(objectInfo.startX)).div(objectInfo.width-1));
+            col0 = objectInfo.width;
+        }
+    }
+    let rCoords = new Array(objectInfo.width).fill(0);
+    rCoords[col0] = new Decimal(0); // in some cases col0 is outside used real coords
+    for (let j=0;j<objectInfo.width;j++) {
+        if (rCoords[j]) { // note that if this is the zero row, it returns true
+            continue; 
+        }
+        if (j < col0) {
+            rCoords[j] = objectInfo.startX.plus(dx.times(j));
+        } else {
+            rCoords[j] = dx.times(j-col0);
+        }
+    }
+
+    let totalPixels = objectInfo.width*objectInfo.height,
         skew = 0,
-        counters = [],
-        polarity = [],
-        coord    = [],
-        fractalTypeId = data.fractalTypeId,
-        dx = Math.abs((objectInfo.endX-objectInfo.startX)/objectInfo.width),
-        dy = Math.abs((objectInfo.endY-objectInfo.startY)/objectInfo.height);
+        counters = new Array(totalPixels).fill(objectInfo.counterMax),
+        polarity = new Array(totalPixels).fill(true),
+        coord    = new Array(totalPixels).fill({x:0,y:0,col:0,row:0}), //intentional shared object
+        fractalTypeId = data.fractalTypeId;
 
         // temp hack to get point grid tool up and running.
     data.dx = dx;
     data.dy = dy;
 
-    let mpArray = maxPrecision([
-        objectInfo.endX,objectInfo.startX,
-        objectInfo.endY,objectInfo.startY,
-        objectInfo.width,
-        objectInfo.height],
-        0
-    );
-
-    for (var x = objectInfo.startX, col = 0;
-        col<objectInfo.width && x < objectInfo.endX;
-        x+=dx, col++)
+    for (let row=0, y; row<objectInfo.height;row++)
     {
-        x = parseFloat((x).toPrecision(8))
-        for (var y = objectInfo.startY, row=objectInfo.height-1;
-            row >= 0 && y < objectInfo.endY;
-            y+=dy, row-- )
-        {
-            y = parseFloat((y).toPrecision(8));
-            counter = 0;
-            finite = true;
-            newX = x;
-            newY = y;
-            tmpX = x;
-            tmpY = y;
-            cY = y;
-            cX = x;
-            tmpXSquared = tmpX * tmpX;
-            tmpYSquared = tmpY * tmpY;
+        y = iCoords[row];
 
-            switch (fractalTypeId) {
-            case 1:
-                tmpYbyTmpX = Math.abs(tmpX * tmpY);
-                break;
-            case 0:
-            default:
-                tmpYbyTmpX = tmpY * tmpX;
-                break;
-            }
+        for (let col=0, x;col<objectInfo.width; col++)
+        {
+            x = rCoords[col],
+            magv = new Decimal(0),
+            counter = 0,
+            finite = true,
+            cX = x.times(1),
+            cY = y.times(1),
+            newX = new Decimal(0), //x;
+            newY = new Decimal(0), //y;
+            tmpX = new Decimal(0), //x;
+            tmpY = new Decimal(0), //y;
+            tmpXSquared = tmpX.times(tmpX),
+            tmpYSquared = tmpY.times(tmpY),
+            tmpYbyTmpX  = tmpY.times(tmpX);
 
             while (counter <= objectInfo.counterMax && finite)
             {
 
-                newY = cY + 2 * tmpYbyTmpX
-                newX = cX - tmpYSquared + tmpXSquared;
-                tmpX = newX;
-                tmpY = newY;
-                tmpXSquared = tmpX * tmpX;
-                tmpYSquared = tmpY * tmpY;
-
-                switch (fractalTypeId) {
-                case 1:
-                    tmpYbyTmpX = Math.abs(tmpY * tmpX);
-                    break;
-                default:
-                    tmpYbyTmpX = tmpY * tmpX;
-                    break;
-                }
-
                 switch (objectInfo.finiteMeasureFunction) {
                 case 1:
-                    if ((tmpXSquared + tmpYSquared) > objectInfo.finiteMeasure)
-                    {
-                        finite = false;
-                    }
+                    magv = tmpXSquared.plus(tmpYSquared);
                     break;
                 case 2:
-                    if (Math.sqrt( tmpXSquared + tmpYSquared) > objectInfo.finiteMeasure)
-                    {
-                        finite = false;
-                    }
+                    magv = Decimal.sqrt(tmpXSquared.plus(tmpYSquared));
                     break;
                 case 3:
-                    if (Math.abs(tmpYbyTmpX) > objectInfo.finiteMeasure)
-                    {
-                        finite = false;
-                    }
+                    magv = Decimal.abs(tmpYbyTmpX);
                     break;
                 case 4:
-                    if ((Math.abs(tmpY)+Math.abs(tmpX)) > objectInfo.finiteMeasure)
-                    {
-                        finite = false;
-                    }
+                    magv = Decimal.abs(tmpY).plus(Decimal.abs(tmpX));
                     break;
                 case 5:
-                    if ((Math.abs(tmpY + tmpX)) > objectInfo.finiteMeasure)
-                    {
-                        finite = false;
-                    }
+                    magv = Decimal.abs(tmpY.plus(tmpX));
                     break;
                 case 6:
-                    if (Math.pow( Math.abs(tmpYbyTmpX),.6) > objectInfo.finiteMeasure)
-                    {
-                        finite = false;
-                    }
+                    magv = Decimal.abs(tmpYbyTmpX).toPower(.6);
                     break;
                 case 7:
                     if (
-                        (tmpX < -2.00000)  ||
-                        (tmpX > .47118534) ||
-                        (Math.abs(tmpY) > 1.227571))
+                        (tmpX.lt(-2.00000))  ||
+                        (tmpX.gt(.47118534)) ||
+                        (Decimal.abs(tmpY).gt(1.227571))
+                       )
                     {
-                        finite = false;
+                        magv = new Decimal("+Infinity");
                     }
                     break;
                 case 8:
                     if (
-                        ((tmpX < -2.00000)  || (tmpX > .47118534))
+                        ( (tmpX.lt(-2.00000) )  || (tmpX.gt(.47118534)))
                         &&
-                        (Math.abs(tmpY) > 1.227571)
+                        (Decimal.abs(tmpY).gt(1.227571))
                     )
                     {
-                        finite = false;
+                        magv = new Decimal("+Infinity");
                     }
                     break;
                 case 9:
                     if (
-                        (Math.abs(tmpX) > 2.0)
+                        (Decimal.abs(tmpX).gt(2.0))
                         &&
-                        (Math.abs(tmpY) > 1.227571)
+                        (Decimal.abs(tmpY).gt(1.227571))
                     )
                     {
-                        finite = false;
+                        magv = new Decimal("+Infinity");
                     }
+                    break;
+                }
+                if (magv.gt(objectInfo.finiteMeasure)) {
+                    finite = false;
+                }
+
+                newY = cY.plus(tmpYbyTmpX.times(2));
+                newX = cX.minus(tmpYSquared).plus(tmpXSquared);
+                tmpX = newX.times(1);
+                tmpY = newY.times(1);
+                tmpXSquared = tmpX.times(tmpX);
+                tmpYSquared = tmpY.times(tmpY);
+                tmpYbyTmpX  = tmpY.times(tmpX);
+
+                switch (fractalTypeId) {
+                case 1:
+                    tmpYbyTmpX = Decimal.abs(tmpYbyTmpX);
+                    break;
+                default:
                     break;
                 }
 
@@ -160,22 +207,18 @@ self.addEventListener('message',  function(evt) {
             counter--;
 
             // record if last imaginary part is positive or negative.
-            lastImaginaryPolarity = (newY > 0) ? true : false;
+            lastImaginaryPolarity = (newY.gt(0)) ? true : false;
 
-            if (profile.counts[counter])
+            profile.counts[counter]++;
+
+            if (counter > profile.maximum)
             {
-                profile.counts[counter]++;
+                profile.maximum = counter;
             }
-            else {
-                profile.counts[counter] = 1;
-                if (counter > profile.maximum)
-                {
-                    profile.maximum = counter;
-                }
-                if (counter < profile.minimum) {
-                    profile.minimum = counter;
-                }
+            if (counter < profile.minimum) {
+                profile.minimum = counter;
             }
+
 
             //currentIndex = 4*((objectInfo.width-1)*row + col);
             
@@ -184,17 +227,24 @@ self.addEventListener('message',  function(evt) {
             // 0 => normal 
             currentIndex = 4*((objectInfo.width-skew)*row + col);
 
-            counters[currentIndex] = counter;
-            polarity[currentIndex] = lastImaginaryPolarity;
+            counters[currentIndex/4] = counter;
+            polarity[currentIndex/4] = lastImaginaryPolarity;
             //coord[currentIndex/4] = [x,y,col,row];
-            coord[currentIndex/4] = {x:x,y:y,col:col,row:row};
+            coord[currentIndex/4] = {x:x.toJSON(),y:y.toJSON(),col:col,row:row};
         }
     }
 
-  data.profile = profile;
+  data.profile  = profile;
   data.counters = counters;
   data.polarity = polarity;
   data.coord    = coord;
+  data.dx       = data.dx.toJSON();
+  data.dy       = data.dy.toJSON();
+
+  objectInfo.startX = objectInfo.startX.toJSON();
+  objectInfo.startY = objectInfo.startY.toJSON();
+  objectInfo.endX   = objectInfo.endX.toJSON();
+  objectInfo.endY   = objectInfo.endY.toJSON();
 
   self.postMessage(data);
 });

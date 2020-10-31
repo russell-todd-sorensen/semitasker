@@ -1,0 +1,182 @@
+
+body,html {
+    background-color: black;
+    margin:0;
+    padding:0;
+    border:0;
+}
+
+#main,
+#main2 {
+    position: relative;
+    display: inline-block;
+    padding: 0/* 3px */;
+    vertical-align: top;
+    margin: 3px;
+}
+
+#myCanvas,
+#myCanvas2 {
+    border: none;
+    background-clip:padding-box;
+    position: relative;
+    vertical-align: top;
+}
+
+#box,
+#box2 {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    background-color: rgba(255,0,0,.1);
+    border: 1px dashed yellow;
+}
+
+#controls {
+    color: white;
+    display: inline-block;
+    position: relative;
+    left: 0;
+    top: 0;
+    padding: 2px;
+}
+
+#colors {
+    border: 2px solid #555;
+    position: absolute;
+    right: 5px;
+    top: 3px;
+}
+
+#controls ul {
+    list-style: none;
+    padding: 0;
+}
+
+#controls li label {
+    width: 90px;
+    display: inline-block;
+    padding-bottom: 3px;
+    padding-top: 3px;
+    font-family: sans serif, "Tw Cen MT Bold";
+}
+
+#controls li input {
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 16px;
+    margin-left: 0px;
+}
+
+#controls li select option {
+    width: 75px;
+}
+
+#controls li input {
+    display: inline-block;
+    width: 75px;
+}
+
+#controls li input[type=range] {
+    width: 75px;
+}
+
+/* this is how you change the font of select options!!! */
+#animationFunctionId,
+#fractalImageId,
+#fractalTypeId,
+#scaleTypeId,
+#pixelColorsId,
+#refColorId,
+#scaleCounterId,
+#hslOrHsb,
+#b1,
+#b2,
+#b3,
+#b4,
+#b5,
+#finiteMeasureFunction
+{ /* select id */
+    width: 82.75px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    margin-left: 0px;
+    font-size: 16px;
+}
+
+#b4 {
+    display: none;
+}
+
+#animationFunctionId option,
+#fractalImageId option,
+#fractalTypeId option,
+#scaleTypeId option,
+#pixelColorsId option,
+#refColorId option,
+#scaleCounterId option,
+#hslOrHsb option,
+#finiteMeasureFunction option {
+    padding-left: 10px;
+    width: 72px;
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 15px;
+}
+
+#mode-controls {
+    letter-spacing: 1px;
+}
+
+#drawImage,
+#animateImage,
+#captureCanvas {
+    width: 75px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+#buttonControl,
+#buttonControl2 {
+    vertical-align: top;
+}
+
+.min-max {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+#controls .expand .min-max > span {
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 15px;
+}
+
+#captureCanvas {
+    background-color: green;
+}
+
+#imageGallery {
+    padding: 3px;
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
+    background-color: silver;
+}
+
+#pickContainer {
+    display: block;
+    width: 715px; /* 256*11/4 */
+    position: absolute;
+    bottom: 50px;
+}
+
+.cp {
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    border: .5px solid black;
+}

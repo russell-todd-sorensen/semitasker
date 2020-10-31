@@ -17,7 +17,7 @@
 <script>
 
 var msetTentMap = function (zrn,zin,cr,ci) {
-    
+
     let zr = cr.minus(zin.times(zin)).plus(zrn.times(zrn)),
         zi = ci.plus((zrn.times(zin).times(2)));
 
@@ -43,8 +43,8 @@ var runTests = function (crIn,ciIn,absvIn,maxIn,fixdIn) {
 
     for (;i<max && magv.lt(absv);i++) {
         output += `
-    <tr><td>${i}</td><td>${zr.toFixed(fixd)}</td>
-        <td>${zi.toFixed(fixd)}</td><td>${magv.toFixed(fixd)}</td>
+    <tr><td>${i}</td><td>${zr.toPrecision(fixd)}</td>
+        <td>${zi.toPrecision(fixd)}</td><td>${magv.toPrecision(fixd)}</td>
         <td>${absv.toString()}</td>
     </tr>\n`;
         args = msetTentMap(...args);
@@ -54,11 +54,12 @@ var runTests = function (crIn,ciIn,absvIn,maxIn,fixdIn) {
         magv = zr.times(zr).plus(zi.times(zi));
     }
     output += `
-    <tr><td>${i}</td><td>${zr.toFixed(fixd)}</td>
-        <td>${zi.toFixed(fixd)}</td><td>${magv.toFixed(fixd)}</td>
+    <tr><td>${i}</td><td>${zr.toPrecision(fixd)}</td>
+        <td>${zi.toPrecision(fixd)}</td><td>${magv.toPrecision(fixd)}</td>
         <td>${absv.toString()}</td>
     </tr>\n`;
     document.getElementById('results').innerHTML = output
+    return i;
 }
 
 </script>
