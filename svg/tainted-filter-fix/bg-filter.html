@@ -1,0 +1,157 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <link rel="apple-touch-icon" type="image/png" href="https://static.codepen.io/assets/favicon/apple-touch-icon-5ae1a0698dcc2402e9712f7d01ed509a57814f994c660df9f7a952f3060705ee.png">
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+    <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+    <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+    <title>CodePen - SVG gaussian blur filter on background image</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <style>
+    @import url(https://fonts.googleapis.com/css?family=Amatic+SC:400,700);
+    body {
+      background-attachment: fixed;
+      background-clip: border-box;
+      background-image: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/167/nature001.jpg);
+      background-origin: padding-box;
+      background-repeat: repeat;
+      background-size: cover;
+      color: black;
+      font-family: 'Amatic SC', cursive, serif;
+      font-size: 2.5em;
+      font-weight: 400;
+    }
+    
+    .svgs {
+      display: none;
+    }
+    
+    .container {
+      background: inherit;
+      border-radius: 1em;
+      margin: 3em;
+      padding: 0;
+      position: relative;
+    }
+    .container:before {
+      background: inherit;
+      bottom: 0;
+      content: '';
+      -webkit-filter: url("#blur");
+              filter: url("#ShiftBGAndBlur");
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    
+    .content {
+      background-color: rgba(221, 221, 255, 0.5);
+      border-radius: 1em;
+      margin: 0;
+      padding: 2em 3em;
+      position: relative;
+    }
+    
+    .pic {
+      border: solid 0.25em rgba(221, 221, 255, 0.3);
+      border-radius: 0.25em;
+      float: right;
+      margin: 0 0 0.5em 0.5em;
+      width: 400px;
+    }
+    
+    h1, h2 {
+      color: #241;
+      font-size: 1.5em;
+      font-weight: 700;
+    }
+    h1 small, h2 small {
+      font-size: 0.6em;
+      margin-left: 1em;
+    }
+    
+    a {
+      color: #241;
+      font-weight: 700;
+      text-decoration: none;
+    }
+    a:hover {
+      text-decoration: underline;
+    }
+    </style>
+    <script>
+      window.console = window.console || function(t) {};
+    </script>
+    <script>
+      if (document.location.search.match(/type=embed/gi)) {
+        window.parent.postMessage("resize", "*");
+      }
+    </script>
+    </head>
+    <body translate="no">
+<svg class="svgs">
+
+    <filter id="ShiftBGAndBlur" 
+        filterUnits="userSpaceOnUse" x="0" y="0" width="1200" height="400">
+        <desc>
+        This filter discards the SourceGraphic, if any, and just produces
+        a result consisting of the BackgroundImage shifted down 125 units
+        and then blurred.
+        </desc>
+        <feOffset in="BackgroundImage" dx="20" dy="40" />
+        <feGaussianBlur stdDeviation="10" />
+    </filter>
+    <filter id="blur">
+        <feGaussianBlur stdDeviation="10"></feGaussianBlur>
+    </filter>
+    </svg>
+    <div class="container">
+    <div class="content">
+    <h1>
+    To Autumn<small>By John Keats</small></h1><img class="pic" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/167/nature002.jpg">
+    <p>
+    Season of mists and mellow fruitfulness,<br>
+    Close bosom-friend of the maturing sun;<br>
+    Conspiring with him how to load and bless<br>
+    With fruit the vines that round the thatch-eves run;<br>
+    To bend with apples the moss'd cottage-trees,<br>
+    And fill all fruit with ripeness to the core;<br>
+    To swell the gourd, and plump the hazel shells<br>
+    With a sweet kernel; to set budding more,<br>
+    And still more, later flowers for the bees,<br>
+    Until they think warm days will never cease,<br>
+    For summer has o'er-brimm'd their clammy cells.<br>
+    </p>
+    <p>
+    Who hath not seen thee oft amid thy store?<br>
+    Sometimes whoever seeks abroad may find<br>
+    Thee sitting careless on a granary floor,<br>
+    Thy hair soft-lifted by the winnowing wind;<br>
+    Or on a half-reap'd furrow sound asleep,<br>
+    Drows'd with the fume of poppies, while thy hook<br>
+    Spares the next swath and all its twined flowers:<br>
+    And sometimes like a gleaner thou dost keep<br>
+    Steady thy laden head across a brook;<br>
+    Or by a cyder-press, with patient look,<br>
+    Thou watchest the last oozings hours by hours.<br>
+    </p>
+    <p>
+    Where are the songs of spring? Ay, Where are they?<br>
+    Think not of them, thou hast thy music too,—<br>
+    While barred clouds bloom the soft-dying day,<br>
+    And touch the stubble-plains with rosy hue;<br>
+    Then in a wailful choir the small gnats mourn<br>
+    Among the river sallows, borne aloft<br>
+    Or sinking as the light wind lives or dies;<br>
+    And full-grown lambs loud bleat from hilly bourn;<br>
+    Hedge-crickets sing; and now with treble soft<br>
+    The red-breast whistles from a garden-croft;<br>
+    And gathering swallows twitter in the skies.
+    </p>
+    <p>Via <a href="http://www.familyfriendpoems.com/poem/to-autumn-by-john-keats#ixzz3GzZpo1jC">Family Friend Poems </a></p>
+    </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+    </body></html>

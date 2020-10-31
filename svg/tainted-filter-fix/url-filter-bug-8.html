@@ -84,6 +84,7 @@ svg {
     <option value="url(#displaceX-45)">DisplaceX Linear 45&deg;</option>
     <option value="url(#gabi-codepen)">Gabi CodePen Example 1</option>
     <option value="url(#gabi-codepen-2)">Gabi CodePen Example 2</option>
+    <option value="url(#bg-image-experiment)">BG Image Experiment</option>
   </select>
   </li>
  <li>
@@ -117,9 +118,9 @@ svg {
   version="1.0"
   x="0"
   y="0"
-  width="700"
-  height="700"
-  viewBox="0 0 700 700"
+  width="1400"
+  height="1400"
+  viewBox="0 0 1400 1400"
   style="cursor: pointer;">
 
 <defs>
@@ -271,13 +272,26 @@ svg {
     scale="50" 
     xChannelSelector="R" 
     yChannelSelector="G" >
-     <!-- <animate attributeName="scale" values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite" />-->
+     <animate attributeName="scale" values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite" />
+  </feDisplacementMap>
+</filter>
+  
+<filter id="bg-image-experiment-2" filterUnits="objectBoundingBox" color-interpolation="sRGB" x1="-10%" y1="-10%" x2="110%" y2="110%" >
+
+  <feDisplacementMap
+    in2="BackgroundImage" 
+    in="SourceGraphic"
+    scale="50" 
+    xChannelSelector="R" 
+    yChannelSelector="G" 
+    result="final">
+     <animate attributeName="scale" values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite" />
   </feDisplacementMap>
 </filter>
   
 </defs>
 
-<g id="clickMe" transform="translate(10,10)" filter="" >
+<g id="clickMe" transform="translate(10,200)" filter="" >
   <image id="image2" xlink:href="/images/Butterfly 6.jpg" height="700" x="0" y="0" width="700"/>
 </g>
 </svg>

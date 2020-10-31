@@ -1,0 +1,30 @@
+<svg version='1.1' 
+     xmlns='http://www.w3.org/2000/svg'
+     xmlns:xlink='http://www.w3.org/1999/xlink'
+     xmlns:ev='http://www.w3.org/2001/xml-events'
+     baseProfile='full'>
+<style>
+.x1 {
+    x:30;
+}
+.y1 {
+    y:15;
+}
+.x2 {
+    x:90;
+}
+.y2 {
+    y:75;
+}
+</style>
+<defs>
+
+<rect id='RGRect'  height='50' width='50' style='fill: rgba(255,5,5,.70); stroke: silver; stroke-width: 2;' />
+</defs>
+
+<use xlink:href="#RGRect" class="x1 y1" />
+
+<use xlink:href="#RGRect" class="x2 y1" />
+<use xlink:href="#RGRect" class="x1 y2" />
+<use xlink:href="#RGRect" class="x2 y2" />
+</svg> 

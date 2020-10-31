@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<base href="https://home.semitasker.com/" />
+<title>Duo Colored Pie</title>
+
+<style>
+
+</style>
+
+</head>
+<body>
+<svg version='1.1'
+ id="svgbg"
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ width="600"
+ height="600"
+ viewport='0 0 600 600'
+ baseProfile='full'>
+<defs>
+<filter id="blur">
+    <feGaussianBlur stdDeviation="10"></feGaussianBlur>
+</filter>
+<filter id="ShiftBGAndBlur" 
+        filterUnits="userSpaceOnUse" x="0" y="0" width="1200" height="400">
+    <desc>
+    This filter discards the SourceGraphic, if any, and just produces
+    a result consisting of the BackgroundImage shifted down 125 units
+    and then blurred.
+    </desc>
+    <feOffset in="BackgroundImage" dx="0" dy="125" />
+    <feGaussianBlur stdDeviation="8" />
+</filter>
+
+<filter id="displacementFilter">
+    <feDisplacementMap 
+        in="BackgroundImage"
+        in2="SourceGraphic"
+        result="DisplacementMap"
+        scale="50" 
+        xChannelSelector="R" 
+        yChannelSelector="B">
+
+        <animate attributeName="scale" 
+                values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite" />
+    </feDisplacementMap>
+    <feComposite in="DisplacementMap" in2="BackgroundImage" operation="atop" />
+</filter>
+
+<image 
+    id="bgimage"
+    x="0"
+    y="0"
+    height="200" 
+    width="200"
+    xlink:href="/images/us-flag-1.jpg"
+    stroke-width="4"
+    stroke="silver"/>
+
+<circle id="mycircle"
+    cx="300"
+    cy="200"
+    r="98"
+    fill="rgba(255,255,255,1)"/>
+
+<circle id="mycircle-base"
+    cx="150"
+    cy="100"
+    r="200"
+    fill="rgba(255,255,255,1)"/>
+
+</defs>
+<g>
+<use xlink:href="#mycircle" />
+
+<use xlink:href="#mycircle" 
+    stroke-dasharray="14 14" stroke-width="200" stroke="red" />
+</g>
+
+</svg>
+
+<div id="top">
+
+<h1>Hi there</h1>
+</div>
+
+</body>
+</html>

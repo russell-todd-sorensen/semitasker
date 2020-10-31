@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<base href="https://home.semitasker.com/" />
+<title>Song SVG</title>
+
+<style>
+#mycircle-old {
+    background-image: url("data:image/svg+xml;utf8,%3csvg version='1.1'  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml%2devents' height='300' width='300' viewport='0 0 300 300' baseProfile='full'%3e%3cdefs%3e%3c/defs%3e%3crect id='MinimumAnimation' x='0' y='0' height='300' width='300'%3e%3canimate attributeName='x' values='0;1' dur='60s' begin='0s' repeatCount='indefinite' style='fill:none;stroke:none;'/%3e%3c/rect%3e%3c/svg%3e");
+}
+body {
+    background-image: url("/images/us-flag-1.jpg");
+    background-repeat: no-repeat;
+}
+svg {
+    display: none;
+}
+#top:before {
+    background: inherit;
+    filter: url("#ShiftBGAndBlur");
+}
+</style>
+
+</head>
+<body>
+<svg version='1.1'
+ id="svgbg"
+ xmlns='http://www.w3.org/2000/svg'
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ width="300"
+ height="300"
+ viewport='0 0 300 300'
+ baseProfile='full'>
+<defs>
+<filter id="blur">
+    <feGaussianBlur stdDeviation="10"></feGaussianBlur>
+</filter>
+<filter id="ShiftBGAndBlur" 
+        filterUnits="userSpaceOnUse" x="0" y="0" width="1200" height="400">
+    <desc>
+    This filter discards the SourceGraphic, if any, and just produces
+    a result consisting of the BackgroundImage shifted down 125 units
+    and then blurred.
+    </desc>
+    <feOffset in="BackgroundImage" dx="0" dy="125" />
+    <feGaussianBlur stdDeviation="8" />
+</filter>
+
+<filter id="displacementFilter">
+    <feDisplacementMap 
+        in="BackgroundImage"
+        in2="SourceGraphic"
+        result="DisplacementMap"
+        scale="50" 
+        xChannelSelector="R" 
+        yChannelSelector="B">
+
+        <animate attributeName="scale" 
+                values="50;150;2;50" begin="0s" dur="25s" repeatCount="indefinite" />
+    </feDisplacementMap>
+    <feComposite in="DisplacementMap" in2="BackgroundImage" operation="atop" />
+</filter>
+
+<image 
+    id="bgimage"
+    x="0"
+    y="0"
+    height="200" 
+    width="200"
+    xlink:href="/images/us-flag-1.jpg"
+    stroke-width="4"
+    stroke="silver"/>
+
+<circle id="mycircle"
+    cx="150"
+    cy="100"
+    r="100"
+    fill="rgba(0,0,0,.2)"/>
+
+</defs>
+<g>
+
+    
+</g>
+
+</svg>
+
+<div id="top">
+
+<h1>Hi there</h1>
+</div>
+
+</body>
+</html>
