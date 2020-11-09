@@ -100,7 +100,7 @@ input {
     padding-bottom: 4px;
     border-collapse: collapse;
     display: inline-block;
-    font-family: consolas;
+    font-family: "Fira Code";
 }
 
 .box1, .box3, .box5, .box7, .box9 {
