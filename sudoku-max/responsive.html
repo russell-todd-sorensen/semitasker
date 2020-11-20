@@ -13,9 +13,9 @@
 
 <link rel="stylesheet" href="css/mobile.css" media="all" type="text/css" >
 
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/d3.v4.js"></script>
-<script src="/js/jquery-1.7.1.js"></script>
-<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
 <script src="/js/log-2.js"></script>
 <script src="/js/panel-show-hide.js"></script>
 <script src="js/sudoku-max-3.js" ></script>
@@ -122,6 +122,16 @@ $(document).ready(function() {
       </div>
       <div class="inline-button">
           <button id="toggle-mark" name="toggle-mark" onClick="toggleMarkMode('toggle-mark')">Mark Mode: Clear</button>
+      </div>
+      <div class="inline-button">
+          On: <input type="radio" id="mark-class" name="mark-class" value="on" onClick="toggleMarkClass('on')" checked >
+          Off: <input type="radio" id="mark-class" name="mark-class" value="off" onClick="toggleMarkClass('off')">
+      </div>
+      <div class="inline-button">
+          X: <input type="radio" id="mark-class" name="mark-class" value="X" onClick="toggleMarkClass('X')">
+          Y: <input type="radio" id="mark-class" name="mark-class" value="Y" onClick="toggleMarkClass('Y')">
+          Z: <input type="radio" id="mark-class" name="mark-class" value="Z" onClick="toggleMarkClass('Z')">
+          W: <input type="radio" id="mark-class" name="mark-class" value="W" onClick="toggleMarkClass('W')">
       </div>
       <div class="inline-button">
           <button id="reset-options" name="reset-options" onClick="resetCellOptions()">Reset Options</button>

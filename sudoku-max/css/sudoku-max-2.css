@@ -366,7 +366,32 @@ input {
 }
 
 #t .cell .marked {
-    background-color: black;
+    color: black;
+}
+
+#t .cell .marked.none {
+    background-color:rgba(0,0,0,0);
+}
+
+#t .cell .marked.on {
+    background-color: yellow;
+}
+
+#t .cell .marked.off {
+    background-color: red;
+}
+
+#t .cell .marked.X {
+    background-color: pink;
+}
+#t .cell .marked.Y {
+    background-color: silver;
+}
+#t .cell .marked.Z {
+    background-color: lightblue;
+}
+#t .cell .marked.W {
+    background-color:orange;
 }
 
 #control-form,

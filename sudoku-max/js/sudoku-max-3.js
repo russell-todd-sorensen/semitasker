@@ -258,11 +258,11 @@ var toggleMarkMode = function(id) {
         markCell = !(markCell);
     }
     if (markCell) {
-        $('#' + id).html("Mark Mode: Mark");
+        $(`#${id}`).html("Mark Mode: Mark");
     } else {
-        $('#' + id).html("Mark Mode: Clear");
-        $('.marked').each(function() {
-            $(this).removeClass('marked');
+        $(`#${id}`).html("Mark Mode: Clear");
+        $(".marked").each(function() {
+            $(this).removeClass(["marked",...markClasses]);
         })
     }
 }

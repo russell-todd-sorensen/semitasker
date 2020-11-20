@@ -39,10 +39,22 @@ var setupOptionCellsOriginal = function() {
 var toggleOption = false;
 
 var markCell = false;
+var markClass = "none";
+var colorOptions = [
+    {name:"none",color:"rgba(0,0,0,0)"},
+    {name:"off",color:"red"},
+    {name:"on",color:"yellow"},
+    {name:"X",color:"pink"},
+    {name:"Y",color:"silver"},
+    {name:"Z",color:"lightblue"},
+    {name:"W",color:"orange"},
+];
+
+var markClasses = ["none","off","on","X","Y","Z","W"];
 
 var selectOption = function (cellNumber, sIndex) {
     if (markCell) {
-        softSelectOption(cellNumber,sIndex);
+        softSelectOptionWithColor(cellNumber,sIndex,markClass);
         return false;
     }
     if (toggleOption) {
@@ -64,18 +76,32 @@ var selectLegendOption = function (targetId, sIndex) {
 }
 
 var softSelectOption = function(cellNumber, sIndex) {
-    $('#t #C' + cellNumber + ' .optionCell').each(function() {
-        if (this.id == 'C' + cellNumber + '-' + sIndex) {
-            if($(this).hasClass('marked')) {
-                $(this).removeClass('marked');
+    $(`#t #C${cellNumber} .optionCell`).each(function() {
+        if (this.id == `C${cellNumber}-${sIndex}`) {
+            if($(this).hasClass("marked")) {
+                $(this).removeClass(["marked",...markClasses]);
             } else {
-                $(this).addClass('marked');
+                $(this).addClass(["marked"]);
             }
         } else {
-            $(this).removeClass('marked');
+            $(this).removeClass(["marked",...markClasses]);
         }
     })
 }
+
+var toggleMarkClass = function(markClassName) {
+    markClass = markClassName;
+}
+
+var softSelectOptionWithColor = function(cellNumber, sIndex, markClass) {
+    $(`#t #C${cellNumber}-${sIndex}`).each(function() {
+            if($(this).hasClass("marked")) {
+                $(this).removeClass(["marked",...markClasses]);
+            } else {
+                $(this).addClass(["marked", markClass]);
+            }
+    })
+};
 
 var setupOptionCells = function() {
     re = /C([1-9]+[0-9]*)/;
