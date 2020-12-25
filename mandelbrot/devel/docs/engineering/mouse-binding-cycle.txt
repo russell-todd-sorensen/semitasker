@@ -1,0 +1,16 @@
+Seq     Function            Event               Bound To Object     Envoked/Bound at        Line    Defined at File         Line
+1       Anon Fn             DOMContentLoaded    Page Loading        explore.html            43      explore.html            43
+2       bindMouseBox()      None                Anon Fn             explore.html            87      js/mset-interactive.js  89
+3       startMove(evt)      mousedown           mouseBox element    mset-interactive.js     91      /js/mouse-events.js     44
+4       dragMove            mousemove           mouseBox element    startMove(evt) (bound)  51      /js/mouse-events.js     59
+5       endMove             mouseup             mouseBox element    startMove(evt) (bound)  52      /js/mouse-events.js     70
+6       setupRect(evt)      mousedown           mouseBox element    startMove(evt)          55      js/mset-drawing.js      53
+7       drawBox(evt)        mousemove           mouseBox element    dragMove(evt)           66      js/mset-drawing.js      85
+8       endMove(evt)        mouseup             mouseBox element    startMove(evt)          52      /js/mouse-events.js     70
+9                           unbind mousemove    mouseBox element    endMove(evt)            77      /js/mouse-events.js     59
+10                          unbind mouseup      mouseBox element    endMove(evt)            78      /js/mouse-events.js     70
+11      dragMove(evt)       mouseup             mouseBox element    endMove(evt)            80      /js/mouse-events.js     59
+12      calculateRect(evt)  mouseup             mouseBox element    endMove(evt)            83      /js/mouse-events.js     70
+
+
+

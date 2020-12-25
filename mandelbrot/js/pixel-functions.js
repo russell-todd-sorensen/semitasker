@@ -680,7 +680,7 @@ addToPixels[15] = function (data) {
 
         if (counter == fractal.profile.maximum+1)
         {
-          rgb = {r:0,g:0,b:0,a:255,hex:'#000000'}; // black;
+            rgb = {r:0,g:0,b:0,a:255,hex:'#000000'}; // black;
         }
         else {
             hue = ((Math.round(counter*hueFactor+fractal.animationIndex))%3600)/10;

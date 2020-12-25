@@ -18,7 +18,13 @@ self.addEventListener('message',  function(evt) {
         finite,
         magv,
         currentIndex,
-        tmpXSquared,tmpYSquared,tmpYbyTmpX,newX,newY,tmpX,tmpY,cY,cX,lastImaginaryPolarity,
+        tmpXSquared,
+        tmpYSquared,
+        tmpYbyTmpX,
+        newX,newY,
+        tmpX,tmpY,
+        cY,cX,
+        lastImaginaryPolarity,
         profile = {
             counts: new Array(objectInfo.counterMax+1).fill(0),
             maximum: 1,
@@ -27,7 +33,8 @@ self.addEventListener('message',  function(evt) {
         },
         crossReal = !(objectInfo.startY.s == objectInfo.endY.s),
         crossImag = !(objectInfo.startX.s == objectInfo.endX.s),
-        dx,dy,row0,col0;
+        dx,dy,
+        row0,col0;
 
     if (crossReal) {
         if (objectInfo.height%2 == 0) {

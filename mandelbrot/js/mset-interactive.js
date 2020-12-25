@@ -78,12 +78,12 @@ var writeColorPicker = function(pickerContainerId, styleId) {
 
     container
         .selectAll('.cp')
-        .on('click', LogStuff);
+        .on('click', LogColor);
 
 }
 
-var LogStuff = function(d,i,e) {
-    Log.Notice('LogStuff color=' + d.hex)
+var LogColor = function(d,i,e) {
+    Log.Notice('LogColor color=' + d.hex)
 }
 
 var bindMouseBox = function () {

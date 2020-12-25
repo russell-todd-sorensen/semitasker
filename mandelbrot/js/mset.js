@@ -72,9 +72,9 @@ class fractalImage {
     continueAnimation = false;
     animationModulus = 360 * 100;
     animationIndex = 0;
-    callStartMove = [logStartMove, captureMouseUp, setupRect];
-    callDragMove = [drawBox, logDragMove];
-    callEndMove = [logEndMove, unbindMouseUp, calculateRect];
+    callStartMove = [logStartMove, captureMouseUp, setupRect]; // removed
+    callDragMove = [drawBox, logDragMove];     // removed none
+    callEndMove = [logEndMove, unbindMouseUp, calculateRect]; // removed  
 
     // Web Worker to calculate counters
     worker = new Worker('js/mset-web-worker-code-generalized-arb.js');
