@@ -1,7 +1,11 @@
 // JavaScript Document
 // require data.js
 // These functions add to the Data object:
-
+if (!Data) {
+  var Data = {};
+  Data.url = document.url;
+  Data.Restored = {};
+}
 
 Data.writeFontFamilySelect = function( selector ) {
 
