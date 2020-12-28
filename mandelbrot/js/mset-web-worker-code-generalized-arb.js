@@ -23,7 +23,8 @@ self.addEventListener('message',  function(evt) {
         tmpYbyTmpX,
         newX,newY,
         tmpX,tmpY,
-        cY,cX,
+        cY,cX,wanderDiffSq,
+        wanderX, wanderY,
         lastImaginaryPolarity,
         profile = {
             counts: new Array(objectInfo.counterMax+1).fill(0),
@@ -187,6 +188,18 @@ self.addEventListener('message',  function(evt) {
                         magv = new Decimal("+Infinity");
                     }
                     break;
+                case 10:
+                    wanderX = newX.minus(cX);
+                    wanderY = newY.minus(cY);
+                    wanderDiffSq = (wanderX.times(wanderX)).plus(wanderY.times(wanderY))
+                    if (
+                        (wanderDiffSq.gt(4.0))
+                    )
+                    {
+                        magv = new Decimal("+Infinity");
+                    }
+                    break;
+
                 }
                 if (magv.gt(objectInfo.finiteMeasure)) {
                     finite = false;
