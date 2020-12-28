@@ -17,131 +17,148 @@ var idString = '\u2180\u2181\u2182\u2183\u2184\u2185\u2186\u2187\u2188\u2189';
 var ids = idString.split("");
 
 function loadGliphs() {
-	$('#s1').text('');
-	for (var g in ids) {
-		console.log('g=' + g + ' gliph=' + ids[g]);
-		//$('#g' + g + '.s::before').css({'content': ids[g]});
-		//document.querySelector('#g' + g + ':before').style.content = ids[g];
+    $('#s1').text('');
+    for (var g in ids) {
+        console.log('g=' + g + ' gliph=' + ids[g]);
+        //$('#g' + g + '.s::before').css({'content': ids[g]});
+        //document.querySelector('#g' + g + ':before').style.content = ids[g];
 
-		$('#s1').append("\n#g" + g + "::before {content: '" + ids[g] + "'}");
-	}
+        $('#s1').append("\n#g" + g + "::before {content: '" + ids[g] + "'}");
+    }
 }
 
 $(document).ready(function() {
-		document.getElementById('t-1').text = OneHundredFourtyFourThousand;
-		$('#r').html(OneHundredFourtyFourThousand);
-		$('#r2').html('\u2188\u2182\u2182\u2182\u2182\u2180\u2180\u2180\u2180')
-		$('#link1').html("<a href='"+ OneHundredFourtyFourThousand + ".html'>"
-			+ OneHundredFourtyFourThousand + ".html</a>")
-		$('#link2').html("<a href='"+OneHundredFourtyFourThousand + "/" + OneHundredFourtyFourThousand + ".html'>"
-			+ OneHundredFourtyFourThousand + "/" + OneHundredFourtyFourThousand + ".html</a>")
-		console.log('\u2188');
-		console.log('\u8584');
-		console.log('\u2189');
-		console.log('\u2179');
-		console.log(OneHundredFourtyFourThousand+'.html')
+        document.getElementById('t-1').text = OneHundredFourtyFourThousand;
+        $('#r').html(OneHundredFourtyFourThousand);
+        $('#r2').html('\u2188\u2182\u2182\u2182\u2182\u2180\u2180\u2180\u2180');
+        //$('#r3').html('\u2180\u2188\u2181\u2187');
+        $('#link1').html("<a href='"+ OneHundredFourtyFourThousand + ".html'>"
+            + OneHundredFourtyFourThousand + ".html</a>")
+        $('#link2').html("<a href='"+OneHundredFourtyFourThousand + "/" + OneHundredFourtyFourThousand + ".html'>"
+            + OneHundredFourtyFourThousand + "/" + OneHundredFourtyFourThousand + ".html</a>")
+        console.log('\u2188');
+        console.log('\u8584');
+        console.log('\u2189');
+        console.log('\u2179');
+        console.log(OneHundredFourtyFourThousand+'.html')
 });
 </script>
+<link rel="stylesheet" href="/css/reset.css" >
 <style id="s0">
 
 body {
-	font-family: unlock, fantasy;
+    font-family: unlock, fantasy;
+    margin: 10px;
 }
 
-#r {
-	font-size: 3em;
-	width: 125px;
-	margin: auto;
+#r,
+#r2,
+#r3 {
+    width: 125px;
+    margin: auto;
 }
-
 #r2 {
-	font-size: 3em;
-	width: 410px;
-	margin: auto;
+    width: 410px;
+}
+
+#titles {
+    font-weight: 100;
+    font-family: 'fira code';
+    font-size: 3em;
 }
 
 td {
-	border: collapse;
-	padding: 5px;
-	font-size: 24px;
+    border: collapse;
+    padding: 5px;
+    font-size: 24px;
 }
 
 .s {
-	padding: 10px;
+    padding: 10px;
 }
 
 .s::before {
-	color: #444;
-	font-size: 35px;
-	font-family: unlock, fantasy;
+    color: #444;
+    font-size: 35px;
+    font-family: unlock, fantasy;
 }
 
 </style>
 
 <style id='s1'>
 #g0::before {
-	content: 'ↀ';
+    content: 'ↀ';
 }
 
 #g1::before {
-	content: 'ↁ'
+    content: 'ↁ'
 }
 
 #g2::before {
-	content: 'ↂ'
+    content: 'ↂ'
 }
 
 #g3::before {
-	content: 'Ↄ'
+    content: 'Ↄ'
 }
 
 #g4::before {
-	content: 'ↄ'
+    content: 'ↄ'
 }
 
 #g5::before {
-	content: 'ↅ'
+    content: 'ↅ'
 }
 
 #g6::before {
-	content: 'ↆ'
+    content: 'ↆ'
 }
 
 #g7::before {
-	content: 'ↇ'
+    content: 'ↇ';
 }
 
 #g8::before {
-	content: 'ↈ'
+    content: 'ↈ';
 }
+</style>
 
+<style>
+#titles h2#r2 #g7::before,
+#titles h2#r2 #g8::before,
+#titles h2#r3 #r100k,
+#titles h2#r3 #r50k {
+    font-size: 1.1em;
+}
 </style>
 
 </head>
 <body>
-
+<div id="titles">
 <h2 id='r' title='14400 = 100,000+(50000-5000-1000) Compact Version'></h2>
 <h2 id='r2' title='14400 = 100,000+4*10,000+4*1000 Not Compact'></h2>
-
+<h2 id='r3' title='14400 = 100,000-1000+(50000-5000) Compact Version'
+    ><span id="r1k">ↀ</span><span id="r100k">ↈ</span><span id="r5k">ↁ</span><span id="r50k">ↇ</span></h2>
+</div>
 <table>
 <tr>
-<td class='s' id='g0'>	<td>2180	<td>ROMAN NUMERAL ONE THOUSAND C D
+<td class='s' id='g0'>    <td>2180    <td>ROMAN NUMERAL ONE THOUSAND C D
 <tr>
-<td class='s' id='g1'>	<td>2181	<td>ROMAN NUMERAL FIVE THOUSAND
+<td class='s' id='g1'>    <td>2181    <td>ROMAN NUMERAL FIVE THOUSAND
 <tr>
-<td class='s' id='g2'>	<td>2182	<td>ROMAN NUMERAL TEN THOUSAND
+<td class='s' id='g2'>    <td>2182    <td>ROMAN NUMERAL TEN THOUSAND
 <tr>
-<td class='s' id='g3'>	<td>2183	<td>ROMAN NUMERAL REVERSED ONE HUNDRED
+<td class='s' id='g3'>    <td>2183    <td>ROMAN NUMERAL REVERSED ONE HUNDRED
 <tr>
-<td class='s' id='g4'>	<td>2184	<td>LATIN SMALL LETTER REVERSED C
+<td class='s' id='g4'>    <td>2184    <td>LATIN SMALL LETTER REVERSED C
 <tr>
-<td class='s' id='g5'>	<td>2185	<td>ROMAN NUMERAL SIX LATE FORM
+<td class='s' id='g5'>    <td>2185    <td>ROMAN NUMERAL SIX LATE FORM
 <tr>
-<td class='s' id='g6'>	<td>2186	<td>ROMAN NUMERAL FIFTY EARLY FORM
+<td class='s' id='g6'>    <td>2186    <td>ROMAN NUMERAL FIFTY EARLY FORM
 <tr>
-<td class='s' id='g7'>	<td>2187	<td>ROMAN NUMERAL FIFTY THOUSAND
+<td class='s' id='g7'>    <td>2187    <td>ROMAN NUMERAL FIFTY THOUSAND
 <tr>
-<td class='s' id='g8'>	<td>2188	<td>ROMAN NUMERAL ONE HUNDRED THOUSAND
+<td class='s' id='g8'>    <td>2188    <td>ROMAN NUMERAL ONE HUNDRED THOUSAND
 <tr>
 </table>
 <button onclick="loadGliphs()" value="Load Glyphs">Load Glyphs If Broken</button><br>
