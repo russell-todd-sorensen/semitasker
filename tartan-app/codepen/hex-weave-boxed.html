@@ -1,0 +1,235 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="darkolivegreen" >
+<meta name="description" content="Hex Weave Experiment: Using SVG Transforms." >
+
+<title>Hex Weave Experiment</title>
+</head>
+<body>
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    x="86.6" 
+    y="-17"
+    width="1800"
+    height="1345"
+    viewbox="86.6 -17 1800 1345"><!-- x="-300" y="-800" width="3500" height="3000" viewbox="-300 -800 3500 3000" -->
+<style>
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+#t2 {
+    font-size: 48px;
+    fill: black;
+    font-family: 'Keania One', Arial;
+}
+#svg2 {
+    background-color: white;
+    cursor: pointer;
+}
+.A {
+    font-size: 20px;
+    font-family: Arial;
+}
+</style>
+<style>
+#weave-0 line,
+#weave-60 line,
+#weave-m60 line {
+    stroke-width: 43.3012701892;
+}
+#weave-0 line {
+    opacity: 1.00;
+}
+#weave-60 line {
+    opacity: .80;
+}
+#weave-m60 line {
+    opacity: .60;
+}
+.c0 {
+    fill: none;
+    stroke: #C80000;
+    stroke-dasharray: 50, 100;
+}
+
+.c1 {
+    fill: none;
+    stroke: #F8F8F8;
+    stroke-dasharray: 50, 100;
+}
+
+.c2 {
+    fill: none;
+    stroke: #888888;
+    stroke-dasharray: 50, 100;
+}
+
+.c3 {
+    fill: none;
+    stroke: #E8C000;
+    stroke-dasharray: 50, 100;
+}
+
+.c4 {
+    fill: none;
+    stroke: #101010;
+    stroke-dasharray: 50, 100;
+}
+
+.hor-0 {
+    stroke-dashoffset: 0;
+}
+.vert-0 {
+    stroke-dashoffset: 100;
+}
+.hor-1 {
+    stroke-dashoffset: 50;
+}
+
+.vert-1 {
+    stroke-dashoffset: 150;
+}
+
+.hor-2 {
+    stroke-dashoffset: 100;
+}
+
+.vert-2 {
+    stroke-dashoffset: 160;
+}
+
+.hor-3 {
+    stroke-dashoffset: 150;
+}
+
+.vert-3 {
+    stroke-dashoffset: 200;
+}
+
+#weave-m60 {
+    visibility: visible;
+}
+/*.text-0,
+.text-30,*/
+.text-m30 {
+    fill: rgba(0,0,0,0.5);
+    font-size: 50px;
+    font-family: 'Fira Code';
+}
+#x-axis,
+#y-axis {
+    stroke-width: 1;
+    stroke: rgba(0,0,0,1.0);
+}
+</style>
+<script href="/js/d3.v3.js"></script>
+<script href="/dsvg/js/tile.js"></script>
+<script>
+// <![CDATA[
+    window.addEventListener('DOMContentLoaded', () => {
+
+    });
+// ]]>
+</script>
+<defs>
+ <text id="t2" fill="black" transform="skewX(0)" style="font-family:'Keania One', Arial" >A</text>
+<g id="xy-axis">
+    <line id="x-axis" x1="-110%" y1="0" x2="110%" y2="0" />
+    <line id="y-axis" x1="0" y1="-110%" x2="0" y2="110%" />
+</g>
+<g id="weave-0" transform="translate(0,50) scale(1) skewX(-30) rotate(0) ">
+    <line class="c0 hor-0" x1="0" y1="0" x2="5350" y2="0"/>
+    <line class="c4 hor-1" x1="0" y1="43.3012701892" x2="5350" y2="43.3012701892"/>
+    <line class="c3 hor-2" x1="0" y1="86.6025403784" x2="5350" y2="86.6025403784"/>
+    <text class="text-0" x="0" y="75" >Weave-0 Weave-0 Weave-0</text> 
+</g>
+
+<g id="weave-60" transform="translate(0,50) scale(1)  rotate(60) skewX(-30) translate(-75,-43.3012701892)">
+    <line class="c0 hor-0" x1="0" y1="0" x2="5350" y2="0"/>
+    <line class="c4 hor-1" x1="0" y1="43.3012701892" x2="5350" y2="43.3012701892"/>
+    <line class="c3 hor-2" x1="0" y1="86.6025403784" x2="5350" y2="86.60254037840"/>
+    <text class="text-30" x="0" y="75" >Weave-60 Weave-60 Weave-60</text> 
+</g>
+
+<g id="weave-m60" transform="translate(0,300) scale(1) rotate(-60) skewX(-30) translate(-30.66,-16.745)">
+    <!--   translate(-30.5,-17) -->
+    <line class="c0 hor-0" x1="0" y1="0" x2="5350" y2="0"/>
+    <line class="c4 hor-1" x1="0" y1="43.3012701892" x2="5350" y2="43.3012701892"/>
+    <line class="c3 hor-2" x1="0" y1="86.6025403784" x2="5350" y2="86.60254037840"/>
+    <text class="text-m30" x="0" y="75" >Weave-m60 Weave-m60 Weave-m60</text> 
+</g>
+</defs>
+<!--<use xlink:href="#xy-axis" x="0" y="0" />
+<g transform="scale(15) translate(-20,-20)">--> 
+<use id="#w0-1" xlink:href="#weave-0" transform="translate(75,-129.9038105676)" />
+<use id="#w0-1" xlink:href="#weave-0" transform="translate(0,0)"/>
+<use id="#w0-1" xlink:href="#weave-0" transform="translate(75,129.9038105676)" />
+<use id="#w0-1" xlink:href="#weave-0" transform="translate(0,259.8076211352)"/> <!-- -->
+<use id="#w0-1" xlink:href="#weave-0" transform="translate(75,389.7114317027999)"/>
+<use id="#w0-1" xlink:href="#weave-0" transform="translate(0,519.615242270399)"/>
+<use id="#w0-1" xlink:href="#weave-0" transform="translate(75,649.5190528379999)" />
+<use id="#w0-1" xlink:href="#weave-0" transform="translate(0,779.4228634055999)"/>
+<use id="#w0-1" xlink:href="#weave-0" transform="translate(75,909.3266739731998)" />
+<use id="#w0-1" xlink:href="#weave-0" transform="translate(0,1039.2304845407998)"/>
+<use id="#w0-1" xlink:href="#weave-0" transform="translate(75,1169.1342951083998)" /><!-- -->
+<!--<use id="#w60-1" xlink:href="#weave-60" transform=""/>-->
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,3247.5952641899994)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-2987.7876430547994)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-2727.9800219195995)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-2468.1724007843995)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-2208.364779649199)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-1948.5571585139996)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-1688.7495373787997)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-1428.9419162435997)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-1169.1342951083998)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-909.3266739731998)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-649.5190528379999)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-389.7114317027999)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-129.9038105676)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,129.9038105676)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,389.7114317027999)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,649.5190528379999)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,909.3266739731998)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,1169.1342951083998)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,1428.9419162435997)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,1688.7495373787997)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,1948.5571585139996)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,2208.364779649199)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,2468.1724007843995)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,2727.9800219195995)"/>
+<use id="#w60-1" xlink:href="#weave-60" transform="translate(75,2987.7876430547994)"/>
+<!--<use id="#wm60-1" xlink:href="#weave-m60" transform=""/>-->
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,-1428.9419162435997)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,-1169.1342951083998)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,-909.3266739731998)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,-649.5190528379999)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,-389.7114317027999)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,-129.9038105676)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,129.9038105676)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,389.7114317027999)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,649.5190528379999)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,909.3266739731998)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,1169.1342951083998)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,1428.9419162435997)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,1688.7495373787997)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,1948.5571585139996)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,2208.364779649199)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,2468.1724007843995)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,2727.9800219195995)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,2987.7876430547994)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,3247.5952641899994)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,3507.4028853251993)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,3767.2105064603993)"/>
+<use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,4027.0181275955993)"/>
+<!--</g>-->
+</svg>
+</body>
+</html>
