@@ -1,0 +1,113 @@
+-- $Id$ --
+
+Module: NSUnixODBC
+
+Description: Internal database driver for AOLserver.
+
+Purpose: Allow AOLserver to connect to ODBC enabled
+databases from a Linux or Unix like environment.
+
+Installation:
+
+1. Download and install UnixODBC from 
+ http://www.unixodbc.org/
+
+ Installtion of UnixODBC should be according to the
+  default instructions into /usr/local.
+
+2. Run make for nsunixodbc:
+ $ make UNIXODBC=/usr/local
+
+3. Ignore the of warnings about arg widths.
+
+4. Move the nsunixodbc.so into your AOLserver bin
+   directory.
+
+Configuration:
+
+1. ODBC:
+ A. /usr/local/etc/odbc.ini
+
+ The file odbc.ini is used to store information on 
+  the data sources available. The default location 
+  for the odbc.ini file is in /usr/local/etc/.
+
+ The file begins with an area containing the header 
+ [ODBC Data Sources], where all available data sources 
+ are listed. This area is followed by one or more 
+ data source entries where information specific 
+ to each data source is stored. For example:
+
+[ODBC Data Sources]
+data-source-1=vendor-1
+data-source-2=vendor-2
+
+[data-source-1]
+Driver=vendor-1-driver
+Database=vendor-1-database-server
+Trace=Yes/No
+TraceFile=trace-file
+
+ Open the odbc.ini file and add the 
+  data source, myds, to the Vendor MYVENDOR:
+
+[ODBC Data Sources]
+myds=MYVENDOR
+
+[myds]
+Driver=MYVENDOR
+Database=mydb
+Trace=No
+TraceFile=
+
+ Save odbc.ini
+
+ B. /usr/local/etc/obdcinst.ini
+
+ All installed drivers must be registered in the 
+  odbcinst.ini file.Open odbcinst.ini, which is located 
+  in the same directory as odbc.ini, and add information 
+  on the ODBC driver:
+ 
+[MYVENDOR]
+Driver=/path/to/libmyvendor.so
+Setup=
+Threading = 0
+
+2. AOLserver 
+
+ A. Make sure the following sections are present in
+   your AOLserver startup config file:
+
+ns_section ns/db/drivers
+ ns_param nsunixodbc   /path/to/aolserver/bin/nsunixodbc.so
+
+ns_section ns/db/pools
+ ns_param pool1 Pool1
+ ns_param pool2 Pool2
+ ns_param pool3 Pool3
+
+# for each pool using nsunixodbc:
+ns_section ns/db/pool/pool1
+ ns_param driver nsunixodbc
+ ns_param datasource myds
+ ns_param user myuser
+ ns_param password mypassword
+ # additional params not related to nsunixodbc:
+ ns_param   maxidle            1000000000
+ ns_param   maxopen            1000000000
+ ns_param   connections        5
+ ns_param   verbose            true ;# or false
+ ns_param   extendedtableinfo  true ;# or false
+ ns_param   logsqlerrors       true ;#  or false
+
+ B. You may need to set the following environment variables
+  in the AOLserver process, but I didn't need to:
+  LD_LIBRARY_PATH=/path/to/unixodbc.so, for instance:
+  /usr/local/lib
+
+  ODBCINC=/usr/local/etc/odbc.ini
+
+  or wherever you installed odbc.ini.
+
+ 

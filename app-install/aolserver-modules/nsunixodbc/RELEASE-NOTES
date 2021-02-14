@@ -1,0 +1,16 @@
+-- $Id$ --
+
+Initial Release:
+ This module was adapated from the nssolid module.
+ A few comments in the .c file indicate I couldn't figure out what
+FAR or SS_FAR were intended to do. They lead to errors during compile,
+so I removed them. 
+ The module compiles with a lot of warnings about different arg widths.
+They appear to be different names for 'unsigned small int' so I couldn't
+figure out what the problem was here either. At any rate, the problem is
+in the unixodbc usage, not in nsunixodbc.c, which just adopts the usage.
+ Stored Procedures are not supported.
+ Bind variables are not supported as in ora8 or emulated as in nspostgres.
+
+ -tom jackson (tom@rmadilo.com)
+
