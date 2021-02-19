@@ -2,7 +2,7 @@
 <html lang="en-US">
 <head>
 <meta charset="utf-8" />
-<base href="https://home.semitasker.com/" />
+<base href="https://home.highfivediet.com/" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="orange" />
 
@@ -67,16 +67,19 @@ navigator.serviceWorker.getRegistrations().then(
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xml:base="https://home.semitasker.com"
     externalResourcesRequired="true"
-    width="384"
-    height="600"
-    viewbox="0 0 384 600"
+    width="364"
+    height="380"
+    viewbox="20 10 364 380"
     >
 <style>
-svg,
 body {
     background-color: rgb(210,210,210);
+    background-image: url("/images/mset-opt/mset-5738.png");
 }
-svg {
+
+svg#svg-clock {
+    background-color: transparent;
+    background-image: none;
     margin: auto;
     margin-left: 10px;
 }
@@ -155,9 +158,47 @@ svg {
     fill: orange;
 }
 
+#container {
+    width: 364px;
+}
+
 #controls {
     padding: 5px;
+    width: 50%;
+    margin: auto;
+    background-color: rgba(255,255,255,.3);
 }
+
+#showTimezone {
+    background-color: rgba(255,255,255,.6);
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: auto;
+}
+
+#tz-input {
+    background-color: transparent;
+    width: 65%;
+    margin: auto;
+}
+
+#timezone {
+    width: 35px;
+    height: 0.85em;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: right;
+}
+#update {
+    width: 65px;
+}
+
+#timezone,
+#update {
+    display: inline-block;
+}
+
 </style>
 <defs>
 <!-- NOTE: transform x and y = ((circle radius) * scale) -->
@@ -281,10 +322,14 @@ svg {
 
 </g>
 </svg>
+<div id="container">
 <div id="controls">
 <h3 id="showTimezone">Set Timezone:</h3>
+<div id="tz-input">
 <input id="timezone" name="timezone" type="number" min="-24.00" max="24.00" value="-5">
 <input type="button" id="update" name="update" value="Update" onClick="updateTimezone('timezone');">
+</div>
+</div>
 </div>
 <pre id="stats"></pre>
 
@@ -549,24 +594,19 @@ var myQueue = new Queue();
 var myClock = new Clock(myQueue);
 var myTimezone;
 
+const timezoneId = "timezone"
+const timezoneField = document.querySelector(["#",timezoneId].join(""));
+const updateButton  = document.querySelector("#update");
+const timezoneHeader = document.querySelector("#showTimezone");
+
 window.addEventListener('DOMContentLoaded', () => {
     Data.restoreInput('timezone');
-    //myTimezone = getTimezone();
-    //getTimezone();
-    //myClock.setTimezoneOffset(myTimezone);
-    //myClock.start();
-    //myQueue.start(myQueue,10);
+
+    setTimezone(timezoneId);
 });
 
 </script>
 <script>
-
-const timezoneField = document.querySelector("#timezone");
-const updateButton  = document.querySelector("#update");
-const timezoneHeader = document.querySelector("#showTimezone");
-
-//const tzoField = document.querySelector("#tzo");
-
 var setTimezone = function(inputId) {
 
     myTimezone = timezoneField.value;
@@ -576,6 +616,12 @@ var setTimezone = function(inputId) {
     myQueue.start(myQueue,10);
 }
 
+var getTimezone = function() {
+    timezoneField.value = myTimezone;
+    myClock.setTimezoneOffset(parseInt(myTimezone));
+    myClock.start();
+    myQueue.start(myQueue,10);
+}
 // setTimezone captures the new timezone offset,
 // stores it in LocalStorage and updates the clock
 

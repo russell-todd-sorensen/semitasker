@@ -1,4 +1,10 @@
-set pageroot [ns_info pagedir]
+<%
+#set pageroot [ns_info pagedir]
+set url  [ns_conn url]
+set urlc [ns_conn urlc]
+set urlv [ns_conn urlv]
+set pagedir [ns_server pagedir]
+set fullpath [ns_url2file $url]
 
 set prLength [string length $pageroot]
 set normalizedDirectory /[string trimleft [string range $dir $prLength end] /]
@@ -36,4 +42,6 @@ $errorInfo
 
 set contentType text/html
 
-ns_return 200 $contentType $__string
+ns_adp_return 200 $contentType $__string
+
+%>
