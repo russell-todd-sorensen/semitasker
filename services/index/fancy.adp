@@ -23,8 +23,8 @@
     <li>Is a Directory =  $fid </li>
     <li>Is a Reg File  =  $fif </li>
 "
-set templateFilename [file join $pagedir services index fancy.cmp]
-
+set templateFilename [file join $pagedir services index fancy.cmp]  
+ns_log Notice "generating templateFile = \[file join $pagedir services index fancy.cmp]"
 if {!$fid} {
     #append summary "<h3>no directory here</h3>"
 } else {
