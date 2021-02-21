@@ -1,0 +1,264 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="darkolivegreen" >
+<meta name="description" content="Hex Weave Experiment: Using SVG Transforms." >
+
+<title>Hex Weave Experiment</title>
+</head>
+<body>
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    x="-300"
+    y="-800"
+    width="3500"
+    height="3000"
+    viewbox="-300 -800 3500 3000">
+<style>
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+#t2 {
+    font-size: 48px;
+    fill: black;
+    font-family: 'Keania One', Arial;
+}
+#svg2 {
+    background-color: white;
+    cursor: pointer;
+}
+.A {
+    font-size: 20px;
+    font-family: Arial;
+}
+</style>
+<style>
+#weave-0 line,
+#weave-60 line,
+#weave-m60 line {
+    stroke-width: 43.3012701892;
+}
+#weave-0 line {
+    opacity: 1.00;
+}
+#weave-60 line {
+    opacity: .80;
+}
+#weave-m60 line {
+    opacity: .60;
+}
+#weave-0 rect,
+#weave-60 rect,
+#weave-m60 rect {
+    opacity: 1.0;
+}
+#weave-0 rect {
+    opacity: 1.00;
+}
+#weave-60 rect {
+    opacity: .80;
+}
+#weave-m60 rect {
+    opacity: .60;
+}
+.c0 {
+    fill: none;
+    stroke: #C80000;
+    opacity: .75;
+    stroke-dasharray: 50, 100;
+}
+
+.c2 {
+    fill: none;
+    stroke: #E8C000;
+    stroke-dasharray: 50, 100;
+}
+
+.c1 {
+    fill: none;
+    stroke: #101010;
+    stroke-dasharray: 50, 100;
+}
+
+.hor-0 {
+    stroke-dashoffset: 0;
+}
+.hor-1 {
+    stroke-dashoffset: 50;
+}
+.hor-2 {
+    stroke-dashoffset: 100;
+}
+
+#weave-m60 {
+    visibility: visible;
+}
+
+
+#x-axis,
+#y-axis {
+    stroke-width: 1;
+    stroke: rgba(0,0,0,1.0);
+}
+
+text.text-0 {
+    fill: black;
+    font-family: 'Fira Code';
+    font-size: 10px;
+    textLength: 38px;
+    lengthAdjust: spacingAndGlyphs;
+    text-anchor: middle;
+}
+text.text-0.black {
+    fill: white;
+}
+
+</style>
+<script href="/js/d3.v3.js"></script>
+<script href="/dsvg/js/tile.js"></script>
+<script>
+// <![CDATA[
+    window.addEventListener('DOMContentLoaded', () => {
+
+    });
+// ]]>
+</script>
+<defs>
+<text id="t2" fill="black" transform="skewX(0)" style="font-family:'Keania One', Arial" >A</text>
+<g id="xy-axis">
+    <line id="x-axis" x1="-110%" y1="0" x2="110%" y2="0" />
+    <line id="y-axis" x1="0" y1="-110%" x2="0" y2="110%" />
+</g>
+<linearGradient color-interpolation="sRGB" id="grad-0" spreadMethod="repeat">
+    <stop stop-color="white" offset="0.0"></stop>
+    <stop stop-color="brown" offset="0.5"></stop>
+    <stop stop-color="yellow" offset="1.0"></stop>
+</linearGradient>
+
+<pattern id="ribbon-red-0" x="0" y="0" width="150" height="43.3012701892" patternUnits="userSpaceOnUse">
+    <rect x="0" y="0" width="50" height="43.3012701892" fill="rgba(200,0,0,1)"/>
+    <rect x="50" y="0" width="100" height="43.3012701892" fill="rgba(200,0,0,0.0)"/>
+    <text x="25" y="25" class="text-0" textLength="48" lengthAdjust="spacingAndGlyphs">Red Weave</text>
+</pattern>
+
+<pattern id="ribbon-black-1" x="0" y="0" width="150" height="43.3012701892" patternUnits="userSpaceOnUse">
+    <rect x="0" y="0" width="100" height="43.3012701892" fill="rgba(16,16,16,0.0)"/>
+    <rect x="100" y="0" width="50" height="43.3012701892" fill="rgba(16,16,16,1)"/>
+    <text x="125" y="25" class="text-0 black" textLength="48" lengthAdjust="spacingAndGlyphs">Black Weave</text>
+</pattern>
+
+<pattern id="ribbon-yellow-2" x="0" y="0" width="150" height="43.3012701892" patternUnits="userSpaceOnUse">
+    <rect x="0" y="0" width="50" height="43.3012701892" fill="rgba(232,192,0,0.0)"/>
+    <rect x="50" y="0" width="50" height="43.3012701892" fill="rgba(232,192,0,1.0)"/>
+    <rect x="100" y="0" width="50" height="43.3012701892" fill="rgba(232,192,0,0.0)"/>
+    <text x="75" y="25" class="text-0" textLength="48" lengthAdjust="spacingAndGlyphs">Yellow Weave</text>
+</pattern>
+
+<g id="pattern-rects">
+    <rect class="r0" x="0" y="0" width="5350" height="43.3012701892" fill="url(#ribbon-red-0)" />
+    <rect class="r1" x="0" y="43.3012701892" width="5350" height="43.3012701892" fill="url(#ribbon-black-1)" />
+    <rect class="r2" x="0" y="86.60254037840" width="5350" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
+</g>
+<g id="weave-0" transform="skewX(-30)">
+    <animateTransform
+        id="weave0skewx"
+        attributeName="transform" 
+        type="skewX" 
+        values="-30;0;0;-30" 
+        dur="10s" 
+        begin="0s;svg2.click" 
+        repeatCount="1" />
+    <rect class="r0" x="0" y="0" width="5350" height="43.3012701892" fill="url(#ribbon-red-0)" />
+    <rect class="r1" x="0" y="43.3012701892" width="5350" height="43.3012701892" fill="url(#ribbon-black-1)" />
+    <rect class="r2" x="0" y="86.60254037840" width="5350" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
+    <!--<text class="text-0" x="0" y="75" >Weave-0 Weave-0 Weave-0</text>-->
+</g>
+
+<g id="weave-60" transform="translate(100,0)" ><!-- translate(-50,-43.3012701892) -->
+    <animateTransform  
+        id="weave60translate"
+        attributeName="transform" 
+        type="translate" 
+        values="100,0;0,0;0;100,0"
+        dur="10s" 
+        begin="weave60rotate.end" 
+        repeatCount="1" />
+    <g transform="rotate(60)">
+        <animateTransform  
+            id="weave60rotate"
+            attributeName="transform" 
+            type="rotate" 
+            values="60;0;0;60" 
+            dur="10s" 
+            begin="weave60skewx.end" 
+            repeatCount="1" />
+        <g transform="skewX(-30)">
+            <animateTransform  
+                id="weave60skewx"
+                attributeName="transform" 
+                type="skewX" 
+                values="-30;0;0;-30" 
+                dur="10s" 
+                begin="weavem60translate.end" 
+                repeatCount="1" />
+            <rect class="r0" x="0" y="0" width="5350" height="43.3012701892" fill="url(#ribbon-red-0)" />
+            <rect class="r1" x="0" y="43.3012701892" width="5350" height="43.3012701892" fill="url(#ribbon-black-1)" />
+            <rect class="r2" x="0" y="86.60254037840" width="5350" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
+            <!--<text class="text-30" x="0" y="75" >Weave-60 Weave-60 Weave-60</text> -->
+        </g>
+    </g>
+</g>
+<g id="weave-m60" transform="translate(-50,0) ">
+    <animateTransform  
+        id="weavem60translate"
+        attributeName="transform" 
+        type="translate" 
+        values="-50,0;0,0;0;-50,0"
+        dur="10s" 
+        begin="weavem60rotate.end" 
+        repeatCount="1" />
+    <g transform="rotate(-60)">
+        <animateTransform  
+            id="weavem60rotate"
+            attributeName="transform" 
+            type="rotate" 
+            values="-60;0;0;-60" 
+            dur="10s" 
+            begin="weavem60skewx.end" 
+            repeatCount="1" />
+        <g transform=" skewX(-30)">
+            <animateTransform  
+                id="weavem60skewx"
+                attributeName="transform" 
+                type="skewX" 
+                values="-30;0;0;-30" 
+                dur="10s" 
+                begin="weave0skewx.end" 
+                repeatCount="1" />
+            <rect class="r0" x="0" y="0" width="5350" height="43.3012701892" fill="url(#ribbon-red-0)" />
+            <rect class="r1" x="0" y="43.3012701892" width="5350" height="43.3012701892" fill="url(#ribbon-black-1)" />
+            <rect class="r2" x="0" y="86.60254037840" width="5350" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
+            <!-- <text class="text-m30" x="0" y="75" >Weave-m60 Weave-m60 Weave-m60</text> -->
+        </g>
+    </g>
+</g>
+</defs>
+<use xlink:href="#xy-axis" x="0" y="0" />
+<g transform="translate(0,0)">
+    <use id="#w0-1" xlink:href="#weave-0" transform="translate(0,0)"/>
+    <use id="#w60-1" xlink:href="#weave-60" transform="translate(0,0)"/>
+    <use id="#wm60-1" xlink:href="#weave-m60" transform="translate(0,0)"/>
+    <use id="#w60-1" xlink:href="#weave-60" transform="translate(75,-129.9038105676)"/>
+    <use id="#wm60-1" xlink:href="#weave-m60" transform="translate(75,129.9038105676)"/>
+    <use id="#w0-1"   xlink:href="#weave-0"   transform="translate(75,-129.9038105676)" />
+</g>
+</svg>
+</body>
+</html>
