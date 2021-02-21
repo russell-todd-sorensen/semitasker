@@ -166,86 +166,101 @@ text.text-0.black {
     <rect class="r1" x="0" y="43.3012701892" width="5350" height="43.3012701892" fill="url(#ribbon-black-1)" />
     <rect class="r2" x="0" y="86.60254037840" width="5350" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
 </g>
-<g id="weave-0" transform="skewX(-30)" opacity="1">
-    <set attributeName="opacity" to="0" begin="weave0skewx.end" />
-    <set attributeName="opacity" to="1" begin="weave60translate.end" />
+<g id="weave-0" transform="skewX(0)" opacity="1"> <!-- target is (-30) -->
+    <set attributeName="opacity" to="0.1" begin="weave0skewx.end" />
+    <set attributeName="opacity" to="1" begin="weave0skewx.begin;weavem60skewx.end" />
+    <!-- Animation Starting Point -->
     <animateTransform
         id="weave0skewx"
-        attributeName="transform" 
+        attributeName="transform"
+        attributeType="XML"
         type="skewX" 
-        values="0-30;0;0;-30" 
+        values="0;-30;0;-30" 
         dur="15s" 
         begin="svg2.click" 
-        repeatCount="2" />
+        repeatCount="1"
+        fill="freeze"  />
     <rect class="r0" x="0" y="0" width="5350" height="43.3012701892" fill="url(#ribbon-red-0)" />
     <rect class="r1" x="0" y="43.3012701892" width="5350" height="43.3012701892" fill="url(#ribbon-black-1)" />
     <rect class="r2" x="0" y="86.60254037840" width="5350" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
 </g>
 
-<g id="weave-60" transform="translate(100,0)" opacity="1" >
-    <set attributeName="opacity" to="0" begin="weave0skewx.begin" />
-    <set attributeName="opacity" to="1" begin="weave0skewx.end" />
+<g id="weave-60" transform="translate(0,0)" opacity="1" > <!-- target is (100,0) -->
+    <set attributeName="opacity" to="0.1" begin="weave0skewx.begin;weave60skewx.end" />
+    <set attributeName="opacity" to="1" begin="weave60translate.begin;weavem60skewx.end" />
     <animateTransform  
         id="weave60translate"
         attributeName="transform" 
+        attributeType="XML"
         type="translate" 
-        values="0;100,0;0,0;0;100,0"
+        values="0,0;100,0;0,0;100,0"
         dur="10s" 
-        begin="weave60rotate.end" 
-        repeatCount="1" />
-    <g transform="rotate(60)">
+        begin="weave0skewx.end" 
+        repeatCount="1"
+        fill="freeze"  />
+    <g transform="rotate(0)"> <!-- target=(60) -->
         <animateTransform  
             id="weave60rotate"
             attributeName="transform" 
+            attributeType="XML"
             type="rotate" 
             values="0;60;0;0;60" 
             dur="10s" 
-            begin="weave60skewx.end" 
-            repeatCount="1" />
-        <g transform="skewX(-30)">
+            begin="weave60translate.end" 
+            repeatCount="1"
+            fill="freeze"  />
+        <g transform="skewX(0)"> <!-- target=(-30) -->
             <animateTransform  
                 id="weave60skewx"
                 attributeName="transform" 
+                attributeType="XML"
                 type="skewX" 
-                values="0;-30;0;0;-30" 
+                values="0;-30;0;-30" 
                 dur="10s" 
-                begin="weavem60translate.end" 
-                repeatCount="1" />
+                begin="weave60rotate.end" 
+                repeatCount="1"
+                fill="freeze"  />
             <rect class="r0" x="0" y="0" width="5350" height="43.3012701892" fill="url(#ribbon-red-0)" />
             <rect class="r1" x="0" y="43.3012701892" width="5350" height="43.3012701892" fill="url(#ribbon-black-1)" />
             <rect class="r2" x="0" y="86.60254037840" width="5350" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
         </g>
     </g>
 </g>
-<g id="weave-m60" transform="translate(-50,0)" opacity="1">
-    <set attributeName="opacity" to="0" begin="weave0skewx.begin;weavem60translate.end" />
-    <set attributeName="opacity" to="1" begin="weave60translate.end" />
+<g id="weave-m60" transform="translate(0,0)" opacity="1"> <!-- target= (-50,0)-->
+    <set attributeName="opacity" to="0.1" begin="weave0skewx.begin" />
+    <set attributeName="opacity" to="1" begin="weavem60translate.begin;weavem60skewx.end" />
     <animateTransform  
         id="weavem60translate"
         attributeName="transform" 
+        attributeType="XML"
         type="translate" 
-        values="0;-50,0;0,0;0;-50,0"
+        values="0,0;-50,0;0,0;-50,0"
         dur="10s" 
-        begin="weavem60rotate.end" 
-        repeatCount="1" />
-    <g transform="rotate(-60)">
+        begin="weave60skewx.end" 
+        repeatCount="1"
+        fill="freeze"  />
+    <g transform="rotate(0)"> <!-- target= (-60) -->
         <animateTransform  
             id="weavem60rotate"
             attributeName="transform" 
+            attributeType="XML"
             type="rotate" 
-            values="0;-60;0;0;-60" 
+            values="0;-60;0;-60" 
             dur="10s" 
-            begin="weavem60skewx.end" 
-            repeatCount="1" />
-        <g transform=" skewX(-30)">
+            begin="weavem60translate.end" 
+            repeatCount="1"
+            fill="freeze" />
+        <g transform=" skewX(0)"> <!-- target= (-30) -->
             <animateTransform  
                 id="weavem60skewx"
                 attributeName="transform" 
+                attributeType="XML"
                 type="skewX" 
                 values="0;-30;0;0;-30" 
                 dur="10s" 
-                begin="weave0skewx.end" 
-                repeatCount="1" />
+                begin="weavem60rotate.end" 
+                repeatCount="1" 
+                fill="freeze" />
             <rect class="r0" x="0" y="0" width="5350" height="43.3012701892" fill="url(#ribbon-red-0)" />
             <rect class="r1" x="0" y="43.3012701892" width="5350" height="43.3012701892" fill="url(#ribbon-black-1)" />
             <rect class="r2" x="0" y="86.60254037840" width="5350" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
@@ -263,5 +278,13 @@ text.text-0.black {
     <use id="#w0-1"   xlink:href="#weave-0"   transform="translate(75,-129.9038105676)" />
 </g>
 </svg>
+
+<script>
+
+var animationControls = [];
+
+
+
+</script>
 </body>
 </html>
