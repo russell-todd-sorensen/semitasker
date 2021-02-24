@@ -30,34 +30,34 @@ td {
 
 <script>
 function init() {
-	var Ds = document.getElementsByTagName('td');
-	for (var i in Ds) Ds[i].onclick = function () {add(this);};
-	var D = document.getElementById('E');
-	SVGDoc = D.getSVGDocument();
-	SVGRoot = SVGDoc.documentElement;
-	svgns = "http://www.w3.org/2000/svg";
+    var Ds = document.getElementsByTagName('td');
+    for (var i in Ds) Ds[i].onclick = function () {add(this);};
+    var D = document.getElementById('E');
+    SVGDoc = D.getSVGDocument();
+    SVGRoot = SVGDoc.documentElement;
+    svgns = "http://www.w3.org/2000/svg";
 }
 
 function add(o) {
-	var word = o.firstChild.nodeValue;
-	Log.Notice('word=' + word);
-	var T = SVGDoc.createElementNS(svgns, 'text');
-	var msgNode = SVGDoc.createTextNode(word);
-	var fontratio = 0.05, adj = (1-fontratio);
-	x = Math.random() * .9 - 2 * fontratio;
-	y = Math.random() * .5;
-	T.setAttributeNS(null,'x',x);
-	T.setAttributeNS(null,'y',y);
-	T.setAttributeNS(null,'font-size',fontratio);
-	T.setAttributeNS(null,'font-family','serif');
-	T.appendChild(msgNode);
-	SVGRoot.appendChild(T);
+    var word = o.firstChild.nodeValue;
+    Log.Notice('word=' + word);
+    var T = SVGDoc.createElementNS(svgns, 'text');
+    var msgNode = SVGDoc.createTextNode(word);
+    var fontratio = 0.05, adj = (1-fontratio);
+    x = Math.random() * .9 - 2 * fontratio;
+    y = Math.random() * .5;
+    T.setAttributeNS(null,'x',x);
+    T.setAttributeNS(null,'y',y);
+    T.setAttributeNS(null,'font-size',fontratio);
+    T.setAttributeNS(null,'font-family','serif');
+    T.appendChild(msgNode);
+    SVGRoot.appendChild(T);
 }
 
 function respond(evt) {
-	var w = evt.target.firstChild.nodeValue;
-	Log.Notice('w=' + w);
-	document.getElementById(w).style.background='red';
+    var w = evt.target.firstChild.nodeValue;
+    Log.Notice('w=' + w);
+    document.getElementById(w).style.background='red';
 }
 
 $(document).ready(function () {
