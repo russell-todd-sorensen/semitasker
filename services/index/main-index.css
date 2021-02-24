@@ -1,0 +1,103 @@
+@import url(/css/meyerweb-reset/reset.css);
+
+/* After reset some elements need to get defaults */
+
+h1 { 
+  margin-top: 6px;
+  font-size: 2.5em;
+  font-weight: 700;
+ }
+h2 { 
+  margin-top: 5px;
+  font-size: 2.1em;
+  font-weight: 600;
+ }
+h3 { 
+  margin-top: 5px;
+  font-size: 2.0em;
+  font-weight: 500;
+ }
+h4 { 
+  margin-top: 5px;
+  font-size: 1.6em;
+  font-weight: 400;
+ }
+h5 { 
+  margin-top: 5px;
+  font-size: 1.4em;
+  font-weight: 300;
+ }
+h6 { 
+  margin-top: 5px;
+  font-size: 1.2em;
+  font-weight: 200;
+ }
+
+
+body { 
+  /* font-family:"Lucida Sans Unicode", "Lucida Grande", sans-serif;
+
+  font-family: URW Gothic L "DejaVu Serif", 
+     Teen, Lewinskiy, Astron Boy, Astron Boy Wonder,
+     Home Sweet Home, Liberation Serif, !Y2KBUG, 
+     Strenuous 3D, Isabella, Naqsh, Nasalization,
+     URW Chancery L, *URW Gothic L*, UnDotum, UnPenheulim,
+     XANO-mincho-U32, Zekton, ae_Haramain, *serif*,
+     AR PL SungtiL GB, Almonte Snow, Ani, Anklepants,
+     Baveuse 3D, Beat My Guest, 
+   */
+   font-family: 'Fira Code';
+}
+
+pre, 
+code, 
+xmp {
+  font-family:"Fira Code", monospace;
+}
+
+.nav {
+  background-color: #069;
+  color: white;
+  font-size: 1.2em;
+  padding: 7px;
+}
+
+.nav a:link, 
+.nav a:visited { 
+  color: #CBDB2A;
+}
+
+.nav a:hover { 
+  color: #524FA1;
+} 
+
+.nav li { 
+  display: inline-block;
+  text-transform: capitalize;
+ }
+
+#content { 
+  min-height: 600px;
+  padding: 5px;
+  background-color: #eee;
+}
+
+.bottom { 
+  position: relative;
+}
+
+#footer { 
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+}
+
+/* index table styles */
+table.dir tr {
+    height: 1.3em;
+}
+
+table.dir th,
+table.dir td {
+    padding: 5px;
+}

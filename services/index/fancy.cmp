@@ -10,60 +10,51 @@ set directory $page
 set dir $directory
 set title "Index of $url"
 set shortTitle "Index of [file tail $url]"
-set mainCssExists [file exists $dir/main.css]
+set mainCssExists [file exists [file join $dir main.css]]
 set title $url
 
 if {$mainCssExists} {
- set mainCss "main-index.css"
- set imagesCss "images.css"
+ set mainCss "main.css"
 } else {
- set mainCss "/main-index.css"
- set imagesCss "/images.css"
+ set mainCss "/services/index/main-index.css"
 }
 
-append __string "<html lang='en_US'>
+append __string "<html lang='en-US'>
 <head>
- <meta charset='utf-8'>
- <title>$title</title>
- <link rel='stylesheet' type='text/css' href='$mainCss' media='all'>
- <style type='text/css'>
+<meta charset='utf-8'>
+<title>$title</title>
+<link rel='stylesheet' type='text/css' href='$mainCss' media='all'>
+<style type='text/css'>
 
 table.dir {
     margin: 10px;
 }
 
-table.dir, table.files {
-   width: 80%;
-}
-
-.dir th, .files th {
+table.dir th, 
+table.files th {
   text-align: left;
   background-color: silver;
   text-transform: capitalize;
   font-weight: bold;
+  padding-right: 10px;
 }
 
-.dir td a {
+table.dir td,
+table.files td {
+  padding-right: 30px;
+}
+
+table.dir td a {
   padding-left: 30px;
 }
 
 .num {
   text-align: right;
 }
- </style>
+</style>
 
- <script language='javascript' src='/js/jquery-v141.js'></script>
- <script language='javascript'>
+ <script src='/js/jquery-3.1.1.js'></script>
  
- var log;
-\$(document).ready(function() {
-
-  log = \$('#log');	 
-  var titleNode = \$('h1#title');
-  titleNode.wrap(\"<div class='content2' id='content4'>\");
-
-});
-</script>
 </head>
 <body>
 <div class='nav'>
@@ -92,7 +83,8 @@ append __string "
  <tr>
   <th>directories</th>
   <th>last modified</th>
-  <th>size</th>
+  <th>exact</th>
+  <th>bytes</th>
  </tr>"
  
 foreach dirname $dir_list {
@@ -100,9 +92,10 @@ foreach dirname $dir_list {
      file stat $dirname dirArray
      append __string "
   <tr>
-   <td><a href='${tail}/' class='dir'>$tail</a></td>
-   <td>[clock format $dirArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</td>
-   <td class='num'>$dirArray(size) Bytes</td>
+   <td><a href='${tail}/' class='dir'><nobr>$tail</nobr></a></td>
+   <td><nobr>[clock format $dirArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</nobr></td>
+   <td class='num'>$dirArray(size)</td>
+   <td class='num'>Bytes</td>
  </tr>
 "
 }
@@ -110,6 +103,7 @@ append __string "
  <tr>
   <th>files</th>
   <th>last modified</th>
+  <th>exact</th>
   <th>size</th>
  </tr>"
  
@@ -117,6 +111,8 @@ foreach obj $file_list {
     set tail [file tail $obj]
     file stat $obj fileArray
     set file_extension [string trimleft [file extension $tail ] "."]
+    set size $fileArray(size)
+    set sizeOriginal $size
 
     switch -glob -- "$file_extension" {
         "*~" - "*.o" {
@@ -124,22 +120,21 @@ foreach obj $file_list {
         default {
             append __string "
   <tr>
-   <td><a href='${tail}' class='$file_extension'>[string range $tail 0 50]</a></td>
-   <td>[clock format $fileArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</td>
-   <td class='num'>"
+   <td><a href='${tail}' class='$file_extension'><nobr>[string range $tail 0 50]</nobr></a></td>
+   <td><nobr>[clock format $fileArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</nobr></td>
+   <td class='num'>$sizeOriginal</td>
+   <td class='num'><nobr>"
 
-            set size $fileArray(size)
-            set sizeOriginal $size
             if {$size  <= 1024 } {
-                append __string "$size Bytes"
+                append __string "Bytes"
             } elseif {($size / 1024.0) <= 1024} {
                 set size [expr {$size/1024}]
                 set size [format %3d $size]
-                append __string "[string map {" " "&nbsp;"} $size] KBytes ($sizeOriginal)"
+                append __string "[string map {" " "&nbsp;"} $size] KB"
             } elseif {($size / (1024*1024)) <= 1024} {
-                append __string "[expr {$size/(1024*1024)} ] MBytes ($sizeOriginal)"
+                append __string "[expr {$size/(1024*1024)} ] MB"
             }
-            append __string "</td>
+            append __string "</nobr></td>
   </tr>"
 
        }
@@ -169,6 +164,5 @@ append __string "
   </div>
  </div>
 </div>
-<div id='summary'>$summary</div>
 </body>
 </html>"
