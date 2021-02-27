@@ -83,8 +83,8 @@ append __string "
  <tr>
   <th>directories</th>
   <th>last modified</th>
-  <th>exact</th>
   <th>bytes</th>
+  <th>Eng. N.</th>
  </tr>"
  
 foreach dirname $dir_list {
@@ -103,8 +103,8 @@ append __string "
  <tr>
   <th>files</th>
   <th>last modified</th>
-  <th>exact</th>
-  <th>size</th>
+  <th>bytes</th>
+  <th>Eng. N</th>
  </tr>"
  
 foreach obj $file_list {
