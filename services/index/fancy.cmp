@@ -83,19 +83,27 @@ append __string "
  <tr>
   <th>directories</th>
   <th>last modified</th>
-  <th>exact</th>
-  <th>bytes</th>
+  <th>links</th>
+  <th>type</th>
+  <th>links to</th>
  </tr>"
  
 foreach dirname $dir_list {
      set tail [file tail $dirname]
-     file stat $dirname dirArray
+     file lstat $dirname dirArray
+     if {$dirArray(type) eq "link"} {
+       set dirArray(pointsTo) "[file readlink $dirname]"
+     } else {
+       set dirArray(type) ""
+       set dirArray(pointsTo) ""
+     }
      append __string "
   <tr>
    <td><a href='${tail}/' class='dir'><nobr>$tail</nobr></a></td>
    <td><nobr>[clock format $dirArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</nobr></td>
-   <td class='num'>$dirArray(size)</td>
-   <td class='num'>Bytes</td>
+   <td class='num'>$dirArray(nlink)</td>
+   <td class='num'>$dirArray(type)</td>
+   <td>$dirArray(pointsTo)</td>
  </tr>
 "
 }
@@ -105,11 +113,12 @@ append __string "
   <th>last modified</th>
   <th>exact</th>
   <th>size</th>
+  <th>links to</th>
  </tr>"
  
 foreach obj $file_list {
     set tail [file tail $obj]
-    file stat $obj fileArray
+    file lstat $obj fileArray
     set file_extension [string trimleft [file extension $tail ] "."]
     set size $fileArray(size)
     set sizeOriginal $size
@@ -126,7 +135,8 @@ foreach obj $file_list {
    <td class='num'><nobr>"
 
             if {$size  <= 1024 } {
-                append __string "Bytes"
+                set size [format %3d $size]
+                append __string "[string map {" " "&nbsp;"} $size] &nbsp;B"
             } elseif {($size / 1024.0) <= 1024} {
                 set size [expr {$size/1024}]
                 set size [format %3d $size]
@@ -134,7 +144,15 @@ foreach obj $file_list {
             } elseif {($size / (1024*1024)) <= 1024} {
                 append __string "[expr {$size/(1024*1024)} ] MB"
             }
-            append __string "</nobr></td>
+            append __string "</nobr></td>"
+
+            if {$fileArray(type) eq "link"} {
+              set fileArray(pointsTo) "[file readlink $obj]"
+            } else {
+              set fileArray(pointsTo) ""
+            }
+            append __string "
+   <td><nobr>$fileArray(pointsTo)</nobr></td>
   </tr>"
 
        }
