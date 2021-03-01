@@ -24,7 +24,8 @@ if {[namespace exists ::Node]} {
 }
 
 namespace eval :: {
-    source "/web/git-repos/wtk/init.tcl"
+    #source "/web/git-repos/wtk/init.tcl"
+    # just load the wtk enabling oop
 }
 
 << Class ::Node::Node \
