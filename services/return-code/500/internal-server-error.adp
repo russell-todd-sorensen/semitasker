@@ -15,7 +15,14 @@ set tail [ns_quotehtml [file tail [lindex $request 1]]]
 set title "Internal Server Error"
 set hostHeader [ns_quotehtml [ns_set iget [ns_conn headers] host]]
 set referer [ns_urlencode [ns_set iget [ns_conn headers]  referer "None Sent"] ]
+
+# Gather error trace
+if {![info exists ::errorInfo]} {
+    global ::errorInfo
+}
+
 %>
+
 <title><%= $title %> <%= $tail %></title>
 <style>
 body {
@@ -41,5 +48,9 @@ body {
  <li>Referer URL: <span class="quoted"><%= $referer %></span></li>
  <li>Full Original Request:  <span class="quoted"><%= "[ns_quotehtml $request]" %></span></li>
 </ul>
+<h4>Further error information:</h4>
+<pre>
+$::errorInfo
+</pre>
 </body>
 </html>
