@@ -25,13 +25,12 @@ body {
 }
 
 </style>
+
 <script>
 var Log = {};
 Log.msg = function(msg) {};
 Log.Notice = Log.Error = Log.Warning = Log.Debug = Log.Hide = Log.Show = Log.Remove = Log.msg;
-
-const compatUrl = "/clock/clock-compat.html";
-
+const compatUrl = "/clock/clock.html";
 </script>
 <script>
 try {
@@ -46,20 +45,25 @@ try {
   }
   var myPrivateFieldInstance = new CanUsePrivateFields()
   if (!myPrivateFieldInstance.getPrivateField()) {
-      window.location.replace(compatUrl);
+      location.replace(compatUrl);
   }
 } catch (error) {
-    window.location.replace(compatUrl);
+    location.replace(compatUrl);
     console.error(error);
 }
 </script>
+
 <script>
 try {
-    if (!myPrivateFieldInstance.getPrivateField()) {
-        window.location.replace(compatUrl);
+    if (myPrivateFieldInstance.getPrivateField() 
+    && (location.href.split("?").length != 2)
+    )
+    {
+        console.log("Private fields work, but no request to try clock-compat, redirect to clock")
+        location.replace(compatUrl);
     }
 } catch (error) {
-    window.location.replace(compatUrl);
+    console.log("Out of options... :(")
 }
 </script>
 
@@ -89,19 +93,6 @@ navigator.serviceWorker.getRegistrations().then(
 }
 </script>
 
-</head>
-<body>
-<svg
-    id="svg-clock"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    xml:base="https://home.semitasker.com"
-    externalResourcesRequired="true"
-    width="364"
-    height="380"
-    viewbox="20 10 364 380"
-    >
 <style>
 body {
     background-color: rgb(210,210,210);
@@ -231,6 +222,19 @@ svg#svg-clock {
 }
 
 </style>
+</head>
+<body>
+<svg
+    id="svg-clock"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com"
+    externalResourcesRequired="true"
+    width="364"
+    height="380"
+    viewbox="20 10 364 380"
+    >
 <defs>
 <!-- NOTE: transform x and y = ((circle radius) * scale) -->
 <path id='circ5'
@@ -289,9 +293,9 @@ svg#svg-clock {
 <g id="outer-scale" transform="scale(1.0)" >
     <g id="outer-translate" transform="translate(67 67)">
         <image id="svg-bg-grid"
-               x="-50" y="-50"
-               height="1400" width="1000"
-               xlink:href="/svg/grid-3.svg" />
+            x="-50" y="-50"
+            height="1400" width="1000"
+            xlink:href="/svg/grid-3.svg" />
         <g transform="translate(125,125)">
             <circle id="number-background"
                     cx="0" cy="0" r="158"/>
@@ -311,35 +315,35 @@ svg#svg-clock {
         <g transform="translate(125,125)">
             <g transform="" id="hour-hand">
                 <line id="hour-hand-line"
-                      x1="0" y1="0"
-                      x2="0" y2="-72" />
+                    x1="0" y1="0"
+                    x2="0" y2="-72" />
                 <circle id="hour-hand-circle"
-                        cx="0" cy="0" r="75"  />
+                    cx="0" cy="0" r="75"  />
             </g>
         </g>
         <g transform="translate(125 125)">
             <g transform="" id="minute-hand">
                 <line id="minute-hand-line"
-                      x1="0" y1="0"
-                      x2="0" y2="-98" />
+                    x1="0" y1="0"
+                    x2="0" y2="-98" />
                 <circle id="minute-hand-circle"
-                        cx="0" cy="0" r="100" />
+                    cx="0" cy="0" r="100" />
                 <use id="hour-minute-donut"
-                     xlink:href="#donut2"
-                     x="0" y="0" />
+                    xlink:href="#donut2"
+                    x="0" y="0" />
             </g>
         </g>
 
         <g transform="translate(125 125)">
             <g transform="" id="second-hand">
                 <circle id="second-hand-circle"
-                        cx="0" cy="0" r="125" />
+                    cx="0" cy="0" r="125" />
 
                 <use id="minute-second-donut"
-                     xlink:href="#donut3" />
+                    xlink:href="#donut3" />
                 <line id="second-hand-line"
-                      x1="0" y1="0"
-                      x2="0" y2="-123" />
+                    x1="0" y1="0"
+                    x2="0" y2="-123" />
             </g>
         </g>
         <g transform="translate(1 147)"> <!-- Clock Face Numbers -->
@@ -368,8 +372,8 @@ svg#svg-clock {
 // This code is developed at https://home.semitasker.com/js/queue-function.js //
 
 class Queue {
-    #items = [];
-    #priority = [];
+    items = [];
+    priority = [];
 
     constructor() {
         this.numItems = 0;
@@ -380,11 +384,11 @@ class Queue {
     }
     add (item) {
         this.numItems++;
-        return this.#items.push(item)
+        return this.items.push(item)
     }
     addPriority (item) {
         this.numItems++;
-        return this.#priority.push(item)
+        return this.priority.push(item)
     }
     start (me, interval) {
         if (me === this) {
@@ -399,35 +403,35 @@ class Queue {
         this.running = false;
     }
     run () {
-        let len = this.#priority.length;
+        let len = this.priority.length;
         let item;
         if (len) {
             for (let i = 0;i<len;i++) {
-                item = this.#priority[i]
+                item = this.priority[i]
                 setTimeout(item.func,0,item.data)
                 this.numProcessed++
             }
         }
-        this.#priority = [];
-        len = this.#items.length;
+        this.priority = [];
+        len = this.items.length;
         if (len) {
             for (let i=0;i<len;i++) {
-                item = this.#items[i];
+                item = this.items[i];
                 setTimeout(item.func,item.timeout,item.data)
                 this.numProcessed++
             }
         }
-        this.#items = [];
+        this.items = [];
         this.numItems = 0;
     }
     getItemCount () {
-        return (this.#items.length + this.#priority.length)
+        return (this.items.length + this.priority.length)
     }
     flush () {
-        this.#items = [];
+        this.items = [];
     }
     flushPriority () {
-        this.#priority = [];
+        this.priority = [];
     }
     flushAll () {
         this.flush();
@@ -461,14 +465,14 @@ class QueueItem {
 // Clock Hands Movement
 class Clock {
 
-    #queue;
-    #timezoneOffset = -8; // PST
-    #stats = [{h:0,m:0,s:0,ms:0,diff:0}];
-    #days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    #daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    queue;
+    timezoneOffset = -8; // PST
+    stats = [{h:0,m:0,s:0,ms:0,diff:0}];
+    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
     constructor (queue,hourId,minuteId, secondId, subSecondOneId,subSecondTwoId) {
-        this.#queue = (queue?queue:new Queue());
+        this.queue = (queue?queue:new Queue());
         this.hourId = (hourId?hourId:"hour-hand");
         this.minuteId = (minuteId?minuteId:"minute-hand");
         this.secondId = (secondId?secondId:"second-hand");
@@ -484,8 +488,8 @@ class Clock {
             secondId:this.secondId,
             subSecondOneId:this.subSecondOneId,
             subSecondTwoId:this.subSecondTwoId,
-            timezoneOffset:this.#timezoneOffset,
-            queue:this.#queue,
+            timezoneOffset:this.timezoneOffset,
+            queue:this.queue,
         }
         return this
     }
@@ -499,7 +503,7 @@ class Clock {
         da.af = af;
         da.timeout = to;
         // Initial queue uses priority scheduling
-        new QueueItem(obj.#queue,af,to,da,true)
+        new QueueItem(obj.queue,af,to,da,true)
     }
     set (dateObj,dataObj) {
         let date = (dateObj?dateObj:new Date())
@@ -539,7 +543,7 @@ class Clock {
                     month = 12
                 }
                 // back to day
-                day = this.#daysInMonth[month-1]
+                day = this.daysInMonth[month-1]
             }
         }
 
@@ -563,18 +567,18 @@ class Clock {
         return fmt;
     }
     pushStat(hour,minute,second,millisecond) {
-        let prev = this.#stats[this.#stats.length-1]
+        let prev = this.stats[this.stats.length-1]
         let diff  = (second - prev.s)
         if (diff < 1) {
             if (minute == prev.m) {
                 this.print('stats')
             }
         }
-        if (this.#stats.length > 70) {
+        if (this.stats.length > 70) {
             //this.print('stats');
             this.resetStats();
         }
-        this.#stats.push({h:hour,m:minute,s:second,ms:millisecond,diff:diff});
+        this.stats.push({h:hour,m:minute,s:second,ms:millisecond,diff:diff});
     }
     run (data) {
         let date = new Date();
@@ -583,34 +587,34 @@ class Clock {
         obj.set(date,data);
         data.continueAnimation = obj.continueAnimation
         data.timeout = 1000-millisecond
-        return new QueueItem(obj.#queue,data.af,data.timeout,data,false);
+        return new QueueItem(obj.queue,data.af,data.timeout,data,false);
     }
     stop () {
         this.continueAnimation = false;
     }
     setTimezoneOffset(tz) {
-        this.#timezoneOffset = tz;
+        this.timezoneOffset = tz;
         this.data.timezoneOffset = tz;
     }
     getTimezoneOffset() {
-        return this.#timezoneOffset;
+        return this.timezoneOffset;
 
     }
     resetStats() {
-        this.#stats = [{h:0,m:0,s:0,ms:0,diff:0}];
+        this.stats = [{h:0,m:0,s:0,ms:0,diff:0}];
     }
     getStats() {
-        return this.#stats;
+        return this.stats;
     }
     print(preId) {
         let pre = document.getElementById(preId)
         let html = ""
-        for (let i = 0;i<this.#stats.length;i++ ) {
-            html += "h:" + this.#stats[i].h 
-            + ", m:" + this.#stats[i].m
-            + ", s:" + this.#stats[i].s 
-            + " ms: " +  this.#stats[i].ms 
-            + ", diff:" + this.#stats[i].diff
+        for (let i = 0;i<this.stats.length;i++ ) {
+            html += "h:" + this.stats[i].h 
+            + ", m:" + this.stats[i].m
+            + ", s:" + this.stats[i].s 
+            + " ms: " +  this.stats[i].ms 
+            + ", diff:" + this.stats[i].diff
             + " <br />";
         }
         pre.innerHTML = html
