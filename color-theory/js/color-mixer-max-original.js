@@ -307,7 +307,7 @@ function hsbColorChange(evt) {
         baseValue = evt.data.currentX+evt.data.skewX
         normValue = baseValue/evt.data.displayWidth;
         value = Math.round((evt.data.maxX - evt.data.minX) * normValue);
-        value = (evt.data.maxX - evt.data.minX) * normValue; // changed
+        value = Math.round(((evt.data.maxX - evt.data.minX) * normValue)*10)/10; // changed
         break;
     }
     

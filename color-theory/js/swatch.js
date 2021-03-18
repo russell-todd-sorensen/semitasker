@@ -510,7 +510,8 @@ class Swatch {
             components,
             component,
             controlId,
-            value;
+            value,
+            decString;
 
         switch (controlType) {
         case 'hsl':
@@ -534,6 +535,12 @@ class Swatch {
             component = components[i];
             controlId = swatchName + typeConnect + component;
             value = this[component];
+            decString = "" + value;
+            if (decString.length > 8) {
+                console.log(`component=${component} value=${value} controlType=${controlType}`);
+                this[component] = Math.round(value*10)/10;
+                value = this[component];
+            }
             valueDisplay = value;
 
             if (   component == 's' 

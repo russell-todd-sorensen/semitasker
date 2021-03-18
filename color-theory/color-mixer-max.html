@@ -120,7 +120,7 @@ body {
 <script src="js/write-svg.js" ></script>
 <script src="js/color-mixer-max.js" ></script>
 <script>
-// <![CDATA[
+
 var swatchIndex;
 var swatchCount = 6;
 
@@ -136,15 +136,6 @@ for (var i = 1; i < swatchCount ; i++) {
     swatches[swatches.length] = new Swatch(generateSwatchName(swatchIndex), swatchIndex);
 }
 
-function finalFixup () {
-    generateTC();
-    $("#mode-hsl-text").click()
-    d3.select('#fcos-saturation').on('scroll', function(evt) {
-        var evtCopy = evt;
-        Log.Notice('mousewheel over fcos-saturation');
-        return false;
-    });
-}
 
 $(document).ready(function(e) {
 
@@ -171,7 +162,7 @@ $(document).ready(function(e) {
           "#hsb-swatch-current";
 
     // the main control has only hsl and hsb modes, start with hsl:
-    swatches[0].mode = 'hsl';
+    //swatches[0].mode = 'hsl';
 
     sliders[3].displayWidth = 360;
     sliders[3].callParent = [hslMainSwatchUpdate];

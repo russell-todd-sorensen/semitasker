@@ -664,3 +664,9 @@ function changeMainSwatchMode(inputId) {
 
     return false;
 }
+
+
+function finalFixup () {
+    generateTC();
+    $("#mode-hsl-text").click();
+}
