@@ -539,32 +539,46 @@ Data.setCheckboxes = function (checkboxId,values,restoreFunction) {
 
 
 Data.saveInput = function (inputIdList, restoreFunction, arg2, arg3) {
-  var inputIdArray = inputIdList.split(',');
-  for (var j = 0; j < inputIdArray.length; j++ ) {
-    inputId = inputIdArray[j];
-    var inputSelector = "#" + inputId;
-    var value = $(inputSelector).val();
-    if (value || value == 0) {
-        Log.Notice('saveInput id=' + inputId + ' value="' + value + '"');
-        var call = restoreFunction + "('" + inputId  + "'";
-        for (var i = 2; i<arguments.length; i++) {
-            call =  call + ",'" + arguments[i] + "'";
+
+    let inputIdArray = inputIdList.split(','),
+        inputId,
+        inputSelector,
+        value,
+        call;
+
+    for (let j = 0; j < inputIdArray.length; j++) {
+
+        inputId = inputIdArray[j];
+        inputSelector = "#" + inputId;
+        value = $(inputSelector).val();
+
+        if (value || value == 0) {
+            Log.Notice('saveInput id=' + inputId + ' value="' + value + '"');
+            if (restoreFunction) {
+                call = restoreFunction + "('" + inputId  + "'";
+                for (let i = 2; i<arguments.length; i++) {
+                    call =  call + ",'" + arguments[i] + "'";
+                }
+                call += ");"
+                localStorage.setItem(document.URL + '-ANIMATION-RESTORE-' + inputId, call);
+            }
+
+            localStorage.setItem(document.URL + '-ANIMATION-VALUE-' + inputId, value);
         }
-        call += ");"
-        localStorage.setItem(document.URL + '-ANIMATION-VALUE-' + inputId, value);
-        localStorage.setItem(document.URL + '-ANIMATION-RESTORE-' + inputId, call);
-        }
-  }
+    }
 };
 
 Data.restoreInput = function (inputId) {
 
-  var value = localStorage.getItem(document.URL + '-ANIMATION-VALUE-' + inputId);
-  var call = localStorage.getItem(document.URL + '-ANIMATION-RESTORE-' + inputId);
-  if (value || value == 0) {
-  $('#' + inputId).val(value);
-     setTimeout(call, 10);
-  }
+    let value = localStorage.getItem(document.URL + '-ANIMATION-VALUE-' + inputId),
+        call  = localStorage.getItem(document.URL + '-ANIMATION-RESTORE-' + inputId);
+
+    if (value || value == 0) {
+        $('#' + inputId).val(value);
+        if (call) {
+            setTimeout(call, 10);
+        }
+    }
 };
 
 Data.restoreHiddenInput = function (inputId) {

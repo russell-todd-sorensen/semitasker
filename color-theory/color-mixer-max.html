@@ -113,6 +113,11 @@ body {
 <script src="/js/d3.v3.js"></script>
 <script src="/js/log-2.js"></script>
 <script src="/js/form-save-restore.js"></script>
+
+<script src="js/color-conversions.js" ></script>
+<script src="js/swatch.js" ></script>
+<script src="js/slider.js" ></script>
+<script src="js/write-svg.js" ></script>
 <script src="js/color-mixer-max.js" ></script>
 <script>
 // <![CDATA[
@@ -127,18 +132,18 @@ var mainSwatch = new Swatch("#SWATCH-MAIN", swatchIndex);
 swatches[swatches.length] = mainSwatch;
 
 for (var i = 1; i < swatchCount ; i++) {
-	swatchIndex = appCounters.swatchIndex++;
-	swatches[swatches.length] = new Swatch(generateSwatchName(swatchIndex), swatchIndex);
+    swatchIndex = appCounters.swatchIndex++;
+    swatches[swatches.length] = new Swatch(generateSwatchName(swatchIndex), swatchIndex);
 }
 
 function finalFixup () {
-	generateTC();
-	
-	d3.select('#fcos-saturation').on('scroll', function(evt) {
-		var evtCopy = evt;
-		Log.Notice('mousewheel over fcos-saturation');
-		return false;
-	});
+    generateTC();
+    $("#mode-hsl-text").click()
+    d3.select('#fcos-saturation').on('scroll', function(evt) {
+        var evtCopy = evt;
+        Log.Notice('mousewheel over fcos-saturation');
+        return false;
+    });
 }
 
 $(document).ready(function(e) {
@@ -150,72 +155,72 @@ $(document).ready(function(e) {
     //
     // +-- This changes the gradient from horizonal to vertical
     // v
-	$('#gradient-4, #gradient-5, #gradient-7, #gradient-8')
-		.attr('x1','50%')
-		.attr('y1','0%')
-		.attr('x2','50%')
-		.attr('y2','100%');
+    $('#gradient-4, #gradient-5, #gradient-7, #gradient-8')
+        .attr('x1','50%')
+        .attr('y1','0%')
+        .attr('x2','50%')
+        .attr('y2','100%');
 
     // A "swatch" is the square/rectangle diplaying the current color.
     // The following are adding larger swatches for main conrtol:
-	swatches[0]
-	    .swatchSelectors[swatches[0].swatchSelectors.length] = 
-		  "#hsl-swatch-current";
-	swatches[0]
-	    .swatchSelectors[swatches[0].swatchSelectors.length] = 
-		  "#hsb-swatch-current";
+    swatches[0]
+        .swatchSelectors[swatches[0].swatchSelectors.length] = 
+          "#hsl-swatch-current";
+    swatches[0]
+        .swatchSelectors[swatches[0].swatchSelectors.length] = 
+          "#hsb-swatch-current";
 
     // the main control has only hsl and hsb modes, start with hsl:
-	swatches[0].mode = 'hsl';
+    swatches[0].mode = 'hsl';
 
     sliders[3].displayWidth = 360;
-	sliders[3].callParent = [hslMainSwatchUpdate];
+    sliders[3].callParent = [hslMainSwatchUpdate];
 
-	sliders[4].orientation = 'vertical';
-	sliders[4].maxY = 31;
-	sliders[4].minY = -224;
-	sliders[4].skewY = 5;
-	sliders[4].callParent = [hslMainSwatchUpdate];
+    sliders[4].orientation = 'vertical';
+    sliders[4].maxY = 31;
+    sliders[4].minY = -224;
+    sliders[4].skewY = 5;
+    sliders[4].callParent = [hslMainSwatchUpdate];
 
-	sliders[5].orientation = 'vertical';
-	sliders[5].maxY = 31;
-	sliders[5].minY = -224;
-	sliders[5].skewY = 5;
-	sliders[5].callParent = [hslMainSwatchUpdate];
-	
+    sliders[5].orientation = 'vertical';
+    sliders[5].maxY = 31;
+    sliders[5].minY = -224;
+    sliders[5].skewY = 5;
+    sliders[5].callParent = [hslMainSwatchUpdate];
+    
     sliders[6].displayWidth = 360;
-	sliders[6].callParent = [hsbMainSwatchUpdate];
+    sliders[6].callParent = [hsbMainSwatchUpdate];
 
-	sliders[7].orientation = 'vertical';
-	sliders[7].maxY = 31;
-	sliders[7].minY = -224;
-	sliders[7].skewY = 5;
-	sliders[7].callParent = [hsbMainSwatchUpdate];	
+    sliders[7].orientation = 'vertical';
+    sliders[7].maxY = 31;
+    sliders[7].minY = -224;
+    sliders[7].skewY = 5;
+    sliders[7].callParent = [hsbMainSwatchUpdate];    
 
-	sliders[8].orientation = 'vertical';
-	sliders[8].maxY = 31;
-	sliders[8].minY = -224;
-	sliders[8].skewY = 5;
-	sliders[8].callParent = [hsbMainSwatchUpdate];
+    sliders[8].orientation = 'vertical';
+    sliders[8].maxY = 31;
+    sliders[8].minY = -224;
+    sliders[8].skewY = 5;
+    sliders[8].callParent = [hsbMainSwatchUpdate];
 
-	Data.restoreInput('baseColor');
-	Data.restoreInput('angle');
-	Data.restoreSelect('theory');
-	Data.changeText('angle','#angle-display');
-	Data.restoreInput('mode');
+    Data.restoreInput('baseColor');
+    Data.restoreInput('angle');
+    Data.restoreSelect('theory');
+    Data.changeText('angle','#angle-display');
+    Data.restoreInput('mode');
 
-	setTimeout(finalFixup,400);
+    setTimeout(finalFixup,400);
 
-	Log.Remove();
+    Log.Remove();
 
-	window.onscroll = function() {
+    window.onscroll = function() {
         var evt = event;
-		var target = evt.target;
-		evt.cancelBubble=true;
-		evt.preventDefault=true;
-		Log.Notice("scrolling target=" + evt.target.nodeName);
-		return false;
-	}
+        var target = evt.target;
+        evt.cancelBubble=true;
+        evt.preventDefault=true;
+        Log.Notice("scrolling target=" + evt.target.nodeName);
+        return false;
+    }
 });
 
 // ]]>
@@ -335,18 +340,18 @@ $(document).ready(function(e) {
   <!-- Hue Control South of Main Swatch -->
   <rect  x="0" y="56" height="5" width="360" fill="url(#gradient-3)" stroke="none" id="r-3" />
   <use  id="slider-3" class="pointer" x="175" y="36" minX="0" maxX="360"
-	      xlink:href="#lollypop-5" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1"/>
-	
-	<!-- Value/Level Control East side of Main Swatch -->
+          xlink:href="#lollypop-5" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1"/>
+    
+    <!-- Value/Level Control East side of Main Swatch -->
  <rect x="378" y="-220" height="256" width="5"
       fill="url(#gradient-4)" stroke="none" id="r-4"/>
  <use id="slider-4" class="pointer" x="383" y="-101" minX="0" maxX="255"
       xlink:href="#lollypop-4" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1" />
   <!-- Saturation Control West Side of Main Swatch -->
   <rect x="-25"  y="-220" height="256" width="5"
-	    fill="url(#gradient-5)" stroke="none" id="r-5"/>
+        fill="url(#gradient-5)" stroke="none" id="r-5"/>
   <use id="slider-5" class="pointer" x="-20" y="-229" minX="0" maxX="255"
-	   xlink:href="#lollypop-3" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1" />
+       xlink:href="#lollypop-3" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1" />
  </g>
 </g>
 
@@ -368,9 +373,9 @@ $(document).ready(function(e) {
   <rect x="0" y="56" height="5" width="360" fill="none" stroke="none" id="r-6-sat" /><!-- fill with sat setting -->
   <rect x="0" y="56" height="5" width="360" fill="none" stroke="none" id="r-6-brt" /><!-- fill with brt setting -->
   <use  id="slider-6" class="pointer" x="175" y="36" minX="0"  maxX="360" 
-	    xlink:href="#lollypop-5" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1"/>
-	
-	<!-- Saturation Control West side of Main Swatch -->
+        xlink:href="#lollypop-5" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1"/>
+    
+    <!-- Saturation Control West side of Main Swatch -->
   <rect x="-25" y="-220" height="256" width="5" fill="none" stroke="none" id="r-7-hue"/><!-- fill with base hue -->
   <rect x="-25" y="-220" height="256" width="5" fill="url(#gradient-7)" stroke="none" id="r-7"/>
   <rect x="-25" y="-220" height="256" width="5" fill="none" stroke="none" id="r-7-brt"/><!-- fill with brt setting -->
@@ -381,7 +386,7 @@ $(document).ready(function(e) {
   <rect x="378"  y="-220" height="256" width="5" fill="none" stroke="none" id="r-8-sat"/><!-- fill with sat setting -->
   <rect x="378"  y="-220" height="256" width="5" fill="url(#gradient-8)" stroke="none" id="r-8"/>
   <use  id="slider-8" class="pointer" x="383" y="-101" minX="0" maxX="255" 
-	    xlink:href="#lollypop-4" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1" />
+        xlink:href="#lollypop-4" fill="hsl(180,0%, 50%)" stroke="#eee" stroke-width="1" />
  </g>
 </g>
 
