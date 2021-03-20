@@ -73,7 +73,7 @@ function writeSvg(appSelector) {
     for (let i = 0; i<swatches.length; i++) {
         let swatchGroupSliders = [],
             swatch = swatches[i],
-            swatchIndex = swatch.swatchIndex;
+            swatchIndex = swatch.swatchIndex,
             swatchLocation = swatchIndex-1,
             swatchGroup = svg.append("g")
                 .attr({
