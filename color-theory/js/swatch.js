@@ -6,11 +6,11 @@ class Swatch {
     swatchIndex;
     mode;
  
-    rgbhComponents = ['r', 'g', 'b'];
-    rgbdComponents = ['rd', 'gd', 'bd'];
-    hslComponents  = ['h', 's', 'l'];
-    hsbComponents  = ['hue','sat','brt'];
-    hexComponents  = ['hexValue'];
+    rgbhComponents = ["r", "g", "b"];
+    rgbdComponents = ["rd", "gd", "bd"];
+    hslComponents  = ["h", "s", "l"];
+    hsbComponents  = ["hue","sat","brt"];
+    hexComponents  = ["hexValue"];
 
     components = {
         rgbh:this.rgbhComponents,
@@ -23,10 +23,10 @@ class Swatch {
     rgbSelector = null;
     hslSelector = null;
     hsbSelector = null;
-    r = '80';
-    g = '80';
-    b = '80';
-    hexValue = '#808080';
+    r = "80";
+    g = "80";
+    b = "80";
+    hexValue = "#808080";
     rd = 128;
     gd = 128;
     bd = 128;
@@ -49,7 +49,7 @@ class Swatch {
         this.name = name;
         this.swatchSelectors = [name];
         this.swatchIndex = swatchIndex;
-        this.mode = mode?mode:'rgb'; //or hsl or hsb
+        this.mode = mode?mode:"rgb"; //or hsl or hsb
     }
 
     newColor (colorValue) {
@@ -112,20 +112,20 @@ class Swatch {
         let swatchColor;
 
         switch (this.mode) {
-        case 'hsb':
+        case "hsb":
             swatchColor = this.hsbColor();
             break;
-        case 'hsl':
+        case "hsl":
             swatchColor = this.hslColor();
             break;
-        case 'rgb':
-        case 'rgbd':
+        case "rgb":
+        case "rgbd":
             swatchColor = this.color();
             break;
         }
 
         for (let i = 0; i< this.swatchSelectors.length; i++) {
-            $(this.swatchSelectors[i]).attr('fill',swatchColor);
+            $(this.swatchSelectors[i]).attr("fill",swatchColor);
         }
     };
 
@@ -158,7 +158,7 @@ class Swatch {
         this.r = toHex(this.rd);
         this.g = toHex(this.gd);
         this.b = toHex(this.bd);
-        this.hexValue = '#' + this.r + this.g + this.b;
+        this.hexValue = "#" + this.r + this.g + this.b;
         return this.rgb;
     };
 
@@ -192,7 +192,7 @@ class Swatch {
         this.h = this.hsl.h; // this is already properly rounded
         this.s = Math.round(this.hsl.s * 1000)/10;
         this.l = Math.round(this.hsl.l * 1000)/10;
-        this.hexValue = '#' + this.r + this.g + this.b;
+        this.hexValue = "#" + this.r + this.g + this.b;
 
         return this.hsl;
     };
@@ -285,13 +285,13 @@ class Swatch {
             b = this.b;
         
         switch (component) {
-        case 'r':
+        case "r":
             r = newVal;
             break;
-        case 'g':
+        case "g":
             g = newVal;
             break;
-        case 'b':
+        case "b":
             b = newVal;
             break;
         }
@@ -307,13 +307,13 @@ class Swatch {
             bd = this.bd;
         
         switch (component) {
-        case 'r':
+        case "r":
             rd = newVal;
             break;
-        case 'g':
+        case "g":
             gd = newVal;
             break;
-        case 'b':
+        case "b":
             bd = newVal;
             break;
         }
@@ -330,13 +330,13 @@ class Swatch {
             l = this.l;
         
         switch (component) {
-        case 'h':
+        case "h":
             h = Math.round(stopPercent * 3.6);
             break;
-        case 's':
+        case "s":
             s = stopPercent;
             break;
-        case 'l':
+        case "l":
             l = stopPercent;
             break;
         }
@@ -352,13 +352,13 @@ class Swatch {
             newrgb;
             
         switch (component) {
-        case 'hue':
+        case "hue":
             hue = (stopPercent * 3.6);
             break;
-        case 'sat':
+        case "sat":
             sat = stopPercent;
             break;
-        case 'brt':
+        case "brt":
             brt = stopPercent;
             break;
         }
@@ -375,13 +375,13 @@ class Swatch {
         for (let i = 0; i < this.sliders.length; i++) {
             currentSlider = sliders[this.sliders[i]];
             $(currentSlider.name)
-                .attr('fill', this.color());
+                .attr("fill", this.color());
 
             for (let j = 0; j< currentSlider.stops.length; j++) {
                 sliderStop = currentSlider.stops[j];
                 gradientStopSelector = getFullStopSelector(sliderStop);
                 $(gradientStopSelector)
-                    .attr('stop-color', this.stopColor(sliderStop.offset,currentSlider.component));
+                    .attr("stop-color", this.stopColor(sliderStop.offset,currentSlider.component));
             }
         }
     };
@@ -394,22 +394,22 @@ class Swatch {
         for (let i = 0; i < this.hslSliders.length; i++) {
             currentSlider = sliders[this.hslSliders[i]];
             $(currentSlider.name)
-                .attr('fill', this.hslColor());
+                .attr("fill", this.hslColor());
             for (let j = 0; j< currentSlider.stops.length; j++) {
                 sliderStop = currentSlider.stops[j];
                 gradientStopSelector = getFullStopSelector(sliderStop);
                 $(gradientStopSelector)
-                    .attr('stop-color', this.hslStopColor(sliderStop.offset,currentSlider.component));
+                    .attr("stop-color", this.hslStopColor(sliderStop.offset,currentSlider.component));
             }
         }
     };
     
     /////////// HSB UPDATE GRADIENTS /////////////////////////
     hsbUpdateGradients () {
-        if (this.name == '#SWATCH-MAIN') {
-            d3.select('#hsb-hue').attr('fill',this.hsbHue());
-            d3.select('#hsb-sat').attr('fill',this.hsbSat());
-            d3.select('#hsb-brt').attr('fill',this.hsbBrt());
+        if (this.name == "#SWATCH-MAIN") {
+            d3.select("#hsb-hue").attr("fill",this.hsbHue());
+            d3.select("#hsb-sat").attr("fill",this.hsbSat());
+            d3.select("#hsb-brt").attr("fill",this.hsbBrt());
         }
 
         let currentSlider,
@@ -421,24 +421,24 @@ class Swatch {
         for (let i = 0; i < this.hsbSliders.length; i++) {
             currentSlider = sliders[this.hsbSliders[i]];
             $(currentSlider.name)
-                .attr('fill', this.hsbColor()); // note hsbColor uses hslColor
+                .attr("fill", this.hsbColor()); // note hsbColor uses hslColor
 
             for (let k = 0; k<currentSlider.gradientStack.length;k++) {
                 gradStack = currentSlider.gradientStack[k];
                 switch (gradStack.type) {
-                case 'filled-rect':
+                case "filled-rect":
                     fill = this[gradStack.colorFn]();
-                    $('#' + gradStack.id).attr('fill', fill);
+                    $("#" + gradStack.id).attr("fill", fill);
                     break;
-                case 'fixed-gradient':
+                case "fixed-gradient":
                     break;
                 default:
-                    Log.Error("hsbUpdateGradients: unknown fill type='" + gradStack.type + "'"); // ???
+                    Log.Error(`hsbUpdateGradients: unknown fill type='${gradStack.type}'`); // ???
                     for (let j = 0; j< currentSlider.stops.length; j++) {
                         sliderStop = currentSlider.stops[j];
                         gradientStopSelector = getFullStopSelector(sliderStop);
                         $(gradientStopSelector)
-                            .attr('stop-color', this.hsbStopColor(sliderStop.offset,currentSlider.component))
+                            .attr("stop-color", this.hsbStopColor(sliderStop.offset,currentSlider.component))
                     }
                     break;
                 }
@@ -451,32 +451,32 @@ class Swatch {
         let slider;
         
         switch (mode) {
-        case 'hsl': // switch to hsl
+        case "hsl": // switch to hsl
             for (let i = 0; i<this.hslSliders.length; i++) {
                 slider = sliders[this.hslSliders[i]];
                 slider.value = this[slider.component];
                 slider.positionHslSlider();
             }
 
-            d3.select(this.rgbSelector).style('display', 'none');
-            d3.select(this.hsbSelector).style('display', 'none');
-            d3.select(this.hslSelector).style('display', 'block');
-            this.updateControls('hsl');
+            d3.select(this.rgbSelector).style("display", "none");
+            d3.select(this.hsbSelector).style("display", "none");
+            d3.select(this.hslSelector).style("display", "block");
+            this.updateControls("hsl");
             break;
-        case 'hsb': // swtich to hsb
+        case "hsb": // swtich to hsb
             for (let i = 0; i<this.hsbSliders.length; i++) {
                 slider = sliders[this.hsbSliders[i]];
                 slider.value = this[slider.component];
                 slider.positionHsbSlider();
             }
 
-            d3.select(this.rgbSelector).style('display', 'none');
-            d3.select(this.hslSelector).style('display', 'none');
-            d3.select(this.hsbSelector).style('display', 'block');
-            this.updateControls('hsb');
+            d3.select(this.rgbSelector).style("display", "none");
+            d3.select(this.hslSelector).style("display", "none");
+            d3.select(this.hsbSelector).style("display", "block");
+            this.updateControls("hsb");
             break;
-        case 'rgb':
-        case 'rgbd': // switch to rgb
+        case "rgb":
+        case "rgbd": // switch to rgb
             for (var i = 0; i<this.sliders.length; i++) {
                 slider = sliders[this.sliders[i]];
                 slider.rgbValue = this[slider.component + "d"];
@@ -484,22 +484,22 @@ class Swatch {
                 slider.positionRgbSlider();
             }
                     
-            d3.select(this.hslSelector).style('display', 'none');
-            d3.select(this.hsbSelector).style('display', 'none');
-            d3.select(this.rgbSelector).style('display', 'block');
-            this.updateControls('rgbd');
+            d3.select(this.hslSelector).style("display", "none");
+            d3.select(this.hsbSelector).style("display", "none");
+            d3.select(this.rgbSelector).style("display", "block");
+            this.updateControls("rgbd");
             break;
         }
 
-        this.updateControls('hex');
+        this.updateControls("hex");
         this.mode = mode;
     };
 
     updateAllControls () {
-        this.updateControls('rgbd');
-        this.updateControls('hsl');
-        this.updateControls('hsb');
-        this.updateControls('hex');
+        this.updateControls("rgbd");
+        this.updateControls("hsl");
+        this.updateControls("hsb");
+        this.updateControls("hex");
     };
 
     updateControls (controlType) {
@@ -514,19 +514,19 @@ class Swatch {
             decString;
 
         switch (controlType) {
-        case 'hsl':
+        case "hsl":
             components = this.hslComponents;
             break;
-        case 'hsb':
+        case "hsb":
             components = this.hsbComponents;
             break;
-        case 'rgb':
+        case "rgb":
             components = this.rgbhComponents;
             break;
-        case 'rgbd':
+        case "rgbd":
             components = this.rgbdComponents;
             break;
-        case 'hex':
+        case "hex":
             components = this.hexComponents;
             break;
         }
@@ -537,23 +537,23 @@ class Swatch {
             value = this[component];
             decString = "" + value;
             if (decString.length > 8) {
-                console.log(`component=${component} value=${value} controlType=${controlType}`);
+                //console.log(`component=${component} value=${value} controlType=${controlType}`);
                 this[component] = Math.round(value*10)/10;
                 value = this[component];
             }
             valueDisplay = value;
 
-            if (   component == 's' 
-                || component == 'l' 
-                || component == 'sat' 
-                || component == 'brt'
+            if (   component == "s" 
+                || component == "l" 
+                || component == "sat" 
+                || component == "brt"
             ) {
                 valueDisplay = "" + valueDisplay + "%";
             }
 
             $(controlId)
                 .text(valueDisplay)
-                .attr('title', value);
+                .attr("title", value);
         }
     };
 }

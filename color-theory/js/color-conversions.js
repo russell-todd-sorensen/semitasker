@@ -1,113 +1,112 @@
 
 function generateTheoryColors(baseColor, theory, angle) {
-    var rgb = d3.rgb(baseColor);
-    var hsl = rgb2hsl(rgb.r,rgb.g,rgb.b);
-    var rd = rgb.r;
-    var gd = rgb.g;
-    var bd = rgb.b;
-    var r = toHex(rd);
-    var g = toHex(gd);
-    var b = toHex(bd);
-    var hexValue = hsl.hex;
-    var h = hsl.h;
-    var s = Math.round(hsl.s * 1000)/10;
-    var l = Math.round(hsl.l * 1000)/10;
-    var sat = Math.round(hsl.sat * 1000)/10;
-    var brt = Math.round(hsl.brt * 1000)/10;
-    
-    var TheoryColors = new Array();
-    var toHsl = function (h, s, l) {
-        var val = "hsl(" + h + "," + s + "%," + l + "%)"
-        return val;
+    let rgb = d3.rgb(baseColor),
+        hsl = rgb2hsl(rgb.r,rgb.g,rgb.b),
+        rd = rgb.r,
+        gd = rgb.g,
+        bd = rgb.b,
+        r = toHex(rd),
+        g = toHex(gd),
+        b = toHex(bd),
+        hexValue = hsl.hex,
+        h = hsl.h,
+        s = Math.round(hsl.s * 1000)/10,
+        l = Math.round(hsl.l * 1000)/10,
+        sat = Math.round(hsl.sat * 1000)/10,
+        brt = Math.round(hsl.brt * 1000)/10,
+        TheoryColors = new Array();
+
+    let toHsl = function (h, s, l) {
+        return "hsl(" + h + "," + s + "%," + l + "%)"
     }
-    
-    var brighter = function(l, k) {
-         k = Math.pow(.7, arguments.length > 1 ? k : 1); 
-         // Log.Notice('brighter l=' + l + ' k=' + k);
-         return l/k;
+
+    let brighter = function(l, k) {
+        k = Math.pow(.7, k?k:1); 
+        return l/k;
     }
-    var darker = function(l, k) {
-         k = Math.pow(.7, arguments.length > 1 ? k : 1);
-         // Log.Notice('darker l=' + l + ' k=' + k);
-         return l*k;
-  }
+
+    let darker = function(l, k) {
+        k = Math.pow(.7, k?k:1);
+        return l*k;
+    }
 
     TheoryColors[0] =  toHsl(h,s,l);
-    var splitAngle = 0;
-    var splitPairs = 1;
-    if (angle == undefined) {
-        var angle = 60;
-    }
+
+    let splitAngle = 0,
+        splitPairs = 1,
+        hueCompliment;
+
+    angle = angle?angle:60;
     
-    var monochromAngle = angle/360;
-    var monoType = 'sat';
-    var newS = s;
-    var newL = l;
-    var newRgb;
+    let monochromAngle = angle/360,
+        monoType = "sat",
+        newS = s,
+        newL = l,
+        newRgb;
+
     switch (theory) {
-    case 'compliment':
-        var hueCompliment;
+    case "compliment":
         if (h >= 180) {
             hueCompliment = h - 180;
         }
-        else if (h < 180) {
+        else 
+        if (h < 180) {
             hueCompliment = 180 + h;
         }
         TheoryColors[TheoryColors.length] = toHsl(hueCompliment,s,l);
-
         break;
-    case 'split-compliment-2':
-      splitPairs = 2;
-    case 'split-compliment':
-      splitAngle = 180;
-        for (var i = 0; i < splitPairs; i++) {
-            TheoryColors[TheoryColors.length] =  toHsl(Math.abs((h + 360 + splitAngle + angle*(i+1)))%360,s,l);
-          TheoryColors[TheoryColors.length] =  toHsl(Math.abs((h + 360 + splitAngle - angle*(i+1)))%360,s,l);
-        }
-        break;
-    case 'analogous-2':
+    case "split-compliment-2":
         splitPairs = 2;
-    case 'analogous':
-        for (var i = 0; i < splitPairs; i++) {
+    case "split-compliment":
+        splitAngle = 180;
+        for (let i = 0; i < splitPairs; i++) {
             TheoryColors[TheoryColors.length] =  toHsl(Math.abs((h + 360 + splitAngle + angle*(i+1)))%360,s,l);
-          TheoryColors[TheoryColors.length] =  toHsl(Math.abs((h + 360 + splitAngle - angle*(i+1)))%360,s,l);
+            TheoryColors[TheoryColors.length] =  toHsl(Math.abs((h + 360 + splitAngle - angle*(i+1)))%360,s,l);
         }
         break;
-    case 'monochrom-1': 
-    case 'monochrom-5':
-    case 'monochrom-6':
-      switch (theory) {
-        case 'monochrom-1':
-        monoType = 'val';
+    case "analogous-2":
+        splitPairs = 2;
+    case "analogous":
+        for (let i = 0; i < splitPairs; i++) {
+            TheoryColors[TheoryColors.length] =  toHsl(Math.abs((h + 360 + splitAngle + angle*(i+1)))%360,s,l);
+            TheoryColors[TheoryColors.length] =  toHsl(Math.abs((h + 360 + splitAngle - angle*(i+1)))%360,s,l);
+        }
+        break;
+    case "monochrom-1": 
+    case "monochrom-5":
+    case "monochrom-6":
+        switch (theory) {
+        case "monochrom-1":
+            monoType = "val";
             break;
-        case 'monochrom-5':
-          monoType = 'sat-2';
+        case "monochrom-5":
+            monoType = "sat-2";
             break;
-        case 'monochrom-6':
-          monoType = 'brt';
+        case "monochrom-6":
+            monoType = "brt";
             break;
         }
-    case 'monochrom-2': // by saturation 
-      for (var i = 4; i>= 0; i--) {
+    case "monochrom-2": // by saturation 
+        for (let i = 4; i>= 0; i--) {
             switch (monoType) {
-            case 'val':
+            case "val":
                 newS = s;
                 newL = Math.round(l * monochromAngle * i);
-              break;
-            case 'sat':
+                break;
+            case "sat":
                 newS = Math.round(s * monochromAngle * i);
                 newL = l;
                 break;
-            case 'sat-2':
-              newSat = sat * monochromAngle * i;
+            case "sat-2":
+                newSat = sat * monochromAngle * i;
                 newBrt = brt;
                 newRgb = hsb2rgb(h,newSat/100,newBrt/100);
                 newHsl = rgb2hsl(newRgb.r,newRgb.g,newRgb.b);
                 newS =  Math.round(newHsl.s*1000)/10;
                 newL =  Math.round(newHsl.l*1000)/10;
                 break;
-            case 'brt':
-              newSat = sat;
+            case "brt":
+                newSat = sat;
                 newBrt = brt * monochromAngle * i;
                 newRgb = hsb2rgb(h,newSat/100,newBrt/100);
                 newHsl = rgb2hsl(newRgb.r,newRgb.g,newRgb.b);
@@ -115,55 +114,58 @@ function generateTheoryColors(baseColor, theory, angle) {
                 newL = Math.round(newHsl.l*1000)/10;
                 break;
             }
-            Log.Notice('monoType=' + monoType + ', newS =' + newS + ', newL=' + newL);
+
+            Log.Notice(`monoType='${monoType}', newS ='${newS}', newL='${newL}'`);
             TheoryColors[TheoryColors.length] = toHsl(h,newS,newL);
         }
         break;
-    case 'monochrom-3': // by darker
+    case "monochrom-3": // by darker
         newS = s/100;
         newL = l/100;
-        for (var i = 6; i> 1; i--) {
+        for (let i = 6; i> 1; i--) {
             newL = darker(newL, i*monochromAngle); // 1/i
             TheoryColors[TheoryColors.length] = toHsl(h,Math.round(newS * 100),Math.round(newL * 100));
         }
         break;
-    case 'monochrom-4': // by brighter
-
+    case "monochrom-4": // by brighter
         newS = s/100;
         newL = l/100;
-        for (var i = 6; i> 1; i--) {
+        for (let i = 6; i> 1; i--) {
             newL = brighter(newL, i*monochromAngle);
             TheoryColors[TheoryColors.length] = toHsl(h,Math.round(newS * 100),Math.round(newL * 100));
         }
         break;
     }
 
+    let swatchSlots = Theory[theory].slots,
+        clearSlots = Theory[theory].clear;
     
-    var swatchSlots = Theory[theory].slots;
-    var clearSlots = Theory[theory].clear;
-    
-    for (var i = 0; i < swatchSlots.length; i++) {
+    for (let i = 0; i < swatchSlots.length; i++) {
         swatchIndex = swatchSlots[i];
         swatches[swatchIndex].newColor(TheoryColors[i]);
     }
     
-    for (var i = 0; i < clearSlots.length; i++) {
+    for (let i = 0; i < clearSlots.length; i++) {
         swatchIndex = clearSlots[i];
-        swatches[swatchIndex].newColor('#808080');
+        swatches[swatchIndex].newColor("#808080");
     }
     
     return TheoryColors;
 }
 
 var rgb2hsl = function (r, g, b) {
-    var hBuckets = 10;
-    var buckets = 1000;
-    var r1 = r;
-    var g1 = g;
-    var b1 = b;
-    var min = Math.min(r /= 255, g /= 255, b /= 255),
+    let hBuckets = 10,
+        buckets = 1000,
+        r1 = r,
+        g1 = g,
+        b1 = b,
+        min = Math.min(r /= 255, g /= 255, b /= 255),
         max = Math.max(r, g, b),
-          d = max - min, h, s, l = (max + min) / 2;
+        d   = max - min, 
+        h, 
+        s, 
+        l = (max + min) / 2;
+
     if (d) {
         s = l < .5 ? d / (max + min) : d / (2 - max - min);
         if (r == max) h = (g - b) / d + (g < b ? 6 : 0); else if (g == max) h = (b - r) / d + 2; else h = (r - g) / d + 4;
@@ -173,9 +175,11 @@ var rgb2hsl = function (r, g, b) {
         s = l > 0 && l < 1 ? 0 : max;
     }
     // now round s and l to correct value
-    var sat,brt,hex;
+    let sat, brt, hex;
+
     s = Math.round(s * buckets)/buckets;
     l = Math.round(l * buckets)/buckets;
+
     if (max == 0) {
         sat = 0;
     } else {
@@ -183,7 +187,7 @@ var rgb2hsl = function (r, g, b) {
     }
     brt = Math.round((d + min) * buckets)/buckets;
     hex = "#" + toHex(r1) + toHex(g1) + toHex(b1);
-  return {h:h,s:s,l:l,d:d,max:max,min:min,r:r1,g:g1,b:b1,x:0,y:0,brt:brt,sat:sat,hex:hex};
+    return {h:h,s:s,l:l,d:d,max:max,min:min,r:r1,g:g1,b:b1,x:0,y:0,brt:brt,sat:sat,hex:hex};
 }
 
 var cm_rgb = function (r, g, b) {
@@ -196,21 +200,23 @@ var cm_rgb = function (r, g, b) {
     this.g = g;
     this.b = b;
     this.min = Math.min(this.r /= 255, g /= 255, this.b /= 255),
-        this.max = Math.max(this.r, this.g, this.b),
-          this.d = this.max - this.min, this.h, this.s, 
-            this.l = (this.max + this.min) / 2;
+    this.max = Math.max(this.r, this.g, this.b),
+    this.d = this.max - this.min, this.h, this.s, 
+    this.l = (this.max + this.min) / 2;
+
     if (this.d) {
         this.s = this.l < .5 
-               ? this.d / (this.max + this.min) 
-               : this.d / (2 - this.max - this.min);
+            ? this.d / (this.max + this.min) 
+            : this.d / (2 - this.max - this.min);
+
         if (this.r == this.max) {
             this.h = (this.g - this.b) / this.d + (this.g < this.b ? 6 : 0);
         } else 
         if (this.g == this.max) {
             this.h = (this.b - this.r) / this.d + 2;
         } else {
-             this.h = (this.r - this.g) / this.d + 4;
-           this.h = Math.round(this.h*60*this.hBuckets)/this.hBuckets;
+            this.h = (this.r - this.g) / this.d + 4;
+            this.h = Math.round(this.h*60*this.hBuckets)/this.hBuckets;
         }
     } else {
         this.h = Math.round(this.r1/255*360*this.hBuckets)/this.hBuckets;
@@ -266,37 +272,41 @@ var cm_hsl = function (h, s, l) {
     this.vv = function(h) {
         return Math.round(this.v(h) * 255);
     };
-  this.rgb = function () {
+    this.rgb = function () {
         return rgb2hsl(this.vv(this.h + 120), this.vv(this.h), this.vv(this.h - 120));
     };
     
     return this;
 };
 
-
 var hsb2rgb = function (hue, sat, brt) {
     while (hue < 0) {
         hue += 360;
     }
-    var buckets = 2;
-    var red = 0, green = 0, blue = 0;
+
     hue %= 360;
-  var rgbHue = hueToRgbComponents(hue);
+
+    let buckets = 2,
+        rgbHue = hueToRgbComponents(hue),
+        red = (rgbHue.red * sat + 255 * (1-sat)) * brt,
+        green = (rgbHue.green * sat + 255 * (1-sat)) * brt,
+        blue = (rgbHue.blue * sat + 255 * (1-sat)) * brt;
     
-    red = (rgbHue.red * sat + 255 * (1-sat)) * brt;
-    green = (rgbHue.green * sat + 255 * (1-sat)) * brt;
-    blue = (rgbHue.blue * sat + 255 * (1-sat)) * brt;
-    
-    red = Math.round(Math.round(red*buckets)/buckets);
-    green = Math.round(Math.round(green*buckets)/buckets);
-    blue = Math.round(Math.round(blue*buckets)/buckets);
-    return {r:red,g:green,b:blue,hue:hue,sat:sat,brt:brt,baseR:rgbHue.red,
-       baseG:rgbHue.green,baseB:rgbHue.blue};
+    red = Math.round(Math.round(red*buckets)/buckets);     // ???
+    green = Math.round(Math.round(green*buckets)/buckets); // ???
+    blue = Math.round(Math.round(blue*buckets)/buckets);   // ???
+
+    return {r:red,g:green,b:blue,
+        hue:hue,sat:sat,brt:brt,
+        baseR:rgbHue.red,
+        baseG:rgbHue.green,
+        baseB:rgbHue.blue,
+    };
 }
 
 function hueToRgbComponents(hue) {
-    var norm = 255/60; /// 4.25
-    var red, green, blue;
+    let norm = 255/60, /// 4.25
+        red, green, blue;
      
     if (hue >= 0 && hue < 60) {
         red = 255; blue = 0; green = hue * norm;
@@ -318,7 +328,6 @@ function hueToRgbComponents(hue) {
     } else {
         red = NaN; green = NaN; blue = NaN;
     }
-    
+
     return {red:red,green:green,blue:blue};
-    
 }

@@ -8,7 +8,7 @@ class Slider {
     swatch;
     component;
     stops;
-    mouseBox ='body';
+    mouseBox ="body";
     minX = 0;
     minY = 0;
     maxX = sliderDefaults.maxX;
@@ -16,8 +16,8 @@ class Slider {
     skewX = sliderDefaults.sliderWidth/2;
     skewY = sliderDefaults.sliderHeight/2;
     displayWidth = sliderDefaults.displayWidth;
-    orientation = 'horizontal';
-    hexValue = '80';
+    orientation = "horizontal";
+    hexValue = "80";
     call = [colorChange];
     callParent =  [swatchUpdate];
 
@@ -39,17 +39,17 @@ class Slider {
 
     positionRgbSlider () {
       this.value = this.swatch[this.component];
-      d3.select(this.name).attr('x',this.getPosition());
+      d3.select(this.name).attr("x",this.getPosition());
     };
 }
-  
+
 class hslSlider {
     name;
     sliderIndex;
     swatch;
     components;
     stops;
-    mouseBox ='body';
+    mouseBox ="body";
     minX = 0;
     maxX = sliderDefaults.maxX;
     minY = 0;
@@ -57,7 +57,7 @@ class hslSlider {
     skewX = sliderDefaults.sliderWidth/2;
     skewY = sliderDefaults.sliderHeight/2;
     displayWidth = sliderDefaults.displayWidth;
-    orientation = 'horizontal';
+    orientation = "horizontal";
     fullScaleValue = 360;
     value = 180; // or 100 or 50, etc.
     call = [hslColorChange];
@@ -86,34 +86,33 @@ class hslSlider {
         }
 
         switch(this.orientation) {
-        case 'vertical':
+        case "vertical":
             normValue = this.minY + value/this.fullScaleValue*this.displayWidth - this.skewY;
             break;
-        case 'horizontal':
+        case "horizontal":
         default:
             normValue = value * this.displayWidth / (this.maxX - this.minX)  - this.skewX;
             break;
         }
-    
+
         return normValue;
     };
-    
+
     positionHslSlider () {
         this.value = this.swatch[this.component];
         let position = this.getPosition();
         switch(this.orientation) {
-        case 'vertical':
-            d3.select(this.name).attr('y',position);
+        case "vertical":
+            d3.select(this.name).attr("y",position);
             break;
-        case 'horizonal':
+        case "horizonal":
         default:
-            d3.select(this.name).attr('x',position);
+            d3.select(this.name).attr("x",position);
             break;
         }
     };
-  }
-  
-  
+}
+
 //////////////// HSB SLIDER //////////////////////////////////
   
 class hsbSlider {
@@ -122,20 +121,8 @@ class hsbSlider {
     swatch;
     component;
     stops;
-
-    constructor (sliderIndex, swatch, component) {
-        this.sliderIndex = sliderIndex;
-        this.name = generateSliderName(this.sliderIndex);
-        this.swatch = swatch; // reference to swatch 
-        this.component =  component;
-        this.stops = [
-            {id:sliderIndex, offset: 0},
-            {id:sliderIndex, offset: 100}
-        ];     
-    };
-
     gradientStack = []; // gradientStack will be series of rects for sat and brt and hue;
-    mouseBox ='body';
+    mouseBox ="body";
     minX = 0;
     maxX = sliderDefaults.maxX;
     displayWidth = sliderDefaults.displayWidth;
@@ -143,11 +130,22 @@ class hsbSlider {
     minY = 0;
     maxY = sliderDefaults.maxX;
     skewY = sliderDefaults.sliderHeight/2;
-    orientation = 'horizontal';
+    orientation = "horizontal";
     fullScaleValue = 360;
     value = 180; // or 100 or 50, etc. 
     call = [hsbColorChange];
     callParent =  [hsbSwatchUpdate];
+
+    constructor (sliderIndex, swatch, component) {
+        this.sliderIndex = sliderIndex;
+        this.name = generateSliderName(this.sliderIndex);
+        this.swatch = swatch; 
+        this.component =  component;
+        this.stops = [
+            {id:sliderIndex, offset: 0},
+            {id:sliderIndex, offset: 100}
+        ];     
+    }
 
     getValue (baseValue) {
       let normValue = baseValue/this.displayWidth;
@@ -155,7 +153,7 @@ class hsbSlider {
 
     };
 
-    getPosition ( value ) {
+    getPosition (value) {
         let normValue;
 
         if (!(value || value == 0)) {
@@ -163,41 +161,37 @@ class hsbSlider {
         }
 
         switch(this.orientation) {
-        case 'vertical':
+        case "vertical":
             normValue = this.minY + value/this.fullScaleValue*this.displayWidth - this.skewY;
             break;
-        case 'horizontal':
+        case "horizontal":
         default:
             normValue = value * this.displayWidth / (this.maxX - this.minX)  - this.skewX;
             break;
         }
 
         return normValue;
-    };
-    
-    positionHsbSlider = function () {
+    }
+
+    positionHsbSlider () {
         this.value = this.swatch[this.component]; // ???
         let position = this.getPosition();
 
         switch(this.orientation) {
-        case 'vertical':
-            d3.select(this.name).attr('y',position);
+        case "vertical":
+            d3.select(this.name).attr("y",position);
             break;
-        case 'horizonal':
+        case "horizonal":
         default:
-            d3.select(this.name).attr('x',position);
+            d3.select(this.name).attr("x",position);
             break;
         }
-    };
-    
-  }
-
-
-
-function generateSliderName(sliderIndex) {
-    return '#slider-' + sliderIndex;
+    }
 }
 
+function generateSliderName(sliderIndex) {
+    return "#slider-" + sliderIndex;
+}
 
 function getSliderId(sliderName) {
     return sliderName.substring(1);

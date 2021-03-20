@@ -139,18 +139,18 @@ for (var i = 1; i < swatchCount ; i++) {
 
 $(document).ready(function(e) {
 
-    writeSvg('#app-0');
+    writeSvg("#app-0");
 
     // Once the app is written out, we repurpose one set of controls
     // for the top controls, which is what is happening below:
     //
     // +-- This changes the gradient from horizonal to vertical
     // v
-    $('#gradient-4, #gradient-5, #gradient-7, #gradient-8')
-        .attr('x1','50%')
-        .attr('y1','0%')
-        .attr('x2','50%')
-        .attr('y2','100%');
+    $("#gradient-4, #gradient-5, #gradient-7, #gradient-8")
+        .attr("x1","50%")
+        .attr("y1","0%")
+        .attr("x2","50%")
+        .attr("y2","100%");
 
     // A "swatch" is the square/rectangle diplaying the current color.
     // The following are adding larger swatches for main conrtol:
@@ -167,13 +167,13 @@ $(document).ready(function(e) {
     sliders[3].displayWidth = 360;
     sliders[3].callParent = [hslMainSwatchUpdate];
 
-    sliders[4].orientation = 'vertical';
+    sliders[4].orientation = "vertical";
     sliders[4].maxY = 31;
     sliders[4].minY = -224;
     sliders[4].skewY = 5;
     sliders[4].callParent = [hslMainSwatchUpdate];
 
-    sliders[5].orientation = 'vertical';
+    sliders[5].orientation = "vertical";
     sliders[5].maxY = 31;
     sliders[5].minY = -224;
     sliders[5].skewY = 5;
@@ -182,23 +182,23 @@ $(document).ready(function(e) {
     sliders[6].displayWidth = 360;
     sliders[6].callParent = [hsbMainSwatchUpdate];
 
-    sliders[7].orientation = 'vertical';
+    sliders[7].orientation = "vertical";
     sliders[7].maxY = 31;
     sliders[7].minY = -224;
     sliders[7].skewY = 5;
     sliders[7].callParent = [hsbMainSwatchUpdate];    
 
-    sliders[8].orientation = 'vertical';
+    sliders[8].orientation = "vertical";
     sliders[8].maxY = 31;
     sliders[8].minY = -224;
     sliders[8].skewY = 5;
     sliders[8].callParent = [hsbMainSwatchUpdate];
 
-    Data.restoreInput('baseColor');
-    Data.restoreInput('angle');
-    Data.restoreSelect('theory');
-    Data.changeText('angle','#angle-display');
-    Data.restoreInput('mode');
+    Data.restoreInput("baseColor");
+    Data.restoreInput("angle");
+    Data.restoreSelect("theory");
+    Data.changeText("angle","#angle-display");
+    Data.restoreInput("mode");
 
     setTimeout(finalFixup,400);
 
@@ -396,11 +396,6 @@ $(document).ready(function(e) {
     <use xlink:href="#swatch-3-controls"  x="0" y="0" />
 </g>
 
-<!-- fix this another day --x="200" y="30" transform="scale(1.2)"
-<g id="fine-control-overlay" transform="translate(510,20)" style="display:block">
- <rect id="fcos-saturation" x="0" y="0" height="256" width="60" fill="none" stroke="#888" stroke-width=".5" />
-</g>
--->
 <!--============== Auto Generated Code follows ================-->
 </svg>
 </div>

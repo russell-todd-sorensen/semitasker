@@ -1,5 +1,5 @@
 // Color-Mixer App
-  
+
 var appCounters = {
     appIndex: 0,
     swatchIndex: 0,
@@ -46,17 +46,17 @@ class TheoryGroup {
     }
 }
 
-Theory['compliment'] = new TheoryGroup('compliment', [3,4]);
-Theory['split-compliment'] = new TheoryGroup('split-compliment', [3,2,4]);
-Theory['split-compliment-2'] = new TheoryGroup('split-compliment-2', [3,2,4,1,5]);
-Theory['analogous'] =   new TheoryGroup('analogous', [3,2,4]);
-Theory['analogous-2'] = new TheoryGroup('analogous-2', [3,2,4,1,5]);
-Theory['monochrom-1'] = new TheoryGroup('monochrom-1', [1,2,3,4,5]);
-Theory['monochrom-2'] = new TheoryGroup('monochrom-2', [1,2,3,4,5]);
-Theory['monochrom-3'] = new TheoryGroup('monochrom-3', [1,2,3,4,5]);
-Theory['monochrom-4'] = new TheoryGroup('monochrom-4', [1,2,3,4,5]);
-Theory['monochrom-5'] = new TheoryGroup('monochrom-5', [1,2,3,4,5]);
-Theory['monochrom-6'] = new TheoryGroup('monochrom-6', [1,2,3,4,5]);
+Theory["compliment"] = new TheoryGroup("compliment", [3,4]);
+Theory["split-compliment"] = new TheoryGroup("split-compliment", [3,2,4]);
+Theory["split-compliment-2"] = new TheoryGroup("split-compliment-2", [3,2,4,1,5]);
+Theory["analogous"] =   new TheoryGroup("analogous", [3,2,4]);
+Theory["analogous-2"] = new TheoryGroup("analogous-2", [3,2,4,1,5]);
+Theory["monochrom-1"] = new TheoryGroup("monochrom-1", [1,2,3,4,5]);
+Theory["monochrom-2"] = new TheoryGroup("monochrom-2", [1,2,3,4,5]);
+Theory["monochrom-3"] = new TheoryGroup("monochrom-3", [1,2,3,4,5]);
+Theory["monochrom-4"] = new TheoryGroup("monochrom-4", [1,2,3,4,5]);
+Theory["monochrom-5"] = new TheoryGroup("monochrom-5", [1,2,3,4,5]);
+Theory["monochrom-6"] = new TheoryGroup("monochrom-6", [1,2,3,4,5]);
 
 var linearGradientAttrs = {
     "gradientUnits": "objectBoundingBox",
@@ -99,7 +99,7 @@ var swatchRectAttrs = {
     y: -1 * sliderDefaults.displayWidth,
     height: sliderDefaults.displayWidth,
     width: sliderDefaults.displayWidth,
-    fill:'#808080',
+    fill:"#808080",
     stroke:"none",
     strokeWidth: 0,
 };
@@ -136,11 +136,11 @@ function startMove (evt) {
     
     xyStart["x"] = mouseX;
     xyStart["y"] = mouseY;
-    xyStart[slider] = [parseFloat($(slider).attr('x')), parseFloat($(slider).attr('y'))];
+    xyStart[slider] = [parseFloat($(slider).attr("x")), parseFloat($(slider).attr("y"))];
 
     $(mouseBox)
-        .bind('mousemove',evt.data,moveSlider)
-        .bind('mouseup',evt.data,endMoveSlider);
+        .bind("mousemove",evt.data,moveSlider)
+        .bind("mouseup",evt.data,endMoveSlider);
 }
 
 function moveSlider (evt) {
@@ -174,12 +174,12 @@ function moveSlider (evt) {
     evt.data.currentY = currentY;
 
     switch (evt.data.orientation) {
-    case 'vertical':
-        $(slider).attr('y', currentY);
+    case "vertical":
+        $(slider).attr("y", currentY);
         break;
-    case 'horizontal':
+    case "horizontal":
     default:
-        $(slider).attr('x', currentX);
+        $(slider).attr("x", currentX);
         break;
     }
 
@@ -192,8 +192,8 @@ function moveSlider (evt) {
 function endMoveSlider (evt) {
     moveSlider(evt);
     $(evt.data.mouseBox)
-        .unbind('mousemove')
-        .unbind('mouseup');
+        .unbind("mousemove")
+        .unbind("mouseup");
 }
 
 ////////////////// End user/mouse slider event handling //////////////
@@ -232,10 +232,10 @@ function colorChange(evt) {
     let hexValue;
 
     switch (evt.data.orientation) {
-    case 'vertical':
+    case "vertical":
         alert("colorChange: vertical not implemented!");
         return;
-    case 'horizontal':
+    case "horizontal":
     default:
         let baseValue = evt.data.currentX + evt.data.skewX,
             normValue = baseValue/(evt.data.maxX - evt.data.minX),
@@ -261,14 +261,14 @@ function hslColorChange(evt) {
         value;
 
     switch (evt.data.orientation) {
-    case 'vertical':
+    case "vertical":
         baseValue = evt.data.currentY+evt.data.skewY,
         normValue = baseValue/evt.data.displayWidth;
 
         value = (evt.data.maxY - evt.data.minY) * normValue; // changed
         value = (value + Math.abs(evt.data.minY))*100/evt.data.displayWidth;
         break;
-    case 'horizontal':
+    case "horizontal":
     default:
         baseValue = evt.data.currentX+evt.data.skewX,
         normValue = baseValue/evt.data.displayWidth;
@@ -293,13 +293,13 @@ function hsbColorChange(evt) {
         value;
 
     switch (evt.data.orientation) {
-    case 'vertical':
+    case "vertical":
         baseValue = evt.data.currentY+evt.data.skewY;
         normValue = baseValue/evt.data.displayWidth;
         value = (evt.data.maxY - evt.data.minY) * normValue; // changed
         value = (value + Math.abs(evt.data.minY))*100/evt.data.displayWidth;
         break;
-    case 'horizontal':
+    case "horizontal":
     default:
         baseValue = evt.data.currentX+evt.data.skewX
         normValue = baseValue/evt.data.displayWidth;
@@ -325,7 +325,7 @@ function hsbColorChange(evt) {
     swatch[evt.data.component] = evt.data.hexValue;
 
     for (var i = 0; i< swatch.swatchSelectors.length; i++) {
-        $(swatch.swatchSelectors[i]).attr('fill',swatch.color());
+        $(swatch.swatchSelectors[i]).attr("fill",swatch.color());
     }
 
     swatch.updateAllControls();
@@ -338,7 +338,7 @@ function hslSwatchUpdate(evt) {
     swatch[evt.data.component] = evt.data.value;
 
     for (let i = 0; i< swatch.swatchSelectors.length; i++) {
-        $(swatch.swatchSelectors[i]).attr('fill',swatch.hslColor());
+        $(swatch.swatchSelectors[i]).attr("fill",swatch.hslColor());
     }
 
     swatch.updateAllControls();
@@ -352,42 +352,42 @@ function hslSwatchUpdate(evt) {
     let swatchColor = swatch.hslColor();
 
     for (var i = 0; i< swatch.swatchSelectors.length; i++) {
-        $(swatch.swatchSelectors[i]).attr('fill',swatchColor);
+        $(swatch.swatchSelectors[i]).attr("fill",swatchColor);
     }
 
     var stops = [
-        {id: "#stop-1", offset: 0,   opacity: 1.0, color: '#808080'},
-        {id: "#stop-2", offset: 0,   opacity: 1.0, color: '#808080'},
-        {id: "#stop-3", offset: 100, opacity: 0.0, color: '#808080'}
+        {id: "#stop-1", offset: 0,   opacity: 1.0, color: "#808080"},
+        {id: "#stop-2", offset: 0,   opacity: 1.0, color: "#808080"},
+        {id: "#stop-3", offset: 100, opacity: 0.0, color: "#808080"}
     ];
     
     let l = swatch.l,
         stop2Offset = Math.abs(100 - 2*l),
         stopHex = toHex(Math.round(2.55 * l)),
-        stopColor = '#' + stopHex + stopHex + stopHex;
+        stopColor = "#" + stopHex + stopHex + stopHex;
     
     for (let i = 0; i<stops.length; i++) {
         $(stops[i].id)
-            .attr('stop-color', stopColor);
+            .attr("stop-color", stopColor);
 
-        if (stops[i].id == '#stop-2') {
+        if (stops[i].id == "#stop-2") {
             $(stops[i].id)
-                .attr('offset', Math.floor(stop2Offset*1000)/1000 + '%')
+                .attr("offset", Math.floor(stop2Offset*1000)/1000 + "%")
 
         } else 
-        if (stops[i].id == '#stop-3') {
+        if (stops[i].id == "#stop-3") {
             $(stops[i].id)
-                .attr('stop-opacity', Math.floor(stop2Offset*10)/1000);
+                .attr("stop-opacity", Math.floor(stop2Offset*10)/1000);
         }
     }
 
     swatch.hslUpdateGradients();
         
-    let theory = $('#theory option::selected').val(),
-        angle = $('#angle').val();
+    let theory = $("#theory option::selected").val(),
+        angle = $("#angle").val();
 
-    $('#baseColor').val(swatchColor);
-    Data.saveInput('baseColor');
+    $("#baseColor").val(swatchColor);
+    Data.saveInput("baseColor");
 
     generateTheoryColors(swatchColor,theory,angle);
 }
@@ -401,11 +401,11 @@ function hsbSwatchUpdate(evt) {
 
     swatch[evt.data.component] = value;
 
-    Log.Notice('hsbSwatchUpdate value for ' + evt.data.name 
-        + ' = ' + value + ' fullcolor =' + swatchColor);
+    Log.Notice("hsbSwatchUpdate value for " + evt.data.name 
+        + " = " + value + " fullcolor =" + swatchColor);
 
     for (let i = 0; i< swatch.swatchSelectors.length; i++) {
-        $(swatch.swatchSelectors[i]).attr('fill',swatchColor);
+        $(swatch.swatchSelectors[i]).attr("fill",swatchColor);
     }
 
     swatch.updateAllControls();
@@ -421,11 +421,11 @@ function hsbMainSwatchUpdate(evt) {
     swatch[component] = value;
     let swatchColor = swatch.hsbColor();
 
-    Log.Notice('hsbMainSwatchUpdate value for ' + evt.data.name 
-        + ' = ' + value + ' fullcolor =' + swatchColor);
+    Log.Notice("hsbMainSwatchUpdate value for " + evt.data.name 
+        + " = " + value + " fullcolor =" + swatchColor);
 
     for (let i = 0; i< swatch.swatchSelectors.length; i++) {
-        $(swatch.swatchSelectors[i]).attr('fill',swatchColor);
+        $(swatch.swatchSelectors[i]).attr("fill",swatchColor);
     }
 
     let gradientStack = [],
@@ -433,46 +433,46 @@ function hsbMainSwatchUpdate(evt) {
         gradientName;
 
     switch (component) {
-    case 'hue':
+    case "hue":
         sliderIndex = 6;
-        gradientName = '#gradient-' + sliderIndex;
-        gradientStack[0] = {id: "r-" + sliderIndex, type: 'fixed-gradient',
+        gradientName = "#gradient-" + sliderIndex;
+        gradientStack[0] = {id: "r-" + sliderIndex, type: "fixed-gradient",
             colorFn: null, fill: "url(" + gradientName + ")" };
-        gradientStack[1] = {id: "r-" + sliderIndex + "-sat", type: 'filled-rect',
-            colorFn: 'hsbSat',fill:'none'};
-        gradientStack[2] = {id: "r-" + sliderIndex + "-brt", type: 'filled-rect',
-            colorFn: 'hsbBrt',fill:'none'};
+        gradientStack[1] = {id: "r-" + sliderIndex + "-sat", type: "filled-rect",
+            colorFn: "hsbSat",fill:"none"};
+        gradientStack[2] = {id: "r-" + sliderIndex + "-brt", type: "filled-rect",
+            colorFn: "hsbBrt",fill:"none"};
         break;
-    case 'sat':
+    case "sat":
         sliderIndex = 7;
-            gradientName = '#gradient-' + sliderIndex;
-        gradientStack[0] = {id: "r-" + sliderIndex + "-hue", type: 'filled-rect', 
-            colorFn: 'hsbHue',fill:'none'};
-        gradientStack[1] = {id: "r-" + sliderIndex, type: 'fixed-gradient',
+            gradientName = "#gradient-" + sliderIndex;
+        gradientStack[0] = {id: "r-" + sliderIndex + "-hue", type: "filled-rect", 
+            colorFn: "hsbHue",fill:"none"};
+        gradientStack[1] = {id: "r-" + sliderIndex, type: "fixed-gradient",
             colorFn: null, fill: "url(" + gradientName + ")" };
-        gradientStack[2] = {id: "r-" + sliderIndex + "-brt", type: 'filled-rect',
-            colorFn: 'hsbBrt',fill:'none'};
+        gradientStack[2] = {id: "r-" + sliderIndex + "-brt", type: "filled-rect",
+            colorFn: "hsbBrt",fill:"none"};
         break;
-    case 'brt':
+    case "brt":
         sliderIndex = 8;
-        gradientName = '#gradient-' + sliderIndex;
-        gradientStack[0] = {id: "r-" + sliderIndex + "-hue", type: 'filled-rect', 
-            colorFn: 'hsbHue',fill:'none'};
-        gradientStack[1] = {id: "r-" + sliderIndex + "-sat", type: 'filled-rect', 
-            colorFn: 'hsbSat',fill:'none'};
-        gradientStack[2] = {id: "r-" + sliderIndex, type: 'fixed-gradient', 
+        gradientName = "#gradient-" + sliderIndex;
+        gradientStack[0] = {id: "r-" + sliderIndex + "-hue", type: "filled-rect", 
+            colorFn: "hsbHue",fill:"none"};
+        gradientStack[1] = {id: "r-" + sliderIndex + "-sat", type: "filled-rect", 
+            colorFn: "hsbSat",fill:"none"};
+        gradientStack[2] = {id: "r-" + sliderIndex, type: "fixed-gradient", 
             colorFn: null, fill: "url(" + gradientName + ")" };
         break;
     }
         
     swatch.hsbUpdateGradients();
     
-    let theory = $('#theory option::selected').val(),
-        angle = $('#angle').val();
+    let theory = $("#theory option::selected").val(),
+        angle = $("#angle").val();
 
-    $('#baseColor').val(swatchColor);
+    $("#baseColor").val(swatchColor);
 
-    Data.saveInput('baseColor', 'Data.restoreInput');
+    Data.saveInput("baseColor", "Data.restoreInput");
     generateTheoryColors(swatchColor,theory,angle);
 }
 
@@ -507,67 +507,67 @@ class ComponentGroup {
 var Components = [];
 
 Components[appCounters.componentGroupIndex++] = new ComponentGroup (
-    'rgbh', 
-    'RGB Components in Hexidecimal', 
-    'internal',
+    "rgbh", 
+    "RGB Components in Hexidecimal", 
+    "internal",
     [
-        {name: 'r',default: '80'},
-        {name: 'g',default: '80'},
-        {name: 'b', default: '80'},
-        {name: 'a', type: 'internal', default: 1.0}
+        {name: "r",default: "80"},
+        {name: "g",default: "80"},
+        {name: "b", default: "80"},
+        {name: "a", type: "internal", default: 1.0}
     ],
 );
 
 Components[appCounters.componentGroupIndex++] = new ComponentGroup (
-    'hex', 
-    'HexaDecimal Value', 
-    'external',
-    [{name: 'hexValue', default: '#808080', type: 'external'}],
+    "hex", 
+    "HexaDecimal Value", 
+    "external",
+    [{name: "hexValue", default: "#808080", type: "external"}],
 );
 
 Components[appCounters.componentGroupIndex++] = new ComponentGroup (
-    'rgbd', 
-    'RGB Components in Decimal', 
-    'external',
+    "rgbd", 
+    "RGB Components in Decimal", 
+    "external",
     [
-        {name: 'rd', default: 128},
-        {name: 'gd', default: 128},
-        {name: 'bd', default: 128},
-        {name: 'ad', type: 'internal', default: 1.0}
+        {name: "rd", default: 128},
+        {name: "gd", default: 128},
+        {name: "bd", default: 128},
+        {name: "ad", type: "internal", default: 1.0}
     ],
 );
 
 Components[appCounters.componentGroupIndex++] = new ComponentGroup (
-    'rgba', 
-    'RGBA Components in Decimal', 
-    'internal',
+    "rgba", 
+    "RGBA Components in Decimal", 
+    "internal",
     [
-        {name: 'rad',default: 128},
-        {name: 'gad', default: 128},
-        {name: 'bad', default: 128},
-        {name: 'aad', default: 1.0}
+        {name: "rad",default: 128},
+        {name: "gad", default: 128},
+        {name: "bad", default: 128},
+        {name: "aad", default: 1.0}
     ]
 );
 
 Components[appCounters.componentGroupIndex++] = new ComponentGroup (
-    'hsl', 
-    'HSL Components in Degrees and Percent', 
-    'external',
+    "hsl", 
+    "HSL Components in Degrees and Percent", 
+    "external",
     [
-        {name: 'h', default: 180},
-        {name: 's', default: 0},
-        {name: 'l', default: 50}
+        {name: "h", default: 180},
+        {name: "s", default: 0},
+        {name: "l", default: 50}
     ]
 );
 
 Components[appCounters.componentGroupIndex++] = new ComponentGroup (
-    'hsb', 
-    'Hue,Saturation and Brightness in Degrees and Percent', 
-    'external',
+    "hsb", 
+    "Hue,Saturation and Brightness in Degrees and Percent", 
+    "external",
     [
-        {name: 'h', default: 180},
-        {name: 'sat', default: 0},
-        {name: 'brt', default: 50}
+        {name: "h", default: 180},
+        {name: "sat", default: 0},
+        {name: "brt", default: 50}
     ]
 );
 
@@ -577,9 +577,9 @@ var rectField4Width = 72; // 72
 //***************** ***********************//
 function generateTC( ) {
     // Log.Notice(".....generate TC");
-    var baseColor = $('#baseColor').val();
-    var theory = $('#theory option::selected').val();
-    var angle = $('#angle').val();
+    var baseColor = $("#baseColor").val();
+    var theory = $("#theory option::selected").val();
+    var angle = $("#angle").val();
 
     swatches[0].newColor(baseColor);
     generateTheoryColors(baseColor, theory, angle);
@@ -602,17 +602,17 @@ function changeColorTheory(inputId) {
         break;
     case "select":
         saveFunction = "Data.saveSelect";
-        propertyValue = $('#' + inputId + ' option::selected').attr('value');
+        propertyValue = $(`#${inputId} option::selected`).attr("value");
         break;
     default: 
-        Log.Error("changeColorTheory: Unknown localName='" + localName + "' for inputId=" + inputId);
+        Log.Error(`changeColorTheory: Unknown localName='${localName}' for inputId='${inputId}'`);
         break;
     }
 
-    call = saveFunction + "('" + inputId + "','changeColorTheory'";
+    call = `${saveFunction}("${inputId}","changeColorTheory"`;
 
     for (let i = 1; i< arguments.length; i++) {
-        call = call + ",'" + arguments[i] + "'";
+        call = `${call}","${arguments[i]}"`;
     }
     
     call += ");";
@@ -625,7 +625,7 @@ function changeColorTheory(inputId) {
 /////////////////////////////////////////////////////////////////////////////////
 
 function toggleMainSwatchMode(inputId, mode) {
-    //Log.Notice('toggleMainSwatchMode mode=' + mode);
+    //Log.Notice("toggleMainSwatchMode mode=" + mode);
     document.getElementById(inputId).value = mode;
     changeMainSwatchMode(inputId);
 }
@@ -636,27 +636,27 @@ function changeMainSwatchMode(inputId) {
         call;
 
     switch (mode) {
-    case 'hsb':
-        d3.select('#hsb-from-rgb').style({display:'block'});
-        d3.select('#hsl-from-rgb').style({display:'none'});
-        d3.select('#mode-toggle-hsb').style({fill:'#AAA',stroke:'#FF0'});
-        d3.select('#mode-toggle-hsl').style({fill:'#AAA',stroke:'#AAA'});
-        swatches[0].mode = 'hsb';
+    case "hsb":
+        d3.select("#hsb-from-rgb").style({display:"block"});
+        d3.select("#hsl-from-rgb").style({display:"none"});
+        d3.select("#mode-toggle-hsb").style({fill:"#AAA",stroke:"#FF0"});
+        d3.select("#mode-toggle-hsl").style({fill:"#AAA",stroke:"#AAA"});
+        swatches[0].mode = "hsb";
         break;
-    case 'hsl':
+    case "hsl":
     default:
-        d3.select('#hsb-from-rgb').style({display:'none'});
-        d3.select('#hsl-from-rgb').style({display:'block'});
-        d3.select('#mode-toggle-hsb').style({fill:'#AAA',stroke:'#AAA'});
-        d3.select('#mode-toggle-hsl').style({fill:'#AAA',stroke:'#FF0'});
-        swatches[0].mode = 'hsl';
+        d3.select("#hsb-from-rgb").style({display:"none"});
+        d3.select("#hsl-from-rgb").style({display:"block"});
+        d3.select("#mode-toggle-hsb").style({fill:"#AAA",stroke:"#AAA"});
+        d3.select("#mode-toggle-hsl").style({fill:"#AAA",stroke:"#FF0"});
+        swatches[0].mode = "hsl";
         break;
     }
 
-    call = "Data.saveInput('" + inputId + "','changeMainSwatchMode'";
+    call = `Data.saveInput("${inputId}","changeMainSwatchMode"`;
 
     for (let i = 1; i< arguments.length; i++) {
-        call = call + ",'" + arguments[i] + "'";
+        call = `${call},"${arguments[i]}"`;
     }
     
     call += ");";
