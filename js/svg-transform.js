@@ -65,7 +65,7 @@ SvgTransform.SvgText = function(inputId) {
 }
 
 SvgTransform.changeImage = function (selectId) {
-  var imageSelector = '#' + selectId + " option::selected";
+  var imageSelector = '#' + selectId + " option:selected";
   var imageUrl = $(imageSelector).val();
 
   var imageSelector, imageId;
@@ -172,7 +172,7 @@ SvgTransform.adjustObjectHeightWidth = function (filterImageId) {
 
 
 SvgTransform.changeFilter = function (selectId) {
-  var filterSelector = '#' + selectId + " option::selected";
+  var filterSelector = '#' + selectId + " option:selected";
   var filterUrl = $(filterSelector).val();
 
 	Log.Notice("okay changeFilter to " + selectId)
@@ -295,7 +295,7 @@ SvgTransform.translateY = function(yInputId) {
 
 SvgTransform.changeFill = function (selectId, graphicId, graphicAttribute) {
 
-  var fillSelector = '#' + selectId + " option::selected";
+  var fillSelector = '#' + selectId + " option:selected";
   var fill = $(fillSelector).val();
 
   var selector,attribute;

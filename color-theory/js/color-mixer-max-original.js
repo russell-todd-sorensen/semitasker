@@ -386,7 +386,7 @@ function hslSwatchUpdate(evt) {
 
     swatch.hslUpdateGradients();
         
-    let theory = $("#theory option::selected").val(),
+    let theory = $("#theory option:selected").val(),
         angle = $("#angle").val();
 
     $("#baseColor").val(swatchColor);
@@ -470,7 +470,7 @@ function hsbMainSwatchUpdate(evt) {
         
     swatch.hsbUpdateGradients();
     
-    let theory = $("#theory option::selected").val(),
+    let theory = $("#theory option:selected").val(),
         angle = $("#angle").val();
 
     $("#baseColor").val(swatchColor);
@@ -1919,7 +1919,7 @@ function writeSwatchControls(swatchGroup, swatch) {
 function generateTC( ) {
     // Log.Notice(".....generate TC");
     var baseColor = $("#baseColor").val();
-    var theory = $("#theory option::selected").val();
+    var theory = $("#theory option:selected").val();
     var angle = $("#angle").val();
 
   swatches[0].newColor(baseColor);
@@ -2274,7 +2274,7 @@ function changeColorTheory(inputId) {
         break;
     case "select":
         saveFunction = "Data.saveSelect";
-        propertyValue = $("#" + inputId + " option::selected").attr("value");
+        propertyValue = $("#" + inputId + " option:selected").attr("value");
         break;
     default: 
         Log.Error(`changeColorTheory: Unknown localName='${localName}' for inputId='${inputId}'`);

@@ -26,10 +26,10 @@ function changeBackground(input, id) {
         }
     }
 
-    Log.Notice("url=" + url);
+    Log.Notice(`url=${url}`);
 
     $(id)
-        .css('background-image', 'url(' + url + ')');
+        .css("background-image", `url(${url})`);
 
     return url;
 }

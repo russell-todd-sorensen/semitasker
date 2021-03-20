@@ -35,7 +35,7 @@ Data.writeFontFamilySelectGeneric = function(selector, fonts) {
 
 Data.changeFont = function(selectId) {
 
-  var font = $('#' + selectId + " option::selected").val();
+  var font = $('#' + selectId + " option:selected").val();
 
   if (arguments.length == 1) {
     $('body').css('font-family',"'" + font + "'");
@@ -92,7 +92,7 @@ Data.changeFontSize = function (inputId) {
 }
 
 Data.changeImage = function (selectId) {
-  var imageSelector = '#' + selectId + " option::selected";
+  var imageSelector = '#' + selectId + " option:selected";
   var imageUrl = $(imageSelector).val();
 
   var selector;
@@ -198,7 +198,7 @@ Data.changeFont2 = function (inputId) {
 
 Data.changeFontMultiple = function(selectId) {
 
-  var fontSelector = '#' + selectId + " option::selected";
+  var fontSelector = '#' + selectId + " option:selected";
   var fonts = [];
   $(fontSelector).each(function(i,e) {
     Log.Notice('font[' + fonts.length + '] =' + $(this).attr('value'));
@@ -234,7 +234,7 @@ Data.changeFontMultiple = function(selectId) {
 
 Data.changeFontMultipleSVG = function(selectId) {
 
-  var fontSelector = '#' + selectId + " option::selected";
+  var fontSelector = '#' + selectId + " option:selected";
   var fonts = [];
   $(fontSelector).each(function(i,e) {
     Log.Notice('font[' + fonts.length + '] =' + $(this).attr('value'));
