@@ -409,35 +409,35 @@ function writeSwatchControls(swatchGroup, swatch) {
         .attr("y", y)
         .attr("class","label pointer")
         .on("click", function (d,i) {
-                let swatchId = d3.select(this).attr('id'),
-                    swatchList = swatchId.split('-'),
-                    newMode = swatchList[2];
-                if (newMode == 'rgbd') {
-                    newMode = 'rgb';
-                }
+            let swatchId = d3.select(this).attr('id'),
+                swatchList = swatchId.split('-'),
+                newMode = swatchList[2];
+            if (newMode == 'rgbd') {
+                newMode = 'rgb';
+            }
 
-                let swatchIndex = parseInt(swatchList[1]);
-                if (swatchList[1] == 'MAIN') {
-                    swatchIndex = 0;
-                }
-    
-                let swatch = swatches[swatchIndex];
-                Log.Notice('toggleHslRgb newMode=' + newMode + ' swatchIndex=' + swatchIndex);
+            let swatchIndex = parseInt(swatchList[1]);
+            if (swatchList[1] == 'MAIN') {
+                swatchIndex = 0;
+            }
 
-                if (swatch.mode == newMode ) {
-                    return;
-                }
-                switch (newMode) {
-                case 'hsl':
-                    swatch.updateGradients();
-                    swatch.hslUpdateGradients();
-                    break;
-                case 'rgb':
-                    swatch.hslUpdateGradients();
-                    swatch.updateGradients();
-                    break;
-                }
-                swatch.toggleHslRgb(newMode); 
+            let swatch = swatches[swatchIndex];
+            Log.Notice('toggleHslRgb newMode=' + newMode + ' swatchIndex=' + swatchIndex);
+
+            if (swatch.mode == newMode ) {
+                return;
+            }
+            switch (newMode) {
+            case 'hsl':
+                swatch.updateGradients();
+                swatch.hslUpdateGradients();
+                break;
+            case 'rgb':
+                swatch.hslUpdateGradients();
+                swatch.updateGradients();
+                break;
+            }
+            swatch.toggleHslRgb(newMode); 
         })
         .text("RGB");
         
@@ -529,7 +529,7 @@ function writeSwatchControls(swatchGroup, swatch) {
         if (component[comp] == 's' || component[comp] == 'l') {
             text += "%";
         } else {
-            text += "&deg;";
+            text += "&#176;";
         }
 
         hslValues
@@ -633,7 +633,7 @@ function writeSwatchControls(swatchGroup, swatch) {
         if (component[comp] == 'sat' || component[comp] == 'brt') {
             text += "%";
         } else {
-            text += "&deg;";
+            text += "&#176;";
         }
 
         hsbValues
