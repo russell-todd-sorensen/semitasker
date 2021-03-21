@@ -47,6 +47,7 @@ class TheoryGroup {
 }
 
 Theory["compliment"] = new TheoryGroup("compliment", [3,4]);
+Theory["dual-compliment"] = new TheoryGroup("dual-compliment",[3,1,2,4]);
 Theory["split-compliment"] = new TheoryGroup("split-compliment", [3,2,4]);
 Theory["split-compliment-2"] = new TheoryGroup("split-compliment-2", [3,2,4,1,5]);
 Theory["analogous"] =   new TheoryGroup("analogous", [3,2,4]);

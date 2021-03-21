@@ -34,9 +34,11 @@ function generateTheoryColors(baseColor, theory, angle) {
 
     let splitAngle = 0,
         splitPairs = 1,
-        hueCompliment;
+        hueCompliment,
+        dualHue,
+        dualCompliment;
 
-    angle = angle?angle:60;
+    angle = parseFloat(angle?angle:60);
     
     let monochromAngle = angle/360,
         monoType = "sat",
@@ -55,8 +57,22 @@ function generateTheoryColors(baseColor, theory, angle) {
         }
         TheoryColors[TheoryColors.length] = toHsl(hueCompliment,s,l);
         break;
+    case "dual-compliment":
+        if (h >= 180) {
+            hueCompliment = h - 180;
+        }
+        else 
+        if (h < 180) {
+            hueCompliment = 180 + h;
+        }
+        TheoryColors[TheoryColors.length] = toHsl(hueCompliment,s,l);
+        dualHue = (360 + h + angle)%360;
+        dualCompliment = (180 + dualHue)%360;
+        TheoryColors[TheoryColors.length] = toHsl(dualHue,s,l);
+        TheoryColors[TheoryColors.length] = toHsl(dualCompliment,s,l);
+        break;
     case "split-compliment-2":
-        splitPairs = 2;
+        splitPairs = 2; // fall through
     case "split-compliment":
         splitAngle = 180;
         for (let i = 0; i < splitPairs; i++) {
@@ -65,7 +81,7 @@ function generateTheoryColors(baseColor, theory, angle) {
         }
         break;
     case "analogous-2":
-        splitPairs = 2;
+        splitPairs = 2; // fall through
     case "analogous":
         for (let i = 0; i < splitPairs; i++) {
             TheoryColors[TheoryColors.length] =  toHsl(Math.abs((h + 360 + splitAngle + angle*(i+1)))%360,s,l);
@@ -85,7 +101,8 @@ function generateTheoryColors(baseColor, theory, angle) {
         case "monochrom-6":
             monoType = "brt";
             break;
-        }
+        } 
+        // NOTE: monochrom-1,5,6 fall through to monochrom-2
     case "monochrom-2": // by saturation 
         for (let i = 4; i>= 0; i--) {
             switch (monoType) {

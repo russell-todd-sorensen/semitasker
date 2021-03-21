@@ -1,0 +1,93 @@
+diff --git a/color-theory/color-mixer-max.html b/color-theory/color-mixer-max.html
+index 3ae508a..7b09914 100644
+--- a/color-theory/color-mixer-max.html
++++ b/color-theory/color-mixer-max.html
+@@ -226,7 +226,6 @@ $(document).ready(function(e) {
+     }
+ });
+ 
+-// ]]>
+ </script>
+ 
+ </head>
+@@ -248,6 +247,7 @@ $(document).ready(function(e) {
+  <option value="compliment">Compliment</option>
+  <option value="split-compliment" selected="selected">Split Compliment</option>
+  <option value="split-compliment-2">Split Compliment 2</option>
++ <option value="dual-compliment">Dual Compliment</option>
+  <option value="analogous">Analogous</option>
+  <option value="analogous-2">Analogous 2</option>
+  <option value="monochrom-1">Monochromatic 1</option>
+diff --git a/color-theory/js/color-conversions.js b/color-theory/js/color-conversions.js
+index 01a9c4a..1359ce9 100644
+--- a/color-theory/js/color-conversions.js
++++ b/color-theory/js/color-conversions.js
+@@ -34,9 +34,11 @@ function generateTheoryColors(baseColor, theory, angle) {
+ 
+     let splitAngle = 0,
+         splitPairs = 1,
+-        hueCompliment;
++        hueCompliment,
++        dualHue,
++        dualCompliment;
+ 
+-    angle = angle?angle:60;
++    angle = parseFloat(angle?angle:60);
+     
+     let monochromAngle = angle/360,
+         monoType = "sat",
+@@ -55,8 +57,22 @@ function generateTheoryColors(baseColor, theory, angle) {
+         }
+         TheoryColors[TheoryColors.length] = toHsl(hueCompliment,s,l);
+         break;
++    case "dual-compliment":
++        if (h >= 180) {
++            hueCompliment = h - 180;
++        }
++        else 
++        if (h < 180) {
++            hueCompliment = 180 + h;
++        }
++        TheoryColors[TheoryColors.length] = toHsl(hueCompliment,s,l);
++        dualHue = (360 + h + angle)%360;
++        dualCompliment = (180 + dualHue)%360;
++        TheoryColors[TheoryColors.length] = toHsl(dualHue,s,l);
++        TheoryColors[TheoryColors.length] = toHsl(dualCompliment,s,l);
++        break;
+     case "split-compliment-2":
+-        splitPairs = 2;
++        splitPairs = 2; // fall through
+     case "split-compliment":
+         splitAngle = 180;
+         for (let i = 0; i < splitPairs; i++) {
+@@ -65,7 +81,7 @@ function generateTheoryColors(baseColor, theory, angle) {
+         }
+         break;
+     case "analogous-2":
+-        splitPairs = 2;
++        splitPairs = 2; // fall through
+     case "analogous":
+         for (let i = 0; i < splitPairs; i++) {
+             TheoryColors[TheoryColors.length] =  toHsl(Math.abs((h + 360 + splitAngle + angle*(i+1)))%360,s,l);
+@@ -85,7 +101,8 @@ function generateTheoryColors(baseColor, theory, angle) {
+         case "monochrom-6":
+             monoType = "brt";
+             break;
+-        }
++        } 
++        // NOTE: monochrom-1,5,6 fall through to monochrom-2
+     case "monochrom-2": // by saturation 
+         for (let i = 4; i>= 0; i--) {
+             switch (monoType) {
+diff --git a/color-theory/js/color-mixer-max.js b/color-theory/js/color-mixer-max.js
+index e62791f..5502e1e 100644
+--- a/color-theory/js/color-mixer-max.js
++++ b/color-theory/js/color-mixer-max.js
+@@ -47,6 +47,7 @@ class TheoryGroup {
+ }
+ 
+ Theory["compliment"] = new TheoryGroup("compliment", [3,4]);
++Theory["dual-compliment"] = new TheoryGroup("dual-compliment",[3,1,2,4]);
+ Theory["split-compliment"] = new TheoryGroup("split-compliment", [3,2,4]);
+ Theory["split-compliment-2"] = new TheoryGroup("split-compliment-2", [3,2,4,1,5]);
+ Theory["analogous"] =   new TheoryGroup("analogous", [3,2,4]);
