@@ -82,14 +82,15 @@ set m [ns_set get $form m $m]
 set n [ns_set get $form n $n]
 set c [ns_set get $form c $c]
 
-if {$c > 50000} {
-    set c 50000
+if {$c > 1000000} {
+    set c 1000000
 }
 
 try {
     set result [ackermannFn $m $n]
 } on error {e} {
-    set result "error"
+    global errorInfo
+    set result "error $e \n$errorInfo"
 }
 
 ns_return 200 text/html "<!DOCTYPE html>

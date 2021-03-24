@@ -1,0 +1,20 @@
+ Describe solution here:
+     # The function requires a recursive procedure
+    # Since Tcl is now stackless, this should work ok in tcl.
+    #include <stdio.h>
+
+    The following solution almost does away with the recursion,
+    the software cannot calculate fn(4,2) == 2^(65533+3) -3
+    There is another limit for fn(3,*)
+    fn(3,1020) = 2^(1020+3)-3 = 89884656743115795386465259539451236680898848947115328636715040578866337902750481566354238661203768010560056939935696678829394884407208311246423715319737062188883946712432742638151109800623047059726541476042502884419075341171231440736956555270413618581675255342293149119973622969239858152417678164812112068605
+    fn(4,2) is done in because fn(4,2) = fn(3,65533) == (2^(65533+3) - 3) (as above) 
+
+    All of these can be calculated with at most one recursive entry from fn(4,*) to fn(3,*), 
+    which can be calculated exactly, and actually you could extend this to infinity almost
+    because fn(4,n) first calls fn(4,n-1), then fn(4,n-2)...
+
+    Beyond this, if you start at fn(5,x) or fn(6,x) eventually recurse to fn(4,65533), Which requires a stack at 
+    least 66k.
+
+
+    Each of f(1,x), f(2,x), f(3,x) reduce to non-recursive O(1) time and space
