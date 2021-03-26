@@ -54,7 +54,6 @@ namespace eval ::ackermann {
     variable COUNTER 0
 }
 
-
 proc ::ackermann::fn {m n} {
     variable COUNTER
     variable maxRecursions
@@ -94,9 +93,23 @@ proc ::ackermann::fn {m n} {
         incr hits(2,$n)
         append cacheHits "+"
     } elseif {$m == 3} {
-        set cache(3,$n) [expr {int(pow(2,$n+$m))-3}]
+        if {![string is integer -strict $n]} {
+            set base [lindex $n 0]
+            set exp  [lindex $n 1]
+            set int  [lindex $n 2]
+            set exp2 [expr {$int + 3}] 
+            set n+3  [ list 2^ $exp $exp2]
+            set n2 [list $base ${n+3} -3]
+            set cache(3,$n) $n2
+        } elseif {$n > 1020} {
+            # the next calculation will go bust, can I return it symbolically?
+            set cache(3,$n) [list 2^ [expr {$n+3}] -3]
+        } else {
+            set cache(3,$n) [expr {int(pow(2,$n+$m))-3}]
+        }
         incr hits(3,$n)
         append cacheHits "+"
+
     } elseif {$n == 0} {
         set mt [expr {$m-1}]
         if {[info exists cache($mt,1)]} {
@@ -160,6 +173,11 @@ try {
 } on error {e} {
     global errorInfo
     set result "error $e \n $errorInfo"
+    if {[string length $result] > 1000} {
+        set begin "[string range $result 0 499]\n...Finally...\n\n"
+        append begin [string range $result end-500 end]
+        set result $begin
+    }
 }
 
 set hits ""
@@ -172,7 +190,7 @@ set len [expr {[llength $sortedHits]/2}]
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>
-<title>Fill In Something Useful</title>
+<title>Ackermann's Function</title>
 </head>
 <body>
 <!--  method='POST' encoding='multi-part/formdata' -->
