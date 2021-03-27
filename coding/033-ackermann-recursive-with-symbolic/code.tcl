@@ -186,7 +186,16 @@ set sortedHits [lsort -stride 2 [array get ::ackermann::hits]]
 foreach {def count} $sortedHits {
     append hits "$def = $count value=$::ackermann::cache($def)\n"
 }
+
 set len [expr {[llength $sortedHits]/2}]
+
+set ackermannURLs [list ]
+# calculate links to other Ackermann Implimentations:
+proc createLink {m n c {r c}} {
+
+}
+
+
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>

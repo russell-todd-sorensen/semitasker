@@ -160,6 +160,11 @@ try {
 } on error {e} {
     global errorInfo
     set result "error $e \n $errorInfo"
+    if {[string length $result] > 1000} {
+        set begin "[string range $result 0 499]\n...Finally...\n\n"
+        append begin [string range $result end-500 end]
+        set result $begin
+    }
 }
 
 set hits ""
@@ -172,7 +177,7 @@ set len [expr {[llength $sortedHits]/2}]
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>
-<title>Fill In Something Useful</title>
+<title>Ackermann Function, recursive with memory (cache)</title>
 </head>
 <body>
 <!--  method='POST' encoding='multi-part/formdata' -->

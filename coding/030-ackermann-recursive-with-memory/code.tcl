@@ -155,19 +155,43 @@ try {
 } on error {e} {
     global errorInfo
     set result "error $e \n $errorInfo"
+    if {[string length $result] > 1000} {
+        set begin "[string range $result 0 499]\n...Finally...\n\n"
+        append begin [string range $result end-500 end]
+        set result $begin
+    }
 }
 
+
+
+# resort as integers m and n
+
+
+set keyList [list]
+
+foreach key [array names ::ackermann::cache] {
+    set entry [split $key ","]
+    lappend keyList {*}$entry
+}
+
+set sortedKeys [lsort -stride 2 -index 0 -integer [lsort -stride 2 -integer -index 1 $keyList]]
 
 set sortedHits [lsort -stride 2 [array get ::ackermann::hits]]
 
 foreach {def count} $sortedHits {
     append hits "$def = $count value=$::ackermann::cache($def)\n"
 }
+
+foreach {M N} $sortedKeys {
+    append cachedResults "ach([format %0.3d $M],[format %0.5d $N]) ($::ackermann::hits($M,$N)) = [format %10s $::ackermann::cache($M,$N)]\n"
+}
+
 set len [expr {[llength $sortedHits]/2}]
+
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>
-<title>Fill In Something Useful</title>
+<title>Ackermann Function with cache for m=0 and n=0, all calc results</title>
 </head>
 <body>
 <!--  method='POST' encoding='multi-part/formdata' -->
@@ -203,6 +227,9 @@ logs =
 cache size = $len
 ----- CACHE -------
 $hits
+
+----- FORMATTED Cache----
+$cachedResults
 </pre>
 </body>
 </html>"
