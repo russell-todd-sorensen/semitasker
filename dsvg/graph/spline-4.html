@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="#557733" />
+
+<link rel="stylesheet" href="/css/meyerweb-reset/reset.css" media="all" >
+
+<link rel="stylesheet" href="/css/fonts.css" media="all" >
+<link rel="stylesheet" href="/css/log.css" media="all">
+<style>
+body {
+    font-family: 'Fira Code';
+}
+#all {
+    background-color: white;
+    stroke:#888;
+}
+
+#pointsContainer .point {
+    stroke-width: 0.25;
+    stroke: #800;
+}
+
+#grid line { /* grid is 20x20 */
+    stroke-dasharray:  1 19;
+    stroke-dashoffset:   .5;
+    stroke-width:      250%;
+    stroke-linecap:   miter;
+    stroke:  rgba(0,0,0,.6);
+}
+
+#grid-10 line { /* grid is 10x10 */
+    stroke-dasharray:   1 9;
+    stroke-dashoffset:   .5;
+    stroke-width:      250%;
+    stroke-linecap:   miter;
+    stroke:  rgba(0,0,0,.6);
+}
+
+#origin,
+#x-line,
+#y-line,
+#large-circle,
+#small-circle,
+#triangle-1 {
+    stroke-width: 1;
+    stroke: black;
+    fill: rgba(0,0,0,0);
+}
+
+#small-rect,
+#large-rect {
+    stroke: red;
+}
+
+#tangent-1,
+#v-tangent-1 {
+    stroke-width: .5;
+    stroke: rgba(255,128,0,.85);
+}
+
+#triangle-1 {
+    stroke: green;
+}
+
+#origin,
+#x-line,
+#y-line {
+    stroke: rgba(255,0,0,.5);
+}
+
+#bottom-tangent,
+#center-to-center {
+    stroke: rgba(0,255,0,.9);
+    stroke-width: 1;
+}
+
+</style>
+
+<script src="//ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/log-2.js" charset="utf-8"></script>
+<script>
+
+class ConeEnd {
+    labelTemplate = "cone-end-";
+    id = null;
+    r =  0.0;
+    cx = 0.0;
+    cy = 0.0;
+    x  = 0.0;
+    y  = 0.0;
+    constructor (id,r,cx,cy,x,y) {
+        this.id = id?`${labelTemplate}${id}`:`${labelTemplate}0`;
+        this.r  = r?parseFloat(r):0.0;
+        this.cx = cx?parseFloat(cx):0.0;
+        this.cy = cy?parseFloat(cy):0.0;
+        this.x  = x?parseFloat(x):0.0;
+        this.y  = y?parseFloat(y):0.0;
+    }
+    setId (id) {
+        if (parseInt(id) || parseInt(id) == 0) {
+            this.id = `${this.labelTemplate}${id}`
+        } else 
+        if (id.length) {
+            this.id = id;
+        }
+        return this.id;
+    }
+    setR (r) {
+        this.r = parseFloat(r);
+    }
+    setX (x) {
+        this.x = x;
+    }
+    setY (y) {
+        this.y = y;
+    }
+    setCX (cx) {
+        this.cx = cx;
+    }
+    setCY (cy) {
+        this.xy = cy;
+    }
+    getRadius() {
+        return this.r
+    }
+}
+
+class Cone {
+    top    = null;
+    base   = null;
+    angle  = null;
+    path   = null;
+    dx     = 0;
+    dy     = 0;
+
+    // top is the large end of the cone
+    // base is the small end of the cone
+    constructor(top,base,angle) {
+        let tmpT = top?top:new ConeEnd(0);
+        let tmpB = base?base:new ConeEnd(1);
+        this.angle = angle?angle:0.0;
+        if (tmpT.r < tmpB.r) {
+            this.top  = tmpB;
+            this.base = tmpT;
+        } else {
+            this.top  = tmpT;
+            this.base = tmpB;
+        }
+    }
+
+    normalize() {
+        this.dx = this.base.cx - this.top.cx
+        this.dy = this.base.cy - this.top.cy
+    }
+
+    getPath() {
+        return this.path;
+    }
+
+}
+
+
+</script>
+<script>
+$(document).ready(function() {
+    Log.Notice(`Document ${location.href} is ready`);
+    Log.Remove(); 
+});
+</script>
+</head>
+<body>
+
+<svg id="all" 
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="-300"
+    y="-300"
+    width="1500"
+    height="1500"
+    viewBox="-300 -300 1500 1500"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    image-rendering="optimizeQuality"
+    fill-rule="evenodd"
+    clip-rule="evenodd">
+
+
+<defs id="svg-defs">
+
+<g id="grid">
+  <line x1="-100%" y1="0%" x2="100%" y2="0%"/>
+</g>
+
+<g id="grid-v">
+ <use xlink:href="#grid" transform="rotate(90,0,0)"/> 
+</g>
+
+<g id="whole-grid" x="0" y="0">
+    <use xlink:href="#grid"/>
+    <use xlink:href="#grid-v"/>
+</g>
+
+<g id="grid-10">
+  <line x1="-100%" y1="0%" x2="100%" y2="0%"/>
+</g>
+
+<g id="grid-10-v">
+    <use xlink:href="#grid-10" transform="rotate(90,0,0)"/> 
+</g>
+
+<g id="whole-grid-10" x="0" y="0">
+    <use xlink:href="#grid-10"/>
+    <use xlink:href="#grid-10-v"/>
+</g>
+
+<g id="zero-lines">
+    <line id="x-line" x1="-100%" y1="0" x2="100%" y2="0" />
+    <line id="y-line" x1="0" y1="-100%" x2="0" y2="100%" />
+    <circle id="origin" cx="0" cy="0" r="2" x="0" y="0" />
+</g>
+
+<path id="triangle-1" d="M 0 0 L 160 50 L 0 50 Z" />
+<circle id="large-circle" r="50"/>
+<circle id="small-circle" r="10"/>
+
+<g id="cone-def" transform="translate(0,0)">
+ <use id="new-large-circle" xlink:href="#large-circle" x="0" y="-50" cx="0" cy="0" />
+ <use id="new-small-circle" xlink:href="#small-circle" x="160" y="-10" cx="0" cy="0" />
+ <line id="tangent-1" x1="0" y1="30" x2="160" y2="30" />
+ <line id="v-tangent-1" x1="200" y1="-50" x2="200" y2="-10" />
+</g>
+
+<circle id="test" cx="200" cy="200" r="20" fill="none" stroke="brown" stroke-width="1" />
+</defs>
+
+<use id="complete-grid" opacity=".5" xlink:href="#whole-grid-10"/>
+<use id="zero-coords" xlink:href="#zero-lines" />
+
+<g id="result" transform="rotate(90,0,-50)"> <!-- was 76,0,-50 -->
+<g id="scale" transform="scale(1)">
+    <use id="cone" xlink:href="#cone-def" transform="translate(0,0)" />
+</g>
+
+<g id="initial-lines" >
+   <line id="bottom-tangent"   x1="0" y1="0"   x2="160" y2="0" />
+   <line id="center-to-center" x1="0" y1="-50" x2="160" y2="-10" />
+</g>
+</g>
+
+<use  x="10" y="10" xlink:href="#test" />
+
+</svg>
+<script>
+
+</script>
+</body>

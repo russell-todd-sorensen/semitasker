@@ -1,0 +1,128 @@
+<svg id="all" 
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="-100"
+    y="-100"
+    width="2060"
+    height="2060"
+    viewBox="-100 -100 2060 2060"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    image-rendering="optimizeQuality"
+    fill-rule="evenodd"
+    clip-rule="evenodd">
+<style>
+#all {
+    background-color: white;
+    stroke:#888;
+}
+
+#pointsContainer .point {
+    stroke-width: 0.25;
+    stroke: #800;
+}
+
+#grid line {
+    stroke-dasharray:  1 19;
+    stroke-dashoffset:  -5.5;
+    stroke-width:      250%;
+    stroke-linecap:   miter;
+    stroke: rgba(0,0,0,.6);
+}
+
+#origin,
+#large-circle,
+#small-circle,
+#small-rect,
+#large-rect,
+#triangle-1,
+#triangle-2,
+#triangle-3 {
+    stroke-width: 1;
+    stroke: black;
+    fill: rgba(0,0,0,0);
+}
+
+#small-rect,
+#large-rect {
+    stroke: red;
+}
+
+#tangent-1 {
+    stroke-width: .5;
+    stroke: rgba(255,128,0,.85);
+}
+
+#triangle-1 {
+    stroke: green;
+}
+
+#triangle-2 {
+    stroke: brown;
+}
+
+#triangle-3 {
+    stroke: tan;
+}
+
+#origin {
+    stroke: rgba(255,0,0,.5);
+}
+
+#c1 {
+    stroke: red;
+    stroke-width: 50;
+    stroke-dasharray: 1 15;
+    fill: rgba(0,0,0,0);
+}
+</style>
+<defs id="svg-defs">
+<g id="grid">
+  <line x1="-10%" y1="-10%" x2="110%" y2="-10%"/>
+</g>
+
+<g id="grid-v">
+ <use xlink:href="#grid" transform="rotate(90,0,0) translate(0,-220)"/> 
+</g>
+<!--    -->
+<g id="whole-grid" x="-10" y="-10">
+  <use xlink:href="#grid"/>
+  <use xlink:href="#grid-v"/>
+</g>
+<circle id="point-def-circle" class="point" r="0.5"/>
+
+<rect id="point-def-rect" class="point" height="1" width="1"/>
+
+
+<circle id="large-circle" r="50"/>
+<circle id="small-circle" r="10"/>
+
+<circle id="origin" cx="0" cy="0" r="2" />
+
+<g id="cone-def" transform="translate(0,10)">
+ <use id="new-large-circle" xlink:href="#large-circle" cx="0" cy="0" />
+ <!-- offset y (r1-r2) = 40 -->
+ <use id="new-small-circle" xlink:href="#small-circle" x="160" y="40" cx="0" cy="0" />
+ <line id="tangent-1" x1="0" y1="60" x2="160" y2="60" />
+ <path id="triangle-1" d="M 0 0 L 160 50 L 0 50 Z" />
+ <path id="triangle-2" d="M 0 0 L 160 40 L 0 50 Z" />
+ <path id="triangle-3" d="M 0 0 L 160  0 L 160 50 Z" />
+</g>
+
+<rect id="small-rect" height="60" width="100" />
+<rect id="large-rect" height="100" width="200" />
+
+<g id="rect-group">
+<use id="new-large-rect" xlink:href="#large-rect" x="300" y="200" />
+<use id="new-small-rect" xlink:href="#small-rect" x="310" y="210" />
+</g>
+</defs>
+
+<use id="complete-grid" xlink:href="#whole-grid"/>
+<use id="show-origin" xlink:href="#origin" />
+<g id="scale" transform="scale(3)">
+    <use id="cone" xlink:href="#cone-def" transform="translate(100,100)" />
+    <use id="rect2" xlink:href="#rect-group" />
+</g>
+</svg>
