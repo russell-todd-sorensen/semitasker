@@ -1,84 +1,87 @@
-#[comment {
-#   Testing file for glob-to and file-to commands
-#
-#   Note: file-to and glob-to are dangerous commands
-#   which should probably be removed from safe templates.
-#
-#}/]
-
-set directory $page
-set dir $directory
 set title "Index of $url"
-set shortTitle "Index of [file tail $url]"
-set mainCssExists [file exists [file join $dir main.css]]
+set tail [file tail $url]
+set shortTitle "Index of $url"
+set mainCssFile [file join $dir "main.css"]
+set mainCssExists [file exists $mainCssFile]
 set title $url
-
 if {$mainCssExists} {
- set mainCss "main.css"
-} else {
- set mainCss "/services/index/main-index.css"
+set mainCss "main.css"
+ } else {
+set mainCss "/services/index/main-index.css"
 }
-
-append __string "<html lang='en-US'>
+append __string "<!DOCTYPE html>
+<html lang='en-US'>
 <head>
 <meta charset='utf-8'>
-<title>$title</title>
-<link rel='stylesheet' type='text/css' href='$mainCss' media='all'>
+<title>"
+
+append __string $title
+append __string "</title>
+<link rel='stylesheet' type='text/css' href='"
+
+append __string $mainCss
+append __string "' media='all'>
 <style type='text/css'>
 
-table.dir {
+table.dir \{
     margin: 10px;
 }
 
 table.dir th, 
-table.files th {
-  text-align: left;
-  background-color: silver;
-  text-transform: capitalize;
-  font-weight: bold;
-  padding-right: 10px;
+table.files th \{
+    text-align: left;
+    background-color: silver;
+    text-transform: capitalize;
+    font-weight: bold;
+    padding-right: 10px;
 }
 
 table.dir td,
-table.files td {
-  padding-right: 30px;
+table.files td \{
+    padding-right: 30px;
 }
 
-table.dir td a {
-  padding-left: 30px;
+table.dir td a \{
+    padding-left: 30px;
 }
 
-.num {
-  text-align: right;
+.num \{
+    text-align: right;
 }
 </style>
 
- <script src='/js/jquery-3.1.1.js'></script>
+<script src='/js/jquery-3.1.1.js'></script>
  
 </head>
 <body>
 <div class='nav'>
-  <li><a href='/'>home page</a> &gt;</li>
-"
-
+    <li><a href='/'>home page</a>"
 set path "/"
 foreach element $urlv {
-  append path $element "/"
-  append __string "  <li><a href='$path'>$element</a> &gt;</li>
+append __string "&gt;</li>
+    "
+set path [append path $element "/"]
+append __string "<li><a href='"
+
+append __string $path
+append __string "'>"
+
+append __string $element
+append __string "</a> 
 "
 }
-  
-append __string "  <li>$shortTitle</li>
+append __string "
+  <li>&nbsp;("
+
+append __string $shortTitle)
+append __string "</li>
 </div>
 
 <div id='content'>
- <h1 id='title'>$shortTitle</h1>
-"
+    <h1 id='title'>"
 
-set file_list [lsort [glob -nocomplain -directory $directory/ -type f * ]]
-set dir_list  [lsort [glob -nocomplain -directory $directory/ -type d * .* ]]
-
-append __string "
+append __string $shortTitle
+append __string "</h1>
 <table class='dir' cellspacing='0' cellpadding='2' border='0'>
  <tr>
   <th>directories</th>
@@ -86,24 +89,42 @@ append __string "
   <th>links</th>
   <th>type</th>
   <th>links to</th>
- </tr>"
+ </tr>
  
+"
 foreach dirname $dir_list {
-     set tail [file tail $dirname]
-     file lstat $dirname dirArray
-     if {$dirArray(type) eq "link"} {
-       set dirArray(pointsTo) "[file readlink $dirname]"
-     } else {
-       set dirArray(type) ""
-       set dirArray(pointsTo) ""
-     }
-     append __string "
+set tail [file tail $dirname]
+append __string [file lstat $dirname dirArray]
+if {$dirArray(type) eq "link"} {
+set dirArray(pointsTo) [file readlink $dirname]
+ } else {
+set dirArray(type) ""
+set dirArray(pointsTo) ""
+}
+append __string "
   <tr>
-   <td><a href='${tail}/' class='dir'><nobr>$tail</nobr></a></td>
-   <td><nobr>[clock format $dirArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</nobr></td>
-   <td class='num'>$dirArray(nlink)</td>
-   <td class='num'>$dirArray(type)</td>
-   <td>$dirArray(pointsTo)</td>
+   <td><a href='"
+
+append __string $tail
+append __string "/' class='dir'><nobr>"
+
+append __string $tail
+append __string "</nobr></a></td>
+   <td><nobr>"
+append __string [clock format $dirArray(mtime) -format "%Y-%m-%d %H:%M:%S"]
+append __string "</nobr></td>
+   <td class='num'>"
+
+append __string $dirArray(nlink)
+append __string "</td>
+   <td class='num'>"
+
+append __string $dirArray(type)
+append __string "</td>
+   <td>"
+
+append __string $dirArray(pointsTo)
+append __string "</td>
  </tr>
 "
 }
@@ -114,67 +135,95 @@ append __string "
   <th>exact</th>
   <th>size</th>
   <th>links to</th>
- </tr>"
+ </tr>
  
+"
 foreach obj $file_list {
-    set tail [file tail $obj]
-    file lstat $obj fileArray
-    set file_extension [string trimleft [file extension $tail ] "."]
-    set size $fileArray(size)
-    set sizeOriginal $size
-
-    switch -glob -- "$file_extension" {
-        "*~" - "*.o" {
-        }
-        default {
-            append __string "
+set tail [file tail $obj]
+append __string [file lstat $obj fileArray]
+set extension [file extension $tail]
+set file_extension [string trimleft $extension "."]
+set size $fileArray(size)
+set sizeOriginal $size
+switch -glob -- "$file_extension" {
+   "*~" - "*.o" {
+   set a b
+   }
+   default {
+   append __string "
   <tr>
-   <td><a href='${tail}' class='$file_extension'><nobr>[string range $tail 0 50]</nobr></a></td>
-   <td><nobr>[clock format $fileArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</nobr></td>
-   <td class='num'>$sizeOriginal</td>
+   <td><a href='"
+
+append __string ${tail}
+append __string "' class='"
+
+append __string $file_extension
+append __string "'><nobr>"
+append __string [string range $tail 0 50]
+append __string "</nobr></a></td>
+   <td><nobr>"
+append __string [clock format $fileArray(mtime) -format "%Y-%m-%d %H:%M:%S"]
+append __string "</nobr></td>
+   <td class='num'>"
+
+append __string $sizeOriginal
+append __string "</td>
    <td class='num'><nobr>"
+if {$size  <= 1024 } {
+set size [format %3d $size]
+append __string [string map {" " "&nbsp;"} $size]
+append __string " &nbsp;B"
 
-            if {$size  <= 1024 } {
-                set size [format %3d $size]
-                append __string "[string map {" " "&nbsp;"} $size] &nbsp;B"
-            } elseif {($size / 1024.0) <= 1024} {
-                set size [expr {$size/1024}]
-                set size [format %3d $size]
-                append __string "[string map {" " "&nbsp;"} $size] KB"
-            } elseif {($size / (1024*1024)) <= 1024} {
-                append __string "[expr {$size/(1024*1024)} ] MB"
-            }
-            append __string "</nobr></td>"
+} elseif {($size / 1024.0) <= 1024} {
+set size [expr {$size/1024}]
+set size [format %3d $size]
+append __string [string map {" " "&nbsp;"} $size]
+append __string " KB"
 
-            if {$fileArray(type) eq "link"} {
-              set fileArray(pointsTo) "[file readlink $obj]"
-            } else {
-              set fileArray(pointsTo) ""
-            }
-            append __string "
-   <td><nobr>$fileArray(pointsTo)</nobr></td>
-  </tr>"
-
-       }
-    }
+} elseif {($size / (1024*1024)) <= 1024} {
+append __string [expr {$size/(1024*1024)}]
+append __string " MB"
 }
-
+append __string "</nobr></td>"
+if {$fileArray(type) eq "link"} {
+set fileArray(pointsTo) [file readlink $obj]
 append __string "
-</table>
+            "
+ } else {
+set fileArray(pointsTo) ""
+}
+append __string "
+   <td><nobr>"
+
+append __string $fileArray(pointsTo)
+append __string "</nobr></td>
+  </tr>
+        "
+   }
+}
+}
+append __string "</table>
 </div>
 
 <div class='bottom'>
  <hr>
  <address><a href='mailto:russell@highfivediet.com'>Russell Sorensen</a></address>
- "
+
+"
 set script [info script]
 set mtime [file mtime $script]
 set clockTime [clock format $mtime -format "%+"]
-
 append __string "
-<!-- Created $clockTime -->
 
-<span class='lastMod'>Last modified $clockTime</span>
+<!-- Created "
+
+append __string $clockTime
+append __string " -->
+
+<span class='lastMod'>Last modified "
+
+append __string $clockTime
+append __string "</span>
  <div id='footer'>
   <div class='nav'>
    <li>\[<a href='..'>..</a>\] |</li>

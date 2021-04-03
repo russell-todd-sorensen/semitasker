@@ -7,14 +7,17 @@
     padding-right: 0;
     background-color: silver;
     border: 1px solid black;
-    max-height: 180px;
-    width: 1010px;
+    max-height: 10em;
+    width: 100%;
+    font-size: .75em;
+    font-family: 'Fira Code';
 }
 
 #log2 {
-    max-height:150px;
-    overflow-y:scroll;
-    overflow-x:visible;
+    font-family: 'Fira Code';
+    max-height: 10em;
+    overflow-y: scroll;
+    overflow-x: visible;
 }
 
 #log-close-button {

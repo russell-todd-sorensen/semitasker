@@ -1,0 +1,169 @@
+[comment {
+    Template for showing directory contents.
+
+} /]
+
+[set title "Index of $url" /]
+[file-to tail tail $url /]
+[set shortTitle "Index of $url" /]
+[file-to mainCssFile join $dir "main.css" /]
+[file-to mainCssExists exists $mainCssFile /]
+[set title $url /]
+
+[if {$mainCssExists} /]
+    [set mainCss "main.css" /]
+[else/]
+    [set mainCss "/services/index/main-index.css" /]
+[/if/]
+<!DOCTYPE html>
+<html lang='en-US'>
+<head>
+<meta charset='utf-8'>
+<title>$title</title>
+<link rel='stylesheet' type='text/css' href='$mainCss' media='all'>
+<style type='text/css'>
+
+table.dir {
+    margin: 10px;
+}
+
+table.dir th, 
+table.files th {
+    text-align: left;
+    background-color: silver;
+    text-transform: capitalize;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+table.dir td,
+table.files td {
+    padding-right: 30px;
+}
+
+table.dir td a {
+    padding-left: 30px;
+}
+
+.num {
+    text-align: right;
+}
+</style>
+
+<script src='/js/jquery-3.1.1.js'></script>
+ 
+</head>
+<body>
+<div class='nav'>
+    <li><a href='/'>home page</a>[ws/]
+
+[set path "/" /]
+[foreach element $urlv /]
+&gt;</li>
+    [append-to path path $element "/" /]
+    <li><a href='$path'>$element</a> 
+[/foreach]
+  <li>&nbsp;($shortTitle)</li>
+</div>
+
+<div id='content'>
+    <h1 id='title'>$shortTitle</h1>
+<table class='dir' cellspacing='0' cellpadding='2' border='0'>
+ <tr>
+  <th>directories</th>
+  <th>last modified</th>
+  <th>links</th>
+  <th>type</th>
+  <th>links to</th>
+ </tr>
+ 
+[foreach dirname $dir_list /]
+    [file-to tail tail $dirname /] 
+    [file lstat $dirname dirArray /]
+    [if {$dirArray(type) eq "link"} /]
+        [file-to dirArray(pointsTo) readlink $dirname /]
+    [else/]
+        [set dirArray(type) "" /]
+        [set dirArray(pointsTo) "" /]
+    [/if]
+  <tr>
+   <td><a href='$tail/' class='dir'><nobr>$tail</nobr></a></td>
+   <td><nobr>[clock format $dirArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</nobr></td>
+   <td class='num'>$dirArray(nlink)</td>
+   <td class='num'>$dirArray(type)</td>
+   <td>$dirArray(pointsTo)</td>
+ </tr>
+[/foreach]
+ <tr>
+  <th>files</th>
+  <th>last modified</th>
+  <th>exact</th>
+  <th>size</th>
+  <th>links to</th>
+ </tr>
+ 
+[foreach obj $file_list /]
+    [file-to tail tail $obj /]
+    [file lstat $obj fileArray /]
+    [file-to extension extension $tail /]
+    [string-to file_extension trimleft $extension "." /]
+    [set size $fileArray(size) /]
+    [set sizeOriginal $size /]
+
+    [switch -glob -- "$file_extension" ]
+        [case "*~" - "*.o" /]
+            [set a b /]
+        [/case]
+        [default]
+  <tr>
+   <td><a href='${tail}' class='$file_extension'><nobr>[string range $tail 0 50]</nobr></a></td>
+   <td><nobr>[clock format $fileArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</nobr></td>
+   <td class='num'>$sizeOriginal</td>
+   <td class='num'><nobr>[ws/]
+
+            [if {$size  <= 1024 } /]
+                [format-to size %3d $size /]
+                [string map {" " "&nbsp;"} $size] &nbsp;B[ws/]
+            [elseif {($size / 1024.0) <= 1024} /]
+                [expr-to size {$size/1024} /]
+                [format-to size %3d $size /]
+                [string map {" " "&nbsp;"} $size] KB[ws/]
+            [elseif {($size / (1024*1024)) <= 1024} /]
+                [expr {$size/(1024*1024)} ] MB[ws/]
+            [/if/]
+                </nobr></td>[ws/]
+
+            [if {$fileArray(type) eq "link"} /]
+              [file-to fileArray(pointsTo) readlink $obj]
+            [else/]
+              [set fileArray(pointsTo) "" /]
+            [/if]
+   <td><nobr>$fileArray(pointsTo)</nobr></td>
+  </tr>
+        [/default/]
+    [/switch/]
+[/foreach/]
+
+</table>
+</div>
+
+<div class='bottom'>
+ <hr>
+ <address><a href='mailto:russell@highfivediet.com'>Russell Sorensen</a></address>
+
+[info-to script script /]
+[file-to mtime mtime $script /]
+[clock-to clockTime format $mtime -format "%+" ]
+
+<!-- Created $clockTime -->
+
+<span class='lastMod'>Last modified $clockTime</span>
+ <div id='footer'>
+  <div class='nav'>
+   <li>\[<a href='..'>..</a>\] |</li>
+   <li>\[<a href='.'>.</a>\]</li>
+  </div>
+ </div>
+</div>
+</body>
+</html>[ws/]

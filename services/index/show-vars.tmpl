@@ -1,0 +1,28 @@
+
+<div id='show-vars'>
+<pre>
+
+[info-to all_vars vars]
+[lsort-to all_vars $all_vars]
+
+[foreach avar $all_vars /]
+    [set isArray false /]
+    [set var_exists false /]
+    [if {$avar == "__string"} /]
+        [continue/]
+    [/if/]
+    [array-to isArray exists $avar /]
+    [info-to var_exists exists $avar /]
+    [if {$isArray} ]
+$avar (array)[ws/]
+        [array-to keys names $avar /]
+        [foreach key $keys ]
+${avar}[ws]($key) = ...
+        [/foreach/]
+    [elseif {$var_exists}]
+$avar = [get $avar /]
+
+    [/if/]
+[/foreach]
+</pre>
+</div>
