@@ -1,21 +1,19 @@
-
-let height = 50;
-let width  = 63.65;
-let points = new Array();
-let numberOfPoints = 0;
-
-let captureBegin = {row:0,col:0}
-let captureEnd   = {row:10000,col:10000}
-let rect = {
-    start: {
-        x: -2.10,
-        y: -1.22
-    },
-    end: {
-        x: 0.60,
-        y: 1.22
-    },
-};
+var height = 50,
+    width  = 63.65,
+    points = [],
+    numberOfPoints = 0,
+    captureBegin = {row:0,col:0},
+    captureEnd   = {row:10000,col:10000},
+    rect = {
+        start: {
+            x: -2.10,
+            y: -1.22
+        },
+        end: {
+            x: 0.60,
+            y: 1.22
+        },
+    };
 
 var config = {
     textId: 't2',
@@ -58,7 +56,7 @@ var config = {
     callbacks: [],
 };
 
-let calculatePoints = function(config) {
+var calculatePoints = function(config) {
 
     if (arguments[0]) {
         rect = config.rect
@@ -125,10 +123,11 @@ let calculatePoints = function(config) {
     }
 }
 
-let calcTileStartAndSize = function(config) {
+var calcTileStartAndSize = function(config) {
 
-    let startX,startY,endX,endY,svgHeight,svgWidth,addToX,addToY
-    let point,point0,pointEnd;
+    let startX,startY,endX,endY,
+        svgHeight,svgWidth,addToX,
+        addToY,point,point0,pointEnd;
 
     for (let i = 0;i<points.length;i++) {
         point = points[i]
@@ -173,10 +172,10 @@ let calcTileStartAndSize = function(config) {
     config.addToX=addToX;
     config.addToY=addToY;
 
-    return config
+    return config;
 }
 
-function addPoints(config) {
+var addPoints = function(config) {
 
     let g = d3.select('#' + config.pointsId);
     g.html("");
@@ -188,8 +187,7 @@ function addPoints(config) {
             if (config.noId) {
                 return
             } else {
-                let val = 'p-' + d.id
-                return val
+                return ('p-' + d.id);
             }
         })
         .attr('href',config.textHref)
@@ -220,7 +218,7 @@ function addPoints(config) {
     runMsetCallbacks(config);
 };
 
-let callbackFunctions = [
+var callbackFunctions = [
     function(data) {
         // updates fontSize
         let fsRef = top.document.getElementById(config.formFontSizeId)
@@ -229,9 +227,10 @@ let callbackFunctions = [
     },
     function(data) {
         // updates fontFamily
-        let fontIndex = config.defaultFontIndex;
-        let ffRef = top.document.getElementById(config.formFontFamilyId);
-        let fontData = data.fontFamily;
+        let fontIndex = config.defaultFontIndex,
+            ffRef = top.document.getElementById(config.formFontFamilyId),
+            fontData = data.fontFamily;
+
         if (typeof(fontData) == "number"
             && typeof(parseInt(fontData)) == "number")
         {
@@ -261,7 +260,7 @@ let runMsetCallbacks = function(config) {
     }
 }
 
-let createPicture = function (partialConfig) {
+var createPicture = function (partialConfig) {
 
     if (partialConfig) {
         for (let [name,value] of Object.entries(partialConfig)) {
@@ -325,7 +324,7 @@ let createPicture = function (partialConfig) {
     addPoints(config)
 }
 
-let createEntirePicture = function () {
+var createEntirePicture = function () {
 
     let partialConfig = {
         captureEnd: null,
@@ -334,7 +333,7 @@ let createEntirePicture = function () {
 }
 ////////// Code from main html page: tile.html
 
-let changeFontSize = function(formId,textId) {
+var changeFontSize = function(formId,textId) {
     const property = "font-size"
     const fontSize = parseFloat(document.getElementById(formId).value)
     const newValue = fontSize + "px"
@@ -342,7 +341,7 @@ let changeFontSize = function(formId,textId) {
     replaceStyleProperty(SVGDoc,textId,property,newValue);
 };
 
-let changeFontFamily = function(selectId,textId) {
+var changeFontFamily = function(selectId,textId) {
     const property = "font-family"
     const sh = document.getElementById(selectId);
     const newValue = sh.options[sh.selectedIndex].value
@@ -350,13 +349,13 @@ let changeFontFamily = function(selectId,textId) {
     replaceStyleProperty(SVGDoc,textId,property,newValue);
 };
 
-let replaceStyleProperty = function(doc,refId,property,newValue) {
-    let ele = doc.getElementById(refId);
-    let styleCode = ele.getAttributeNS(null,"style");
-    let styleNVArray;
-    let styleProperty;
-    let styleStringArray = []
-    let styleString = ""
+var replaceStyleProperty = function(doc,refId,property,newValue) {
+    let ele = doc.getElementById(refId),
+        styleCode = ele.getAttributeNS(null,"style"),
+        styleStringArray = [],
+        styleString = "",
+        styleNVArray,
+        styleProperty;
 
     if (styleCode) {
 
@@ -380,7 +379,7 @@ let replaceStyleProperty = function(doc,refId,property,newValue) {
 
 ////////// End code from tile.html
 
-function writeSvgImage(svgId,svgParentId) {
+var writeSvgImage = function (svgId,svgParentId) {
 
     var svgHandle = d3.select('#' + svgId);
     var svgParentHandle = d3.select('#' + svgParentId)

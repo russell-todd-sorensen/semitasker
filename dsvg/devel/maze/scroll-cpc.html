@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Scroll: cpc-scroll</title>
+<style>
+</style>
+<script>
+// avoid need to load logging widget
+var Log = {}
+Log.Notice = function() {}
+Log.Hide = function() {}
+Log.Remove = function() {}
+Log.Debug = function() {}
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</head>
+<body>
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    externalResourcesRequired="true"
+    x="0"
+    y="0"
+    width="1000"
+    height="600"
+    viewBox="0 0 1000 600"
+    >
+<style>
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+#t2 {
+    font-size: 48px;
+    fill:#587c00;
+    font-family: 'Days One';
+}
+#svg-scroller {
+    cursor: pointer;
+    font-family: 'Days One';
+    font-size: 20px;
+}
+
+#scroller-1 {
+    fill: white;
+    stroke-width: 3px;
+    stroke: #00587c;
+}
+
+#scroller-2 {
+    stroke: #7c5800;
+    stroke-width: 3px;
+    fill: #00587c;
+}
+
+#scroll-value {
+    font-family: 'Days One';
+    fill: #7c5800;
+    stroke: none;
+    text-anchor: middle;
+}
+
+#font-value {
+    font-family: 'Days One';
+    fill: white;
+    stroke: none;
+    text-anchor: middle;
+}
+
+#scroll-text {
+    font-size: 100px;
+}
+
+#scroll-font {
+    font-size: 21.5px;
+}
+</style>
+
+<script href="/dsvg/devel/maze/js/style.js"></script>
+<script href="/dsvg/js/fonts.js"></script>
+<script href="/dsvg/devel/maze/js/maze-mouse-wheel.js"></script>
+
+<script>
+
+var SVGDoc,
+    textId;
+
+var init = function() {
+    scrollRef1 = document.getElementById(scrollValues[0]["wheelId"]);
+    scrollRef1.onmousewheel = handleScroll;
+    scrollRef2 = document.getElementById(scrollValues[0]["id"]);
+    scrollRef2.onmousewheel = handleScroll;
+    scrollRef3 = document.getElementById(scrollValues[1]["wheelId"])
+    scrollRef3.onmousewheel = handleFontScroll
+    scrollRef4 = document.getElementById(scrollValues[1]["id"]);
+    scrollRef4.onmousewheel = handleFontScroll
+
+    SVGDoc = document.getElementById(config.svgId);
+    textId = config.textId;
+    replaceStyleProperty(SVGDoc,textId,"font-family",config.fontFamily);
+}
+</script>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+    config.fontFamily = "'Days One'";
+    config.defaultFontIndex = 25;
+    init()
+});
+</script>
+
+<defs>
+ <text 
+    id="t2"
+    transform="skewX(0)"
+    style="font-family:'Days One'"
+    ><tspan>ABCDEFGHIJKLMNOPQRSTUVWXYZ</tspan>
+ <tspan dy="100" x="0">abcdefghijklmnopqrstuvwxyz</tspan></text>
+ <text id="scroll-value" >25</text>
+ <rect id="scroller" height="80" width="300" />
+ <text id="font-value">Days One</text>
+ <text id="font-index">25</text>
+ <rect id="font-scroller" height="40" width="300" />
+</defs>
+<g id="controls" transform="scale(1)" >
+<g id="scroll-container"  transform="translate(50,10) scale(1)">
+    <use id="scroller-1" class="scroll" xlink:href="#scroller" />
+    <use id="scroll-text" xlink:href="#scroll-value" x="150" y="75" />
+</g>
+
+<g id="scroll-container"  transform="translate(50,90) scale(1)">
+    <use id="scroller-2" xlink:href="#font-scroller" />
+    <use id="scroll-font" xlink:href="#font-value" x="150" y="26" />
+</g>
+</g>
+<g id="text-group" transform="translate(10,250)">
+<use id="text-display" xlink:href="#t2" x="10" y="10" />
+</g>
+</svg>
+</body>
+</html>

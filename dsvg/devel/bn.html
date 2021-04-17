@@ -3,8 +3,20 @@
 <head>
 <meta charset="utf-8" >
 
-<base href="https://home.semitasker.com/">
-<title></title>
+<base href="//home.semitasker.com">
+<title>Calculate Rational Fractions Show as Repeating Decimal</title>
+<style>
+#form1 {
+    background-color: rgba(0,0,0,.10);
+    width: 50%;
+    padding: 10px;
+}
+
+#form1 input {
+    width: 50px;
+    height: 1.2em;
+}
+</style>
 <style>
 .red {
     color: red;
@@ -227,6 +239,14 @@ let normFloat = function(numer, denom) { // numer and denom both integers
 </script>
 </head>
 <body>
+<form id="form1">
+Num (Start: <input id="numStart" name="numStart" value="1" type="number" />
+ End: <input id="numEnd" name="numEnd" value="1" type="number" />) <br>
+Denom (Start: <input id="denomStart" name="denomStart" value="1" type="number" />
+End: <input id="denomEnd" name="denomEnd" value="100" type="number" />)<br>
+Max Match Length: <input id="maxMatch" name="maxMatch" value="-1" type="number" /> (-1 =&gt; no max) <br>
+<button id="showFunction" name="showFunction" value="" onclick="runFn('showFunction')" >runTests()</button>
+</form>
 <div id="results"></div>
 <pre>
 failing fractions:
