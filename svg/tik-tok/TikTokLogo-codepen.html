@@ -333,16 +333,18 @@ var config = {
 }
 
 var replaceStyleProperty = function(doc,refId,property,newValue) {
-    let ele = document.getElementById(refId);
-    let styleCode = ele.getAttributeNS(null,"style");
-    let styleNVArray;
-    let styleProperty;
-    let styleStringArray = []
-    let styleString = ""
+    let ele = document.getElementById(refId),
+        styleCode = ele.getAttributeNS(null,"style"),
+        styleStringArray = [],
+        styleString = "",
+        styleNVArray,
+        styleProperty,
+        styleList;
 
     if (styleCode) {
 
-        let styleList = styleCode.split(";")
+        styleList = styleCode.split(";");
+
         for (var i=0;i<styleList.length;i++) {
             styleNVArray = styleList[i].split(":")
             styleProperty = styleNVArray[0].trim().toLowerCase()
@@ -356,8 +358,9 @@ var replaceStyleProperty = function(doc,refId,property,newValue) {
     }
 
     styleStringArray[styleStringArray.length] = property + ":" + newValue;
-    styleString = styleStringArray.join(";")
+    styleString = styleStringArray.join(";");
     ele.setAttributeNS(null,"style",styleString);
+
     setTimeout("updateBackground('" + [...updateIds].join("','")  + "')",50);
 }
 
@@ -365,9 +368,6 @@ var updateText = function (textId, inputId, textBgId, displayTextId) {
     let val = document.getElementById(inputId).value;
     document.getElementById(textId).innerHTML = val;
 
-    //updateBackground(textId, inputId, textBgId, displayTextId);
-    // Doesn't work on initial load
-    //$('#' + displayTextId).click(); // doesn't work on initial load.
     setTimeout("updateBackground('" + [...updateIds].join("','")  + "')",50);
 }
 
@@ -385,7 +385,7 @@ var toggleWtoB = function (buttonId) {
         newValue,
         href;
 
-    console.log("current color=" + value)
+    console.log("current color=" + value);
 
     switch (value) {
     case "black": 
@@ -426,17 +426,19 @@ var toggleWtoB = function (buttonId) {
     ttl.setAttribute("value",foreground);
     ttl.innerHTML = buttonText;
 
-    console.log("new color=" + newValue)
+    console.log("new color=" + newValue);
 }
 
 var updateBackground = function (textId, inputId, textBgId, displayTextId,displayBoxId) {
-    let bbox = document.getElementById(displayBoxId).getBBox();
-    let textBg = document.getElementById(textBgId);
-    let svg = document.getElementById('svg1');
-    let x = (bbox.x - 5).toFixed(2)
-    let y = (bbox.y - 5).toFixed(2)
-    let height = ((bbox.height + 50)*1).toFixed(2)
-    let width  = (bbox.width  + 50).toFixed(2)
+
+    let bbox = document.getElementById(displayBoxId).getBBox(),
+        textBg = document.getElementById(textBgId),
+        svg = document.getElementById('svg1'),
+        x = (bbox.x - 5).toFixed(2),
+        y = (bbox.y - 5).toFixed(2),
+        height = ((bbox.height + 50)*1).toFixed(2),
+        width  = (bbox.width  + 50).toFixed(2);
+
     svg.setAttribute('x',x)
     svg.setAttribute('y',y)
     svg.setAttribute('height',height);
