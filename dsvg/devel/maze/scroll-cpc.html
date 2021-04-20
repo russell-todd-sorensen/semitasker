@@ -81,24 +81,34 @@ Log.Debug = function() {}
 }
 </style>
 
-<script href="/dsvg/devel/maze/js/style.js"></script>
+<script href="js/style.js"></script>
 <script href="/dsvg/js/fonts.js"></script>
-<script href="/dsvg/devel/maze/js/maze-mouse-wheel.js"></script>
+<script href="js/cpc-scroll-mouse-wheel.js"></script>
 
 <script>
 
 var SVGDoc,
     textId;
 
+var enterScroller = function(evt) {
+    evt.currentTarget.focus();
+    console.log(`enterScroll on ${evt.currentTarget.id}`)
+    return false;
+}
+
 var init = function() {
     scrollRef1 = document.getElementById(scrollValues[0]["wheelId"]);
     scrollRef1.onmousewheel = handleScroll;
+    scrollRef1.onmouseenter = enterScroller;
     scrollRef2 = document.getElementById(scrollValues[0]["id"]);
     scrollRef2.onmousewheel = handleScroll;
+    scrollRef2.onmouseenter = enterScroller;
     scrollRef3 = document.getElementById(scrollValues[1]["wheelId"])
-    scrollRef3.onmousewheel = handleFontScroll
+    scrollRef3.onmousewheel = handleFontScroll;
+    scrollRef3.onmouseenter = enterScroller;
     scrollRef4 = document.getElementById(scrollValues[1]["id"]);
-    scrollRef4.onmousewheel = handleFontScroll
+    scrollRef4.onmousewheel = handleFontScroll;
+    scrollRef4.onmouseenter = enterScroller;
 
     SVGDoc = document.getElementById(config.svgId);
     textId = config.textId;
@@ -107,6 +117,21 @@ var init = function() {
 </script>
 
 <script>
+
+var config = {
+    textId: 't2',
+    pointsId: 'mPoints2',
+    svgId: 'svg2',
+    formFontSizeId: 'fontSize',
+    formFontFamilyId: 'fontFamily',
+    textHref: '#t2',                //the hash is part of the href :(
+    defaultFontIndex: 4,            // Arial
+    fontSize: 48,
+    updateFontSize: false,
+    fontFamily: 'Arial',
+    updateFontFamily: false,
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     config.fontFamily = "'Days One'";
     config.defaultFontIndex = 25;

@@ -1,16 +1,3 @@
-var config = {
-    textId: 't2',
-    pointsId: 'mPoints2',
-    svgId: 'svg2',
-    formFontSizeId: 'fontSize',
-    formFontFamilyId: 'fontFamily',
-    textHref: '#t2',                //the hash is part of the href :(
-    defaultFontIndex: 4,            // Arial
-    fontSize: 48,
-    updateFontSize: false,
-    fontFamily: 'Arial',
-    updateFontFamily: false,
-}
 
 var changeFontSize = function(formId,textId) {
     const property = "font-size"

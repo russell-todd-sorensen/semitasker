@@ -48,3 +48,36 @@ var handleScroll = function (evt) {
     replaceStyleProperty(SVGDoc,textId,'font-size',value/10 + "px");
     return false;
 }
+
+var handleFontScroll = function (evt) {
+    evt.cancelBubble = true;
+    evt.preventDefault = true;
+    let wheelDelta = evt.wheelDelta,
+        indexRef = document.getElementById('font-index'),
+        index = parseInt(indexRef.innerHTML),
+        len = intToFontArray.length,
+        fontRef = document.getElementById('font-value');
+
+    while (index < 0) {
+        index += len
+    }
+    if (wheelDelta < 0) {
+        index = (index - 1) % len
+    } else {
+        index = (index + 1) % len
+    }
+    while (index < 0) {
+        index += len; 
+    }
+
+    let fontText = intToFontArray[index],
+        trimmed  = fontText.slice(1,fontText.length-1);
+
+    indexRef.innerHTML = index;
+    fontRef.innerHTML  = trimmed;
+    fontRef.style = "font-family: " + fontText + ";"
+    fontRef.title = trimmed;
+    replaceStyleProperty(SVGDoc,textId,"font-family", fontText);
+
+    return false;
+}

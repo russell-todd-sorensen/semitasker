@@ -16,21 +16,19 @@ Log.Debug = function() {}
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="js/style.js"></script>
 <script src="js/maze-mouse-wheel.js"></script>
 <script>
 
 var SVGDoc,
-    textId;
+    textId
+    handleScroll = null;
 
 var init = function() {
     scrollRef1 = document.getElementById(scrollValues[0]["wheelId"]);
     scrollRef1.onmousewheel = handleScroll;
     scrollRef2 = document.getElementById(scrollValues[0]["id"]);
     scrollRef2.onmousewheel = handleScroll;
-    scrollRef3 = document.getElementById(scrollValues[1]["wheelId"])
-    scrollRef3.onmousewheel = handleFontScroll
-    scrollRef4 = document.getElementById(scrollValues[1]["id"]);
-    scrollRef4.onmousewheel = handleFontScroll
 
     SVGDoc = document.getElementById(config.svgId);
     textId = config.textId;
@@ -102,17 +100,7 @@ var init = function() {
     font-size: 21.5px;
 }
 </style>
-<script href="/dsvg/js/tile.js"></script>
-<script href="/dsvg/js/fonts.js"></script>
 
-<script>
-
-window.addEventListener('DOMContentLoaded', () => {
-    config.fontFamily = "'Days One'";
-    config.defaultFontIndex = 25;
-    init()
-});
-</script>
 
 <defs>
  <text 
@@ -126,21 +114,152 @@ window.addEventListener('DOMContentLoaded', () => {
  <text id="font-value">Days One</text>
  <text id="font-index">25</text>
  <rect id="font-scroller" height="40" width="300" />
-</defs>
-<g id="controls" transform="scale(1)" >
-<g id="scroll-container"  transform="translate(50,10) scale(1)">
-    <use id="scroller-1" class="scroll" xlink:href="#scroller" />
-    <use id="scroll-text" xlink:href="#scroll-value" x="150" y="75" />
-</g>
 
-<g id="scroll-container"  transform="translate(50,90) scale(1)">
-    <use id="scroller-2" xlink:href="#font-scroller" />
-    <use id="scroll-font" xlink:href="#font-value" x="150" y="26" />
-</g>
+<g id="controls" transform="scale(1)" >
+    <g id="scroll-container"  transform="translate(50,10) scale(1)">
+        <use id="scroller-1" class="scroll" xlink:href="#scroller" />
+        <use id="scroll-text" xlink:href="#scroll-value" x="150" y="75" />
+    </g>
+
+    <g id="scroll-container"  transform="translate(50,90) scale(1)">
+        <use id="scroller-2" xlink:href="#font-scroller" />
+        <use id="scroll-font" xlink:href="#font-value" x="150" y="26" />
+    </g>
 </g>
 <g id="text-group" transform="translate(10,250)">
-<use id="text-display" xlink:href="#t2" x="10" y="10" />
+    <use id="text-display" xlink:href="#t2" x="10" y="10" />
 </g>
+
+
+
+</defs>
+
 </svg>
+
+<script>
+var config = {
+    textId: 't2',
+    pointsId: 'mPoints2',
+    svgId: 'svg2',
+    formFontSizeId: 'fontSize',
+    formFontFamilyId: 'fontFamily',
+    textHref: '#t2',                //the hash is part of the href :(
+    defaultFontIndex: 4,            // Arial
+    fontSize: 48,
+    updateFontSize: false,
+    fontFamily: 'Arial',
+    updateFontFamily: false,
+}
+
+class Maze {
+    cols    = 11;
+    rows    = 11;
+    celldim = 10;
+    start   = [6,6];
+    finish  = [12,9];
+    WALL    = 3;
+    OPEN    = 0;
+    SHUT    = 1;
+    LOCK    = 2;
+    N       = 0;
+    E       = 1;
+    S       = 2;
+    W       = 3;
+    state   = [];
+    cellCount = this.cols * this.rows + 1;
+
+    constructor(config) {
+        for (const [key, value] of Object.entries(config)) {
+            this[key] = value;
+        }
+        this.setCellCount()
+    }
+    setCellCount(cols,rows) {
+        if (cols) {
+            this.cols = cols;
+        }
+        if (rows) {
+            this.rows = rows;
+        }
+        this.cellCount = this.cols * this.rows + 1;
+    }
+    wallPerimeter(logit) {
+        let n = this.N,
+            e = this.E,
+            s = this.S,
+            w = this.W,
+            wall = this.WALL,
+            open = this.OPEN,
+            cState;
+
+        this.state[0] = new Array(this.cols+2).fill([]);
+        this.state[0][0] = ["x"];
+
+        for (let row=1;row<=this.rows;row++) {
+            this.state[row] = new Array(this.cols+2).fill([]);
+            this.state[row][0] = [row];
+            for (let col=1;col<=this.cols;col++) {
+                cState = [0,0,0,0];
+                if (row == 1) {
+                    cState[n] = wall;
+                }
+                if (col == this.cols) {
+                    cState[e] = wall;
+                }
+                if (row == this.rows) {
+                    cState[s] = wall;
+                }
+                if (col == 1) {
+                    cState[w] = wall;
+                }
+                this.state[row][col] = cState;
+            }
+        }
+        this.state[this.rows+1] = new Array(this.cols+2).fill([]);
+    }
+    wallStart(cellState) {
+        if (!(cellState && cellState.length == 4)) {
+            cellState = [this.WALL,this.WALL,this.WALL,this.WALL];
+        }
+        this.state[this.start[0]][this.start[1]] = cellState;
+        return cellState;
+    }
+    wallFinish(cellState) {
+        let row = this.finish[0],
+            col = this.finish[1],
+            tmpState = [this.WALL,this.WALL,this.WALL,this.WALL];
+
+        if (!(cellState && cellState.length == 4)) {
+            if (row == 0) tmpState[this.S] = this.OPEN;
+            if (col == this.cols+1) tmpState[this.W] = this.OPEN;
+            if (row == this.rows+1) tmpState[this.N] = this.OPEN;
+            if (col == 0) tmpState[this.W] = this.OPEN;
+        }
+        else {
+            tmpState = cellState;
+        }
+        this.state[this.finish[0]][this.finish[1]] = tmpState;
+        return tmpState;
+    }
+    removeWall(row,col,side) {
+        this.state[row][col][side] = this.OPEN;
+    }
+    insertWall(row,col,side) {
+        this.state[row][col][side] = this.WALL;
+    }
+}
+
+
+var myMaze = new Maze({cols:5,rows:5,start:[3,3],finish:[6,5]});
+myMaze.wallFinish();
+myMaze.wallStart([3,3,3,0]);
+
+window.addEventListener('DOMContentLoaded', () => {
+    config.fontFamily = "'Days One'";
+    config.defaultFontIndex = 25;
+    init();
+});
+
+</script>
 </body>
 </html>
