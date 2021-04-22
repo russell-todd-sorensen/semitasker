@@ -152,10 +152,10 @@ var config = {
 }
 
 class Maze {
-    cols    = 11;
     rows    = 11;
-    cells   = (this.cols+2) * (this.rows+2);
-    celldim = 10;
+    cols    = 11;
+    cells   = (this.rows) * (this.cols);
+    scale   = 10;
     start   = [6,6];
     finish  = [12,9];
     WALL    = 3;
@@ -168,6 +168,8 @@ class Maze {
     W       = 3;
     state   = [];
     celln   = [];
+    vwalls  = [];
+    hwalls  = [];
 
     constructor(config) {
         for (const [key, value] of Object.entries(config)) {
@@ -182,41 +184,39 @@ class Maze {
         if (rows) {
             this.rows = rows;
         }
-        this.cells = (this.cols+2) * (this.rows+2);
-    }
-    wallPerimeter(logit) {
-        let n = this.N,
-            e = this.E,
-            s = this.S,
-            w = this.W,
-            wall = this.WALL,
-            open = this.OPEN,
-            cState;
-
-        this.state[0] = new Array(this.cols+2).fill([]);
-        this.state[0][0] = ["x"];
-
-        for (let row=1;row<=this.rows;row++) {
-            this.state[row] = new Array(this.cols+2).fill([]);
-            this.state[row][0] = [row];
-            for (let col=1;col<=this.cols;col++) {
-                cState = [0,0,0,0];
-                if (row == 1) {
-                    cState[n] = wall;
+        this.cells = (this.rows) * (this.cols);
+        for (let r=0;r<this.rows;r++) {
+            this.celln[r] = [];
+            for (let c=0;c<this.cols;c++) {
+                this.celln[r][c] = {
+                    id:`C-${c}-${r}`,
+                    nw:`H-${c}-${r}`,
+                    ew:`V-${c+1}-${r}`,
+                    sw:`H-${c}-${r+1}`,
+                    ww:`V-${c}-${r}`,
                 }
-                if (col == this.cols) {
-                    cState[e] = wall;
-                }
-                if (row == this.rows) {
-                    cState[s] = wall;
-                }
-                if (col == 1) {
-                    cState[w] = wall;
-                }
-                this.state[row][col] = cState;
+                //this.celln[`C-${x}-${y}`] = [`H-${x}-${y}`,`V-${x+1}-${y}`,`H-${x}-${y+1}`,`V-${x}-${y}`];
             }
         }
-        this.state[this.rows+1] = new Array(this.cols+2).fill([]);
+    }
+    wallPerimeter(logit) {
+        let n    = this.N,
+            e    = this.E,
+            s    = this.S,
+            w    = this.W,
+            wall = this.WALL,
+            open = this.OPEN,
+            hmax = this.rows+1,
+            vmax = this.cols+1;
+
+        for (let r=0;r<hmax;r++) {
+            this.hwalls[r] = [];
+            this.vwalls[r] = [];
+            for (let c=0;c<vmax;c++) {
+                this.hwalls[r][c] = (r==0||r==this.rows)?wall:open;
+                this.vwalls[r][c] = (c==0||c==this.cols)?wall:open;
+            }
+        }
     }
     wallStart(cellState) {
         if (!(cellState && cellState.length == 4)) {
@@ -252,9 +252,9 @@ class Maze {
 
 
 var myMaze = new Maze({cols:5,rows:5,start:[3,3],finish:[6,5]});
-myMaze.wallPerimeter();
-myMaze.wallFinish();
-myMaze.wallStart([3,3,3,0]);
+//myMaze.wallPerimeter();
+//myMaze.wallFinish();
+//myMaze.wallStart([3,3,3,0]);
 
 window.addEventListener('DOMContentLoaded', () => {
     config.fontFamily = "'Days One'";
