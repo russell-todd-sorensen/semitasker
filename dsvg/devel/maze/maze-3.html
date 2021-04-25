@@ -54,6 +54,9 @@ var init = function() {
 <style>
 @import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
 </style>
+
+
+<defs>
 <style>
 #t2 {
     font-size: 48px;
@@ -100,21 +103,68 @@ var init = function() {
     font-size: 21.5px;
 }
 
-#hwall-base,
-#vwall-base {
-    stroke-width: 1;
-    stroke: rgba(0,0,0,.2);
-    stroke-linejoin: miter;
+.V-part-0,
+.H-part-0 {
+    stroke-width: .5;
+    stroke: rgba(0,204,104,.7);
+    stroke-linejoin: bevel;
 }
 
-#cell-base {
-    /*stroke: none;
-    fill: white; */
+.V-part-1,
+.H-part-1 {
+    stroke-width: .5;
+    stroke: rgba(0,0,0,.2);
+    stroke-linejoin: bevel;
+}
+.V-part-2,
+.H-part-2 {
+    stroke-width: 1;
+    stroke: rgba(204,104,0,1);
+    stroke-linejoin: bevel;
+}
+
+.V-part-3,
+.H-part-3 {
+    stroke-width:2;
+    stroke: rgb(0,0,0);
+    stroke-linejoin:bevel;
+}
+
+.V-part-4,
+.H-part-4 {
+    stroke-width:2;
+    stroke: rgba(255,0,0,0.5);
+}
+
+.V-part-0 line,
+.H-part-0 line,
+.V-part-1 line,
+.H-part-1 line,
+.V-part-2 line,
+.H-part-2 line,
+.V-part-3 line,
+.H-part-3 line,
+.V-part-4 line,
+.H-part-4 line   {
+    stroke-width:inherit;
+    stroke: inherit;
+    stroke-linejoin: inherit;
+}
+
+#cells use.C-base {
+    fill: #8080aa; 
+    fill: white;
+}
+
+#cells use.C-start {
+    fill: rgba(80,255,80,.7);
+}
+
+#cells use.C-base rect,
+#cells use.C-start rect {
+    fill: inherit;
 }
 </style>
-
-
-<defs>
  <text 
     id="t2"
     transform="skewX(0)"
@@ -182,19 +232,19 @@ class Maze {
     W       = 3;
     state   = [];
     celln   = [];
-    hwalls  = [];
-    vwalls  = [];
-    flatCells  = [];
-    flatHwalls = [];
-    flatVwalls = [];
+    parts   = [];
+    hparts  = [];
+    vparts  = [];
+    flatCells  = []; 
 
     constructor(config) {
         for (const [key, value] of Object.entries(config)) {
             this[key] = value;
         }
-        this.setcells()
+        this.setCells();
+        this.setParts();
     }
-    setcells(cols,rows) {
+    setCells(cols,rows) {
         if (cols) {
             this.cols = cols;
         }
@@ -209,14 +259,39 @@ class Maze {
                      c:c,
                      r:r,
                     id:`C-${c}-${r}`,
-                    nw:`H-${c}-${r}`,
+                    nw:`H-${r}-${c}`,
                     ew:`V-${c+1}-${r}`,
-                    sw:`H-${c}-${r+1}`,
+                    sw:`H-${r+1}-${c}`,
                     ww:`V-${c}-${r}`,
                 }
                 this.celln[r][c] = tmpCell;
                 this.flatCells.push(tmpCell);
-                //this.celln[`C-${x}-${y}`] = [`H-${x}-${y}`,`V-${x+1}-${y}`,`H-${x}-${y+1}`,`V-${x}-${y}`];
+            }
+        }
+    }
+    setParts () {
+        let n    = this.N,
+            e    = this.E,
+            s    = this.S,
+            w    = this.W,
+            wall = this.WALL,
+            open = this.OPEN,
+            hmax = this.rows+1,
+            vmax = this.cols+1;
+
+        this.parts["H"] = [];
+        this.parts["V"] = [];
+
+        for (let h=0;h<hmax;h++) {
+            this.parts["H"][h] = [];
+            for (let c=0;c<this.cols;c++) {
+                this.parts["H"][h][c] = 0; 
+            }
+        }
+        for (let v=0;v<vmax;v++) {
+            this.parts["V"][v] = [];
+            for (let r=0;r<this.rows;r++) {
+                this.parts["V"][v][r] = 0; 
             }
         }
     }
@@ -228,18 +303,20 @@ class Maze {
             wall = this.WALL,
             open = this.OPEN,
             hmax = this.rows+1,
-            vmax = this.cols+1;
+            vmax = this.cols+1,
+            hwal = [0,this.rows],
+            vwal = [0,this.cols];
 
-        for (let r=0;r<hmax;r++) {
-            this.hwalls[r] = [];
+        for (let i=0,r;i<hwal.length;i++) {
+            r = hwal[i];
             for (let c=0;c<this.cols;c++) {
-                this.hwalls[r][c] = (r==0||r==this.rows)?wall:open;
+                this.parts["H"][r][c] = wall;
             }
         }
-        for (let r=0;r<this.rows;r++) {
-            this.vwalls[r] = [];
-            for (let c=0;c<vmax;c++) {
-                this.vwalls[r][c] = (c==0||c==this.cols)?wall:open;
+        for (let j=0,c;j<vwal.length;j++) {
+            c = vwal[j];
+            for (let r=0;r<this.rows;r++) {
+                this.parts["V"][c][r] = wall;
             }
         }
     }
@@ -247,20 +324,18 @@ class Maze {
         if (exitId) {
             this.exitId = exitId;
         }
-        let exitLoc = (this.exitId).split("-"),
-            col = parseInt(exitLoc[1]),
-            row = parseInt(exitLoc[2]);
+        let [t,i,j] = (this.exitId).split("-");
+        i = parseInt(i);
+        j = parseInt(j);
 
-        switch (exitLoc[0]) {
+        switch (t) {
         case "V":
-            this.vwalls[exitLoc[2]][exitLoc[1]] = this.EXIT;
-            break;
         case "H": 
-            this.hwalls[exitLoc[2]][exitLoc[1]] = this.EXIT;
+            this.parts[t][i][j] = this.EXIT;
             break;
         default:
-            this.hwalls[this.rows][this.cols] = this.EXIT;
-            this.exitId = `H-${this.cols}-${this.rows}`;
+            this.parts["H"][this.rows][this.cols] = this.EXIT;
+            this.exitId = `H-${this.rows}-${this.cols}`;
             break;
         }
         return this.exitId;
@@ -269,110 +344,71 @@ class Maze {
         if (startId) {
             this.startId = startId;
         }
-        let startLoc = (this.startId).split("-"),
-            col = parseInt(startLoc[1]),
-            row = parseInt(startLoc[2]);
+
+        let [t,x,y] = (this.startId).split("-");
+        x = parseInt(x);
+        y = parseInt(y);
 
         if (!state) {
             state = [null,this.wall,null,null];
         }
-        for (let i=0;i<state.length;i++) {
-            let st = state[i];
+        for (let k=0;k<state.length;k++) {
+            let st = state[k];
 
             if (st == null) continue;
 
-            switch (i) {
+            switch (k) {
             case this.N: 
-                this.hwalls[row][col] = st;
+                this.parts["H"][y][x] = st;
                 break;
             case this.E: 
-                this.vwalls[row][col+1] = st;
+                this.parts["V"][x+1][y] = st;
                 break;
             case this.S: 
-                this.hwalls[row+1][col] = st;
+                this.parts["H"][y+1][x] = st;
                 break;
             case this.W: 
-                this.vwalls[row][col] = st;
+                this.parts["V"][x][y] = st;
                 break;
             }
         }
     }
-    removeWall(wallId) {
-        let wallLoc = (wallId).split("-"),
-            typ = wallLoc[0],
-            col = parseInt(wallLoc[1]),
-            row = parseInt(wallLoc[2]);
+    configPart(id,action) {
+        let [t,i,j] = (id).split("-");
+        i = parseInt(i);
+        j = parseInt(j);
 
-        switch (typ) {
-        case "H":
-            this.hwalls[row][col] = this.OPEN;
+        switch (t) {
+        case "V":
+        case "H": 
+            this.parts[t][i][j] = action;
             break;
-        case "V": 
-            this.vwalls[row][col] = this.OPEN;
+        default:
+            error(`unknown type=${t} id=${id} action=${action}`)
             break;
         }
+        return id;
+    }
+    removeWall(wallId) {
+        return this.configPart(wallId,this.OPEN);
     }
     insertWall(wallId) {
-        let wallLoc = (wallId).split("-"),
-            typ = wallLoc[0],
-            col = parseInt(wallLoc[1]),
-            row = parseInt(wallLoc[2]);
-
-        switch (typ) {
-        case "H":
-            this.hwalls[row][col] = this.WALL;
-            break;
-        case "V": 
-            this.vwalls[row][col] = this.WALL;
-            break;
-        }
+        return this.configPart(wallId,this.WALL);
     }
-    shutDoor(openId) {
-        let openLoc = (openId).split("-"),
-            typ = openLoc[0],
-            col = parseInt(openLoc[1]),
-            row = parseInt(openLoc[2]);
-
-        switch (typ) {
-        case "H":
-            this.hwalls[row][col] = this.SHUT;
-            break;
-        case "V": 
-            this.vwalls[row][col] = this.SHUT;
-            break;
-        }
+    shutDoor(partId) {
+        return this.configPart(partId,this.SHUT);
     }
-    lockDoor(openId) {
-        let openLoc = (openId).split("-"),
-            typ = openLoc[0],
-            col = parseInt(openLoc[1]),
-            row = parseInt(openLoc[2]);
-
-        switch (typ) {
-        case "H":
-            this.hwalls[row][col] = this.LOCK;
-            break;
-        case "V": 
-            this.vwalls[row][col] = this.LOCK;
-            break;
-        }
+    lockDoor(partId) {
+        return this.configPart(partId,this.LOCK);
     }
-    getState(openId) {
-        let openLoc = (openId).split("-"),
-            typ = openLoc[0],
-            col = parseInt(openLoc[1]),
-            row = parseInt(openLoc[2]);
+    getState(partId) {
+        let [t,i,j] = (partId).split("-");
+        i = parseInt(i);
+        j = parseInt(j);
 
-        switch (typ) {
-        case "H":
-            return this.hwalls[row][col];
-            break;
-        case "V": 
-            return this.vwalls[row][col];
-            break;
-        }
+        return this.parts[t][i][j];
     }
-    drawMaze(svgId,mazeObject) {
+    drawMaze(svgId,mazeObj) {
         let svg = d3.select(`#${svgId}`),
             maze = svg
                 .append("g")
@@ -382,23 +418,20 @@ class Maze {
                 .append("g")
                 .attr("id","cells")
                 .attr("transform","translate(0,0)"),
-            walls = maze
+            hwalls = maze
                 .append("g")
-                .attr("id","walls")
+                .attr("id","hwalls")
+                .attr("transform","translate(0,0)"),
+            vwalls = maze
+                .append("g")
+                .attr("id","vwalls")
                 .attr("transform","translate(0,0)");
         
         // flatten cells 2dim array
-        let flatCells = mazeObject.flatCells,
-            flatHwalls = mazeObject.flatHwalls,
-            flatVwalls = mazeObject.flatVwalls,
-            rows = mazeObject.rows,
-            cols = mazeObject.cols;
-
-        //for(let r=0;r<rows;r++) {
-        //    for (let c=0;c<cols;c++) {
-        //        flatCells.push(cellObj[r][c]);
-        //    }
-        //}
+        let flatCells = mazeObj.flatCells,
+            rows = mazeObj.rows,
+            cols = mazeObj.cols,
+            parts = mazeObj.parts; //partitions (walls/doors)
 
         cells.html("");
         cells.selectAll("use")
@@ -415,17 +448,48 @@ class Maze {
             .attr("y",function(d,i) {
                 return (d.r*100)
             })
-            .attr("fill","#8080aa")
-            .attr("stroke","#132")
-            .attr("stroke-width",".5")
+            .attr("class","C-base")
             .attr("title",function(d,i) {
                 return d.id;
             });
 
         // flatten wall/doors
-        walls.html("");
-        walls.selectAll("use")
-            .data(flatHwalls)
+        let H = parts["H"],
+            dim = 100;
+
+        for (let y=0,r;y<H.length;y++) {
+            r = H[y];
+            for (let x=0,c;x<r.length;x++) {
+                mazeObj.hparts.push({
+                    x:x*dim,
+                    y:y*dim,
+                    idx:["H",y,x],
+                    id:`H-${y}-${x}`,
+                    state:r[x],
+                    type:"H",
+                });
+            }
+        }
+
+        let V = parts["V"];
+
+        for (let x=0,c;x<V.length;x++) {
+            c = V[x];
+            for (let y=0;y<c.length;y++) {
+                mazeObj.vparts.push({
+                    x:x*dim,
+                    y:y*dim,
+                    idx:["V",x,y],
+                    id:`V-${x}-${y}`,
+                    state:c[y],
+                    type:"V",
+                });
+            }
+        }
+
+        hwalls.html("");
+        hwalls.selectAll("use")
+            .data(myMaze.hparts)
             .enter()
             .append("use")
             .attr("id",function(d,i) {
@@ -433,21 +497,42 @@ class Maze {
             })
             .attr("href","#hwall-base")
             .attr("x",function(d,i) {
-                let hWallArray = d.id.split("-");
-                return (hWallArray[1]*100)
+                return d.x;
             })
             .attr("y",function(d,i) {
-                let hWallArray = d.id.split("-");
-                return (hWallArray[2]*100)
+                return d.y;
             })
+            .attr("class",function(d,i) {
+                return `${d.type}-part-${d.state}`
+            });
+
+        vwalls.html("");
+        vwalls.selectAll("use")
+            .data(myMaze.vparts)
+            .enter()
+            .append("use")
+            .attr("id",function(d,i) {
+                return d.id;
+            })
+            .attr("href","#vwall-base")
+            .attr("x",function(d,i) {
+                return d.x;
+            })
+            .attr("y",function(d,i) {
+                return d.y;
+            })
+            .attr("class",function(d,i) {
+                return `${d.type}-part-${d.state}`
+            });
+        d3.select(`#${mazeObj.startId}`).attr("class","C-start");
     }
 }
 
 
-var myMaze = new Maze({cols:5,rows:5,startId:"C-2-0",exitId:"H-5-5"});
+var myMaze = new Maze({cols:5,rows:7,startId:"C-2-0",exitId:"H-5-4"});
 myMaze.wallPerimeter();
-myMaze.wallStart("C-3-0",[null,3,null,null]);
-myMaze.markExit("V-5-3");
+myMaze.wallStart("C-3-0",[null,3,3,null]);
+myMaze.markExit("V-5-4");
 myMaze.drawMaze("svg2",myMaze);
 
 
@@ -456,7 +541,7 @@ myMaze.drawMaze("svg2",myMaze);
 window.addEventListener('DOMContentLoaded', () => {
     config.fontFamily = "'Days One'";
     config.defaultFontIndex = 25;
-    init();
+    //init();
 });
 
 </script>
