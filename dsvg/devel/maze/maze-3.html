@@ -214,6 +214,52 @@ var config = {
     updateFontFamily: false,
 }
 
+class Cell {
+    id;
+    maze    = null;
+    prevId  = null;
+    options = [];
+    enterId = null;
+    exitId  = null;
+    col     = null;
+    row     = null;
+    links   = null;
+    dirs    = ["nw","ew","sw","ww"];
+
+    constructor(maze, id, enterId) {
+        this.maze = maze;
+        this.id   = id;
+        this.enterId = enterId;
+
+        this.initCell()
+    }
+    initCell() {
+        let [_,col,row] = this.id.split("-");
+        this.row = row;
+        this.col = col;
+        this.links = this.maze.celln[row][col];
+        if (this.links.id != this.id) { 
+            console.log(`Error given id ${this.id} != found id ${this.links.id}`);
+            return;
+        }
+
+        for (let i=0,dir;i<this.dirs.length;i++) {
+            dir = this.dirs[i];
+            
+            if (this.links[dir] != this.enterId) {
+                let dirState = this.maze.getState(this.links[dir]);
+                if (dirState == this.maze.EXIT) {
+                    this.options = [this.links[dir]];
+                    return;
+                } else
+                if (dirState == this.maze.OPEN) {
+                    this.options.unshift(this.links[dir])
+                }
+            }
+        }
+    }
+}
+
 class Maze {
     rows    = 11;
     cols    = 11;
@@ -226,6 +272,7 @@ class Maze {
     OPEN    = 0;
     SHUT    = 1;
     LOCK    = 2;
+    ERROR   = -1;
     N       = 0;
     E       = 1;
     S       = 2;
@@ -401,12 +448,74 @@ class Maze {
     lockDoor(partId) {
         return this.configPart(partId,this.LOCK);
     }
+    insertWalls(wallIds) {
+        let results = [];
+        for (let i=0;i<wallIds.length;i++) {
+            results.push(this.insertWall(wallIds[i]));
+        }
+        return results;
+    }
+    openOrUnlockDoor(partId) {
+        let [t,i,j] = (partId).split("-"),
+            state = this.parts[t][i][j],
+            newState = state;
+
+        switch (state) {
+        case this.OPEN: 
+        case this.WALL: 
+            break;
+        case this.LOCK: 
+            newState = this.SHUT;
+            break;
+        case this.SHUT: 
+            newState = this.OPEN;
+            break;
+        default: 
+            newState = this.ERROR;
+            break;
+        }
+        if (newState != this.ERROR) {
+            this.parts[t][i][j] = newState;
+        }
+        return newState;
+    }
+    shutOrLockDoor(partId) {
+        let [t,i,j] = (partId).split("-"),
+            state = this.parts[t][i][j],
+            newState = state;
+
+        switch (state) {
+        case this.LOCK: 
+        case this.WALL: 
+            break;
+        case this.OPEN: 
+            newState = this.SHUT;
+            break;
+        case this.SHUT: 
+            newState = this.LOCK;
+            break;
+        default: 
+            newState = this.ERROR;
+            break;
+        }
+        if (newState != this.ERROR) {
+            this.parts[t][i][j] = newState;
+        }
+        return newState;
+    }
     getState(partId) {
         let [t,i,j] = (partId).split("-");
         i = parseInt(i);
         j = parseInt(j);
 
         return this.parts[t][i][j];
+    }
+    setState(partId,state) {
+        let [t,i,j] = (partId).split("-");
+        i = parseInt(i);
+        j = parseInt(j);
+        this.parts[t][i][j] = state;
+        return state;
     }
     drawMaze(svgId,mazeObj) {
         let svg = d3.select(`#${svgId}`),
@@ -526,14 +635,40 @@ class Maze {
             });
         d3.select(`#${mazeObj.startId}`).attr("class","C-start");
     }
+    solve(mazeObj) {
+        let currentCell = this.startId,
+            FWD = 1,
+            BWD = -1,
+            history = [].push(this.startId),
+            direction = FWD;
+
+        while (history.length > 0) {
+            if (direction == FWD) {
+                // initialize currentCell
+
+            } else {
+
+            }
+            history = [];
+        } 
+    }
 }
 
 
 var myMaze = new Maze({cols:5,rows:7,startId:"C-2-0",exitId:"H-5-4"});
+var insertedWalls = ["H-1-1",
+    "H-2-0","H-2-1","H-2-2","H-2-4",
+    "H-3-1","V-1-3","H-3-2","H-3-3","V-4-3",
+    "V-1-5","H-5-1","V-2-4","H-4-2","V-3-4",
+    "H-5-3","V-2-6","H-6-2",
+];
 myMaze.wallPerimeter();
 myMaze.wallStart("C-3-0",[null,3,3,null]);
 myMaze.markExit("V-5-4");
+insertedResults = myMaze.insertWalls(insertedWalls);
+console.log(`inserted Walls = ${insertedWalls}, results=${insertedResults}`);
 myMaze.drawMaze("svg2",myMaze);
+
 
 
 
