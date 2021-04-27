@@ -45,11 +45,11 @@ var init = function() {
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     externalResourcesRequired="true"
-    x="-100"
-    y="-100"
+    x="0"
+    y="0"
     width="1000"
     height="1000"
-    viewBox="-100 -100 1000 1000"
+    viewBox="0 0 1000 1000"
     >
 <style>
 @import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
@@ -107,33 +107,40 @@ var init = function() {
 .H-part-0 {
     stroke-width: .5;
     stroke: rgba(0,204,104,.7);
-    stroke-linejoin: bevel;
+    stroke-linejoin: round;
+    stroke-linecap:round;
 }
 
 .V-part-1,
 .H-part-1 {
     stroke-width: .5;
     stroke: rgba(0,0,0,.2);
-    stroke-linejoin: bevel;
+    stroke-linejoin: round;
+    stroke-linecap:round;
 }
 .V-part-2,
 .H-part-2 {
     stroke-width: 1;
     stroke: rgba(204,104,0,1);
-    stroke-linejoin: bevel;
+    stroke-linejoin: round;
+    stroke-linecap:round;
 }
 
 .V-part-3,
 .H-part-3 {
-    stroke-width:2;
+    stroke-width:6;
     stroke: rgb(0,0,0);
-    stroke-linejoin:bevel;
+    stroke-linecap:round;
+    stroke-linejoin:round;
 }
 
 .V-part-4,
 .H-part-4 {
     stroke-width:2;
     stroke: rgba(255,0,0,0.5);
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray: 7 3;
 }
 
 .V-part-0 line,
@@ -149,6 +156,8 @@ var init = function() {
     stroke-width:inherit;
     stroke: inherit;
     stroke-linejoin: inherit;
+    stroke-linecap: inherit;
+    stroke-dasharray: inherit;
 }
 
 #cells use.C-base {
@@ -163,6 +172,13 @@ var init = function() {
 #cells use.C-base rect,
 #cells use.C-start rect {
     fill: inherit;
+}
+#solns path {
+    stroke-width: 1;
+}
+
+#solns path#line-0 {
+    /*stroke: rgba(255,255,0,1.0) */
 }
 </style>
  <text 
@@ -191,11 +207,11 @@ var init = function() {
 <g id="text-group" transform="translate(10,250)">
     <use id="text-display" xlink:href="#t2" x="10" y="10" />
 </g>
-<!-- Drawn maze components shound show up here.-->
 <rect id="cell-base" height="100" width="100" />
 <line id="hwall-base" x1="0" y1="0" x2="100" y2="0" /> 
 <line id="vwall-base" x1="0" y1="0" x2="0" y2="100" />
 </defs>
+<!-- Drawn maze components should show up here.-->
 
 </svg>
 
@@ -215,10 +231,11 @@ var config = {
 }
 
 class Cell {
-    id;
+    id      = null;
     maze    = null;
     prevId  = null;
     options = [];
+    optopen = [];
     enterId = null;
     exitId  = null;
     col     = null;
@@ -253,8 +270,27 @@ class Cell {
                     return;
                 } else
                 if (dirState == this.maze.OPEN) {
-                    this.options.unshift(this.links[dir])
+                    this.options.unshift(this.links[dir]);
+                    this.optopen.unshift(this.links[dir]);
                 }
+            }
+        }
+    }
+    shutOrLockDoors(skipId) {
+        let len = this.optopen.length;
+        for (let i=0,linkId;i<len;i++) {
+            linkId = this.optopen[i];
+            if (linkId != this.enterId && linkId != skipId) {
+                this.maze.shutOrLockDoor(linkId);
+            }
+        }
+    }
+    openOrUnlockDoors() {
+        let len = this.optopen.length;
+        for (let i=0,linkId;i<len;i++) {
+            linkId = this.optopen[i];
+            if (linkId != this.enterId) {
+                this.maze.openOrUnlockDoor(linkId);
             }
         }
     }
@@ -267,6 +303,7 @@ class Maze {
     scale   = 100;
     startId = "C-0-0";
     exitId  = `V-${this.rows}-${this.cols}`;
+    pathEndId = null;
     EXIT    = 4;
     WALL    = 3;
     OPEN    = 0;
@@ -340,6 +377,37 @@ class Maze {
             for (let r=0;r<this.rows;r++) {
                 this.parts["V"][v][r] = 0; 
             }
+        }
+    }
+    setPathEndId(peId) {
+
+        if (peId) {
+            this.pathEndId = peId;
+        } else {
+            let [t,i,j] = this.exitId.split("-"),
+                row,
+                col;
+            i = parseInt(i);
+            j = parseInt(j);
+            switch (t) {
+            case "H":
+                if (i==0) {
+                    row = "N1";
+                } else {
+                    row = i+1;
+                }
+                col = j;
+                break;
+            case "V": 
+                if (i==0) {
+                    col = "N1";
+                } else {
+                    col = i+1;
+                }
+                row = j;
+                break;
+            }
+            this.pathEndId = `C-${col}-${row}`;
         }
     }
     wallPerimeter(logit) {
@@ -436,6 +504,36 @@ class Maze {
         }
         return id;
     }
+    adjacentCell(fromId,thruId) {
+        let [_,fCol,fRow] = fromId.split("-"),
+            [type,i,__] = thruId.split("-"),
+            adjId = "C-",
+            toCol,
+            toRow;
+            i = parseInt(i);
+
+        switch (type) {
+        case "H": 
+            toCol = parseInt(fCol);
+            if (parseInt(fRow) < i) {
+                toRow = i;
+            } else {
+                toRow = i-1;
+            }
+            adjId = adjId + toCol + "-" + toRow
+            break; 
+        case "V":
+            toRow = parseInt(fRow);
+            if (parseInt(fCol) < i) {
+                toCol = i;
+            } else {
+                toCol = i-1;
+            }
+            adjId = adjId + toCol + "-" + toRow;
+            break;
+        }
+        return adjId;
+    }
     removeWall(wallId) {
         return this.configPart(wallId,this.OPEN);
     }
@@ -504,11 +602,14 @@ class Maze {
         return newState;
     }
     getState(partId) {
-        let [t,i,j] = (partId).split("-");
-        i = parseInt(i);
-        j = parseInt(j);
-
-        return this.parts[t][i][j];
+        if (partId) {
+            let [t,i,j] = (partId).split("-");
+            i = parseInt(i);
+            j = parseInt(j);
+            return this.parts[t][i][j];
+        } else {
+            return this.ERROR;
+        }
     }
     setState(partId,state) {
         let [t,i,j] = (partId).split("-");
@@ -517,7 +618,7 @@ class Maze {
         this.parts[t][i][j] = state;
         return state;
     }
-    drawMaze(svgId,mazeObj) {
+    draw(svgId,mazeObj) {
         let svg = d3.select(`#${svgId}`),
             maze = svg
                 .append("g")
@@ -534,7 +635,12 @@ class Maze {
             vwalls = maze
                 .append("g")
                 .attr("id","vwalls")
-                .attr("transform","translate(0,0)");
+                .attr("transform","translate(0,0)"),
+            solns  = maze
+                .append("g")
+                .attr("id","solns")
+                .attr("transform","translate(0,0)")  
+            ;
         
         // flatten cells 2dim array
         let flatCells = mazeObj.flatCells,
@@ -635,22 +741,103 @@ class Maze {
             });
         d3.select(`#${mazeObj.startId}`).attr("class","C-start");
     }
-    solve(mazeObj) {
-        let currentCell = this.startId,
-            FWD = 1,
+    solve(m) {
+        let FWD = 1,
             BWD = -1,
-            history = [].push(this.startId),
-            direction = FWD;
+            currentCell = new Cell(m,m.startId,null),
+            history = [currentCell],
+            len = history.length,
+            direction = FWD,
+            nextMove = null,
+            nextCell = null,
+            state = null,
+            solutions = [];
 
-        while (history.length > 0) {
+        while (len > 0) {
             if (direction == FWD) {
-                // initialize currentCell
-
+                // pop next dir from cell
+                nextMove = currentCell.options.pop();
+                state = m.getState(nextMove);
+                if (state == m.EXIT) {
+                    // solution reached
+                    let sol = [];
+                    for (let i=0;i<len;i++) {
+                        sol.push(history[i].id) 
+                    }
+                    if (m.pathEndId) {
+                        sol.push(m.pathEndId)
+                    }
+                    solutions.push(sol);
+                    direction = BWD;
+                } else
+                if (state == m.OPEN) {
+                    // possible shut/lock doors
+                    currentCell.shutOrLockDoors(nextMove);
+                    // move to next cell
+                    nextCell = m.adjacentCell(currentCell.id,nextMove);
+                    history.push(new Cell(m,nextCell,nextMove));
+                    len++;
+                    currentCell = history[len-1]
+                } else { // reached end of options
+                    direction = BWD;
+                }
+                
             } else {
-
+                currentCell.openOrUnlockDoors();
+                history.pop();
+                len--;
+                if (len > 0) {
+                    currentCell = history[len-1];
+                    currentCell.openOrUnlockDoors();
+                }
+                direction = FWD;
             }
-            history = [];
-        } 
+        }
+        return solutions; 
+    }
+}
+
+var drawSolution = function (gId,solnsArray) {
+    let solnsGroup = d3.select(gId),
+        len = solnsArray.length,
+        max = Math.floor(100/len),
+        min = 1,
+        delta = 1,
+        baseX = 50,
+        baseY = 50;
+    if (max > min) {
+        delta = -1*(Math.floor((max+min)/2));
+    } else {
+        delta = -5;
+    }
+
+    baseX = baseX - Math.floor(len * delta/2)
+    baseY = baseX;
+        
+    for (let i=0,soln,slen;i<len;i++) {
+        soln = solnsArray[i];
+        slen = soln.length;
+        let d = "",
+            offset = delta,
+            offsetX = baseX+(offset*i),
+            offsetY = 75+(offset*i);
+        for (let j=0;j<slen;j++) {
+            let op = j==0?"M":"L",
+                [_,x,y] = soln[j].split("-");
+                if (x=="N1") {
+                    x = -1;
+                }
+                if (y=="N1") {
+                    y = -1;
+                }
+
+            d += `${op} ${x*100+offsetX} ${y*100+offsetY} `
+        }
+        solnsGroup.append("path")
+            .attr("id",`line-${i}`)
+            .attr("d",d)
+            .attr("fill","none")
+            .attr("stroke",`hsla(${i*50},70%,50%,1.0)`);
     }
 }
 
@@ -664,14 +851,11 @@ var insertedWalls = ["H-1-1",
 ];
 myMaze.wallPerimeter();
 myMaze.wallStart("C-3-0",[null,3,3,null]);
-myMaze.markExit("V-5-4");
+myMaze.markExit("H-7-2");
+myMaze.setPathEndId();
 insertedResults = myMaze.insertWalls(insertedWalls);
 console.log(`inserted Walls = ${insertedWalls}, results=${insertedResults}`);
-myMaze.drawMaze("svg2",myMaze);
-
-
-
-
+myMaze.draw("svg2",myMaze);
 
 window.addEventListener('DOMContentLoaded', () => {
     config.fontFamily = "'Days One'";
