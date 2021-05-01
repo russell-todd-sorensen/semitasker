@@ -391,6 +391,8 @@ class Maze {
         return state;
     }
     draw(svgId,mazeObj) {
+        d3.select(`#${svgId} #maze1`).html("");
+
         let svg = d3.select(`#${svgId}`),
             maze = svg
                 .append("g")

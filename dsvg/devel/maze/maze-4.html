@@ -49,8 +49,6 @@ var config = {
     height="1000"
     viewBox="0 0 1000 1000"
     >
-
-
 <defs>
 
 <rect id="conf-cell-base" height="50" width="50" />
@@ -81,7 +79,7 @@ var config = {
 
 <script>
 
-var myMaze = new Maze({cols:5,rows:7,startId:"C-2-0",exitId:"H-5-4"});
+var myMaze = new Maze({cols:5,rows:7,startId:"C-3-0",exitId:"H-5-4"});
 var insertedWalls = ["H-1-1",
     "H-2-0","H-2-1","H-2-2","H-2-4",
     "H-3-1","V-1-3","H-3-2","H-3-3","V-4-3",
@@ -89,14 +87,14 @@ var insertedWalls = ["H-1-1",
     "H-5-3","V-2-6","H-6-2",
 ];
 myMaze.wallPerimeter();
-myMaze.wallStart("C-3-0",[null,3,3,null]);
-insertedResults = myMaze.insertWalls(insertedWalls);
-console.log(`inserted Walls = ${insertedWalls}, results=${insertedResults}`);
+//myMaze.wallStart("C-3-0",[null,3,3,null]);
+//insertedResults = myMaze.insertWalls(insertedWalls);
+//console.log(`inserted Walls = ${insertedWalls}, results=${insertedResults}`);
 //myMaze.removeWall("H-6-2");
-//myMaze.removeWall("V-4-3");
-//myMaze.removeWall("H-5-3");
+//myMaze.removeWall("V-2-4");
 //myMaze.removeWall("H-3-2");
-//myMaze.removeWall("H-2-0");
+//myMaze.removeWall("V-2-6");
+//myMaze.removeWall("H-6-2");
 myMaze.markExit("V-5-4");
 myMaze.setPathEndId();
 myMaze.draw("svg2",myMaze);
