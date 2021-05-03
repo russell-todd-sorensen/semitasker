@@ -50,7 +50,7 @@ body {
 </ul>
 <h4>Further error information:</h4>
 <pre>
-$::errorInfo
+<%= $::errorInfo %>
 </pre>
 </body>
 </html>

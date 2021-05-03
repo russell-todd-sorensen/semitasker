@@ -183,7 +183,17 @@ foreach {def count} $sortedHits {
 }
 
 foreach {M N} $sortedKeys {
-    append cachedResults "ach([format %0.3d $M],[format %0.5d $N]) ($::ackermann::hits($M,$N)) = [format %10s $::ackermann::cache($M,$N)]\n"
+    if {![info exists ::ackermann::cache($M,$N)]} {
+        set value "STRANGE: ::ackermann::cache($M,$N) not found in cache"
+    } else {
+        set value $::ackermann::cache($M,$N)
+    }
+    if {![info exists ::ackermann::hits($M,$N)]} {
+        set hitsValue "WEIRD ::ackermann::hits($M,$N) not found in cache"
+    } else {
+        set hitsValue $::ackermann::hits($M,$N)
+    }
+    append cachedResults "ach([format %0.3d $M],[format %0.5d $N]) (hits=$hitsValue) = [format %10s $value]\n"
 }
 
 set len [expr {[llength $sortedHits]/2}]

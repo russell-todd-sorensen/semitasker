@@ -1,0 +1,17 @@
+set myInterp [interp create aa]
+
+interp eval aa {
+    set x 5
+    set y 3
+
+    proc mul {a b} {
+        expr {$a * $b}
+    }
+    proc output {args} {
+        puts stdout [join $args " "]
+    }
+    proc mulout {a b} {
+        set val [mul $a $b]
+        output $a * $b is $val
+    }
+}

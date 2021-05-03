@@ -1,0 +1,43 @@
+
+set myInterp [interp create recurse]
+
+interp eval $myInterp {
+
+    global log
+    set log [list]
+
+    proc init {} {
+        global log
+        set log [list]
+    }
+
+    proc rec {logName what} {
+        global $logName
+        lappend $logName $what
+    }
+
+    proc printLog {logName {joinBy \n} {reset 0}} {
+        global $logName
+        set result [join [set $logName] $joinBy]
+        if {$reset} {
+            set $logName [list]
+        }
+        return $result
+    }
+
+    proc poorlyDesignedRecursiveProc {n max} {
+        if {$n <= 0} {
+            rec log "n=$n, returning"
+            return 0
+        }
+        if {$n >= $max} { 
+            # stop recursion
+            rec log "n=$n >= max ($max)"
+            return 0
+        }
+        rec log "n=$n"
+        expr {$n + [poorlyDesignedRecursiveProc [expr {$n-1}] $max]}
+    }
+}
+
+
