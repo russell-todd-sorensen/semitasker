@@ -598,11 +598,59 @@ var popUpControl = function (d,i) {
             .attr("id","popup")
             .attr("transform",`translate(${x*100},${y*100})`);
 
-    popup.append("use")
-        .attr("id", "wallToggles")
-        .attr("href","#toggles")
-        .attr("x",0)
-        .attr("y",0);
+    let toggles = popup.append("g")
+            .attr("id", "wallToggles")
+            .attr("x",0)
+            .attr("y",0);
+
+    let tnw = toggles.append("g")
+            .attr("id","tnw")
+            .attr("transform","");
+    let tew = toggles.append("g")
+            .attr("id","tew")
+            .attr("transform","rotate(90,50,50)");
+    let tsw = toggles.append("g")
+            .attr("id","tsw")
+            .attr("transform","rotate(180,50,50)");
+    let tww = toggles.append("g")
+            .attr("id","tww")
+            .attr("transform","rotate(-90,50,50)");
+
+    tnw.append("path")
+        .attr("id","toggle-path-nw")
+        .attr("d","M 8.5 6 L 91.5 6 L 75 22 L 25 22 Z");
+    tnw.append("text")
+        .attr("id","toggle-text-nw")
+        .attr("x","50")
+        .attr("y","17")
+        .html("-NW-");
+
+    tew.append("path")
+        .attr("id","toggle-path-ew")
+        .attr("d","M 8.5 6 L 91.5 6 L 75 22 L 25 22 Z");
+    tew.append("text")
+        .attr("id","toggle-text-ew")
+        .attr("x","50")
+        .attr("y","17")
+        .html("-EW-");
+
+    tsw.append("path")
+        .attr("id","toggle-path-sw")
+        .attr("d","M 8.5 6 L 91.5 6 L 75 22 L 25 22 Z");
+    tsw.append("text")
+        .attr("id","toggle-text-sw")
+        .attr("x","50")
+        .attr("y","17")
+        .html("-SW-");
+
+    tww.append("path")
+        .attr("id","toggle-path-ww")
+        .attr("d","M 8.5 6 L 91.5 6 L 75 22 L 25 22 Z");
+    tww.append("text")
+        .attr("id","toggle-text-ww")
+        .attr("x","50")
+        .attr("y","17")
+        .html("-WW-");
 
     d3.select("#tnw")
         .data([{part:"nw",cell:cell}])
@@ -621,25 +669,53 @@ var popUpControl = function (d,i) {
         .data([{part:"ww",cell:cell}])
         .on("click",togglePartType);
 
-    popup.append("use")
+    popup.append("rect")
         .data([d])
         .attr("id",`P-${y}-${x}`)
-        .attr("href","#conf-cell-base")
         .attr("class",cellClass)
         .attr("x",25)
         .attr("y",25)
-        .on("dblclick",toggleCellType)
+        .on("dblclick",toggleCellType);
     console.log(`Hi from ${d.id} nw = ${cell.nw}, ew=${cell.ew}`);
 
     
 }
 
 var toggleCellType = function(d,i) {
-    console.log(`d=${d}, i=${i}`);
+
+    let cellType = d.m.getState(d.id),
+        newState;
+
+    console.log(`d=${d}, i=${i}, cellType=${cellType}`);
 }
 var togglePartType = function(d,i) {    
     let partId = d.cell[d.part],
-        partState = d.cell.m.getState(partId);
+        partState = d.cell.m.getState(partId),
+        [t,x,y] = partId.split("-"),
+        label,
+        newState,
+        me = d3.select(this);
+    switch (partState) {
+    case 0:
+    case 1:
+    case 2:
+        newState = 3;
+        label = "wall";
+        break;
+    case 3:
+        newState = 4;
+        label = "exit";
+        break;
+    case 4:
+        newState = 0;
+        label = "open";
+        break;
+    }
+
+    d.cell.m.setState(partId,newState);
+    d3.select(`#${partId}`).attr("class",[t,"part",newState].join("-"));
+    me.attr("class",[t,"conf",newState].join("-"));
+    me.select("text").html(label)
 
     console.log(`part ${partId} in state ${partState}`)
 }

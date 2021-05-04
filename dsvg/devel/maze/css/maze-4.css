@@ -122,6 +122,7 @@
 
 .V-conf-1,
 .H-conf-1 {
+    fill: rgba(0,0,0,.1);
     stroke-width: 2;
     stroke: rgba(0,204,104,1);
     stroke-linejoin: round;
@@ -130,6 +131,7 @@
 }
 .V-conf-2,
 .H-conf-2 {
+    fill: rgba(0,0,0,.1);
     stroke-width: 2;
     stroke: rgba(204,104,0,1);
     stroke-linejoin: round;
@@ -139,6 +141,7 @@
 
 .V-conf-3,
 .H-conf-3 {
+    fill: rgba(0,0,0,.1);
     stroke-width: 2;
     stroke: rgba(0,0,0,1);
     stroke-linecap: round;
@@ -148,6 +151,7 @@
 
 .V-conf-4,
 .H-conf-4 {
+    fill: rgba(0,0,0,.1);
     stroke-width:2;
     stroke: rgba(204,0,104,1);
     stroke-linecap:round;
@@ -186,6 +190,7 @@
 .H-conf-3 text::content,
 .V-conf-4 text,
 .H-conf-4 text  {
+    stroke: none;
     text-anchor: inherit;
     content: inherit;
 }

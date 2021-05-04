@@ -80,34 +80,22 @@
     stroke-linejoin: round;
     stroke-linecap: round;
 }
-#controls use.V-conf {
+#controls path.V-conf {
     stroke-width: 10;
 }
-#controls use.V-conf path {
-    stroke-width: inherit;
-}
-#controls use.H-conf {
+#controls path.H-conf {
     stroke-width: 10;
 }
-#controls use.H-conf path {
-    stroke-width: inherit;
-}
+
 #controls #conf-cell-base {
     fill: yellow;
 }
 
-#controls use.C-base {
+#controls path.C-base {
     fill: rgba(0,0,0,.2);
 }
-#controls use.C-start {
+#controls path.C-start {
     fill: rgba(255,255,0,.2);
-}
-
-#controls use.C-start rect {
-    fill: inherit;
-}
-#controls use.C-base rect {
-    fill: inherit;
 }
 
 .V-conf-0,
@@ -167,7 +155,6 @@
 .H-conf-3 path,
 .V-conf-4 path,
 .H-conf-4 path   {
-    fill: inherit;
     stroke-width:inherit;
     stroke: inherit;
     stroke-linejoin: inherit;
@@ -186,6 +173,8 @@
 .H-conf-3 text::content,
 .V-conf-4 text,
 .H-conf-4 text  {
+    stroke: none;
+    stroke-width: 0;
     text-anchor: inherit;
     content: inherit;
 }

@@ -4,7 +4,7 @@
 <meta charset="utf-8" >
 
 <title>Maze: Mouse-Wheel-Only Game</title>
-<link rel="stylesheet" href="css/maze-4.css" media="all">
+<link rel="stylesheet" href="css/maze-5.css" media="all">
 
 <script>
 // avoid need to load logging widget
@@ -33,7 +33,7 @@ var config = {
     updateFontFamily: false,
 }
 </script>
-<script src="js/maze-4.js"></script>
+<script src="js/maze-5.js"></script>
 
 </head>
 <body>
@@ -58,26 +58,37 @@ var config = {
 <line id="hconf-base" x1="5" y1="0" x2="95" y2="0" />
 <line id="vconf-base" x1="0" y1="5" x2="0" y2="95" />
 
-<g id="toggle-part">
-<path id="toggle-path" d="M 8.5 6 L 91.5 6 L 75 22 L 25 22 Z" />
-<text id="toggle-text" x="50" y="17" stroke="none" fill="black" font-family="Days One" font-size="10">Okay</text>
-</g>
 
-<use id="toggle-part" href="#toggle-part-nw" transform="rotate(90,50,50)" />
+<style>
+/* these styles on "g" allow children to inherit */
 
-<g id="toggles" >
-    <use href="#toggle-part" id="tnw" text-anchor="middle" fill="rgba(0,0,0,.2)" style="content:'Top';" />
-    <use href="#toggle-part" id="tew" text-anchor="middle" fill="rgba(0,0,0,.2)" transform="rotate(90,50,50)" />
-    <use href="#toggle-part" id="tsw" text-anchor="middle" fill="rgba(0,0,0,.2)" transform="rotate(180,50,50)" />
-    <use href="#toggle-part" id="tww" text-anchor="middle" fill="rgba(0,0,0,.2)" transform="rotate(-90,50,50)" />
-</g>
+#toggle-path-nw,
+#toggle-path-ew,
+#toggle-path-sw,
+#toggle-path-ww {
+    fill: rgba(0,0,0,0.1)
+}
+
+#toggle-text-nw,
+#toggle-text-ew,
+#toggle-text-sw,
+#toggle-text-ww {
+    font-family: "Days One";
+    font-size: 10px;
+    text-anchor: middle;
+    fill: rgba(0,0,0,1);
+    stroke: none;
+    stroke-width:0;
+}
+</style>
+
 </defs>
 <!-- Drawn maze components should show up here.-->
 
 
 </svg>
 
-<div id="controls">
+<div id="form-controls">
 <form id="controlsForm" onSubmit="return false;" spellcheck="false">
 <ul>
 <fieldset id="maze-options">
@@ -126,7 +137,7 @@ var config = {
 
 <script>
 
-var myMaze = new Maze({cols:5,rows:7,startId:"C-3-0",exitId:"H-5-4"});
+var myMaze = new Maze({cols:5,rows:7,startId:"C-0-0",exitId:"V-5-4"});
 var insertedWalls = ["H-1-1",
     "H-2-0","H-2-1","H-2-2","H-2-4",
     "H-3-1","V-1-3","H-3-2","H-3-3","V-4-3",
