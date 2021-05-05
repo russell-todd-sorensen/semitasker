@@ -17,7 +17,7 @@ class Cell {
         this.id   = id;
         this.enterId = enterId;
 
-        this.initCell()
+        this.initCell();
     }
     initCell() {
         let [_,col,row] = this.id.split("-");
@@ -91,6 +91,10 @@ class Maze {
     flatCells  = [];
     endCells = {};
     initialized = false;
+    locale  = "en_US";
+    partLabels = {
+        "en_US":["open","shut","lock","wall","exit"],
+        "fr_FR":["ouverte","fermée","serrure","mur","sortie"]};
 
     constructor(config) {
         for (const [key, value] of Object.entries(config)) {
@@ -207,25 +211,28 @@ class Maze {
             }
         }
     }
-    markExit(exitId) {
-        if (exitId) {
-            this.exitId = exitId;
+    markExit(exitId,mazeObj) {
+        if (!mazeObj) {
+            mazeObj = this;
         }
-        let [t,i,j] = (this.exitId).split("-");
+        if (exitId) {
+            mazeObj.exitId = exitId;
+        }
+        let [t,i,j] = (mazeObj.exitId).split("-");
         i = parseInt(i);
         j = parseInt(j);
 
         switch (t) {
         case "V":
         case "H": 
-            this.parts[t][i][j] = this.EXIT;
+            mazeObj.parts[t][i][j] = mazeObj.EXIT;
             break;
         default:
-            this.parts["H"][this.rows][this.cols] = this.EXIT;
-            this.exitId = `H-${this.rows}-${this.cols}`;
+            mazeObj.parts["H"][mazeObj.rows][mazeObj.cols] = mazeObj.EXIT;
+            mazeObj.exitId = `H-${mazeObj.rows}-${mazeObj.cols}`;
             break;
         }
-        return this.exitId;
+        return mazeObj.exitId;
     }
     wallStart(startId,state) {
         if (startId) {
@@ -390,6 +397,16 @@ class Maze {
         this.parts[t][i][j] = state;
         return state;
     }
+    addLocale(locale,partitionTypeArray) {
+        this.partLabels[locale] = partitionTypeArray; 
+    }
+    setLocale(locale) {
+        this.locale = locale;
+    }
+    getLabel(state,locale) {
+        locale = locale?locale:this.locale;
+        return this.partLabels[locale][parseInt(state)];
+    }
     draw(svgId,mazeObj) {
         d3.select(`#${svgId} #maze1`).html("");
 
@@ -528,6 +545,7 @@ class Maze {
         this.initialized = true;
     }
     solve(m) {
+        m.setPathEndId();
         let FWD = 1,
             BWD = -1,
             currentCell = new Cell(m,m.startId,null),
@@ -623,7 +641,7 @@ var popUpControl = function (d,i) {
         .attr("id","toggle-text-nw")
         .attr("x","50")
         .attr("y","17")
-        .html("-NW-");
+        .html(cell.m.getLabel(cell.m.getState(cell.nw)));
 
     tew.append("path")
         .attr("id","toggle-path-ew")
@@ -632,7 +650,7 @@ var popUpControl = function (d,i) {
         .attr("id","toggle-text-ew")
         .attr("x","50")
         .attr("y","17")
-        .html("-EW-");
+        .html(cell.m.getLabel(cell.m.getState(cell.ew)));
 
     tsw.append("path")
         .attr("id","toggle-path-sw")
@@ -641,7 +659,7 @@ var popUpControl = function (d,i) {
         .attr("id","toggle-text-sw")
         .attr("x","50")
         .attr("y","17")
-        .html("-SW-");
+        .html(cell.m.getLabel(cell.m.getState(cell.sw)));
 
     tww.append("path")
         .attr("id","toggle-path-ww")
@@ -650,7 +668,7 @@ var popUpControl = function (d,i) {
         .attr("id","toggle-text-ww")
         .attr("x","50")
         .attr("y","17")
-        .html("-WW-");
+        .html(cell.m.getLabel(cell.m.getState(cell.ww)));
 
     d3.select("#tnw")
         .data([{part:"nw",cell:cell}])
@@ -700,19 +718,18 @@ var togglePartType = function(d,i) {
     case 1:
     case 2:
         newState = 3;
-        label = "wall";
         break;
     case 3:
         newState = 4;
-        label = "exit";
+        d.cell.m.markExit(partId);
         break;
     case 4:
         newState = 0;
-        label = "open";
         break;
     }
 
     d.cell.m.setState(partId,newState);
+    label = d.cell.m.getLabel(newState);
     d3.select(`#${partId}`).attr("class",[t,"part",newState].join("-"));
     me.attr("class",[t,"conf",newState].join("-"));
     me.select("text").html(label)
@@ -720,42 +737,54 @@ var togglePartType = function(d,i) {
     console.log(`part ${partId} in state ${partState}`)
 }
 
-var drawSolution = function (gId,solnsArray) {
+var drawSolution = function (gId,solnsArray,fixedDigits) {
+
+    fixedDigits = fixedDigits?fixedDigits:3;
+
     let solnsGroup = d3.select(gId),
+        mulFactor = Math.pow(10,fixedDigits),
         len = solnsArray.length,
-        max = (100/len).toFixed(2),
-        min = 1,
+        max = parseInt(100*mulFactor/len)/mulFactor,
+        min = 0,
         delta = 1,
         baseX = 50,
         baseY = 50;
-        delta = -1*(((max+min)/2).toFixed(2));
+        delta = parseInt(-1*(((max+min)/2)*mulFactor))/mulFactor;
 
     if (delta > 5) {
         delta = -5;
     }
 
-    baseX = baseX - Math.floor(len * delta/2)
+    baseX = parseInt((baseX - Math.floor(len * delta/2))*mulFactor)/mulFactor;
     baseY = baseX;
         
     for (let i=0,soln,slen;i<len;i++) {
         soln = solnsArray[i];
         slen = soln.length;
+
+        //console.log(`delta=${delta} baseX=${baseX} baseY=${baseY}`);
+
         let d = "",
             offset = delta,
-            offsetX = baseX+(offset*i),
-            offsetY = baseY+(offset*i);
+            offsetX = parseInt((baseX+(offset*i))*mulFactor)/mulFactor,
+            offsetY = parseInt((baseY+(offset*i))*mulFactor)/mulFactor;
+
+        //console.log(`delta=${delta} offset=${offset} offsetX=${offsetX} offsetY=${offsetY}`);
+
         for (let j=0;j<slen;j++) {
             let op = j==0?"M":"L",
                 [_,x,y] = soln[j].split("-");
-                if (x=="N1") {
-                    x = -1;
-                }
-                if (y=="N1") {
-                    y = -1;
-                }
 
-            d += `${op} ${x*100+offsetX} ${y*100+offsetY} `
+            if (x=="N1") {
+                x = -1;
+            }
+            if (y=="N1") {
+                y = -1;
+            }
+
+            d += `${op} ${(x*100+offsetX).toFixed(fixedDigits)} ${(y*100+offsetY).toFixed(fixedDigits)} `
         }
+
         solnsGroup.append("path")
             .attr("id",`line-${i}`)
             .attr("d",d)

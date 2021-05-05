@@ -87,14 +87,15 @@ var insertedWalls = ["H-1-1",
     "H-5-3","V-2-6","H-6-2",
 ];
 myMaze.wallPerimeter();
-//myMaze.wallStart("C-3-0",[null,3,3,null]);
-//insertedResults = myMaze.insertWalls(insertedWalls);
-//console.log(`inserted Walls = ${insertedWalls}, results=${insertedResults}`);
-//myMaze.removeWall("H-6-2");
-//myMaze.removeWall("V-2-4");
-//myMaze.removeWall("H-3-2");
-//myMaze.removeWall("V-2-6");
-//myMaze.removeWall("H-6-2");
+myMaze.wallStart("C-3-0",[null,3,3,null]);
+insertedResults = myMaze.insertWalls(insertedWalls);
+console.log(`inserted Walls = ${insertedWalls}, results=${insertedResults}`);
+myMaze.removeWall("H-6-2");
+myMaze.removeWall("V-2-4");
+myMaze.removeWall("H-3-2");
+myMaze.removeWall("V-2-6");
+myMaze.removeWall("H-6-2");
+myMaze.removeWall("V-1-5");
 myMaze.markExit("V-5-4");
 myMaze.setPathEndId();
 myMaze.draw("svg2",myMaze);
