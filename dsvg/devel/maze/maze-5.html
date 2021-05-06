@@ -2,6 +2,11 @@
 <html lang="en-US">
 <head>
 <meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="#587c00" >
+<meta name="description" content="Maze Generator WebApp: code by Russell Sorensen.
+Generates Maze image given dimensions, walls and cell config. Solves for all
+possible solutions, depth first." >
 
 <title>Maze: Mouse-Wheel-Only Game</title>
 <link rel="stylesheet" href="css/maze-5.css" media="all">
@@ -80,6 +85,22 @@ var config = {
     stroke: none;
     stroke-width:0;
 }
+
+.theme-bg1 {
+    fill:#587c00;
+}
+.theme-bg2 {
+    fill:#00587c;
+}
+.theme-bg3 {
+    fill: #7c5800;
+}
+.theme-bg4 {
+    fill: #000;
+}
+.theme-bg5 {
+    fill: #FFF;
+}
 </style>
 
 </defs>
@@ -87,47 +108,181 @@ var config = {
 
 
 </svg>
+<style>
+#formContainer {
+    font-family: "Days One";
+    display: inline-block;
+    vertical-align: top;
+}
 
-<div id="form-controls">
-<form id="controlsForm" onSubmit="return false;" spellcheck="false">
+#optionForm {
+    font-family: inherit;
+    font-weight: inherit;
+}
+#optionForm li {
+    padding: 2.5px;
+}
+
+#optionForm fieldset {
+    width: 450px;
+    background-color: white;
+    color: #7c5800;
+    border: 2px solid #00587c;
+    margin-bottom: 7px;
+}
+
+#optionForm legend {
+    padding: 2px 5px;
+    font-size: larger;
+    font-weight: bolder;
+    color: #00587c;
+    background-color:white ;
+    border: 2px solid;
+}
+
+#optionForm ul {
+    list-style: none;
+    margin-left: -25px;
+}
+
+#optionForm select option, 
+#optionForm input,
+#optionForm button,
+#optionForm textarea {
+    color: #587c00;
+    font-weight: bold;
+    vertical-align: top;
+    border: 1.5px solid #00587c;
+    font-size: 14px;
+}
+#optionForm button {
+    padding: 3px;
+}
+#optionForm input {
+    width: 40px;
+}
+
+#optionForm textarea {
+    display: block;
+    height: 7em;
+    width: 410px;
+}
+
+#optionForm option[selected=selected] {
+    background-color: #587c00;
+    color: #00587c;
+    font-weight: bold;
+}
+#optionForm div.short-wrap {
+    padding:0;
+    border:none;
+    margin:0;
+    display: inline-block;
+    width: 220px;
+}
+
+#optionForm li.short {
+    width: 220px;
+    display: inline-block;
+}
+
+#optionForm label {
+    display: inline-block;
+    width: 140px;
+}
+
+#optionForm label::after {
+    content: ':';
+}
+
+#optionForm label.inline {
+    display: inline;
+}
+
+#optionForm input.submit {
+    float: right;
+    border: 1px solid #7c5800;
+}
+
+#optionForm input.submit:hover {
+    border: 1px solid red;
+}
+
+</style>
+<div id="formContainer">
+<form id="optionForm" onSubmit="return false;" spellcheck="false">
 <ul>
 <fieldset id="maze-options">
 <legend>Maze Options</legend>
-<li>
-<label for="rows">Rows:</label> <!-- height of maze -->
+<div class="short-wrap">
+<li class="short">
+<label for="rows">Cell Rows</label> <!-- height of maze -->
 <input type="number" name="rows" id="rows"
-        value="1" min="1" max="100" step="1" />
-        <span id="hint">Maze Rows</span>
+        value="7" min="1" max="100" step="1" />
 </li>
-<li>
-<label for="cols">Cols:</label> <!-- width of maze -->
+<li class="short">
+<label for="cols">Cell Cols</label> <!-- width of maze -->
 <input type="number" name="cols" id="cols"
-        value="1" min="1" max="100" step="1" />
-        <span id="hint">Maze Cols</span>
+        value="5" min="1" max="100" step="1" />
 </li>
-<li>
-<label for="startId">StartID:</label> <!-- starting point -->
+</div>
+
+<div class="short-wrap">
+<li class="short">
+<label for="startId">Start Cell ID</label> <!-- starting point -->
 <input type="text" name="startId" id="startId"
-        value="C-0-0"  />
-        <span id="hint">C-Col-Row</span>
+        value="C-3-0"  />
 </li>
-<li>
-<label for="exitId">ExitID:</label> <!-- ending partition id -->
+<li class="short">
+<label for="exitId">Exit Wall ID</label> <!-- ending partition id -->
 <input type="text" name="exitId" id="exitId"
-        value="H-0-0"  />
-        <span id="hint">H/V-Maj-Min</span>
+        value="V-5-4"  />
 </li>
+</div>
 <li>
-<label for="insertWalls">Extra Walls:</label> <!-- ending partition id -->
+<label for="insertWalls">Add Walls</label> <!-- ending partition id -->
+<div>
 <textarea name="insertWalls" id="insertWalls">
 [
     "H-1-1","H-2-0","H-2-1","H-2-2","H-2-4",
     "H-3-1","V-1-3","H-3-2","H-3-3","V-4-3",
     "V-1-5","H-5-1","V-2-4","H-4-2","V-3-4",
-    "H-5-3","V-2-6","H-6-2",
-]
+    "H-5-3","V-2-6","H-6-2"]
 </textarea>
-        <span id="hint">H/V-Maj-Min</span>
+</div>
+</li>
+
+<li>
+<label for="removeWalls">Remove Walls</label> <!-- ending partition id -->
+<div>
+<textarea name="removeWalls" id="removeWalls">["V-2-6","H-6-2"]
+</textarea>
+</div>
+</li>
+</fieldset>
+</ul>
+<ul>
+<fieldset>
+<legend>Maze Actions</legend>
+<li>
+<label for="initializeMaze">Init Maze</label> <!-- ending partition id -->
+<button name="initializeMaze" id="initializeMaze"
+       onClick="initMaze('cols','rows','startId','exitId','removeWalls','insertWalls');">Init Maze</button>
+</li>
+<li>
+<label for="solveTheMaze">Solve Maze</label> <!-- ending partition id -->
+<button name="solveTheMaze" id="solveTheMaze"
+       onClick="solveMaze();">Solve Maze</button>
+</li>
+<li>
+<label for="drawAllSolns">Draw All Solutions</label> <!-- ending partition id -->
+<button name="drawAllSolns" id="drawAllSolns"
+       onClick="drawSols('solns',sols)">Draw All Solutions</button>
+</li>
+<li>
+<label for="clearSolutions">Clear Solutions</label> <!-- ending partition id -->
+<button name="clearSolutions" id="clearSolutions"
+       onClick="clearSols('solns');">Clear Drawn Solutions</button>
 </li>
 </fieldset>
 </ul>
@@ -136,7 +291,7 @@ var config = {
 </div>
 
 <script>
-
+/*
 var myMaze = new Maze({cols:5,rows:7,startId:"C-3-0",exitId:"V-5-4"});
 var insertedWalls = ["H-1-1",
     "H-2-0","H-2-1","H-2-2","H-2-4",
@@ -157,6 +312,7 @@ myMaze.removeWall("V-1-5");
 myMaze.markExit("V-5-4",myMaze);
 myMaze.setPathEndId();
 myMaze.draw("svg2",myMaze);
+*/
 
 </script>
 </body>

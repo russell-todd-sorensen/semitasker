@@ -1,4 +1,8 @@
 
+// Globals which should be removed:
+var sols = null;
+var myMaze = null;
+
 class Cell {
     id      = null;
     maze    = null;
@@ -324,6 +328,13 @@ class Maze {
     }
     lockDoor(partId) {
         return this.configPart(partId,this.LOCK);
+    }
+    removeWalls(wallIds) {
+        let results = [];
+        for (let i=0;i<wallIds.length;i++) {
+            results.push(this.removeWall(wallIds[i]));
+        }
+        return results;
     }
     insertWalls(wallIds) {
         let results = [];
@@ -793,3 +804,53 @@ var drawSolution = function (gId,solnsArray,fixedDigits) {
     }
 }
 
+
+/*
+sols = myMaze.solve(myMaze);
+drawSolution("#solns",sols);
+d3.select("#solns").html("");
+*/
+
+var clearSols = function(solutionsId) {
+    d3.select(`#${solutionsId}`).html("");
+}
+
+var wallPerimeter = function() {
+    myMaze.wallPerimeter();
+}
+
+var initMaze = function(colsId,rowsId,startId,exitId,removeId,insertId) {
+    let cols = parseInt($(`#${colsId}`).val()),
+        rows = parseInt($(`#${rowsId}`).val()),
+        startCellId = $(`#${startId}`).val(),
+        exitWallId  = $(`#${exitId}`).val(),
+        removeWalls = JSON.parse($(`#${removeId}`).html()),
+        insertWalls = JSON.parse($(`#${insertId}`).html()),
+        prevMazePtr = document.getElementById("maze1");
+
+    if (prevMazePtr) {
+        prevMazePtr.remove();
+    }
+
+    myMaze = new Maze({
+        cols:cols,
+        rows:rows,
+        startId:startCellId,
+        exitId:exitWallId,
+    });
+
+    myMaze.wallPerimeter();
+    myMaze.insertWalls(insertWalls);
+    myMaze.removeWalls(removeWalls);
+    myMaze.markExit(exitWallId,myMaze);
+    myMaze.setPathEndId();
+    myMaze.draw("svg2",myMaze);
+}
+
+var solveMaze = function() {
+    sols = myMaze.solve(myMaze)
+}
+
+var drawSols = function (solId, paths) {
+    drawSolution(`#${solId}`,paths);
+}
