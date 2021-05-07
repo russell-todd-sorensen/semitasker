@@ -42,6 +42,214 @@ var config = {
 
 </head>
 <body>
+
+<style>
+#formContainer {
+    font-family: "Days One";
+    display: inline-block;
+    vertical-align: top;
+}
+#formContainer ul {
+    list-style: none;
+    margin-block-start: 0;
+    margin-block-end: 16px;
+    margin-left: 0;
+    padding-left: 10px;
+    padding-right: 0;
+    width: 450px;
+}
+
+#optionForm li {
+    padding: 2.5px;
+}
+
+#optionForm fieldset {
+    background-color: white;
+    color: #7c5800;
+    border: 2px solid #00587c;
+    margin-bottom: 7px;
+    padding-right: 0;
+}
+
+#optionForm legend {
+    padding: 2px 5px;
+    font-size: larger;
+    font-weight: bolder;
+    color: #00587c;
+    background-color:white ;
+    border: 2px solid;
+}
+
+#optionForm select option, 
+#optionForm input,
+#optionForm button,
+#optionForm textarea {
+    color: #587c00;
+    font-weight: bold;
+    vertical-align: top;
+    border: 1.5px solid #00587c;
+    font-size: 14px;
+}
+#optionForm button {
+    padding: 3px;
+}
+#optionForm input {
+    width: 40px;
+}
+
+#optionForm textarea {
+    display: block;
+    height: 7em;
+    width: 410px;
+}
+
+#optionForm option[selected=selected] {
+    background-color: #587c00;
+    color: #00587c;
+    font-weight: bold;
+}
+#optionForm div.short-wrap {
+    padding:0;
+    border:none;
+    margin:0;
+    display: inline-block;
+    width: 220px;
+}
+
+#optionForm li.short {
+    width: 220px;
+    display: inline-block;
+}
+
+#optionForm label {
+    display: inline-block;
+    width: 140px;
+}
+
+#optionForm label::after {
+    content: ':';
+}
+
+#optionForm label.inline {
+    display: inline;
+}
+
+#optionForm input.submit {
+    float: right;
+    border: 1px solid #7c5800;
+}
+
+#optionForm input.submit:hover {
+    border: 1px solid red;
+}
+
+#optionForm #maze-actions.minimize ul,
+#optionForm #maze-options.minimize ul {
+    display: none;
+}
+
+#optionForm #maze-actions.minimize,
+#optionForm #maze-options.minimize {
+    border: none;
+}
+
+#maze-actions button {
+    min-width: 50px;
+}
+</style>
+<div id="formContainer">
+<form id="optionForm" onSubmit="return false;" spellcheck="false">
+<fieldset id="maze-options">
+<legend onClick="toggleMinimize('maze-options')" title="Toggle Show/Hide">Maze Options</legend>
+<ul>
+<div class="short-wrap">
+<li class="short">
+<label for="cols">Cell Cols</label> <!-- width of maze -->
+<input type="number" name="cols" id="cols"
+        value="5" min="1" max="100" step="1" />
+</li>
+<li class="short">
+<label for="rows">Cell Rows</label> <!-- height of maze -->
+<input type="number" name="rows" id="rows"
+        value="7" min="1" max="100" step="1" />
+</li>
+</div>
+
+<div class="short-wrap">
+<li class="short">
+<label for="startId">Start Cell ID</label> <!-- starting point -->
+<input type="text" name="startId" id="startId"
+        value="C-3-0"  />
+</li>
+<li class="short">
+<label for="exitId">Exit Wall ID</label> <!-- ending partition id -->
+<input type="text" name="exitId" id="exitId"
+        value="V-5-4"  />
+</li>
+</div>
+<li>
+<label for="insertWalls">Add Walls</label> <!-- ending partition id -->
+<div>
+<textarea name="insertWalls" id="insertWalls">
+[
+    "H-1-1","H-2-0","H-2-1","H-2-2","H-2-4",
+    "H-3-1","V-1-3","H-3-2","H-3-3","V-4-3",
+    "V-1-5","H-5-1","V-2-4","H-4-2","V-3-4",
+    "H-5-3","V-2-6","H-6-2"]
+</textarea>
+</div>
+</li>
+
+<li>
+<label for="removeWalls">Remove Walls</label> <!-- ending partition id -->
+<div>
+<textarea name="removeWalls" id="removeWalls">["V-2-6","H-6-2"]
+</textarea>
+</div>
+</li>
+</ul>
+</fieldset>
+<fieldset id="maze-actions">
+<legend onClick="toggleMinimize('maze-actions')" title="Toggle Show/Hide">Maze Actions</legend>
+<ul>
+<li id="init-id">
+<label for="initializeMaze">Init</label> <!-- ending partition id -->
+<button name="initializeMaze" id="initializeMaze"
+       onClick="initMaze('cols','rows','startId','exitId','removeWalls','insertWalls');">Init</button>
+</li>
+<li id="solve-li">
+<label for="solveTheMaze">Solve</label> <!-- ending partition id -->
+<button name="solveTheMaze" id="solveTheMaze"
+       onClick="solveMaze();">Solve</button>
+</li>
+<li id="draw-li">
+<label for="drawAllSolns">Draw</label> <!-- ending partition id -->
+<button name="drawAllSolns" id="drawAllSolns"
+       onClick="drawSols('solns',sols)">Draw</button>
+</li>
+<li id="clear-li" title="Clear drawn solutions">
+<label for="clearSolutions">Clear</label> <!-- ending partition id -->
+<button name="clearSolutions" id="clearSolutions"
+       onClick="clearSols('solns');">Clear</button>
+</li>
+</fieldset>
+</ul>
+</form>
+</div>
+<script>
+var toggleMinimize = function (id) {
+    let fs = $(`#${id}`),
+        cssClass = "minimize";
+
+    if (fs.hasClass(cssClass)) {
+        fs.removeClass(cssClass);
+    } else {
+        fs.addClass(cssClass);
+    }
+    
+}
+</script>
+
 <svg 
     id="svg2"
     xmlns:svg="http://www.w3.org/2000/svg"
@@ -108,212 +316,5 @@ var config = {
 
 
 </svg>
-<style>
-#formContainer {
-    font-family: "Days One";
-    display: inline-block;
-    vertical-align: top;
-}
-
-#optionForm {
-    font-family: inherit;
-    font-weight: inherit;
-}
-#optionForm li {
-    padding: 2.5px;
-}
-
-#optionForm fieldset {
-    width: 450px;
-    background-color: white;
-    color: #7c5800;
-    border: 2px solid #00587c;
-    margin-bottom: 7px;
-}
-
-#optionForm legend {
-    padding: 2px 5px;
-    font-size: larger;
-    font-weight: bolder;
-    color: #00587c;
-    background-color:white ;
-    border: 2px solid;
-}
-
-#optionForm ul {
-    list-style: none;
-    margin-left: -25px;
-}
-
-#optionForm select option, 
-#optionForm input,
-#optionForm button,
-#optionForm textarea {
-    color: #587c00;
-    font-weight: bold;
-    vertical-align: top;
-    border: 1.5px solid #00587c;
-    font-size: 14px;
-}
-#optionForm button {
-    padding: 3px;
-}
-#optionForm input {
-    width: 40px;
-}
-
-#optionForm textarea {
-    display: block;
-    height: 7em;
-    width: 410px;
-}
-
-#optionForm option[selected=selected] {
-    background-color: #587c00;
-    color: #00587c;
-    font-weight: bold;
-}
-#optionForm div.short-wrap {
-    padding:0;
-    border:none;
-    margin:0;
-    display: inline-block;
-    width: 220px;
-}
-
-#optionForm li.short {
-    width: 220px;
-    display: inline-block;
-}
-
-#optionForm label {
-    display: inline-block;
-    width: 140px;
-}
-
-#optionForm label::after {
-    content: ':';
-}
-
-#optionForm label.inline {
-    display: inline;
-}
-
-#optionForm input.submit {
-    float: right;
-    border: 1px solid #7c5800;
-}
-
-#optionForm input.submit:hover {
-    border: 1px solid red;
-}
-
-</style>
-<div id="formContainer">
-<form id="optionForm" onSubmit="return false;" spellcheck="false">
-<ul>
-<fieldset id="maze-options">
-<legend>Maze Options</legend>
-<div class="short-wrap">
-<li class="short">
-<label for="rows">Cell Rows</label> <!-- height of maze -->
-<input type="number" name="rows" id="rows"
-        value="7" min="1" max="100" step="1" />
-</li>
-<li class="short">
-<label for="cols">Cell Cols</label> <!-- width of maze -->
-<input type="number" name="cols" id="cols"
-        value="5" min="1" max="100" step="1" />
-</li>
-</div>
-
-<div class="short-wrap">
-<li class="short">
-<label for="startId">Start Cell ID</label> <!-- starting point -->
-<input type="text" name="startId" id="startId"
-        value="C-3-0"  />
-</li>
-<li class="short">
-<label for="exitId">Exit Wall ID</label> <!-- ending partition id -->
-<input type="text" name="exitId" id="exitId"
-        value="V-5-4"  />
-</li>
-</div>
-<li>
-<label for="insertWalls">Add Walls</label> <!-- ending partition id -->
-<div>
-<textarea name="insertWalls" id="insertWalls">
-[
-    "H-1-1","H-2-0","H-2-1","H-2-2","H-2-4",
-    "H-3-1","V-1-3","H-3-2","H-3-3","V-4-3",
-    "V-1-5","H-5-1","V-2-4","H-4-2","V-3-4",
-    "H-5-3","V-2-6","H-6-2"]
-</textarea>
-</div>
-</li>
-
-<li>
-<label for="removeWalls">Remove Walls</label> <!-- ending partition id -->
-<div>
-<textarea name="removeWalls" id="removeWalls">["V-2-6","H-6-2"]
-</textarea>
-</div>
-</li>
-</fieldset>
-</ul>
-<ul>
-<fieldset>
-<legend>Maze Actions</legend>
-<li>
-<label for="initializeMaze">Init Maze</label> <!-- ending partition id -->
-<button name="initializeMaze" id="initializeMaze"
-       onClick="initMaze('cols','rows','startId','exitId','removeWalls','insertWalls');">Init Maze</button>
-</li>
-<li>
-<label for="solveTheMaze">Solve Maze</label> <!-- ending partition id -->
-<button name="solveTheMaze" id="solveTheMaze"
-       onClick="solveMaze();">Solve Maze</button>
-</li>
-<li>
-<label for="drawAllSolns">Draw All Solutions</label> <!-- ending partition id -->
-<button name="drawAllSolns" id="drawAllSolns"
-       onClick="drawSols('solns',sols)">Draw All Solutions</button>
-</li>
-<li>
-<label for="clearSolutions">Clear Solutions</label> <!-- ending partition id -->
-<button name="clearSolutions" id="clearSolutions"
-       onClick="clearSols('solns');">Clear Drawn Solutions</button>
-</li>
-</fieldset>
-</ul>
-</form>
-
-</div>
-
-<script>
-/*
-var myMaze = new Maze({cols:5,rows:7,startId:"C-3-0",exitId:"V-5-4"});
-var insertedWalls = ["H-1-1",
-    "H-2-0","H-2-1","H-2-2","H-2-4",
-    "H-3-1","V-1-3","H-3-2","H-3-3","V-4-3",
-    "V-1-5","H-5-1","V-2-4","H-4-2","V-3-4",
-    "H-5-3","V-2-6","H-6-2",
-];
-myMaze.wallPerimeter();
-myMaze.wallStart("C-3-0",[null,3,3,null]);
-insertedResults = myMaze.insertWalls(insertedWalls);
-//console.log(`inserted Walls = ${insertedWalls}, results=${insertedResults}`);
-myMaze.removeWall("H-6-2");
-myMaze.removeWall("V-2-4");
-myMaze.removeWall("H-3-2");
-myMaze.removeWall("V-2-6");
-myMaze.removeWall("H-6-2");
-myMaze.removeWall("V-1-5");
-myMaze.markExit("V-5-4",myMaze);
-myMaze.setPathEndId();
-myMaze.draw("svg2",myMaze);
-*/
-
-</script>
 </body>
 </html>

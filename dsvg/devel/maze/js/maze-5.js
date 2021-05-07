@@ -425,7 +425,7 @@ class Maze {
             maze = svg
                 .append("g")
                 .attr("id","maze1")
-                .attr("transform","translate(100,100)"),
+                .attr("transform","translate(10,20)"),
             cells = maze 
                 .append("g")
                 .attr("id","cells")
@@ -705,9 +705,8 @@ var popUpControl = function (d,i) {
         .attr("x",25)
         .attr("y",25)
         .on("dblclick",toggleCellType);
-    console.log(`Hi from ${d.id} nw = ${cell.nw}, ew=${cell.ew}`);
 
-    
+    console.log(`Hi from ${d.id} nw = ${cell.nw}, ew=${cell.ew}`);
 }
 
 var toggleCellType = function(d,i) {
@@ -773,14 +772,10 @@ var drawSolution = function (gId,solnsArray,fixedDigits) {
         soln = solnsArray[i];
         slen = soln.length;
 
-        //console.log(`delta=${delta} baseX=${baseX} baseY=${baseY}`);
-
         let d = "",
             offset = delta,
             offsetX = parseInt((baseX+(offset*i))*mulFactor)/mulFactor,
             offsetY = parseInt((baseY+(offset*i))*mulFactor)/mulFactor;
-
-        //console.log(`delta=${delta} offset=${offset} offsetX=${offsetX} offsetY=${offsetY}`);
 
         for (let j=0;j<slen;j++) {
             let op = j==0?"M":"L",
@@ -804,13 +799,6 @@ var drawSolution = function (gId,solnsArray,fixedDigits) {
     }
 }
 
-
-/*
-sols = myMaze.solve(myMaze);
-drawSolution("#solns",sols);
-d3.select("#solns").html("");
-*/
-
 var clearSols = function(solutionsId) {
     d3.select(`#${solutionsId}`).html("");
 }
@@ -824,8 +812,8 @@ var initMaze = function(colsId,rowsId,startId,exitId,removeId,insertId) {
         rows = parseInt($(`#${rowsId}`).val()),
         startCellId = $(`#${startId}`).val(),
         exitWallId  = $(`#${exitId}`).val(),
-        removeWalls = JSON.parse($(`#${removeId}`).html()),
-        insertWalls = JSON.parse($(`#${insertId}`).html()),
+        removeWalls = JSON.parse(($(`#${removeId}`).val().trim())||"[]"),
+        insertWalls = JSON.parse(($(`#${insertId}`).val().trim())||"[]"),
         prevMazePtr = document.getElementById("maze1");
 
     if (prevMazePtr) {
