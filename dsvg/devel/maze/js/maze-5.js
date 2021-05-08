@@ -1,7 +1,7 @@
 
 // Globals which should be removed:
-var sols = null;
-var myMaze = null;
+var sols = {"example":null};
+var myMaze = {"example":null};
 
 class Cell {
     id      = null;
@@ -70,6 +70,7 @@ class Cell {
 }
 
 class Maze {
+    name    = "example";
     rows    = 11;
     cols    = 11;
     cells   = (this.rows) * (this.cols);
@@ -422,6 +423,8 @@ class Maze {
         d3.select(`#${svgId} #maze1`).html("");
 
         let svg = d3.select(`#${svgId}`),
+            width = (1+mazeObj.cols)*mazeObj.scale,
+            height = (1+mazeObj.rows)*mazeObj.scale,
             maze = svg
                 .append("g")
                 .attr("id","maze1")
@@ -511,7 +514,7 @@ class Maze {
 
         hwalls.html("");
         hwalls.selectAll("use")
-            .data(myMaze.hparts)
+            .data(mazeObj.hparts)
             .enter()
             .append("use")
             .attr("id",function(d,i) {
@@ -536,7 +539,7 @@ class Maze {
 
         vwalls.html("");
         vwalls.selectAll("use")
-            .data(myMaze.vparts)
+            .data(mazeObj.vparts)
             .enter()
             .append("use")
             .attr("id",function(d,i) {
@@ -553,7 +556,14 @@ class Maze {
                 return `${d.type}-part-${d.state}`
             });
         d3.select(`#${mazeObj.startId}`).attr("class","C-start");
-        this.initialized = true;
+        svg
+            .attr("x",0)
+            .attr("y",0)
+            .attr("width",width)
+            .attr("height",height)
+            .attr("viewBox",[0,0,width,height].join(" "));
+
+        mazeObj.initialized = true;
     }
     solve(m) {
         m.setPathEndId();
@@ -795,7 +805,7 @@ var drawSolution = function (gId,solnsArray,fixedDigits) {
             .attr("id",`line-${i}`)
             .attr("d",d)
             .attr("fill","none")
-            .attr("stroke",`hsla(${i*50},70%,50%,1.0)`);
+            .attr("stroke",`hsla(${i*65},70%,50%,1.0)`);
     }
 }
 
@@ -803,12 +813,14 @@ var clearSols = function(solutionsId) {
     d3.select(`#${solutionsId}`).html("");
 }
 
-var wallPerimeter = function() {
-    myMaze.wallPerimeter();
+var wallPerimeter = function(mazeNameId) {
+    let mazeName = $(`#${mazeNameId}`).val();
+    myMaze[mazeName].wallPerimeter();
 }
 
-var initMaze = function(colsId,rowsId,startId,exitId,removeId,insertId) {
-    let cols = parseInt($(`#${colsId}`).val()),
+var initMaze = function(mazeNameId,colsId,rowsId,startId,exitId,removeId,insertId) {
+    let mazeName = $(`#${mazeNameId}`).val(),
+        cols = parseInt($(`#${colsId}`).val()),
         rows = parseInt($(`#${rowsId}`).val()),
         startCellId = $(`#${startId}`).val(),
         exitWallId  = $(`#${exitId}`).val(),
@@ -820,25 +832,30 @@ var initMaze = function(colsId,rowsId,startId,exitId,removeId,insertId) {
         prevMazePtr.remove();
     }
 
-    myMaze = new Maze({
+    myMaze[mazeName] = new Maze({
+        name:mazeName,
         cols:cols,
         rows:rows,
         startId:startCellId,
         exitId:exitWallId,
     });
 
-    myMaze.wallPerimeter();
-    myMaze.insertWalls(insertWalls);
-    myMaze.removeWalls(removeWalls);
-    myMaze.markExit(exitWallId,myMaze);
-    myMaze.setPathEndId();
-    myMaze.draw("svg2",myMaze);
+    myMaze[mazeName].wallPerimeter();
+    myMaze[mazeName].insertWalls(insertWalls);
+    myMaze[mazeName].removeWalls(removeWalls);
+    myMaze[mazeName].markExit(exitWallId,myMaze[mazeName]);
+    myMaze[mazeName].setPathEndId();
+    myMaze[mazeName].draw("svg2",myMaze[mazeName]);
 }
 
-var solveMaze = function() {
-    sols = myMaze.solve(myMaze)
+var solveMaze = function(mazeNameId,statusId) {
+    let mazeName = $(`#${mazeNameId}`).val();
+    sols[mazeName] = myMaze[mazeName].solve(myMaze[mazeName]);
+    $(`#${statusId}`).html(`Found: ${sols[mazeName].length} solutions`);
 }
 
-var drawSols = function (solId, paths) {
+var drawSols = function (solId, mazeNameId) {
+    let mazeName = $(`#${mazeNameId}`).val(),
+        paths = sols[mazeName];
     drawSolution(`#${solId}`,paths);
 }
