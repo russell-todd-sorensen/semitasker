@@ -7,7 +7,7 @@ var myMaze = {"":null};
 
 myMaze["example"] = {
     name: "example",
-    include:null, // new mazes can be based upon prior named maze configs
+    baseMaze:null, // new mazes can be based upon prior named maze configs
     cols:5,
     rows:7,
     scale: 100,
@@ -28,7 +28,8 @@ myMaze["example"] = {
     // can be used to aid storage of interesting results.
     solnCount:0, 
     solutions:[],
-}
+};
+
 class Cell {
     id      = null;
     maze    = null;
@@ -96,13 +97,13 @@ class Cell {
 }
 
 class Maze {
-    name    = "example";
-    rows    = 11;
-    cols    = 11;
-    cells   = (this.rows) * (this.cols);
-    scale   = 50;
+    name    = "";
+    rows    = 1;
+    cols    = 1;
+    cells   = (this.cols) * (this.rows);
+    scale   = 100;
     startId = "C-0-0";
-    exitId  = `V-${this.rows}-${this.cols}`;
+    exitId  = `V-${this.cols}-${this.rows-1}`;
     pathEndId = null;
     solutions = [];
     EXIT    = 4;

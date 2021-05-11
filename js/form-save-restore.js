@@ -787,3 +787,8 @@ Data.saveJSON = function (jsVarName, jsonValue) {
 Data.restoreJSON = function (jsVarName) {
   return (localStorage.getItem(document.URL + '-ANIMATION-VALUE-' + jsVarName));
 };
+
+
+Data.saveForm = function (formId,jsonConfig) {
+
+}
