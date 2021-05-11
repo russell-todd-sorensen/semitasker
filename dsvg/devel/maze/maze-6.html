@@ -45,12 +45,15 @@ var config2 = {
 <body>
 
 <style>
-#formContainer {
+#formContainer,
+#selectMazeContainer {
     font-family: "Days One";
     display: inline-block;
     vertical-align: top;
 }
-#formContainer ul {
+
+#formContainer ul,
+#selectMazeContainer ul {
     list-style: none;
     margin-block-start: 0;
     margin-block-end: 16px;
@@ -60,11 +63,13 @@ var config2 = {
     width: 450px;
 }
 
-#optionForm li {
+#optionForm li,
+#mazeChooser li {
     padding: 2.5px;
 }
 
-#optionForm fieldset {
+#optionForm fieldset,
+#mazeChooser fieldset {
     background-color: white;
     color: #7c5800;
     border: 2px solid #00587c;
@@ -72,7 +77,8 @@ var config2 = {
     padding-right: 0;
 }
 
-#optionForm legend {
+#optionForm legend,
+#mazeChooser legend {
     padding: 2px 5px;
     font-size: larger;
     font-weight: bolder;
@@ -81,41 +87,63 @@ var config2 = {
     border: 2px solid;
 }
 
+#optionForm select
 #optionForm select option, 
 #optionForm input,
 #optionForm button,
-#optionForm textarea {
+#optionForm textarea,
+#mazeChooser select,
+#mazeChooser select option, 
+#mazeChooser input,
+#mazeChooser button,
+#mazeChooser textarea {
     color: #587c00;
     font-weight: bold;
     vertical-align: top;
     border: 1.5px solid #00587c;
     font-size: 14px;
+    padding: 3px;
+    text-transform:capitalize;
 }
-#optionForm button {
+
+#optionForm button,
+#mazeChooser button,
+#mazeChooser select,
+#mazeChooser input {
     padding: 3px;
 }
-#optionForm input {
+
+#optionForm input,
+#mazeChooser input {
     width: 40px;
 }
-#optionForm div.status-wrap input {
+
+#optionForm div.status-wrap input,
+#mazeChooser div.status-wrap input {
     width: initial;
 }
-#optionForm div.status-wrap input#maze-name {
+
+#optionForm div.status-wrap input#maze-name,
+#mazeChooser div.status-wrap input#maze-name {
     width: 140px;
 }
 
-#optionForm textarea {
+#optionForm textarea,
+#mazeChooser textarea {
     display: block;
     height: 7em;
     width: 410px;
 }
 
-#optionForm option[selected=selected] {
+#optionForm option[selected=selected],
+#mazeChooser option[selected=selected] {
     background-color: #587c00;
     color: #00587c;
     font-weight: bold;
 }
-#optionForm div.short-wrap {
+
+#optionForm div.short-wrap,
+#mazeChooser div.short-wrap {
     padding:0;
     border:none;
     margin:0;
@@ -123,12 +151,14 @@ var config2 = {
     width: 220px;
 }
 
-#optionForm li.short {
+#optionForm li.short,
+#mazeChooser li.short {
     width: 220px;
     display: inline-block;
 }
 
-#optionForm div.status-wrap {
+#optionForm div.status-wrap,
+#mazeChooser div.status-wrap {
     padding:0;
     border:none;
     margin:0;
@@ -136,53 +166,80 @@ var config2 = {
     width: 440px;
 }
 
-#optionForm li.status {
+#optionForm li.status,
+#mazeChooser li.status {
     width: 220px;
     display: inline-block;
 }
 
-#optionForm label {
+#optionForm label,
+#mazeChooser label {
     display: inline-block;
     width: 140px;
 }
 
-#optionForm label::after {
+#optionForm label::after,
+#mazeChooser label::after {
     content: ':';
 }
 
-#optionForm label.inline {
+#optionForm label.inline,
+#mazeChooser label.inline {
     display: inline;
 }
 
-#optionForm label.status {
+#optionForm label.status, 
+#mazeChooser label.status {
     display: inline-block;
     width: 70px;
 }
 
-#optionForm input.submit {
+#optionForm input.submit,
+#mazeChooser input.submit {
     float: right;
     border: 1px solid #7c5800;
 }
 
-#optionForm input.submit:hover {
+#optionForm input.submit:hover,
+#mazeChooser input.submit:hover {
     border: 1px solid red;
 }
 
 #optionForm #maze-actions.minimize ul,
-#optionForm #maze-options.minimize ul {
+#optionForm #maze-options.minimize ul,
+#mazeChooser #maze-choice.minimize ul {
     display: none;
 }
 
 #optionForm #maze-actions.minimize,
-#optionForm #maze-options.minimize {
+#optionForm #maze-options.minimize,
+#mazeChooser #maze-choice.minimize {
     border: none;
 }
 
-#maze-actions button {
+#maze-actions button,
+#mazeChooser button {
     min-width: 50px;
 }
 </style>
 <div id="formContainer">
+<form id="mazeChooser" 
+        onSubmit="return false;" 
+        onChange="Data.saveForm('mazeChooser');">
+<fieldset id="maze-choice">
+<legend onClick="toggleMinimize('maze-choice')" 
+    title="Toggle Show Saved Mazes">Maze Select</legend>
+<ul>
+<li><label for="mazeName">Maze</label>
+<select id="mazeName" name="mazeName" 
+        onChange="loadMaze('mazeName',true)">
+    <option value="">default empty</option>
+    <option value="example">example</option>
+</select>
+</li>
+</ul>
+</fieldset>
+</form>
 <form id="optionForm" onSubmit="return false;" spellcheck="false">
 <fieldset id="maze-options">
 <legend onClick="toggleMinimize('maze-options')" title="Toggle Show/Hide">Maze Options</legend>
@@ -275,12 +332,25 @@ var toggleMinimize = function (id) {
     }
 }
 
-
 </script>
 <script>
-
+var loadMaze = function (selectId, saveP) {
+    let mazeName = $(`#${selectId}`).val();
+    if (saveP) {
+        Data.saveSelect(selectId,"loadMaze");
+    }
+    console.log(`mazeName=${mazeName}`);
+}
+var myOptions = [
+    {value:"5x7"},
+    {value:"8x10sweet",text:"My Sweet 8x10"},
+] 
 window.addEventListener('DOMContentLoaded', () => {
-    
+    Data.writeSelect("mazeName",myOptions,true);
+    Data.restoreSelect("mazeName");
+    Data.restoreForm("mazeChooser",null);
+    Data.restoreForm("optionForm",null);
+    //loadMaze("mazeName");
 });
 </script>
 <svg 

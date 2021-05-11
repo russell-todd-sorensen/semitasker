@@ -7,6 +7,18 @@ if (!Data) {
   Data.Restored = {};
 }
 
+Data.writeSelect = function (selectId,options,appendOptions) {
+  let sel = $(`#${selectId}`),
+      len = options.length;
+  if (!appendOptions) {
+    sel.html("");
+  }
+  for (let i=0,opt;i<len;i++) {
+    opt = options[i];
+    sel.append(`<option value="${opt.value}">${(opt.text?opt.text:opt.value)}</option>\n`);
+  }
+}
+
 Data.writeFontFamilySelect = function( selector ) {
 
   var selection = $(selector);
@@ -788,7 +800,10 @@ Data.restoreJSON = function (jsVarName) {
   return (localStorage.getItem(document.URL + '-ANIMATION-VALUE-' + jsVarName));
 };
 
-
 Data.saveForm = function (formId,jsonConfig) {
+
+}
+
+Data.restoreForm = function (formId,jsonConfig) {
 
 }
