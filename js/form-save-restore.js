@@ -2,32 +2,33 @@
 // require data.js
 // These functions add to the Data object:
 if (!Data) {
-  var Data = {};
-  Data.url = document.url;
-  Data.Restored = {};
+    var Data = {};
+    Data.url = document.url;
+    Data.Restored = {};
 }
 
 Data.writeSelect = function (selectId,options,appendOptions) {
-  let sel = $(`#${selectId}`),
-      len = options.length;
-  if (!appendOptions) {
-    sel.html("");
-  }
-  for (let i=0,opt;i<len;i++) {
-    opt = options[i];
-    sel.append(`<option value="${opt.value}">${(opt.text?opt.text:opt.value)}</option>\n`);
-  }
+    let sel = $(`#${selectId}`),
+        len = options.length;
+
+    if (!appendOptions) {
+        sel.html("");
+    }
+    for (let i=0,opt;i<len;i++) {
+        opt = options[i];
+        sel.append(`<option value="${opt.value}">${(opt.text?opt.text:opt.value)}</option>\n`);
+    }
 }
 
 Data.writeFontFamilySelect = function( selector ) {
 
-  var selection = $(selector);
-  selection.html("");
+    let selection = $(selector);
+    selection.html("");
 
-  for (var i = 0; i < this.fontFamily.length; i++) {
-    var font = this.fontFamily[i];
-    selection.append("\n <option value='" + font + "'>" + font + "</option>");
-  }
+    for (let i=0,font;i<this.fontFamily.length;i++) {
+        font = this.fontFamily[i];
+        selection.append("\n <option value='" + font + "'>" + font + "</option>");
+    }
 };
 
 Data.writeFontFamilySelectGeneric = function(selector, fonts) {
@@ -39,7 +40,7 @@ Data.writeFontFamilySelectGeneric = function(selector, fonts) {
 
     selection.html("");
 
-    for (let i = 0; i < fonts.length; i++) {
+    for (let i=0;i<fonts.length;i++) {
         font = fonts.fontFamily[i];
         selection.append(`\n <option value="${font}">${font}</option>`);
     }
@@ -47,36 +48,35 @@ Data.writeFontFamilySelectGeneric = function(selector, fonts) {
 
 Data.changeFont = function(selectId) {
 
-  var font = $('#' + selectId + " option:selected").val();
+    let font = $(`#${selectId} option:selected`).val();
 
-  if (arguments.length == 1) {
-    $('body').css('font-family',"'" + font + "'");
-  } else {
-    var selector;
-    for (var i = 1; i < arguments.length; i++) {
-      selector = arguments[i];
-      $(selector).css('font-family',"'" + font + "'");
+    if (arguments.length == 1) {
+        $("body").css("font-family",`'${font}'`);
+    } else {
+        for (let i=1,sel;i<arguments.length;i++) {
+            sel = arguments[i];
+            $(sel).css("font-family",`'${font}'`);
+        }
     }
-  }
 
 
-  var call = "Data.saveSelect('" + selectId + "','Data.changeFont'";
-  for (var i = 1; i< arguments.length; i++) {
-    call = call + ",'" + arguments[i] + "'";
-  }
-  call += ");";
-  setTimeout(call, 10);
+    var call = "Data.saveSelect('" + selectId + "','Data.changeFont'";
+    for (var i = 1; i< arguments.length; i++) {
+        call = call + ",'" + arguments[i] + "'";
+    }
+    call += ");";
+    setTimeout(call, 10);
 
-  if (this.Restored[selectId]) { // this is a regular form change, not a restoration
-    Log.Notice("Updating current font to " + font);
-    $('#current').val(font);
-    $('#changeFontButton').click();
-  } else {
-    this.Restored[selectId] = true;
-    Log.Notice("Just restoring select font to " + font);
-  }
+    if (this.Restored[selectId]) { // this is a regular form change, not a restoration
+        Log.Notice("Updating current font to " + font);
+        $('#current').val(font);
+        $('#changeFontButton').click();
+    } else {
+        this.Restored[selectId] = true;
+        Log.Notice("Just restoring select font to " + font);
+    }
 
-  return false;
+    return false;
 };
 
 Data.changeFontSize = function (inputId) {
@@ -128,55 +128,47 @@ Data.changeImage = function (selectId) {
 // this must change to support color editing
 Data.changeStrokeWidth = function (inputId) {
 
-  var strokeWidth = parseInt($('#' + inputId).val()) ;
-  strokeWidth = strokeWidth < 1 ? 0 : strokeWidth;
-  var strokeColor, fillColor;
-  if (arguments.length == 1) {
+    var strokeWidth = parseInt($('#' + inputId).val()) ;
+    strokeWidth = strokeWidth < 1 ? 0 : strokeWidth;
+    var strokeColor, fillColor;
+    if (arguments.length == 1) {
 
-    if (strokeWidth > 0) {
-      strokeColor = $('body').css('fill');
-      $('body')
-        .css('stroke-width','' + strokeWidth + 'px')
-      //  .css('stroke', '' + strokeColor )
-      //  .css('fill','none');
-    }
-    else {
-      fillColor = $('body').css('stroke');
-      $('body')
-        .css('stroke-width','' + strokeWidth + 'px')
-      //  .css('stroke', 'none')
-     //   .css('fill',fillColor);
-    }
-  }
-  else {
-    var selector;
-    for (var i = 1; i < arguments.length; i++) {
-      selector = arguments[i];
       if (strokeWidth > 0) {
-        strokeColor = $(selector).css('color');
-        $(selector)
+        strokeColor = $('body').css('fill');
+        $('body')
           .css('stroke-width','' + strokeWidth + 'px')
-       //   .css('stroke', '' + strokeColor )
-       //   .css('fill','none');
       }
       else {
-        fillColor = $(selector).css('color');
-        $(selector)
+        fillColor = $('body').css('stroke');
+        $('body')
           .css('stroke-width','' + strokeWidth + 'px')
-       //   .css('stroke', 'none')
-       //   .css('fill',fillColor);
       }
     }
-  }
+    else {
+        var selector;
+        for (var i = 1; i < arguments.length; i++) {
+          selector = arguments[i];
+          if (strokeWidth > 0) {
+            strokeColor = $(selector).css('color');
+            $(selector)
+            .css('stroke-width','' + strokeWidth + 'px')
+        }
+        else {
+            fillColor = $(selector).css('color');
+            $(selector)
+              .css('stroke-width','' + strokeWidth + 'px')
+        }
+      }
+    }
 
-  var call = "Data.saveInput('" + inputId + "','Data.changeStrokeWidth'";
-  for (var i = 1; i< arguments.length; i++) {
-    call = call + ",'" + arguments[i] + "'";
-  }
+    var call = "Data.saveInput('" + inputId + "','Data.changeStrokeWidth'";
+    for (var i = 1; i< arguments.length; i++) {
+        call = call + ",'" + arguments[i] + "'";
+    }
 
-  call += ");";
-  setTimeout(call, 10);
-  return false;
+    call += ");";
+    setTimeout(call, 10);
+    return false;
 }
 
 
