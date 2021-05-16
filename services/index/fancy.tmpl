@@ -21,13 +21,13 @@
 <meta charset='utf-8'>
 <title>$title</title>
 <link rel='stylesheet' type='text/css' href='$mainCss' media='all'>
-<style type='text/css'>
+<style>
 
 table.dir {
     margin: 10px;
 }
 
-table.dir th, 
+table.dir th,
 table.files th {
     text-align: left;
     background-color: silver;
@@ -48,35 +48,67 @@ table.dir td a {
 .num {
     text-align: right;
 }
-</style>
 
-<script src='/js/jquery-3.1.1.js'></script>
- 
+#title {
+    padding-left: 10px;
+}
+
+li.path-link::after {
+    content: " ==>";
+}
+
+ul.nav a:link,
+ul.nav a:hover,
+ul.nav a:focus {
+    text-decoration: none;
+}
+
+ul.nav a:hover,
+ul.nav a:focus {
+    color: white;
+}
+
+li.path-link:hover a::before,
+li.path-link:focus a::before {
+    content: "[";
+}
+
+li.path-link:hover a::after,
+li.path-link:focus a::after {
+    content: "]";
+}
+
+</style>
 </head>
 <body>
-<div class='nav'>
-    <li><a href='/'>home page</a>[ws/]
+<header>
+<nav>
+<ul class='nav'>
+    <li class='path-link'><a href='/'>home page</a></li>[ws/]
 
 [set path "/" /]
 [foreach element $urlv /]
-&gt;</li>
-    [append-to path path $element "/" /]
-    <li><a href='$path'>$element</a> 
+    [append-to path path $element "/" ]
+    <!-- <li>&gt;</li> -->
+    <li class='path-link'><a href='$path'>$element</a></li>[ws/]
 [/foreach]
-  <li>&nbsp;($shortTitle)</li>
-</div>
-
-<div id='content'>
-    <h1 id='title'>$shortTitle</h1>
+    <li>&nbsp;($shortTitle)</li>
+</ul>
+</nav>
+</header>
+<article id='content'>
+<h1 id='title'>$shortTitle</h1>
 <table class='dir' cellspacing='0' cellpadding='2' border='0'>
- <tr>
-  <th>directories</th>
-  <th>last modified</th>
-  <th>links</th>
-  <th>type</th>
-  <th>links to</th>
- </tr>
- 
+<thead>
+<tr>
+    <th>directories</th>
+    <th>last modified</th>
+    <th>links</th>
+    <th>type</th>
+    <th>links to</th>
+</tr>
+</thead>
+<tbody>
 [foreach dirname $dir_list /]
     [file-to tail tail $dirname /] 
     [file lstat $dirname dirArray /]
@@ -85,23 +117,26 @@ table.dir td a {
     [else/]
         [set dirArray(type) "" /]
         [set dirArray(pointsTo) "" /]
-    [/if]
-  <tr>
-   <td><a href='$tail/' class='dir'><nobr>$tail</nobr></a></td>
-   <td><nobr>[clock format $dirArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</nobr></td>
-   <td class='num'>$dirArray(nlink)</td>
-   <td class='num'>$dirArray(type)</td>
-   <td>$dirArray(pointsTo)</td>
- </tr>
-[/foreach]
- <tr>
-  <th>files</th>
-  <th>last modified</th>
-  <th>exact</th>
-  <th>size</th>
-  <th>links to</th>
- </tr>
- 
+    [/if/]
+<tr>
+    <td><a href='$tail/' class='dir'><nobr>$tail</nobr></a></td>
+    <td><nobr>[clock format $dirArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</nobr></td>
+    <td class='num'>$dirArray(nlink)</td>
+    <td class='num'>$dirArray(type)</td>
+    <td>$dirArray(pointsTo)</td>
+</tr>
+[/foreach/]
+</tbody>
+<thead>
+<tr>
+    <th>files</th>
+    <th>last modified</th>
+    <th>exact</th>
+    <th>size</th>
+    <th>links to</th>
+</tr>
+</thead>
+<tbody>[ws/]
 [foreach obj $file_list /]
     [file-to tail tail $obj /]
     [file lstat $obj fileArray /]
@@ -115,11 +150,11 @@ table.dir td a {
             [set a b /]
         [/case]
         [default]
-  <tr>
-   <td><a href='${tail}' class='$file_extension'><nobr>[string range $tail 0 50]</nobr></a></td>
-   <td><nobr>[clock format $fileArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</nobr></td>
-   <td class='num'>$sizeOriginal</td>
-   <td class='num'><nobr>[ws/]
+<tr>
+    <td><a href='${tail}' class='$file_extension'><nobr>[string range $tail 0 50]</nobr></a></td>
+    <td><nobr>[clock format $fileArray(mtime) -format "%Y-%m-%d %H:%M:%S" ]</nobr></td>
+    <td class='num'>$sizeOriginal</td>
+    <td class='num'><nobr>[ws/]
 
             [if {$size  <= 1024 } /]
                 [format-to size %3d $size /]
@@ -134,36 +169,35 @@ table.dir td a {
                 </nobr></td>[ws/]
 
             [if {$fileArray(type) eq "link"} /]
-              [file-to fileArray(pointsTo) readlink $obj]
+                [file-to fileArray(pointsTo) readlink $obj /]
             [else/]
-              [set fileArray(pointsTo) "" /]
+                [set fileArray(pointsTo) "" /]
             [/if]
-   <td><nobr>$fileArray(pointsTo)</nobr></td>
-  </tr>
+    <td><nobr>$fileArray(pointsTo)</nobr></td>
+</tr>[ws/]
         [/default/]
     [/switch/]
-[/foreach/]
-
+[/foreach]
 </table>
-</div>
+</article>
 
-<div class='bottom'>
- <hr>
- <address><a href='mailto:russell@highfivediet.com'>Russell Sorensen</a></address>
-
+<footer class='bottom'>
+<hr>
+<address><a href='mailto:russell@highfivediet.com'>Russell Sorensen</a></address>
+[ws/]
 [info-to script script /]
 [file-to mtime mtime $script /]
 [clock-to clockTime format $mtime -format "%+" ]
-
+[ws/]
 <!-- Created $clockTime -->
 
 <span class='lastMod'>Last modified $clockTime</span>
- <div id='footer'>
-  <div class='nav'>
-   <li>\[<a href='..'>..</a>\] |</li>
-   <li>\[<a href='.'>.</a>\]</li>
-  </div>
- </div>
-</div>
+<nav id='footer'>
+<ul class='nav'>
+    <li>\[<a href='..'>..</a>\] |</li>
+    <li>\[<a href='.'>.</a>\]</li>
+</ul>
+</nav>
+</footer>
 </body>
 </html>[ws/]

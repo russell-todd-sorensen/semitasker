@@ -8,7 +8,7 @@
     background-color: silver;
     border: 1px solid black;
     max-height: 10em;
-    width: 100%;
+    /*width: 100%; */
     font-size: .75em;
     font-family: 'Fira Code';
 }
@@ -16,8 +16,8 @@
 #log2 {
     font-family: 'Fira Code';
     max-height: 10em;
-    overflow-y: scroll;
-    overflow-x: visible;
+    overflow-y: auto;
+    overflow-x: auto;
 }
 
 #log-close-button {
