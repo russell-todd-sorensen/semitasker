@@ -112,7 +112,7 @@ li.path-link:focus a::after {
 [foreach dirname $dir_list /]
     [file-to tail tail $dirname /] 
     [file lstat $dirname dirArray /]
-    [if {$dirArray(type) eq "link"} /]
+    [if { $dirArray(type) eq "link" } /]
         [file-to dirArray(pointsTo) readlink $dirname /]
     [else/]
         [set dirArray(type) "" /]
@@ -168,7 +168,7 @@ li.path-link:focus a::after {
             [/if/]
                 </nobr></td>[ws/]
 
-            [if {$fileArray(type) eq "link"} /]
+            [if { $fileArray(type) eq "link" } /]
                 [file-to fileArray(pointsTo) readlink $obj /]
             [else/]
                 [set fileArray(pointsTo) "" /]
