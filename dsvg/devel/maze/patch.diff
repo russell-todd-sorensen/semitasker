@@ -1,0 +1,131 @@
+diff --git a/dsvg/devel/maze/js/maze-6.js b/dsvg/devel/maze/js/maze-6.js
+index 3aa14c1..47276f4 100644
+--- a/dsvg/devel/maze/js/maze-6.js
++++ b/dsvg/devel/maze/js/maze-6.js
+@@ -104,6 +104,7 @@ class Maze {
+     scale   = 100;
+     startId = "C-0-0";
+     exitId  = `V-${this.cols}-${this.rows-1}`;
++    exitStack = [];
+     pathEndId = null;
+     solutions = [];
+     EXIT    = 4;
+@@ -244,12 +245,19 @@ class Maze {
+             }
+         }
+     }
++    pushExitId(partId,mazeObj) {
++        mazeObj.exitStack.push(partId);
++    }
++    popExitId(partId,mazeObj) {
++        let exitId = mazeObj.exitStack.pop();
++        return (exitId?exitId:mazeObj.exitId);
++    }
+     markExit(exitId,mazeObj) {
+         if (!mazeObj) {
+             mazeObj = this;
+         }
+         if (exitId) {
+-            mazeObj.exitId = exitId;
++            mazeObj.exitId = exitId; 
+         }
+         let [t,i,j] = (mazeObj.exitId).split("-");
+         i = parseInt(i);
+@@ -272,13 +280,14 @@ class Maze {
+             this.startId = startId;
+         }
+ 
++        if (!state) {
++            return this.startId
++        }
++
+         let [t,x,y] = (this.startId).split("-");
+         x = parseInt(x);
+         y = parseInt(y);
+ 
+-        if (!state) {
+-            state = [null,this.wall,null,null];
+-        }
+         for (let k=0;k<state.length;k++) {
+             let st = state[k];
+ 
+@@ -763,11 +772,13 @@ var toggleCellType = function(d,i) {
+     console.log(`d=${d}, i=${i}, cellType=${cellType}`);
+ }
+ var togglePartType = function(d,i) {    
+-    let partId = d.cell[d.part],
+-        partState = d.cell.m.getState(partId),
++    let m = d.cell.m,
++        partId = d.cell[d.part],
++        partState = m.getState(partId),
+         [t,x,y] = partId.split("-"),
+         label,
+         newState,
++        prevExitId,
+         me = d3.select(this);
+     switch (partState) {
+     case 0:
+@@ -777,15 +788,26 @@ var togglePartType = function(d,i) {
+         break;
+     case 3:
+         newState = 4;
+-        d.cell.m.markExit(partId);
++        prevExitId = m.popExitId(partId,m);
++        if (prevExitId != partId) {
++            m.setState(prevExitId,m.WALL);
++            d3.select(`#${prevExitId}`).attr("class",[t,"part",m.WALL].join("-"));
++        }
++        m.pushExitId(partId,m);
++        m.markExit(partId,m);
+         break;
+     case 4:
+         newState = 0;
++        prevExitId = m.popExitId(partId,m);
++        if (prevExitId != partId) {
++            m.markExit(prevExitId,m);
++            d3.select(`#${prevExitId}`).attr("class",[t,"part",m.EXIT].join("-"));
++        }
+         break;
+     }
+ 
+-    d.cell.m.setState(partId,newState);
+-    label = d.cell.m.getLabel(newState);
++    m.setState(partId,newState);
++    label = m.getLabel(newState);
+     d3.select(`#${partId}`).attr("class",[t,"part",newState].join("-"));
+     me.attr("class",[t,"conf",newState].join("-"));
+     me.select("text").html(label)
+diff --git a/dsvg/devel/maze/maze-6.html b/dsvg/devel/maze/maze-6.html
+index 7ca30aa..227d246 100644
+--- a/dsvg/devel/maze/maze-6.html
++++ b/dsvg/devel/maze/maze-6.html
+@@ -253,12 +253,12 @@ var config2 = {
+ <li class="short">
+ <label for="cols">Cell Cols</label> <!-- width of maze -->
+ <input type="number" name="cols" id="cols"
+-        value="5" min="1" max="100" step="1" />
++        value="2" min="1" max="100" step="1" />
+ </li>
+ <li class="short">
+ <label for="rows">Cell Rows</label> <!-- height of maze -->
+ <input type="number" name="rows" id="rows"
+-        value="7" min="1" max="100" step="1" />
++        value="2" min="1" max="100" step="1" />
+ </li>
+ </div>
+ 
+@@ -266,12 +266,12 @@ var config2 = {
+ <li class="short">
+ <label for="startId">Start Cell ID</label> <!-- starting point -->
+ <input type="text" name="startId" id="startId"
+-        value="C-3-0"  />
++        value="C-0-0"  />
+ </li>
+ <li class="short">
+ <label for="exitId">Exit Wall ID</label> <!-- ending partition id -->
+ <input type="text" name="exitId" id="exitId"
+-        value="V-5-4"  />
++        value="V-2-1"  />
+ </li>
+ </div>
+ 

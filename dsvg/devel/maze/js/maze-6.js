@@ -762,9 +762,17 @@ var toggleCellType = function(d,i) {
 
     console.log(`d=${d}, i=${i}, cellType=${cellType}`);
 }
+
+var updateExitId = function(d,i) {
+    partId = partId?partId:m.partId;
+
+    let [t,x,y] = partId.split("-")
+}
+
 var togglePartType = function(d,i) {    
     let partId = d.cell[d.part],
-        partState = d.cell.m.getState(partId),
+        m = d.cell.m,
+        partState = m.getState(partId),
         [t,x,y] = partId.split("-"),
         label,
         newState,
@@ -773,19 +781,17 @@ var togglePartType = function(d,i) {
     case 0:
     case 1:
     case 2:
+    case 4:
         newState = 3;
+        m.exitId = null;
         break;
     case 3:
-        newState = 4;
-        d.cell.m.markExit(partId);
-        break;
-    case 4:
         newState = 0;
         break;
     }
 
-    d.cell.m.setState(partId,newState);
-    label = d.cell.m.getLabel(newState);
+    m.setState(partId,newState);
+    label = m.getLabel(newState);
     d3.select(`#${partId}`).attr("class",[t,"part",newState].join("-"));
     me.attr("class",[t,"conf",newState].join("-"));
     me.select("text").html(label)

@@ -130,7 +130,7 @@ var config2 = {
 
 #optionForm div.status-wrap input#maze-name,
 #mazeChooser div.status-wrap input#maze-name {
-    width: 140px;
+    width: 125px;
 }
 
 #optionForm textarea,
@@ -196,7 +196,8 @@ var config2 = {
 #optionForm label.status, 
 #mazeChooser label.status {
     display: inline-block;
-    width: 70px;
+    width: 60px;
+    padding-left: 15px;
 }
 
 #optionForm input.submit,
@@ -253,25 +254,43 @@ var config2 = {
 <li class="short">
 <label for="cols">Cell Cols</label> <!-- width of maze -->
 <input type="number" name="cols" id="cols"
-        value="5" min="1" max="100" step="1" />
+        value="2" min="1" max="100" step="1" />
 </li>
 <li class="short">
 <label for="rows">Cell Rows</label> <!-- height of maze -->
 <input type="number" name="rows" id="rows"
-        value="7" min="1" max="100" step="1" />
+        value="2" min="1" max="100" step="1" />
 </li>
 </div>
+<style>
+input + span {
+    padding-right: 5px;
+}
 
+input:invalid+span:after {
+    position: absolute;
+    content: '✖';
+    padding-left: 5px;
+}
+
+input:valid+span:after {
+    position: absolute;
+    content: '✓';
+    padding-left: 5px;
+}
+</style>
 <div class="short-wrap">
 <li class="short">
 <label for="startId">Start Cell ID</label> <!-- starting point -->
 <input type="text" name="startId" id="startId"
-        value="C-3-0"  />
+        value="C-0-0" pattern="([Cc]-(0|[1-9][0-9]*)-(0|[1-9][0-9]*)|(null))" />
+        <span class="validity"></span>
 </li>
 <li class="short">
 <label for="exitId">Exit Wall ID</label> <!-- ending partition id -->
 <input type="text" name="exitId" id="exitId"
-        value="V-5-4"  />
+        value="V-2-1" pattern="([VvHh]-(0|[1-9][0-9]*)-(0|[1-9][0-9]*)|(null))"   />
+        <span class="validity"></span>
 </li>
 </div>
 
