@@ -163,13 +163,7 @@ class Maze {
         }
     }
     setParts () {
-        let n    = this.N,
-            e    = this.E,
-            s    = this.S,
-            w    = this.W,
-            wall = this.WALL,
-            open = this.OPEN,
-            hmax = this.rows+1,
+        let hmax = this.rows+1,
             vmax = this.cols+1;
 
         this.parts["H"] = [];
@@ -178,13 +172,13 @@ class Maze {
         for (let h=0;h<hmax;h++) {
             this.parts["H"][h] = [];
             for (let c=0;c<this.cols;c++) {
-                this.parts["H"][h][c] = 0; 
+                this.parts["H"][h][c] = this.OPEN; 
             }
         }
         for (let v=0;v<vmax;v++) {
             this.parts["V"][v] = [];
             for (let r=0;r<this.rows;r++) {
-                this.parts["V"][v][r] = 0; 
+                this.parts["V"][v][r] = this.OPEN; 
             }
         }
     }
@@ -220,14 +214,7 @@ class Maze {
         }
     }
     wallPerimeter(logit) {
-        let n    = this.N,
-            e    = this.E,
-            s    = this.S,
-            w    = this.W,
-            wall = this.WALL,
-            open = this.OPEN,
-            hmax = this.rows+1,
-            vmax = this.cols+1,
+        let wall = this.WALL,
             hwal = [0,this.rows],
             vwal = [0,this.cols];
 
