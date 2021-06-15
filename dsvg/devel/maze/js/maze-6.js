@@ -23,7 +23,6 @@ myMaze["example"] = {
         "V-2-6","H-6-2"
     ],
     wallPerimeter:true,
-    wallStart:[null,3,3,null],
     // next two items are not required, but
     // can be used to aid storage of interesting results.
     solnCount:0, 
@@ -127,7 +126,8 @@ class Maze {
     locale  = "en_US";
     partLabels = {
         "en_US":["open","shut","lock","wall","exit"],
-        "fr_FR":["ouverte","fermée","serrure","mur","sortie"]};
+        "fr_FR":["ouverte","fermée","serrure","mur","sortie"],
+    };
 
     constructor(config) {
         for (const [key, value] of Object.entries(config)) {
@@ -253,39 +253,6 @@ class Maze {
             break;
         }
         return mazeObj.exitId;
-    }
-    wallStart(startId,state) {
-        if (startId) {
-            this.startId = startId;
-        }
-
-        let [t,x,y] = (this.startId).split("-");
-        x = parseInt(x);
-        y = parseInt(y);
-
-        if (!state) {
-            state = [null,this.wall,null,null];
-        }
-        for (let k=0;k<state.length;k++) {
-            let st = state[k];
-
-            if (st == null) continue;
-
-            switch (k) {
-            case this.N: 
-                this.parts["H"][y][x] = st;
-                break;
-            case this.E: 
-                this.parts["V"][x+1][y] = st;
-                break;
-            case this.S: 
-                this.parts["H"][y+1][x] = st;
-                break;
-            case this.W: 
-                this.parts["V"][x][y] = st;
-                break;
-            }
-        }
     }
     configPart(id,action) {
         let [t,i,j] = (id).split("-");
