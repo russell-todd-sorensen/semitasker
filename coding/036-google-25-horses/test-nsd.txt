@@ -1,0 +1,8 @@
+#!/usr/bin/bash
+# the next line restarts using tclsh \
+exec /web/servers/ns/bin/tclsh8.7 "$0" ${1+"$@"}
+
+global argv
+load libnsd.so
+puts stderr "argv=$argv"
+

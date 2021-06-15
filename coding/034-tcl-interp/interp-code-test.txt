@@ -17,7 +17,7 @@ interp eval $myInterp {
     }
 
     proc printLog {logName {joinBy \n} {reset 0}} {
-        global $logName
+        global $logName 
         set result [join [set $logName] $joinBy]
         if {$reset} {
             set $logName [list]
