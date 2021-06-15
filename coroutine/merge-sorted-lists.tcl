@@ -3,7 +3,7 @@ source coroutine-library.tcl;
 global A B m n CIndex;
 set A [list 1 1 2 2 3 5 6 8 15 17];
 set B [list 2 4 7 8 8 9 11 13 14 18 20 30];
-set A [list 50]
+#set A [list 50]
 #set B [list -1]
 set m [llength $A]
 set n [llength $B]
