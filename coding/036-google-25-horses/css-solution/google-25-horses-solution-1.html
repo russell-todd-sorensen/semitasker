@@ -1,0 +1,219 @@
+<html>
+<head>
+<title>Learn HTML 20</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/example-library.js"></script>
+<style>
+
+#display {
+    padding: 20px;
+}
+.square {
+    height: 50px;
+    width: 50px;
+    background-color: silver;
+    border: 1px solid black;
+    display: inline-block;
+    margin-bottom: 3px;
+    position: absolute;
+}
+.four,
+.five {
+    display: none;
+}
+#heats {
+    position: relative;
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+}
+#bg {
+    height: 170px;
+    width: 170px;
+    background-color: lightblue;
+    padding: 20px;
+}
+.heat {
+    position: absolute;
+    width: 250px;
+}
+.one {
+    left: 0;
+}
+.two {
+    left: 60px;
+}
+.three {
+    left: 120px;
+}
+.heat.hone {
+    top: 0;
+}
+.heat.htwo {
+    top: 60px;
+}
+.heat.hthree {
+    top: 120px;
+}
+.hone .one {
+    background-color: green;
+}
+.hone .two,
+.htwo .one {
+    background-color: yellow;
+}
+.hone .three,
+.htwo .two,
+.hthree .one {
+   background-color: orange;
+}
+.horse {
+ display: inline-block;
+ width: 100%;
+ margin: auto;
+ padding-top: 12px;
+ text-align:center;
+}
+</style>
+
+</head>
+<body>
+
+<div id="bg">
+
+<div id="heats">
+
+<div class="heat hthree">
+<div id="h1" class="square two">1</div>
+<div id="h2" class="square one">2</div>
+<div id="h3" class="square four">3</div>
+<div id="h4" class="square five">4</div>
+<div id="h5" class="square three"><span class="horse">5</span></div>
+</div>
+
+<div class="heat four">
+<div id="h6" class="square four">6</div>
+<div id="h7" class="square three">7</div>
+<div id="h8" class="square two">8</div>
+<div id="h9" class="square one">9</div>
+<div id="h10" class="square five">10</div>
+</div> 
+
+<div class="heat hone">
+<div id="h11" class="square five">11</div>
+<div id="h12" class="square two">12</div>
+<div id="h13" class="square four">13</div>
+<div id="h14" class="square one">14</div>
+<div id="h15" class="square three">15</div>
+</div> 
+
+<div class="heat five">
+<div id="h16" class="square five">16</div>
+<div id="h17" class="square two">17</div>
+<div id="h18" class="square four">18</div>
+<div id="h19" class="square one">19</div>
+<div id="h20" class="square three">20</div>
+</div>
+
+<div class="heat htwo">
+<div id="h21" class="square five">21</div>
+<div id="h22" class="square two">22</div>
+<div id="h23" class="square four">23</div>
+<div id="h24" class="square one">24</div>
+<div id="h25" class="square three">25</div>
+</div>
+
+</div>
+</div>
+
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" x="0" y="0" width="1000" height="1200" viewBox="0 0 1000 1200">
+
+</svg>
+<!-- here comes the script    -->
+<script>
+
+var horses = [];
+var heats = [];
+var rankings = [];
+
+class Horse {
+    id;
+    #time = 0.0;
+    stats = [];
+
+    constructor(id) {
+        this.id = id;
+        this.setTime();
+    }
+
+    setTime() {
+        if (this.#time === 0.0) {
+            this.#time = parseInt(Math.random()*10000)/100;
+        }
+    }
+
+    static cmp(a,b) {
+        let aTime = a.#time,
+            bTime = b.#time;
+
+        console.log(`aTime='${aTime}', bTime='${bTime}'`);
+        return (aTime - bTime);
+    }
+    static cmp2(a,b) {
+        let val = this.cmp(a,b);
+        return (val>0?1:val<0?-1:0);
+    }
+}
+
+class Heat {
+    name;
+    horses = new Array();
+    results = [];
+    idToPlace = new Map();
+    raced = false;
+
+    constructor(name,horseIds,refs) {
+        this.name = name;
+        if (refs) {
+            for (let i=0;i<refs.length;i++) {
+                this.horses[i] = refs[i];
+            }
+        } else {
+            for (let i=0;i<horseIds.length;i++) {
+                this.horses[i] = new Horse(horseIds[i]);
+            }
+        }
+    }
+    race() {
+        if (this.raced === false) {
+            this.horses.sort(Horse.cmp2);
+            for (let i=0,id;i<this.horses.length;i++) {
+                id = this.horses[i].id;
+                this.results[i] = id;
+                this.idToPlace.set(id,i);
+                this.horses[i].stats.push({heatName:this.name,placed:i});
+            }
+            this.raced = true;
+        }
+        return this.results;
+    }
+    getHorseByPlace(n) {
+        return this.horses[n];
+    }
+    getIdByPlace(n) {
+        return this.horses[n].id;
+    }
+    getHorseById(id) {
+        return this.horses[this.idToPlace.get(id)];
+    }
+}
+
+</script>
+</body>
+</html>

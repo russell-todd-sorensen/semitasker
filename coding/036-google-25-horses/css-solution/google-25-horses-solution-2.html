@@ -1,0 +1,304 @@
+<html>
+<head>
+<title>Learn HTML 20</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/example-library.js"></script>
+<style>
+
+#horseRaces {
+    padding: 3px;
+}
+
+.square {
+    height: 50px;
+    width: 50px;
+    background-color: silver;
+    border: 1px solid black;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    /*position: absolute;*/
+}
+.p4,
+.p5 {
+    display: none;
+}
+#heats {
+    position: relative;
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+}
+#bg {
+    height: 170px;
+    width: 170px;
+    background-color: lightblue;
+    padding: 20px;
+}
+.heat {
+   /* position: absolute; */
+    width: 300px;
+}
+.p1 {
+    left: 0;
+}
+.p2 {
+    left: 60px;
+}
+.p3 {
+    left: 120px;
+}
+.heat.ht1 {
+    top: 0;
+}
+.heat.ht2 {
+    top: 60px;
+}
+.heat.ht3 {
+    top: 120px;
+}
+.ht1 .p1 {
+    background-color: green;
+}
+.ht1 .p2,
+.ht2 .p1 {
+    background-color: yellow;
+}
+.ht1 .p3,
+.ht2 .p2,
+.ht3 .p1 {
+   background-color: orange;
+}
+.horse {
+    display: inline-block;
+    width: 100%;
+    margin: auto;
+    padding-top: 12px;
+    text-align:center;
+}
+</style>
+
+</head>
+<body>
+<div id="horseRaces"></div>
+<!-- here comes the script    -->
+<script>
+
+var horses = [];
+var heats = [];
+var rankings = [];
+
+class Horse {
+    id;
+    #time = 0.0;
+    stats = [];
+
+    constructor(id) {
+        this.id = id;
+        this.setTime();
+    }
+
+    setTime() {
+        if (this.#time === 0.0) {
+            this.#time = parseInt(Math.random()*10000)/100;
+        }
+    }
+
+    static cmp(a,b) {
+        let aTime = a.#time,
+            bTime = b.#time;
+
+        console.log(`aTime='${aTime}', bTime='${bTime}'`);
+        return (aTime - bTime);
+    }
+    static cmp2(a,b) {
+        let val = Horse.cmp(a,b);
+        return (val>0?1:val<0?-1:0);
+    }
+}
+
+class Heat {
+    name;
+    horses = new Array();
+    results = [];
+    idToPlace = new Map();
+    raced = false;
+
+    constructor(name,horseIds,refs) {
+        this.name = name;
+        if (refs) {
+            for (let i=0;i<refs.length;i++) {
+                this.horses[i] = refs[i];
+            }
+        } else {
+            for (let i=0;i<horseIds.length;i++) {
+                this.horses[i] = new Horse(horseIds[i]);
+            }
+        }
+    }
+    race() {
+        if (this.raced === false) {
+            this.horses.sort(Horse.cmp2);
+            for (let i=0,id;i<this.horses.length;i++) {
+                id = this.horses[i].id;
+                this.results[i] = id;
+                this.idToPlace.set(id,i);
+                this.horses[i].stats.push({heatName:this.name,placed:i});
+            }
+            this.raced = true;
+        }
+        return this.results;
+    }
+    getHorseByPlace(n) {
+        return this.horses[n];
+    }
+    getIdByPlace(n) {
+        return this.horses[n].id;
+    }
+    getHorseById(id) {
+        return this.horses[this.idToPlace.get(id)];
+    }
+}
+
+/*
+    Terms to (maybe) use: 
+        "Also Ran": horses finishing outside 1,2,3,4.
+        "Meeting": collection of races 
+            conducted by a club on the same day or 
+            night forms a "race meeting".
+        "Listed Race"
+            A "stakes race" just below a 
+        "group race" or 
+        "graded race" in quality.
+
+*/
+
+class Meeting {
+
+    heats = [];
+    horses = [];
+    rankings = [];
+    numHorses;
+    maxHeat;
+    topPlaces;
+    minHeats;
+    balance;
+    horsesInHeat;
+
+    constructor(numHorses,maxHeat,topPlaces) {
+        this.numHorses = numHorses?numHorses:25;
+        this.maxHeat = maxHeat?maxHeat:5;
+        this.topPlaces = topPlaces?topPlaces:3;
+        this.minHeats = Math.ceil(this.numHorses / this.maxHeat);
+        this.balance = (this.numHorses % this.maxHeat);
+        this.calcHeatDistribution();
+    }
+    calcHeatDistribution() {
+        switch (this.balance) {
+        case 0: 
+            this.horsesInHeat = new Array(this.minHeats).fill(this.maxHeat);
+            break;
+        default:
+            this.horsesInHeat = new Array(this.minHeats-2).fill(this.maxHeat);
+            let half = Math.ceil((this.maxHeat+this.balance)/2),
+                last = this.maxHeat + this.balance - half;
+            this.horsesInHeat.push(half);
+            this.horsesInHeat.push(last);
+        }
+        return this.horsesInHeat;
+    }
+    populateHeats() {
+        let len = this.horsesInHeat.length,
+            start = 1;
+
+        for (let i=0,name,num,ids;i<len;i++) {
+            name = `Race${i}`;
+            num = this.horsesInHeat[i];
+            ids = this.genIdArray(num,start);
+            this.heats.push(new Heat(name,ids));
+            start += num;
+        }
+    }
+    genIdArray(numHorses,startNum) {
+        let ha = [];
+        for (let i=startNum;i<(startNum+numHorses);i++) {
+            ha.push(`H${i}`);
+        }
+        return ha;
+    }
+
+}
+
+class HorseRaceAnimate {
+    meeting;
+    mainDivId ="horseRaces";
+    numHorses = 0;
+    maxHeat = 0;
+    topPlaces = 0;
+    main;
+    heats;
+    numHeats;
+    heatHandles= [];
+
+    constructor(meeting,numHorses,maxHeat,topPlaces) {
+        if (!(meeting)) {
+            numHorses = numHorses?numHorses:0;
+            maxHeat = maxHeat?maxHeat:0;
+            topPlaces = topPlaces?topPlaces:0;
+            this.meeting = meeting?meeting:new Meeting(numHorses,maxHeat,topPlaces);
+        }
+        this.numHorses = this.meeting.numHorses;
+        this.maxHeat = this.meeting.maxHeat;
+        this.topPlaces = this.meeting.topPlaces;
+    }
+
+    drawHeats() {
+        this.heats = this.meeting.heats;
+        this.numHeats = this.heats.length;
+        this.main = d3.select(`#${this.mainDivId}`);
+        this.heatIds = [];
+        let heatData,
+            numHorses,
+            heatElement;
+
+        for (let i=0;i<this.numHeats;i++) {
+            heatData = this.heats[i];
+            numHorses = heatData.horses.length;
+            heatElement = this.main.append("div")
+                .attr("id",heatData.name)
+                .attr("class","heat");
+            this.heatHandles.push(heatElement);
+            heatElement.selectAll("div")
+                .data(heatData.horses)
+                .enter()
+                .append("div")
+                .attr("id",function(d,i) {
+                    return d.id;
+                })
+                .attr("class","square")
+                .append("span")
+                .attr("class","horse")
+                .text(function(d,i) {
+                    return d.id;
+                });
+        }
+    }
+}
+
+
+window.addEventListener('DOMContentLoaded', () => {
+  
+    var horseRace = new HorseRaceAnimate();
+    horseRace.meeting.populateHeats();   
+    horseRace.drawHeats();
+})
+ 
+</script>
+</body>
+</html>

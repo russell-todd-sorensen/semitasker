@@ -1,0 +1,175 @@
+<html>
+<head>
+<title>Learn HTML 20</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/example-library.js"></script>
+<style>
+
+#display {
+    padding: 20px;
+}
+.square {
+    height: 50px;
+    width: 50px;
+    background-color: silver;
+    border: 1px solid black;
+    display: inline-block;
+    margin-bottom: 3px;
+    position: absolute;
+}
+.four,
+.five {
+    display: none;
+}
+#heats {
+    position: relative;
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+}
+#bg {
+    height: 170px;
+    width: 170px;
+    background-color: lightblue;
+    padding: 20px;
+}
+.heat {
+    position: absolute;
+    width: 250px;
+}
+.one {
+    left: 0;
+}
+.two {
+    left: 60px;
+}
+.three {
+    left: 120px;
+}
+.heat.hone {
+    top: 0;
+}
+.heat.htwo {
+    top: 60px;
+}
+.heat.hthree {
+    top: 120px;
+}
+.hone .one {
+    background-color: green;
+}
+.hone .two,
+.htwo .one {
+    background-color: yellow;
+}
+.hone .three,
+.htwo .two,
+.hthree .one {
+   background-color: orange;
+}
+.horse {
+ display: inline-block;
+ width: 100%;
+ margin: auto;
+ padding-top: 12px;
+ text-align:center;
+}
+</style>
+
+</head>
+<body>
+
+<div id="bg">
+
+<div id="heats">
+
+<div class="heat hthree">
+<div id="h1" class="square two">1</div>
+<div id="h2" class="square one">2</div>
+<div id="h3" class="square four">3</div>
+<div id="h4" class="square five">4</div>
+<div id="h5" class="square three"><span class="horse">5</span></div>
+</div>
+
+<div class="heat four">
+<div id="h6" class="square four">6</div>
+<div id="h7" class="square three">7</div>
+<div id="h8" class="square two">8</div>
+<div id="h9" class="square one">9</div>
+<div id="h10" class="square five">10</div>
+</div> 
+
+<div class="heat hone">
+<div id="h11" class="square five">11</div>
+<div id="h12" class="square two">12</div>
+<div id="h13" class="square four">13</div>
+<div id="h14" class="square one">14</div>
+<div id="h15" class="square three">15</div>
+</div> 
+
+<div class="heat five">
+<div id="h16" class="square five">16</div>
+<div id="h17" class="square two">17</div>
+<div id="h18" class="square four">18</div>
+<div id="h19" class="square one">19</div>
+<div id="h20" class="square three">20</div>
+</div>
+
+<div class="heat htwo">
+<div id="h21" class="square five">21</div>
+<div id="h22" class="square two">22</div>
+<div id="h23" class="square four">23</div>
+<div id="h24" class="square one">24</div>
+<div id="h25" class="square three">25</div>
+</div>
+
+</div>
+</div>
+
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" x="0" y="0" width="1000" height="1200" viewBox="0 0 1000 1200">
+
+</svg>
+<!-- here comes the script    -->
+<script>
+
+
+</script>
+<style>
+#h31,
+#h32,
+#h33,
+#h34,
+#h35 {
+    position: relative;
+}
+#h31 {
+    margin-left: 180px;
+}
+#h34 {
+    margin-left: 50px;
+}
+#h33 {
+    margin-left: -290px;
+}
+#h35 {
+    margin-left: -110px;
+}
+#test {
+    margin-top: 500px;
+}
+</style>
+<div id="test">
+<div id="h31" class="square">31</div>
+<div id="h32" class="square">32</div>
+<div id="h33" class="square">33 (1)</div>
+<div id="h34" class="square">34 (3)</div>
+<div id="h35" class="square">35 (2)</div>
+</div>
+
+</body></html>

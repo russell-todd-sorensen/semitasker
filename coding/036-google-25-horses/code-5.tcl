@@ -156,10 +156,25 @@ namespace eval ::horse::race {
         variable numTop $t
         stats::setRacingTimesMinMax $min $max
         stats::initHorses $numHorses
+        ns_log Notice "numHorses=$numHorses"
         variable horseNames [stats::getHorses]
         variable heats
+        variable heatResults
 
         createRandomRaceHeats
+        set semi [nextHeatName]
+        set semiHeat [list]
+        foreach raceheat $heats {
+            set heat [lindex $raceheat 0]
+            set horses [lindex $raceheat 1]
+            ns_log Notice "heat=$heat, horses=$horses"
+            set prelim($heat) [stats::raceGroup $horses]
+            lappend semiHeat [lindex $prelim($heat) 0]
+        }
+        lappend heats [list $semi $semiHeat]
+        ns_log Notice "heats=$heats"
+        # create winners heat
+        set semiRace [stats::raceGroup $semiHeat]
 
     }
 
@@ -177,10 +192,15 @@ namespace eval ::horse::race {
             }
             lappend heats [list $heatName [set $heatName]]
         }
+        ns_log Notice "heats=$heats"
     }
 }
 
 namespace eval ::horse::race::stats {
+
+    variable horse
+    variable minTime
+    variable maxTime
 
     proc rec {logName what} {
         variable $logName
@@ -207,6 +227,8 @@ namespace eval ::horse::race::stats {
         for {set i 0} {$i < $howMany} {incr i} {
             set key [format $format $i]
             set horse($key) [list $i $key 0]
+            rec log "horse($key)=$horse($key)"
+            ns_log Notice "horse($key)=$horse($key)"
         }
     }
 
@@ -226,6 +248,9 @@ namespace eval ::horse::race::stats {
         variable maxTime
         set horses [list]
         foreach h $horseNameList {
+            if {![info exists horse($h)]} {
+                set horse($h) 
+            }
             set time [lindex $horse($h) end]
             if {$time eq "0"} {
                 set  time [expr {(int(($minTime+[ns_rand]*$maxTime)*100))/100.0}]
