@@ -1,4 +1,6 @@
+
 set problem {
+
     # Code up the original Ackermann function
 }
 
@@ -8,7 +10,6 @@ set solution {
     #include <stdio.h>
 
     # Original Algo, plus pseudo code
-
     # From https://sites.google.com/site/pointlesslargenumberstuff/home/2/ackermann
 
     φ(x,y,0) = x+y
@@ -116,7 +117,7 @@ ns_return 200 text/html "<!DOCTYPE html>
   <input name='n' id='n' value='$n'>
  </li>
  <li>
-  <label for='p'>O (p)(small int)</label>
+  <label for='p'>P (p)(small int)</label>
   <input name='p' id='p' value='$p'>
  </li>
  <li>

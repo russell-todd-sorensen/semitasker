@@ -49,41 +49,41 @@ proc printLog {logName {joinBy \n} {reset 0}} {
     return $result
 }
 
-proc α {x z} {
-    expr {($z==1)?0:($z==2)?1:$x}
+proc α {m p} {
+    expr {($p==1)?0:($p==2)?1:$m}
 }
 
-proc φ {x y z} {
+proc φ {m n p} {
     global COUNTER
     incr COUNTER
     global c 
-    rec log "B=[format %0.7d $COUNTER] φ($x,$y,$z)"
+    rec log "B=[format %0.7d $COUNTER] φ($m,$n,$p)"
     if {$COUNTER > $c} {
-        rec log "max iterations $c reached x=$x, y=$y, z=$z, ans='not determined'"
+        rec log "max iterations $c reached m=$m, n=$n, p=$p, ans='not determined'"
         return 0
     }
-    if {$y==0} {
-        set ans [α $x $z]
+    if {$n==0} {
+        set ans [α $m $p]
     } elseif {$z==0} {
-        set ans [expr {$x + $y}]
+        set ans [expr {$m + $n}]
     } else {
-        set ans [φ $x [φ $x [expr {$y-1}] $z] [expr {$z-1}]]
+        set ans [φ $m [φ $m [expr {$n-1}] $p] [expr {$p-1}]]
     }
-    rec log "E=[format %0.7d $COUNTER] φ($x,$y,$z)=$ans"
+    rec log "E=[format %0.7d $COUNTER] φ($m,$n,$p)=$ans"
 
     return $ans
 }
 
 set m 0
 set n 0
-set o 0
+set p 0
 set c 50000
 set COUNTER 0
 
 set form [ns_conn form]
 set m [ns_set get $form m $m]
 set n [ns_set get $form n $n]
-set o [ns_set get $form o $o]
+set p [ns_set get $form p $p]
 set c [ns_set get $form c $c]
 
 if {$c > 1000000} {
@@ -91,7 +91,7 @@ if {$c > 1000000} {
 }
 
 try {
-    set result [φ $m $n $o]
+    set result [φ $m $n $p]
 } on error {e} {
     global errorInfo
     set result "error $e \n$errorInfo"
@@ -120,8 +120,8 @@ ns_return 200 text/html "<!DOCTYPE html>
   <input name='n' id='n' value='$n'>
  </li>
  <li>
-  <label for='o'>O (z)(small int)</label>
-  <input name='o' id='o' value='$o'>
+  <label for='p'>P (p)(small int)</label>
+  <input name='p' id='p' value='$p'>
  </li>
  <li>
   <label for='c'>ITERATIONS (small int)</label>
@@ -137,10 +137,10 @@ ns_return 200 text/html "<!DOCTYPE html>
 <pre>
 m = '$m'
 n = '$n'
-o = '$o'
+p = '$p'
 c = '$c'
 COUNTER = '$COUNTER'
-φ($m,$n,$o) = $result
+φ($m,$n,$p) = $result
 logs = 
 [printLog log "\n"]
 </pre>

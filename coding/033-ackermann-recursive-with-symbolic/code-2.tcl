@@ -112,7 +112,8 @@ proc ::ackermann::fn {m n} {
             set cache(3,$n) [list 2^ [expr {$n+3}] -3]
         } else {
             rec log "Symb lt(3,1019) caching --> ack(3,$n)"
-            set cache(3,$n) [expr {int(pow(2,$n+$m))-3}]
+            #set cache(3,$n) [expr {int(pow(2,$n+$m))-3}]
+            set cache(3,$n) [list 2 ^^ [expr $n+2] -3]
         }
         incr hits(3,$n)
         append cacheHits "+"
@@ -235,7 +236,7 @@ body {
  </li>
  </ul>
 </form>
-<a href='source.tcl'>Source Code</a><br>
+<a href='source.tcl?2'>Source Code</a><br>
 <a href='explained.txt'>Solution Explained</a>
 <pre>
 m = '$m'
