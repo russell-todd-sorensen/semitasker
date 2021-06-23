@@ -11,9 +11,36 @@
 <script src="/js/example-library.js"></script>
 <style>
 
-#display {
+#bg {
+    height: 170px;
+    width: 170px;
+    background-color: lightblue;
     padding: 20px;
 }
+
+
+#bg0 {
+    height: 280px;
+    width: 275px;
+    background-color: lightblue;
+    padding: 20px;
+}
+
+#bg00 {
+    height: 280px;
+    width: 275px;
+    background-color: lightblue;
+    padding: 20px;
+}
+
+.horse {
+    display: inline-block;
+    width: 100%;
+    margin: auto;
+    padding-top: 12px;
+    text-align:center;
+}
+
 .square {
     height: 50px;
     width: 50px;
@@ -21,28 +48,37 @@
     border: 1px solid black;
     display: inline-block;
     margin-bottom: 3px;
-    position: absolute;
 }
-.four,
-.five {
-    display: none;
-}
-#heats {
+
+#heats00,
+#heats0,
+#heats1,
+#heats2,
+#heats3 {
     position: relative;
     display: inline-block;
     height: 200px;
     width: 200px;
 }
-#bg {
-    height: 170px;
-    width: 170px;
-    background-color: lightblue;
-    padding: 20px;
-}
+
+
 .heat {
-    position: absolute;
-    width: 250px;
+    position: relative;
+    width: 280px;
 }
+
+#heats1 .one {
+    background-color: green;
+}
+
+#heats1 .two {
+    background-color: yellow;
+}
+
+#heats1 .three {
+   background-color: orange;
+}
+
 .one {
     left: 0;
 }
@@ -61,24 +97,128 @@
 .heat.hthree {
     top: 120px;
 }
-.hone .one {
+
+#bg .hone .one {
     background-color: green;
 }
-.hone .two,
-.htwo .one {
+
+#bg .hone .two,
+#bg .htwo .one {
     background-color: yellow;
 }
-.hone .three,
-.htwo .two,
-.hthree .one {
+
+#bg .hone .three,
+#bg .htwo .two,
+#bg .hthree .one {
    background-color: orange;
 }
-.horse {
- display: inline-block;
- width: 100%;
- margin: auto;
- padding-top: 12px;
- text-align:center;
+
+.four,
+.five {
+    display: none;
+}
+.square {
+    position: absolute;
+}
+
+.heat {
+    position: absolute;
+}
+
+#heats0 .heat.hone,
+#heats00 .heat.hone {
+    position: relative;
+    top: initial;
+}
+
+#heats0 .heat.htwo, 
+#heats00 .heat.htwo {
+    position: relative;
+    top: initial;
+}
+
+#heats0 .heat.hthree,
+#heats00 .heat.hthree {
+    position: relative;
+    top: initial;
+}
+
+#heats0 .heat.hfour,
+#heats00 .heat.hfour {
+    position: relative;
+    top: initial;
+}
+
+#heats0 .one,
+#heats00 .one {
+    left: initial;
+    position: relative;
+}
+
+#heats0 .two,
+#heats00 .two {
+    left: initial;
+    position: relative;
+}
+
+#heats0 .three,
+#heats00 .three {
+    left: initial;
+    position: relative;
+}
+
+#heats0 .four,
+#heats00 .four {
+    left: initial;
+    position: relative;
+}
+
+#heats0 .five,
+#heats00 .five {
+    left: initial;
+    position: relative;
+}
+
+#heats0 .three,
+#heats0 .four,
+#heats0 .five,
+#heats00 .three,
+#heats00 .four,
+#heats00 .five {
+    display:inline-block;
+    position: relative;
+}
+
+#heats00 .square {
+    background-color: silver;
+    position: relative;
+}
+
+#heats0 .square {
+    position: relative;
+}
+
+#heats0 .heat,
+#heats00 .heat {
+    display: inline-block;
+    position: relative;
+}
+
+#bg0 .square.one {
+    background-color: green;
+}
+
+#bg0 .square.two {
+    background-color: yellow;
+}
+
+#bg0  .square.three {
+   background-color: orange;
+}
+
+#bg0 .square.four,
+#bg0 .square.five {
+    display: none;
 }
 </style>
 
@@ -87,54 +227,249 @@
 
 <div id="bg">
 
-<div id="heats">
+<div id="heats3">
 
 <div class="heat hthree">
-<div id="h1" class="square two">1</div>
-<div id="h2" class="square one">2</div>
-<div id="h3" class="square four">3</div>
-<div id="h4" class="square five">4</div>
+<div id="h1" class="square two"><span class="horse">1</span></div>
+<div id="h2" class="square one"><span class="horse">2</span></div>
+<div id="h3" class="square four"><span class="horse">3</span></div>
+<div id="h4" class="square five"><span class="horse">4</span></div>
 <div id="h5" class="square three"><span class="horse">5</span></div>
 </div>
 
 <div class="heat four">
-<div id="h6" class="square four">6</div>
-<div id="h7" class="square three">7</div>
-<div id="h8" class="square two">8</div>
-<div id="h9" class="square one">9</div>
-<div id="h10" class="square five">10</div>
+<div id="h6" class="square four"><span class="horse">6</span></div>
+<div id="h7" class="square three"><span class="horse">7</span></div>
+<div id="h8" class="square two"><span class="horse">8</span></div>
+<div id="h9" class="square one"><span class="horse">9</span></div>
+<div id="h10" class="square five"><span class="horse">10</span></div>
 </div> 
 
 <div class="heat hone">
-<div id="h11" class="square five">11</div>
-<div id="h12" class="square two">12</div>
-<div id="h13" class="square four">13</div>
-<div id="h14" class="square one">14</div>
-<div id="h15" class="square three">15</div>
+<div id="h11" class="square five"><span class="horse">11</span></div>
+<div id="h12" class="square two"><span class="horse">12</span></div>
+<div id="h13" class="square four"><span class="horse">13</span></div>
+<div id="h14" class="square one"><span class="horse">14</span></div>
+<div id="h15" class="square three"><span class="horse">15</span></div>
 </div> 
 
 <div class="heat five">
-<div id="h16" class="square five">16</div>
-<div id="h17" class="square two">17</div>
-<div id="h18" class="square four">18</div>
-<div id="h19" class="square one">19</div>
-<div id="h20" class="square three">20</div>
+<div id="h16" class="square five"><span class="horse">16</span></div>
+<div id="h17" class="square two"><span class="horse">17</span></div>
+<div id="h18" class="square four"><span class="horse">18</span></div>
+<div id="h19" class="square one"><span class="horse">19</span></div>
+<div id="h20" class="square three"><span class="horse">20</span></div>
 </div>
 
 <div class="heat htwo">
-<div id="h21" class="square five">21</div>
-<div id="h22" class="square two">22</div>
-<div id="h23" class="square four">23</div>
-<div id="h24" class="square one">24</div>
-<div id="h25" class="square three">25</div>
+<div id="h21" class="square five"><span class="horse">21</span></div>
+<div id="h22" class="square two"><span class="horse">22</span></div>
+<div id="h23" class="square four"><span class="horse">23</span></div>
+<div id="h24" class="square one"><span class="horse">24</span></div>
+<div id="h25" class="square three"><span class="horse">25</span></div>
 </div>
 
 </div>
 </div>
 
-<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" x="0" y="0" width="1000" height="1200" viewBox="0 0 1000 1200">
+<h3>Step Two: Race Winners of Heats 1 thru 5</h3>
 
-</svg>
+<div id="bg">
+
+<div id="heats2">
+
+<div class="heat hthree">
+<div id="h1" class="square two"><span class="horse">1</span></div>
+<div id="h2" class="square one"><span class="horse">2</span></div>
+<div id="h3" class="square four"><span class="horse">3</span></div>
+<div id="h4" class="square five"><span class="horse">4</span></div>
+<div id="h5" class="square three"><span class="horse">5</span></div>
+</div>
+
+<div class="heat four">
+<div id="h6" class="square four"><span class="horse">6</span></div>
+<div id="h7" class="square three"><span class="horse">7</span></div>
+<div id="h8" class="square two"><span class="horse">8</span></div>
+<div id="h9" class="square one"><span class="horse">9</span></div>
+<div id="h10" class="square five"><span class="horse">10</span></div>
+</div> 
+
+<div class="heat hone">
+<div id="h11" class="square five"><span class="horse">11</span></div>
+<div id="h12" class="square two"><span class="horse">12</span></div>
+<div id="h13" class="square four"><span class="horse">13</span></div>
+<div id="h14" class="square one"><span class="horse">14</span></div>
+<div id="h15" class="square three"><span class="horse">15</span></div>
+</div> 
+
+<div class="heat five">
+<div id="h16" class="square five"><span class="horse">16</span></div>
+<div id="h17" class="square two"><span class="horse">17</span></div>
+<div id="h18" class="square four"><span class="horse">18</span></div>
+<div id="h19" class="square one"><span class="horse">19</span></div>
+<div id="h20" class="square three"><span class="horse">20</span></div>
+</div>
+
+<div class="heat htwo">
+<div id="h21" class="square five"><span class="horse">21</span></div>
+<div id="h22" class="square two"><span class="horse">22</span></div>
+<div id="h23" class="square four"><span class="horse">23</span></div>
+<div id="h24" class="square one"><span class="horse">24</span></div>
+<div id="h25" class="square three"><span class="horse">25</span></div>
+</div>
+
+</div>
+</div>
+
+
+<h3>Step One: Heat 6: Race Winners of Each Heat (1-5)<br>
+Eliminate Entire Row of Horses finishing 4th or 5th</h3>
+
+<div id="bg">
+
+<div id="heats1">
+
+<div class="heat hthree">
+<div id="h1" class="square two"><span class="horse">1</span></div>
+<div id="h2" class="square one"><span class="horse">2</span></div>
+<div id="h3" class="square four"><span class="horse">3</span></div>
+<div id="h4" class="square five"><span class="horse">4</span></div>
+<div id="h5" class="square three"><span class="horse">5</span></div>
+</div>
+
+<div class="heat four">
+<div id="h6" class="square four"><span class="horse">6</span></div>
+<div id="h7" class="square three"><span class="horse">7</span></div>
+<div id="h8" class="square two"><span class="horse">8</span></div>
+<div id="h9" class="square one"><span class="horse">9</span></div>
+<div id="h10" class="square five"><span class="horse">10</span></div>
+</div> 
+
+<div class="heat hone">
+<div id="h11" class="square five"><span class="horse">11</span></div>
+<div id="h12" class="square two"><span class="horse">12</span></div>
+<div id="h13" class="square four"><span class="horse">13</span></div>
+<div id="h14" class="square one"><span class="horse">14</span></div>
+<div id="h15" class="square three"><span class="horse">15</span></div>
+</div> 
+
+<div class="heat five">
+<div id="h16" class="square five"><span class="horse">16</span></div>
+<div id="h17" class="square two"><span class="horse">17</span></div>
+<div id="h18" class="square four"><span class="horse">18</span></div>
+<div id="h19" class="square one"><span class="horse">19</span></div>
+<div id="h20" class="square three"><span class="horse">20</span></div>
+</div>
+
+<div class="heat htwo">
+<div id="h21" class="square five"><span class="horse">21</span></div>
+<div id="h22" class="square two"><span class="horse">22</span></div>
+<div id="h23" class="square four"><span class="horse">23</span></div>
+<div id="h24" class="square one"><span class="horse">24</span></div>
+<div id="h25" class="square three"><span class="horse">25</span></div>
+</div>
+
+</div>
+</div>
+
+
+<h3>Step Zero: Race Each Heat 1-5, Remove Horses finishing 4th and 5th</h3>
+
+<div id="bg0">
+
+<div id="heats0">
+
+<div class="heat hthree">
+<div id="h1" class="square two"><span class="horse">1</span></div>
+<div id="h2" class="square one"><span class="horse">2</span></div>
+<div id="h3" class="square four"><span class="horse">3</span></div>
+<div id="h4" class="square five"><span class="horse">4</span></div>
+<div id="h5" class="square three"><span class="horse">5</span></div>
+</div>
+
+<div class="heat four">
+<div id="h6" class="square four"><span class="horse">6</span></div>
+<div id="h7" class="square three"><span class="horse">7</span></div>
+<div id="h8" class="square two"><span class="horse">8</span></div>
+<div id="h9" class="square one"><span class="horse">9</span></div>
+<div id="h10" class="square five"><span class="horse">10</span></div>
+</div> 
+
+<div class="heat hone">
+<div id="h11" class="square five"><span class="horse">11</span></div>
+<div id="h12" class="square two"><span class="horse">12</span></div>
+<div id="h13" class="square four"><span class="horse">13</span></div>
+<div id="h14" class="square one"><span class="horse">14</span></div>
+<div id="h15" class="square three"><span class="horse">15</span></div>
+</div> 
+
+<div class="heat five">
+<div id="h16" class="square five"><span class="horse">16</span></div>
+<div id="h17" class="square two"><span class="horse">17</span></div>
+<div id="h18" class="square four"><span class="horse">18</span></div>
+<div id="h19" class="square one"><span class="horse">19</span></div>
+<div id="h20" class="square three"><span class="horse">20</span></div>
+</div>
+
+<div class="heat htwo">
+<div id="h21" class="square five"><span class="horse">21</span></div>
+<div id="h22" class="square two"><span class="horse">22</span></div>
+<div id="h23" class="square four"><span class="horse">23</span></div>
+<div id="h24" class="square one"><span class="horse">24</span></div>
+<div id="h25" class="square three"><span class="horse">25</span></div>
+</div>
+
+</div>
+</div>
+
+<h3>Step Zero Zero: Horses assigned to Heats</h3>
+
+<div id="bg00">
+
+<div id="heats00">
+
+<div class="heat hthree">
+<div id="h1" class="square two"><span class="horse">1</span></div>
+<div id="h2" class="square one"><span class="horse">2</span></div>
+<div id="h3" class="square four"><span class="horse">3</span></div>
+<div id="h4" class="square five"><span class="horse">4</span></div>
+<div id="h5" class="square three"><span class="horse">5</span></div>
+</div>
+
+<div class="heat four">
+<div id="h6" class="square four"><span class="horse">6</span></div>
+<div id="h7" class="square three"><span class="horse">7</span></div>
+<div id="h8" class="square two"><span class="horse">8</span></div>
+<div id="h9" class="square one"><span class="horse">9</span></div>
+<div id="h10" class="square five"><span class="horse">10</span></div>
+</div> 
+
+<div class="heat hone">
+<div id="h11" class="square five"><span class="horse">11</span></div>
+<div id="h12" class="square two"><span class="horse">12</span></div>
+<div id="h13" class="square four"><span class="horse">13</span></div>
+<div id="h14" class="square one"><span class="horse">14</span></div>
+<div id="h15" class="square three"><span class="horse">15</span></div>
+</div> 
+
+<div class="heat five">
+<div id="h16" class="square five"><span class="horse">16</span></div>
+<div id="h17" class="square two"><span class="horse">17</span></div>
+<div id="h18" class="square four"><span class="horse">18</span></div>
+<div id="h19" class="square one"><span class="horse">19</span></div>
+<div id="h20" class="square three"><span class="horse">20</span></div>
+</div>
+
+<div class="heat htwo">
+<div id="h21" class="square five"><span class="horse">21</span></div>
+<div id="h22" class="square two"><span class="horse">22</span></div>
+<div id="h23" class="square four"><span class="horse">23</span></div>
+<div id="h24" class="square one"><span class="horse">24</span></div>
+<div id="h25" class="square three"><span class="horse">25</span></div>
+</div>
+
+</div>
+</div>
 <!-- here comes the script    -->
 <script>
 

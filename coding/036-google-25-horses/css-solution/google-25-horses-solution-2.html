@@ -13,6 +13,10 @@
 
 #horseRaces {
     padding: 3px;
+    position: relative;
+    display: inline-block;
+    height: 275px;
+    width: 280px;
 }
 
 .square {
@@ -25,9 +29,14 @@
     margin-left: 5px;
     /*position: absolute;*/
 }
+
+.absPos {
+    position: absolute;
+}
+
 .p4,
 .p5 {
-    display: none;
+   /* display: none; */
 }
 #heats {
     position: relative;
@@ -42,18 +51,32 @@
     padding: 20px;
 }
 .heat {
-   /* position: absolute; */
+    position: relative;
     width: 300px;
+    height: 55px;
 }
+
 .p1 {
     left: 0;
+    background-color: green;
 }
 .p2 {
     left: 60px;
+    background-color: yellow;
 }
 .p3 {
     left: 120px;
+    background-color: orange;
 }
+.p4 {
+    left: 180px;
+    background-color: pink;
+}
+.p5 {
+    left: 240px;
+    background-color: lightcoral;
+}
+
 .heat.ht1 {
     top: 0;
 }
@@ -81,6 +104,11 @@
     margin: auto;
     padding-top: 12px;
     text-align:center;
+}
+
+.p4.hide,
+.p5.hide {
+    display: none;
 }
 </style>
 
@@ -184,6 +212,7 @@ class Meeting {
     heats = [];
     horses = [];
     rankings = [];
+    results = [];
     numHorses;
     maxHeat;
     topPlaces;
@@ -225,6 +254,18 @@ class Meeting {
             start += num;
         }
     }
+    populateRunoffHeat(criteria) {
+        let len = criteria.length;
+        for (let i=0,c,path,place;i<len;i++) {
+            c = criteria[i];
+            path = c.path;
+            place = c.place;
+            switch (path.type) {
+                
+            }
+        }
+
+    }
     genIdArray(numHorses,startNum) {
         let ha = [];
         for (let i=startNum;i<(startNum+numHorses);i++) {
@@ -232,6 +273,25 @@ class Meeting {
         }
         return ha;
     }
+    raceHeat(n) {
+        this.heats[n].race();
+    }
+    raceUnracedHeats() {
+        let len = this.heats.length,
+            heat;
+
+        for (let i=0;i<len;i++) {
+            heat = this.heats[i];
+            if (!heat.raced) {
+                this.results.push({
+                    num:i,
+                    name:heat.name,
+                    result:heat.race()
+                });
+            }
+        }
+    }
+
 
 }
 
@@ -289,16 +349,40 @@ class HorseRaceAnimate {
                 });
         }
     }
+    applyHeatResults(placed,absPos,hide) {
+        let len = this.heats.length;
+        placed  = placed?placed:false;
+        absPos  = absPos?absPos:false;
+        hide    = hide?hide:false;
+
+        for (let i=0,heat,idsToPlace,hlen,name;i<len;i++) {
+            heat = this.heats[i];
+            idsToPlace = heat.idToPlace;
+            hlen = idsToPlace.length;
+            for (let [id,place] of idsToPlace.entries()) {
+                this.main.select(`#${id}`).classed(`p${place+1}`,placed);
+                this.main.select(`#${id}`).classed("absPos",absPos);
+                this.main.select(`#${id}`).classed("hide",hide);
+            }
+        }
+    }
 }
 
+var horseRace;
+var simulate = function(hr,placed,absPos,hide) {
+    hr.meeting.raceUnracedHeats();
+    hr.applyHeatResults(placed?placed:false,absPos?absPos:false,hide?hide:false);
+}
 
 window.addEventListener('DOMContentLoaded', () => {
   
-    var horseRace = new HorseRaceAnimate();
+    horseRace = new HorseRaceAnimate();
     horseRace.meeting.populateHeats();   
     horseRace.drawHeats();
 })
  
+
+
 </script>
 </body>
 </html>
