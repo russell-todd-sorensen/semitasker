@@ -34,10 +34,6 @@
     position: absolute;
 }
 
-.p4,
-.p5 {
-   /* display: none; */
-}
 #heats {
     position: relative;
     display: inline-block;
@@ -80,24 +76,38 @@
 .heat.ht1 {
     top: 0;
 }
+
 .heat.ht2 {
     top: 60px;
 }
+
 .heat.ht3 {
     top: 120px;
 }
+
+.heat.ht4 {
+    top: 180px;
+}
+
+.heat.ht5 {
+    top: 240px;
+}
+
 .ht1 .p1 {
     background-color: green;
 }
+
 .ht1 .p2,
 .ht2 .p1 {
     background-color: yellow;
 }
+
 .ht1 .p3,
 .ht2 .p2,
 .ht3 .p1 {
    background-color: orange;
 }
+
 .horse {
     display: inline-block;
     width: 100%;
@@ -254,17 +264,21 @@ class Meeting {
             start += num;
         }
     }
-    populateRunoffHeat(criteria) {
-        let len = criteria.length;
-        for (let i=0,c,path,place;i<len;i++) {
-            c = criteria[i];
-            path = c.path;
-            place = c.place;
-            switch (path.type) {
-                
-            }
+    populateRunoffHeat(arr,path,idx) {
+        arr = arr?arr:"heats";
+        let ref = this[arr],
+            max = this.maxHeat,
+            len = ref.length<=max?ref.length:max,
+            horseRefs = [],
+            heatName = `Race${this.heats.length}`;
+        
+        for (let i=0,heat,horse;i<len;i++) {
+            heat = ref[i];
+            horse = heat[path][idx];
+            horseRefs.push(heat[path][idx]);
+            console.log(`heat ${heat.name} path=${path} index=${idx} horse=${horse.id}`)
         }
-
+        this.heats.push(new Heat(heatName,null,horseRefs));
     }
     genIdArray(numHorses,startNum) {
         let ha = [];
@@ -373,6 +387,7 @@ var simulate = function(hr,placed,absPos,hide) {
     hr.meeting.raceUnracedHeats();
     hr.applyHeatResults(placed?placed:false,absPos?absPos:false,hide?hide:false);
 }
+
 
 window.addEventListener('DOMContentLoaded', () => {
   
