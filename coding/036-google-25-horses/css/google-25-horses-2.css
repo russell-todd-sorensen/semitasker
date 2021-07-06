@@ -1,0 +1,114 @@
+
+#horseRaces {
+    padding: 3px;
+    position: relative;
+    display: inline-block;
+    height: 275px;
+    width: 280px;
+}
+
+.square {
+    height: 50px;
+    width: 50px;
+    background-color: silver;
+    border: 1px solid black;
+    display: inline-block;
+    margin-bottom: 5px;
+    margin-left: 5px;
+    /*position: absolute;*/
+}
+
+#heats {
+    position: relative;
+    display: inline-block;
+    height: 200px;
+    width: 200px;
+}
+#bg {
+    height: 170px;
+    width: 170px;
+    background-color: lightblue;
+    padding: 20px;
+}
+.heat {
+    position: relative;
+    width: 300px;
+    height: 55px;
+}
+
+.p1 {
+    left: 0;
+    background-color: green;
+}
+.p2 {
+    left: 60px;
+    background-color: yellow;
+}
+.p3 {
+    left: 120px;
+    background-color: orange;
+}
+.p4 {
+    left: 180px;
+    background-color: pink;
+}
+.p5 {
+    left: 240px;
+    background-color: lightcoral;
+}
+
+.heat.ht1 {
+    top: 0;
+}
+
+.heat.ht2 {
+    top: 60px;
+}
+
+.heat.ht3 {
+    top: 120px;
+}
+
+.heat.ht4 {
+    top: 180px;
+}
+
+.heat.ht5 {
+    top: 240px;
+}
+
+.ht1 .p1 {
+    background-color: green;
+}
+
+.ht1 .p2,
+.ht2 .p1 {
+    background-color: yellow;
+}
+
+.ht1 .p3,
+.ht2 .p2,
+.ht3 .p1 {
+   background-color: orange;
+}
+
+.horse {
+    display: inline-block;
+    width: 100%;
+    margin: auto;
+    padding-top: 12px;
+    text-align:center;
+}
+
+.p4.hide,
+.p5.hide,
+.pElim.hide,
+.ht4.hide,
+.ht5.hide,
+.htElim.hide {
+    display: none;
+}
+
+.absPos {
+    position: absolute;
+}
