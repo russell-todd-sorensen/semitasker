@@ -1,0 +1,275 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="black" >
+<meta name="description" content="CodePen Challenge: Dots and Dashes" >
+
+<title>CodePen Challenge: Dots and Dashes</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Keania+One|Kenia|Major+Mono+Display|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Righteous|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Stalinist+One|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+#svg2 {
+    background-color:white;
+    cursor: pointer;
+}
+
+/*
+text.text-0 {
+    fill: black;
+    font-family: 'Fira Code';
+    font-size: 10px;
+    textLength: 38px;
+    lengthAdjust: spacingAndGlyphs;
+    text-anchor: middle;
+} */
+
+text.text-0.black {
+    fill: white;
+}
+
+#text-66,
+#text-77,
+#text-88,
+#text-99 {
+    font-size: 25px;
+    font-weight: bold;
+    font-family: "Rubik Mono One";
+    text-anchor: middle;
+}
+#dots .lite {
+    opacity: 0.2;
+}
+</style>
+<script href="/js/d3.v3.js"></script>
+<script href="/dsvg/js/tile.js"></script>
+
+</head>
+<body>
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    x="0"
+    y="0"
+    width="1300"
+    height="1100"
+    viewbox="0 -20 84.5 71.5"><!--viewbox="9 -2.75 4.16 3.52"-->
+<defs>
+<pattern id="dash-1" x="0" y="0" width="3" height="2.2" patternUnits="userSpaceOnUse">
+    <rect x="0" y="0" width="2" height="1" fill="rgba(16,16,16,1)"/>
+    <rect x="2" y="0" width="1" height="1" fill="rgba(16,16,16,0.0)"/>
+    <rect x="0" y="1.1" width="0.5" height="1" fill="rgba(16,16,16,1)"/>
+    <rect x="0.5" y="1.1" width="1" height="1" fill="rgba(16,16,16,0.0)"/>
+    <rect x="1.5" y="1.1" width="1.5" height="1" fill="rgba(16,16,16,1)"/>
+</pattern>
+
+<pattern id="dash-2" x="0" y="0" width=".3" height=".22" patternUnits="userSpaceOnUse">
+    <rect x="0" y="0" width=".2" height=".1" fill="rgba(16,16,16,1)"/>
+    <rect x=".2" y="0" width=".1" height=".1" fill="rgba(16,16,16,0.0)"/>
+    <rect x="0" y=".11" width=".05" height=".1" fill="rgba(16,16,16,1)"/>
+    <rect x=".05" y=".11" width=".1" height=".1" fill="rgba(16,16,16,0.0)"/>
+    <rect x=".15" y=".11" width=".15" height=".1" fill="rgba(16,16,16,1)"/>
+</pattern>
+<!--
+<pattern id="dot-1" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
+    <circle cx="1.25" cy=".5" r=".5" fill="rgba(250,16,16,1)"/>
+    <circle cx="3.75" cy=".5" r=".5" fill="rgba(16,16,250,1)"/>
+    <circle cx="0" cy="1.5" r=".5" fill="rgba(16,250,16,1)"/>
+    <circle cx="2.5" cy="1.5" r=".5" fill="rgba(16,16,16,1)"/>
+    <circle cx="5.0" cy="1.5" r=".5" fill="rgba(16,250,16,1)"/>
+</pattern>
+
+<pattern id="dot-2" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
+    <circle cx="1.25" cy="0" r="1.1" fill="rgba(250,16,16,1)"/>
+    <circle cx="3.75" cy="0" r="1.1" fill="rgba(16,16,250,1)"/>
+    <circle cx="0" cy="1" r="1.1" fill="rgba(16,250,16,1)"/>
+    <circle cx="2.5" cy="1" r="1.1" fill="rgba(16,16,16,1)"/>
+    <circle cx="5.0" cy="1" r="1.1" fill="rgba(16,250,16,1)"/>
+    <circle cx="1.25" cy="2" r="1.1" fill="rgba(250,16,16,1)"/>
+    <circle cx="3.75" cy="2" r="1.1" fill="rgba(16,16,250,1)"/>
+</pattern>
+
+<pattern id="dot-3" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
+    <circle cx="1.25" cy="0" r="1.1" fill="rgba(0,0,0,.25)"/>
+    <circle cx="3.75" cy="0" r="1.1" fill="rgba(0,0,0,.25)"/>
+    <circle cx="0" cy="1" r="1.1" fill="rgba(0,0,0,.25)"/>
+    <circle cx="2.5" cy="1" r="1.1" fill="rgba(0,0,0,.25)"/>
+    <circle cx="5.0" cy="1" r="1.1" fill="rgba(0,0,0,.25)"/>
+    <circle cx="1.25" cy="2" r="1.1" fill="rgba(0,0,0,.25)"/>
+    <circle cx="3.75" cy="2" r="1.1" fill="rgba(0,0,0,.25)"/>
+</pattern>
+
+<circle id="c1" cx="0" cy="0" r="1.1" fill="rgba(0,0,0,.25)">
+ <animate 
+    id="anim-radius"
+    attributeName="r"
+    attributeType="XML"
+    values="1.1;.1;1.1"
+    dur="15s"
+    begin="svg2.click"
+    repeatCount="3"
+    fill="freeze" />
+</circle>
+
+<circle id="c2" cx="0" cy="0" r="1.1" fill="url(#dash-2)">
+ <animate 
+    id="anim-radius"
+    attributeName="r"
+    attributeType="XML"
+    values="1.1;.1;1.1"
+    dur="15s"
+    begin="svg2.click"
+    repeatCount="3"
+    fill="freeze" />
+</circle>
+
+<circle id="dot-11" cx="15" cy="15" r="10" fill="url(#dash-1)" />
+-->
+
+<circle id="dot-dd" cx="0" cy="0" r="0.78" transform="rotate(0)" fill="url(#dash-2)" >
+    <animate 
+       id="anim-radius"
+       attributeName="r"
+       attributeType="XML"
+       values="0.78;1.5;.1;1.5;0.78"
+       dur="15s"
+       begin="svg2.click"
+       repeatCount="3"
+       fill="freeze" />
+    <animateTransform
+        id="rotate-dot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="0;90;180;270;360;0" 
+        dur="15s" 
+        begin="svg2.click" 
+        repeatCount="3"
+        fill="freeze"  />
+</circle>
+
+<circle id="dot-ee" cx="0" cy="0" r="0.78" transform="rotate(90)" fill="url(#dash-2)" >
+    <animate 
+       id="anim-radius"
+       attributeName="r"
+       attributeType="XML"
+       values="0.78;1.5;.1;1.5;0.78;1.45"
+       dur="15s"
+       begin="svg2.click"
+       repeatCount="3"
+       fill="freeze" />
+    <animateTransform
+        id="rotate-dot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="90;180;270;365;90" 
+        dur="15s" 
+        begin="svg2.click" 
+        repeatCount="3"
+        fill="freeze"  />
+</circle>
+<!--
+<pattern id="dot-4" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
+    <use xlink:href="#c1" x="1.25" y="0"/>
+    <use xlink:href="#c1" x="3.75" y="0"/>
+    <use xlink:href="#c1" x="0.00" y="1"/>
+    <use xlink:href="#c1" x="2.50" y="1"/>
+    <use xlink:href="#c1" x="5.00" y="1"/>
+    <use xlink:href="#c1" x="1.25" y="2"/>
+    <use xlink:href="#c1" x="3.75" y="2"/>
+</pattern>
+-->
+<pattern id="dot-5" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
+    <use xlink:href="#dot-dd" x="1.25" y="0"/>
+    <use xlink:href="#dot-dd" x="3.75" y="0"/>
+    <use xlink:href="#dot-ee" x="0.00" y="1"/>
+    <use xlink:href="#dot-ee" x="2.50" y="1"/>
+    <use xlink:href="#dot-ee" x="5.00" y="1"/>
+    <use xlink:href="#dot-dd" x="1.25" y="2"/>
+    <use xlink:href="#dot-dd" x="3.75" y="2"/>
+</pattern>
+<!--
+<circle id="dot-6-pattern" cx="0" cy="0" r="0.5" transform="rotate(30)" >
+    <animate 
+    id="anim-radius"
+    attributeName="r"
+    attributeType="XML"
+    values="0.5;.1;0.5;1.1;0.5"
+    dur="15s"
+    begin="svg2.click"
+    repeatCount="3"
+    fill="freeze" />
+
+    <animateTransform
+        id="rotateDot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="30;90;180;270;360;30" 
+        dur="15s" 
+        begin="svg2.click" 
+        repeatCount="1"
+        fill="freeze"  />
+</circle>
+<pattern id="dot-6" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
+    <use xlink:href="#dot-6-pattern" x="1.25" y="0" fill="rgba(0,255,0,.25)"/>
+    <use xlink:href="#dot-6-pattern" x="3.75" y="0" fill="rgba(255,0,0,.25)"/>
+    <use xlink:href="#dot-6-pattern" x="0.00" y="1" fill="rgba(0,0,0,.5)"/>
+    <use xlink:href="#dot-6-pattern" x="2.50" y="1" fill="rgba(0,0,255,.25)"/>
+    <use xlink:href="#dot-6-pattern" x="5.00" y="1" fill="rgba(0,0,0,.5)"/>
+    <use xlink:href="#dot-6-pattern" x="1.25" y="2" fill="rgba(0,255,0,.25)"/>
+    <use xlink:href="#dot-6-pattern" x="3.75" y="2" fill="rgba(255,0,0,.25)"/>
+</pattern>
+
+-->
+</defs>
+<use xlink:href="#border" />
+<g id="dots" transform="scale(1)"> <!-- scale(15) -->
+    <g id="tran" transform="translate(0 -19.3)">
+        <g id="zoom" transform="scale(1)" >
+            <text id="text-77"  x="42" y="20" fill="url(#dot-5)">DASH</text>
+            <text id="text-88"  x="42" y="45" fill="url(#dot-5)">0R</text>
+            <text id="text-99"  x="42" y="70" fill="url(#dot-5)">D0T?</text>
+         <!--  <animateTransform
+                id="imgZoom"
+                attributeName="transform"
+                attributeType="XML"
+                type="scale"
+                values="1;30" 
+                dur="15s" 
+                begin="imgTrans.end" 
+                repeatCount="1"
+                fill="freeze"  />--> 
+        </g>
+       <!-- <animateTransform
+            id="imgTrans"
+            attributeName="transform"
+            attributeType="XML"
+            type="translate"
+            values="0 0;-40 -40" 
+            dur="15s" 
+            begin="rotateDot.end" 
+            repeatCount="1"
+            fill="freeze"  />-->
+    </g>
+</g>
+
+</svg>
+
+<script>
+// <![CDATA[
+    window.addEventListener('DOMContentLoaded', () => {
+
+    });
+// ]]>
+</script>
+</body>
+</html>
