@@ -278,7 +278,13 @@ text.text-0.black {
         repeatCount="3"
         fill="freeze"  />
 </circle>
+<g id="rotationIndicator" >
+    <circle  id="ri-dot-gg" cx="0" cy="0" r="1.00" 
+        fill="none" stroke="rgba(0,0,0,0.8)" stroke-width=".2" 
+        stroke-dasharray="1.58 10" stroke-dashoffset="0" transform="rotate(270)"
+    >
 
+    </circle>
 <circle id="dot-gg" cx="0" cy="0" r="0.78" transform="rotate(90)" fill="url(#dash-black-00)" >
     <animate 
        id="anim-radius"
@@ -300,7 +306,7 @@ text.text-0.black {
         repeatCount="3"
         fill="freeze"  />
 </circle>
-
+</g>
 <circle id="dot-hh" cx="0" cy="0" r="0.78" transform="rotate(0)" fill="url(#dash-black-00)" >
     <animate 
        id="anim-radius"
@@ -371,7 +377,7 @@ text.text-0.black {
 </g>
 
 <g id="first-dot" transform="translate(15, 60) scale(5)">
-    <use xlink:href="#dot-gg"   x="0" />
+    <use xlink:href="#rotationIndicator"   x="0" /><!-- was dot-gg now -->
     <use xlink:href="#dot-ff00" x="4" />
     <use xlink:href="#dot-ff"   x="7"/>
     <use xlink:href="#dot-hh"   x="11" />
