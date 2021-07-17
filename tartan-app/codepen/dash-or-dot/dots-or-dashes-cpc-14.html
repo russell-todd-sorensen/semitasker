@@ -1,0 +1,433 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="black" >
+<meta name="description" content="CodePen Challenge: Dots and Dashes" >
+
+<title>CodePen Challenge: Dots and Dashes</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Keania+One|Kenia|Major+Mono+Display|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Righteous|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Stalinist+One|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+#svg2 {
+    background-color:rgba(0,0,0,.01);
+    cursor: pointer;
+}
+
+text.text-0.black {
+    fill: white;
+}
+
+#text-66,
+#text-77,
+#text-88,
+#text-99 {
+    font-size: 25px;
+    font-weight: bold;
+    font-family: "Rubik Mono One";
+    text-anchor: middle;
+    stroke: rgba(0,0,0,.2);
+    stroke-width: .2;
+}
+#dots .lite {
+    opacity: 0.2;
+}
+
+#svg2 line.l1 {
+    stroke-dashoffset: inherit;
+    stroke-dasharray: inherit;
+    /*stroke: inherit;*/
+}   
+
+#svg2 line.l2 {
+    stroke-dashoffset: inherit;
+    stroke-dasharray: inherit;
+    stroke: inherit;
+}   
+
+#grid-5 line { /* grid is 5x5 */
+    stroke-dasharray:   .05 4.95;
+    stroke-dashoffset:   .5;
+    stroke-width:      250%;
+    stroke-linecap:   miter;
+    stroke:  rgba(0,0,0,.6);
+
+}
+
+</style>
+
+</head>
+<body>
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    externalResourcesRequired="true"
+    x="0"
+    y="0"
+    width="1300"
+    height="2800"
+    viewbox="0 0 84.5 71.5">
+<defs>
+
+<g id="grid-5">
+    <line x1="-100%" y1="0%" x2="300%" y2="0%"/>
+</g>
+  
+<g id="grid-5-v">
+    <use xlink:href="#grid-5" transform="rotate(90,0,0)"/> 
+</g>
+
+<g id="whole-grid-5" x="0" y="0">
+    <use xlink:href="#grid-5"/>
+    <use xlink:href="#grid-5-v"/>
+</g>
+
+<!-- 
+    These two line segments are the basis of all the graphics on this page.
+    The class l2 allows the segments to inherit stroke (color), stroke-dasharray,
+    and stroke-dashoffset. These control the only variations needed. 
+-->
+
+<!-- The Large Line Segment -->
+<line id="lineB1i" class="l2" stroke-width="1" x1="0" y1=".55" x2="3" y2=".55" />
+
+<!-- The Small Line Segment -->
+<line id="lineColor1s" class="l2" stroke-width="0.1" x1="0" y1="0.055" x2=".3" y2=".055" />
+
+
+<!--
+    Two copies of the line segment are used in each dash pattern, the first goes
+    in at 0,0 and the second with an y offset of 1.1
+
+-->
+
+<!-- The -0 patterns are 10x larger than the -00 patterns, 
+     There is a limit on zooming in to small details, so I had to 
+     create a large pattern for demo purposes.     
+-->
+<pattern id="dash-color-0" x="0" y="0" width="3" height="2.2" patternUnits="userSpaceOnUse">
+    <use xlink:href="#lineB1i" x="0" y="0" stroke-dasharray="2, 1"  stroke="rgba(176,176,52,1)"/>
+    <use xlink:href="#lineB1i" x="0" y="1.1" stroke-dasharray="2, 1" stroke-dashoffset="-1.5" stroke="rgba(104,0,104,1)" />
+</pattern>
+
+<pattern id="dash-color1-0" x="0" y="0" width="3" height="2.2" patternUnits="userSpaceOnUse">
+    <use xlink:href="#lineB1i" x="0" y="0" stroke-dasharray="2, 1"  stroke="rgba(0,255,0,1)"/>
+    <use xlink:href="#lineB1i" x="0" y="1.1" stroke-dasharray="2, 1" stroke-dashoffset="-1.5" stroke="rgba(0,0,255,1)" />
+</pattern>
+
+<pattern id="dash-color-bw-0" x="0" y="0" width="3" height="2.2" patternUnits="userSpaceOnUse">
+    <use xlink:href="#lineB1i" x="0" y="0" stroke-dasharray="2, 1"  stroke="rgba(0,0,0,1)"/>
+    <use xlink:href="#lineB1i" x="0" y="1.1" stroke-dasharray="2, 1" stroke-dashoffset="-1.5" stroke="rgba(0,0,0,1)" />
+</pattern>
+
+<!-- The -00 patterns -->
+
+<pattern id="dash-black-00" x="0" y="0" width=".3" height=".22" patternUnits="userSpaceOnUse">
+    <use xlink:href="#lineColor1s" x="0" y="-0.005" stroke-dasharray="0.2, 0.1" stroke="rgba(0,0,0,1)"/>
+    <use xlink:href="#lineColor1s" x="0" y="0.105" stroke-dasharray="0.2, 0.1" stroke-dashoffset="-0.15" stroke="rgba(0,0,0,1)"/>
+</pattern>
+
+<pattern id="dash-color1-00" x="0" y="0" width=".3" height=".22" patternUnits="userSpaceOnUse">
+    <use xlink:href="#lineColor1s" x="0" y="-0.005" stroke-dasharray="0.2, 0.1" stroke="rgba(0,255,0,1)"/>
+    <use xlink:href="#lineColor1s" x="0" y="0.105" stroke-dasharray="0.2, 0.1" stroke-dashoffset="-0.15" stroke="rgba(0,0,255,1)"/>
+</pattern>
+
+<pattern id="dash-color-00" x="0" y="0" width=".3" height=".22" patternUnits="userSpaceOnUse">
+    <use xlink:href="#lineColor1s" x="0" y="-0.005" stroke-dasharray="0.2, 0.1" stroke="rgba(176,176,52,1)"/>
+    <use xlink:href="#lineColor1s" x="0" y="0.105" stroke-dasharray="0.2, 0.1" stroke-dashoffset="-0.15" stroke="rgba(104,0,104,1)"/>
+</pattern>
+
+<!-- Each pattern is used to fill two circles which are animated separately -->
+
+<circle id="dot-dd" cx="0" cy="0" r="0.78" transform="rotate(0)" fill="url(#dash-black-00)" >
+    <animate 
+       id="anim-radius"
+       attributeName="r"
+       attributeType="XML"
+       values="0.78;1.5;.1;1.5;0.78"
+       dur="15s"
+       begin="2s;svg2.click"
+       repeatCount="3"
+       fill="freeze" />
+    <animateTransform
+        id="rotate-dot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="0;90;180;270;360;0" 
+        dur="15s" 
+        begin="2s;svg2.click" 
+        repeatCount="3"
+        fill="freeze"  />
+</circle>
+
+<circle id="dot-ee" cx="0" cy="0" r="0.78" transform="rotate(90)" fill="url(#dash-black-00)" >
+    <animate 
+       id="anim-radius"
+       attributeName="r"
+       attributeType="XML"
+       values="0.78;1.5;.1;1.5;0.78;1.45"
+       dur="15s"
+       begin="2s;svg2.click"
+       repeatCount="3"
+       fill="freeze" />
+    <animateTransform
+        id="rotate-dot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="90;180;270;365;90" 
+        dur="15s" 
+        begin="2s;svg2.click" 
+        repeatCount="3"
+        fill="freeze"  />
+</circle>
+
+<circle id="dot-ff" cx="0" cy="0" r="0.78" transform="rotate(90)" fill="url(#dash-color1-00)" >
+    <animate 
+       id="anim-radius"
+       attributeName="r"
+       attributeType="XML"
+       values="0.78;1.5;.1;1.5;0.78;1.45"
+       dur="15s"
+       begin="2s;svg2.click"
+       repeatCount="3"
+       fill="freeze" />
+    <animateTransform
+        id="rotate-dot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="90;180;270;365;90" 
+        dur="15s" 
+        begin="2s;svg2.click" 
+        repeatCount="3"
+        fill="freeze"  />
+</circle>
+
+<circle id="dot-ff00" cx="0" cy="0" r="0.78" transform="rotate(0)" fill="url(#dash-color1-00)" >
+    <animate 
+       id="anim-radius"
+       attributeName="r"
+       attributeType="XML"
+       values="0.78;1.5;.1;1.5;0.78"
+       dur="15s"
+       begin="2s;svg2.click"
+       repeatCount="3"
+       fill="freeze" />
+    <animateTransform
+        id="rotate-dot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="0;90;180;270;360;0" 
+        dur="15s" 
+        begin="2s;svg2.click" 
+        repeatCount="3"
+        fill="freeze"  />
+</circle>
+
+<!-- Only the dot-gg circle is used here at the moment. -->
+<g id="rotationIndicator" >
+    <circle  id="ri-dot-gg" cx="0" cy="0" r="1.00" 
+        fill="none" stroke="rgba(0,0,0,0.8)" stroke-width=".05" 
+        stroke-dasharray="1.58 10" stroke-dashoffset="0" transform="rotate(270)"
+    />
+
+<!-- Also, only one demo circle is used with #dash-black-00 -->
+
+<circle id="dot-gg" cx="0" cy="0" r="0.78" transform="rotate(90)" fill="url(#dash-black-00)" >
+    <animate 
+       id="anim-radius"
+       attributeName="r"
+       attributeType="XML"
+       values="0.78;1.5;.1;1.5;0.78;1.45"
+       dur="15s"
+       begin="2s;svg2.click"
+       repeatCount="3"
+       fill="freeze" />
+    <animateTransform
+        id="rotate-dot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="90;180;270;365;90" 
+        dur="15s" 
+        begin="2s;svg2.click" 
+        repeatCount="3"
+        fill="freeze"  />
+</circle>
+</g>
+
+<circle id="dot-gg-color" cx="0" cy="0" r="0.78" transform="rotate(90)" fill="url(#dash-color-00)" >
+    <animate 
+       id="anim-radius"
+       attributeName="r"
+       attributeType="XML"
+       values="0.78;1.5;.1;1.5;0.78;1.45"
+       dur="15s"
+       begin="2s;svg2.click"
+       repeatCount="3"
+       fill="freeze" />
+    <animateTransform
+        id="rotate-dot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="90;180;270;365;90" 
+        dur="15s" 
+        begin="2s;svg2.click" 
+        repeatCount="3"
+        fill="freeze"  />
+</circle>
+<circle id="dot-hh-color" cx="0" cy="0" r="0.78" transform="rotate(0)" fill="url(#dash-color-00)" >
+    <animate 
+       id="anim-radius"
+       attributeName="r"
+       attributeType="XML"
+       values="0.78;1.5;.1;1.5;0.78"
+       dur="15s"
+       begin="2s;svg2.click"
+       repeatCount="3"
+       fill="freeze" />
+    <animateTransform
+        id="rotate-dot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="0;90;180;270;360;0" 
+        dur="15s" 
+        begin="2s;svg2.click" 
+        repeatCount="3"
+        fill="freeze"  />
+</circle>
+
+<!-- Finally Two different animated (small) dots are used on each dash pattern -->
+
+<pattern id="dot-5" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
+    <use xlink:href="#dot-dd" x="1.25" y="0"/>
+    <use xlink:href="#dot-dd" x="3.75" y="0"/>
+    <use xlink:href="#dot-ee" x="0.00" y="1"/>
+    <use xlink:href="#dot-ee" x="2.50" y="1"/>
+    <use xlink:href="#dot-ee" x="5.00" y="1"/>
+    <use xlink:href="#dot-dd" x="1.25" y="2"/>
+    <use xlink:href="#dot-dd" x="3.75" y="2"/>
+</pattern>
+
+<pattern id="dot-5-color" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
+    <use xlink:href="#dot-hh-color" x="1.25" y="0"/>
+    <use xlink:href="#dot-hh-color" x="3.75" y="0"/>
+    <use xlink:href="#dot-gg-color" x="0.00" y="1"/>
+    <use xlink:href="#dot-gg-color" x="2.50" y="1"/>
+    <use xlink:href="#dot-gg-color" x="5.00" y="1"/>
+    <use xlink:href="#dot-hh-color" x="1.25" y="2"/>
+    <use xlink:href="#dot-hh-color" x="3.75" y="2"/>
+</pattern>
+
+<pattern id="dot-7" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
+    <use xlink:href="#dot-ff00" x="1.25" y="0"/>
+    <use xlink:href="#dot-ff00" x="3.75" y="0"/>
+    <use xlink:href="#dot-ff"   x="0.00" y="1"/>
+    <use xlink:href="#dot-ff"   x="2.50" y="1"/>
+    <use xlink:href="#dot-ff"   x="5.00" y="1"/>
+    <use xlink:href="#dot-ff00" x="1.25" y="2"/>
+    <use xlink:href="#dot-ff00" x="3.75" y="2"/>
+</pattern>
+
+</defs>
+
+<g id="top-top" transform="translate(0,-30)" >
+
+    <animateTransform 
+            id="translate-top-top"
+            attributeName="transform"
+            attributeType="XML"
+            type="translate"
+            values="0 -30;0 -41;0 -41;0 -54;0 -54;0 -70;0 -70;0 -80;0 -80;0 -90;0 -90;0 -100;0 -100;0 -110;0 -110;0 -100;0 -100;0 -90;0 -90;0 -80;0 -80;0 -70;0 -70;0 -54;0 -54;0 -41;0 -41;0 -30;0 -30;0 -30" 
+            dur="40s" 
+            begin="2s;svg2.click"
+            end="svg2.wheel"
+            repeatCount="2"
+            fill="remove" />
+<g id="top" transform="scale(0.5)" >
+<use id="complete-grid" opacity=".5" xlink:href="#whole-grid-5"/>
+
+<g id="dots" transform="scale(1)">
+    <g id="tran" transform="translate(0 -50)">
+        <g id="zoom" transform="scale(1)" >
+            <text id="text-77"  x="42" y="20" fill="url(#dot-7)">DASH</text>
+            <text id="text-88"  x="42" y="45" fill="url(#dot-5)">0R</text>
+            <text id="text-99"  x="42" y="70" fill="url(#dot-5-color)">D0T?</text>
+        </g>
+    </g>
+</g>
+
+<g id="dot-pattern-1" transform="translate(2.5,35) scale(5)">
+    <rect id="dot-rect" x="0" y="0" height="2" width="5" fill="url(#dot-7)" />
+</g>
+
+<g id="dot-pattern-2" transform="translate(30,35) scale(5)">
+    <rect id="dot-rect" x="0" y="0" height="2" width="5" fill="url(#dot-5)" />
+</g>
+
+<g id="dot-pattern-3" transform="translate(57.5,35) scale(5)">
+    <rect id="dot-rect" x="0" y="0" height="2" width="5" fill="url(#dot-5-color)" />
+</g>
+
+<g id="first-dot" transform="translate(15, 60) scale(5)">
+    <use xlink:href="#dot-ff00"     x="-1.5" />
+    <use xlink:href="#dot-ff"       x="1.5"/>
+    <use xlink:href="#dot-gg"       x="5.5" /><!-- was rotationIndicator now dot-gg -->
+    <use xlink:href="#dot-gg-color" x="9.5" />
+    <use xlink:href="#dot-hh-color" x="12.5" />
+    
+
+    <g id="rect-pattern" transform="translate(0.5,0)">
+        <g id="pattern-unit-1" transform="translate(-2,2)">
+            <rect id="test-rect-1" x="0" y="0" height="2.2" width="3" 
+                fill="url(#dash-color1-0)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
+        </g>
+        <g id="pattern-unit-2" transform="translate(3.5,2)">
+            <rect id="test-rect-2" x="0" y="0" height="2.2" width="3" 
+                fill="url(#dash-color-bw-0)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
+        </g>
+
+        <g id="pattern-unit-3" transform="translate(9,2)" >
+            <rect id="test-rect-3" x="0" y="0" height="2.2" width="3" 
+                fill="url(#dash-color-0)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
+        </g>
+
+        <g id="solid-lines" transform="translate(-2,6)" >
+            <use xlink:href="#lineB1i" stroke="rgba(0,255,0,1)"/>
+            <use xlink:href="#lineB1i" y="1.1" stroke="rgba(0,0,255,1)"/>
+        </g>
+        <g id="solid-lines-2" transform="translate(3.5,6)" >
+            <use xlink:href="#lineB1i" stroke="rgba(0,0,0,1)"/>
+            <use xlink:href="#lineB1i" y="1.1" stroke="rgba(0,0,0,1)"/>
+        </g>
+        <g id="solid-lines-3" transform="translate(9,6)" >
+            <use xlink:href="#lineB1i" stroke="rgba(176,176,52,1)"/>
+            <use xlink:href="#lineB1i" y="1.1" stroke="rgba(104,0,104,1)"/>
+        </g>
+    </g>
+
+    <use xlink:href="#lineB1i" x="4" y="10" stroke="rgba(0,0,0,1)" />
+</g>
+</g>
+</g>
+</svg>
+
+<script>
+// <![CDATA[
+    window.addEventListener('DOMContentLoaded', () => {
+
+    });
+// ]]>
+</script>
+</body>
+</html>

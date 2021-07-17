@@ -1,90 +1,4 @@
-<!DOCTYPE HTML>
-<html lang="en-US">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1" >
-<meta name="theme-color" content="black" >
-<meta name="description" content="CodePen Challenge: Dots and Dashes" >
-
-<title>CodePen Challenge: Dots and Dashes</title>
-
-<style>
-@import url('https://fonts.googleapis.com/css?family=Alfa+Slab+One|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Keania+One|Kenia|Major+Mono+Display|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Righteous|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Stalinist+One|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
-</style>
-<style>
-#svg2 {
-    background-color:rgba(0,0,0,.1);
-    cursor: pointer;
-}
-
-text.text-0.black {
-    fill: white;
-}
-
-#text-66,
-#text-77,
-#text-88,
-#text-99 {
-    font-size: 25px;
-    font-weight: bold;
-    font-family: "Rubik Mono One";
-    text-anchor: middle;
-    stroke: rgba(0,0,0,.2);
-    stroke-width: .2;
-}
-#dots .lite {
-    opacity: 0.2;
-}
-#svg2 line.l1 {
-    stroke-dashoffset: inherit;
-    stroke-dasharray: inherit;
-    /*stroke: inherit;*/
-}   
-/*
-#svg2 {
-    background-image: url("/svg/grid-fine-2.svg");
-}
-*/
-#grid line { /* grid is 20x20 */
-    stroke-dasharray:  1 19;
-    stroke-dashoffset:   .5;
-    stroke-width:      250%;
-    stroke-linecap:   miter;
-    stroke:  rgba(0,0,0,.6);
-}
-
-#grid-10 line { /* grid is 10x10 */
-    stroke-dasharray:   1 9;
-    stroke-dashoffset:   .5;
-    stroke-width:      250%;
-    stroke-linecap:   miter;
-    stroke:  rgba(0,0,0,.6);
-
-}
-
-#grid-5 line { /* grid is 5x5 */
-    stroke-dasharray:   .05 4.95;
-    stroke-dashoffset:   .5;
-    stroke-width:      250%;
-    stroke-linecap:   miter;
-    stroke:  rgba(0,0,0,.6);
-
-}
-
-#grid-1 line { /* grid is 1x1 */
-    stroke-dasharray:   .05 .95;
-    stroke-dashoffset:   .05;
-    stroke-width:      250%;
-    stroke-linecap:   miter;
-    stroke:  rgba(0,0,0,.6);
-
-}
-
-</style>
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-</head>
-<body>
+<?xml version="1.0" encoding="utf-8"?>
 <svg 
     id="svg2"
     xmlns:svg="http://www.w3.org/2000/svg"
@@ -95,7 +9,6 @@ text.text-0.black {
     width="1300"
     height="2800"
     viewbox="0 0 84.5 71.5">
-    <!--dims were 1300x1100-->
 <defs>
 
 <g id="grid-10">
@@ -146,6 +59,7 @@ text.text-0.black {
 
 <line id="lineB1" class="l1" stroke-width="1" stroke="rgba(0,0,0,1)" x1="0" y1=".55" x2="3" y2=".55" />
 <line id="lineB2" class="l1" stroke-width="1" stroke="rgba(0,0,0,1)" x1="0" y1="1.65" x2="3" y2="1.65" />
+<line id="lineB1i" class="l2" stroke-width="1" x1="0" y1=".55" x2="3" y2=".55" />
 
 <pattern id="dash-black" x="0" y="0" width="3" height="2.2" patternUnits="userSpaceOnUse">
     <use xlink:href="#lineB1" x="0" y="0" stroke-dasharray="2, 1" />
@@ -153,8 +67,8 @@ text.text-0.black {
 </pattern>
 
 <pattern id="dash-black-2" x="0" y="0" width="3" height="2.2" patternUnits="userSpaceOnUse">
-    <use xlink:href="#lineB1" x="0" y="0" stroke-dasharray="2, 1" />
-    <use xlink:href="#lineB1" x="0" y="1.1" stroke-dasharray="2, 1" stroke-dashoffset="-1.5" />
+    <use xlink:href="#lineB1i" x="0" y="0" stroke-dasharray="2, 1"  stroke="rgba(0,0,0,1)"/>
+    <use xlink:href="#lineB1i" x="0" y="1.1" stroke-dasharray="2, 1" stroke-dashoffset="-1.5" stroke="rgba(0,0,0,1)" />
 </pattern>
 
 <line id="line-1" class="l1" stroke-width="1" stroke="rgba(0,255,0,1)" x1="0" y1=".55" x2="3" y2=".55" />
@@ -387,31 +301,26 @@ text.text-0.black {
     <use xlink:href="#dot-ff"   x="7"/>
     <use xlink:href="#dot-hh"   x="11" />
 
+    <g id="rect-pattern" transform="translate(0.5,0)">
+        <g id="pattern-unit-1" transform="translate(-2,2)">
+            <rect id="test-rect-1" x="0" y="0" height="2.2" width="3" fill="url(#dash-black-2)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
+        </g>
+        <g id="pattern-unit-2" transform="translate(3.5,2)">
+            <rect id="test-rect-2" x="0" y="0" height="2.2" width="3" fill="url(#dash-0)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
+        </g>
+        
+        <use xlink:href="#pattern-unit-1" id="pattern-unit-3" transform="translate(11,0)" />
 
-    <g id="move-left-1" transform="translate(-2,2)">
-        <rect id="test-rect-1" x="0" y="0" height="2.2" width="4" fill="url(#dash-black-2)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
-    </g>
-    <g id="move-left-2" transform="translate(3.5,2)">
-        <rect id="test-rect-2" x="0" y="0" height="2.2" width="4" fill="url(#dash-0)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
-    </g>
-    <g id="move-left-3" transform="translate(9,2)">
-        <rect id="test-rect-3" x="0" y="0" height="2.2" width="4" fill="url(#dash-black)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
-    </g>
-
-    <g id="solid-lines" transform="translate(-2,6)" >
-        <use xlink:href="#lineB1" />
-        <use xlink:href="#lineB1" y="1.1" />
+        <g id="solid-lines" transform="translate(-2,6)" >
+            <use xlink:href="#lineB1i" stroke="rgba(0,0,0,1)"/>
+            <use xlink:href="#lineB1i" y="1.1" stroke="rgba(0,0,0,1)"/>
+        </g>
+        <g id="solid-lines-2" transform="translate(3.5,6)" >
+            <use xlink:href="#lineB1i" stroke="rgba(0,255,0,1)"/>
+            <use xlink:href="#lineB1i" y="1.1" stroke="rgba(0,0,255,1)"/>
+        </g>
+        <use xlink:href="#solid-lines" id="solid-lines-3" transform="translate(11,0)" />
     </g>
 </g>
 
 </svg>
-
-<script>
-// <![CDATA[
-    window.addEventListener('DOMContentLoaded', () => {
-        $("#svg2").click();
-    });
-// ]]>
-</script>
-</body>
-</html>

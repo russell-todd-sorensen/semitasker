@@ -35,10 +35,17 @@ text.text-0.black {
 #dots .lite {
     opacity: 0.2;
 }
+
 #svg2 line.l1 {
     stroke-dashoffset: inherit;
     stroke-dasharray: inherit;
     /*stroke: inherit;*/
+}   
+
+#svg2 line.l2 {
+    stroke-dashoffset: inherit;
+    stroke-dasharray: inherit;
+    stroke: inherit;
 }   
 /*
 #svg2 {
@@ -90,6 +97,7 @@ text.text-0.black {
     xmlns:svg="http://www.w3.org/2000/svg"
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
+    externalResourcesRequired="true"
     x="0"
     y="0"
     width="1300"
@@ -146,6 +154,7 @@ text.text-0.black {
 
 <line id="lineB1" class="l1" stroke-width="1" stroke="rgba(0,0,0,1)" x1="0" y1=".55" x2="3" y2=".55" />
 <line id="lineB2" class="l1" stroke-width="1" stroke="rgba(0,0,0,1)" x1="0" y1="1.65" x2="3" y2="1.65" />
+<line id="lineB1i" class="l2" stroke-width="1" x1="0" y1=".55" x2="3" y2=".55" />
 
 <pattern id="dash-black" x="0" y="0" width="3" height="2.2" patternUnits="userSpaceOnUse">
     <use xlink:href="#lineB1" x="0" y="0" stroke-dasharray="2, 1" />
@@ -153,8 +162,13 @@ text.text-0.black {
 </pattern>
 
 <pattern id="dash-black-2" x="0" y="0" width="3" height="2.2" patternUnits="userSpaceOnUse">
-    <use xlink:href="#lineB1" x="0" y="0" stroke-dasharray="2, 1" />
-    <use xlink:href="#lineB1" x="0" y="1.1" stroke-dasharray="2, 1" stroke-dashoffset="-1.5" />
+    <use xlink:href="#lineB1i" x="0" y="0" stroke-dasharray="2, 1"  stroke="rgba(0,0,0,1)"/>
+    <use xlink:href="#lineB1i" x="0" y="1.1" stroke-dasharray="2, 1" stroke-dashoffset="-1.5" stroke="rgba(0,0,0,1)" />
+</pattern>
+
+<pattern id="dash-color-0" x="0" y="0" width="3" height="2.2" patternUnits="userSpaceOnUse">
+    <use xlink:href="#lineB1i" x="0" y="0" stroke-dasharray="2, 1"  stroke="rgba(176,176,52,1)"/>
+    <use xlink:href="#lineB1i" x="0" y="1.1" stroke-dasharray="2, 1" stroke-dashoffset="-1.5" stroke="rgba(104,0,104,1)" />
 </pattern>
 
 <line id="line-1" class="l1" stroke-width="1" stroke="rgba(0,255,0,1)" x1="0" y1=".55" x2="3" y2=".55" />
@@ -180,6 +194,15 @@ text.text-0.black {
     <use xlink:href="#lineB1s" x="0" y="-0.005" stroke-dasharray="0.2, 0.1" />
     <use xlink:href="#lineB2s" x="0" y="-0.005" stroke-dasharray="0.2, 0.1" stroke-dashoffset="-0.15" />
 </pattern>
+
+<line id="lineColor1s" class="l2" stroke-width="0.1" x1="0" y1="0.055" x2=".3" y2=".055" />
+
+<pattern id="dash-color-00" x="0" y="0" width=".3" height=".22" patternUnits="userSpaceOnUse">
+    <use xlink:href="#lineColor1s" x="0" y="-0.005" stroke-dasharray="0.2, 0.1" stroke="rgba(176,176,52,1)"/>
+    <use xlink:href="#lineColor1s" x="0" y="0.105" stroke-dasharray="0.2, 0.1" stroke-dashoffset="-0.15" stroke="rgba(104,0,104,1)"/>
+</pattern>
+
+
 
 <pattern id="dash-1" x="0" y="0" width="3" height="2.2" patternUnits="userSpaceOnUse">
     <rect x="0" y="0" width="2" height="1" fill="rgba(16,16,16,1)"/>
@@ -335,6 +358,48 @@ text.text-0.black {
         fill="freeze"  />
 </circle>
 
+<circle id="dot-gg-color" cx="0" cy="0" r="0.78" transform="rotate(90)" fill="url(#dash-color-00)" >
+    <animate 
+       id="anim-radius"
+       attributeName="r"
+       attributeType="XML"
+       values="0.78;1.5;.1;1.5;0.78;1.45"
+       dur="15s"
+       begin="svg2.click"
+       repeatCount="3"
+       fill="freeze" />
+    <animateTransform
+        id="rotate-dot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="90;180;270;365;90" 
+        dur="15s" 
+        begin="svg2.click" 
+        repeatCount="3"
+        fill="freeze"  />
+</circle>
+<circle id="dot-hh-color" cx="0" cy="0" r="0.78" transform="rotate(0)" fill="url(#dash-color-00)" >
+    <animate 
+       id="anim-radius"
+       attributeName="r"
+       attributeType="XML"
+       values="0.78;1.5;.1;1.5;0.78"
+       dur="15s"
+       begin="svg2.click"
+       repeatCount="3"
+       fill="freeze" />
+    <animateTransform
+        id="rotate-dot"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate"
+        values="0;90;180;270;360;0" 
+        dur="15s" 
+        begin="svg2.click" 
+        repeatCount="3"
+        fill="freeze"  />
+</circle>
 <pattern id="dot-5" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
     <use xlink:href="#dot-dd" x="1.25" y="0"/>
     <use xlink:href="#dot-dd" x="3.75" y="0"/>
@@ -343,6 +408,16 @@ text.text-0.black {
     <use xlink:href="#dot-ee" x="5.00" y="1"/>
     <use xlink:href="#dot-dd" x="1.25" y="2"/>
     <use xlink:href="#dot-dd" x="3.75" y="2"/>
+</pattern>
+
+<pattern id="dot-5-color" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
+    <use xlink:href="#dot-hh-color" x="1.25" y="0"/>
+    <use xlink:href="#dot-hh-color" x="3.75" y="0"/>
+    <use xlink:href="#dot-gg-color" x="0.00" y="1"/>
+    <use xlink:href="#dot-gg-color" x="2.50" y="1"/>
+    <use xlink:href="#dot-gg-color" x="5.00" y="1"/>
+    <use xlink:href="#dot-hh-color" x="1.25" y="2"/>
+    <use xlink:href="#dot-hh-color" x="3.75" y="2"/>
 </pattern>
 
 <pattern id="dot-7" x="0" y="0" width="5.0" height="2.0" patternUnits="userSpaceOnUse">
@@ -364,7 +439,7 @@ text.text-0.black {
         <g id="zoom" transform="scale(1)" >
             <text id="text-77"  x="42" y="20" fill="url(#dot-5)">DASH</text>
             <text id="text-88"  x="42" y="45" fill="url(#dot-7)">0R</text>
-            <text id="text-99"  x="42" y="70" fill="url(#dot-5)">D0T?</text>
+            <text id="text-99"  x="42" y="70" fill="url(#dot-5-color)">D0T?</text>
         </g>
     </g>
 </g>
@@ -378,29 +453,42 @@ text.text-0.black {
 </g>
 
 <g id="dot-pattern-3" transform="translate(57.5,35) scale(5)">
-    <rect id="dot-rect" x="0" y="0" height="2" width="5" fill="url(#dot-5)" />
+    <rect id="dot-rect" x="0" y="0" height="2" width="5" fill="url(#dot-5-color)" />
 </g>
 
 <g id="first-dot" transform="translate(15, 60) scale(5)">
     <use xlink:href="#rotationIndicator"   x="0" /><!-- was dot-gg now -->
     <use xlink:href="#dot-ff00" x="4" />
     <use xlink:href="#dot-ff"   x="7"/>
-    <use xlink:href="#dot-hh"   x="11" />
+    <use xlink:href="#dot-hh-color"   x="11" />
 
+    <g id="rect-pattern" transform="translate(0.5,0)">
+        <g id="pattern-unit-1" transform="translate(-2,2)">
+            <rect id="test-rect-1" x="0" y="0" height="2.2" width="3" 
+                fill="url(#dash-black-2)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
+        </g>
+        <g id="pattern-unit-2" transform="translate(3.5,2)">
+            <rect id="test-rect-2" x="0" y="0" height="2.2" width="3" 
+                fill="url(#dash-0)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
+        </g>
 
-    <g id="move-left-1" transform="translate(-2,2)">
-        <rect id="test-rect-1" x="0" y="0" height="2.2" width="4" fill="url(#dash-black-2)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
-    </g>
-    <g id="move-left-2" transform="translate(3.5,2)">
-        <rect id="test-rect-2" x="0" y="0" height="2.2" width="4" fill="url(#dash-0)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
-    </g>
-    <g id="move-left-3" transform="translate(9,2)">
-        <rect id="test-rect-3" x="0" y="0" height="2.2" width="4" fill="url(#dash-black)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
-    </g>
+        <g id="pattern-unit-3" transform="translate(9,2)" >
+            <rect id="test-rect-3" x="0" y="0" height="2.2" width="3" 
+                fill="url(#dash-color-0)" stroke="rgba(0,0,0,.3)" stroke-width=".01" />
+        </g>
 
-    <g id="solid-lines" transform="translate(-2,6)" >
-        <use xlink:href="#lineB1" />
-        <use xlink:href="#lineB1" y="1.1" />
+        <g id="solid-lines" transform="translate(-2,6)" >
+            <use xlink:href="#lineB1i" stroke="rgba(0,0,0,1)"/>
+            <use xlink:href="#lineB1i" y="1.1" stroke="rgba(0,0,0,1)"/>
+        </g>
+        <g id="solid-lines-2" transform="translate(3.5,6)" >
+            <use xlink:href="#lineB1i" stroke="rgba(0,255,0,1)"/>
+            <use xlink:href="#lineB1i" y="1.1" stroke="rgba(0,0,255,1)"/>
+        </g>
+        <g id="solid-lines-3" transform="translate(9,6)" >
+            <use xlink:href="#lineB1i" stroke="rgba(176,176,52,1)"/>
+            <use xlink:href="#lineB1i" y="1.1" stroke="rgba(104,0,104,1)"/>
+        </g>
     </g>
 </g>
 
