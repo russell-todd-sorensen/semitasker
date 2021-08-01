@@ -41,13 +41,14 @@ var Log = {
             milliseconds = "0" + milliseconds;
         }
 
-        var dateString = "[" + now.getFullYear() + "-" + month + "-" + day + "T" +  hour + ":" + minute + ":"  + second + "." + milliseconds + "] ";
+        //var dateString = "[" + now.getFullYear() + "-" + month + "-" + day + "T" +  hour + ":" + minute + ":"  + second + "." + milliseconds + "] ";
+        var dateString = `[${now.getFullYear()}-${month}-${day}T${hour}:${minute}:${second}.${milliseconds}]`;
 
         this.LogHistory[this.LogIndex] = [dateString, level, msg];
         this.LogIndex++;
         this.logText = "";
         for (var i = (((this.LogIndex-this.DisplayLog) < 0) ? 0 : (this.LogIndex - this.DisplayLog)); i < this.LogIndex; i++) {
-            this.logText += "\n" + this.LogHistory[i][0] + this.LogHistory[i][1] + ': "' + this.LogHistory[i][2] + '"';
+            this.logText += `\n${this.LogHistory[i][0]}${this.LogHistory[i][1]}: '${this.LogHistory[i][2]}'`;
         }
 
         setTimeout('Log.logMsg()',10);
@@ -88,7 +89,8 @@ var Log = {
         Log.Notice("Log.Remove() ... removing logger.");
         $('#' + this.LogParent)
             .css("left", "-1200px")
-            .css("bottom", "5px");
+            .css("bottom", "5px")
+            .css("display","none");
         $('#' + this.LogCloseTag)
             .css("left", "-1200px") // note minus sign here
             .html("<span>^</span>")
@@ -102,7 +104,8 @@ var Log = {
     Show: function () {
         $('#' + Log.LogParent)
             .css("bottom", "5px")
-            .css("left", "10px");
+            .css("left", "10px")
+            .css("display","initial");
         $('#' + this.LogCloseTag)
             .css("top", "2px")
             .css("left", "0")
