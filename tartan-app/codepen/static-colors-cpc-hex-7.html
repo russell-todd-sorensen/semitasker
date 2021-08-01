@@ -1,0 +1,251 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="darkolivegreen" >
+<meta name="description" content="Hex Weave Experiment: Using SVG Transforms." >
+
+<title>CPC Tessellation</title>
+<script>
+var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
+    let targetHandle = document.querySelector(targetSelect),
+        hue = document.getElementById(hueId).value,
+        sat = document.getElementById(satId).value,
+        lev = document.getElementById(levId).value,
+        alp = document.getElementById(alpId).value,
+        hslaText = `hsla(${hue},${sat}%,${lev}%,${alp})`;
+    console.log(`New hsla value='${hslaText}'`);
+    targetHandle.attributes["fill"].value = hslaText;
+}
+</script>
+</head>
+<body id="the-body">
+<form id="hsla" onSubmit="return false;" spellcheck="false" 
+      onchange="updateHSLA('#base-rect','hsla','hue','sat','lev','alp');">
+
+    hsla(<input id="hue" name="hue" value="0" min="0" max="359">&deg;,<input 
+        id="sat" name="sat" value="100" min="0" max="100" ><span class="pct">%</span>,<input 
+        id="lev" name="lev" value="50" min="0" max="100"><span class="pct">%</span>,<input
+        id="alp" name="alp" value="1.0" min="0.1" max="1.0">);
+
+</form>
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    x="-100"
+    y="-350"
+    width="1500"
+    height="1000"
+    viewbox="-100 -350 1500 1000">
+
+<defs>
+
+<!-- initial object -->
+<rect id="base-rect" x="0" y="0" rx="5" width="50" height="43.3012701892" 
+    filter="url(#hueRotate-anim-1)" fill="hsla(0,100%,60%,1.0)"/><!---->
+<!-- copy and skew -->
+<use id="skew-30" xlink:href="#base-rect" transform="skewX(30)" /> 
+<use id="skew-m30" xlink:href="#base-rect" transform="skewX(-30)" /> 
+
+<filter id="hueRotate-1" >
+<feColorMatrix type="hueRotate" values="0" />
+</filter>
+
+<filter id="hueRotate-2" >
+<feColorMatrix type="hueRotate" values="30" />
+</filter>
+
+<filter id="hueRotate-3" >
+<feColorMatrix type="hueRotate" values="60" />
+</filter>
+
+<filter id="hueRotate-4" >
+<feColorMatrix type="hueRotate" values="90" />
+</filter>
+
+<filter id="hueRotate-5" >
+<feColorMatrix type="hueRotate" values="120" />
+</filter>
+
+<filter id="hueRotate-6" >
+<feColorMatrix type="hueRotate" values="150" />
+</filter>
+
+<filter id="hueRotate-7" >
+<feColorMatrix type="hueRotate" values="180" />
+</filter>
+
+<filter id="hueRotate-8" >
+<feColorMatrix type="hueRotate" values="210" />
+</filter>
+
+<filter id="hueRotate-9" >
+<feColorMatrix type="hueRotate" values="240" />
+</filter>
+
+<filter id="hueRotate-10" >
+<feColorMatrix type="hueRotate" values="270" />
+</filter>
+
+<filter id="hueRotate-11" >
+<feColorMatrix type="hueRotate" values="300" />
+</filter>
+
+<filter id="hueRotate-12" >
+<feColorMatrix type="hueRotate" values="330" />
+</filter>
+
+<filter id="desaturate-1" >
+    <feColorMatrix type="saturate" values="0.75" />
+</filter>
+    
+<filter id="desaturate-2" >
+    <feColorMatrix type="saturate" values="0.50" />
+</filter>
+
+<filter id="hueRotate-anim-1" >
+<feColorMatrix type="hueRotate" values="0" >
+    <animate attributeName="values"
+        start="0s" from="1" to="361"
+        dur="20s" repeatCount="indefinite" />
+</feColorMatrix>
+</filter>
+
+<filter id="hueRotate-anim-2" >
+<feColorMatrix type="hueRotate" values="0" >
+    <animate attributeName="values"
+        start="0s" from="0" to="360"
+        dur="20s" repeatCount="indefinite" />
+</feColorMatrix>
+</filter>
+
+<filter id="hueRotate-anim-3" >
+<feColorMatrix type="hueRotate" values="120" >
+    <animate attributeName="values"
+        start="0s" from="120" to="480"
+        dur="20s" repeatCount="indefinite" />
+</feColorMatrix>
+</filter>
+
+<g id="final-1">
+    <use xlink:href="#base-rect" />
+</g>
+<g id="final-2">
+    <use xlink:href="#skew-m30" />
+</g>
+<g id="hex-1" class="one-hex" filter="">
+    <use xlink:href="#skew-m30" />
+    <use xlink:href="#skew-m30" transform="rotate(-120)" opacity=".7" />
+    <use xlink:href="#skew-m30" transform="rotate(120)" opacity=".4" />
+</g>
+
+<g id="tri-hex">
+    <use xlink:href="#hex-1" />
+    <use xlink:href="#hex-1" transform="translate(75,43.3012701892)" />
+    <use xlink:href="#hex-1"  transform="translate(0,86.6025403784)"  />
+</g>
+
+<g id="super-tri">
+    <use xlink:href="#tri-hex"  transform="translate(0,0)"  filter="url(#hueRotate-1)"/>
+    <use xlink:href="#tri-hex" transform="translate(150,0)"  filter="url(#hueRotate-1)"/>
+    <use xlink:href="#tri-hex" transform="translate(75,129.9038105676)"  filter="url(#hueRotate-1)" />
+</g>
+<g id="super-duper-tri" transform="rotate(0,0,0)">
+    <animateTransform
+        id="rotate-super-duper-tri"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate" 
+        values="0,0,0;
+            30,0,0;
+            30,0,0;
+            60,0,0;
+            60,0,0;
+            120,0,0;
+            120,0,0;
+            180,0,0;
+            180,0,0;
+            240,0,0;
+            240,0,0;
+            300,0,0;
+            300,0,0;
+            360,0,0;
+            360,0,0" 
+        dur="20s" 
+        begin="svg2.click" 
+        repeatCount="0"
+        fill="freeze"  />
+
+    <use xlink:href="#super-tri" transform="translate(0,0)" filter="url(#hueRotate-1)"/>
+    <use xlink:href="#super-tri" transform="translate(0,-259.8076211352)" filter="url(#hueRotate-1)"/>
+    <use xlink:href="#super-tri" transform="translate(225,-129.9038105676)" filter="url(#hueRotate-1)"/>
+</g>
+<g id="ultra-tri">
+    <use xlink:href="#super-duper-tri" transform="translate(-675,-389.7114317028)" filter="url(#hueRotate-1)" />
+    <use xlink:href="#super-duper-tri" transform="translate(-225,-389.7114317028)" filter="url(#hueRotate-5)" />
+    <use xlink:href="#super-duper-tri" transform="translate( 225,-389.7114317028)" filter="url(#hueRotate-9)" />
+    <use xlink:href="#super-duper-tri" transform="translate( 675,-389.7114317028)" filter="url(#hueRotate-1)" />
+    <use xlink:href="#super-duper-tri" transform="translate(-900,   0.0)"          filter="url(#hueRotate-5)"/>
+    <use xlink:href="#super-duper-tri" transform="translate(-450,   0.0)"          filter="url(#hueRotate-9)"/>
+    <use xlink:href="#super-duper-tri" transform="translate(   0,   0.0)"          filter="url(#hueRotate-1"/>
+    <use xlink:href="#super-duper-tri" transform="translate( 450,   0.0)"          filter="url(#hueRotate-5)"/>
+    <use xlink:href="#super-duper-tri" transform="translate( 900,   0.0)"          filter="url(#hueRotate-9)"/>
+    <use xlink:href="#super-duper-tri" transform="translate(-675, 389.7114317028)" filter="url(#hueRotate-1)" />
+    <use xlink:href="#super-duper-tri" transform="translate(-225, 389.7114317028)" filter="url(#hueRotate-5)" />
+    <use xlink:href="#super-duper-tri" transform="translate( 225, 389.7114317028)" filter="url(#hueRotate-9)"/>
+    <use xlink:href="#super-duper-tri" transform="translate( 675, 389.7114317028)" filter="url(#hueRotate-1)" /><!---->
+</g>
+</defs>
+
+<g id="final-6" transform="translate(400,0) scale(0.50)">
+
+<g id="xy-axis">
+    <line id="x-axis" x1="-110%" y1="0" x2="110%" y2="0" />
+    <line id="y-axis" x1="0" y1="-110%" x2="0" y2="110%" />
+</g>
+    <use href="#ultra-tri" />
+</g>
+
+</svg>
+<style>
+#base-rect {
+    stroke: silver;
+    stroke-width: 2px;
+    stroke-linejoin: miter;
+}
+#svg2 {
+    background-color: transparent;
+    cursor: pointer;
+}
+
+#x-axis,
+#y-axis {
+    stroke-width: 0.2;
+    stroke: rgba(0,0,0,1.0);
+}
+
+form#hsla {
+    font-size: 1.1em;
+    font-family: 'Fira Code';
+    vertical-align: middle;
+}
+
+form#hsla span.pct {
+    padding-left: 0.2em;
+}
+
+#hsla input {
+    font-size: 1.0em;
+    font-family: inherit;
+    width: 2.7em;
+    height: 1.0em;
+    vertical-align: middle;
+    text-align: right;
+}
+</style>
+</body>

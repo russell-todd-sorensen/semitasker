@@ -1,0 +1,311 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="darkolivegreen" >
+<meta name="description" content="Hex Weave Experiment: Using SVG Transforms." >
+
+<title>Hex Weave Experiment</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Code&amp;display=swap" />
+<style>
+</style>
+</head>
+<body id="the-body">
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    x="-150"
+    y="-200"
+    width="600"
+    height="600"
+    viewbox="-150 -200 600 600">
+<style>
+/*@import url('https://fonts.googleapis.com/css?family=Fira+Code&amp;display=swap');*/
+</style>
+<style>
+#svg2 {
+    background-color: transparent;
+    cursor: pointer;
+}
+#weave-0 line,
+#weave-60 line,
+#weave-m60 line {
+    stroke-width: 43.3012701892;
+}
+#weave-0 line {
+    opacity: 1.00;
+}
+#weave-60 line {
+    opacity: .80;
+}
+#weave-m60 line {
+    opacity: .60;
+}
+#weave-0 rect,
+#weave-60 rect,
+#weave-m60 rect {
+    opacity: 1.0;
+}
+#weave-0 rect {
+    opacity: 1.00;
+}
+#weave-60 rect {
+    opacity: .80;
+}
+#weave-m60 rect {
+    opacity: .60;
+}
+.c0 {
+    fill: none;
+    stroke: #C80000;
+    opacity: .75;
+    stroke-dasharray: 50, 100;
+}
+
+.c2 {
+    fill: none;
+    stroke: #E8C000;
+    stroke-dasharray: 50, 100;
+}
+
+.c1 {
+    fill: none;
+    stroke: #101010;
+    stroke-dasharray: 50, 100;
+}
+
+.hor-0 {
+    stroke-dashoffset: 0;
+}
+.hor-1 {
+    stroke-dashoffset: 50;
+}
+.hor-2 {
+    stroke-dashoffset: 100;
+}
+
+#weave-m60 {
+    visibility: visible;
+}
+
+#x-axis,
+#y-axis {
+    stroke-width: 0.2;
+    stroke: rgba(0,0,0,1.0);
+}
+
+text.text-0 {
+    fill: black;
+    font-family: 'Fira Code';
+    font-size: 10px;
+    textLength: 38px;
+    lengthAdjust: spacingAndGlyphs;
+    text-anchor: middle;
+}
+text.text-0.black {
+    fill: white;
+}
+
+</style>
+<defs>
+<text id="t2" fill="black" transform="skewX(0)" style="font-family:'Keania One', Arial" >A</text>
+<g id="xy-axis">
+    <line id="x-axis" x1="-110%" y1="0" x2="110%" y2="0" />
+    <line id="y-axis" x1="0" y1="-110%" x2="0" y2="110%" />
+</g>
+<linearGradient color-interpolation="sRGB" id="grad-0" spreadMethod="repeat">
+    <stop stop-color="white" offset="0.0"></stop>
+    <stop stop-color="brown" offset="0.5"></stop>
+    <stop stop-color="yellow" offset="1.0"></stop>
+</linearGradient>
+
+<pattern id="ribbon-red-0" x="0" y="0" width="150" height="43.3012701892" patternUnits="userSpaceOnUse">
+    <rect x="0" y="0" width="50" height="43.3012701892" fill="rgba(200,0,0,1)"/>
+    <rect x="50" y="0" width="100" height="43.3012701892" fill="rgba(200,0,0,0.0)"/>
+    <text x="25" y="25" class="text-0" textLength="48" lengthAdjust="spacingAndGlyphs">Red Weave</text>
+</pattern>
+
+<pattern id="ribbon-black-1" x="0" y="0" width="150" height="43.3012701892" patternUnits="userSpaceOnUse">
+    <rect x="0" y="0" width="100" height="43.3012701892" fill="rgba(16,16,16,0.0)"/>
+    <rect x="100" y="0" width="50" height="43.3012701892" fill="rgba(16,16,16,1)"/>
+    <text x="125" y="25" class="text-0 black" textLength="48" lengthAdjust="spacingAndGlyphs">Black Weave</text>
+</pattern>
+
+<pattern id="ribbon-yellow-2" x="0" y="0" width="150" height="43.3012701892" patternUnits="userSpaceOnUse">
+    <rect x="0" y="0" width="50" height="43.3012701892" fill="rgba(232,192,0,0.0)"/>
+    <rect x="50" y="0" width="50" height="43.3012701892" fill="rgba(232,192,0,1.0)"/>
+    <rect x="100" y="0" width="50" height="43.3012701892" fill="rgba(232,192,0,0.0)"/>
+    <text x="75" y="25" class="text-0" textLength="48" lengthAdjust="spacingAndGlyphs">Yellow Weave</text>
+</pattern>
+
+<g id="pattern-rects">
+    <rect class="r0" x="0" y="0" width="350" height="43.3012701892" fill="url(#ribbon-red-0)" />
+    <rect class="r1" x="0" y="43.3012701892" width="350" height="43.3012701892" fill="url(#ribbon-black-1)" />
+    <rect class="r2" x="0" y="86.60254037840" width="350" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
+</g>
+<g id="weave-0" transform="skewX(0)" opacity="1"> <!-- target is (-30) -->
+    <set attributeName="opacity" to="0.1" begin="weave0skewx.end" />
+    <set attributeName="opacity" to="1" begin="weave0skewx.begin;weavem60skewx.end" />
+    <!-- Animation Starting Point -->
+    <animateTransform
+        id="weave0skewx"
+        attributeName="transform"
+        attributeType="XML"
+        type="skewX" 
+        values="0;-30" 
+        dur="5s" 
+        begin="svg2.click" 
+        repeatCount="0"
+        fill="freeze"  />
+    <rect class="r0" x="0" y="0" width="50" height="43.3012701892" fill="url(#ribbon-red-0)" />
+    <rect class="r1" x="100" y="43.3012701892" width="50" height="43.3012701892" fill="url(#ribbon-black-1)" />
+    <rect class="r2" x="50" y="86.60254037840" width="50" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
+</g>
+
+<g id="weave-60" transform="translate(0,0)" opacity="1" > <!-- target is (100,0) -->
+    <set attributeName="opacity" to="0.1" begin="weave0skewx.begin;weave60skewx.end" />
+    <set attributeName="opacity" to="1" begin="weave60translate.begin;weavem60skewx.end" />
+    <animateTransform  
+        id="weave60translate"
+        attributeName="transform" 
+        attributeType="XML"
+        type="translate" 
+        values="0,0;100,0"
+        dur="5s" 
+        begin="weave0skewx.end" 
+        repeatCount="0"
+        fill="freeze"  />
+    <g id="weave60rotateGroup" transform="rotate(0)"> <!-- target=(60) -->
+        <animateTransform  
+            id="weave60rotate"
+            attributeName="transform" 
+            attributeType="XML"
+            type="rotate" 
+            values="0;60" 
+            dur="5s" 
+            begin="weave60translate.end" 
+            repeatCount="0"
+            fill="freeze"  />
+        <g id="weave60skewxGroup" transform="skewX(0)"> <!-- target=(-30) -->
+            <animateTransform  
+                id="weave60skewx"
+                attributeName="transform" 
+                attributeType="XML"
+                type="skewX" 
+                values="0;-30" 
+                dur="5s" 
+                begin="weave60rotate.end" 
+                repeatCount="0"
+                fill="freeze"  />
+            <rect class="r0" x="0" y="0" width="50" height="43.3012701892" fill="url(#ribbon-red-0)" />
+            <rect class="r1" x="-50" y="43.3012701892" width="50" height="43.3012701892" fill="url(#ribbon-black-1)" />
+            <rect class="r2" x="50" y="86.60254037840" width="50" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
+        </g>
+    </g>
+</g>
+
+<g id="weave-m60" transform="translate(0,0)" opacity="1"> <!-- target= (-50,0)-->
+    <set attributeName="opacity" to="0.1" begin="weave0skewx.begin" />
+    <set attributeName="opacity" to="1" begin="weavem60translate.begin;weavem60skewx.end" />
+    <animateTransform  
+        id="weavem60translate"
+        attributeName="transform" 
+        attributeType="XML"
+        type="translate" 
+        values="0,0;-50,0"
+        dur="5s" 
+        begin="weave60skewx.end" 
+        repeatCount="0"
+        fill="freeze"  />
+    <g id="weavem60rotateGroup" transform="rotate(0)"> <!-- target= (-60) -->
+        <animateTransform  
+            id="weavem60rotate"
+            attributeName="transform" 
+            attributeType="XML"
+            type="rotate" 
+            values="0;-60" 
+            dur="5s" 
+            begin="weavem60translate.end" 
+            repeatCount="0"
+            fill="freeze" />
+        <g id="weavem60skewxGroup" transform=" skewX(0)"> <!-- target= (-30) -->
+            <animateTransform  
+                id="weavem60skewx"
+                attributeName="transform" 
+                attributeType="XML"
+                type="skewX" 
+                values="0;-30" 
+                dur="5s" 
+                begin="weavem60rotate.end" 
+                repeatCount="0" 
+                fill="freeze" />
+            <rect class="r0" x="0" y="0" width="50" height="43.3012701892" fill="url(#ribbon-red-0)" />
+            <rect class="r1" x="-50" y="43.3012701892" width="50" height="43.3012701892" fill="url(#ribbon-black-1)" />
+            <rect class="r2" x="50"  y="86.6025403784" width="50" height="43.3012701892" fill="url(#ribbon-yellow-2)" />
+        </g>
+    </g>
+</g>
+
+
+<g id="tri-cube"  filter="url(#hueRotate-3)">
+    <use id="#w0-1"   xlink:href="#weave-0"  />
+    <use id="#w60-1"  xlink:href="#weave-60" />
+    <use id="#wm60-1" xlink:href="#weave-m60" />
+</g>    
+
+<g id="super-cube" >
+    <use id="tri-cube1" xlink:href="#tri-cube" />
+    <use id="tri-cube2" xlink:href="#tri-cube" transform="translate(150,0)"/>
+    <use id="tri-cube3" xlink:href="#tri-cube" transform="translate(75,129.9038105676)"/>
+</g>
+
+<pattern id="tessellation" x="0" y="0" width="150" height="43.3012701892" patternUnits="userSpaceOnUse">
+    <use id="mycube" xlink:href="#tri-cube"/>
+</pattern>
+
+
+<filter id="hueRotate-1" >
+    <feColorMatrix type="hueRotate" values="45" />
+</filter>
+
+<filter id="hueRotate-3" >
+<feColorMatrix type="hueRotate" values="0" >
+    <animate attributeName="values"
+        start="0s" from="0" to="360"
+        dur="20s" repeatCount="indefinite" />
+
+</feColorMatrix>
+</filter>
+
+<g id="original-bg" transform="translate(0,50)">
+    <use xlink:href="#xy-axis" x="0" y="0" />
+    <use xlink:href="#super-cube" />
+</g>
+</defs>
+<use xlink:href="#original-bg" />
+</svg>
+<style>
+#ribbon-yellow-2 rect,
+#ribbon-black-1 rect,
+#ribbon-red-0 rect {
+    stroke-width: 2;
+    stroke: silver;
+    stroke-linejoin: miter;
+    rx: 5;
+}
+
+#the-body {
+    background-image: url(#svg2);
+    background-repeat: repeat;
+}
+#the-bg {
+    visibility: hidden;
+}
+</style>
+</body>
+</html>

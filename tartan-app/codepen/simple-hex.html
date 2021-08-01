@@ -1,0 +1,205 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="darkolivegreen" >
+<meta name="description" content="Hex Weave Experiment: Using SVG Transforms." >
+
+<title>Hex Weave Experiment</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Code&amp;display=swap" />
+</head>
+<body id="the-body">
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com/"
+    externalResourcesRequired="true"
+    x="-300"
+    y="-300"
+    width="600"
+    height="600"
+    viewbox="-300 -300 600 600">
+
+<defs>
+<g id="xy-axis">
+    <line id="x-axis" x1="-110%" y1="0" x2="110%" y2="0" />
+    <line id="y-axis" x1="0" y1="-110%" x2="0" y2="110%" />
+</g>
+
+<!-- initial object -->
+<rect id="base-rect" x="0" y="0" rx="0" ry="0" width="50" height="43.3012701892" fill="hsla(90,100%,50%,1.0)">
+    <animate 
+        id="radius-1"
+        attributeName="rx" 
+        attributeType="XML"
+        values="0;75;0;0" 
+        dur="15s" 
+        begin="0s;svg2.click" 
+        repeatCount="indefinite" 
+        fill="freeze" />
+    <animate 
+        id="radius-1"
+        attributeName="ry" 
+        attributeType="XML"
+        values="0;45;0;0" 
+        dur="15s" 
+        begin="0s;svg2.click" 
+        repeatCount="indefinite" 
+        fill="freeze" />
+</rect>
+
+<use id="skew-30" xlink:href="#base-rect" transform="skewX(30)" /> 
+<use id="skew-m30" xlink:href="#base-rect" transform="skewX(-30)" /> 
+
+<filter id="hueRotate-1" >
+<feColorMatrix type="hueRotate" values="30" >
+    <animate attributeName="values"
+        start="0s" from="240" to="600"
+        dur="20s" repeatCount="indefinite" />
+</feColorMatrix>
+</filter>
+
+<filter id="hueRotate-2" >
+<feColorMatrix type="hueRotate" values="0" >
+    <animate attributeName="values"
+        start="0s" from="0" to="360"
+        dur="20s" repeatCount="indefinite" />
+</feColorMatrix>
+</filter>
+
+<filter id="hueRotate-3" >
+<feColorMatrix type="hueRotate" values="120" >
+    <animate attributeName="values"
+        start="0s" from="120" to="480"
+        dur="20s" repeatCount="indefinite" />
+</feColorMatrix>
+</filter>
+
+<g id="final-1">
+    <use xlink:href="#base-rect" />
+</g>
+<g id="final-2">
+    <use xlink:href="#skew-30" />
+</g>
+<g id="hex-1">
+    <use xlink:href="#skew-m30" />
+    <use xlink:href="#skew-m30" transform="rotate(-120)" opacity=".7" />
+    <use xlink:href="#skew-m30" transform="rotate(120)" opacity=".4" />
+</g>
+
+<g id="tri-hex">
+    <use xlink:href="#xy-axis" stroke="black" />
+    <use xlink:href="#hex-1" filter="url(#hueRotate-1)" />
+    <use xlink:href="#hex-1" transform="translate(75,43.3012701892)"  filter="url(#hueRotate-2)"  />
+    <use xlink:href="#hex-1"  transform="translate(0,86.6025403784)" filter="url(#hueRotate-3)"  />
+</g>
+</defs>
+<g id="background">
+    <use id="axis" xlink:href="#xy-axis" />
+</g>
+<g id="final-5">
+    <use xlink:href="#tri-hex"  transform="translate(0,0)"/>
+    <use xlink:href="#tri-hex" transform="translate(150,0)" />
+    <use xlink:href="#tri-hex" transform="translate(75,129.9038105676)"  />
+</g>
+
+
+</svg>
+
+<style>
+/*@import url('https://fonts.googleapis.com/css?family=Fira+Code&amp;display=swap');*/
+</style>
+<style>
+#base-rect {
+    stroke: silver;
+    stroke-width: 2px;
+    stroke-linejoin: miter;
+}
+#svg2 {
+    background-color: transparent;
+    cursor: pointer;
+}
+#weave-0 line,
+#weave-60 line,
+#weave-m60 line {
+    stroke-width: 43.3012701892;
+}
+#weave-0 line {
+    opacity: 1.00;
+}
+#weave-60 line {
+    opacity: .80;
+}
+#weave-m60 line {
+    opacity: .60;
+}
+#weave-0 rect,
+#weave-60 rect,
+#weave-m60 rect {
+    opacity: 1.0;
+}
+#weave-0 rect {
+    opacity: 1.00;
+}
+#weave-60 rect {
+    opacity: .80;
+}
+#weave-m60 rect {
+    opacity: .60;
+}
+.c0 {
+    fill: none;
+    stroke: #C80000;
+    opacity: .75;
+    stroke-dasharray: 50, 100;
+}
+
+.c2 {
+    fill: none;
+    stroke: #E8C000;
+    stroke-dasharray: 50, 100;
+}
+
+.c1 {
+    fill: none;
+    stroke: #101010;
+    stroke-dasharray: 50, 100;
+}
+
+.hor-0 {
+    stroke-dashoffset: 0;
+}
+.hor-1 {
+    stroke-dashoffset: 50;
+}
+.hor-2 {
+    stroke-dashoffset: 100;
+}
+
+#weave-m60 {
+    visibility: visible;
+}
+
+#x-axis,
+#y-axis {
+    stroke-width: 0.2;
+    stroke: rgba(0,0,0,1.0);
+}
+
+text.text-0 {
+    fill: black;
+    font-family: 'Fira Code';
+    font-size: 10px;
+    textLength: 38px;
+    lengthAdjust: spacingAndGlyphs;
+    text-anchor: middle;
+}
+text.text-0.black {
+    fill: white;
+}
+
+</style>
+</body>
