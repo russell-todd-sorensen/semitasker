@@ -234,8 +234,40 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
     <use xlink:href="#super-duper-tri" transform="translate( 675, 389.7114317028)" filter="url(#hueRotate-1)" /><!---->
 </g>
 </defs>
-
-<g id="final-6" transform="translate(350,150) scale(0.50)">
+<g id="rotate-all" transform="rotate(0,350,150)" >
+    <animateTransform
+        id="rotate-anim-all"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate" 
+        values="0,350,150;
+                30,350,150;
+                30,350,150;
+                60,350,150;
+                60,350,150;
+                90,350,150;
+                90,350,150;
+                120,350,150;
+                120,350,150;
+                150,350,150;
+                150,350,150;
+                180,350,150;
+                180,350,150;
+                210,350,150;
+                210,350,150;
+                240,350,150;
+                240,350,150;
+                270,350,150;
+                270,350,150;
+                300,350,150;
+                300,350,150;
+                360,350,150;
+                360,350,150" 
+        dur="75s" 
+        begin="final6.click" 
+        repeatCount="0"
+        fill="initial"  />
+<g id="final6" transform="translate(350,150) scale(0.50)">
 
     <g id="xy-axis">
         <line id="x-axis" x1="-110%" y1="0" x2="110%" y2="0" />
@@ -341,8 +373,8 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
             transform="translate(75,303.1088913244)" 
             filter="url(#hueRotate-3)" />
     </g>
-</g>
-
+</g> <!-- end #final6 -->
+</g> <!-- end #rotate-all -->
 </svg>
 <style>
 #base-rect {

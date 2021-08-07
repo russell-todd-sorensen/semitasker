@@ -26,7 +26,7 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
 
     hsla(<input id="hue" name="hue" value="0" min="0" max="359">&deg;,<input 
         id="sat" name="sat" value="100" min="0" max="100" ><span class="pct">%</span>,<input 
-        id="lev" name="lev" value="50" min="0" max="100"><span class="pct">%</span>,<input
+        id="lev" name="lev" value="60" min="0" max="100"><span class="pct">%</span>,<input
         id="alp" name="alp" value="1.0" min="0.1" max="1.0">);
 
 </form>
@@ -37,11 +37,11 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
     xmlns:xlink="http://www.w3.org/1999/xlink"
     xml:base="https://home.semitasker.com/"
     externalResourcesRequired="true"
-    x="-100"
+    x="-350"
     y="-350"
-    width="1500"
-    height="1000"
-    viewbox="-100 -350 1500 1000">
+    width="2000"
+    height="2000"
+    viewbox="-350 -350 2000 2000">
 
 <defs>
 
@@ -51,6 +51,10 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
 <!-- copy and skew -->
 <use id="skew-30" xlink:href="#base-rect" transform="skewX(30)" /> 
 <use id="skew-m30" xlink:href="#base-rect" transform="skewX(-30)" /> 
+
+<filter id="hueRotate-0" >
+<feColorMatrix type="hueRotate" values="A" />
+</filter>
 
 <filter id="hueRotate-1" >
 <feColorMatrix type="hueRotate" values="0" />
@@ -161,6 +165,24 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
     <use xlink:href="#hex-1" />
     <use xlink:href="#hex-1"  transform="translate(0,86.6025403784)"  />
 </g>
+<g id="quad-hex-2" filter="url(#hueRotate-3)"><!-- should be #hueRotate-3 -->
+    <use xlink:href="#hex-1" transform="translate(75,-43.3012701892)" />
+    <use xlink:href="#hex-1" transform="translate(-75,-43.3012701892)" />
+    <use xlink:href="#hex-1" />
+    <use xlink:href="#hex-1"  transform="translate(0,86.6025403784)"  />
+</g>
+<g id="quad-hex-up">
+    <use xlink:href="#hex-1" transform="translate(0,-86.6025403784)"  />
+    <use xlink:href="#hex-1" />
+    <use xlink:href="#hex-1" transform="translate(75,43.3012701892)" />
+    <use xlink:href="#hex-1" transform="translate(-75,43.3012701892)" />
+</g>
+<g id="quad-hex-up-2" filter="url(#hueRotate-3)">
+    <use xlink:href="#hex-1" transform="translate(0,-86.6025403784)"  />
+    <use xlink:href="#hex-1" />
+    <use xlink:href="#hex-1" transform="translate(75,43.3012701892)" />
+    <use xlink:href="#hex-1" transform="translate(-75,43.3012701892)" />
+</g>
 <g id="quad-hex-2-m">
     <use xlink:href="#hex-1" transform="translate(75,-43.3012701892)" />
     <use xlink:href="#hex-1" transform="translate(-75,-43.3012701892)" />
@@ -186,23 +208,23 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
         attributeType="XML"
         type="rotate" 
         values="0,175,-43.3012701892;
-            0,175,-43.3012701892;
-            30,175,-43.3012701892;
-            30,175,-43.3012701892;
-            60,175,-43.3012701892;
-            60,175,-43.3012701892;
-            120,175,-43.3012701892;
-            120,175,-43.3012701892;
-            180,175,-43.3012701892;
-            180,175,-43.3012701892;
-            240,175,-43.3012701892;
-            240,175,-43.3012701892;
-            300,175,-43.3012701892;
-            300,175,-43.3012701892;
-            360,175,-43.3012701892;
-            360,175,-43.3012701892;
-            390,175,-43.3012701892;
-            390,175,-43.3012701892" 
+                0,175,-43.3012701892;
+               30,175,-43.3012701892;
+               30,175,-43.3012701892;
+               60,175,-43.3012701892;
+               60,175,-43.3012701892;
+              120,175,-43.3012701892;
+              120,175,-43.3012701892;
+              180,175,-43.3012701892;
+              180,175,-43.3012701892;
+              240,175,-43.3012701892;
+              240,175,-43.3012701892;
+              300,175,-43.3012701892;
+              300,175,-43.3012701892;
+              360,175,-43.3012701892;
+              360,175,-43.3012701892;
+              390,175,-43.3012701892;
+              390,175,-43.3012701892" 
         dur="45s" 
         begin="svg2.click" 
         repeatCount="0"
@@ -227,15 +249,46 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
     <use xlink:href="#super-duper-tri" transform="translate( 225, 389.7114317028)" filter="url(#hueRotate-9)"/>
     <use xlink:href="#super-duper-tri" transform="translate( 675, 389.7114317028)" filter="url(#hueRotate-1)" /><!---->
 </g>
-</defs>
-
-<g id="final-6" transform="translate(350,150) scale(0.50)">
-
+<g id="rotate-all" transform="rotate(0,350,150)" >
+    <animateTransform
+        id="rotate-anim-all"
+        attributeName="transform"
+        attributeType="XML"
+        type="rotate" 
+         values="0,350,150;
+                30,350,150;
+                30,350,150;
+                60,350,150;
+                60,350,150;
+                90,350,150;
+                90,350,150;
+                120,350,150;
+                120,350,150;
+                150,350,150;
+                150,350,150;
+                180,350,150;
+                180,350,150;
+                210,350,150;
+                210,350,150;
+                240,350,150;
+                240,350,150;
+                270,350,150;
+                270,350,150;
+                300,350,150;
+                300,350,150;
+                360,350,150;
+                360,350,150" 
+        dur="75s" 
+        begin="final6.click" 
+        repeatCount="0"
+        fill="initial"  />
+<g id="final6" transform="translate(350,150) scale(0.50)">
+ <!-- 
     <g id="xy-axis">
         <line id="x-axis" x1="-110%" y1="0" x2="110%" y2="0" />
         <line id="y-axis" x1="0" y1="-110%" x2="0" y2="110%" />
     </g>
-    <!-- <use href="#ultra-tri" />-->
+   <use href="#ultra-tri" />-->
     <g id="quad-pairs" transform="rotate(0,0,0)" >
         <animateTransform
             id="rotate-anim-quad-pairs"
@@ -243,12 +296,12 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
             attributeType="XML"
             type="rotate" 
             values="0,0,0;
-                    30,0,0;
-                    30,0,0;
-                    60,0,0;
-                    60,0,0;
-                    90,0,0;
-                    90,0,0;
+                     30,0,0;
+                     30,0,0;
+                     60,0,0;
+                     60,0,0;
+                     90,0,0;
+                     90,0,0;
                     120,0,0;
                     120,0,0;
                     150,0,0;
@@ -270,35 +323,54 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
             repeatCount="0"
             fill="initial"  />
         <use href="#quad-hex" />
-        <use href="#quad=hex" transform="rotate(120,0,0) translate(0,-259.80762113512)"><!--150,-173.2050807568--->
+        <use href="# quad-hex" transform="translate(-300,173.20508075672)"/>
+        <use href="#quad=hex" transform="translate(225,-43.3012701892)" />
+        <use href="#quad=hex" transform="translate(-225,-43.3012701892)" />
+        <use href="#quad-hex-2" transform="translate(300,0)" />
+        <use href="#quad-hex-2" transform="translate(-300,0)" />
+
+        <use href="#quad-hex-2" transform="translate(150,-259.8076211352)"/>
+        <use href="#quad-hex-2" transform="translate(-150,-259.8076211352)"/>
+        <use href="#quad-hex-2" transform="translate(150,259.8076211352)"/>
+        <use href="#quad-hex-2" transform="translate(-150,259.8076211352)"/>
+        <use href="#quad-hex-up" transform="translate(0,259.8076211352)"><!--150,-173.2050807568--->
             <animateTransform
                 id="rotate-anim-quad-pair2-2"
                 attributeName="transform"
                 attributeType="XML"
                 type="translate" 
-                values="-150,-173.2050807568;
-                         150,-173.2050807568;
-                         150,-173.2050807568;
-                         150,-173.2050807568;
-                        -150,-173.2050807568;" 
-                dur="75s" 
-                begin="svg2.click" 
+                values="0,259.8076211352;
+                        0,0;
+                        0,0;
+                        0,-259.8076211352;
+                        0,-259.8076211352;
+                        0,0;
+                        0,0;
+                        0,259.8076211352;" 
+                dur="10s" 
+                begin="svg2=.click" 
                 repeatCount="0"
                 fill="initial"  />
 
         </use>
-        <use href="#abc" transform="rotate(120,0,0)" />
-        <use href="#abc" transform="rotate(-120,0,0)" />
-        <use id="abc" href="#quad-hex" transform="rotate(180,0,0) translate(0,259.80762113512)" ><!-- translate(225,-43.3012701892)-->
+        <use href="#quad-hex-up" transform="translate(-225,129.90381056752)"/>
+        <use href="#quad-hex-up" transform="translate(225,129.90381056752)"/>
+        <use href="#quad-hex-up" transform="translate(225,-129.90381056752)"/>
+        <use href="#quad-hex-up" transform="translate(0,-259.8076211352)"/>
+        <use href="#quad-hex-up" transform="translate(-225,-129.90381056752)"/>
+        <use href="# quad-hex" transform="translate(300,173.20508075672)"/>
+        <use href="#quad-hex-anim" />
+        <use href="#quad=hex-anim" />
+        <use id="quad-hex-anim" href="#quad=hex" transform="translate(0,259.80762113512)" ><!-- translate(225,-43.3012701892)-->
         <animateTransform
             id="rotate-anim-quad-pairs"
             attributeName="transform"
             attributeType="XML"
             type="translate" 
             values="225,-43.3012701892;
-                     -225,-43.3012701892;
-                     -225,-43.3012701892;
-                     -225,-43.3012701892;
+                   -225,-43.3012701892;
+                   -225,-43.3012701892;
+                   -225,-43.3012701892;
                     225,-43.3012701892;" 
             dur="75s" 
             begin="svg2.click" 
@@ -308,11 +380,17 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
 
         <use href="#quad=hex" transform="translate(225,216.506350946)" />
 
-        <use href="#quad=hex" transform="translate(-75,216.506350946)" />
+        <use href="# quad-hex" transform="translate(0,-346.4101615136)" /><!--translate(-75,216.506350946)-->
         <use id="qh2" href="#quad-hex-2-m"  
             transform="translate(0,-86.6025403784)" 
             filter="url(#hueRotate-3)" />
-        <use href="#=qh2" transform="rotate(60,0,0) translate(0,-86.6025403784)"/>
+        <use id="qh2" href="#=quad-hex-2-m"  
+            transform="translate(0,-86.6025403784)" 
+            filter="url(#hueRotate-3)" />
+        <use id="qh2" href="#=quad-hex-2-m"  
+            transform="translate(0,-86.6025403784)" 
+            filter="url(#hueRotate-3)" />
+        <use href="#=qh2" transform="translate(0,-86.6025403784)"/>
         <use href="#quad-hex-2-l"  
             transform="translate(75,43.3012701892)" 
             filter="url(#hueRotate-3)" />
@@ -322,9 +400,25 @@ var updateHSLA = function(targetSelect,formId,hueId,satId,levId,alpId) {
         <use href="#quad=hex-2-m"  
             transform="translate(75,303.1088913244)" 
             filter="url(#hueRotate-3)" />
-    </g>
-</g>
 
+        <!-- quad-hex-2-l/m/r with alt color  
+
+        <use href="#quad-hex-2-r"  
+            transform="translate(375,-216.506350946)" 
+            filter="url(#hueRotate-3)"  
+            />--> 
+    </g>
+</g> <!-- end #final6 -->
+</g> <!-- end #rotate-all -->
+
+</defs>
+  <use href="#rotate-all" transform="translate(0,0)" />
+  <use href="#rotate-all" transform="translate(0,346.4101615136)" /> <!--1385.6406460544,692.8203230272 -->
+  <use href="#rotate-all" transform="translate(0,692.8203230272)" /><!-- 173.20508075672 -->
+  <use href="#rotate-all" transform="translate(300,173.20508075672)" />
+  <use href="#rotate-all" transform="translate(-300,173.20508075672)" />
+  <use href="#rotate-all" transform="translate(300,519.61524227032)" /><!--519.61524227032 -->
+  <use href="#rotate-all" transform="translate(-300,519.61524227032)" />
 </svg>
 <style>
 #base-rect {
