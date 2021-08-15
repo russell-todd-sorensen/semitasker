@@ -48,9 +48,11 @@ class fractalImage {
         y: 0,
     };
 
-    fractalWidth = new Decimal(2.0);
-    fractalHeight = new Decimal(2.0);
-    heightToWidthRatio = new Decimal(1.0);
+    //fractalWidth = new Decimal(2.0);
+    //fractalHeight = new Decimal(2.0);
+    fractalWidth = new Decimal(this.rect.end.x-this.rect.start.x);
+    fractalHeight = new Decimal(this.rect.end.y-this.rect.start.y);
+    heightToWidthRatio = new Decimal(this.fractalHeight.div(this.fractalWidth));
 
     canvas = null;
     context = null;
@@ -65,25 +67,25 @@ class fractalImage {
     profile = {};
     scale = 5;
     pixelImageHeight = 768;
-    pixelImageWidth = 150;
+    pixelImageWidth = 768
     animationRow = 0;
     rotationIndex = 0;
     rowPolygons = null;
     continueAnimation = false;
     animationModulus = 360 * 100;
     animationIndex = 0;
-    callStartMove = [logStartMove, captureMouseUp, setupRect]; // removed
-    callDragMove = [drawBox, logDragMove];     // removed none
-    callEndMove = [logEndMove, unbindMouseUp, calculateRect]; // removed  
-
+    callStartMove = [logStartMove, setupRect2]; // removed bindMouseUp,
+    callDragMove = [drawBox2];     // removed , logDragMove
+    callEndMove = [logEndMove, snapRect, updateBoxCSS2, calculateRect]; // removed  , unbindMouseUp
+    bindMoveElements = ["myCanvas"];
     // Web Worker to calculate counters
     worker = new Worker('js/mset-web-worker-code-generalized-arb.js');
 
-    constructor(canvasId, boxId, height, width, startUpData) {
+    constructor(canvasId, boxId, mouseBoxId, height, width, startUpData) {
         this.id = canvasId;
         this.boxId = boxId;
         this.name = canvasId;
-        this.mouseBox = '#' + canvasId;
+        this.mouseBox = `#${mouseBoxId}`;
         this.height = height;
         this.width = width;
 
@@ -281,12 +283,15 @@ class fractalImage {
         this.canvas.setAttribute('width', this.width);
 
         // set container dimensions to match canvas
+        /*
+         * Parent div now takes on dims of canvas as inline-block
+         *
         $(`#${this.id}`)
             .parent().css({
                 "height": `${this.height}px`,
                 "width": `${this.width}px`
             });
-
+        */
         if (!this.canvas || !this.canvas.getContext) {
             Log.Debug('doImageStuff: canvas or canvas.getContext not found');
             return;

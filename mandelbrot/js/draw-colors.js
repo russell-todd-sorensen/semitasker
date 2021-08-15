@@ -1,10 +1,11 @@
 drawColors = function (data) {
     return;
-    let minHeight = 1,
-        objId   = data.objId
+    let minHeight = 100,
+        minWidth = 100,
+        objId   = data.objId,
         fractal = myFractalImages[objId],
-        height  = height<minHeight?minHeight:fractal.pixelImageHeight,
-        width   = fractal.pixelImageWidth,
+        height  = fractal.height<minHeight?minHeight:fractal.height,
+        width   = fractal.width<minWidth?minWidth:fractal.width,
         profile = fractal.profile,
         pixelRowsPerColor =  Math.round(height/(fractal.counterMax+1)),
         p;
@@ -15,7 +16,7 @@ drawColors = function (data) {
         fractal.pixelImageHeight = height;
     }
 
-    $('#' + fractal.colorCanvasId).attr("height",height);
+    $('#' + fractal.colorCanvasId).attr("height", height);
 
     fractal.colorCanvasImageData = fractal.colorCanvasContext.createImageData(
         fractal.pixelImageWidth,fractal.pixelImageHeight

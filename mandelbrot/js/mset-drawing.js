@@ -3,7 +3,8 @@ var CurrentData;
 var drawImageFromWorker = function (evt) {
     let data = evt.data,
         objId = data.objId,
-        fractal = myFractalImages[objId];
+        fractal = myFractalImages[objId],
+        mouseBox = fractal.mouseBox;
 
     // Decimal does not make it though the transporter, reconstruct here
     data.objectInfo.startX = new Decimal(data.objectInfo.startX);
@@ -17,6 +18,10 @@ var drawImageFromWorker = function (evt) {
     fractal.objectInfo = data.objectInfo;
     fractal.height=data.objectInfo.height*1;
     fractal.width=data.objectInfo.width*1;
+
+    $(mouseBox)
+        .attr("style",`height:${fractal.height}px;width:${fractal.width}px;`);
+
     fractal.drawImage(data);
     CurrentData.pixels = fractal.pixels;
 };
@@ -60,6 +65,12 @@ var setupRect = function(evt) {
     obj.offsetTop  = evt.clientY - evt.offsetY;
 };
 
+var setupRect2 = function(evt) {
+    let obj = evt.data;
+    obj.offsetLeft = evt.currentTarget.clientLeft;
+    obj.offsetTop  = evt.currentTarget.clientTop;
+};
+
 var updateBoxCSS = function(evt) {
     let obj   = evt.data,
         borderWidth = 1,
@@ -80,6 +91,27 @@ var updateBoxCSS = function(evt) {
         left:obj.minX-obj.offsetLeft-borderWidth,
         height:obj.maxY-obj.minY+borderWidth,
         width:obj.maxX-obj.minX+borderWidth});
+};
+
+var updateBoxCSS2 = function(evt) {
+    let obj   = evt.data,
+        msg = `drawBox2 (#${obj.boxId})
+    offsetX  = ${obj.offsetLeft},
+    offsetY  = ${obj.offsetTop},
+    minP   = (${obj.minX},${obj.minY}) ==> (${obj.minX+obj.offsetLeft},${obj.minY+obj.offsetTop}),
+    maxP   = (${obj.maxX},${obj.maxY}) ==> (${obj.maxX+obj.offsetLeft},${obj.maxY+obj.offsetTop}),
+    top    = ${(obj.minY+obj.offsetTop)},
+    left   = ${(obj.minX+obj.offsetLeft)},
+    height = ${(obj.maxY-obj.minY)},
+    width  = ${(obj.maxX-obj.minX)}`;
+
+    Log.Debug(msg);
+    
+    $('#' + obj.boxId).css({
+        top:(obj.minY+obj.offsetTop),
+        left:(obj.minX+obj.offsetLeft),
+        height:obj.maxY-obj.minY,
+        width:obj.maxX-obj.minX});
 };
 
 var drawBox = function(evt) {
@@ -116,19 +148,126 @@ var drawBox = function(evt) {
     Log.Debug('drawBox finished');
 };
 
+var drawBox2 = function(evt) {
+    let obj = evt.data;
+
+    if (obj.dragCurrent.y-obj.dragStart.y > 0)
+    {
+        obj.minY = obj.dragStart.y;
+        obj.maxY = obj.dragCurrent.y;
+    }
+    else {
+        obj.minY = obj.dragCurrent.y;
+        obj.maxY = obj.dragStart.y;
+    }
+
+    if (obj.dragCurrent.x-obj.dragStart.x > 0)
+    {
+        obj.minX = obj.dragStart.x;
+        obj.maxX = obj.dragCurrent.x;
+    }
+    else {
+        obj.minX = obj.dragCurrent.x;
+        obj.maxX = obj.dragStart.x;
+    }
+
+    updateBoxCSS2(evt);
+
+    Log.Debug('drawBox2 finished');
+};
+
+var testCalcRect = function(evt) {
+    evt = evt?evt:{
+        data:{
+            heightToWidthRatio:1,
+            width:1000,
+            height:1000,
+            offsetTop:0,
+            offsetLeft:0,
+            rect:{
+                start:{
+                    x:new Decimal(-1),
+                    y:new Decimal(-1)
+                },
+                end:{
+                    x:new Decimal(1),
+                    y:new Decimal(1)
+                },
+            },
+            rectTmp:{
+                start:{
+                    x:new Decimal(0),
+                    y:new Decimal(0)
+                },
+                end:{
+                    x:new Decimal(0),
+                    y:new Decimal(0)
+                },
+            },
+            form:{
+                data:{
+                    scaleTypeId:"0,0",
+                    maxWidth:1000,
+                    maxHeight:1000,
+                }
+            },
+            maxX:300,
+            minX:200,
+            maxY:75,
+            minY:25,
+        }
+    };
+
+    return calculateRect(evt);
+}
+
+var snapRect = function (evt) {
+    let obj = evt.data,
+        minX =-1,
+        maxX =obj.width-1,
+        minY =-1,
+        maxY =obj.height-1;
+         
+    if (obj.minX < minX) {
+        obj.minX = minX;
+    }
+    if (obj.maxX > maxX) {
+        obj.maxX = maxX;
+    }
+    if (obj.minY < minY) {
+        obj.minY = minY;
+    }
+    if (obj.maxY > maxY) {
+        obj.maxY = maxY
+    }
+
+}
+
+var calculateRect2 = function (evt) {
+
+    let obj = evt.data,
+        canvasCurrentWidth = obj.width,
+        canvasCurrentHeight = obj.height,
+        canvasSelectionWidth = 1;
+}
+
 var calculateRect = function (evt)  {
 
     let obj = evt.data,
-        width,
-        height,
+        width = Decimal(obj.width),
+        height = Decimal(obj.height),
         dxNew,
         dyNew,
         fractalWidth = obj.rect.end.x.minus(obj.rect.start.x),
         fractalHeight = obj.rect.end.y.minus(obj.rect.start.y),
-        form = FormGlobal,
+        //form = processForm(),
+        form = obj.form?obj.form:FormGlobal?FormGlobal:processForm(), // allow testing by passed in form
         scaleTypeId = form.data.scaleTypeId,
         pixelDim,
         heightToWidthRatio = fractalHeight.div(fractalWidth);
+
+    // Change minX,Y and maxX,Y as needed:
+        obj
 
         switch(scaleTypeId) {
         case "1,0":
@@ -136,23 +275,14 @@ var calculateRect = function (evt)  {
             
             break;
         case "0,1":
-            break;
         case "500,0":
-            break;
         case "0,500":
-            break;
         case "200,0":
-            break;
         case "0,200":
-            break;
         case "100,0":
-            break;
         case "0,100":
-            break;
         case "10,0":
-            break;
         case "0,10":
-            break;
         case "0,0": 
         default:
             if (form.data.maxWidth) {
@@ -187,23 +317,32 @@ var calculateRect = function (evt)  {
     let rectMaxY = obj.rect.end.y.minus(
         (obj.rect.end.y.minus(obj.rect.start.y)).times(Decimal(obj.minY-obj.offsetTop).div(height)));
 
-    Log.Debug('calculateRect \nwidth=' + width.toFixed(0)
-        + '\nheight=' + height.toFixed(0) + '\nminX =' + obj.minX
-        + '\nminY=' + obj.minY + '\nmaxX=' + obj.maxX
-        + '\nmaxY=' + obj.maxY
-        + '\nrectMinX=' + rectMinX + '\nrectMinY=' + rectMinY
-        + '\nrectMaxX=' + rectMaxX + '\nrectMaxY=' + rectMaxY);
-
-    Log.Debug('calculateRect dxNew=' + dxNew + ' dyNew=' + dyNew);
-
     let rectTmp = obj.rectTmp;
 
     rectTmp.start.x = rectMinX;
     rectTmp.start.y = rectMinY;
     rectTmp.end.x = rectMaxX;
     rectTmp.end.y = rectMaxY;
-    obj.height = height.toFixed(0);
-    obj.width = width.toFixed(0);
-    obj.heightToWidthRatio = height.div(width);
+    //obj.heightToWidthRatio = height.div(width);
+    obj.heightToWidthRatio = dyNew.div(dxNew);
+    obj.height = parseInt(height); // replace with Math.floor(height) toFixed returns a string :(
+    obj.width  = parseInt(width);   // replace with Math.floor(width)  toFixed returns a string :(
+
+    Log.Debug(`calculateRect 
+    width='${obj.width}'
+    height='${obj.height}'
+    minX ='${obj.minX}'
+    minY='${obj.minY}'
+    maxX='${obj.maxX}'
+    maxY='${obj.maxY}'
+    rectMinX='${rectMinX}'
+    rectMinY='${rectMinY}'
+    rectMaxX='${rectMaxX}'
+    rectMaxY='${rectMaxY}'
+    dxNew='${dxNew}'
+    dyNew='${dyNew}'
+    heightToWidthRatio='${obj.heightToWidthRatio}'`);
+
+    return evt;
 }
 

@@ -3,12 +3,51 @@
 <head>
 <meta charset="utf-8">
 <title>Mandelbrot Set Visualization</title>
-<link rel="stylesheet" href="main.css" type="text/css">
+<link rel="stylesheet" href="main-old.css" type="text/css">
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 <link rel="stylesheet" type="text/css" href="css/mset.css" media="all">
 
 <style id="colorStyles"></style>
-
+<style>
+#currentColors {
+       display:none;
+}
+#log-parent {
+       max-height:initial;
+       position:relative;
+}
+#log2 {
+       font-family:'Fira Code',monospace;
+       overflow-x:initial;
+       overflow-y:initial;
+       max-height:initial;
+}
+#all {
+       display:none;
+}
+#myCanvas {
+       border: none;
+       cursor:crosshair;
+       position: absolute;
+       top:5px;
+       left:5px;
+       
+}
+#main {
+       height:initial;
+       width:initial;
+}
+#captureMouseEvents {
+    display: block;
+    position: absolute;
+    top:0;
+    left:0;
+    height:100px;
+    width:100px;
+    background-color:rgba(255,255,255,.1);
+    border: 5px solid rgba(255,255,255,.1);
+}
+</style>
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
 <script src="/js/d3.v3.js"></script>
 <script src="/js/decimal.js"></script>
@@ -20,7 +59,7 @@
 <script src="/js/svg-transform.js"></script>
 <script src="/js/schedule-function.js"></script>
 <script src="js/precision.js"></script>
-<script src="/js/mouse-events.js"></script>
+<script src="/js/mouse-events-4.js"></script>
 <script src="/js/panel-show-hide.js"></script>
 <script src="js/rect-init.js"></script>
 <script src="js/mset.js"></script>
@@ -42,7 +81,7 @@
 
 window.addEventListener('DOMContentLoaded', () => {
 
-    Log.Notice('Document Loading...');
+    //Log.Notice('Document Loading...');
 
     // this must be run before doing the restoreInput code below
     $('#controls .expand label')
@@ -78,12 +117,12 @@ window.addEventListener('DOMContentLoaded', () => {
     Data.restoreSelect('pickedColor');
     Data.restoreInput('counterMax');
 
-    //myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
-    //            'box',1000,2000,{colorCanvasId:'currentColors'});
     myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
-                'box',35,35,{colorCanvasId:'currentColors'});
+                'box','captureMouseEvents',150,150,{colorCanvasId:'currentColors'});
+   // myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
+    //            'box',35,35,{colorCanvasId:'currentColors'});
     myFractalImages[myFractalImageId].initColorArray();
-
+    //myFractalImages[myFractalImageId].mouseBox = "#captureMouseEvents";
     bindMouseBox();
     //setTimeout("Log.Remove()", 20);
 });
@@ -126,7 +165,7 @@ window.addEventListener('DOMContentLoaded', () => {
   <select id="scaleTypeId" name="scaleTypeId"
         onChange="Data.saveInput('scaleTypeId','Log.Notice')" >
     <option value="0,0" id="scale-0-0" selected="selected">H/W Ratio</option>
-    <option value="1,0" id="scale-1-0" selected="selected">Pixel Width</option>
+    <option value="1,0" id="scale-1-0">Pixel Width</option>
     <option value="0,1" id="scale-0-1" >Pixel Height</option>
     <option value="500,0" id="scale-500-0" >Width: 500</option>
     <option value="0,500" id="scale-0-500" >Height: 500</option>
@@ -140,18 +179,18 @@ window.addEventListener('DOMContentLoaded', () => {
 </li>
 <li>
  <label for="maxWidth">Max W:</label>
- <input type="number" value="0" min="0" max="10000"
+ <input type="number" value="0" min="0" max="500"
         step="1" id="maxWidth" name="maxWidth"
         onChange="Data.saveInput('maxWidth','Log.Notice')" />
 </li>
 <li>
   <label for="maxHeight">Max H:</label>
-  <input type="number" value="0" min="0" max="10000"
+  <input type="number" value="0" min="0" max="500"
          step="1" id="maxHeight" name="maxHeight"
          onChange="Data.saveInput('maxHeight','Log.Notice')" />
 </li>
 <li>
- <label for="finiteMeasure">F Measure:</label>
+ <label for="finiteMeasure">+Infinity:</label>
  <input type="number" value="256" min=".5" max="8192"
         step=".1" id="finiteMeasure" name="finiteMeasure"
         onChange="Data.saveInput('finiteMeasure','Log.Notice')" />
@@ -163,7 +202,7 @@ window.addEventListener('DOMContentLoaded', () => {
         onChange="Data.saveInput('counterMax','Log.Notice',' restored.')" />
 </li>
 <li>
- <label for="finiteMeasureFunction">F Function:</label>
+ <label for="finiteMeasureFunction">Finite Fn:</label>
  <select id="finiteMeasureFunction"
          name="finiteMeasureFunction"
          onChange="Data.saveSelect('finiteMeasureFunction','Log.Notice')">
@@ -282,7 +321,7 @@ window.addEventListener('DOMContentLoaded', () => {
   </select>
 </li>
 <li>
- <label for="refColorId">RefColorId:</label>
+ <label for="refColorId">RefColId:</label>
   <select id="refColorId" name="refColorId"
           onChange="Data.saveSelect('refColorId','Log.Notice');" >
     <option value="0">0</option>
@@ -299,7 +338,7 @@ window.addEventListener('DOMContentLoaded', () => {
  <label for="scaleCounterId">Ht Scale:</label>
   <select id="scaleCounterId" name="scaleCounterId"
           onChange="Data.saveSelect('scaleCounterId','Log.Notice');" >
-    <option value="0"><span class="spacer">&nbsp;&nbsp;&nbsp;&nbsp;</span>0</option>
+    <option value="0">0</option>
     <option value="1">1</option>
     <option value="2">2</option>
     <option value="3">3</option>
@@ -334,7 +373,7 @@ window.addEventListener('DOMContentLoaded', () => {
   </select>
 </li>
 <li class="expand">
- <label for="hueFactor">HueFactor:</label>
+ <label for="hueFactor">HueFact:</label>
  <div class="min-max">
  <span id="hueFactor-min"></span>
  <input type="number" value="0.20" min="0.01" max="50.00"
@@ -443,13 +482,13 @@ window.addEventListener('DOMContentLoaded', () => {
  </div>
 </li>
 <li>
-  <label for="scaleH">ScaleH</label>
+  <label for="scaleH">ScaleH:</label>
   <input type="checkbox" name="scaleH"
          id="scaleH" value="-1"
          onChange="doScale('scaleH','scaleV')"/>
 </li>
 <li>
-  <label for="scaleV">ScaleV</label>
+  <label for="scaleV">ScaleV:</label>
   <input type="checkbox" name="scaleV"
          id="scaleV" value="-1"
          onChange="doScale('scaleH','scaleV')"/>
@@ -483,11 +522,12 @@ window.addEventListener('DOMContentLoaded', () => {
 </form>
 </div>
 
-<div id="main">
- <canvas id="myCanvas"
-         height="50" width="100">Your browser doesn't support canvas</canvas>
- <div id="box"></div>
-</div>
+<div id="main"><canvas id="myCanvas" height="100" width="100"></canvas><div 
+       id="box"
+    ></div><div id="captureMouseEvents"></div></div>
+
+
+
 <!-- you can add an additional canvas like this:
 <div id="main2">
  <canvas id="myCanvas2"
@@ -584,5 +624,10 @@ window.addEventListener('DOMContentLoaded', () => {
 </svg>
 
 </div>
+<script>
+//var recordedChunks = [];
+//var options = {mimeType: 'video/webm; codecs=vp9'};
+//mediaRecorder = new MediaRecorder(stream, options);     
+</script>
 </body>
 </html>

@@ -1128,6 +1128,7 @@ Data.Filters = [
   {url: "url(#btw-fade-2-lighten)", alt: "BTW Fade 2 Lighten"},
   {url: "url(#btw-fade-3-lighten)", alt: "BTW Fade 3 Lighten"},
   {url: "url(#btw-fade-4-lighten)", alt: "BTW Fade 4 Lighten"},
+  {url: "url(#mset-color-smoothing)", alt:"Mset Color Smoothing"},
 ];
 
 

@@ -80,7 +80,7 @@ self.addEventListener('message',  function(evt) {
             dx = Decimal(0);
             col0 = 0;
         } else {
-            dx = Decimal.abs((objectInfo.endX.minus(objectInfo.startX)).div(objectInfo.width-1));
+            dx = new Decimal(dy);// Decimal.abs((objectInfo.endX.minus(objectInfo.startX)).div(objectInfo.width-1));
             col0 = Decimal.abs(objectInfo.startX.divToInt(dx)).toNumber();
         }
     } else {
@@ -88,7 +88,7 @@ self.addEventListener('message',  function(evt) {
             dx = Decimal(0)
             col0 = 0
         } else {
-            dx = Decimal.abs((objectInfo.endX.minus(objectInfo.startX)).div(objectInfo.width-1));
+            dx = new Decimal(dy);//Decimal.abs((objectInfo.endX.minus(objectInfo.startX)).div(objectInfo.width-1));
             col0 = objectInfo.width;
         }
     }

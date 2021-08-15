@@ -13,13 +13,14 @@ addToPixels[1] = function (data) {
     var rgb = {r:0,g:0,b:0,a:255,hex:'#FFFFFF'};
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
+    var lastPixel = Math.floor((fractal.pixels.length-4)/4);
 
     for (var i = 0; i<=fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<=lastPixel; p+=pixelJump)
     {
         modulus = (p+1)%4;
         counter = fractal.counters[p];
@@ -483,12 +484,14 @@ addToPixels[11] = function (data) {
         fractal = myFractalImages[objId],
         counter,
         pixelJump = data.pixelJump,
+        lastPixel = Math.floor(fractal.pixels.length),
         colors = new Array(fractal.counterMax+1).fill({r:255,g:255,b:255,a:255,hex:"#FFFFFF"}),
         rgb = {r:0,g:0,b:0,a:255,hex:'#000000'}; // black;
 
-    for (let p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (let p=((fractal.animationIndex%pixelJump)*4),canvasPixel;p<lastPixel;p+=pixelJump)
     {
-        counter = fractal.counters[p/4];
+        canvasPixel=p/4;
+        counter = fractal.counters[canvasPixel];
 
         if (counter != fractal.profile.maximum) {
             continue
@@ -576,17 +579,18 @@ addToPixels[13] = function (data) {
     var hue,sat,brt,rgb;
     var hueFactor = 2*360/fractal.counterMax;
     var pixelJump = data.pixelJump;
-
     var colors = new Array(fractal.counterMax);
+    var lastPixel = Math.floor(fractal.pixels.length);
 
-    for (var i = 0; i<=fractal.counterMax;i++)
+    for (let i=0; i<=fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
+    for (let p=((fractal.animationIndex%pixelJump)*4),canvasPixel;p<lastPixel;p+=pixelJump)
     {
-        counter = fractal.counters[p];
+        canvasPixel = p/4;
+        counter = fractal.counters[canvasPixel];
 
         if (counter == fractal.profile.maximum)
         {
@@ -628,11 +632,13 @@ addToPixels[14] = function (data) {
         hueFactor = 2*360/fractal.counterMax,
         pixelJump = data.pixelJump,
         colors = new Array(fractal.counterMax+1).fill({r:0,g:0,b:0,a:255,hex:'#000000'}),
+        lastPixel = Math.floor(fractal.pixels.length),
         color;
 
-    for (let p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length; p+=pixelJump)
+    for (let p = ((fractal.animationIndex%pixelJump)*4),canvasPixel;p<lastPixel; p+=pixelJump)
     {
-        counter = fractal.counters[p/4];
+        canvasPixel = p/4;
+        counter = fractal.counters[canvasPixel];
 
         hue = ((Math.round(counter*hueFactor+fractal.animationIndex))%360);
         sat = (counter%8)*.125 + .125;
@@ -2030,13 +2036,14 @@ addToPixels[35] = function (data) {
     var hueFactor = 2*360/fractal.counterMax;
     var pixelJump = data.pixelJump;
     var colors = new Array(fractal.counterMax);
+    var lastPixel = Math.floor((fractal.pixels.length-4)/4);
 
     for (var i = 0; i<=fractal.counterMax;i++)
     {
       colors[i] = {r:0,g:0,b:0,a:255};
     }
 
-    for (var p = (fractal.animationIndex%pixelJump)*4;p<fractal.pixels.length-4; p+=pixelJump)
+    for (var p = (fractal.animationIndex%pixelJump)*4;p<=lastPixel; p+=pixelJump)
     {
 
         counter = fractal.counters[p];
@@ -2079,11 +2086,15 @@ addToPixels[35] = function (data) {
         fractal.pixels[p+1] = rgb.g;
         fractal.pixels[p+2] = rgb.b;
         fractal.pixels[p+3] = 255;
-
-        colors[counter].r = rgb.r;
-        colors[counter].g = rgb.g;
-        colors[counter].b = rgb.b;
-        colors[counter].a = 255;
+        try {
+            colors[counter].r = rgb.r;
+            colors[counter].g = rgb.g;
+            colors[counter].b = rgb.b;
+            colors[counter].a = 255;
+        } catch (error) {
+            // get ready to stop at next instruction
+            console.log(error);
+        }
     }
 
     fractal.colors = colors;

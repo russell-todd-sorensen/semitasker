@@ -1,18 +1,26 @@
-
-body,html {
+html {
+    font-size: 16px; /* defines 1em=16px */
+}
+html, 
+body {
     background-color: black;
     margin:0;
     padding:0;
     border:0;
 }
 
+body {
+    font-size: 1em;
+    font-family: 'Fira Code','Lucida Sans Unicode', sans-serif;
+}
+
 #main,
 #main2 {
     position: relative;
     display: inline-block;
-    padding: 0/* 3px */;
+    padding: 0;
     vertical-align: top;
-    margin: 3px;
+    margin: 0.1875em;
 }
 
 #myCanvas,
@@ -26,10 +34,10 @@ body,html {
 #box,
 #box2 {
     position: absolute;
-    top: 50%;
+    top: 0;
     left: 0;
     background-color: rgba(255,0,0,.1);
-    border: 1px dashed yellow;
+    border: 0.0625em dashed yellow;
 }
 
 #controls {
@@ -38,14 +46,14 @@ body,html {
     position: relative;
     left: 0;
     top: 0;
-    padding: 2px;
+    padding: 0.125em;
 }
 
 #colors {
-    border: 2px solid #555;
+    border: 0.125em solid #555;
     position: absolute;
-    right: 5px;
-    top: 3px;
+    right: 0.3125em;
+    top: 0.1875em;
 }
 
 #controls ul {
@@ -54,34 +62,29 @@ body,html {
 }
 
 #controls li label {
-    width: 90px;
+    width: 6em;
     display: inline-block;
-    padding-bottom: 3px;
-    padding-top: 3px;
-    font-family: sans serif, "Tw Cen MT Bold";
+    padding-bottom: .1875em;
+    padding-top: .1875em;
 }
 
 #controls li input {
     display: inline-block;
-    font-family: sans serif, "Tw Cen MT Bold";
-    font-size: 16px;
-    margin-left: 0px;
+    font-family: inherit;
+    text-align: ".";
+    font-size: 1em;
+    margin-left: 0;
 }
 
 #controls li select option {
-    width: 75px;
+    width: 5em;
 }
 
 #controls li input {
     display: inline-block;
-    width: 75px;
+    width: 4.7em;
 }
 
-#controls li input[type=range] {
-    width: 75px;
-}
-
-/* this is how you change the font of select options!!! */
 #animationFunctionId,
 #fractalImageId,
 #fractalTypeId,
@@ -97,17 +100,29 @@ body,html {
 #b5,
 #finiteMeasureFunction
 { /* select id */
-    width: 82.75px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    display: inline-block;
-    font-family: sans serif, "Tw Cen MT Bold";
-    margin-left: 0px;
-    font-size: 16px;
+    width: 5.2em;
+    padding-top: 0.1875em;
+    padding-bottom: 0.1875em;
+    margin-left: 0;
+    font-size: 1em;/* 1em = 16px;*/
+    font-family: inherit;
 }
 
 #b4 {
     display: none;
+}
+
+select#animationFunctionId,
+select#fractalImageId,
+select#fractalTypeId,
+select#scaleTypeId,
+select#pixelColorsId,
+select#refColorId,
+select#scaleCounterId,
+select#hslOrHsb,
+select#finiteMeasureFunction {
+    text-align: right;
+    align-items: flex-end;
 }
 
 #animationFunctionId option,
@@ -119,21 +134,20 @@ body,html {
 #scaleCounterId option,
 #hslOrHsb option,
 #finiteMeasureFunction option {
-    padding-left: 10px;
-    width: 72px;
-    display: inline-block;
-    font-family: sans serif, "Tw Cen MT Bold";
-    font-size: 15px;
+    padding-left: .625em;
+    width: 5em;
+    font-size: 1em;
+    text-align: right;
 }
 
 #mode-controls {
-    letter-spacing: 1px;
+    letter-spacing: .0625em;
 }
 
 #drawImage,
 #animateImage,
 #captureCanvas {
-    width: 75px;
+    width: 5em;
     display: inline-block;
     vertical-align: top;
 }
@@ -149,8 +163,8 @@ body,html {
 }
 
 #controls .expand .min-max > span {
-    font-family: sans serif, "Tw Cen MT Bold";
-    font-size: 15px;
+    font-family: inherit;
+    font-size: inherit;
 }
 
 #captureCanvas {
@@ -158,10 +172,10 @@ body,html {
 }
 
 #imageGallery {
-    padding: 3px;
+    padding: 0.1875em;
     position: absolute;
-    bottom: 3px;
-    left: 3px;
+    bottom: 0.1875em;
+    left: 0.1875em;
     background-color: silver;
 }
 
@@ -173,10 +187,10 @@ body,html {
 }
 
 .cp {
-    height: 10px;
-    width: 10px;
+    height: 0.625em;
+    width: 0.625em;
     display: inline-block;
     padding: 0;
     margin: 0;
-    border: .5px solid black;
+    border: 0.03125em solid black;
 }
