@@ -240,7 +240,6 @@ var snapRect = function (evt) {
     if (obj.maxY > maxY) {
         obj.maxY = maxY
     }
-
 }
 
 var calculateRect2 = function (evt) {

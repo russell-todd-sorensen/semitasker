@@ -1,0 +1,142 @@
+<html>
+<head>
+<style>
+html {
+    font-size: 16px; /* defines 1em=16px */
+}
+html, 
+body {
+    background-color: black;
+    color: white;
+    margin:0;
+    padding:0;
+    border:0;
+}
+
+body {
+    font-size: 1em;
+    font-family: 'Fira Code','Lucida Sans Unicode', sans-serif;
+}
+
+#main,
+#main2 {
+    position: relative;
+    display: inline-block;
+    padding: 0;
+    vertical-align: top;
+    margin: 0.1875em;
+}
+
+#myCanvas,
+#myCanvas2 {
+    border: none;
+    background-clip:padding-box;
+    position: relative;
+    vertical-align: top;
+}
+
+#box,
+#box2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(255,0,0,.1);
+    border: 0.0625em dashed yellow;
+}
+
+#myCanvas {
+    cursor:crosshair;
+    position: absolute;
+    top:0;
+    left:0;
+       
+}
+#main {
+    height:initial;
+    width:initial;
+}
+
+#captureMouseEvents {
+    display: block;
+    position: absolute;
+    top:0;
+    left:0;
+    height:100px;
+    width:100px;
+    background-color:rgba(255,255,255,.1);
+    cursor:crosshair;
+}
+#myCanvas.commonBorderStyle,
+#captureMouseEvents.commonBorderStyle {
+    /*  sharing border style keeps alignment 
+        if it is expanded or shrunk. 
+    */
+    border: 5px solid rgba(255,255,255,.1);
+}
+#hidden {
+    position: absolute;
+    bottom: -179px;
+    left: -220px;
+    bottom: 0;
+    left:0;
+}
+#rel {
+    position: relative;
+    height: 200px;
+    width: 300px;
+    padding:0;
+    margin:0
+}
+#explainer {
+    width: 500px;
+    padding: 10px;
+}
+</style>
+</head>
+<body>
+<div id="rel">
+<div id="main"><canvas id="myCanvas" class="commonBorderStyle" height="179" width="220">
+</canvas><div id="box" style="top: 4px; left: 4px; height: 179px; width: 220px;">
+</div><div id="captureMouseEvents" class="commonBorderStyle" style="height:179px;width:220px;">
+</div>
+</div>
+</div> 
+<div id="explainer">
+The above html represents the main selection tool for fractal explorer:
+<ol>
+    <li>An outer container setting the relative position of:</li>
+    <li>A canvas with fractal image,</li>
+    <li>A dashed-edge selector which outlines the selection, and</li>
+    <li>An upper mouse-event capture surface which captures mousedown, mousedrag
+        and mouseup events.
+    </li>
+</ol>
+The canvas and event capture surface have the same dimensions and border.
+The border is an important element as it allows selecting the entire canvas,
+or any edge of corner without losing contact with the event surface.
+
+</div>
+<div id="hidden"><img id="fractal-example" onload="loadCanvasImage()" src="fractal-example.png" height="179" width="220" /></div>
+</body>
+<script>
+var ctx;
+var loadCanvasImage = function() {
+
+    let img = document.getElementById("fractal-example"),
+        c   = document.getElementById("myCanvas"),
+        wid = 220,
+        hit = 179;
+
+    c.setAttribute('width', 220);
+    c.setAttribute('height', 179);
+
+    ctx = c.getContext("2d");
+    ctx.drawImage(img, 0, 0, wid, hit);
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+
+    //loadCanvasImage();
+});
+</script>
+</html>

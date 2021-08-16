@@ -10,33 +10,34 @@
 <style id="colorStyles"></style>
 <style>
 #currentColors {
-       display:none;
+    display:none;
 }
 #log-parent {
-       max-height:initial;
-       position:relative;
+    max-height:initial;
+    position:relative;
 }
 #log2 {
-       font-family:'Fira Code',monospace;
-       overflow-x:initial;
-       overflow-y:initial;
-       max-height:initial;
+    font-family:'Fira Code',monospace;
+    overflow-x:initial;
+    overflow-y:initial;
+    max-height:initial;
 }
 #all {
-       display:none;
+    display:none;
 }
+
 #myCanvas {
-       border: none;
-       cursor:crosshair;
-       position: absolute;
-       top:5px;
-       left:5px;
+    cursor:crosshair;
+    position: absolute;
+    top:0;
+    left:0;
        
 }
 #main {
-       height:initial;
-       width:initial;
+    height:initial;
+    width:initial;
 }
+
 #captureMouseEvents {
     display: block;
     position: absolute;
@@ -45,6 +46,12 @@
     height:100px;
     width:100px;
     background-color:rgba(255,255,255,.1);
+}
+#myCanvas.commonBorderStyle,
+#captureMouseEvents.commonBorderStyle {
+    /*  sharing border style keeps alignment 
+        if it is expanded or shrunk. 
+    */
     border: 5px solid rgba(255,255,255,.1);
 }
 </style>
@@ -522,9 +529,9 @@ window.addEventListener('DOMContentLoaded', () => {
 </form>
 </div>
 
-<div id="main"><canvas id="myCanvas" height="100" width="100"></canvas><div 
+<div id="main"><canvas id="myCanvas" class="commonBorderStyle" height="100" width="100"></canvas><div 
        id="box"
-    ></div><div id="captureMouseEvents"></div></div>
+    ></div><div id="captureMouseEvents" class="commonBorderStyle"></div></div>
 
 
 
