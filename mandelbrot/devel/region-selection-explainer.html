@@ -77,9 +77,10 @@ body {
     position: absolute;
     bottom: -179px;
     left: -220px;
-    bottom: 0;
-    left:0;
+    /*bottom: 0;
+    left:0; */
 }
+
 #rel {
     position: relative;
     height: 200px;
@@ -87,9 +88,64 @@ body {
     padding:0;
     margin:0
 }
+
 #explainer {
-    width: 500px;
+    max-width: 800px;
     padding: 10px;
+}
+
+code {
+    color: rgba(80,201,122,1.0);
+}
+
+#layer-illustration {
+    width: 300px;
+    height: 200px;
+    padding: 10px;
+    padding-top: 20px;
+    float: right;
+    clear: left;
+    border: 2px solid rgba(80,201,122,1.0);
+}
+
+.layer {
+    font-size: .8em;
+    line-height: 2.5em;
+    height: 30px;
+    width: 80%;
+    background-color: rgba(255,255,255,.2);
+    background-clip: padding-box;
+    border: 20px solid rgba(255,255,255,.2);
+    border-top-width:0;
+    border-bottom-width:0;
+    padding: 3px;
+    margin: auto;
+    margin-bottom: 15px;
+}
+
+#main-layer {
+
+}
+
+#selector-outline-layer {
+    color: rgba(255,255,0,1.0);
+}
+
+#canvas-layer {
+    background-color: rgba(80,201,122,1.0);
+    letter-spacing: -0.01em;
+}
+
+nobr#yellow-outline {
+    border: 1px dashed rgba(255,255,0,1.0);
+    padding:2px;
+    margin-left: -21px;
+}
+
+#capture-mouse-events-layer {
+    background-color: rgba(255,255,255,.8);
+    color: black;
+    letter-spacing: -0.01em;
 }
 </style>
 </head>
@@ -102,26 +158,50 @@ body {
 </div>
 </div> 
 <div id="explainer">
-The above html represents the main selection tool for fractal explorer:
+<p>The above html represents the main selection tool for fractal explorer:</p>
 <ol>
-    <li>An outer container setting the relative position of:</li>
-    <li>A canvas with fractal image,</li>
-    <li>A dashed-edge selector which outlines the selection, and</li>
-    <li>An upper mouse-event capture surface which captures mousedown, mousedrag
-        and mouseup events.
+<aside id="layer-illustration">
+<div class="layer" id="capture-mouse-events-layer">Event layer aligned with canvas</div>
+<div class="layer" id="selector-outline-layer"><nobr id="yellow-outline">drawn box surrounds canvas selection</nobr></div>
+<div class="layer" id="canvas-layer"><nobr>canvas layer: aligned with event</nobr></div>
+<div class="layer" id="main-layer">#main border:none padding:none</div>
+</aside>
+    <li>An outer container (#main) setting the relative position of:</li>
+    <li>A canvas (#myCanvas) with fractal image,</li>
+    <li>A dashed-edge selector (#box) which outlines the selection, and</li>
+    <li>An upper mouse-event capture surface (#captureMouseEvents) which 
+        captures mousedown, mousemove and mouseup events.
     </li>
 </ol>
-The canvas and event capture surface have the same dimensions and border.
+<p>The canvas and event capture surface have the same dimensions and border.
 The border is an important element as it allows selecting the entire canvas,
-or any edge of corner without losing contact with the event surface.
+or any edge or corner without losing contact with the event surface.</p>
 
+<h4>Event Cycle</h4>
+<ol>
+<li>Web page load causes binding of mousedown on #captureMouseEvents to 
+    <code>startMove</code>.
+</li>
+<li><code>startMove</code> captures the <code>x, y</code> offsets of the 
+    event on #captureMouseEvents and then binds <code>mousemove</code> to 
+    <code>dragMove</code> and <code>mouseup</code> to <code>endMove</code>.
+    An event in the border of #captureMouseEvents are outside of the canvas 
+    and when the <code>mouseup</code> event fires, the selection box will 
+    snap to points just outside the canvas if either or both of the start or 
+    end points is in the border of <code>#captureMouseEvents</code>.
+    
+</li>
+<li>Each of these handlers also invokes user-defined synchronous callbacks </li>
+</ol>
 </div>
-<div id="hidden"><img id="fractal-example" onload="loadCanvasImage()" src="fractal-example.png" height="179" width="220" /></div>
+<div id="hidden"><img id="fractal-example" src="fractal-example-2.png" height="179" width="220" /></div>
 </body>
 <script>
+
 var ctx;
 var loadCanvasImage = function() {
 
+    console.log("starting loadCanvasImage");
     let img = document.getElementById("fractal-example"),
         c   = document.getElementById("myCanvas"),
         wid = 220,
@@ -135,8 +215,8 @@ var loadCanvasImage = function() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-
-    //loadCanvasImage();
+    document.getElementById('fractal-example').onload=loadCanvasImage;
 });
+
 </script>
 </html>
