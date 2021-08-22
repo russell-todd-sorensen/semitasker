@@ -12,12 +12,17 @@
 <link rel="stylesheet" href="/css/green-form.css" >
 
 <style>
+html {
+  font-size: 16px;
+}
 body {
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-family: "Fira Code", "Lucida Sans Unicode", sans-serif;
+    font-size: 1em;
 }
 .cell {
     display: none;
 }
+
 #bottom-middle-cell {
     display: block;
 }
@@ -52,10 +57,10 @@ body {
     right: 10px;*/
 }
 
-/* override #panel  styles */
+/* override #panel  styles
 #panel fieldset {
     width: 400px;
-}
+} */
 
 /* for the font-distort form */
 
@@ -262,15 +267,15 @@ $(document).ready(function () {
 <ul id="panel2">
  <li>
    <label for="externalImageURL">Image URL:</label>
-   <input id="new-url" name="new-url" value="">
+   <input id="new-url" name="new-url" value="" class="input-text">
  </li>
  <li>
    <label for="imageAltLabel">Image Name:</label>
-   <input id="new-alt" name="new-alt" value="">
+   <input id="new-alt" name="new-alt" value="" class="input-text">
  </li>
  <li>
    <label for="new-image-submit">Add Image:</label>
-   <input name="new-image-submit" id="new-image-submit" 
+   <input name="new-image-submit" id="new-image-submit" class="input-button"
     type="button" value="Add Image" 
     onClick="Data.addImageToMyImageURLs('new-url', 'new-alt','imageChoice')" >
  </li>
@@ -649,6 +654,15 @@ $(document).ready(function () {
     edgeMode="duplicate" />
 </filter>
 
+<filter id="mset-color-smoothing"  color-interpolation="sRGB">
+  <feConvolveMatrix
+      order="3"
+      kernelMatrix=".1 .1 .1
+                    .1 .2 .1
+                    .1 .1 .1"
+      edgeMode="duplicate" />
+  </filter>
+  
 <filter id="X2"  color-interpolation="sRGB">
 <feConvolveMatrix
     order="3"
