@@ -1,0 +1,968 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0061)http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-gb" xml:lang="en-gb"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+<!--<base href="http://forum.enjoysudoku.com/">--><base href=".">
+<link rel="canonical" href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html">
+
+<title>Benchmark Sudoku List : Advanced solving techniques</title>
+<meta http-equiv="content-style-type" content="text/css">
+<meta http-equiv="content-language" content="en-gb">
+<meta http-equiv="imagetoolbar" content="no">
+<meta name="content-language" content="en">
+<meta name="title" content="Benchmark Sudoku List : Advanced solving techniques">
+<meta name="description" content="Hi fellow Sudoku fanatics, At several occasions we discussed the usefulness of a benchmark set of sudokus. Many programmers are using dukuso&#39;s top1465, top95 or ...">
+<meta name="keywords" content="list, eliminations, hidden, benchmark, single, sudoku, start, link, seems">
+<meta name="category" content="general">
+<meta name="robots" content="index,follow">
+<meta name="distribution" content="global">
+<meta name="resource-type" content="document">
+<meta name="copyright" content="The New Sudoku Players Forum">
+
+
+
+
+<!--
+	phpBB style name: prosilver
+	Based on style:   prosilver (this is the default phpBB3 style)
+	Original author:  Tom Beddard ( http://www.subBlue.com/ )
+	Modified by:
+-->
+
+<script type="text/javascript">
+// <![CDATA[
+	var jump_page = 'Enter the page number you wish to go to:';
+	var on_page = '1';
+	var per_page = '15';
+	var base_url = 'http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html';
+	var style_cookie = 'phpBBstyle';
+	var style_cookie_settings = '; path=/; domain=forum.enjoysudoku.com';
+	var onload_functions = new Array();
+	var onunload_functions = new Array();
+	// www.phpBB-SEO.com SEO TOOLKIT BEGIN
+	var seo_delim_start = '-';
+	var seo_static_pagination = 'page';
+	var seo_ext_pagination = '.html';
+	var seo_external = true;
+	var seo_external_sub = false;
+	var seo_ext_classes = false;
+	var seo_hashfix = false;
+	// www.phpBB-SEO.com SEO TOOLKIT END
+
+	
+
+	/**
+	* Find a member
+	*/
+	function find_username(url)
+	{
+		popup(url, 760, 570, '_usersearch');
+		return false;
+	}
+
+	/**
+	* New function for handling multiple calls to window.onload and window.unload by pentapenguin
+	*/
+	window.onload = function()
+	{
+		for (var i = 0; i < onload_functions.length; i++)
+		{
+			eval(onload_functions[i]);
+		}
+	};
+
+	window.onunload = function()
+	{
+		for (var i = 0; i < onunload_functions.length; i++)
+		{
+			eval(onunload_functions[i]);
+		}
+	};
+
+// ]]>
+</script>
+<script type="text/javascript" src="./Benchmark Sudoku List _ Advanced solving techniques_files/styleswitcher.js"></script>
+<script type="text/javascript" src="./Benchmark Sudoku List _ Advanced solving techniques_files/forum_fn.js"></script>
+
+<link href="./Benchmark Sudoku List _ Advanced solving techniques_files/print.css" rel="stylesheet" type="text/css" media="print" title="printonly" disabled="">
+<link href="./Benchmark Sudoku List _ Advanced solving techniques_files/style.php" rel="stylesheet" type="text/css" media="screen, projection">
+
+<link href="./Benchmark Sudoku List _ Advanced solving techniques_files/normal.css" rel="stylesheet" type="text/css" title="A" disabled="">
+<link href="./Benchmark Sudoku List _ Advanced solving techniques_files/medium.css" rel="alternate stylesheet" type="text/css" title="A+" disabled="">
+<link href="./Benchmark Sudoku List _ Advanced solving techniques_files/large.css" rel="alternate stylesheet" type="text/css" title="A++" disabled="">
+
+
+
+</head>
+
+<body id="phpbb" class="section-viewtopic ltr">
+
+<div id="wrap">
+	<a id="top" name="top" accesskey="t"></a>
+	<div id="page-header">
+		<div class="headerbar">
+			<div class="inner"><span class="corners-top"><span></span></span>
+
+			<div id="site-description">
+				<a href="http://forum.enjoysudoku.com/" title="Board index" id="logo"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/site_logo.gif" width="52" height="52" alt="" title=""></a>
+				<h1>The New Sudoku Players' Forum</h1>
+				<p>Sponsored by Enjoy Sudoku</p>
+				<p class="skiplink"><a href="http://forum.enjoysudoku.com/#start_here">Skip to content</a></p>
+			</div>
+
+		
+			<div id="search-box">
+				<form action="http://forum.enjoysudoku.com/search.php" method="get" id="search">
+				<fieldset>
+					<input name="keywords" id="keywords" type="text" maxlength="128" title="Search for keywords" class="inputbox search" value="Search…" onclick="if(this.value==&#39;Search…&#39;)this.value=&#39;&#39;;" onblur="if(this.value==&#39;&#39;)this.value=&#39;Search…&#39;;">
+					<input class="button2" value="Search" type="submit"><br>
+					<a href="http://forum.enjoysudoku.com/search.php" title="View the advanced search options">Advanced search</a> 
+				</fieldset>
+				</form>
+			</div>
+		
+
+			<span class="corners-bottom"><span></span></span></div>
+		</div>
+
+		<div class="navbar">
+			<div class="inner"><span class="corners-top"><span></span></span>
+
+			<ul class="linklist navlinks">
+				<li class="icon-home"><a href="http://forum.enjoysudoku.com/" accesskey="h">Board index</a>  <strong>‹</strong> <a href="http://forum.enjoysudoku.com/sudoku-the-puzzle-f5.html">Sudoku: the puzzle</a> <strong>‹</strong> <a href="http://forum.enjoysudoku.com/advanced-solving-techniques-f6.html">Advanced solving techniques</a></li>
+
+				<li class="rightside"><a href="http://forum.enjoysudoku.com/#" onclick="fontsizeup(); return false;" onkeypress="return fontsizeup(event);" class="fontsize" title="Change font size">Change font size</a></li>
+
+				<li class="rightside"><a href="http://forum.enjoysudoku.com/viewtopic.php?f=6&amp;t=3834&amp;start=0&amp;view=print" title="Print view" accesskey="p" class="print">Print view</a></li>
+			</ul>
+
+			
+
+			<ul class="linklist rightside">
+				<li class="icon-faq"><a href="http://forum.enjoysudoku.com/faq.php" title="Frequently Asked Questions">FAQ</a></li>
+				<li class="icon-register"><a href="http://forum.enjoysudoku.com/ucp.php?mode=register">Register</a></li>
+					<li class="icon-logout"><a href="http://forum.enjoysudoku.com/ucp.php?mode=login" title="Login" accesskey="x">Login</a></li>
+				
+			</ul>
+
+			<span class="corners-bottom"><span></span></span></div>
+		</div>
+
+	</div>
+
+	<a name="start_here"></a>
+	<div id="page-body">
+		
+<h2><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html">Benchmark Sudoku List</a></h2>
+<!-- NOTE: remove the style="display: none" when you want to have the forum description on the topic body --><div style="display: none !important;">Advanced methods and approaches for solving Sudoku puzzles<br></div>
+
+<div class="topic-actions">
+
+	<div class="buttons">
+	
+		<div class="reply-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=reply&amp;f=6&amp;t=3834" title="Post a reply"><span></span>Post a reply</a></div>
+	
+	</div>
+
+	
+		<div class="search-box">
+			<form method="get" id="topic-search" action="http://forum.enjoysudoku.com/search.php">
+			<fieldset>
+				<input class="inputbox search tiny" type="text" name="keywords" id="search_keywords" size="20" value="Search this topic…" onclick="if(this.value==&#39;Search this topic…&#39;)this.value=&#39;&#39;;" onblur="if(this.value==&#39;&#39;)this.value=&#39;Search this topic…&#39;;">
+				<input class="button2" type="submit" value="Search">
+				<input type="hidden" name="t" value="3834">
+<input type="hidden" name="sf" value="msgonly">
+
+			</fieldset>
+			</form>
+		</div>
+	
+		<div class="pagination">
+			34 posts
+			 • <a href="http://forum.enjoysudoku.com/#" onclick="jumpto(); return false;" title="Click to jump to page…">Page <strong>1</strong> of <strong>3</strong></a> • <span><strong>1</strong><span class="page-sep">, </span><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834-15.html">2</a><span class="page-sep">, </span><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834-30.html">3</a></span>
+		</div>
+	
+
+</div>
+<div class="clear"></div>
+
+
+	<div id="p25551" class="post bg2">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=25551" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3 class="first"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p25551">Benchmark Sudoku List</a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post25551.html#p25551"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a></strong> » Tue Apr 11, 2006 2:35 pm </p>
+
+			
+
+			<div class="content">Hi fellow Sudoku fanatics,<br><br>At several occasions we discussed the usefulness of a benchmark set of sudokus. Many programmers are using <span style="font-weight: bold">dukuso</span>'s top1465, top95 or Gordon Royle's minimal sudoku list to test their solvers.<br><br>This thread will be used to offer a benchmark set of sudokus to be used by our members to test their solvers (solving skills). It must be a predictable testset, so I invite you to run this against your solver and report the failures.<br><br>The list is expandable. When new or alternative solving techniques are developed, we can add new examples. The list of solving techniques is based on those currently supported by<a href="http://www.sudocue.net/" class="postlink" rel="nofollow"> SudoCue</a>. It is not complete, but it is a start.<br><br><span style="font-weight: bold">Singles only</span> (no candididate grids used at this stage)<br><br># Completed grid (solver must report puzzle complete)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>429316578867524193513897246931785624682941735745263981354672819178459362296138457</code></dd></dl><br># 19 Full house singles (last empty spot in a row/column/box)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>305420810487901506029056374850793041613208957074065280241309065508670192096512408</code></dd></dl><br># 56 hidden singles (when not tested for naked singles)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>300000600000050180000601700000070506050030070401020000006802000098010000002000004</code></dd></dl><br># 55 hidden singles, 1 naked single<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>900000120002300000400005960080200600000050000001009030076900001000001700098000004</code></dd></dl><br># 46 hidden singles, 11 naked singles<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>082050000700009060000040000009306007200000003600205800000070000010400008000030410</code></dd></dl><br># 55 naked singles (when not tested for hidden singles)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>005079003200000000348000000050680000070204080000013020000000471000000006800790300</code></dd></dl><br><br><span style="font-weight: bold">Locked candidates , pointing pairs, line-box interaction</span><br><br># 1 row-box interaction for digit 2 (pointing pair type)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>090700400100600070600030080850006000006000300000400058040020006030001002002003090<br>.------------------.------------------.------------------.<br>| 235&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;35&nbsp; &nbsp;| 7&nbsp; &nbsp; &nbsp;158&nbsp; &nbsp;258&nbsp; | 4&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;135&nbsp; |<br>| 1&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;345&nbsp; | 6&nbsp; &nbsp; &nbsp;59&nbsp; &nbsp; 2459 |*259&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;359&nbsp; |<br>| 6&nbsp; &nbsp; &nbsp;27&nbsp; &nbsp; 457&nbsp; | 1259&nbsp; 3&nbsp; &nbsp; &nbsp;2459 |*1259&nbsp; 8&nbsp; &nbsp; &nbsp;159&nbsp; |<br>:------------------+------------------+------------------:<br>| 8&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;79&nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp;179&nbsp; &nbsp;6&nbsp; &nbsp; |-1279&nbsp; 12&nbsp; &nbsp; 4&nbsp; &nbsp; |<br>| 4&nbsp; &nbsp; &nbsp;127&nbsp; &nbsp;6&nbsp; &nbsp; | 12589 15789 2589 | 3&nbsp; &nbsp; &nbsp;12&nbsp; &nbsp; 179&nbsp; |<br>| 2379&nbsp; 127&nbsp; &nbsp;379&nbsp; | 4&nbsp; &nbsp; &nbsp;179&nbsp; &nbsp;29&nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 59&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; | 589&nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; | 58&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; |<br>| 579&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; | 59&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; | 57&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; |<br>| 57&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; | 58&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; | 1578&nbsp; 9&nbsp; &nbsp; &nbsp;157&nbsp; |<br>'------------------'------------------'------------------'</code></dd></dl><br># 1 column-box interaction for digit 2 (2 candidates locked)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000907300080065040000000009060040015100000002540090080200000000090250070006408000<br>.---------------------.---------------------.---------------------.<br>| 46&nbsp; &nbsp; *125&nbsp; &nbsp;-1245&nbsp; | 9&nbsp; &nbsp; &nbsp; 128&nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp; 256&nbsp; &nbsp; 168&nbsp; &nbsp;|<br>| 379&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;-12379 | 13&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp;| 127&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 17&nbsp; &nbsp; |<br>| 367&nbsp; &nbsp;*12357 -12357 | 138&nbsp; &nbsp; 1238&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;| 125678 256&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 3789&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp; 23789 | 378&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 23&nbsp; &nbsp; | 79&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp;|<br>| 1&nbsp; &nbsp; &nbsp; 37&nbsp; &nbsp; &nbsp;3789&nbsp; | 5&nbsp; &nbsp; &nbsp; 378&nbsp; &nbsp; 36&nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp; 369&nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;|<br>| 5&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 237&nbsp; &nbsp;| 1367&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp; 1236&nbsp; | 67&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp; 367&nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 2&nbsp; &nbsp; &nbsp; 1357&nbsp; &nbsp;134578| 1367&nbsp; &nbsp;137&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;| 1568&nbsp; &nbsp;356&nbsp; &nbsp; 13468 |<br>| 348&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 1348&nbsp; | 2&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; 136&nbsp; &nbsp;| 168&nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp; 13468 |<br>| 37&nbsp; &nbsp; &nbsp;1357&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;| 4&nbsp; &nbsp; &nbsp; 137&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;| 1259&nbsp; &nbsp;2359&nbsp; &nbsp;13&nbsp; &nbsp; |<br>'---------------------'---------------------'---------------------'</code></dd></dl><br># 1 row-box interaction for digit 6 (3 candidates locked)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000004009009000020172009005000000800300070006005000000400500698090000700600300000<br>.---------------------.---------------------.---------------------.<br>| 58&nbsp; &nbsp; &nbsp;3568&nbsp; &nbsp;368&nbsp; &nbsp;|-12678 -123568 4&nbsp; &nbsp; &nbsp;| 13&nbsp; &nbsp; &nbsp;13678&nbsp; 9&nbsp; &nbsp; &nbsp;|<br>| 58&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;|*1678&nbsp; *13568 *135678| 13&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; &nbsp; 137&nbsp; &nbsp;|<br>| 1&nbsp; &nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;|-68&nbsp; &nbsp; -368&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;| 34&nbsp; &nbsp; &nbsp;3468&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 279&nbsp; &nbsp; 126&nbsp; &nbsp; 1467&nbsp; | 12469&nbsp; 123456 12356 | 8&nbsp; &nbsp; &nbsp; 13457&nbsp; 12347 |<br>| 3&nbsp; &nbsp; &nbsp; 128&nbsp; &nbsp; 148&nbsp; &nbsp;| 12489&nbsp; 7&nbsp; &nbsp; &nbsp; 1258&nbsp; | 12459&nbsp; 145&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;|<br>| 2789&nbsp; &nbsp;1268&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;| 124689 123468 12368 | 12349&nbsp; 1347&nbsp; &nbsp;12347 |<br>:---------------------+---------------------+---------------------:<br>| 4&nbsp; &nbsp; &nbsp; 123&nbsp; &nbsp; 137&nbsp; &nbsp;| 5&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;127&nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;|<br>| 258&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 138&nbsp; &nbsp;| 12468&nbsp; 12468&nbsp; 1268&nbsp; | 7&nbsp; &nbsp; &nbsp; 1345&nbsp; &nbsp;1234&nbsp; |<br>| 6&nbsp; &nbsp; &nbsp; 1258&nbsp; &nbsp;178&nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 1278&nbsp; | 1245&nbsp; &nbsp;145&nbsp; &nbsp; 124&nbsp; &nbsp;|<br>'---------------------'---------------------'---------------------'</code></dd></dl><br># 1 row-box interaction (block-block type) for digit 3<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>658000003040050000001027006080000007000005600006040050037080100000971300009002000<br>.---------------------.---------------------.---------------------.<br>| 6&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;| 14&nbsp; &nbsp; &nbsp;19&nbsp; &nbsp; &nbsp;49&nbsp; &nbsp; | 2479&nbsp; &nbsp;12479&nbsp; 3&nbsp; &nbsp; &nbsp;|<br>| 7&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;| 1368&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp; 3689&nbsp; | 89&nbsp; &nbsp; &nbsp;189&nbsp; &nbsp; 189&nbsp; &nbsp;|<br>| 3&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;| 48&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp;| 5&nbsp; &nbsp; &nbsp; 48&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 12459&nbsp; 8&nbsp; &nbsp; &nbsp;*345&nbsp; &nbsp;|-1236&nbsp; -1369&nbsp; -369&nbsp; &nbsp;| 249&nbsp; &nbsp;*12349&nbsp; 7&nbsp; &nbsp; &nbsp;|<br>| 1249&nbsp; &nbsp;127&nbsp; &nbsp;*34&nbsp; &nbsp; |-12378 -139&nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp;*123489 12489 |<br>| 129&nbsp; &nbsp; 127&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;| 12378&nbsp; 4&nbsp; &nbsp; &nbsp; 389&nbsp; &nbsp;| 289&nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; 1289&nbsp; |<br>:---------------------+---------------------+---------------------:<br>| 245&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp;| 456&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 46&nbsp; &nbsp; | 1&nbsp; &nbsp; &nbsp; 2469&nbsp; &nbsp;2459&nbsp; |<br>| 2458&nbsp; &nbsp;26&nbsp; &nbsp; &nbsp;45&nbsp; &nbsp; | 9&nbsp; &nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp; 2468&nbsp; &nbsp;2458&nbsp; |<br>| 1458&nbsp; &nbsp;16&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;| 3456&nbsp; &nbsp;36&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;| 478&nbsp; &nbsp; 4678&nbsp; &nbsp;458&nbsp; &nbsp;|<br>'---------------------'---------------------'---------------------'</code></dd></dl><br># 16 line-box interactions<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>080020006000806000300000901409000000050307060000000805205000009000403000100070030</code></dd></dl><br><br><span style="font-weight: bold">Subsets (disjoint, naked, hidden, number) (pairs, triples, quads)</span><br><br># 1 naked pair in a column and box combination<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>005100000600003000300000706000030601009050400802090000401000005000500008000007200<br>.-------------------.------------------.------------------.<br>| 279&nbsp; -24789&nbsp; 5&nbsp; &nbsp; | 1&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;2489 | 389&nbsp; &nbsp;234&nbsp; &nbsp;349&nbsp; |<br>| 6&nbsp; &nbsp; -12489 *48&nbsp; &nbsp;| 289&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; | 1589&nbsp; 1245&nbsp; 49&nbsp; &nbsp;|<br>| 3&nbsp; &nbsp; -12489 *48&nbsp; &nbsp;| 289&nbsp; &nbsp;248&nbsp; &nbsp;5&nbsp; &nbsp; | 7&nbsp; &nbsp; &nbsp;124&nbsp; &nbsp;6&nbsp; &nbsp; |<br>:-------------------+------------------+------------------:<br>| 57&nbsp; &nbsp; 457&nbsp; &nbsp;-47&nbsp; &nbsp;| 28&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;28&nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; |<br>| 1&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; | 7&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; |<br>| 8&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; | 35&nbsp; &nbsp; 35&nbsp; &nbsp; 7&nbsp; &nbsp; |<br>:-------------------+------------------+------------------:<br>| 4&nbsp; &nbsp; &nbsp;2789&nbsp; &nbsp;1&nbsp; &nbsp; | 23689 28&nbsp; &nbsp; 289&nbsp; | 39&nbsp; &nbsp; 367&nbsp; &nbsp;5&nbsp; &nbsp; |<br>| 279&nbsp; &nbsp;279&nbsp; &nbsp; 367&nbsp; | 5&nbsp; &nbsp; &nbsp;124&nbsp; &nbsp;249&nbsp; | 139&nbsp; &nbsp;13467 8&nbsp; &nbsp; |<br>| 59&nbsp; &nbsp; 589&nbsp; &nbsp;-368&nbsp; | 3689&nbsp; 148&nbsp; &nbsp;7&nbsp; &nbsp; | 2&nbsp; &nbsp; &nbsp;1346&nbsp; 349&nbsp; |<br>'-------------------'------------------'------------------'</code></dd></dl><br># 1 naked pair in a row and box combination<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>300004005008207000002090000080000402430000017206000050000010800000903600700600001<br>.---------------.---------------.---------------.<br>| 3&nbsp; &nbsp; 679&nbsp; 79&nbsp; | 1&nbsp; &nbsp; 68&nbsp; &nbsp;4&nbsp; &nbsp;| 2&nbsp; &nbsp; 89&nbsp; &nbsp;5&nbsp; &nbsp;|<br>| 569&nbsp; 4569 8&nbsp; &nbsp;| 2&nbsp; &nbsp; 356&nbsp; 7&nbsp; &nbsp;| 1&nbsp; &nbsp; 349&nbsp; 369 |<br>| 156&nbsp; 1456 2&nbsp; &nbsp;| 35&nbsp; &nbsp;9&nbsp; &nbsp; 568 | 7&nbsp; &nbsp; 348&nbsp; 36&nbsp; |<br>:---------------+---------------+---------------:<br>| 19&nbsp; &nbsp;8&nbsp; &nbsp; 79&nbsp; |-357 -357&nbsp; 159 | 4&nbsp; &nbsp; 6&nbsp; &nbsp; 2&nbsp; &nbsp;|<br>| 4&nbsp; &nbsp; 3&nbsp; &nbsp; 5&nbsp; &nbsp;| 8&nbsp; &nbsp; 26&nbsp; &nbsp;26&nbsp; | 9&nbsp; &nbsp; 1&nbsp; &nbsp; 7&nbsp; &nbsp;|<br>| 2&nbsp; &nbsp;-179&nbsp; 6&nbsp; &nbsp;|*47&nbsp; *47&nbsp; &nbsp;19&nbsp; | 3&nbsp; &nbsp; 5&nbsp; &nbsp; 8&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 569&nbsp; 2569 349 | 457&nbsp; 1&nbsp; &nbsp; 25&nbsp; | 8&nbsp; &nbsp; 2379 39&nbsp; |<br>| 8&nbsp; &nbsp; 25&nbsp; &nbsp;1&nbsp; &nbsp;| 9&nbsp; &nbsp; 257&nbsp; 3&nbsp; &nbsp;| 6&nbsp; &nbsp; 27&nbsp; &nbsp;4&nbsp; &nbsp;|<br>| 7&nbsp; &nbsp; 29&nbsp; &nbsp;349 | 6&nbsp; &nbsp; 248&nbsp; 28&nbsp; | 5&nbsp; &nbsp; 239&nbsp; 1&nbsp; &nbsp;|<br>'---------------'---------------'---------------'</code></dd></dl><br># 3 naked pairs, 1x row, 1x box, 1x column (no combinations)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000000004090007005030009080010008079000040000680500010050600020100800030200000000<br># First in row 6<br>.---------------------.---------------------.---------------------.<br>| 578&nbsp; &nbsp; 267&nbsp; &nbsp; 125678| 123&nbsp; &nbsp; 123568 12356 | 1237&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;|<br>| 48&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp; 1248&nbsp; | 1234&nbsp; &nbsp;1238&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;| 123&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp;|<br>| 457&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 124567| 124&nbsp; &nbsp; 1256&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;| 127&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 127&nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 345&nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; 2345&nbsp; | 23&nbsp; &nbsp; &nbsp;236&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;| 246&nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;|<br>| 379&nbsp; &nbsp; 27&nbsp; &nbsp; &nbsp;2379&nbsp; | 12379&nbsp; 4&nbsp; &nbsp; &nbsp; 1236&nbsp; | 268&nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; 2368&nbsp; |<br>| 6&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;-23479 | 5&nbsp; &nbsp; &nbsp;-2379&nbsp; *23&nbsp; &nbsp; |-24&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;*23&nbsp; &nbsp; |<br>:---------------------+---------------------+---------------------:<br>| 3789&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp; 3789&nbsp; | 6&nbsp; &nbsp; &nbsp; 1379&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;| 1789&nbsp; &nbsp;2&nbsp; &nbsp; &nbsp; 178&nbsp; &nbsp;|<br>| 1&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 679&nbsp; &nbsp;| 8&nbsp; &nbsp; &nbsp; 2579&nbsp; &nbsp;25&nbsp; &nbsp; | 5679&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp; 67&nbsp; &nbsp; |<br>| 2&nbsp; &nbsp; &nbsp; 67&nbsp; &nbsp; &nbsp;36789 | 1379&nbsp; &nbsp;13579&nbsp; 135&nbsp; &nbsp;| 156789 4&nbsp; &nbsp; &nbsp; 1678&nbsp; |<br>'---------------------'---------------------'---------------------'<br># Second in box 5<br>.---------------------.---------------------.---------------------.<br>| 578&nbsp; &nbsp; 267&nbsp; &nbsp; 125678| 123&nbsp; &nbsp; 123568 12356 | 1237&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;|<br>| 48&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp; 1248&nbsp; | 1234&nbsp; &nbsp;1238&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;| 123&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp;|<br>| 457&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 124567| 124&nbsp; &nbsp; 1256&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;| 127&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 127&nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 345&nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; 2345&nbsp; |*23&nbsp; &nbsp; -236&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;| 26&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;|<br>| 379&nbsp; &nbsp; 27&nbsp; &nbsp; &nbsp;2379&nbsp; |-12379&nbsp; 4&nbsp; &nbsp; &nbsp;-1236&nbsp; | 268&nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; 2368&nbsp; |<br>| 6&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 79&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp; 79&nbsp; &nbsp; *23&nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; 23&nbsp; &nbsp; |<br>:---------------------+---------------------+---------------------:<br>| 3789&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp; 3789&nbsp; | 6&nbsp; &nbsp; &nbsp; 1379&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;| 1789&nbsp; &nbsp;2&nbsp; &nbsp; &nbsp; 178&nbsp; &nbsp;|<br>| 1&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 679&nbsp; &nbsp;| 8&nbsp; &nbsp; &nbsp; 2579&nbsp; &nbsp;25&nbsp; &nbsp; | 5679&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp; 67&nbsp; &nbsp; |<br>| 2&nbsp; &nbsp; &nbsp; 67&nbsp; &nbsp; &nbsp;36789 | 1379&nbsp; &nbsp;13579&nbsp; 135&nbsp; &nbsp;| 156789 4&nbsp; &nbsp; &nbsp; 1678&nbsp; |<br>'---------------------'---------------------'---------------------'<br># Third in column 3<br>.------------------.------------------.------------------.<br>| 578&nbsp; &nbsp;27&nbsp; &nbsp;-12578| 12&nbsp; &nbsp; 1358&nbsp; 6&nbsp; &nbsp; | 137&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; |<br>| 48&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;1248 | 124&nbsp; &nbsp;138&nbsp; &nbsp;7&nbsp; &nbsp; | 13&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; |<br>| 457&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; | 14&nbsp; &nbsp; 15&nbsp; &nbsp; 9&nbsp; &nbsp; | 17&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 45&nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;45&nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; | 2&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; |<br>| 379&nbsp; &nbsp;27&nbsp; &nbsp;-2379 | 79&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; | 68&nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp;68&nbsp; &nbsp;|<br>| 6&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; *79&nbsp; &nbsp;| 5&nbsp; &nbsp; &nbsp;79&nbsp; &nbsp; 2&nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 3789&nbsp; 5&nbsp; &nbsp; -3789 | 6&nbsp; &nbsp; &nbsp;179&nbsp; &nbsp;4&nbsp; &nbsp; | 89&nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;178&nbsp; |<br>| 1&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; *79&nbsp; &nbsp;| 8&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; | 69&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;67&nbsp; &nbsp;|<br>| 2&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; -789&nbsp; | 179&nbsp; &nbsp;179&nbsp; &nbsp;3&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;178&nbsp; |<br>'------------------'------------------'------------------'</code></dd></dl><br># 1 naked triple in a column<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>500000008000029700063070000600800007850000091900007005000040380001980000300000009<br>.---------------.---------------.---------------.<br>| 5&nbsp; &nbsp; 7&nbsp; &nbsp; 9&nbsp; &nbsp;|-1346 136&nbsp; 146 | 126&nbsp; 126&nbsp; 8&nbsp; &nbsp;|<br>| 1&nbsp; &nbsp; 4&nbsp; &nbsp; 8&nbsp; &nbsp;|*56&nbsp; &nbsp;2&nbsp; &nbsp; 9&nbsp; &nbsp;| 7&nbsp; &nbsp; 56&nbsp; &nbsp;3&nbsp; &nbsp;|<br>| 2&nbsp; &nbsp; 6&nbsp; &nbsp; 3&nbsp; &nbsp;|*15&nbsp; &nbsp;7&nbsp; &nbsp; 8&nbsp; &nbsp;| 9&nbsp; &nbsp; 15&nbsp; &nbsp;4&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 6&nbsp; &nbsp; 1&nbsp; &nbsp; 24&nbsp; | 8&nbsp; &nbsp; 9&nbsp; &nbsp; 5&nbsp; &nbsp;| 24&nbsp; &nbsp;3&nbsp; &nbsp; 7&nbsp; &nbsp;|<br>| 8&nbsp; &nbsp; 5&nbsp; &nbsp; 7&nbsp; &nbsp;|-2346 36&nbsp; &nbsp;46&nbsp; | 246&nbsp; 9&nbsp; &nbsp; 1&nbsp; &nbsp;|<br>| 9&nbsp; &nbsp; 3&nbsp; &nbsp; 24&nbsp; |-1246 16&nbsp; &nbsp;7&nbsp; &nbsp;| 8&nbsp; &nbsp; 246&nbsp; 5&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 7&nbsp; &nbsp; 9&nbsp; &nbsp; 5&nbsp; &nbsp;|*16&nbsp; &nbsp;4&nbsp; &nbsp; 16&nbsp; | 3&nbsp; &nbsp; 8&nbsp; &nbsp; 2&nbsp; &nbsp;|<br>| 4&nbsp; &nbsp; 2&nbsp; &nbsp; 1&nbsp; &nbsp;| 9&nbsp; &nbsp; 8&nbsp; &nbsp; 3&nbsp; &nbsp;| 5&nbsp; &nbsp; 7&nbsp; &nbsp; 6&nbsp; &nbsp;|<br>| 3&nbsp; &nbsp; 8&nbsp; &nbsp; 6&nbsp; &nbsp;| 7&nbsp; &nbsp; 5&nbsp; &nbsp; 2&nbsp; &nbsp;| 14&nbsp; &nbsp;14&nbsp; &nbsp;9&nbsp; &nbsp;|<br>'---------------'---------------'---------------'</code></dd></dl><br># 1 naked triple in a row<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000060000000020054800049100087005600060000080005100430001750008670030000000010000<br>.------------------.------------------.------------------.<br>|-4579 -13459*39&nbsp; &nbsp;|-358&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;17&nbsp; &nbsp;|-2389 *29&nbsp; &nbsp;*239&nbsp; |<br>| 79&nbsp; &nbsp; 139&nbsp; &nbsp;6&nbsp; &nbsp; | 38&nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;17&nbsp; &nbsp;| 389&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; |<br>| 8&nbsp; &nbsp; &nbsp;235&nbsp; &nbsp;23&nbsp; &nbsp;| 35&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; | 1&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 3&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; | 6&nbsp; &nbsp; &nbsp;12&nbsp; &nbsp; 12&nbsp; &nbsp;|<br>| 1&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; | 2&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; | 59&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;59&nbsp; &nbsp;|<br>| 29&nbsp; &nbsp; 29&nbsp; &nbsp; 5&nbsp; &nbsp; | 1&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 249&nbsp; &nbsp;2349&nbsp; 1&nbsp; &nbsp; | 7&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;24&nbsp; &nbsp;| 239&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; |<br>| 6&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;28&nbsp; &nbsp;| 9&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;248&nbsp; | 25&nbsp; &nbsp; 124&nbsp; &nbsp;125&nbsp; |<br>| 2459&nbsp; 23459 2389 | 6&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;248&nbsp; | 7&nbsp; &nbsp; &nbsp;249&nbsp; &nbsp;239&nbsp; |<br>'------------------'------------------'------------------'</code></dd></dl><br># 1 naked quad in a box<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>910008040400307000000006000008000010130904087060000300000500000000809004050600029<br>.---------------------.---------------------.----------------------.<br>| 9&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; 367&nbsp; &nbsp;| 2&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;|*67&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;*36&nbsp; &nbsp; |<br>| 4&nbsp; &nbsp; &nbsp; 28&nbsp; &nbsp; &nbsp;256&nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp; 19&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;|-125689 *56&nbsp; &nbsp; -12568 |<br>| 235&nbsp; &nbsp; 278&nbsp; &nbsp; 2357&nbsp; | 4&nbsp; &nbsp; &nbsp; 19&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;|-125789 *357&nbsp; &nbsp;-12358 |<br>:---------------------+---------------------+----------------------:<br>| 25&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;| 7&nbsp; &nbsp; &nbsp; 236&nbsp; &nbsp; 235&nbsp; &nbsp;| 4&nbsp; &nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp; 256&nbsp; &nbsp;|<br>| 1&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 25&nbsp; &nbsp; | 9&nbsp; &nbsp; &nbsp; 26&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;| 256&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp;|<br>| 7&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;| 1&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 25&nbsp; &nbsp; | 3&nbsp; &nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp; 25&nbsp; &nbsp; |<br>:---------------------+---------------------+----------------------:<br>| 2368&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;| 5&nbsp; &nbsp; &nbsp; 237&nbsp; &nbsp; 123&nbsp; &nbsp;| 1678&nbsp; &nbsp; 367&nbsp; &nbsp; 1368&nbsp; |<br>| 236&nbsp; &nbsp; 27&nbsp; &nbsp; &nbsp;1237&nbsp; | 8&nbsp; &nbsp; &nbsp; 237&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;| 1567&nbsp; &nbsp; 3567&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;|<br>| 38&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; &nbsp; 137&nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 13&nbsp; &nbsp; | 178&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;|<br>'---------------------'---------------------'----------------------'</code></dd></dl><br># 2 naked quads<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>008090706031600000200000000000005000009010300000400000000000004000007820706030100</code></dd></dl><br># 1 hidden pair (1,7) in row 7<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>590006078401000300000000000000870400307000902004012000000000000002000701710600085<br>.---------------.---------------.---------------.<br>| 5&nbsp; &nbsp; 9&nbsp; &nbsp; 3&nbsp; &nbsp;| 24&nbsp; &nbsp;24&nbsp; &nbsp;6&nbsp; &nbsp;| 1&nbsp; &nbsp; 7&nbsp; &nbsp; 8&nbsp; &nbsp;|<br>| 4&nbsp; &nbsp; 67&nbsp; &nbsp;1&nbsp; &nbsp;| 579&nbsp; 589&nbsp; 578 | 3&nbsp; &nbsp; 2&nbsp; &nbsp; 69&nbsp; |<br>| 2&nbsp; &nbsp; 67&nbsp; &nbsp;8&nbsp; &nbsp;| 179&nbsp; 39&nbsp; &nbsp;137 | 5&nbsp; &nbsp; 49&nbsp; &nbsp;469 |<br>:---------------+---------------+---------------:<br>| 1&nbsp; &nbsp; 2&nbsp; &nbsp; 6&nbsp; &nbsp;| 8&nbsp; &nbsp; 7&nbsp; &nbsp; 9&nbsp; &nbsp;| 4&nbsp; &nbsp; 5&nbsp; &nbsp; 3&nbsp; &nbsp;|<br>| 3&nbsp; &nbsp; 8&nbsp; &nbsp; 7&nbsp; &nbsp;| 45&nbsp; &nbsp;6&nbsp; &nbsp; 45&nbsp; | 9&nbsp; &nbsp; 1&nbsp; &nbsp; 2&nbsp; &nbsp;|<br>| 9&nbsp; &nbsp; 5&nbsp; &nbsp; 4&nbsp; &nbsp;| 3&nbsp; &nbsp; 1&nbsp; &nbsp; 2&nbsp; &nbsp;| 8&nbsp; &nbsp; 6&nbsp; &nbsp; 7&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 8&nbsp; &nbsp; 34&nbsp; &nbsp;5&nbsp; &nbsp;|*1279 29&nbsp; *17&nbsp; | 6&nbsp; &nbsp; 349&nbsp; 49&nbsp; |<br>| 6&nbsp; &nbsp; 34&nbsp; &nbsp;2&nbsp; &nbsp;| 59&nbsp; &nbsp;589&nbsp; 58&nbsp; | 7&nbsp; &nbsp; 349&nbsp; 1&nbsp; &nbsp;|<br>| 7&nbsp; &nbsp; 1&nbsp; &nbsp; 9&nbsp; &nbsp;| 6&nbsp; &nbsp; 34&nbsp; &nbsp;34&nbsp; | 2&nbsp; &nbsp; 8&nbsp; &nbsp; 5&nbsp; &nbsp;|<br>'---------------'---------------'---------------'</code></dd></dl><br># 1 hidden pair (3,8) in column 1<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000000070900007456003006001290001000000040000000500082400200600619800007050000000<br>.------------------.------------------.------------------.<br>| 15&nbsp; &nbsp; 246&nbsp; &nbsp;1456 | 149&nbsp; &nbsp;1259&nbsp; 8&nbsp; &nbsp; | 239&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;39&nbsp; &nbsp;|<br>| 9&nbsp; &nbsp; &nbsp;28&nbsp; &nbsp; 18&nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp;12&nbsp; &nbsp; 7&nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; |<br>| 57&nbsp; &nbsp; 247&nbsp; &nbsp;3&nbsp; &nbsp; | 49&nbsp; &nbsp; 259&nbsp; &nbsp;6&nbsp; &nbsp; | 8&nbsp; &nbsp; &nbsp;29&nbsp; &nbsp; 1&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 2&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;567&nbsp; | 67&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; | 357&nbsp; &nbsp;346&nbsp; &nbsp;345&nbsp; |<br>|*13578 3678&nbsp; 15678| 679&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; | 1579&nbsp; 169&nbsp; &nbsp;59&nbsp; &nbsp;|<br>| 17&nbsp; &nbsp; 467&nbsp; &nbsp;1467 | 5&nbsp; &nbsp; &nbsp;679&nbsp; &nbsp;3&nbsp; &nbsp; | 179&nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 4&nbsp; &nbsp; &nbsp;378&nbsp; &nbsp;78&nbsp; &nbsp;| 2&nbsp; &nbsp; &nbsp;17&nbsp; &nbsp; 59&nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp;139&nbsp; &nbsp;3589 |<br>| 6&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; | 8&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;45&nbsp; &nbsp;| 25&nbsp; &nbsp; 24&nbsp; &nbsp; 7&nbsp; &nbsp; |<br>|*378&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; | 167&nbsp; &nbsp;167&nbsp; &nbsp;49&nbsp; &nbsp;| 139&nbsp; &nbsp;1349&nbsp; 3489 |<br>'------------------'------------------'------------------'</code></dd></dl><br># 3 hidden pairs<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>001050000090600007200300000006000200004107900008000500000005004500009020000030600<br># Box 2 hidden pair (7,9) = &amp;<br># Column 3 and box 7 combined hidden pair (2,9) = *<br>.---------------.---------------.---------------.<br>| 4678 3468 1&nbsp; &nbsp;|&amp;4789 5&nbsp; &nbsp; 48&nbsp; | 348&nbsp; 369&nbsp; 2&nbsp; &nbsp;|<br>| 48&nbsp; &nbsp;9&nbsp; &nbsp; 35&nbsp; | 6&nbsp; &nbsp; 14&nbsp; &nbsp;2&nbsp; &nbsp;| 1348 135&nbsp; 7&nbsp; &nbsp;|<br>| 2&nbsp; &nbsp; 468&nbsp; 57&nbsp; | 3&nbsp; &nbsp;&amp;1479 148 | 148&nbsp; 1569 59&nbsp; |<br>:---------------+---------------+---------------:<br>| 9&nbsp; &nbsp; 7&nbsp; &nbsp; 6&nbsp; &nbsp;| 5&nbsp; &nbsp; 8&nbsp; &nbsp; 3&nbsp; &nbsp;| 2&nbsp; &nbsp; 4&nbsp; &nbsp; 1&nbsp; &nbsp;|<br>| 3&nbsp; &nbsp; 5&nbsp; &nbsp; 4&nbsp; &nbsp;| 1&nbsp; &nbsp; 2&nbsp; &nbsp; 7&nbsp; &nbsp;| 9&nbsp; &nbsp; 8&nbsp; &nbsp; 6&nbsp; &nbsp;|<br>| 1&nbsp; &nbsp; 2&nbsp; &nbsp; 8&nbsp; &nbsp;| 49&nbsp; &nbsp;49&nbsp; &nbsp;6&nbsp; &nbsp;| 5&nbsp; &nbsp; 7&nbsp; &nbsp; 3&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 678&nbsp; 1368*2379| 278&nbsp; 167&nbsp; 5&nbsp; &nbsp;| 137&nbsp; 139&nbsp; 4&nbsp; &nbsp;|<br>| 5&nbsp; &nbsp; 1346 37&nbsp; | 47&nbsp; &nbsp;1467 9&nbsp; &nbsp;| 137&nbsp; 2&nbsp; &nbsp; 8&nbsp; &nbsp;|<br>| 478&nbsp; 148 *279 | 2478 3&nbsp; &nbsp; 148 | 6&nbsp; &nbsp; 159&nbsp; 59&nbsp; |<br>'---------------'---------------'---------------'<br># Column 4 and box 8 combined hidden pair (2,8)<br>.---------------.---------------.---------------.<br>| 4678 3468 1&nbsp; &nbsp;| 79&nbsp; &nbsp;5&nbsp; &nbsp; 48&nbsp; | 348&nbsp; 369&nbsp; 2&nbsp; &nbsp;|<br>| 48&nbsp; &nbsp;9&nbsp; &nbsp; 35&nbsp; | 6&nbsp; &nbsp; 14&nbsp; &nbsp;2&nbsp; &nbsp;| 1348 135&nbsp; 7&nbsp; &nbsp;|<br>| 2&nbsp; &nbsp; 468&nbsp; 57&nbsp; | 3&nbsp; &nbsp; 79&nbsp; &nbsp;148 | 148&nbsp; 1569 59&nbsp; |<br>:---------------+---------------+---------------:<br>| 9&nbsp; &nbsp; 7&nbsp; &nbsp; 6&nbsp; &nbsp;| 5&nbsp; &nbsp; 8&nbsp; &nbsp; 3&nbsp; &nbsp;| 2&nbsp; &nbsp; 4&nbsp; &nbsp; 1&nbsp; &nbsp;|<br>| 3&nbsp; &nbsp; 5&nbsp; &nbsp; 4&nbsp; &nbsp;| 1&nbsp; &nbsp; 2&nbsp; &nbsp; 7&nbsp; &nbsp;| 9&nbsp; &nbsp; 8&nbsp; &nbsp; 6&nbsp; &nbsp;|<br>| 1&nbsp; &nbsp; 2&nbsp; &nbsp; 8&nbsp; &nbsp;| 49&nbsp; &nbsp;49&nbsp; &nbsp;6&nbsp; &nbsp;| 5&nbsp; &nbsp; 7&nbsp; &nbsp; 3&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 678&nbsp; 1368 29&nbsp; |*278&nbsp; 167&nbsp; 5&nbsp; &nbsp;| 137&nbsp; 139&nbsp; 4&nbsp; &nbsp;|<br>| 5&nbsp; &nbsp; 1346 37&nbsp; | 47&nbsp; &nbsp;1467 9&nbsp; &nbsp;| 137&nbsp; 2&nbsp; &nbsp; 8&nbsp; &nbsp;|<br>| 478&nbsp; 148&nbsp; 29&nbsp; |*2478 3&nbsp; &nbsp; 14&nbsp; | 6&nbsp; &nbsp; 159&nbsp; 59&nbsp; |<br>'---------------'---------------'---------------'</code></dd></dl><br># 1 hidden triple (4,6,7) in column 3<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>020003000160700040008000000000910002003060010800000070000400300740500000600100700<br>.---------------------.---------------------.---------------------.<br>| 459&nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;*4579&nbsp; | 68&nbsp; &nbsp; &nbsp;589&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;| 15689&nbsp; 5689&nbsp; &nbsp;156789|<br>| 1&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 59&nbsp; &nbsp; | 7&nbsp; &nbsp; &nbsp; 2589&nbsp; &nbsp;2589&nbsp; | 2589&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;|<br>| 3&nbsp; &nbsp; &nbsp; 579&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;| 26&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;| 2569&nbsp; &nbsp;2569&nbsp; &nbsp;5679&nbsp; |<br>:---------------------+---------------------+---------------------:<br>| 45&nbsp; &nbsp; &nbsp;57&nbsp; &nbsp; *4567&nbsp; | 9&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; 4578&nbsp; | 4568&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;|<br>| 2459&nbsp; &nbsp;579&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;| 28&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp; 24578 | 4589&nbsp; &nbsp;1&nbsp; &nbsp; &nbsp; 589&nbsp; &nbsp;|<br>| 8&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;*24569 | 3&nbsp; &nbsp; &nbsp; 25&nbsp; &nbsp; &nbsp;245&nbsp; &nbsp;| 4569&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp; 569&nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 259&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 1259&nbsp; | 4&nbsp; &nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp; 269&nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp; 2569&nbsp; &nbsp;1569&nbsp; |<br>| 7&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 129&nbsp; &nbsp;| 5&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 2689&nbsp; | 12689&nbsp; 2689&nbsp; &nbsp;1689&nbsp; |<br>| 6&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 259&nbsp; &nbsp;| 1&nbsp; &nbsp; &nbsp; 289&nbsp; &nbsp; 289&nbsp; &nbsp;| 7&nbsp; &nbsp; &nbsp; 2589&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;|<br>'---------------------'---------------------'---------------------'</code></dd></dl><br># 1 hidden triple (2,6,9) in box 2<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>002000960030100000000000005000002008000600004725003000080006090000009001200470000<br>.---------------------.---------------------.---------------------.<br>| 1458&nbsp; &nbsp;1457&nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;| 357&nbsp; &nbsp; 358&nbsp; &nbsp; 4578&nbsp; | 9&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 37&nbsp; &nbsp; |<br>| 45689&nbsp; 3&nbsp; &nbsp; &nbsp; 46789 | 1&nbsp; &nbsp; &nbsp;*25689&nbsp; 4578&nbsp; | 2478&nbsp; &nbsp;2478&nbsp; &nbsp;27&nbsp; &nbsp; |<br>| 4689&nbsp; &nbsp;4679&nbsp; &nbsp;46789 |*2379&nbsp; *23689&nbsp; 478&nbsp; &nbsp;| 1&nbsp; &nbsp; &nbsp; 23478&nbsp; 5&nbsp; &nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 13469&nbsp; 1469&nbsp; &nbsp;13469 | 579&nbsp; &nbsp; 159&nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;| 357&nbsp; &nbsp; 357&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;|<br>| 1389&nbsp; &nbsp;19&nbsp; &nbsp; &nbsp;1389&nbsp; | 6&nbsp; &nbsp; &nbsp; 159&nbsp; &nbsp; 157&nbsp; &nbsp;| 2357&nbsp; &nbsp;2357&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;|<br>| 7&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp;| 8&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 1345&nbsp; &nbsp;8&nbsp; &nbsp; &nbsp; 1347&nbsp; | 235&nbsp; &nbsp; 1235&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;| 23457&nbsp; 9&nbsp; &nbsp; &nbsp; 237&nbsp; &nbsp;|<br>| 3456&nbsp; &nbsp;4567&nbsp; &nbsp;3467&nbsp; | 235&nbsp; &nbsp; 2358&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;| 234578 234578 1&nbsp; &nbsp; &nbsp;|<br>| 2&nbsp; &nbsp; &nbsp; 159&nbsp; &nbsp; 139&nbsp; &nbsp;| 4&nbsp; &nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp; 158&nbsp; &nbsp;| 358&nbsp; &nbsp; 358&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;|<br>'---------------------'---------------------'---------------------'</code></dd></dl><br># 1 naked pair (1,8) in row 9, 1 hidden quad (1,3,6,8) in box 9<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000005004000000910000900038000304507070080060803502000490003000025000000600700000<br>.------------------.------------------.------------------.<br>| 12379 8&nbsp; &nbsp; &nbsp;12679| 26&nbsp; &nbsp; 123&nbsp; &nbsp;5&nbsp; &nbsp; | 267&nbsp; &nbsp;27&nbsp; &nbsp; 4&nbsp; &nbsp; |<br>| 237&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;267&nbsp; | 268&nbsp; &nbsp;23&nbsp; &nbsp; 678&nbsp; | 9&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; |<br>| 127&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;1267 | 9&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;167&nbsp; | 267&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 29&nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;29&nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; |<br>| 5&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; | 1&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; | 23&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;23&nbsp; &nbsp;|<br>| 8&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; | 14&nbsp; &nbsp; 49&nbsp; &nbsp; 19&nbsp; &nbsp;|<br>:------------------+------------------+------------------:<br>| 4&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;178&nbsp; | 268&nbsp; &nbsp;125&nbsp; &nbsp;3&nbsp; &nbsp; |*1278&nbsp; 257&nbsp; *126&nbsp; |<br>| 17&nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp;19&nbsp; &nbsp; 168&nbsp; |*1378&nbsp; 79&nbsp; &nbsp;*1369 |<br>| 6&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;18&nbsp; &nbsp;| 7&nbsp; &nbsp; &nbsp;259&nbsp; &nbsp;18&nbsp; &nbsp;| 24&nbsp; &nbsp; 2459&nbsp; 29&nbsp; &nbsp;|<br>'------------------'------------------'------------------'</code></dd></dl><br><br><span style="font-weight: bold">X-Wings, Swordfish, Jellyfish</span><br><br># X-Wing digit 1 in rows<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>028700050054003980000000007001090000006300000090004300000050000502000006600170009<br>.------------------.------------------.------------------.<br>| 13&nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; | 7&nbsp; &nbsp; -14&nbsp; &nbsp; 9&nbsp; &nbsp; | 6&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; -134&nbsp; |<br>| 7&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; | 26&nbsp; &nbsp;*126&nbsp; &nbsp;3&nbsp; &nbsp; | 9&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; *12&nbsp; &nbsp;|<br>| 13&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; | 258&nbsp; -1248&nbsp; 15&nbsp; &nbsp;| 124&nbsp; &nbsp;23&nbsp; &nbsp; 7&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 248&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; | 258&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; | 248&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;2458 |<br>| 248&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; | 3&nbsp; &nbsp; -128&nbsp; &nbsp;15&nbsp; &nbsp;| 1248&nbsp; 9&nbsp; &nbsp; -12458|<br>| 28&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; | 268&nbsp; *1268&nbsp; 4&nbsp; &nbsp; | 3&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; *128&nbsp; |<br>:------------------+------------------+------------------:<br>| 9&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; | 28&nbsp; &nbsp; 23&nbsp; &nbsp; 238&nbsp; |<br>| 5&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; | 9&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; | 7&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; |<br>| 6&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; | 1&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; |<br>'------------------'------------------'------------------'</code></dd></dl><br># X-Wing digit 7 in columns<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000500094000007000006009203203000400060070020004000109801400500000700000350002000<br>.---------------------.---------------------.---------------------.<br>|-17&nbsp; &nbsp; -12378 *278&nbsp; &nbsp;| 5&nbsp; &nbsp; &nbsp; 12368&nbsp; 1368&nbsp; |*678&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;|<br>| 1459&nbsp; &nbsp;12389&nbsp; 2589&nbsp; | 12368&nbsp; 123468 7&nbsp; &nbsp; &nbsp;| 68&nbsp; &nbsp; &nbsp;1568&nbsp; &nbsp;1568&nbsp; |<br>| 1457&nbsp; &nbsp;178&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;| 18&nbsp; &nbsp; &nbsp;148&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;| 2&nbsp; &nbsp; &nbsp; 1578&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 2&nbsp; &nbsp; &nbsp; 1789&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;| 1689&nbsp; &nbsp;15689&nbsp; 1568&nbsp; | 4&nbsp; &nbsp; &nbsp; 5678&nbsp; &nbsp;5678&nbsp; |<br>| 159&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 589&nbsp; &nbsp;| 1389&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;| 38&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; &nbsp; 58&nbsp; &nbsp; |<br>| 57&nbsp; &nbsp; &nbsp;78&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;| 2368&nbsp; &nbsp;23568&nbsp; 3568&nbsp; | 1&nbsp; &nbsp; &nbsp; 35678&nbsp; 9&nbsp; &nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 8&nbsp; &nbsp; &nbsp; 279&nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;| 4&nbsp; &nbsp; &nbsp; 369&nbsp; &nbsp; 36&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp; 367&nbsp; &nbsp; 267&nbsp; &nbsp;|<br>| 6&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 29&nbsp; &nbsp; | 7&nbsp; &nbsp; &nbsp; 13589&nbsp; 1358&nbsp; | 389&nbsp; &nbsp; 138&nbsp; &nbsp; 128&nbsp; &nbsp;|<br>| 3&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp;*79&nbsp; &nbsp; | 1689&nbsp; &nbsp;1689&nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;|*6789&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;-1678&nbsp; |<br>'---------------------'---------------------'---------------------'</code></dd></dl><br># Swordfish digit 7 in rows<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>200000005000010300780004000900003000605040902000600008000400081006020000500000007<br>.---------------.---------------.---------------.<br>| 2&nbsp; &nbsp; 6&nbsp; &nbsp; 1&nbsp; &nbsp;|*79&nbsp; &nbsp;3&nbsp; &nbsp;*79&nbsp; | 8&nbsp; &nbsp; 4&nbsp; &nbsp; 5&nbsp; &nbsp;|<br>| 4&nbsp; &nbsp; 5&nbsp; &nbsp; 9&nbsp; &nbsp;| 28&nbsp; &nbsp;1&nbsp; &nbsp; 28&nbsp; | 3&nbsp; &nbsp; 7&nbsp; &nbsp; 6&nbsp; &nbsp;|<br>| 7&nbsp; &nbsp; 8&nbsp; &nbsp; 3&nbsp; &nbsp;| 5&nbsp; &nbsp; 6&nbsp; &nbsp; 4&nbsp; &nbsp;| 12&nbsp; &nbsp;12&nbsp; &nbsp;9&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 9&nbsp; &nbsp;-27&nbsp; &nbsp;8&nbsp; &nbsp;|-127&nbsp; 57&nbsp; &nbsp;3&nbsp; &nbsp;| 1567 156&nbsp; 4&nbsp; &nbsp;|<br>| 6&nbsp; &nbsp;*37&nbsp; &nbsp;5&nbsp; &nbsp;|*178&nbsp; 4&nbsp; &nbsp;*178 | 9&nbsp; &nbsp; 13&nbsp; &nbsp;2&nbsp; &nbsp;|<br>| 1&nbsp; &nbsp;-2347 247 | 6&nbsp; &nbsp; 579 -2579| 57&nbsp; &nbsp;35&nbsp; &nbsp;8&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 3&nbsp; &nbsp;-279&nbsp; 27&nbsp; | 4&nbsp; &nbsp; 579 -5679| 256&nbsp; 8&nbsp; &nbsp; 1&nbsp; &nbsp;|<br>| 8&nbsp; &nbsp;*1479 6&nbsp; &nbsp;|*179&nbsp; 2&nbsp; &nbsp;*1579| 45&nbsp; &nbsp;59&nbsp; &nbsp;3&nbsp; &nbsp;|<br>| 5&nbsp; &nbsp; 1249 24&nbsp; | 3&nbsp; &nbsp; 8&nbsp; &nbsp; 169 | 246&nbsp; 269&nbsp; 7&nbsp; &nbsp;|<br>'---------------'---------------'---------------'</code></dd></dl><br># Swordfish digit 9 in columns<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>008007060140000200060050000030180006004000800500073020000010080009000032020400500<br>.---------------.---------------.---------------.<br>| 239&nbsp; 59&nbsp; &nbsp;8&nbsp; &nbsp;| 239&nbsp; 4&nbsp; &nbsp; 7&nbsp; &nbsp;| 139&nbsp; 6&nbsp; &nbsp; 159 |<br>| 1&nbsp; &nbsp; 4&nbsp; &nbsp; 357 |-3689*39&nbsp; *689 | 2&nbsp; &nbsp;*79&nbsp; -5789|<br>| 2379 6&nbsp; &nbsp; 237 | 2389 5&nbsp; &nbsp; 1&nbsp; &nbsp;| 379&nbsp; 4&nbsp; &nbsp; 789 |<br>:---------------+---------------+---------------:<br>| 279&nbsp; 3&nbsp; &nbsp; 27&nbsp; | 1&nbsp; &nbsp; 8&nbsp; &nbsp; 4&nbsp; &nbsp;| 79&nbsp; &nbsp;5&nbsp; &nbsp; 6&nbsp; &nbsp;|<br>|-679 -179&nbsp; 4&nbsp; &nbsp;|-569&nbsp; 2&nbsp; &nbsp;*569 | 8&nbsp; &nbsp;*179&nbsp; 3&nbsp; &nbsp;|<br>| 5&nbsp; &nbsp; 8&nbsp; &nbsp; 16&nbsp; | 69&nbsp; &nbsp;7&nbsp; &nbsp; 3&nbsp; &nbsp;| 149&nbsp; 2&nbsp; &nbsp; 149 |<br>:---------------+---------------+---------------:<br>| 347&nbsp; 57&nbsp; &nbsp;357 | 3579 1&nbsp; &nbsp; 2&nbsp; &nbsp;| 6&nbsp; &nbsp; 8&nbsp; &nbsp; 479 |<br>| 478&nbsp; 157&nbsp; 9&nbsp; &nbsp;| 578&nbsp; 6&nbsp; &nbsp; 58&nbsp; | 147&nbsp; 3&nbsp; &nbsp; 2&nbsp; &nbsp;|<br>| 3678 2&nbsp; &nbsp; 16&nbsp; | 4&nbsp; &nbsp;*39&nbsp; *89&nbsp; | 5&nbsp; &nbsp;*179 -179 |<br>'---------------'---------------'---------------'</code></dd></dl><br># Jellyfish digit 9 in rows<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>003100005850400000006050009025006080000000000070800430500020600000008014100003500<br>.---------------.---------------.---------------.<br>|*279&nbsp; 4&nbsp; &nbsp; 3&nbsp; &nbsp;| 1&nbsp; &nbsp; 8&nbsp; &nbsp;*279 | 27&nbsp; &nbsp;6&nbsp; &nbsp; 5&nbsp; &nbsp;|<br>| 8&nbsp; &nbsp; 5&nbsp; &nbsp;*279 | 4&nbsp; &nbsp; 6&nbsp; &nbsp;*279 | 13&nbsp; &nbsp;27&nbsp; &nbsp;13&nbsp; |<br>| 27&nbsp; &nbsp;1&nbsp; &nbsp; 6&nbsp; &nbsp;| 3&nbsp; &nbsp; 5&nbsp; &nbsp; 27&nbsp; | 8&nbsp; &nbsp; 4&nbsp; &nbsp; 9&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 4&nbsp; &nbsp; 2&nbsp; &nbsp; 5&nbsp; &nbsp;| 79&nbsp; &nbsp;3&nbsp; &nbsp; 6&nbsp; &nbsp;| 179&nbsp; 8&nbsp; &nbsp; 17&nbsp; |<br>|-39&nbsp; &nbsp;389 -189 | 2&nbsp; &nbsp;-179&nbsp; 4&nbsp; &nbsp;| 79&nbsp; &nbsp;5&nbsp; &nbsp; 6&nbsp; &nbsp;|<br>| 6&nbsp; &nbsp; 7&nbsp; &nbsp;*19&nbsp; | 8&nbsp; &nbsp;*19&nbsp; &nbsp;5&nbsp; &nbsp;| 4&nbsp; &nbsp; 3&nbsp; &nbsp; 2&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 5&nbsp; &nbsp; 38&nbsp; &nbsp;4&nbsp; &nbsp;| 79&nbsp; &nbsp;2&nbsp; &nbsp; 1&nbsp; &nbsp;| 6&nbsp; &nbsp; 79&nbsp; &nbsp;38&nbsp; |<br>|*2379 6&nbsp; &nbsp;*279 | 5&nbsp; &nbsp;*79&nbsp; &nbsp;8&nbsp; &nbsp;| 237&nbsp; 1&nbsp; &nbsp; 4&nbsp; &nbsp;|<br>| 1&nbsp; &nbsp; 89&nbsp; -2789| 6&nbsp; &nbsp; 4&nbsp; &nbsp; 3&nbsp; &nbsp;| 5&nbsp; &nbsp; 279&nbsp; 78&nbsp; |<br>'---------------'---------------'---------------'</code></dd></dl><br># 1 Jellyfish in rows, 1 Swordfish<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>007050000000001034120300000400200080200080005010004003000003041690700000000020600</code></dd></dl><br># 1 Jellyfish in rows, 1 X-Wing<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000000210051080000600000045000200300807050401003001000240000006000040570095000000</code></dd></dl><br><br># Beyond this point, there is no agreed order of techniques. Your solver may find another technique to advance the listed puzzles. The listed techniques should be found when your solver is configured to detect the mentioned technique before anything past Jellyfish.<br><br><span style="font-weight: bold">XY-Wing, XYZ-Wing, remote pairs</span><br><br># XY-Wing X=3 Y=9 Z=1<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>300090040050008000097300002000000800900625003006000000200007980000200010040080005<br>.------------------.------------------.------------------.<br>| 3&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; | 57&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; | 57&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; |<br>| 4&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; | 17&nbsp; &nbsp; 167&nbsp; &nbsp;8&nbsp; &nbsp; | 1367&nbsp; 369&nbsp; &nbsp;1679 |<br>| 8&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; | 3&nbsp; &nbsp; &nbsp;1456&nbsp; 146&nbsp; | 156&nbsp; &nbsp;56&nbsp; &nbsp; 2&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 157&nbsp; &nbsp;1237&nbsp; 345&nbsp; | 1479&nbsp; 1347&nbsp; 1349 | 8&nbsp; &nbsp; &nbsp;2569&nbsp; 1469 |<br>| 9&nbsp; &nbsp; &nbsp;18&nbsp; &nbsp; 48&nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; | 14&nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; |<br>| 157&nbsp; &nbsp;1237&nbsp; 6&nbsp; &nbsp; | 8&nbsp; &nbsp; &nbsp;1347&nbsp; 1349 | 1245&nbsp; 259&nbsp; &nbsp;149&nbsp; |<br>:------------------+------------------+------------------:<br>| 2&nbsp; &nbsp; *13&nbsp; &nbsp; 35&nbsp; &nbsp;|-145&nbsp; -13456 7&nbsp; &nbsp; | 9&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;46&nbsp; &nbsp;|<br>| 567&nbsp; &nbsp;378&nbsp; &nbsp;3589 | 2&nbsp; &nbsp; &nbsp;3456&nbsp; 3469 | 3467&nbsp; 1&nbsp; &nbsp; &nbsp;467&nbsp; |<br>|-167&nbsp; &nbsp;4&nbsp; &nbsp; *39&nbsp; &nbsp;|*19&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;1369 | 2367&nbsp; 236&nbsp; &nbsp;5&nbsp; &nbsp; |<br>'------------------'------------------'------------------'</code></dd></dl><br># 3 XY-Wings (only 2 required)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>004000080300000072000000305900010000100842000000009700200081056000200004609500000</code></dd></dl><br># XYZ-Wing X=4 Y=9 Z=6 (beautiful example)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>049070000207000900030006000520700000000809000000004068000100020003000105000040370<br>.------------------.------------------.------------------.<br>| 168&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; | 235&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;12358| 2568&nbsp; 1358&nbsp; 1236 |<br>| 2&nbsp; &nbsp; &nbsp;168&nbsp; &nbsp;7&nbsp; &nbsp; | 345&nbsp; &nbsp;1358&nbsp; 1358 | 9&nbsp; &nbsp; &nbsp;13458 1346 |<br>| 18&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; | 249&nbsp; &nbsp;1289&nbsp; 6&nbsp; &nbsp; | 278&nbsp; &nbsp;148&nbsp; &nbsp;1247 |<br>:------------------+------------------+------------------:<br>| 5&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; | 7&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;13&nbsp; &nbsp;| 4&nbsp; &nbsp; &nbsp;139&nbsp; &nbsp;139&nbsp; |<br>| 3467&nbsp; 67&nbsp; &nbsp; 46&nbsp; &nbsp;| 8&nbsp; &nbsp; &nbsp;1235&nbsp; 9&nbsp; &nbsp; | 257&nbsp; &nbsp;135&nbsp; &nbsp;1237 |<br>| 379&nbsp; &nbsp;79&nbsp; &nbsp; 1&nbsp; &nbsp; | 235&nbsp; &nbsp;235&nbsp; &nbsp;4&nbsp; &nbsp; | 257&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 46789 56789*46&nbsp; &nbsp;| 1&nbsp; &nbsp; &nbsp;3589&nbsp; 3578 |-68&nbsp; &nbsp; 2&nbsp; &nbsp; *469&nbsp; |<br>| 46789 6789&nbsp; 3&nbsp; &nbsp; | 269&nbsp; &nbsp;289&nbsp; &nbsp;278&nbsp; | 1&nbsp; &nbsp; &nbsp;489&nbsp; &nbsp;5&nbsp; &nbsp; |<br>| 1689&nbsp; 15689 2&nbsp; &nbsp; | 569&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;58&nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; *69&nbsp; &nbsp;|<br>'------------------'------------------'------------------'</code></dd></dl><br># Remote pair (6,9) chain length = 4<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000810000060500304700000000070000023090108050420000080000000002205001040000032000<br>.------------.------------.------------.<br>|-39&nbsp; 5&nbsp; &nbsp;349| 8&nbsp; &nbsp;1&nbsp; &nbsp;346| 2&nbsp; &nbsp;7&nbsp; *69 |<br>| 8&nbsp; &nbsp;6&nbsp; &nbsp;2&nbsp; | 5&nbsp; &nbsp;7&nbsp; &nbsp;9&nbsp; | 3&nbsp; &nbsp;1&nbsp; &nbsp;4&nbsp; |<br>| 7&nbsp; &nbsp;1&nbsp; &nbsp;349| 2&nbsp; &nbsp;46&nbsp; 346| 8&nbsp; *69&nbsp; 5&nbsp; |<br>:------------+------------+------------:<br>| 5&nbsp; &nbsp;7&nbsp; &nbsp;8&nbsp; | 69&nbsp; 469 46 | 1&nbsp; &nbsp;2&nbsp; &nbsp;3&nbsp; |<br>| 36&nbsp; 9&nbsp; &nbsp;36 | 1&nbsp; &nbsp;2&nbsp; &nbsp;8&nbsp; | 4&nbsp; &nbsp;5&nbsp; &nbsp;7&nbsp; |<br>| 4&nbsp; &nbsp;2&nbsp; &nbsp;1&nbsp; | 3&nbsp; &nbsp;5&nbsp; &nbsp;7&nbsp; | 69&nbsp; 8&nbsp; &nbsp;69 |<br>:------------+------------+------------:<br>| 1&nbsp; &nbsp;4&nbsp; &nbsp;69 | 679 8&nbsp; &nbsp;5&nbsp; | 679 3&nbsp; &nbsp;2&nbsp; |<br>| 2&nbsp; &nbsp;3&nbsp; &nbsp;5&nbsp; | 679 69&nbsp; 1&nbsp; | 679 4&nbsp; &nbsp;8&nbsp; |<br>|*69&nbsp; 8&nbsp; &nbsp;7&nbsp; | 4&nbsp; &nbsp;3&nbsp; &nbsp;2&nbsp; | 5&nbsp; *69&nbsp; 1&nbsp; |<br>'------------'------------'------------'</code></dd></dl><br># 4 Remote pairs<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>003054070000000800026009000500002063000000000640800009000900640002000000080230900</code></dd></dl><br><br><span style="font-weight: bold">Single digit advanced techniques</span><br><br># Finned X-Wing digit 4 (2 fin cells)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>048003006000500000020086007300000000056070120000000004200360010000009000900200430<br>.------------------.------------------.------------------.<br>| 157&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; | 17&nbsp; &nbsp; 129&nbsp; &nbsp;3&nbsp; &nbsp; | 259&nbsp; &nbsp;59&nbsp; &nbsp; 6&nbsp; &nbsp; |<br>| 6&nbsp; &nbsp; &nbsp;379&nbsp; &nbsp;379&nbsp; | 5&nbsp; &nbsp; &nbsp;249&nbsp; &nbsp;247&nbsp; | 2389&nbsp; 489&nbsp; &nbsp;1&nbsp; &nbsp; |<br>| 15&nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;1359 | 14&nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; | 359&nbsp; &nbsp;459&nbsp; &nbsp;7&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 3&nbsp; &nbsp; &nbsp;1789 *12479|#1468 #1245 *12458| 56789 56789 589&nbsp; |<br>| 48&nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; | 9&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; -48&nbsp; &nbsp;| 1&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; |<br>| 178&nbsp; &nbsp;1789&nbsp; 1279 | 168&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;1258 | 56789 56789 4&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 2&nbsp; &nbsp; &nbsp;78&nbsp; &nbsp;*457&nbsp; | 3&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; *4578 | 5789&nbsp; 1&nbsp; &nbsp; &nbsp;589&nbsp; |<br>| 14578 1378&nbsp; 13457| 1478&nbsp; 145&nbsp; &nbsp;9&nbsp; &nbsp; | 5678&nbsp; 5678&nbsp; 2&nbsp; &nbsp; |<br>| 9&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;157&nbsp; | 2&nbsp; &nbsp; &nbsp;15&nbsp; &nbsp; 1578 | 4&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;58&nbsp; &nbsp;|<br>'------------------'------------------'------------------'</code></dd></dl><br># Finned Sashimi X-Wing digit 7<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000004052000060300070000060607300500010090020002001604050000030004010000320700000<br>.---------------------.---------------------.---------------------.<br>| 189&nbsp; &nbsp; 689&nbsp; &nbsp; 13689 | 189&nbsp; &nbsp;#378&nbsp; &nbsp;*4&nbsp; &nbsp; &nbsp;|*1789&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;|<br>| 124589 489&nbsp; &nbsp; 1589&nbsp; | 12589&nbsp; 6&nbsp; &nbsp; &nbsp;-25789 | 3&nbsp; &nbsp; &nbsp; 14789&nbsp; 1789&nbsp; |<br>| 124589 7&nbsp; &nbsp; &nbsp; 13589 | 12589&nbsp; 2358&nbsp; &nbsp;2589&nbsp; | 1489&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp; 189&nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 6&nbsp; &nbsp; &nbsp; 489&nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp; 248&nbsp; &nbsp; 28&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp; 189&nbsp; &nbsp; 189&nbsp; &nbsp;|<br>| 458&nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; 58&nbsp; &nbsp; | 4568&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;*5678&nbsp; |*78&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;|<br>| 589&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;| 58&nbsp; &nbsp; &nbsp;578&nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp; 789&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 1789&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp; 1689&nbsp; | 24689&nbsp; 248&nbsp; &nbsp; 2689&nbsp; | 124789 3&nbsp; &nbsp; &nbsp; 16789 |<br>| 789&nbsp; &nbsp; 689&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;| 25689&nbsp; 1&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;| 2789&nbsp; &nbsp;789&nbsp; &nbsp; 56789 |<br>| 3&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp; 1689&nbsp; | 7&nbsp; &nbsp; &nbsp; 458&nbsp; &nbsp; 5689&nbsp; | 1489&nbsp; &nbsp;1489&nbsp; &nbsp;15689 |<br>'---------------------'---------------------'---------------------'</code></dd></dl><br># Finned Sashimi X-Wing digit 5 (2 fin cells)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000080400501900000090003000106400020800070009050006304000600030000007502003090000<br>.---------------------.---------------------.---------------------.<br>| 3&nbsp; &nbsp; &nbsp; 267&nbsp; &nbsp; 27&nbsp; &nbsp; |#1257&nbsp; *8&nbsp; &nbsp; &nbsp;#125&nbsp; &nbsp;| 4&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;*1567&nbsp; |<br>| 5&nbsp; &nbsp; &nbsp; 24678&nbsp; 1&nbsp; &nbsp; &nbsp;| 9&nbsp; &nbsp; &nbsp; 246&nbsp; &nbsp; 24&nbsp; &nbsp; | 2678&nbsp; &nbsp;678&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;|<br>| 2467&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp; 2478&nbsp; | 1257&nbsp; -12456&nbsp; 3&nbsp; &nbsp; &nbsp;| 12678&nbsp; 15678&nbsp; 15678 |<br>:---------------------+---------------------+---------------------:<br>| 1&nbsp; &nbsp; &nbsp; 37&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;| 4&nbsp; &nbsp; &nbsp;*35&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;| 78&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;*578&nbsp; &nbsp;|<br>| 8&nbsp; &nbsp; &nbsp; 234&nbsp; &nbsp; 24&nbsp; &nbsp; | 1235&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp; 125&nbsp; &nbsp;| 16&nbsp; &nbsp; &nbsp;156&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;|<br>| 279&nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; 279&nbsp; &nbsp;| 8&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp; 17&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 247&nbsp; &nbsp; 12478&nbsp; 5&nbsp; &nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp; 124&nbsp; &nbsp; 1248&nbsp; | 9&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 178&nbsp; &nbsp;|<br>| 469&nbsp; &nbsp; 1468&nbsp; &nbsp;489&nbsp; &nbsp;| 13&nbsp; &nbsp; &nbsp;134&nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp;| 5&nbsp; &nbsp; &nbsp; 1468&nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;|<br>| 2467&nbsp; &nbsp;124678 3&nbsp; &nbsp; &nbsp;| 125&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 12458 | 1678&nbsp; &nbsp;14678&nbsp; 1678&nbsp; |<br>'---------------------'---------------------'---------------------'</code></dd></dl><br># Finned Swordfish digit 9 (also a regular swordfish for digit 8 present)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>070500910000001800009708003000000102060070030504000000900603500007800000035007060<br>.------------------.------------------.------------------.<br>| 238&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;268&nbsp; | 5&nbsp; &nbsp; &nbsp;236&nbsp; &nbsp;26&nbsp; &nbsp;| 9&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; |<br>| 234&nbsp; &nbsp;245&nbsp; &nbsp;26&nbsp; &nbsp;|*2349 *23469 1&nbsp; &nbsp; | 8&nbsp; &nbsp; &nbsp;257&nbsp; &nbsp;57&nbsp; &nbsp;|<br>| 124&nbsp; &nbsp;1245&nbsp; 9&nbsp; &nbsp; | 7&nbsp; &nbsp; &nbsp;24&nbsp; &nbsp; 8&nbsp; &nbsp; | 6&nbsp; &nbsp; &nbsp;25&nbsp; &nbsp; 3&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 7&nbsp; &nbsp; &nbsp;89&nbsp; &nbsp; 3&nbsp; &nbsp; |-49&nbsp; &nbsp;-45689 4569 | 1&nbsp; &nbsp; &nbsp;589&nbsp; &nbsp;2&nbsp; &nbsp; |<br>| 128&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;128&nbsp; | 129&nbsp; &nbsp;7&nbsp; &nbsp; #259&nbsp; | 4&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; *589&nbsp; |<br>| 5&nbsp; &nbsp; &nbsp;1289&nbsp; 4&nbsp; &nbsp; |-1239 -12389 29&nbsp; &nbsp;| 7&nbsp; &nbsp; &nbsp;89&nbsp; &nbsp; 6&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 9&nbsp; &nbsp; &nbsp;1248&nbsp; 128&nbsp; | 6&nbsp; &nbsp; &nbsp;124&nbsp; &nbsp;3&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp;478&nbsp; &nbsp;178&nbsp; |<br>| 6&nbsp; &nbsp; &nbsp;124&nbsp; &nbsp;7&nbsp; &nbsp; | 8&nbsp; &nbsp; &nbsp;12459 2459 | 3&nbsp; &nbsp; &nbsp;49&nbsp; &nbsp; 19&nbsp; &nbsp;|<br>| 148&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; |*149&nbsp; *149&nbsp; &nbsp;7&nbsp; &nbsp; | 2&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; *189&nbsp; |<br>'------------------'------------------'------------------'</code></dd></dl><br># Finned Sashimi Swordfish digit 3<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>003400000000025009040700060801000090070050010060000703080006020600170000000003500<br>.------------------.------------------.------------------.<br>| 259&nbsp; &nbsp;259&nbsp; &nbsp;3&nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;189&nbsp; | 128&nbsp; &nbsp;578&nbsp; &nbsp;12578|<br>| 7&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; | 38&nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; | 348&nbsp; #348&nbsp; &nbsp;9&nbsp; &nbsp; |<br>| 259&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; | 7&nbsp; &nbsp; *139&nbsp; &nbsp;19&nbsp; &nbsp;|-123&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;125&nbsp; |<br>:------------------+------------------+------------------:<br>| 8&nbsp; &nbsp; *235&nbsp; &nbsp;1&nbsp; &nbsp; | 236&nbsp; *34&nbsp; &nbsp; 7&nbsp; &nbsp; | 246&nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;245&nbsp; |<br>| 2349&nbsp; 7&nbsp; &nbsp; &nbsp;249&nbsp; | 23689 5&nbsp; &nbsp; &nbsp;2489 | 2468&nbsp; 1&nbsp; &nbsp; &nbsp;248&nbsp; |<br>| 2459&nbsp; 6&nbsp; &nbsp; &nbsp;2459 | 289&nbsp; &nbsp;1489&nbsp; 12489| 7&nbsp; &nbsp; &nbsp;458&nbsp; &nbsp;3&nbsp; &nbsp; |<br>:------------------+------------------+------------------:<br>| 349&nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;479&nbsp; | 5&nbsp; &nbsp; &nbsp;49&nbsp; &nbsp; 6&nbsp; &nbsp; | 1349&nbsp; 2&nbsp; &nbsp; &nbsp;147&nbsp; |<br>| 6&nbsp; &nbsp; *2359&nbsp; 2459 | 1&nbsp; &nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;2489 | 3489 *348&nbsp; &nbsp;48&nbsp; &nbsp;|<br>| 1&nbsp; &nbsp; &nbsp;29&nbsp; &nbsp; 2479 | 289&nbsp; &nbsp;489&nbsp; &nbsp;3&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp;478&nbsp; &nbsp;6&nbsp; &nbsp; |<br>'------------------'------------------'------------------'</code></dd></dl><br>#Finned jellyfish<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>027000000010908006000000400200400095003020600570003004005000000400602030000000860 <br>#one view: Jellyfish with 2 tentacles digit 1<br>.---------------.---------------.---------------. <br>| 689&nbsp; 2&nbsp; &nbsp; 7&nbsp; &nbsp;|*13&nbsp; &nbsp;1346 146 |-19&nbsp; &nbsp;5&nbsp; &nbsp;*1389| <br>| 3&nbsp; &nbsp; 1&nbsp; &nbsp; 4&nbsp; &nbsp;| 9&nbsp; &nbsp; 5&nbsp; &nbsp; 8&nbsp; &nbsp;| 7&nbsp; &nbsp; 2&nbsp; &nbsp; 6&nbsp; &nbsp;| <br>| 689&nbsp; 5&nbsp; &nbsp; 689 | 2&nbsp; &nbsp; 1367 167 | 4&nbsp; &nbsp;#18&nbsp; #1389| <br>:---------------+---------------+---------------: <br>| 2&nbsp; &nbsp; 68&nbsp; &nbsp;168 | 4&nbsp; &nbsp; 1678 167 | 3&nbsp; &nbsp; 9&nbsp; &nbsp; 5&nbsp; &nbsp;| <br>|*189&nbsp; 4&nbsp; &nbsp; 3&nbsp; &nbsp;|*158&nbsp; 2&nbsp; &nbsp; 159 | 6&nbsp; &nbsp; 7&nbsp; &nbsp; 18&nbsp; | <br>| 5&nbsp; &nbsp; 7&nbsp; &nbsp; 69&nbsp; |*18&nbsp; &nbsp;69&nbsp; &nbsp;3&nbsp; &nbsp;| 2&nbsp; &nbsp;*18&nbsp; &nbsp;4&nbsp; &nbsp;| <br>:---------------+---------------+---------------: <br>| 678&nbsp; 368&nbsp; 5&nbsp; &nbsp;| 378&nbsp; 38&nbsp; &nbsp;19&nbsp; | 19&nbsp; &nbsp;4&nbsp; &nbsp; 2&nbsp; &nbsp;| <br>| 4&nbsp; &nbsp; 89&nbsp; &nbsp;18&nbsp; | 6&nbsp; &nbsp; 189&nbsp; 2&nbsp; &nbsp;| 5&nbsp; &nbsp; 3&nbsp; &nbsp; 7&nbsp; &nbsp;| <br>|*17&nbsp; &nbsp;39&nbsp; &nbsp;2&nbsp; &nbsp;|*1357 1349 1459| 8&nbsp; &nbsp; 6&nbsp; &nbsp;*19&nbsp; | <br>'---------------'---------------'---------------' <br>#alternative view: Sashimi Jellyfish digit 1 <br>.---------------.---------------.---------------. <br>| 689&nbsp; 2&nbsp; &nbsp; 7&nbsp; &nbsp;| 13&nbsp; &nbsp;1346 146 |-19&nbsp; &nbsp;5&nbsp; &nbsp; 1389| <br>| 3&nbsp; &nbsp; 1&nbsp; &nbsp; 4&nbsp; &nbsp;| 9&nbsp; &nbsp; 5&nbsp; &nbsp; 8&nbsp; &nbsp;| 7&nbsp; &nbsp; 2&nbsp; &nbsp; 6&nbsp; &nbsp;| <br>| 689&nbsp; 5&nbsp; &nbsp; 689 | 2&nbsp; &nbsp;*1367*167 | 4&nbsp; &nbsp;#18&nbsp; #1389| <br>:---------------+---------------+---------------: <br>| 2&nbsp; &nbsp; 68&nbsp; *168 | 4&nbsp; &nbsp;*1678*167 | 3&nbsp; &nbsp; 9&nbsp; &nbsp; 5&nbsp; &nbsp;| <br>| 189&nbsp; 4&nbsp; &nbsp; 3&nbsp; &nbsp;| 158&nbsp; 2&nbsp; &nbsp; 159 | 6&nbsp; &nbsp; 7&nbsp; &nbsp; 18&nbsp; | <br>| 5&nbsp; &nbsp; 7&nbsp; &nbsp; 69&nbsp; | 18&nbsp; &nbsp;69&nbsp; &nbsp;3&nbsp; &nbsp;| 2&nbsp; &nbsp; 18&nbsp; &nbsp;4&nbsp; &nbsp;| <br>:---------------+---------------+---------------: <br>| 678&nbsp; 368&nbsp; 5&nbsp; &nbsp;| 378&nbsp; 38&nbsp; *19&nbsp; |*19&nbsp; &nbsp;4&nbsp; &nbsp; 2&nbsp; &nbsp;| <br>| 4&nbsp; &nbsp; 89&nbsp; *18&nbsp; | 6&nbsp; &nbsp;*189&nbsp; 2&nbsp; &nbsp;| 5&nbsp; &nbsp; 3&nbsp; &nbsp; 7&nbsp; &nbsp;| <br>| 17&nbsp; &nbsp;39&nbsp; &nbsp;2&nbsp; &nbsp;| 1357 1349 1459| 8&nbsp; &nbsp; 6&nbsp; &nbsp; 19&nbsp; | <br>'---------------'---------------'---------------' </code></dd></dl><br># Simple Coloring digit 8 (4 eliminations)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>300000000009630700002700090000002435500000009634500000080009300003047600000000004<br>.---------------.---------------.---------------.<br>| 3&nbsp; &nbsp; 457&nbsp; 57&nbsp; | 9&nbsp; &nbsp; 2&nbsp; &nbsp;-158 |A18&nbsp; -148&nbsp; 6&nbsp; &nbsp;|<br>|a18&nbsp; &nbsp;45&nbsp; &nbsp;9&nbsp; &nbsp;| 6&nbsp; &nbsp; 3&nbsp; &nbsp; 158 | 7&nbsp; &nbsp;-1248-128 |<br>|A18&nbsp; &nbsp;6&nbsp; &nbsp; 2&nbsp; &nbsp;| 7&nbsp; &nbsp;a18&nbsp; &nbsp;4&nbsp; &nbsp;| 5&nbsp; &nbsp; 9&nbsp; &nbsp; 3&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 79&nbsp; &nbsp;179 a178 |A18&nbsp; &nbsp;6&nbsp; &nbsp; 2&nbsp; &nbsp;| 4&nbsp; &nbsp; 3&nbsp; &nbsp; 5&nbsp; &nbsp;|<br>| 5&nbsp; &nbsp; 2&nbsp; &nbsp;A18&nbsp; | 4&nbsp; &nbsp; 7&nbsp; &nbsp; 3&nbsp; &nbsp;|a18&nbsp; &nbsp;6&nbsp; &nbsp; 9&nbsp; &nbsp;|<br>| 6&nbsp; &nbsp; 3&nbsp; &nbsp; 4&nbsp; &nbsp;| 5&nbsp; &nbsp; 9&nbsp; &nbsp;a18&nbsp; | 2&nbsp; &nbsp; 178&nbsp; 178 |<br>:---------------+---------------+---------------:<br>| 4&nbsp; &nbsp; 8&nbsp; &nbsp; 6&nbsp; &nbsp;| 12&nbsp; &nbsp;15&nbsp; &nbsp;9&nbsp; &nbsp;| 3&nbsp; &nbsp; 1257 127 |<br>| 29&nbsp; &nbsp;159&nbsp; 3&nbsp; &nbsp;|a128&nbsp; 4&nbsp; &nbsp; 7&nbsp; &nbsp;| 6&nbsp; &nbsp; 1258 128 |<br>| 27&nbsp; &nbsp;157&nbsp; 157 | 3&nbsp; &nbsp;A158&nbsp; 6&nbsp; &nbsp;| 9&nbsp; &nbsp;a1258 4&nbsp; &nbsp;|<br>'---------------'---------------'---------------'</code></dd></dl><br># Multi Coloring digit 7 (3 chains, A!B, a!c, b!c =&gt; c!c)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>980300002000001306000060070003040000400209001000010500030090000102500000500002068<br>.------------.------------.------------.<br>| 9&nbsp; &nbsp;8&nbsp; &nbsp;6&nbsp; | 3&nbsp; &nbsp;5&nbsp; &nbsp;7&nbsp; | 4&nbsp; &nbsp;1&nbsp; &nbsp;2&nbsp; |<br>| 7&nbsp; &nbsp;45&nbsp; 45 | 89&nbsp; 2&nbsp; &nbsp;1&nbsp; | 3&nbsp; &nbsp;89&nbsp; 6&nbsp; |<br>| 3&nbsp; &nbsp;2&nbsp; &nbsp;1&nbsp; | 489 6&nbsp; &nbsp;48 | 89&nbsp; 7&nbsp; &nbsp;5&nbsp; |<br>:------------+------------+------------:<br>| 268 1&nbsp; &nbsp;3&nbsp; |A678 4&nbsp; &nbsp;5&nbsp; |a678 28&nbsp; 9&nbsp; |<br>| 4&nbsp; &nbsp;567 578| 2&nbsp; B78&nbsp; 9&nbsp; | 678 3&nbsp; &nbsp;1&nbsp; |<br>| 268 679 789| 678 1&nbsp; &nbsp;3&nbsp; | 5&nbsp; &nbsp;248c47 |<br>:------------+------------+------------:<br>| 68&nbsp; 3&nbsp; c478| 1&nbsp; &nbsp;9&nbsp; &nbsp;46 | 2&nbsp; &nbsp;5&nbsp; C47 |<br>| 1&nbsp; &nbsp;467 2&nbsp; | 5&nbsp; b78&nbsp; 468|c79&nbsp; 49&nbsp; 3&nbsp; |<br>| 5&nbsp; &nbsp;479 479|B47&nbsp; 3&nbsp; &nbsp;2&nbsp; | 1&nbsp; &nbsp;6&nbsp; &nbsp;8&nbsp; |<br>'------------'------------'------------'</code></dd></dl><br># Multi Coloring digit 5 (2 chains, a!b)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>600007005120400030000000040000040208000050000309020000070000000090006053200900006<br>.------------------.------------------.------------------.<br>| 6&nbsp; &nbsp; &nbsp;348&nbsp; &nbsp;348&nbsp; | 138&nbsp; &nbsp;1389&nbsp; 7&nbsp; &nbsp; | 189&nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; |<br>| 1&nbsp; &nbsp; &nbsp;2&nbsp; &nbsp; A578&nbsp; | 4&nbsp; &nbsp; &nbsp;689&nbsp; a58&nbsp; &nbsp;| 6789&nbsp; 3&nbsp; &nbsp; &nbsp;79&nbsp; &nbsp;|<br>| 9&nbsp; &nbsp; &nbsp;358&nbsp; &nbsp;3578 |A1358&nbsp; 1368&nbsp; 2&nbsp; &nbsp; | 1678&nbsp; 4&nbsp; &nbsp; &nbsp;17&nbsp; &nbsp;|<br>:------------------+------------------+------------------:<br>|B57&nbsp; &nbsp; 156&nbsp; -15&nbsp; &nbsp;| 1367&nbsp; 4&nbsp; &nbsp; &nbsp;139&nbsp; | 2&nbsp; &nbsp; &nbsp;1679&nbsp; 8&nbsp; &nbsp; |<br>| 478&nbsp; &nbsp;1468&nbsp; 2&nbsp; &nbsp; | 1678&nbsp; 5&nbsp; &nbsp; &nbsp;189&nbsp; | 3&nbsp; &nbsp; &nbsp;1679&nbsp; 1479 |<br>| 3&nbsp; &nbsp; &nbsp;1468&nbsp; 9&nbsp; &nbsp; | 1678&nbsp; 2&nbsp; &nbsp; &nbsp;18&nbsp; &nbsp;| 5&nbsp; &nbsp; &nbsp;167&nbsp; &nbsp;147&nbsp; |<br>:------------------+------------------+------------------:<br>|b458&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; |a1358&nbsp; 138&nbsp; &nbsp;13458| 149&nbsp; &nbsp;189&nbsp; &nbsp;2&nbsp; &nbsp; |<br>| 48&nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;148&nbsp; | 2&nbsp; &nbsp; &nbsp;178&nbsp; &nbsp;6&nbsp; &nbsp; | 147&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; |<br>| 2&nbsp; &nbsp; &nbsp;13458 13458| 9&nbsp; &nbsp; &nbsp;178&nbsp; &nbsp;1458 | 147&nbsp; &nbsp;178&nbsp; &nbsp;6&nbsp; &nbsp; |<br>'------------------'------------------'------------------'</code></dd></dl><br># Template check, Nishio (3 candidates for digit 9 eliminated)<br># Alternative 1: Combined Frankenfish type 1 &amp; 2.<br># Alternative 2: Empty Rectangle (ER) eliminates R7C8 digit 9.<br># Alternative 3: Grouped coloring (fork pattern) eliminates R7C8 digit 9.<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000000040060300100400908500020030001007000600800070030008106005003009070050000000<br>.------------------.------------------.------------------.<br>| 13579 8&nbsp; &nbsp; &nbsp;159&nbsp; | 25&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;257&nbsp; | 29&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;2379 |<br>| 579&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;59&nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp;245&nbsp; &nbsp;2457 | 1&nbsp; &nbsp; &nbsp;289&nbsp; &nbsp;2789 |<br>| 4&nbsp; &nbsp; &nbsp;37&nbsp; &nbsp; 2&nbsp; &nbsp; | 9&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;37&nbsp; &nbsp;|<br>:------------------+------------------+------------------:<br>| 569&nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;4569 | 4568&nbsp; 3&nbsp; &nbsp; &nbsp;45&nbsp; &nbsp;| 7&nbsp; &nbsp; &nbsp;589&nbsp; &nbsp;1&nbsp; &nbsp; |<br>| 135&nbsp; &nbsp;134&nbsp; &nbsp;7&nbsp; &nbsp; | 2458&nbsp; 9&nbsp; &nbsp; &nbsp;1245 | 6&nbsp; &nbsp; &nbsp;258&nbsp; &nbsp;248&nbsp; |<br>| 8&nbsp; &nbsp; &nbsp;149&nbsp; &nbsp;14569| 2456&nbsp; 7&nbsp; &nbsp; &nbsp;1245 | 249&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;249&nbsp; |<br>:------------------+------------------+------------------:<br>| 279&nbsp; &nbsp;479&nbsp; &nbsp;8&nbsp; &nbsp; | 1&nbsp; &nbsp; &nbsp;24&nbsp; &nbsp; 6&nbsp; &nbsp; | 3&nbsp; &nbsp; -29&nbsp; &nbsp; 5&nbsp; &nbsp; |<br>| 126&nbsp; &nbsp;14&nbsp; &nbsp; 3&nbsp; &nbsp; | 245&nbsp; &nbsp;2458&nbsp; 9&nbsp; &nbsp; | 248&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;246&nbsp; |<br>|-269&nbsp; &nbsp;5&nbsp; &nbsp; -469&nbsp; | 7&nbsp; &nbsp; &nbsp;248&nbsp; &nbsp;3&nbsp; &nbsp; | 2489&nbsp; 1&nbsp; &nbsp; &nbsp;2469 |<br>'------------------'------------------'------------------'</code></dd></dl><br><br><span style="font-weight: bold">Techniques that depend on a unique solution</span><br><br># Uniqueness test 1<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>004000016200010000000002403041708000000000000000205390502400000000030005760000800<br>.------------.------------.------------.<br>| 8&nbsp; *57&nbsp; 4&nbsp; | 3&nbsp; *57&nbsp; 9&nbsp; | 2&nbsp; &nbsp;1&nbsp; &nbsp;6&nbsp; |<br>| 2&nbsp; &nbsp;357 36 | 68&nbsp; 1&nbsp; &nbsp;4&nbsp; | 9&nbsp; &nbsp;578 78 |<br>| 1&nbsp; *579 69 | 68 *57&nbsp; 2&nbsp; | 4&nbsp; &nbsp;578 3&nbsp; |<br>:------------+------------+------------:<br>| 3&nbsp; &nbsp;4&nbsp; &nbsp;1&nbsp; | 7&nbsp; &nbsp;9&nbsp; &nbsp;8&nbsp; | 5&nbsp; &nbsp;6&nbsp; &nbsp;2&nbsp; |<br>| 9&nbsp; &nbsp;2&nbsp; &nbsp;5&nbsp; | 1&nbsp; &nbsp;6&nbsp; &nbsp;3&nbsp; | 7&nbsp; &nbsp;48&nbsp; 48 |<br>| 6&nbsp; &nbsp;8&nbsp; &nbsp;7&nbsp; | 2&nbsp; &nbsp;4&nbsp; &nbsp;5&nbsp; | 3&nbsp; &nbsp;9&nbsp; &nbsp;1&nbsp; |<br>:------------+------------+------------:<br>| 5&nbsp; &nbsp;39&nbsp; 2&nbsp; | 4&nbsp; &nbsp;8&nbsp; &nbsp;6&nbsp; | 1&nbsp; &nbsp;37&nbsp; 79 |<br>| 4&nbsp; &nbsp;1&nbsp; &nbsp;8&nbsp; | 9&nbsp; &nbsp;3&nbsp; &nbsp;7&nbsp; | 6&nbsp; &nbsp;2&nbsp; &nbsp;5&nbsp; |<br>| 7&nbsp; &nbsp;6&nbsp; &nbsp;39 | 5&nbsp; &nbsp;2&nbsp; &nbsp;1&nbsp; | 8&nbsp; &nbsp;34&nbsp; 49 |<br>'------------'------------'------------'</code></dd></dl><br># Uniqueness test 2<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000610000003000500095000078000004005042030760800500000410000620009000300000096000<br>.------------.------------.------------.<br>| 7&nbsp; &nbsp;8&nbsp; &nbsp;4&nbsp; | 6&nbsp; &nbsp;1&nbsp; &nbsp;5&nbsp; | 9&nbsp; &nbsp;3&nbsp; &nbsp;2&nbsp; |<br>| 1&nbsp; &nbsp;2&nbsp; &nbsp;3&nbsp; |*789-78 *789| 5&nbsp; &nbsp;4&nbsp; &nbsp;6&nbsp; |<br>| 6&nbsp; &nbsp;9&nbsp; &nbsp;5&nbsp; | 34&nbsp; 24&nbsp; 23 | 1&nbsp; &nbsp;7&nbsp; &nbsp;8&nbsp; |<br>:------------+------------+------------:<br>| 9&nbsp; &nbsp;3&nbsp; &nbsp;16 | 17&nbsp; 67&nbsp; 4&nbsp; | 2&nbsp; &nbsp;8&nbsp; &nbsp;5&nbsp; |<br>| 5&nbsp; &nbsp;4&nbsp; &nbsp;2&nbsp; |*89&nbsp; 3&nbsp; *89 | 7&nbsp; &nbsp;6&nbsp; &nbsp;1&nbsp; |<br>| 8&nbsp; &nbsp;7&nbsp; &nbsp;16 | 5&nbsp; &nbsp;26&nbsp; 12 | 4&nbsp; &nbsp;9&nbsp; &nbsp;3&nbsp; |<br>:------------+------------+------------:<br>| 4&nbsp; &nbsp;1&nbsp; &nbsp;8&nbsp; | 37&nbsp; 5&nbsp; &nbsp;37 | 6&nbsp; &nbsp;2&nbsp; &nbsp;9&nbsp; |<br>| 2&nbsp; &nbsp;6&nbsp; &nbsp;9&nbsp; | 148 48&nbsp; 18 | 3&nbsp; &nbsp;5&nbsp; &nbsp;7&nbsp; |<br>| 3&nbsp; &nbsp;5&nbsp; &nbsp;7&nbsp; | 2&nbsp; &nbsp;9&nbsp; &nbsp;6&nbsp; | 8&nbsp; &nbsp;1&nbsp; &nbsp;4&nbsp; |<br>'------------'------------'------------'</code></dd></dl><br># Uniqueness test 3<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000501003209004800040000500010960000002000100000017080008000020003400706500709000<br>.---------------.---------------.---------------.<br>| 67&nbsp; &nbsp;8&nbsp; &nbsp; 67&nbsp; | 5&nbsp; &nbsp; 29&nbsp; &nbsp;1&nbsp; &nbsp;| 249&nbsp; 49&nbsp; &nbsp;3&nbsp; &nbsp;|<br>| 2&nbsp; &nbsp; 5&nbsp; &nbsp; 9&nbsp; &nbsp;| 3&nbsp; &nbsp; 7&nbsp; &nbsp; 4&nbsp; &nbsp;| 8&nbsp; &nbsp; 6&nbsp; &nbsp; 1&nbsp; &nbsp;|<br>| 3&nbsp; &nbsp; 4&nbsp; &nbsp; 1&nbsp; &nbsp;| 6&nbsp; &nbsp; 289&nbsp; 28&nbsp; | 5&nbsp; &nbsp; 79&nbsp; &nbsp;279 |<br>:---------------+---------------+---------------:<br>| 8&nbsp; &nbsp; 1&nbsp; &nbsp; 457 | 9&nbsp; &nbsp; 6&nbsp; &nbsp;*35&nbsp; | 24&nbsp; *3457 2457|<br>| 679&nbsp; 679&nbsp; 2&nbsp; &nbsp;| 8&nbsp; &nbsp; 4&nbsp; &nbsp;*35&nbsp; | 1&nbsp; &nbsp;*3579 579 |<br>| 49&nbsp; &nbsp;3&nbsp; &nbsp; 45&nbsp; | 2&nbsp; &nbsp; 1&nbsp; &nbsp; 7&nbsp; &nbsp;| 6&nbsp; &nbsp; 8&nbsp; &nbsp; 459 |<br>:---------------+---------------+---------------:<br>| 479&nbsp; 79&nbsp; &nbsp;8&nbsp; &nbsp;| 1&nbsp; &nbsp; 35&nbsp; &nbsp;6&nbsp; &nbsp;| 349&nbsp; 2&nbsp; &nbsp; 459 |<br>| 1&nbsp; &nbsp; 29&nbsp; &nbsp;3&nbsp; &nbsp;| 4&nbsp; &nbsp; 258&nbsp; 28&nbsp; | 7&nbsp; &nbsp;-59&nbsp; &nbsp;6&nbsp; &nbsp;|<br>| 5&nbsp; &nbsp; 26&nbsp; &nbsp;46&nbsp; | 7&nbsp; &nbsp; 23&nbsp; &nbsp;9&nbsp; &nbsp;| 34&nbsp; &nbsp;1&nbsp; &nbsp; 8&nbsp; &nbsp;|<br>'---------------'---------------'---------------'</code></dd></dl><br># Uniqueness test 4<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000410000020090105006700090802000000000803000000000309080004500507080060000072000<br>.------------.------------.------------.<br>|*79 *79&nbsp; 5&nbsp; | 4&nbsp; &nbsp;1&nbsp; &nbsp;8&nbsp; | 6&nbsp; &nbsp;3&nbsp; &nbsp;2&nbsp; |<br>| 4&nbsp; &nbsp;2&nbsp; &nbsp;8&nbsp; | 3&nbsp; &nbsp;9&nbsp; &nbsp;6&nbsp; | 1&nbsp; &nbsp;7&nbsp; &nbsp;5&nbsp; |<br>| 3&nbsp; &nbsp;1&nbsp; &nbsp;6&nbsp; | 7&nbsp; &nbsp;2&nbsp; &nbsp;5&nbsp; | 8&nbsp; &nbsp;9&nbsp; &nbsp;4&nbsp; |<br>:------------+------------+------------:<br>| 8&nbsp; &nbsp;3&nbsp; &nbsp;2&nbsp; | 19&nbsp; 46&nbsp; 179| 47&nbsp; 5&nbsp; &nbsp;16 |<br>|*679*579 14 | 8&nbsp; &nbsp;456 3&nbsp; | 47&nbsp; 2&nbsp; &nbsp;16 |<br>| 67&nbsp; 57&nbsp; 14 | 2&nbsp; &nbsp;456 17 | 3&nbsp; &nbsp;8&nbsp; &nbsp;9&nbsp; |<br>:------------+------------+------------:<br>| 2&nbsp; &nbsp;8&nbsp; &nbsp;9&nbsp; | 6&nbsp; &nbsp;3&nbsp; &nbsp;4&nbsp; | 5&nbsp; &nbsp;1&nbsp; &nbsp;7&nbsp; |<br>| 5&nbsp; &nbsp;4&nbsp; &nbsp;7&nbsp; | 19&nbsp; 8&nbsp; &nbsp;19 | 2&nbsp; &nbsp;6&nbsp; &nbsp;3&nbsp; |<br>| 1&nbsp; &nbsp;6&nbsp; &nbsp;3&nbsp; | 5&nbsp; &nbsp;7&nbsp; &nbsp;2&nbsp; | 9&nbsp; &nbsp;4&nbsp; &nbsp;8&nbsp; |<br>'------------'------------'------------'</code></dd></dl><br># BUG+1 (5 is the surplus candidate)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>609000000000006541700001000803009000040000020000300607000400002592600000000000903<br>.------------.------------.------------.<br>| 6&nbsp; &nbsp;1&nbsp; &nbsp;9&nbsp; | 25&nbsp; 4&nbsp; &nbsp;25 | 7&nbsp; &nbsp;3&nbsp; &nbsp;8&nbsp; |<br>| 2&nbsp; &nbsp;3&nbsp; &nbsp;8&nbsp; | 9&nbsp; &nbsp;7&nbsp; &nbsp;6&nbsp; | 5&nbsp; &nbsp;4&nbsp; &nbsp;1&nbsp; |<br>| 7&nbsp; &nbsp;5&nbsp; &nbsp;4&nbsp; | 8&nbsp; &nbsp;3&nbsp; &nbsp;1&nbsp; | 2&nbsp; &nbsp;9&nbsp; &nbsp;6&nbsp; |<br>:------------+------------+------------:<br>| 8&nbsp; &nbsp;67&nbsp; 3&nbsp; | 27&nbsp; 26&nbsp; 9&nbsp; | 4&nbsp; &nbsp;1&nbsp; &nbsp;5&nbsp; |<br>| 1&nbsp; &nbsp;4&nbsp; &nbsp;67 | 57&nbsp; 56&nbsp; 8&nbsp; | 3&nbsp; &nbsp;2&nbsp; &nbsp;9&nbsp; |<br>| 9&nbsp; &nbsp;2&nbsp; &nbsp;5&nbsp; | 3&nbsp; &nbsp;1&nbsp; &nbsp;4&nbsp; | 6&nbsp; &nbsp;8&nbsp; &nbsp;7&nbsp; |<br>:------------+------------+------------:<br>| 3&nbsp; &nbsp;67&nbsp; 1&nbsp; | 4&nbsp; &nbsp;9&nbsp; &nbsp;57 | 8&nbsp; &nbsp;56&nbsp; 2&nbsp; |<br>| 5&nbsp; &nbsp;9&nbsp; &nbsp;2&nbsp; | 6&nbsp; &nbsp;8&nbsp; &nbsp;3&nbsp; | 1&nbsp; &nbsp;7&nbsp; &nbsp;4&nbsp; |<br>| 4&nbsp; &nbsp;8&nbsp; &nbsp;67 | 1&nbsp; &nbsp;25 -257| 9&nbsp; &nbsp;56&nbsp; 3&nbsp; |<br>'------------'------------'------------'</code></dd></dl><br>#Reversed BUG digits 2 &amp; 9 in starting grid (example by RW)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000070502000001060040560310012000609000000103009000420081040730050700000006038000<br>.---------------------.---------------------.---------------------.<br>| 13689&nbsp; 369&nbsp; &nbsp; 38&nbsp; &nbsp; | 3489&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp; 349&nbsp; &nbsp;| 5&nbsp; &nbsp; &nbsp;-489&nbsp; &nbsp;*2&nbsp; &nbsp; &nbsp;|<br>| 235789 2379&nbsp; &nbsp;3578&nbsp; | 23489&nbsp; 289&nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;| 89&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp; 478&nbsp; &nbsp;|<br>| 2789&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp; 78&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 29&nbsp; &nbsp; | 3&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; 78&nbsp; &nbsp; |<br>:---------------------+---------------------+---------------------:<br>| 34578&nbsp; 1&nbsp; &nbsp; &nbsp;*2&nbsp; &nbsp; &nbsp;| 348&nbsp; &nbsp; 58&nbsp; &nbsp; &nbsp;3457&nbsp; | 6&nbsp; &nbsp; &nbsp; 578&nbsp; &nbsp;*9&nbsp; &nbsp; &nbsp;|<br>| 45678&nbsp; 67&nbsp; &nbsp; &nbsp;4578&nbsp; | 24689&nbsp; 2589&nbsp; &nbsp;245679| 1&nbsp; &nbsp; &nbsp; 578&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;|<br>| 35678&nbsp; 367&nbsp; &nbsp;*9&nbsp; &nbsp; &nbsp;| 1368&nbsp; &nbsp;158&nbsp; &nbsp; 3567&nbsp; | 4&nbsp; &nbsp; &nbsp;*2&nbsp; &nbsp; &nbsp; 578&nbsp; &nbsp;|<br>:---------------------+---------------------+---------------------:<br>| 29&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;| 269&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 2569&nbsp; | 7&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 56&nbsp; &nbsp; |<br>| 2349&nbsp; &nbsp;5&nbsp; &nbsp; &nbsp; 34&nbsp; &nbsp; | 7&nbsp; &nbsp; &nbsp; 129&nbsp; &nbsp; 269&nbsp; &nbsp;| 289&nbsp; &nbsp; 489&nbsp; &nbsp; 1468&nbsp; |<br>| 2479&nbsp; &nbsp;279&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;| 129&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;| 29&nbsp; &nbsp; &nbsp;459&nbsp; &nbsp; 145&nbsp; &nbsp;|<br>'---------------------'---------------------'---------------------'</code></dd></dl><br><br><span style="font-weight: bold">Forcing chains, Tabling, Bowman's Bingo</span><br><br># My solver does not make a distinction between 'clean' chains and messy ones, so I just post a few samples here, but feel free to correct me in this section.<br><br># Single short chain<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000052000100000702042080600000001000230070058000300000004060910906000003000830000<br># Chain starting position<br>.------------.------------.------------.<br>| 6&nbsp; &nbsp;9&nbsp; &nbsp;3&nbsp; | 7&nbsp; &nbsp;5&nbsp; &nbsp;2&nbsp; | 8&nbsp; &nbsp;4&nbsp; &nbsp;1&nbsp; |<br>| 1&nbsp; &nbsp;5&nbsp; &nbsp;8&nbsp; | 69&nbsp; 49&nbsp; 46 | 7&nbsp; &nbsp;3&nbsp; &nbsp;2&nbsp; |<br>| 7&nbsp; &nbsp;4&nbsp; &nbsp;2&nbsp; | 1&nbsp; &nbsp;8&nbsp; &nbsp;3&nbsp; | 6&nbsp; &nbsp;9&nbsp; &nbsp;5&nbsp; |<br>:------------+------------+------------:<br>| 8&nbsp; &nbsp;67&nbsp; 79 | 5&nbsp; &nbsp;249 1&nbsp; | 3&nbsp; &nbsp;267 469|<br>| 2&nbsp; &nbsp;3&nbsp; &nbsp;19 | 69&nbsp; 7&nbsp; &nbsp;46 | 14&nbsp; 5&nbsp; &nbsp;8&nbsp; |<br>| 4&nbsp; &nbsp;167 5&nbsp; | 3&nbsp; &nbsp;29&nbsp; 8&nbsp; | 12&nbsp; 267 69 |<br>:------------+------------+------------:<br>| 3&nbsp; &nbsp;8&nbsp; &nbsp;4&nbsp; | 2&nbsp; &nbsp;6&nbsp; &nbsp;5&nbsp; | 9&nbsp; &nbsp;1&nbsp; &nbsp;7&nbsp; |<br>| 9&nbsp; &nbsp;2&nbsp; &nbsp;6&nbsp; | 4&nbsp; &nbsp;1&nbsp; &nbsp;7&nbsp; | 5&nbsp; &nbsp;8&nbsp; &nbsp;3&nbsp; |<br>| 5&nbsp; &nbsp;17&nbsp; 17 | 8&nbsp; &nbsp;3&nbsp; &nbsp;9&nbsp; | 24&nbsp; 26&nbsp; 46 |<br>'------------'------------'------------'</code></dd></dl><br># Single long chain<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>005200000013000004940800070000100620000704000059002000020006045700000360000001700</code></dd></dl><br># 5 chains used<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000010006307800009000600070000305400040000090001908000050002000400009208200070000</code></dd></dl><br><br><span style="font-weight: bold">Extremely tough puzzles</span><br><br># Original toughest known<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000070940070090005300005070087400100463080000000007080800700000700000028050268000</code></dd></dl><br># Top1465 #2<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>708000300000201000500000000040000026300080000000100090090600004000070500000000000</code></dd></dl><br># Top1465 #77<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>700000400020070080003008009000500300060020090001007006000300900030040060009001005</code></dd></dl><br><br><span style="font-weight: bold"><span style="color: red">Invalid Puzzles</span></span> (your solver must start complaining here)<br><br># Empty grid<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000000000000000000000000000000000000000000000000000000000000000000000000000000000</code></dd></dl><br># Zen sudoku (solution can only be found by staring at the 1 in the center)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000000000000000000000000000000000000000010000000000000000000000000000000000000000</code></dd></dl><br># 3673 solutions<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000306500800500000010000040900080020000000000040060001050000010000009002006108000</code></dd></dl><br># 2 solutions<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000010000702409000040300060179000000035000100000000578020006040000704302000090000</code></dd></dl><br># No solution, cell with no candidates left<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>009028700806004005003000004600000000020713450000000002300000500900400807001250300</code></dd></dl><br># No solution, box with no candidates for a digit<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>090300001000080046000000800405060030003275600060010904001000000580020000200007060</code></dd></dl><br># No solution, duplicate digit in row<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>030067100690000000081382050000700008010000020900005000050193800000000034007650010</code></dd></dl><br><br>All samples are from my own collection, except for the toughest puzzles, which have been posted in the public domain already. Thanks to Gaby for a description of the 'zen' sudoku.<br><br>I hope this will help you test your solvers (programmers) and solving skills (players). This corner of the forum is not so busy, but if needed, we can make this a sticky.<br><br>Ruud.<br><br>PS. It took me almost 4 days to assemble this list, have mercy if you find any errors.<br>PPS. Candidate grids of the 'moment supreme' have been added, comment lines prefixed with #</div>
+
+			
+				<div class="notice">Last edited by <a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a> on Thu Apr 20, 2006 8:17 am, edited 2 times in total.
+					
+				</div>
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile25551">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 664</dd><dd><strong>Joined:</strong> 28 October 2005</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p25703" class="post bg1">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=25703" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p25703"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post25703.html#p25703"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1622.html">tarek</a></strong> » Thu Apr 13, 2006 9:25 pm </p>
+
+			
+
+			<div class="content">I've posted this in the effortless thread too...but it should work here as it has only one non single step (a 5 node ALS xy rule):<dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>&nbsp;. . 9 | . . . | 4 . .&nbsp; <br>&nbsp;. . . | . 7 . | . . .&nbsp; <br>&nbsp;7 . 4 | . . 2 | 6 . 1&nbsp; <br>-------+-------+------ <br>&nbsp;. . 5 | 7 . 1 | . . .&nbsp; <br>&nbsp;. 8 . | 4 6 . | . 2 .&nbsp; <br>&nbsp;. . . | 5 . 8 | 3 . .&nbsp; <br>-------+-------+------ <br>&nbsp;4 . 7 | 6 . . | 2 . 9&nbsp; <br>&nbsp;. . . | . 3 . | . . .&nbsp; <br>&nbsp;. . 6 | . . . | 1 . .&nbsp; <br><br>*-----------------------------------------------* <br>| 8&nbsp; &nbsp; 12&nbsp; &nbsp;9&nbsp; &nbsp;| 13&nbsp; &nbsp;5&nbsp; &nbsp; 6&nbsp; &nbsp;| 4&nbsp; &nbsp; 37&nbsp; &nbsp;237 | <br>|*12&nbsp; &nbsp;6&nbsp; &nbsp; 3&nbsp; &nbsp;| 19&nbsp; &nbsp;7&nbsp; &nbsp; 4&nbsp; &nbsp;| 8&nbsp; &nbsp; 59&nbsp; ^25&nbsp; | <br>| 7&nbsp; &nbsp; 5&nbsp; &nbsp; 4&nbsp; &nbsp;| 39&nbsp; &nbsp;8&nbsp; &nbsp; 2&nbsp; &nbsp;| 6&nbsp; &nbsp; 39&nbsp; &nbsp;1&nbsp; &nbsp;| <br>|---------------+---------------+---------------| <br>| 3&nbsp; &nbsp; 4&nbsp; &nbsp; 5&nbsp; &nbsp;| 7&nbsp; &nbsp; 2&nbsp; &nbsp; 1&nbsp; &nbsp;| 9&nbsp; &nbsp; 6&nbsp; &nbsp; 8&nbsp; &nbsp;| <br>| 9&nbsp; &nbsp; 8&nbsp; &nbsp; 1&nbsp; &nbsp;| 4&nbsp; &nbsp; 6&nbsp; &nbsp; 3&nbsp; &nbsp;|-57&nbsp; &nbsp;2&nbsp; &nbsp;^57&nbsp; | <br>| 6&nbsp; &nbsp; 7&nbsp; &nbsp; 2&nbsp; &nbsp;| 5&nbsp; &nbsp; 9&nbsp; &nbsp; 8&nbsp; &nbsp;| 3&nbsp; &nbsp; 1&nbsp; &nbsp; 4&nbsp; &nbsp;| <br>|---------------+---------------+---------------| <br>| 4&nbsp; &nbsp; 3&nbsp; &nbsp; 7&nbsp; &nbsp;| 6&nbsp; &nbsp; 1&nbsp; &nbsp; 5&nbsp; &nbsp;| 2&nbsp; &nbsp; 8&nbsp; &nbsp; 9&nbsp; &nbsp;| <br>|%15&nbsp; &nbsp;19&nbsp; &nbsp;8&nbsp; &nbsp;| 2&nbsp; &nbsp; 3&nbsp; &nbsp; 79&nbsp; |%57&nbsp; &nbsp;4&nbsp; &nbsp; 6&nbsp; &nbsp;| <br>| 25&nbsp; &nbsp;29&nbsp; &nbsp;6&nbsp; &nbsp;| 8&nbsp; &nbsp; 4&nbsp; &nbsp; 79&nbsp; | 1&nbsp; &nbsp; 357 -357 | <br>*-----------------------------------------------* <br>Eliminating 7 from r5c7(ALS-XY&nbsp; A=12 in r2c1&nbsp; &nbsp;B=257 in r5c9,r2c9&nbsp; &nbsp;C=157 in r8c7,r8c1&nbsp; &nbsp;x=2 y=1 z=7) <br>Eliminating 7 from r9c9(ALS-XY&nbsp; A=12 in r2c1&nbsp; &nbsp;B=257 in r5c9,r2c9&nbsp; &nbsp;C=157 in r8c7,r8c1&nbsp; &nbsp;x=2 y=1 z=7)</code></dd></dl><br><br>This one is even simpler, the only non single move is a 4 node ALS xy rule...(also not by me)...<dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>&nbsp;. 5 . | . . . | . . 6&nbsp; <br>&nbsp;. . 6 | 7 4 . | 3 1 .&nbsp; <br>&nbsp;2 . . | . 8 . | . 4 .&nbsp; <br>-------+-------+------ <br>&nbsp;. 1 . | 3 . . | . 2 4&nbsp; <br>&nbsp;. . . | 8 . . | . 7 .&nbsp; <br>&nbsp;. . . | . . 4 | 1 . .&nbsp; <br>-------+-------+------ <br>&nbsp;. . 2 | 6 . . | . . .&nbsp; <br>&nbsp;. 6 . | . . 9 | . 8 1&nbsp; <br>&nbsp;5 . . | . . 8 | . . .&nbsp; <br><br>*-----------------------------------------------------------------*<br>| 47&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; &nbsp; 47&nbsp; &nbsp; |^12&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; &nbsp; 12&nbsp; &nbsp; | 8&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;|<br>| 8&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;| 7&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;|<br>| 2&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;| 9&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;| 57&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp; 57&nbsp; &nbsp; |<br>|---------------------+---------------------+---------------------|<br>| 69&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp; 569&nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp;| 569&nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;|<br>| 3469&nbsp; %24&nbsp; &nbsp; &nbsp;345&nbsp; &nbsp;| 8&nbsp; &nbsp; &nbsp; 12569&nbsp; 12&nbsp; &nbsp; | 569&nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp; 35&nbsp; &nbsp; |<br>| 3679&nbsp; &nbsp;27&nbsp; &nbsp; &nbsp;357&nbsp; &nbsp;|-25&nbsp; &nbsp; &nbsp;2569&nbsp; &nbsp;4&nbsp; &nbsp; &nbsp;| 1&nbsp; &nbsp; &nbsp; 36&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;|<br>|---------------------+---------------------+---------------------|<br>| 1&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; 2&nbsp; &nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;| 4&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; 9&nbsp; &nbsp; &nbsp;|<br>| 347&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 347&nbsp; &nbsp;| 245&nbsp; &nbsp; 25&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;| 27&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;|<br>| 5&nbsp; &nbsp; &nbsp;*47&nbsp; &nbsp; &nbsp;9&nbsp; &nbsp; &nbsp;|^124&nbsp; &nbsp; 12&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp;| 267&nbsp; &nbsp; 36&nbsp; &nbsp; &nbsp;37&nbsp; &nbsp; |<br>*-----------------------------------------------------------------*<br>Eliminating 2 from r6c4(ALS-XY&nbsp; A=47 in r9c2&nbsp; &nbsp;B=124 in r1c4,r9c4&nbsp; &nbsp;C=27 in r6c2&nbsp; &nbsp;x=4 y=7 z=2)</code></dd></dl><br><br>tarek</div>
+
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile25703">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1622.html"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/1622.gif" width="75" height="75" alt="User avatar"></a><br>
+				<a href="http://forum.enjoysudoku.com/member1622.html">tarek</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 3748</dd><dd><strong>Joined:</strong> 05 January 2006</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p25735" class="post bg2">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=25735" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p25735">Re: Benchmark Sudoku List</a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post25735.html#p25735"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member859.html">Ocean</a></strong> » Fri Apr 14, 2006 4:02 pm </p>
+
+			
+
+			<div class="content">Good work on the benchmark list, Ruud!. Think it will be useful. My own logical solver is not too sophisticated - originally written as a tool for 'finding x-wings'. Later incremented for 'detecting xy-chains' (finds all potential xy-chains in the bivalue graph and sorts them by length). Since the XY-wing is an xy-chain of length 3, it also finds XY-wings:<br><br><blockquote><div><cite>Ruud wrote:</cite># 3 XY-Wings (probably only 2 required)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>004000080300000072000000305900010000100842000000009700200081056000200004609500000</code></dd></dl><br></div></blockquote><br><br>This puzzle can be solved with 2 XY-wings. (At stage 59 there is a choice between two XY-wings. If the one eliminating candidate '6' from r5c3 is applied, then there is a second (new) XY-wing a few steps later that finishes the 'hard' jobs).<br><br>Else my 'solver' performs 'as expected' on those puzzles from your benchmark list that I tested so far - it reports less (or different) details than you do, and some methods are not implemented (fishes, colouring), which means it either finds other methods or fails. (In general - with the implemented techniques - it finds a solution to 98.8% of 'random symmetrical puzzles', but only about 70% of 'minimal puzzles with low number of clues'.)</div>
+
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile25735">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member859.html">Ocean</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 442</dd><dd><strong>Joined:</strong> 29 August 2005</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p25880" class="post bg1">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=25880" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p25880"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post25880.html#p25880"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1542.html">Havard</a></strong> » Sun Apr 16, 2006 1:40 pm </p>
+
+			
+
+			<div class="content"><blockquote><div><cite>Ruud wrote:</cite># Template check, Nishio (3 candidates for digit 9 eliminated)<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000000040060300100400908500020030001007000600800070030008106005003009070050000000 <br>.------------------.------------------.------------------. <br>| 13579 8&nbsp; &nbsp; &nbsp;159&nbsp; | 25&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;257&nbsp; | 29&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;2379 | <br>| 579&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;59&nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp;245&nbsp; &nbsp;2457 | 1&nbsp; &nbsp; &nbsp;289&nbsp; &nbsp;2789 | <br>| 4&nbsp; &nbsp; &nbsp;37&nbsp; &nbsp; 2&nbsp; &nbsp; | 9&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;37&nbsp; &nbsp;| <br>:------------------+------------------+------------------: <br>| 569&nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;4569 | 4568&nbsp; 3&nbsp; &nbsp; &nbsp;45&nbsp; &nbsp;| 7&nbsp; &nbsp; &nbsp;589&nbsp; &nbsp;1&nbsp; &nbsp; | <br>| 135&nbsp; &nbsp;134&nbsp; &nbsp;7&nbsp; &nbsp; | 2458&nbsp; 9&nbsp; &nbsp; &nbsp;1245 | 6&nbsp; &nbsp; &nbsp;258&nbsp; &nbsp;248&nbsp; | <br>| 8&nbsp; &nbsp; &nbsp;149&nbsp; &nbsp;14569| 2456&nbsp; 7&nbsp; &nbsp; &nbsp;1245 | 249&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;249&nbsp; | <br>:------------------+------------------+------------------: <br>| 279&nbsp; &nbsp;479&nbsp; &nbsp;8&nbsp; &nbsp; | 1&nbsp; &nbsp; &nbsp;24&nbsp; &nbsp; 6&nbsp; &nbsp; | 3&nbsp; &nbsp; -29&nbsp; &nbsp; 5&nbsp; &nbsp; | <br>| 126&nbsp; &nbsp;14&nbsp; &nbsp; 3&nbsp; &nbsp; | 245&nbsp; &nbsp;2458&nbsp; 9&nbsp; &nbsp; | 248&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;246&nbsp; | <br>|-269&nbsp; &nbsp;5&nbsp; &nbsp; -469&nbsp; | 7&nbsp; &nbsp; &nbsp;248&nbsp; &nbsp;3&nbsp; &nbsp; | 2489&nbsp; 1&nbsp; &nbsp; &nbsp;2469 | <br>'------------------'------------------'------------------' <br></code></dd></dl></div></blockquote><br>the "big fish" thread has contributed to downsize the importance of nishio:<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>Combined frankenfish type 1 and type 2:<br>. . . | . . . | # . #<br>. . . | . . . | | . #<br>. . . | . . . | | . |<br>------+-------+-|---|<br>. . . | . . . | | . |<br>. . . | . . . | | . |<br>. X . | . . . | X . X<br>--|---+-------+-|---|<br>. H . | . . . | | * |<br>. . . | . . . | | . |<br>* . * | . . . | X . X<br></code></dd></dl></div>
+
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile25880">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1542.html">Havard</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 378</dd><dd><strong>Joined:</strong> 25 December 2005</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p25883" class="post bg2">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=25883" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p25883"># Template check, Nishio</a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post25883.html#p25883"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member2074.html">Steve R</a></strong> » Sun Apr 16, 2006 3:51 pm </p>
+
+			
+
+			<div class="content">Nishio? Fishio?<br><br>The empty rectangle constructed from box 6 and the conjugates with respect to 9 in column 2 also excludes 9 from r7c8. Perhaps the empty rectangle could be added to the list.<br><br>In fact, a much more elementary argument that I call a fork will make the same elimination here. There are only two places for 9 in the fourth row, r4c8 and b4 ex c2. There are also just two places for it in the second column, r7c2 and b4c2. So r7c8 cannot contain a 9.<br><br>Steve</div>
+
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile25883">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member2074.html">Steve R</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 74</dd><dd><strong>Joined:</strong> 03 April 2006</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p25890" class="post bg1">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=25890" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p25890"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post25890.html#p25890"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a></strong> » Sun Apr 16, 2006 6:14 pm </p>
+
+			
+
+			<div class="content">Thanks for the alternative solving methods.<br><br>Any pattern technique is favored by me to replace the Template check / Nishio, but I would really like to see the effective range of each method.<br><br>In this case, we have a combined Frankenfish competing with 2 techniques put forward by Steve. I see different applications of grouped coloring in both methods, Steve.<br><br>Is it possible to come up with an example where only one of the techniques works, with no alternatives but Nishio? Those are the ones I would like to add to the list. Otherwise, we must confirm that these alternative methods are equivalent.<br><br><blockquote><div><cite>Ocean wrote:</cite>This puzzle can be solved with 2 XY-wings.</div></blockquote><br>I will edit the list accordingly. Thanks.<br><br>Ruud.</div>
+
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile25890">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 664</dd><dd><strong>Joined:</strong> 28 October 2005</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p25892" class="post bg2">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=25892" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p25892"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post25892.html#p25892"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1273.html">ronk</a></strong> » Sun Apr 16, 2006 7:19 pm </p>
+
+			
+
+			<div class="content"><blockquote><div><cite>Ruud wrote:</cite><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code># Template check, Nishio (3 candidates for digit 9 eliminated) <br># Alternative 1: Combined Frankenfish type 1 &amp; 2. <br># Alternative 2: Empty Rectangle (ER) eliminates R7C8 digit 9. <br># Alternative 3: Grouped coloring (fork pattern) eliminates R7C8 digit 9. <br><br>.------------------.------------------.------------------. <br>| 13579 8&nbsp; &nbsp; &nbsp;159&nbsp; | 25&nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp;257&nbsp; | 29&nbsp; &nbsp; 4&nbsp; &nbsp; &nbsp;2379 | <br>| 579&nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;59&nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp;245&nbsp; &nbsp;2457 | 1&nbsp; &nbsp; &nbsp;289&nbsp; &nbsp;2789 | <br>| 4&nbsp; &nbsp; &nbsp;37&nbsp; &nbsp; 2&nbsp; &nbsp; | 9&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp;37&nbsp; &nbsp;| <br>:------------------+------------------+------------------: <br>| 569&nbsp; &nbsp;2&nbsp; &nbsp; &nbsp;4569 | 4568&nbsp; 3&nbsp; &nbsp; &nbsp;45&nbsp; &nbsp;| 7&nbsp; &nbsp; &nbsp;589&nbsp; &nbsp;1&nbsp; &nbsp; | <br>| 135&nbsp; &nbsp;134&nbsp; &nbsp;7&nbsp; &nbsp; | 2458&nbsp; 9&nbsp; &nbsp; &nbsp;1245 | 6&nbsp; &nbsp; &nbsp;258&nbsp; &nbsp;248&nbsp; | <br>| 8&nbsp; &nbsp; &nbsp;149&nbsp; &nbsp;14569| 2456&nbsp; 7&nbsp; &nbsp; &nbsp;1245 | 249&nbsp; &nbsp;3&nbsp; &nbsp; &nbsp;249&nbsp; | <br>:------------------+------------------+------------------: <br>| 279&nbsp; &nbsp;479&nbsp; &nbsp;8&nbsp; &nbsp; | 1&nbsp; &nbsp; &nbsp;24&nbsp; &nbsp; 6&nbsp; &nbsp; | 3&nbsp; &nbsp; -29&nbsp; &nbsp; 5&nbsp; &nbsp; | <br>| 126&nbsp; &nbsp;14&nbsp; &nbsp; 3&nbsp; &nbsp; | 245&nbsp; &nbsp;2458&nbsp; 9&nbsp; &nbsp; | 248&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp;246&nbsp; | <br>|-269&nbsp; &nbsp;5&nbsp; &nbsp; -469&nbsp; | 7&nbsp; &nbsp; &nbsp;248&nbsp; &nbsp;3&nbsp; &nbsp; | 2489&nbsp; 1&nbsp; &nbsp; &nbsp;2469 | <br>'------------------'------------------'------------------' </code></dd></dl></div></blockquote><br><span style="font-style: italic">[edit: Corrected logic error, which reduced exclusions from five to three. Bogus exclusions were r6c7 and r6c9.]</span><br><br>Three eliminations with grouped coloring ...<dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>&nbsp; 9 . 9 | . . . | 9 . 9<br>&nbsp; 9 . 9 | . . . | . 9 9<br>&nbsp; . . . | . . . | . . .<br>&nbsp; - - - + - - - + - - -<br>&nbsp; 9 . 9 | . . . | . b .<br>&nbsp; . . . | . . . | . . .<br>&nbsp; . A 9 | . . . | B . B<br>&nbsp; - - - + - - - + - - -<br>&nbsp; 9 a . | . . . | .-C .<br>&nbsp; . . . | . . . | . . .<br>&nbsp;-9 .-9 | . . . | c . c</code></dd></dl><br>... and two applications of the same coloring rule:<br>1. Since 'A' excludes 'B' and 'b' excludes 'C', any candidate that sees both 'a' and 'c' may be excluded (r9c1,r9c3).<br>2. Since 'A' excludes 'B', any candidate that sees both 'a' and 'b' may be excluded (r7c8).<br><br>Note: The grouped coloring uses the strong links of two empty rectangles (hinges).</div>
+
+			
+				<div class="notice">Last edited by <a href="http://forum.enjoysudoku.com/member1273.html">ronk</a> on Sun Apr 16, 2006 8:26 pm, edited 1 time in total.
+					
+				</div>
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile25892">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1273.html">ronk</a>
+			</dt>
+
+			<dd>2012 Supporter</dd>
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 4764</dd><dd><strong>Joined:</strong> 02 November 2005</dd><dd><strong>Location:</strong> Southeastern USA</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p25894" class="post bg1">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=25894" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p25894"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post25894.html#p25894"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a></strong> » Sun Apr 16, 2006 7:40 pm </p>
+
+			
+
+			<div class="content">[edit] obsolete now</div>
+
+			
+				<div class="notice">Last edited by <a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a> on Thu Apr 20, 2006 8:19 am, edited 1 time in total.
+					
+				</div>
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile25894">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 664</dd><dd><strong>Joined:</strong> 28 October 2005</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p25899" class="post bg2">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=25899" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p25899"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post25899.html#p25899"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1018.html">Myth Jellies</a></strong> » Sun Apr 16, 2006 9:58 pm </p>
+
+			
+
+			<div class="content">edit - no longer needed after ronk edited his post</div>
+
+			
+				<div class="notice">Last edited by <a href="http://forum.enjoysudoku.com/member1018.html">Myth Jellies</a> on Mon Apr 17, 2006 1:07 am, edited 1 time in total.
+					
+				</div>
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile25899">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1018.html">Myth Jellies</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 593</dd><dd><strong>Joined:</strong> 19 September 2005</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p25900" class="post bg1">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=25900" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p25900"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post25900.html#p25900"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1273.html">ronk</a></strong> » Sun Apr 16, 2006 10:12 pm </p>
+
+			
+
+			<div class="content"><blockquote><div><cite>Ruud wrote:</cite>So why is R6C7 eliminated by your grouped coloring? And what forms the strong pairing between b and B, with candidates in every column in box 3?</div></blockquote><br>Thanks, that "strong pairing" is definitely bogus. The ER in box 9 is a conjugate link of a 3rd color, which means the eliminations at r6c7 and r6c9 are invalid. I'll edit my post.</div>
+
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile25900">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1273.html">ronk</a>
+			</dt>
+
+			<dd>2012 Supporter</dd>
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 4764</dd><dd><strong>Joined:</strong> 02 November 2005</dd><dd><strong>Location:</strong> Southeastern USA</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p26050" class="post bg2">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=26050" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p26050"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post26050.html#p26050"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1982.html">RW</a></strong> » Tue Apr 18, 2006 8:10 pm </p>
+
+			
+
+			<div class="content">Here's a reverse-BUG example. It might not be the most common pattern, but it shouldn't be too hard to program either:<br><br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>000070500000001060040560310012000600000000103009000420081040730050700000006038000<br>&nbsp;*--------------------------------------------------------------------*<br>&nbsp;| 1&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 38&nbsp; &nbsp; &nbsp;| 3489&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp; 349&nbsp; &nbsp; | 5&nbsp; &nbsp; &nbsp;-489&nbsp; &nbsp;*2&nbsp; &nbsp; &nbsp; |<br>&nbsp;| 35&nbsp; &nbsp; &nbsp;29&nbsp; &nbsp; &nbsp;357&nbsp; &nbsp; | 34&nbsp; &nbsp; &nbsp;289&nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; | 89&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp; 47&nbsp; &nbsp; &nbsp;|<br>&nbsp;| 29&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp; 78&nbsp; &nbsp; &nbsp;| 5&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; 29&nbsp; &nbsp; &nbsp;| 3&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; 78&nbsp; &nbsp; &nbsp;|<br>&nbsp;|----------------------+----------------------+----------------------|<br>&nbsp;| 458&nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp;*2&nbsp; &nbsp; &nbsp; | 348&nbsp; &nbsp; 58&nbsp; &nbsp; &nbsp;34&nbsp; &nbsp; &nbsp;| 6&nbsp; &nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp;*9&nbsp; &nbsp; &nbsp; |<br>&nbsp;| 4568&nbsp; &nbsp;7&nbsp; &nbsp; &nbsp; 45&nbsp; &nbsp; &nbsp;| 24689&nbsp; 2589&nbsp; &nbsp;249&nbsp; &nbsp; | 1&nbsp; &nbsp; &nbsp; 58&nbsp; &nbsp; &nbsp;3&nbsp; &nbsp; &nbsp; |<br>&nbsp;| 568&nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp;*9&nbsp; &nbsp; &nbsp; | 68&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp; 7&nbsp; &nbsp; &nbsp; | 4&nbsp; &nbsp; &nbsp;*2&nbsp; &nbsp; &nbsp; 58&nbsp; &nbsp; &nbsp;|<br>&nbsp;|----------------------+----------------------+----------------------|<br>&nbsp;| 29&nbsp; &nbsp; &nbsp;8&nbsp; &nbsp; &nbsp; 1&nbsp; &nbsp; &nbsp; | 29&nbsp; &nbsp; &nbsp;4&nbsp; &nbsp; &nbsp; 5&nbsp; &nbsp; &nbsp; | 7&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 6&nbsp; &nbsp; &nbsp; |<br>&nbsp;| 34&nbsp; &nbsp; &nbsp;5&nbsp; &nbsp; &nbsp; 34&nbsp; &nbsp; &nbsp;| 7&nbsp; &nbsp; &nbsp; 29&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp; | 289&nbsp; &nbsp; 89&nbsp; &nbsp; &nbsp;1&nbsp; &nbsp; &nbsp; |<br>&nbsp;| 7&nbsp; &nbsp; &nbsp; 29&nbsp; &nbsp; &nbsp;6&nbsp; &nbsp; &nbsp; | 1&nbsp; &nbsp; &nbsp; 3&nbsp; &nbsp; &nbsp; 8&nbsp; &nbsp; &nbsp; | 29&nbsp; &nbsp; &nbsp;45&nbsp; &nbsp; &nbsp;45&nbsp; &nbsp; &nbsp;|<br>&nbsp;*--------------------------------------------------------------------*<br></code></dd></dl><br><br>RW</div>
+
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile26050">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1982.html">RW</a>
+			</dt>
+
+			<dd>2010 Supporter</dd>
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 1010</dd><dd><strong>Joined:</strong> 16 March 2006</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p26054" class="post bg1">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=26054" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p26054"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post26054.html#p26054"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a></strong> » Tue Apr 18, 2006 8:59 pm </p>
+
+			
+
+			<div class="content"><blockquote><div><cite>RW wrote:</cite>Here's a reverse-BUG example.</div></blockquote><br>Thanks. I've checked your example and it contains:<br>4(3) naked pairs,<br>1 naked triple,<br>2(1) hidden pairs,<br>1(0) remote pair,<br>2(0) swordfish,<br>1(0) XYZ-wing,<br>1(0) chain.<br><br>The numbers in parentheses are the result of using the reverse-BUG.<br><br>Even when it is rare, it cuts the number of required techniques in half.<img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_e_biggrin.gif" alt=":D" title="Smile"><br><br>For the benchmark list, I prefer isolated cases. If you can find a case with only singles and a reverse-BUG, I would appreciate it.<br><br>cheers,<br>Ruud.</div>
+
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile26054">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 664</dd><dd><strong>Joined:</strong> 28 October 2005</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p26063" class="post bg2">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=26063" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p26063"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post26063.html#p26063"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member859.html">Ocean</a></strong> » Wed Apr 19, 2006 7:34 am </p>
+
+			
+
+			<div class="content">In case you need an XY-chain example in your benchmark list, here is a candidate.<br>It should need only singles, plus an xy-chain (discontinuous nice loop) (@53):<br>409000701000903000100040008040307020006000800050104060600070003000806000204000906<br>-3-[r3c2]-6-[r3c7]-5-[r4c7]-1-[r4c3]-8-[r4c1]-9-[r6c1]-7-[r5c1]-3- =&gt;r5c2&lt;&gt;3<br>#<br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>Candidate list when 53 cells are filled. <br>Cells in the xy-chain labeled #, loop discontinuity labeled *.<br>{4}&nbsp; &nbsp; {2}&nbsp; &nbsp; {9}&nbsp; &nbsp; {6}&nbsp; &nbsp; {5}&nbsp; &nbsp; {8}&nbsp; &nbsp; {7}&nbsp; &nbsp; {3}&nbsp; &nbsp; {1}&nbsp; &nbsp; <br>{578}&nbsp; {678}&nbsp; {578}&nbsp; {9}&nbsp; &nbsp; {1}&nbsp; &nbsp; {3}&nbsp; &nbsp; {456}&nbsp; {45}&nbsp; &nbsp;{2}&nbsp; &nbsp; <br>{1}&nbsp; &nbsp; {36}#&nbsp; {35}&nbsp; &nbsp;{7}&nbsp; &nbsp; {4}&nbsp; &nbsp; {2}&nbsp; &nbsp; {56}#&nbsp; {9}&nbsp; &nbsp; {8}&nbsp; &nbsp; <br>{89}#&nbsp; {4}&nbsp; &nbsp; {18}#&nbsp; {3}&nbsp; &nbsp; {6}&nbsp; &nbsp; {7}&nbsp; &nbsp; {15}#&nbsp; {2}&nbsp; &nbsp; {59}&nbsp; &nbsp;<br>{37}# -{137}* {6}&nbsp; &nbsp; {2}&nbsp; &nbsp; {9}&nbsp; &nbsp; {5}&nbsp; &nbsp; {8}&nbsp; &nbsp; {147}&nbsp; {47}&nbsp; &nbsp;<br>{79}#&nbsp; {5}&nbsp; &nbsp; {2}&nbsp; &nbsp; {1}&nbsp; &nbsp; {8}&nbsp; &nbsp; {4}&nbsp; &nbsp; {3}&nbsp; &nbsp; {6}&nbsp; &nbsp; {79}&nbsp; &nbsp;<br>{6}&nbsp; &nbsp; {18}&nbsp; &nbsp;{158}&nbsp; {4}&nbsp; &nbsp; {7}&nbsp; &nbsp; {9}&nbsp; &nbsp; {2}&nbsp; &nbsp; {158}&nbsp; {3}&nbsp; &nbsp; <br>{357}&nbsp; {9}&nbsp; &nbsp; {1357} {8}&nbsp; &nbsp; {2}&nbsp; &nbsp; {6}&nbsp; &nbsp; {145}&nbsp; {1457} {457}&nbsp; <br>{2}&nbsp; &nbsp; {78}&nbsp; &nbsp;{4}&nbsp; &nbsp; {5}&nbsp; &nbsp; {3}&nbsp; &nbsp; {1}&nbsp; &nbsp; {9}&nbsp; &nbsp; {78}&nbsp; &nbsp;{6}&nbsp; &nbsp; </code></dd></dl></div>
+
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile26063">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member859.html">Ocean</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 442</dd><dd><strong>Joined:</strong> 29 August 2005</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p26115" class="post bg1">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=26115" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p26115"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post26115.html#p26115"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1542.html">Havard</a></strong> » Wed Apr 19, 2006 7:12 pm </p>
+
+			
+
+			<div class="content">Hi Ruud.<br><br>Your finned jellyfish has a smaller skyscraper / 2-strong links / fillet'o' / finned x-wing counterpart:<br><br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>9&nbsp; &nbsp; 68&nbsp; &nbsp;1&nbsp; &nbsp; | 46&nbsp; &nbsp;5&nbsp; &nbsp; 3&nbsp; &nbsp; | 2&nbsp; &nbsp; 7&nbsp; &nbsp; 48<br>5&nbsp; &nbsp; 28&nbsp; &nbsp;26&nbsp; &nbsp;| 467&nbsp; 147&nbsp; 1467 | 3&nbsp; &nbsp; 9&nbsp; &nbsp; 48<br>7&nbsp; &nbsp; 3&nbsp; &nbsp; 4&nbsp; &nbsp; | 2&nbsp; &nbsp; 8&nbsp; &nbsp; 9&nbsp; &nbsp; | 6&nbsp; &nbsp; 5&nbsp; &nbsp; 1<br>---------------+----------------+---------------<br>8&nbsp; &nbsp; 7&nbsp; &nbsp; 3&nbsp; &nbsp; | 5&nbsp; &nbsp; 6&nbsp; &nbsp; 2&nbsp; &nbsp; | 14&nbsp; &nbsp;14&nbsp; &nbsp;9<br>46X&nbsp; 1&nbsp; &nbsp; 5&nbsp; &nbsp; | 9&nbsp; &nbsp; 3&nbsp; &nbsp; 47X&nbsp; | 8&nbsp; &nbsp; 2&nbsp; &nbsp; 67<br>2&nbsp; &nbsp; 46-&nbsp; 9&nbsp; &nbsp; | 1&nbsp; &nbsp; 47&nbsp; &nbsp;8&nbsp; &nbsp; | 5&nbsp; &nbsp; 3&nbsp; &nbsp; 67<br>---------------+----------------+---------------<br>1&nbsp; &nbsp; 24X&nbsp; 26&nbsp; &nbsp;| 3&nbsp; &nbsp; 9&nbsp; &nbsp; 46X&nbsp; | 7&nbsp; &nbsp; 8&nbsp; &nbsp; 5<br>3&nbsp; &nbsp; 9&nbsp; &nbsp; 7&nbsp; &nbsp; | 8&nbsp; &nbsp; 14&nbsp; &nbsp;5&nbsp; &nbsp; | 14&nbsp; &nbsp;6&nbsp; &nbsp; 2<br>46-&nbsp; 5&nbsp; &nbsp; 8&nbsp; &nbsp; | 467&nbsp; 2&nbsp; &nbsp; 1467 | 9&nbsp; &nbsp; 14&nbsp; &nbsp;3<br><br>.&nbsp; .&nbsp; .&nbsp; | 4&nbsp; .&nbsp; .&nbsp; | .&nbsp; .&nbsp; 4<br>.&nbsp; .&nbsp; .&nbsp; | 4&nbsp; 4&nbsp; 4&nbsp; | .&nbsp; .&nbsp; 4<br>.&nbsp; .&nbsp; 4&nbsp; | .&nbsp; .&nbsp; .&nbsp; | .&nbsp; .&nbsp; .<br>---------+----------+---------<br>.&nbsp; .&nbsp; .&nbsp; | .&nbsp; .&nbsp; .&nbsp; | 4&nbsp; 4&nbsp; .<br>4X .&nbsp; .&nbsp; | .&nbsp; .&nbsp; 4X | .&nbsp; .&nbsp; .<br>.&nbsp; 4- .&nbsp; | .&nbsp; 4&nbsp; .&nbsp; | .&nbsp; .&nbsp; .<br>---------+----------+---------<br>.&nbsp; 4X .&nbsp; | .&nbsp; .&nbsp; 4X | .&nbsp; .&nbsp; .<br>.&nbsp; .&nbsp; .&nbsp; | .&nbsp; 4&nbsp; .&nbsp; | 4&nbsp; .&nbsp; .<br>4- .&nbsp; .&nbsp; | 4&nbsp; .&nbsp; 4&nbsp; | .&nbsp; 4&nbsp; .</code></dd></dl><br><br>This post-initiative is great! Hope someone can find a worthy jellyfish substitute...<br><br>One question though... Where does really Unique Rectangles fit into the solving hierarchy? Most manual solver I know say that they are among the first thing they look for, but it seems like a lot of computer-solvers puts them towards the end of their list. If you promote the UR's up front with the locked sets a list like this becomes quite different.... Any thoughts?<br><br>Havard</div>
+
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile26115">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1542.html">Havard</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 378</dd><dd><strong>Joined:</strong> 25 December 2005</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<div id="p26116" class="post bg2">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<div class="postbody">
+			
+				<ul class="profile-icons">
+					<li class="quote-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=quote&amp;f=6&amp;p=26116" title="Reply with quote"><span>Reply with quote</span></a></li>
+				</ul>
+			
+
+			<h3><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#p26116"></a></h3>
+			<p class="author"><a href="http://forum.enjoysudoku.com/post26116.html#p26116"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/icon_post_target.gif" width="11" height="9" alt="Post" title="Post"></a>by <strong><a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a></strong> » Wed Apr 19, 2006 7:48 pm </p>
+
+			
+
+			<div class="content"><blockquote><div><cite>Havard wrote:</cite>Your finned jellyfish has a smaller skyscraper / 2-strong links / fillet'o' / finned x-wing counterpart</div></blockquote><br>Thanks. I will update the entry.<br><br>I may have a replacement here:<br><br><dl class="codebox"><dt>Code: <a href="http://forum.enjoysudoku.com/#" onclick="selectCode(this); return false;">Select all</a></dt><dd><code>027000000010908006000000400200400095003020600570003004005000000400602030000000860<br>#Jellyfish with 2 tentacles<br>.---------------.---------------.---------------.<br>| 689&nbsp; 2&nbsp; &nbsp; 7&nbsp; &nbsp;|*13&nbsp; &nbsp;1346 146 |-19&nbsp; &nbsp;5&nbsp; &nbsp;*1389|<br>| 3&nbsp; &nbsp; 1&nbsp; &nbsp; 4&nbsp; &nbsp;| 9&nbsp; &nbsp; 5&nbsp; &nbsp; 8&nbsp; &nbsp;| 7&nbsp; &nbsp; 2&nbsp; &nbsp; 6&nbsp; &nbsp;|<br>| 689&nbsp; 5&nbsp; &nbsp; 689 | 2&nbsp; &nbsp; 1367 167 | 4&nbsp; &nbsp;#18&nbsp; #1389|<br>:---------------+---------------+---------------:<br>| 2&nbsp; &nbsp; 68&nbsp; &nbsp;168 | 4&nbsp; &nbsp; 1678 167 | 3&nbsp; &nbsp; 9&nbsp; &nbsp; 5&nbsp; &nbsp;|<br>|*189&nbsp; 4&nbsp; &nbsp; 3&nbsp; &nbsp;|*158&nbsp; 2&nbsp; &nbsp; 159 | 6&nbsp; &nbsp; 7&nbsp; &nbsp; 18&nbsp; |<br>| 5&nbsp; &nbsp; 7&nbsp; &nbsp; 69&nbsp; |*18&nbsp; &nbsp;69&nbsp; &nbsp;3&nbsp; &nbsp;| 2&nbsp; &nbsp;*18&nbsp; &nbsp;4&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 678&nbsp; 368&nbsp; 5&nbsp; &nbsp;| 378&nbsp; 38&nbsp; &nbsp;19&nbsp; | 19&nbsp; &nbsp;4&nbsp; &nbsp; 2&nbsp; &nbsp;|<br>| 4&nbsp; &nbsp; 89&nbsp; &nbsp;18&nbsp; | 6&nbsp; &nbsp; 189&nbsp; 2&nbsp; &nbsp;| 5&nbsp; &nbsp; 3&nbsp; &nbsp; 7&nbsp; &nbsp;|<br>|*17&nbsp; &nbsp;39&nbsp; &nbsp;2&nbsp; &nbsp;|*1357 1349 1459| 8&nbsp; &nbsp; 6&nbsp; &nbsp;*19&nbsp; |<br>'---------------'---------------'---------------'<br>#alternative view: Sashimi Jellyfish digit 1<br>.---------------.---------------.---------------.<br>| 689&nbsp; 2&nbsp; &nbsp; 7&nbsp; &nbsp;| 13&nbsp; &nbsp;1346 146 |-19&nbsp; &nbsp;5&nbsp; &nbsp; 1389|<br>| 3&nbsp; &nbsp; 1&nbsp; &nbsp; 4&nbsp; &nbsp;| 9&nbsp; &nbsp; 5&nbsp; &nbsp; 8&nbsp; &nbsp;| 7&nbsp; &nbsp; 2&nbsp; &nbsp; 6&nbsp; &nbsp;|<br>| 689&nbsp; 5&nbsp; &nbsp; 689 | 2&nbsp; &nbsp;*1367*167 | 4&nbsp; &nbsp;#18&nbsp; #1389|<br>:---------------+---------------+---------------:<br>| 2&nbsp; &nbsp; 68&nbsp; *168 | 4&nbsp; &nbsp;*1678*167 | 3&nbsp; &nbsp; 9&nbsp; &nbsp; 5&nbsp; &nbsp;|<br>| 189&nbsp; 4&nbsp; &nbsp; 3&nbsp; &nbsp;| 158&nbsp; 2&nbsp; &nbsp; 159 | 6&nbsp; &nbsp; 7&nbsp; &nbsp; 18&nbsp; |<br>| 5&nbsp; &nbsp; 7&nbsp; &nbsp; 69&nbsp; | 18&nbsp; &nbsp;69&nbsp; &nbsp;3&nbsp; &nbsp;| 2&nbsp; &nbsp; 18&nbsp; &nbsp;4&nbsp; &nbsp;|<br>:---------------+---------------+---------------:<br>| 678&nbsp; 368&nbsp; 5&nbsp; &nbsp;| 378&nbsp; 38&nbsp; *19&nbsp; |*19&nbsp; &nbsp;4&nbsp; &nbsp; 2&nbsp; &nbsp;|<br>| 4&nbsp; &nbsp; 89&nbsp; *18&nbsp; | 6&nbsp; &nbsp;*189&nbsp; 2&nbsp; &nbsp;| 5&nbsp; &nbsp; 3&nbsp; &nbsp; 7&nbsp; &nbsp;|<br>| 17&nbsp; &nbsp;39&nbsp; &nbsp;2&nbsp; &nbsp;| 1357 1349 1459| 8&nbsp; &nbsp; 6&nbsp; &nbsp; 19&nbsp; |<br>'---------------'---------------'---------------'<br></code></dd></dl><br><br>Please can you verify it before I put another misser in the list?<br><br><blockquote class="uncited"><div>Where does really Unique Rectangles fit into the solving hierarchy?</div></blockquote><br>In this list it does not really matter. So far, I've been able to find examples for uniqueness-based methods with most other techniques enabled in my solver. I try to select examples that have as few as possible other techniques (preferable singles only).<br><br>Ruud.</div>
+
+			
+
+		</div>
+
+		
+			<dl class="postprofile" id="profile26116">
+			<dt>
+				<a href="http://forum.enjoysudoku.com/member1246.html">Ruud</a>
+			</dt>
+
+			
+
+		<dd>&nbsp;</dd>
+
+		<dd><strong>Posts:</strong> 664</dd><dd><strong>Joined:</strong> 28 October 2005</dd>
+
+		</dl>
+	
+
+		<div class="back2top"><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html#wrap" class="top" title="Top">Top</a></div>
+
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<hr class="divider">
+
+	<form id="viewtopic" method="post" action="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834.html">
+
+	<fieldset class="display-options" style="margin-top: 0; ">
+		<a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834-15.html" class="right-box right">Next</a>
+		<label>Display posts from previous: <select name="st" id="st"><option value="0" selected="selected">All posts</option><option value="1">1 day</option><option value="7">7 days</option><option value="14">2 weeks</option><option value="30">1 month</option><option value="90">3 months</option><option value="180">6 months</option><option value="365">1 year</option></select></label>
+		<label>Sort by <select name="sk" id="sk"><option value="a">Author</option><option value="t" selected="selected">Post time</option><option value="s">Subject</option></select></label> <label><select name="sd" id="sd"><option value="a" selected="selected">Ascending</option><option value="d">Descending</option></select> <input type="submit" name="sort" value="Go" class="button2"></label>
+		
+	</fieldset>
+
+	</form>
+	<hr>
+
+
+<div class="topic-actions">
+	<div class="buttons">
+	
+		<div class="reply-icon"><a href="http://forum.enjoysudoku.com/posting.php?mode=reply&amp;f=6&amp;t=3834" title="Post a reply"><span></span>Post a reply</a></div>
+	
+	</div>
+
+	
+		<div class="pagination">
+			34 posts
+			 • <a href="http://forum.enjoysudoku.com/#" onclick="jumpto(); return false;" title="Click to jump to page…">Page <strong>1</strong> of <strong>3</strong></a> • <span><strong>1</strong><span class="page-sep">, </span><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834-15.html">2</a><span class="page-sep">, </span><a href="http://forum.enjoysudoku.com/benchmark-sudoku-list-t3834-30.html">3</a></span>
+		</div>
+	
+</div>
+
+
+	<p></p><p><a href="http://forum.enjoysudoku.com/advanced-solving-techniques-f6.html" class="left-box left" accesskey="r">Return to Advanced solving techniques</a></p>
+
+	<form method="post" id="jumpbox" action="http://forum.enjoysudoku.com/viewforum.php" onsubmit="if(this.f.value == -1){return false;}">
+
+	
+		<fieldset class="jumpbox">
+	
+			<label for="f" accesskey="j">Jump to:</label>
+			<select name="f" id="f" onchange="if(this.options[this.selectedIndex].value != -1){ document.forms[&#39;jumpbox&#39;].submit() }">
+			
+				<option value="-1">Select a forum</option>
+			<option value="-1">------------------</option>
+				<option value="9">News and announcements</option>
+			
+				<option value="10">&nbsp; &nbsp;About the New Sudoku Players' Forum</option>
+			
+				<option value="5">Sudoku: the puzzle</option>
+			
+				<option value="7">&nbsp; &nbsp;General</option>
+			
+				<option value="33">&nbsp; &nbsp;Puzzles</option>
+			
+				<option value="4">&nbsp; &nbsp;Help with puzzles and solving techniques</option>
+			
+				<option value="6" selected="selected">&nbsp; &nbsp;Advanced solving techniques</option>
+			
+				<option value="8">&nbsp; &nbsp;Interactive games</option>
+			
+				<option value="18">&nbsp; &nbsp;Software</option>
+			
+				<option value="16">Resources</option>
+			
+				<option value="32">&nbsp; &nbsp;Published puzzles</option>
+			
+				<option value="31">&nbsp; &nbsp;Books</option>
+			
+				<option value="17">&nbsp; &nbsp;On the web</option>
+			
+				<option value="11">Related puzzles</option>
+			
+				<option value="12">&nbsp; &nbsp;Sudoku variants</option>
+			
+				<option value="13">&nbsp; &nbsp;Kakuro</option>
+			
+				<option value="14">&nbsp; &nbsp;Other logic puzzles</option>
+			
+				<option value="15">&nbsp; &nbsp;Inventors' studio</option>
+			
+				<option value="19">Off-topic</option>
+			
+				<option value="20">&nbsp; &nbsp;Coffee bar</option>
+			
+				<option value="29">&nbsp; &nbsp;Forum questions and feedback</option>
+			
+			</select>
+			<input type="submit" value="Go" class="button2">
+		</fieldset>
+	</form>
+
+</div>
+
+<div id="page-footer">
+
+	<div class="navbar">
+		<div class="inner"><span class="corners-top"><span></span></span>
+
+		<ul class="linklist">
+			<li class="icon-home"><a href="http://forum.enjoysudoku.com/" accesskey="h">Board index</a></li>
+				
+			<li class="rightside"><a href="http://forum.enjoysudoku.com/the-team.html">The team</a> • <a href="http://forum.enjoysudoku.com/ucp.php?mode=delete_cookies">Delete all board cookies</a> • All times are UTC </li>
+		</ul>
+		
+		<span class="corners-bottom"><span></span></span></div>
+	</div>
+
+	<div class="copyright">Powered by <a href="https://www.phpbb.com/">phpBB</a>® Forum Software © phpBB Group
+		<br><br><a href="http://www.phpbb-seo.com/" title="Search Engine Optimization"><img src="./Benchmark Sudoku List _ Advanced solving techniques_files/phpbb-seo.png" alt="phpBB SEO"></a>
+	</div>
+</div>
+
+</div>
+
+<div>
+	<a id="bottom" name="bottom" accesskey="z"></a>
+	
+</div>
+
+
+</body></html>
