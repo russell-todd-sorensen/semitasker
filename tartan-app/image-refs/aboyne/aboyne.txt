@@ -1,0 +1,9 @@
+You requested threadcount details from The Scottish Register of Tartans website for the Aboyne tartan. The details are given below.
+
+Threadcount:
+DR8MY12DR22MY64K16E22DW2K16MY8DR56MY2K2MY24
+
+Pallet:
+K=101010BLACK;DR=880000DARK RED;E=4C3428DRAB;MY=D09800M YELLOW;DW=B8B8B8OFF WHITE;
+
+Threadcount given over a half sett with full count at the pivots.

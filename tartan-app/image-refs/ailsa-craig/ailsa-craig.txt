@@ -1,0 +1,9 @@
+You requested threadcount details from The Scottish Register of Tartans website for the Ailsa Craig tartan. The details are given below.
+
+Threadcount:
+R10WW4N40DY4K32WW36K4WW10
+
+Pallet:
+K=101010BLACK;DY=E8C000YELLOW;DN=5C5C5CDARK GREY;W=E0E0E0WHITE;XR=C80000BASIC RED;N=888888GRAY;R=C80000RED;WW=F8F8F8WILSON WHITE;
+
+Threadcount given over a half sett with full count at the pivots.

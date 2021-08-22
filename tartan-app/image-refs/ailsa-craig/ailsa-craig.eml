@@ -1,0 +1,86 @@
+Delivered-To: russell.todd.sorensen@gmail.com
+Received: by 2002:a1f:b6d2:0:0:0:0:0 with SMTP id g201csp2205937vkf;
+        Sun, 18 Nov 2018 19:51:35 -0800 (PST)
+X-Google-Smtp-Source: AJdET5e8+ZMGA36//VESfQO6Vif0/yOZ2STyykEGSZu+UD7XxlCeZO1qtj0SiS7dot4DisYoL7/I
+X-Received: by 2002:a1c:1d85:: with SMTP id d127mr5546916wmd.103.1542599495682;
+        Sun, 18 Nov 2018 19:51:35 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1542599495; cv=none;
+        d=google.com; s=arc-20160816;
+        b=UqOdm3VYkobVW5Wun/VEnpTzzCpyKwfiqnxuPi1d1H5bEv4X7ZyA5uOfpA7iJUUWs6
+         gVHkK/2b2HQy0WTBSm79pnidbfj+++ZNX1wOiFJ3BX3hs2MLtOkwMC8mOToKv1G08FUj
+         74JUJBWMLPRvK3734QlLK2tvlpnXSFA3G9BeBe8JWfBwjAuis9hIKko4CtO7e7x8tDiX
+         g51KIMHHgvh+Qc9ekTxXV/hghuwgGC8bkhQ+VaXwCSbeLFYK4oTx/2Y2B76b3uuKDUP5
+         C/dFGYOCDNARxU7820uflyshbwgVeHZfawfQQwROeWw0ygwvfmkyh/TQa78UIasAnFWi
+         t5bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:subject:date:to:from:mime-version
+         :message-id;
+        bh=SJh3l0zFkfuN5FEvH4DyMRC0VKhf5WZPa3e44sSmAds=;
+        b=zWOiwEg5+NrXoLcZ8gL3ydRuWrQVKp+LF898Zqo7e9kmqBAfczVSiLaJCoHCCeBqqS
+         FOzB31Mfls7LAd3SzGNO0Y3DMOt56oIdSzVaJPXR/eBZr/nkHWUKiHIwq2WKBOsYX/IY
+         C9O62jIzWLApQg3l0sAV0ZjW4Kh706tb9PLQ96jluyk3XV1V/l8xpRYqd4HSCgAec0E/
+         wOQSkiYALDbnVA7MrbPFIzDZGBJBjXdna3MKNm2JDq5+EGc8fL4VsKbjRGjd5wotwwGh
+         lDfxGw9sORhKpsIYwunyMcrLkxb340p2fjOZl3IYe7nTw+enMH8r3UPNJ+Ui+Wf1h70F
+         Bd4g==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of enquiries@tartanregister.gov.uk designates 185.94.185.18 as permitted sender) smtp.mailfrom=enquiries@tartanregister.gov.uk
+Return-Path: <enquiries@tartanregister.gov.uk>
+Received: from inst-00149899.servers.dedipower.net (mail1.tartanregister.gov.uk. [185.94.185.18])
+        by mx.google.com with ESMTPS id l17si11677646wrp.108.2018.11.18.19.51.35
+        for <russell.todd.sorensen@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sun, 18 Nov 2018 19:51:35 -0800 (PST)
+Received-SPF: pass (google.com: domain of enquiries@tartanregister.gov.uk designates 185.94.185.18 as permitted sender) client-ip=185.94.185.18;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: domain of enquiries@tartanregister.gov.uk designates 185.94.185.18 as permitted sender) smtp.mailfrom=enquiries@tartanregister.gov.uk
+Message-Id: <5bf23347.1c69fb81.cf2f.7d23SMTPIN_ADDED_MISSING@mx.google.com>
+Received: from [172.22.10.11] (port=60085 helo=tartanregister.gov.uk)
+	by inst-00149899.servers.dedipower.net with esmtp (Exim 4.91)
+	(envelope-from <enquiries@tartanregister.gov.uk>)
+	id 1gOab0-00032n-Uc
+	for russell.todd.sorensen@gmail.com; Mon, 19 Nov 2018 03:51:34 +0000
+MIME-Version: 1.0
+From: enquiries@tartanregister.gov.uk
+To: russell.todd.sorensen@gmail.com
+Date: 19 Nov 2018 03:51:26 +0000
+Subject: Threadcount Details from The Scottish Register of Tartans (Ailsa
+ Craig)
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - inst-00149899.servers.dedipower.net
+X-AntiAbuse: Original Domain - gmail.com
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - tartanregister.gov.uk
+X-Get-Message-Sender-Via: inst-00149899.servers.dedipower.net: mailgid no entry from get_recent_authed_mail_ips_entry
+X-Authenticated-Sender: inst-00149899.servers.dedipower.net: 
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+
+<style type=3Dtext/css>.coreText {font-family: Arial, Helvetica, =
+sans-serif;color: #333333;font-size: 12px;}.coreTextSmall {font-f=
+amily: Arial, Helvetica, sans-serif;color: #333333;font-size: 10p=
+x;}.coreTextBold {font-family: Arial, Helvetica, sans-serif;color=
+: #333333;font-size: 14px;font-weight: bold;}</style><span class=3D=
+coreText>You requested threadcount details from The Scottish Regi=
+ster of Tartans website for the Ailsa Craig tartan. The details a=
+re given below.<br/><br/>Threadcount:<br/>R10WW4N40DY4K32WW36K4WW=
+10<br/><br/>Pallet:<br/>K=3D101010BLACK;DY=3DE8C000YELLOW;DN=3D5C=
+5C5CDARK GREY;W=3DE0E0E0WHITE;XR=3DC80000BASIC RED;N=3D888888GRAY=
+;R=3DC80000RED;WW=3DF8F8F8WILSON WHITE;<br/><br/>Threadcount give=
+n over a half sett with full count at the pivots.<br/><br/>You ma=
+y wish to refer to the <A href=3D"http://www.tartanregister.gov.u=
+k/threadcount.aspx">threadcount guidance section</a> for further =
+information on threadcounts.<br/><br/>Please note, where the Keep=
+er has been informed of registered design rights, this informatio=
+n is included in the Register entry. Prospective users should be =
+aware that registered design rights may still apply even though t=
+hey are not noted in the Register entry and they should therefore=
+ ascertain for themselves whether the design is registered anywhe=
+re in the world. If a design is unregistered, design rights may s=
+till apply to it.<br /><br />The Scottish Register of Tartans<br/=
+>The National Records of Scotland, H.M. General Register House, 2=
+ Princes Street, Edinburgh, EH1 3YY<br />tel +44 (0) 131 535 1395=
+<br />email: enquiries@tartanregister.gov.uk.</span>
+

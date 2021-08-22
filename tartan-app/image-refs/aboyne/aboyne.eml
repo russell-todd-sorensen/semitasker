@@ -1,0 +1,85 @@
+Delivered-To: russell.todd.sorensen@gmail.com
+Received: by 2002:adf:cd05:0:0:0:0:0 with SMTP id w5csp931268wrm;
+        Wed, 1 Jul 2020 15:16:59 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJzvmPcck3uGXjTYDWAvtr5yN2AQvts9LyR0UVj7LqBn8bvKnb2UmIOs1ETLbo7mB03iz0Zb
+X-Received: by 2002:adf:e3c5:: with SMTP id k5mr28758775wrm.121.1593641819300;
+        Wed, 01 Jul 2020 15:16:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1593641819; cv=none;
+        d=google.com; s=arc-20160816;
+        b=w9JmqVFj3IL63RlouxVrgZtOdlPVBidQkrElD2Eo+gWIuT5u78sUYZVSiIZxL22cjd
+         dwbes7IQBKKq6wmv5WnYyHQ3PsT5MjHMISZ/5yU38aUX+GIy2Bi50NkR+5wXdmmREPHm
+         AEsUxlHZqSwkurXOeyo7U11o4i/kOWqEQOuAwEs2GhXSkeG+w4FYbJe1CG4A93Igdq0C
+         2g+sO+vdfXZeG1SUjg7VdRrQ3b+ckxo8p1JbqSnDhHrSK90+ftaVObFLlW+LCQlk3qrN
+         SpEItSLBrUwfUVPa3zCCxXIojN+j9N4EBc29E2XYCcnTyObsuVI+Ipc5epxpcZVW5clz
+         JtMw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20160816;
+        h=content-transfer-encoding:subject:date:to:from:mime-version
+         :message-id;
+        bh=uyZTDA8RtrKjfz6lWgmUjIDWFLjt1Ifzdbk7WT3i5rc=;
+        b=CPbQSqQmCBl6kKuZoBHGUlp6UixkUliSCmfiooTsLvlcEY1p1yXpKjgVUv0XDB/xsl
+         eLgo5Wc27HELVYuKzLx79ax9C3LoKR+zkcDj9fXfpzAhy7YQ6YUQ3AnmMQlRiLdkLUs4
+         88O0gAP6l9aPz4YHIHqH611WdwQg2QhfomI3EbTZUugxQqhcOI7gS83C8Y94L2lNi8HE
+         ZXpsL18HjOiH8QjMn2gHr6sN6CGqzfOiOkcJnECAgwwS3xD8HXBeTpxqw+c4hmBclcpw
+         64Mb4vR63HdJqSLFeZcCLpI/hFkzeIlx6Ri21NZ9EQCtU0t9craIxLPHLWoZ692F3Sbv
+         hzAg==
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of enquiries@tartanregister.gov.uk designates 185.94.185.18 as permitted sender) smtp.mailfrom=enquiries@tartanregister.gov.uk
+Return-Path: <enquiries@tartanregister.gov.uk>
+Received: from inst-00149899.servers.dedipower.net (mail1.tartanregister.gov.uk. [185.94.185.18])
+        by mx.google.com with ESMTPS id u187si6888874wmb.91.2020.07.01.15.16.59
+        for <russell.todd.sorensen@gmail.com>
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Wed, 01 Jul 2020 15:16:59 -0700 (PDT)
+Received-SPF: pass (google.com: domain of enquiries@tartanregister.gov.uk designates 185.94.185.18 as permitted sender) client-ip=185.94.185.18;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: domain of enquiries@tartanregister.gov.uk designates 185.94.185.18 as permitted sender) smtp.mailfrom=enquiries@tartanregister.gov.uk
+Message-ID: <5efd0b5b.1c69fb81.fcc64.feeaSMTPIN_ADDED_MISSING@mx.google.com>
+Received: from [172.22.10.11] (port=63921 helo=tartanregister.gov.uk)
+	by inst-00149899.servers.dedipower.net with esmtp (Exim 4.93)
+	(envelope-from <enquiries@tartanregister.gov.uk>)
+	id 1jql2I-0001zA-IC
+	for russell.todd.sorensen@gmail.com; Wed, 01 Jul 2020 23:16:58 +0100
+MIME-Version: 1.0
+From: enquiries@tartanregister.gov.uk
+To: russell.todd.sorensen@gmail.com
+Date: 1 Jul 2020 23:16:57 +0100
+Subject: Threadcount Details from The Scottish Register of Tartans (Aboyne)
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - inst-00149899.servers.dedipower.net
+X-AntiAbuse: Original Domain - gmail.com
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - tartanregister.gov.uk
+X-Get-Message-Sender-Via: inst-00149899.servers.dedipower.net: mailgid no entry from get_recent_authed_mail_ips_entry
+X-Authenticated-Sender: inst-00149899.servers.dedipower.net: 
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+
+<style type=3Dtext/css>.coreText {font-family: Arial, Helvetica, =
+sans-serif;color: #333333;font-size: 12px;}.coreTextSmall {font-f=
+amily: Arial, Helvetica, sans-serif;color: #333333;font-size: 10p=
+x;}.coreTextBold {font-family: Arial, Helvetica, sans-serif;color=
+: #333333;font-size: 14px;font-weight: bold;}</style><span class=3D=
+coreText>You requested threadcount details from The Scottish Regi=
+ster of Tartans website for the Aboyne tartan. The details are gi=
+ven below.<br/><br/>Threadcount:<br/>DR8MY12DR22MY64K16E22DW2K16M=
+Y8DR56MY2K2MY24<br/><br/>Pallet:<br/>K=3D101010BLACK;DR=3D880000D=
+ARK RED;E=3D4C3428DRAB;MY=3DD09800M YELLOW;DW=3DB8B8B8OFF WHITE;<=
+br/><br/>Threadcount given over a half sett with full count at th=
+e pivots.<br/><br/>You may wish to refer to the <A href=3D"http:/=
+/www.tartanregister.gov.uk/threadcount.aspx">threadcount guidance=
+ section</a> for further information on threadcounts.<br/><br/>Pl=
+ease note, where the Keeper has been informed of registered desig=
+n rights, this information is included in the Register entry. Pro=
+spective users should be aware that registered design rights may =
+still apply even though they are not noted in the Register entry =
+and they should therefore ascertain for themselves whether the de=
+sign is registered anywhere in the world. If a design is unregist=
+ered, design rights may still apply to it.<br /><br />The Scottis=
+h Register of Tartans<br/>The National Records of Scotland, H.M. =
+General Register House, 2 Princes Street, Edinburgh, EH1 3YY<br /=
+>tel +44 (0) 131 535 1395<br />email: enquiries@tartanregister.go=
+v.uk.</span>
+
