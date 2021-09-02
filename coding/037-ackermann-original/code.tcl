@@ -54,9 +54,10 @@ proc α {m p} {
 proc φ {m n p} {
     global COUNTER
     incr COUNTER
+    set COUNTER_COPY $COUNTER
     global c 
-    rec log "B=[format %0.7d $COUNTER] φ($m,$n,$p)"
-    if {$COUNTER > $c} {
+    rec log "B=[format %0.7d $COUNTER_COPY] φ($m,$n,$p)"
+    if {$COUNTER_COPY > $c} {
         rec log "max iterations $c reached m=$m, n=$n, p=$p, ans='not determined'"
         return 0
     }
@@ -67,7 +68,7 @@ proc φ {m n p} {
     } else {
         set ans [φ $m [φ $m [expr {$n-1}] $p] [expr {$p-1}]]
     }
-    rec log "E=[format %0.7d $COUNTER] φ($m,$n,$p)=$ans"
+    rec log "E=[format %0.7d $COUNTER_COPY] φ($m,$n,$p)=$ans"
 
     return $ans
 }

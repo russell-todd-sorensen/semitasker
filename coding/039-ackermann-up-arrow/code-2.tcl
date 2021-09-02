@@ -22,6 +22,12 @@ set solution {
 
     Beyond this, if you start at fn(5,x) or fn(6,x) eventually recurse to fn(4,65533), Which requires a stack at 
     least 66k.
+
+    New in code-2.tcl:
+
+    Works up to φ(5,1) == φ(6,0) == (2↑↑65548)-3 == 2^2^2^2...^2 -3
+                                           ^-65548x-^
+    Works with arbitrary "stack" size (separate interp has increased recursion limit)
 }
 
 
@@ -113,7 +119,7 @@ interp eval $myInterp {
                 rec log "fromSimpleToInt '$base $exp $m' val='$val'"
                 return $val
             } else {
-                rec log "Probably about to crash...$base $exp $m"
+                #rec log "Probably about to crash...$base $exp $m"
                 return $nList
             }
         }
@@ -173,7 +179,7 @@ interp eval $myInterp {
                     set n2   [list $base ${n+3} -3]
                     set simp [simplify $n2]
                     set cache(3,$n) $simp ;# was $n2
-                    rec log [join [list " base='$base'" "exp='$exp'" "int='$int'" "exp2='$exp2'" "n+3='[set "n+3"]'" "n2='$n2'" "simp='$simp'"] "\n "]
+                    #rec log [join [list " base='$base'" "exp='$exp'" "int='$int'" "exp2='$exp2'" "n+3='[set "n+3"]'" "n2='$n2'" "simp='$simp'"] "\n "]
                 } elseif {$n > 1020} {
                     # the next calculation will go bust, can I return it symbolically?
                     set cache(3,$n) [list 2$sym(ua) [expr {$n+3}] -3]
@@ -188,7 +194,7 @@ interp eval $myInterp {
                 set mt [expr {$m-1}]
                 if {[info exists cache($mt,1)]} {
                     incr hits($mt,1)
-                    rec log "cacheHits hits($mt,1) = $hits($mt,1)"
+                    # rec log "cacheHits hits($mt,1) = $hits($mt,1)"
                     return $cache($m1,1)
                 }
                 set cache($m,$n) [$sym(phi) $mt 1]
@@ -202,7 +208,7 @@ interp eval $myInterp {
                 if {![string is integer -strict $n]} {
                     set n [fromSimpleToInt $n]
                 }
-                rec log ">>n = '$n'"
+                # rec log ">>n = '$n'"
                 set nt [expr {$n-1}]
                 if {[info exists cache($m,$nt)]}  {
                     set vt $cache($m,$nt)
@@ -216,7 +222,7 @@ interp eval $myInterp {
                     incr hits($mt,$vt)
                     append cacheHits "+"
                 } else {
-                    rec log "caching mt='$mt' ([string is integer -strict $mt]), vt='$vt' ([string is integer -strict $vt])"
+                    # rec log "caching mt='$mt' ([string is integer -strict $mt]), vt='$vt' ([string is integer -strict $vt])"
                     if {![string is integer -strict $vt]} {
                         set orgVt $vt
                         #set vt [fromSimpleToInt $vt]
@@ -230,7 +236,7 @@ interp eval $myInterp {
                 }
             }
 
-            rec log "E=[format %0.7d $COUNTER] $sym(phi)($m,$n)=$cache($m,$n)$cacheHits"
+            rec log "E=[format %0.7d $COUNTER] $sym(phi)($m,$n)=[join $cache($m,$n) ""] hits=[string length $cacheHits]"
             return $cache($m,$n)
         }
 
@@ -324,11 +330,11 @@ ns_return 200 text/html "<!DOCTYPE html>
   <input name='n' id='n' value='$n'>
  </li>
  <li>
-  <label for='c'>ITERATIONS (small int)</label>
+  <label for='c'>Max Iterations (small int)</label>
   <input name='c' id='c' value='$c'>
  </li>
  <li>
-  <label for='r'>Max Recusions</label>
+  <label for='r'>Max Recusive Depth</label>
   <input name='r' id='r' value='$r'>
  </li>
  <li>
@@ -336,13 +342,13 @@ ns_return 200 text/html "<!DOCTYPE html>
  </li>
  </ul>
 </form>
-<a href='source.tcl'>Source Code</a><br>
+<a href='source.tcl?2'>Source Code</a><br>
 <a href='explained.txt'>Solution Explained</a>
 <pre>
 m = '$m'
 n = '$n'
-maxRecursions = '[interp eval $myInterp set ::ak::maxRecursions]'
-COUNTER = '[interp eval $myInterp set ::ak::COUNTER]'
+max Recursions = '[interp recursionlimit $myInterp]'
+Total Iterations = '[interp eval $myInterp set ::ak::COUNTER]'
 ::ak::$sym(phi)($m,$n) = $result
 logs = 
 [interp eval $myInterp ::ak::printLog log "\n"]

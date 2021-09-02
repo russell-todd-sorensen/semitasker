@@ -113,7 +113,8 @@ proc ::ackermann::fn {m n} {
         } else {
             rec log "Symb lt(3,1019) caching --> ack(3,$n)"
             #set cache(3,$n) [expr {int(pow(2,$n+$m))-3}]
-            set cache(3,$n) [list 2 ^^ [expr $n+2] -3]
+            #set cache(3,$n) [list 2 ^^ [expr $n+2] -3]  ;# (wrong!)
+            set cache(3,$n) [list 2^ [expr $n+3] -3]
         }
         incr hits(3,$n)
         append cacheHits "+"

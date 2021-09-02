@@ -1,8 +1,24 @@
 set problem {
     # ** Define Ackerman's Function minimizing recursive procedure
-    # ** Use Memoizing to avoid recalculating already known results
-    # ** use interp with higher stack depth (up to 66k).
-    # ** use interp results to develop coroutine to generate stack results
+
+    # ==> Update: Goal is to produce values of ackermann function if
+    #     the answer can be written in a few hundred bytes without 
+    #     using the ackermann function in the answer. 
+    #     Why: Answers which can't so be written can't be computed by
+    #     recursion within the age of our solar system. ;)
+
+    # **  Use Memoizing to avoid recalculating already known results
+
+    # ==> Update: Memoizing just takes up space and doesn't ever get used, try
+    #     to remove it in this version.
+
+    # **  use interp with higher stack depth (up to 66k).
+
+    #     Update: Number of recursive calls (not necessarily stack depth works great)!!
+    #     No need to enforce low limit. Recursive calls are about 2*Decremented number
+    # 
+    # **  use interp results to develop coroutine to generate stack results
+    #     Update: ??
 }
 
 set solution {
@@ -22,6 +38,12 @@ set solution {
 
     Beyond this, if you start at fn(5,x) or fn(6,x) eventually recurse to fn(4,65533), Which requires a stack at 
     least 66k.
+
+    New in code-2.tcl:
+
+    Works up to φ(5,1) == φ(6,0) == (2↑↑65548)-3 == 2^2^2^2...^2 -3
+                                           ^-65548x-^
+    Works with arbitrary "stack" size (separate interp has increased recursion limit)
 }
 
 
@@ -76,9 +98,20 @@ interp eval $myInterp {
             lappend $logName $what
         }
 
-        proc printLog {logName {joinBy \n} {reset 0}} {
+        proc printLog {logName {joinBy \n} {reset 0} args} {
             variable $logName
-            set result [join [set $logName] $joinBy]
+            if {[llength $args] == 0} {
+                set args [list {0 end}]
+            }
+            set result ".......LOGS........\n"
+
+            foreach range $args {
+                set start [lindex $range 0]
+                set end [lindex $range 1]
+                append result ".....From Lines $start to $end.....$joinBy"
+                append result [join [lrange [set $logName] $start $end] $joinBy] $joinBy
+            }
+
             if {$reset} {
                 set $logName [list]
             }
@@ -113,7 +146,7 @@ interp eval $myInterp {
                 rec log "fromSimpleToInt '$base $exp $m' val='$val'"
                 return $val
             } else {
-                rec log "Probably about to crash...$base $exp $m"
+                #rec log "Probably about to crash...$base $exp $m"
                 return $nList
             }
         }
@@ -141,6 +174,8 @@ interp eval $myInterp {
                 rec log "+cacheHits $m,$n = $hits($m,$n)"
                 
                 return $cache($m,$n)
+            } else {
+                set hits($m,$n) 0
             }
 
             rec log "B=[format %0.7d $COUNTER] $sym(phi)($m,$n)"
@@ -149,88 +184,82 @@ interp eval $myInterp {
                 rec log "maxRecursions $maxRecursions reached m=$m, n=$n ans='not determined'"
                 return 0
             }
-            if {$m == 0} {
-                set cache($m,$n) [expr {$n + 1}]
-                incr hits($m,$n)
-                append cacheHits "+"
-
-            } elseif {$m == 1} {
-                set cache(1,$n) [expr {$n + 2}]
-                incr hits(1,$n)
-                append cacheHits "+"
-
-            } elseif {$m == 2} {
-                set cache(2,$n) [expr {2*($m+$n) - 1}]
-                incr hits(2,$n)
-                append cacheHits "+"
-            } elseif {$m == 3} {
-                if {![string is integer -strict $n]} {
-                    set base [lindex $n 0]
-                    set exp  [lindex $n 1]
-                    set int  [lindex $n 2]
-                    set exp2 [expr {$int + 3}] 
-                    set n+3  [list 2$sym(ua) $exp $exp2]
-                    set n2   [list $base ${n+3} -3]
-                    set simp [simplify $n2]
-                    set cache(3,$n) $simp ;# was $n2
-                    rec log [join [list " base='$base'" "exp='$exp'" "int='$int'" "exp2='$exp2'" "n+3='[set "n+3"]'" "n2='$n2'" "simp='$simp'"] "\n "]
-                } elseif {$n > 1020} {
-                    # the next calculation will go bust, can I return it symbolically?
-                    set cache(3,$n) [list 2$sym(ua) [expr {$n+3}] -3]
-                } else {
-                    #set cache(3,$n) [expr {int(pow(2,$n+$m))-3}]
-                    set cache(3,$n) [list 2$sym(ua) [expr {$n+3}] -3]
+            switch -exact -nocase -- $m {
+                0 {
+                    set cache(0,$n) [expr {$n + 1}]
                 }
-                incr hits(3,$n)
-                append cacheHits "+"
-
-            } elseif {$n == 0} {
-                set mt [expr {$m-1}]
-                if {[info exists cache($mt,1)]} {
-                    incr hits($mt,1)
-                    rec log "cacheHits hits($mt,1) = $hits($mt,1)"
-                    return $cache($m1,1)
+                1 {
+                    set cache(1,$n) [expr {$n + 2}]
                 }
-                set cache($m,$n) [$sym(phi) $mt 1]
-                incr hits($m,$n)
-                append cacheHits "+"
-            } else {
-                if {![string is integer -strict $m]} {
-                    set m [fromSimpleToInt $m]
+                2 {
+                    set cache(2,$n) [expr {2*($m+$n) - 1}]
                 }
-                set mt [expr {$m-1}]
-                if {![string is integer -strict $n]} {
-                    set n [fromSimpleToInt $n]
-                }
-                rec log ">>n = '$n'"
-                set nt [expr {$n-1}]
-                if {[info exists cache($m,$nt)]}  {
-                    set vt $cache($m,$nt)
-                    incr hits($m,$nt)
-                    append cacheHits "+"
-                } else {
-                    set vt [$sym(phi) $m $nt]
-                }
-                if {[info exists cache($mt,$vt)]} {
-                    set cache($m,$n) $cache($mt,$vt)
-                    incr hits($mt,$vt)
-                    append cacheHits "+"
-                } else {
-                    rec log "caching mt='$mt' ([string is integer -strict $mt]), vt='$vt' ([string is integer -strict $vt])"
-                    if {![string is integer -strict $vt]} {
-                        set orgVt $vt
-                        #set vt [fromSimpleToInt $vt]
-                        set vt [fromSimpleToInt $vt]
-                        if {$vt > 10000} {
-                            set vt $orgVt
+                3 {
+                    if {![string is integer -strict $n]} {
+                        set base [lindex $n 0]
+                        set exp  [lindex $n 1]
+                        set int  [lindex $n 2]
+                        set exp2 [expr {$int + 3}] 
+                        set n+3  [list 2$sym(ua) $exp $exp2]
+                        set n2   [list $base ${n+3} -3]
+                        set simp [simplify $n2]
+                        set cache(3,$n) $simp ;# was $n2
+                        #rec log [join [list " base='$base'" "exp='$exp'" "int='$int'" "exp2='$exp2'" "n+3='[set "n+3"]'" "n2='$n2'" "simp='$simp'"] "\n "]
+                    } elseif {$n > 1020} {
+                        # the next calculation will go bust, can I return it symbolically?
+                        set cache(3,$n) [list 2$sym(ua) [expr {$n+3}] -3]
+                    } else {
+                        #set cache(3,$n) [expr {int(pow(2,$n+$m))-3}]
+                        set cache(3,$n) [list 2$sym(ua) [expr {$n+3}] -3]
+                    }
+                } 
+                default {
+                    if {$n == 0} {
+                        set mt [expr {$m-1}]
+                    
+                        if {[info exists cache($mt,1)]} {
+                            incr hits($mt,1)
+                            rec log "cacheHits ==> hits($mt,1) = $hits($mt,1)"
+                            return $cache($mt,1)
+                        }
+                        set cache($m,$n) [$sym(phi) $mt 1]
+                        set hits($m,$n) 0
+                    } else {
+                        if {![string is integer -strict $m]} {
+                            set m [fromSimpleToInt $m]
+                        }
+                        set mt [expr {$m-1}]
+                        if {![string is integer -strict $n]} {
+                            set n [fromSimpleToInt $n]
+                        }
+                        # rec log ">>n = '$n'"
+                        set nt [expr {$n-1}]
+                        if {[info exists cache($m,$nt)]}  {
+                            set vt $cache($m,$nt)
+                            incr hits($m,$nt)
+                        } else {
+                            set vt [$sym(phi) $m $nt]
+                        }
+                        if {[info exists cache($mt,$vt)]} {
+                            set cache($m,$n) $cache($mt,$vt)
+                            incr hits($mt,$vt)
+                        } else {
+                            # rec log "caching mt='$mt' ([string is integer -strict $mt]), vt='$vt' ([string is integer -strict $vt])"
+                            if {![string is integer -strict $vt]} {
+                                set orgVt $vt
+                                #set vt [fromSimpleToInt $vt]
+                                set vt [fromSimpleToInt $vt]
+                                if {$vt > 10000} {
+                                    set vt $orgVt
+                                }
+                            }
+                            set cache($m,$n) [$sym(phi) $mt $vt]
+                            set hits($m,$n) 0
                         }
                     }
-                    set cache($m,$n) [$sym(phi) $mt $vt]
-                    incr hits($m,$n)
                 }
             }
-
-            rec log "E=[format %0.7d $COUNTER] $sym(phi)($m,$n)=$cache($m,$n)$cacheHits"
+            rec log "E=[format %0.7d $COUNTER] $sym(phi)($m,$n)=[join $cache($m,$n) ""] hits=$hits($m,$n)"
             return $cache($m,$n)
         }
 
@@ -281,7 +310,7 @@ try {
 }
 
 set hits ""
-set sortedHits  [list] ;#[lsort -stride 2 [interp eval $myInterp array get ::ak::hits]]
+set sortedHits [list] ;# [lsort -stride 2 [interp eval $myInterp array get ::ak::hits]] ;#
 
 foreach {def count} $sortedHits {
     append hits "$def = $count value=[interp eval $myInterp [list set "::ak::cache($def)"]]\n"
@@ -298,7 +327,7 @@ proc createLink {m n c {r c}} {
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>
-<title>Ackermann's Function</title>
+<title>Ack Knuth-up-arrow V4</title>
 <style>
 #c,
 #n,
@@ -324,11 +353,11 @@ ns_return 200 text/html "<!DOCTYPE html>
   <input name='n' id='n' value='$n'>
  </li>
  <li>
-  <label for='c'>ITERATIONS (small int)</label>
+  <label for='c'>Max Iterations (small int)</label>
   <input name='c' id='c' value='$c'>
  </li>
  <li>
-  <label for='r'>Max Recusions</label>
+  <label for='r'>Max Recusive Depth</label>
   <input name='r' id='r' value='$r'>
  </li>
  <li>
@@ -336,16 +365,16 @@ ns_return 200 text/html "<!DOCTYPE html>
  </li>
  </ul>
 </form>
-<a href='source.tcl'>Source Code</a><br>
+<a href='source.tcl?3'>Source Code</a><br>
 <a href='explained.txt'>Solution Explained</a>
 <pre>
 m = '$m'
 n = '$n'
-maxRecursions = '[interp eval $myInterp set ::ak::maxRecursions]'
-COUNTER = '[interp eval $myInterp set ::ak::COUNTER]'
+max Recursive Depth = '[interp recursionlimit $myInterp]'
+Total Iterations = '[interp eval $myInterp set ::ak::COUNTER]'
 ::ak::$sym(phi)($m,$n) = $result
 logs = 
-[interp eval $myInterp ::ak::printLog log "\n"]
+[interp eval $myInterp {::ak::printLog log \n 0 {0 100} {end-100 end}} ] 
 cache size = $len
 ----- CACHE -------
 $hits
