@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Compare Ackermann Algorithms</title>
+<style>
+#c,
+#r,
+#n,
+#m,
+#m2 {
+    width: 75px;
+}
+#form1 li {
+    height: 1.5em;
+}
+iframe {
+    width: 500px;
+    min-height: 500px;
+}
+</style>
+</head>
+<body>
+<!--  method='POST' encoding='multi-part/formdata' -->
+<form id='form1' autocomplete='off' spellcheck='false'>
+<ul>
+ <li>
+  <label for='m'>M (small int)</label>
+  <input name='m' id='m'  value='$m'>
+ </li>
+ <li>
+  <label for='n'>N (small int)</label>
+  <input name='n' id='n' value='$n'>
+ </li>
+ <li>
+  <label for='c'>Max Iterations (small int)</label>
+  <input name='c' id='c' value='$c'>
+ </li>
+ <li>
+  <label for='r'>Max Recusive Depth</label>
+  <input name='r' id='r' value='$r'>
+ </li>
+ <li>
+  <input type='submit' value='Try it'/>
+ </li>
+ </ul>
+</form>
+<pre>
+m = '$m',
+n = '$n',
+max Iterations = '$c',
+max Recursive Depth = '$r'
+</pre>
+[set id 1]
+[foreach url $urls]
+   [set full_url "$url?m=$m&n=$n&c=$c&r=$r" /]
+<iframe id="if-$id" title="$full_url" src="$full_url"></iframe>
+[incr id /]
+[/foreach]
+</body>
+</html>
