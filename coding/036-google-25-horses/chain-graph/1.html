@@ -19,19 +19,36 @@
 
 <script>
 
-var horseRace;
 
 window.addEventListener('DOMContentLoaded', () => {
   
-  horseRace = new HorseRaceAnimate(null,9,3,3);
-  horseRace.meeting.populateHeats();   
-  horseRace.drawHeats();
+  //horseRace = new HorseRaceAnimate(null,9,3,3);
+  //horseRace.meeting.populateHeats();   
+  //horseRace.drawHeats();
 });
-   
+ 
+var simulateInit = function (numHorses,maxHeat,topPlaces) {
+    let horseRace = new HorseRaceAnimate(null,numHorses,maxHeat,topPlaces);
+        horseRace.meeting.populateHeats();   
+        horseRace.drawHeats();
+
+    return horseRace;
+}
 
 var simulateChaining = function(hr,placed,absPos,hide) {
     hr.meeting.raceUnracedHeats();
     hr.applyHeatResults(placed?placed:false,absPos?absPos:false,hide?hide:false);
+}
+
+var simulateWinnersHeat = function(hr,htClass,pClass,absPos,hide) {
+    htClass = htClass?true:false;
+    pClass  = pClass?true:false;
+    absPos  = absPos?true:false;
+    hide    = hide?true:false;
+    let heatIndex = hr.meeting.results.length;
+    hr.meeting.populateRunoffHeat("heats","horses",0);
+    hr.meeting.raceUnracedHeats();
+    hr.applyWinnersHeatResults(heatIndex,htClass,pClass,absPos,hide);
 }
 
 </script>
