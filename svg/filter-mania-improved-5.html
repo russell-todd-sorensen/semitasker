@@ -388,7 +388,19 @@ $(document).ready(function () {
   <feColorMatrix type="luminanceToAlpha" result="luminance" />
   <feBlend in2="luminance" in="SourceGraphic" mode="darken" />
 </filter>
-  
+
+<filter id="photo-negative-lighten-3">
+  <feColorMatrix type="saturate" values="0.0"></feColorMatrix>
+  <feComponentTransfer result="photo-negative">
+    <feFuncR type="linear" slope=".50" intercept="0.5"></feFuncR>
+    <feFuncG type="linear" slope=".10" intercept="0.5"></feFuncG>
+    <feFuncB type="linear" slope=".50" intercept="0.5"></feFuncB>
+  </feComponentTransfer>
+  <!--<feBlend in2="photo-negative" in="SourceGraphic" mode="lighten" />-->
+  <feColorMatrix type="luminanceToAlpha" result="luminance"></feColorMatrix>
+  <feBlend in2="luminance" in="SourceGraphic" mode="darken"></feBlend>
+</filter>
+
 <filter id="photo-negative-darken-00">
   <feColorMatrix type="saturate" values="0.0" />
   <feComponentTransfer result="photo-negative">
@@ -434,7 +446,67 @@ $(document).ready(function () {
   <feColorMatrix type="luminanceToAlpha" result="luminance" />
   <feBlend in2="luminance" in="SourceGraphic" mode="darken" />
 </filter>
- 
+
+<filter id="photo-negative-darken-0-anim-2">
+  <feColorMatrix type="saturate" values="0.0" />
+  <feComponentTransfer result="photo-negative">
+    <feFuncR type="linear" slope="-0.5" intercept="1" >
+      <animate attributeName="intercept" values="1;.5;.5;0;0;-.5;-.5;1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+      <animate attributeName="slope" values="-1;-1;-.5;-.5;0;0;-1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+
+    </feFuncR>
+    <feFuncG type="linear" slope="-0.5" intercept="1" >
+      <animate attributeName="intercept" values="1;.5;.5;0;0;-.5;-.5;1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+      <animate attributeName="slope" values="-1;-.5;0;-1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+
+    </feFuncG>
+    <feFuncB type="linear" slope="-0.5" intercept="1" >
+      <animate attributeName="intercept" values="1;.5;.5;0;0;-.5;-.5;1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+
+      <animate attributeName="slope" values="-1;-.5;0;-1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+    </feFuncB>
+  </feComponentTransfer>
+  <!--<feBlend in2="photo-negative" in="SourceGraphic" mode="lighten" />-->
+  <feColorMatrix type="luminanceToAlpha" result="luminance" />
+  <feBlend in2="luminance" in="SourceGraphic" mode="darken" />
+</filter>
+
+<filter id="photo-negative-darken-0-anim-3">
+  <feColorMatrix type="saturate" values="0.0" />
+  <feComponentTransfer result="photo-negative">
+    <feFuncR type="linear" slope="-0.5" intercept="1" >
+      <animate attributeName="intercept" values="1;.5;.5;0;0;0;-.5;-.5;1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+      <animate attributeName="slope" values="-1;-1;-.5;-.5;0;0;-1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+
+    </feFuncR>
+    <feFuncG type="linear" slope="-0.5" intercept="1" >
+      <animate attributeName="intercept" values="1;.5;.5;0;0;0;-.5;-.5;1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+      <animate attributeName="slope" values="-1;-.5;0;-1;-.5;-.5;-.5;0;0;0;-1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+
+    </feFuncG>
+    <feFuncB type="linear" slope="-0.5" intercept="1" >
+      <animate attributeName="intercept" values="1;.5;.5;0;0;0;-.5;-.5;1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+
+      <animate attributeName="slope" values="-1;-1;-.5;-.5;-.5;0;0;0;-1"
+      dur="30s" begin="0s" repeatCount="indefinite" />
+    </feFuncB>
+  </feComponentTransfer>
+  <!--<feBlend in2="photo-negative" in="SourceGraphic" mode="lighten" />-->
+  <feColorMatrix type="luminanceToAlpha" result="luminance" />
+  <feBlend in2="luminance" in="SourceGraphic" mode="darken" />
+</filter>
+
 <filter id="photo-negative-darken-1">
   <feColorMatrix type="saturate" values="0.0" />
   <feComponentTransfer result="photo-negative">
