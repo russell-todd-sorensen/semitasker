@@ -1,0 +1,223 @@
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+
+
+.V-part-0,
+.H-part-0 {
+    stroke-width: .5;
+    stroke: rgba(0,204,104,.7);
+    stroke: rgba(0,204,104,0);
+    stroke-linejoin: round;
+    stroke-linecap:round;
+}
+
+.V-part-1,
+.H-part-1 {
+    stroke-width: .5;
+    stroke: rgba(0,0,0,.2);
+    stroke-linejoin: round;
+    stroke-linecap:round;
+}
+.V-part-2,
+.H-part-2 {
+    stroke-width: 1;
+    stroke: rgba(204,104,0,1);
+    stroke-linejoin: round;
+    stroke-linecap:round;
+}
+
+.V-part-3,
+.H-part-3 {
+    stroke-width:6;
+    stroke: rgb(0,0,0);
+    stroke-linecap:round;
+    stroke-linejoin:round;
+}
+
+.V-part-4,
+.H-part-4 {
+    stroke-width:2;
+    stroke: rgba(255,0,0,0.5);
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray: 7 3;
+}
+
+.V-part-5,
+.H-part-5 {
+    stroke-width:2;
+    stroke: rgba(0,0,0,0.2);
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray: 5 90 5;
+}
+
+.V-part-0 line,
+.H-part-0 line,
+.V-part-1 line,
+.H-part-1 line,
+.V-part-2 line,
+.H-part-2 line,
+.V-part-3 line,
+.H-part-3 line,
+.V-part-4 line,
+.H-part-4 line ,
+.V-part-5 line,
+.H-part-5 line  {
+    stroke-width:inherit;
+    stroke: inherit;
+    stroke-linejoin: inherit;
+    stroke-linecap: inherit;
+    stroke-dasharray: inherit;
+}
+
+#cells use.C-base {
+    fill: #8080aa; 
+    fill: white;
+}
+
+#cells use.C-start {
+    fill: rgba(80,255,80,.7);
+    fill: #8080aa22; 
+}
+
+#cells use.C-base rect,
+#cells use.C-start rect {
+    fill: inherit;
+}
+#solns path {
+    stroke-width: 1;
+}
+
+#solns path {
+    /*stroke: rgba(255,255,0,1.0) */
+    stroke-linejoin: round;
+    stroke-linecap: round;
+}
+#controls path.V-conf {
+    stroke-width: 10;
+}
+#controls path.H-conf {
+    stroke-width: 10;
+}
+
+#controls #conf-cell-base {
+    fill: yellow;
+}
+
+#controls path.C-base {
+    fill: rgba(0,0,0,.2);
+}
+#controls path.C-start {
+    fill: rgba(255,255,0,.2);
+}
+
+.V-conf-0,
+.H-conf-0  {
+    fill: rgba(0,0,0,.1);
+    stroke-width: 2;
+    stroke: rgba(255,255,204,.5);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    content: "Open";
+}
+
+.V-conf-1,
+.H-conf-1 {
+    stroke-width: 2;
+    stroke: rgba(0,204,104,1);
+    stroke-linejoin: round;
+    stroke-linecap:round;
+    content: "Shut";
+}
+.V-conf-2,
+.H-conf-2 {
+    stroke-width: 2;
+    stroke: rgba(204,104,0,1);
+    stroke-linejoin: round;
+    stroke-linecap:round;
+    content: "Lock";
+}
+
+.V-conf-3,
+.H-conf-3 {
+    stroke-width: 2;
+    stroke: rgba(0,0,0,1);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    content: "Wall";
+}
+
+.V-conf-4,
+.H-conf-4 {
+    stroke-width:2;
+    stroke: rgba(204,0,104,1);
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray: 7 3;
+    content: "Exit";
+}
+
+.V-conf-5,
+.H-conf-5 {
+    stroke-width:2;
+    stroke: rgba(0,0,0,.2);
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray: 7 3;
+    content: "Window";
+}
+
+
+.V-conf-0 path,
+.H-conf-0 path,
+.V-conf-1 path,
+.H-conf-1 path,
+.V-conf-2 path,
+.H-conf-2 path,
+.V-conf-3 path,
+.H-conf-3 path,
+.V-conf-4 path,
+.H-conf-4 path,
+.V-conf-5 path,
+.H-conf-5 path   {
+    stroke-width:inherit;
+    stroke: inherit;
+    stroke-linejoin: inherit;
+    stroke-linecap: inherit;
+    stroke-dasharray: inherit;
+    text-anchor: inherit;
+}
+
+.V-conf-0 text,
+.H-conf-0 text,
+.V-conf-1 text,
+.H-conf-1 text,
+.V-conf-2 text,
+.H-conf-2 text,
+.V-conf-3 text,
+.H-conf-3 text::content,
+.V-conf-4 text,
+.H-conf-4 text,
+.V-conf-5 text,
+.H-conf-5 text  {
+    stroke: none;
+    stroke-width: 0;
+    text-anchor: inherit;
+    content: inherit;
+}
+
+.V-conf-0 g,
+.H-conf-0 g,
+.V-conf-1 g,
+.H-conf-1 g,
+.V-conf-2 g,
+.H-conf-2 g,
+.V-conf-3 g,
+.H-conf-3 g,
+.V-conf-4 g,
+.H-conf-4 g,
+.V-conf-5 g,
+.H-conf-5 g  {
+    text-anchor: inherit;
+    content: inherit;
+}
