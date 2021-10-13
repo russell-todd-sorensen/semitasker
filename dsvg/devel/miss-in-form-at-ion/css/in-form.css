@@ -221,3 +221,48 @@
     text-anchor: inherit;
     content: inherit;
 }
+
+
+/* these styles on "g" allow children to inherit */
+
+#toggle-path-nw,
+#toggle-path-ew,
+#toggle-path-sw,
+#toggle-path-ww {
+    fill: rgba(0,0,0,0.1)
+}
+
+#toggle-text-nw,
+#toggle-text-ew,
+#toggle-text-sw,
+#toggle-text-ww {
+    font-family: "Days One";
+    font-size: 10px;
+    text-anchor: middle;
+    fill: rgba(0,0,0,1);
+    stroke: none;
+    stroke-width:0;
+}
+
+.theme-bg1 {
+    fill:#587c00;
+}
+.theme-bg2 {
+    fill:#00587c;
+}
+.theme-bg3 {
+    fill: #7c5800;
+}
+.theme-bg4 {
+    fill: #000;
+}
+.theme-bg5 {
+    fill: #FFF;
+}
+
+#cell-base {
+    height:100;
+    width:100;
+    stroke-width: .5;
+    stroke:#587c0099;
+}

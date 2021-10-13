@@ -19,71 +19,23 @@ Log.Hide = function() {}
 Log.Remove = function() {}
 Log.Debug = function() {}
 </script>
-<!--
-<scr ipt src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></sc ript>-->
-
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+<script src="./js/configs.js"></script>
 <script src="./js/in-form.js" ></script>
 </head>
 <body>
 <style>
-#formContainer {
-    font-family: "Days One";
-    display: inline-block;
-    vertical-align: top;
-}
 
-svg line.lc {
-    stroke-width: 5;
+svg {
+    display: block;
 }
-
-/* these styles on "g" allow children to inherit */
-
-#toggle-path-nw,
-#toggle-path-ew,
-#toggle-path-sw,
-#toggle-path-ww {
-    fill: rgba(0,0,0,0.1)
+button {
+    margin-left: 10px;
 }
-
-#toggle-text-nw,
-#toggle-text-ew,
-#toggle-text-sw,
-#toggle-text-ww {
-    font-family: "Days One";
-    font-size: 10px;
-    text-anchor: middle;
-    fill: rgba(0,0,0,1);
-    stroke: none;
-    stroke-width:0;
-}
-
-.theme-bg1 {
-    fill:#587c00;
-}
-.theme-bg2 {
-    fill:#00587c;
-}
-.theme-bg3 {
-    fill: #7c5800;
-}
-.theme-bg4 {
-    fill: #000;
-}
-.theme-bg5 {
-    fill: #FFF;
-}
-
-#cell-base {
-    height:100;
-    width:100;
-    stroke-width: .5;
-    stroke: rgba(0,204,104,.7);
-}
-
 </style>
+<!-- reuseable template for svg doc-->
+<script id="svg-base" type="image/svg+xml">
 <svg 
     id="svg2"
     xmlns:svg="http://www.w3.org/2000/svg"
@@ -107,137 +59,54 @@ svg line.lc {
 
 </defs>
 </svg>
-
-<button id="run-animation" value="stop" 
-    onClick="modAnimation('demo')">Stop Animation</button>
-
-<script>
-var toggleMinimize = function (id) {
-    let fs = $(`#${id}`),
-        cssClass = "minimize";
-
-    if (fs.hasClass(cssClass)) {
-        fs.removeClass(cssClass);
-    } else {
-        fs.addClass(cssClass);
-    }
-    
-}
 </script>
+<div id="mazes">
+<svg 
+    id="svg2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    externalResourcesRequired="true"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<defs>
+
+<rect id="conf-cell-base" height="50" width="50" />
+<rect id="cell-base" height="100" width="100" />
+<line id="hwall-base" x1="0" y1="0" x2="100" y2="0" />
+<line id="vwall-base" x1="0" y1="0" x2="0" y2="100" />
+<line id="hconf-base" x1="5" y1="0" x2="95" y2="0" />
+<line id="vconf-base" x1="0" y1="5" x2="0" y2="95" />
+
+</defs>
+</svg>
+<button id="run-animation" value="stop" 
+    onClick="modAnimation('demo')">Play Demo</button>
+</div>
 
 <script>
 
-var mazes = [];
-var configs = [];
-
-configs["phoneInputBase"] = {
-    name: "phoneInputBase",
-    baseConfig:null,
-    cols:21,
-    rows:2,
-    scale:30,
-    startId:"C-0-0",
-    exitId:"V-23-1",
-    removeWalls:[],
-    wallPerimeterP:true,
-    solnCount:0,
-    solutions:[],
-    locale:"phone",
-}
-
-configs[0] = {
-    name: "acode1",
-    baseConfig:null,
-    cols:21,
-    rows:2,
-    scale:30,
-    startId:"C-1-0",
-    exitId:"V-23-1",
-    addWalls:[
-        "V-1-1", // Num 1
-        "H-0-2","V-3-0","V-2-1","H-2-2", // Num 2
-        "H-0-4","V-5-0","H-1-4","H-2-4", // Num 3
-        "V-8-0","H-1-7","V-7-0", // Num 4
-        "H-0-9","V-9-0","V-10-1","H-2-9", // Num 5
-        "H-0-11","H-1-11","V-12-1","H-2-11","V-11-1", // Num 6
-        "H-0-14","V-15-1", // Num 7
-        "H-0-16","H-1-16","H-2-16", // Num 8
-        "V-18-0","H-0-18","V-19-0","H-1-18","H-2-18", //Num 9
-        "H-1-20","V-20-1","H-2-20","V-21-1", // Num 0
-    ],
-    addSpacings:[
-        "H-1-1",
-        "H-1-3",
-        "H-1-5",
-        "H-1-6",
-        "H-1-8",
-        "H-1-10",
-        "H-1-12",
-        "H-1-13",
-        "H-1-15",
-        "H-1-17",
-        "H-1-19",
-    ],
-    removeWalls:[],
-    wallPerimeterP:true,
-    perimeterType:5,
-    solnCount:0,
-    solutions:[],
-    locale:"phone",
-}
-
-configs["demo"] = {
-    name: "demo",
-    baseMaze:"phoneInputBase",
-    addWalls:[
-        "V-2-1", // Num 1
-        "H-0-3","V-4-0","V-3-1","H-2-3", // Num 2
-        "H-0-5","V-6-0","H-1-5","H-2-5", // Num 3
-        "V-9-0","H-1-8","V-8-0", // Num 4
-        "H-0-10","V-10-0","V-11-1","H-2-10", // Num 5
-        "H-0-12","H-1-12","V-13-1","H-2-12","V-12-1", // Num 6
-        "H-0-15","V-16-1", // Num 7
-        "H-0-17","H-1-17","H-2-17", // Num 8
-        "V-19-0","H-0-19","V-20-0","H-1-19","H-2-19", //Num 9
-        "H-1-21","V-21-1","H-2-21","V-22-1", // Num 0
-    ],
-    addSpacings:[
-        "H-1-1",
-        "H-1-3",
-        "H-1-5",
-        "H-1-6",
-        "H-1-8",
-        "H-1-10",
-        "H-1-12",
-        "H-1-13",
-        "H-1-15",
-        "H-1-17",
-        "H-1-19",
-    ],
-    removeWalls:[],
-    wallPerimeterP:true,
-    solnCount:0,
-    solutions:[],
-    locale:"phone",
-}
-var M = {};
-
-var start = function(config) {
-    M = new Maze(config);
-    if (config.wallPerimeterP) {
-        M.wallPerimeter(config.perimeterType);
+var start = function(mazeName, configName) {
+    configsFinal[configName] = buildConfig(configName);
+    let M = mazes[mazeName] = new Maze(mazeName, configName);
+    if (configsFinal[configName].wallPerimeterP) {
+        M.wallPerimeter(configsFinal[configName].perimeterType);
     }
-    M.insertWalls(config.addWalls);
-    M.markExit(config.exitId,M);
+    M.insertWalls(configsFinal[configName].addWalls);
+    M.markExit(configsFinal[configName].exitId,M);
     M.setPathEndId();
-    M.draw('svg2',M);
+    M.draw("svg2",M);
 }
 
 var insertWallsSlowly = function(m) {
 
 }
 
-start(configs[1]);
+start("myMaze","demo");
 </script>
 </body>
 </html>

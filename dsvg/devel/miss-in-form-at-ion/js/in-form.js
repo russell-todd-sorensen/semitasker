@@ -1,7 +1,9 @@
 
 // Globals which should be removed:
-var sols = {"example":null};
-var myMaze = {"example":null};
+//var sols = {"example":null};
+//var myMaze = {"example":null};
+
+var mazes = [];
 
 class Cell {
     id      = null;
@@ -463,11 +465,11 @@ class Maze {
                 .append("g")
                 .attr("id","vwalls")
                 .attr("transform","translate(0,0)"),
-            solns  = maze
+            solns = maze
                 .append("g")
                 .attr("id","solns")
                 .attr("transform","translate(0,0)"),
-            controls  = maze
+            controls = maze
                 .append("g")
                 .attr("id","controls")
                 .attr("transform","translate(0,0)");
@@ -753,7 +755,8 @@ var toggleCellType = function(d,i) {
 
     console.log(`d=${d}, i=${i}, cellType=${cellType}`);
 }
-var togglePartType = function(d,i) {    
+
+var togglePartType = function(d,i) {
     let partId = d.cell[d.part],
         partState = d.cell.m.getState(partId),
         [t,x,y] = partId.split("-"),
@@ -914,4 +917,15 @@ var buildConfig = function (configName) {
        Object.assign(configsFinal[configName],configs[configChain.pop()])
     }
     return configsFinal[configName];
+}
+
+var toggleMinimize = function (id) {
+    let fs = $(`#${id}`),
+        cssClass = "minimize";
+
+    if (fs.hasClass(cssClass)) {
+        fs.removeClass(cssClass);
+    } else {
+        fs.addClass(cssClass);
+    }
 }
