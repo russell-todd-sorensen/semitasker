@@ -66,6 +66,15 @@ configs["demo2"] = {
     baseConfig: "demo",
 }
 
+configs["demo3"] = {
+    cname: "demo3",
+    svgId: "svgThree",
+    mazeName: "maze3",
+    baseConfig: "demo",
+    addWalls:[],
+    addSpacings:[],
+}
+
 configs["demo"] = {
     cname: "demo",
     svgId: "svgOne",

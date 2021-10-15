@@ -733,22 +733,18 @@ var popUpControl = function (d,i) {
         .html(cell.m.getLabel(cell.m.getState(cell.ww)));
 
     d3.select(`#${svgId} #tnw`)
-    //tnw
         .data([{part:"nw",cell:cell}])
         .attr("class",`H-conf-${d.m.parts["H"][y][x]}`)
         .on("click",togglePartType);
     d3.select(`#${svgId} #tew`)
-    //tew
         .attr("class",`V-conf-${d.m.parts["V"][x+1][y]}`)
         .data([{part:"ew",cell:cell}])
         .on("click",togglePartType);
     d3.select(`#${svgId} #tsw`)
-    //tsw
         .attr("class",`H-conf-${d.m.parts["H"][y+1][x]}`)
         .data([{part:"sw",cell:cell}])
         .on("click",togglePartType);
     d3.select(`#${svgId} #tww`)
-    //tww
         .attr("class",`V-conf-${d.m.parts["V"][x][y]}`)
         .data([{part:"ww",cell:cell}])
         .on("click",togglePartType);
@@ -944,4 +940,56 @@ var toggleMinimize = function (id) {
     } else {
         fs.addClass(cssClass);
     }
+}
+
+var loadMaze = function(configName) {
+    config= buildConfig(configName);
+    let mazeName = config["mazeName"],
+        M = mazes[mazeName] = new Maze(config);
+
+    if (config.wallPerimeterP) {
+        M.wallPerimeter(config.perimeterType);
+    }
+    M.insertWalls(config.addWalls);
+    M.markExit(config.exitId,M);
+    M.setPathEndId();
+    M.draw(config.svgId,M);
+}
+
+var insertWallsSlowly = function(m) {
+
+}
+
+var replaceMaze = function(toReplaceConfig,replaceWithConfig) {
+    let rConfig,toReplaceNode,nConfig,replaceWithNode;
+    if (configsFinal[toReplaceConfig]) {
+        rConfig = configsFinal[toReplaceConfig];
+        toReplaceNode = document.getElementById(rConfig.mazeName);
+        if (toReplaceNode == null) {
+            return null;
+        }
+    } else {
+        return null;
+    }
+
+    if (configsFinal[replaceWithConfig]) {
+        nConfig = configsFinal[replaceWithConfig];
+    }
+    if (nConfig === rConfig) {
+        toReplaceNode.setAttribute("id","removing") ;
+        toReplaceNode = document.getElementById("removing");
+        loadMaze(replaceWithConfig);
+        nConfig = configsFinal[replaceWithConfig];
+    } else {
+        loadMaze(replaceWithConfig);
+        nConfig = configsFinal[replaceWithConfig];
+    }
+
+    replaceWithNode = document.getElementById(nConfig.mazeName);
+
+    if (replaceWithNode != null) {
+        toReplaceNode.replaceWith(replaceWithNode);
+    }
+
+    return replaceWithNode;
 }

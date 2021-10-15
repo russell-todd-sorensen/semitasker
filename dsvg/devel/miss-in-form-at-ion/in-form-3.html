@@ -64,35 +64,18 @@ button {
 
 </defs>
 </svg>
-<button id="run-animation" value="stop" 
-    onClick="modAnimation('demo')">Play Demo</button>
+<button id="run-animation">Play Demo</button>
+<button id="reset-maze">Reset</button>
+<button id="solve-maze">Solve</button>
 </script>
 
 <div id="mazes"></div>
 
 <script>
 
-var start = function(configName) {
-    config= buildConfig(configName);
-    let mazeName = config["mazeName"],
-        M = mazes[mazeName] = new Maze(config);
-
-    if (config.wallPerimeterP) {
-        M.wallPerimeter(config.perimeterType);
-    }
-    M.insertWalls(config.addWalls);
-    M.markExit(config.exitId,M);
-    M.setPathEndId();
-    M.draw(config.svgId,M);
-}
-
-var insertWallsSlowly = function(m) {
-
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    start("demo");
-    start("demo2");
+window.addEventListener("DOMContentLoaded", () => {
+    loadMaze("demo");
+    loadMaze("demo2");
 });
 
 </script>
