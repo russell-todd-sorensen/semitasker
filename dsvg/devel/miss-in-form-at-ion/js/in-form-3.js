@@ -660,6 +660,95 @@ class Maze {
         }
         return solutions; 
     }
+    animateTo (data) {
+        let partId = data.partId,
+            desiredState = data.desiredState,
+            m = data.m,
+            delay = data.delay/2;
+        
+        const origState = m.getState(partId);
+
+        if (typeof desiredState != "number"
+            ||typeof origState != "number") 
+        {
+            return null;
+        }
+
+        if (origState === desiredState) {
+            return desiredState;
+        }
+
+        let [pt,pxx,pyy] = partId.split("-"),
+            currentState = origState,
+            svgId = m.svgId,
+            wallId,
+            cellSelector,
+            partSelector,
+            px,
+            py;
+
+        switch (pt) {
+        case "H":
+            px = parseInt(pyy);
+            py = parseInt(pxx);
+            if (py == 0) {
+                wallId="tnw";
+            } else {
+                py = py-1;
+                wallId="tsw";
+            }
+            break;
+        case "V":
+            px = parseInt(pxx);
+            py = parseInt(pyy);
+            if (px == 0) {
+                wallId="tww";
+            } else {
+                px = px-1;
+                wallId="tew";
+            }
+            break;
+        }
+
+        cellSelector = `#${svgId} #C-${px}-${py}`;
+        partSelector = `#${svgId} #${wallId}`;
+
+        d3.select(cellSelector).dispatch("click");
+        while (currentState != desiredState) {
+            d3.select(partSelector).dispatch("click");
+            currentState = m.getState(partId);
+            if (currentState == origState) {
+                break; // loop
+            }
+        }
+        return currentState;
+    }
+    animateWalls (walls, delay, desiredState) {
+        let len = walls.length;
+        delay = parseInt(delay);
+        desiredState = parseInt(desiredState);
+
+        if (typeof desiredState != "number") {
+            return desiredState;
+        }
+        if (typeof delay != "number") {
+            return delay;
+        } else
+        if (delay < 10) {
+            delay = 10;
+        } else
+        if (delay > 2000) {
+            delay = 2000;
+        }
+
+        let queue = new Queue(),
+            M = this;
+
+        for (let i=0;i<len;i++) {
+            queue.add(new QueueItem(queue,M.animateTo,i*delay,{queue:queue,delay:delay,m:M,partId:walls[i],desiredState:M.WALL}));
+        }
+        queue.start(queue,10);
+    }
 }
 
 var popUpControl = function (d,i) {
@@ -950,10 +1039,15 @@ var loadMaze = function(configName) {
     if (config.wallPerimeterP) {
         M.wallPerimeter(config.perimeterType);
     }
-    M.insertWalls(config.addWalls);
     M.markExit(config.exitId,M);
     M.setPathEndId();
-    M.draw(config.svgId,M);
+    if (config.animate) {
+        M.draw(config.svgId,M);
+        M.animateWalls(config.addWalls,config.animateDelay,M.WALL);
+    } else {
+        M.insertWalls(config.addWalls);
+        M.draw(config.svgId,M);
+    }
 }
 
 var insertWallsSlowly = function(m) {

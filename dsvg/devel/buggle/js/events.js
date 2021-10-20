@@ -17,8 +17,8 @@ let svgDraw = function (config,svgId,templateId,parentId) {
         config.templateId?config.templateId:
         "svg-template",
     parentId=parentId?parentId:
-        config.parentId?
-        config.parentId:"exampleOne";
+        config.parentId?config.parentId:
+        "exampleOne";
 
     let x      = config.x,
         y      = config.y,
@@ -37,9 +37,9 @@ let svgDraw = function (config,svgId,templateId,parentId) {
     let svg = d3.select(`#${svgId}`);
 
     svg
-    .attr("x",x)
-    .attr("y",y)
-    .attr("width",width)
-    .attr("height",height)
-    .attr("viewBox",[x,y,width,height].join(" "));
+        .attr("x",x)
+        .attr("y",y)
+        .attr("width",width)
+        .attr("height",height)
+        .attr("viewBox",[x,y,width,height].join(" "));
 }
