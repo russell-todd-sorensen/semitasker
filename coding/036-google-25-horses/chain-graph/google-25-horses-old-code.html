@@ -1,0 +1,194 @@
+<html>
+<head>
+<title>Google 25 Horses: Chain/Graph Solution</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/example-library.js"></script>
+
+<style>
+</style>
+
+</head>
+<body>
+<div id="horseRaces"></div>
+
+<script>
+
+var horses = [];
+var heats = [];
+var rankings = [];
+
+window.addEventListener('DOMContentLoaded', () => {
+
+});
+</script>
+<style>
+html {
+    font-size: 16px;
+}
+body {
+    font-family: "Fira Code";
+    font-size: 1em;
+}
+#heat-calcs {
+    margin: 5px;
+    border-color: black;
+    border-collapse: collapse;
+}
+#heat-calcs tr {
+    padding: 0;
+}
+#heat-calcs th,
+#heat-calcs td {
+    border: 1px solid black;
+    white-space: pre;
+    padding-right: 3px;
+    padding-left: 3px;
+}
+#heat-calcs td {
+    text-align: right; 
+}
+</style>
+<table id="heat-calcs">
+<thead>
+    <tr>
+        <th colspan="7">First Round Heat Sizes given Horses and Max Heat Size</th>
+    </tr>
+    <tr>
+        <th>Horses</th>
+        <th>Max/Heat</th>
+        <th>Full Heats (/)</th>
+        <th>Remainder (%)</th>
+        <th>Heats@Size</th>
+        <th>Total Heats (1st)</th>
+        <th>Notes</th>
+    </tr>
+</thead>
+<tbody>
+    <tr>
+        <td>25</td>
+        <td>5</td>
+        <td>5</td>
+        <td>0</td>
+        <td>5@5</td>
+        <td>5</td>
+        <td>Ideal.</td>
+    </tr>
+    <tr>
+        <td>25</td>
+        <td>4</td>
+        <td>6</td>
+        <td>1</td>
+        <td>6@4</td>
+        <td>6</td>
+        <td>One horse not raced.</td>
+    </tr>
+    <tr>
+        <td>25</td>
+        <td>3</td>
+        <td>8</td>
+        <td>1</td>
+        <td>8@3</td>
+        <td>8</td>
+        <td>One horse not raced.</td>
+    </tr>
+    <tr>
+        <td>25</td>
+        <td>2</td>
+        <td>12</td>
+        <td>1</td>
+        <td>12@2</td>
+        <td>12</td>
+        <td>One horse not raced.</td>
+    </tr>
+    <tr>
+        <td>26</td>
+        <td>5</td>
+        <td>5</td>
+        <td>1</td>
+        <td>5@5</td>
+        <td>5</td>
+        <td>One horse not raced.</td>
+    </tr>
+    <tr>
+        <td>26</td>
+        <td>4</td>
+        <td>6</td>
+        <td>2</td>
+        <td>6@4 1@2</td>
+        <td>7</td>
+        <td>Also Okay.</td>
+    </tr>
+    <tr>
+        <td>26</td>
+        <td>3</td>
+        <td>8</td>
+        <td>2</td>
+        <td>8@3 1@2</td>
+        <td>9</td>
+        <td>Also Okay.</td>
+        <tr>
+            <td>27</td>
+            <td>5</td>
+            <td>5</td>
+            <td>2</td>
+            <td>5@5 1@2</td>
+            <td>6</td>
+            <td>Also Okay.</td>
+        </tr>
+        <tr>
+            <td>27</td>
+            <td>4</td>
+            <td>6</td>
+            <td>3</td>
+            <td>6@4 1@3</td>
+            <td>7</td>
+            <td>Also Okay.</td>
+        </tr>
+        <tr>
+            <td>27</td>
+            <td>3</td>
+            <td>9</td>
+            <td>0</td>
+            <td>9@3</td>
+            <td>9</td>
+            <td>Ideal.</td>
+        </tr>
+        <tr>
+            <td>28</td>
+            <td>5</td>
+            <td>5</td>
+            <td>3</td>
+            <td>5@5 1@3</td>
+            <td>6</td>
+            <td>Also Okay.</td>
+        </tr>
+        <tr>
+            <td>28</td>
+            <td>4</td>
+            <td>7</td>
+            <td>0</td>
+            <td>7@4</td>
+            <td>7</td>
+            <td>Ideal.</td>
+        </tr>
+        <tr>
+            <td>25</td>
+            <td>6</td>
+            <td>4</td>
+            <td>1</td>
+            <td>4@6</td>
+            <td>4</td>
+            <td>One horse not raced.</td>
+        </tr>
+    </tr>
+
+</tbody>
+</table>
+
+</body>
+</html>
