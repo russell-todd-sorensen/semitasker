@@ -131,11 +131,18 @@ class Meet {
     partHeatSize;
     heatSizes = [];
     isFlattened = false;
+    graphicsCallback = null;
+    nullCallback = ( meetObj => {console.log(meetObj.id)});
 
-    constructor(numHorses,maxHeat,numPlaces) {
+    constructor(numHorses,maxHeat,numPlaces,graphicsCallback) {
         this.numHorses = numHorses?numHorses:25;
         this.maxHeat   = maxHeat?maxHeat:5;
         this.numPlaces = numPlaces?numPlaces:3;
+        this.graphicsCallback = graphicsCallback?graphicsCallback:this.nullCallback;
+
+        if (this.numPlaces > this.numHorses) {
+            this.numPlaces = this.numHorses;
+        }
         this.init();
     }
     init() {
@@ -143,12 +150,6 @@ class Meet {
         for (let i=0;i<this.numHorses;i++) {
             this.horses.push(new Horse());
         }
-        this.calcFullHeats();
-    }
-    calcFullHeats() {
-        this.numHorses    = this.horses.length;
-        this.fullHeats    = Math.floor(this.numHorses/this.maxHeat);
-        this.partHeatSize = this.numHorses%this.maxHeat;
     }
     getId() {
         if (!this.id) {
@@ -158,7 +159,11 @@ class Meet {
         return this.id;
     }
     raceFullHeats() {
-        for (let i=0,horses,heat,winner;i<this.fullHeats;i++) {
+        let horses,
+            heat,
+            winner;
+
+        while (this.horses.length >= this.maxHeat) {
            horses = [];
            for (let j=0;j<this.maxHeat;j++) {
                horses.push(this.horses.shift());
@@ -167,10 +172,6 @@ class Meet {
            winner = heat.race();
            this.heats.push(heat);
            this.horses.push(winner);
-        }
-        this.calcFullHeats();
-        if (this.fullHeats > 0) {
-            this.raceFullHeats();
         }
     }
     racePartHeat() {
@@ -246,6 +247,9 @@ class Meet {
             }
         }
     }
+    printResults() {
+
+    }
     runMeet() {
         let maxRounds = this.numPlaces,
             rounds = 0;
@@ -254,6 +258,7 @@ class Meet {
             this.racePartHeat();
         }
         console.log(`Horses:${this.numHorses}, maxHeat:${this.maxHeat}, numPlaces:${this.numPlaces}, Heats: ${this.heats.length}`);
+        this.graphicsCallback(this);
         return this.winners;
     }
 }
