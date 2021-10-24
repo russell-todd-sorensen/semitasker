@@ -24,6 +24,9 @@ class Horse {
             this.#time = parseInt(Math.random()*10000)/100;
         }
     }
+    getTime () {
+        return this.#time;
+    }
     addFollower(horse) {
         if (horse) {
             this.followers.unshift(horse);
@@ -263,3 +266,70 @@ class Meet {
     }
 }
 
+
+var animateHorseRace = function (meetObj) {
+    let hHeight  = 60,
+        hWidth   = 60,
+        textLength = hWidth -3,
+        textX    = (hWidth/2).toFixed(2),
+        padding  = 15,
+        halfPad  =  7.5,
+        svgId    = `${meetObj.id}-svg`,
+        parentId = `${meetObj.id}-parent`,
+        numPlaces = meetObj.numPlaces,
+        maxHeat  = meetObj.maxHeat,
+        fullWidth = (numPlaces > maxHeat)?numPlaces:maxHeat,
+        config = {
+            height:(meetObj.heats.length + 1) * (hHeight + padding),
+            width:fullWidth*(hWidth + padding),
+            svgId:svgId,
+            parentId:parentId,
+        },
+        svgDoc = svgDraw(config);
+
+        meetObj.heats.push(new Heat(meetObj.winners))
+    let meetId = meetObj.id,
+        meet   = svgDoc
+                .append("g")
+                .attr("id",meetId);
+
+    for (let i=0,heat,heatGroup;i<meetObj.heats.length;i++) {
+        heat = meetObj.heats[i];
+        heatGroup = meet.append("g")
+            .attr("id",heat.id)
+            .attr("class","heat")
+            .attr("x",padding)
+            .attr("y",padding)
+            .attr("transform",`translate(0,${i*(padding+hHeight)+halfPad})`);
+
+        for (let j=0,horse,horseGroup;j<heat.len();j++) {
+            horse = heat.horses[j];
+            horseGroup = heatGroup
+                .append("g")
+                .attr("id",horse.id)
+                .attr("transform",`translate(${j*(padding+hWidth)+halfPad},0)`);
+            horseGroup.append("rect")
+                .attr("height",hHeight)
+                .attr("width",hWidth)
+                .attr("class",`horse place-${j+1} place-${horse.currentPlace}`);
+            horseGroup.append("text")
+                .attr("class","horse-name")
+                .attr("y",`${hHeight*3/8}`)
+                .attr("lengthAdjust","spacingAndGlyphs")
+                .attr("textLength",textLength)
+                .attr("x",textX)
+                .text(horse.id);
+            horseGroup.append("text")
+                .attr("class","horse-time")
+                .attr("lengthAdjust","spacingAndGlyphs")
+                .attr("textLength",textLength - 3)
+                .attr("y",`${hHeight*7/8}`)
+                .attr("x",textX)
+                .text(horse.getTime().toFixed(2));
+        }
+
+    }
+
+
+        return svgDoc;
+}

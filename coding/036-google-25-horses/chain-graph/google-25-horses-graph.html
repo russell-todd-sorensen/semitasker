@@ -57,6 +57,9 @@
     height="1000"
     viewBox="0 0 1000 1000"
     >
+<style>
+
+</style>
 <defs>
 <rect id="horse-base" height="50" width="50" />
 </defs>
@@ -78,6 +81,7 @@ body {
 svg {
     font-family: inherit;
     display: block;
+    margin: 15px;
 }
 
 form {
@@ -125,6 +129,38 @@ label:after {
 input {
     width: 50px;
 }
+
+text.horse-time,
+text.horse-name {
+    fill: black;
+    font-family: 'Fira Code';
+    /*font-size: 12px; */
+    text-anchor: middle;
+}
+
+rect.horse {
+    stroke-width: 2px;
+    stroke: black;
+    fill:white;
+}
+g.heat {
+
+}
+.horse.place-1 {
+    fill: gold;
+}
+.horse.place-2 {
+    fill: silver;
+}
+.horse.place-3 {
+    fill: lightpink;
+}
+.horse.place-4 {
+    fill: lightblue;
+}
+.horse.place-5 {
+    fill: yellowgreen;
+}
 </style>
 
 </head>
@@ -135,7 +171,7 @@ input {
 <script>
 
 window.addEventListener('DOMContentLoaded', () => {
-    svgDraw({},"svgOne","svg-template","exampleOne");
+   // svgDraw({},"svgOne","svg-template","exampleOne");
 });
 </script>
 

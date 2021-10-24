@@ -42,4 +42,6 @@ let svgDraw = function (config,svgId,templateId,parentId) {
         .attr("width",width)
         .attr("height",height)
         .attr("viewBox",[x,y,width,height].join(" "));
+
+    return svg;
 }
