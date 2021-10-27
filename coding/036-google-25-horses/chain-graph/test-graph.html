@@ -1,19 +1,18 @@
 <html lang="en-US">
 <head>
-<title>Google 25 Horses: Chain/Graph Solution</title>
+<title>Test Graph Code</title>
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1" >
 <meta name="theme-color" content="#587c00" >
-<meta name="description" content="Google 25 Horses: Chain/Graph Solution" >
+<meta name="description" content="Testing Graph Code" >
 
 <link rel="stylesheet" href="/css/meyerweb-reset/reset.css" media="all">
 
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="./js/dag.js"></script>
-<script src="./js/google-25-horses-graph.js" ></script>
 <script src="./js/events.js"></script>
+<script src="./js/dag.js"></script>
 
 <!-- reuseable template for svg doc-->
 <script id="svg-template" type="image/svg+xml">
@@ -66,41 +65,33 @@
 </defs>
 </svg>
 </script>
-
 <style>
 html,
 head {
     font-size: 16px;
     font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
-
 body {
     font-size: 1em;
     font-family: inherit;
 }
-
 svg {
     font-family: inherit;
     display: block;
     margin: 15px;
 }
-
 form {
     display: inline;
 }
-
 button {
     margin-left: 10px;
 }
-
 ul {
     display: inline-block;
 }
-
 li {
     display: inline-block;
 }
-
 fieldset {
     display: inline-block;
     border: 1px solid black;
@@ -108,7 +99,6 @@ fieldset {
     margin: 5px;
     width: 500px;
 }
-
 legend {
     border: 1px solid black;
     padding: 3px;
@@ -130,7 +120,6 @@ label:after {
 input {
     width: 50px;
 }
-
 text.horse-time,
 text.horse-name {
     fill: black;
@@ -138,32 +127,12 @@ text.horse-name {
     /*font-size: 12px; */
     text-anchor: middle;
 }
-
 rect.horse {
     stroke-width: 2px;
     stroke: black;
     fill:white;
 }
-g.heat {
-
-}
-.horse.place-1 {
-    fill: gold;
-}
-.horse.place-2 {
-    fill: silver;
-}
-.horse.place-3 {
-    fill: lightpink;
-}
-.horse.place-4 {
-    fill: lightblue;
-}
-.horse.place-5 {
-    fill: yellowgreen;
-}
 </style>
-
 </head>
 <body>
 
@@ -171,8 +140,32 @@ g.heat {
 <div id="horseRaces"></div>
 <script>
 
+var myGraph = new Graph("graph")
+
+var nodes = [];
+
+class myNode {
+    name;
+    color;
+    constructor(name,color) {
+        this.name = name;
+        this.color = color;
+    }
+    getId() {
+        return this.name;
+    }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
-   // svgDraw({},"svgOne","svg-template","exampleOne");
+
+nodes.push(new myNode("sam","blue"))
+nodes.push(new myNode("jan","silver"))
+
+
+var links = [];
+
+links.push(new Link(myGraph,nodes[0],nodes[1],{id:1}))
+
 });
 </script>
 

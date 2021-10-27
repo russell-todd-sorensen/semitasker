@@ -133,6 +133,7 @@ class Meet {
     fullHeats;
     partHeatSize;
     heatSizes = [];
+    globalLinks = [];
     isFlattened = false;
     graphicsCallback = null;
     nullCallback = ( meetObj => {console.log(meetObj.id)});
