@@ -153,6 +153,8 @@ class Link {
     }
 }
 
+if (false) {
+    // example use
 var myGraph = new Graph("graph")
 
 var nodes = [];
@@ -176,3 +178,4 @@ nodes.push(new myNode("jan","silver"))
 var links = [];
 
 links.push(new Link(myGraph,nodes[0],nodes[1],{id:1}))
+}
