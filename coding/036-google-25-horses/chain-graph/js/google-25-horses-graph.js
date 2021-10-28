@@ -139,13 +139,16 @@ class Meet {
     nullCallback = ( meetObj => {console.log(meetObj.id)});
 
     constructor(numHorses,maxHeat,numPlaces,graphicsCallback) {
-        this.numHorses = numHorses?numHorses:25;
-        this.maxHeat   = maxHeat?maxHeat:5;
-        this.numPlaces = numPlaces?numPlaces:3;
+        this.numHorses = numHorses?numHorses:0;
+        this.maxHeat   = maxHeat?maxHeat:1;
+        this.numPlaces = numPlaces?numPlaces:1;
         this.graphicsCallback = graphicsCallback?graphicsCallback:this.nullCallback;
 
         if (this.numPlaces > this.numHorses) {
             this.numPlaces = this.numHorses;
+        }
+        if (this.maxHeat > this.numHorses) {
+            this.maxHeat = this.numHorses;
         }
         this.init();
     }
@@ -179,10 +182,17 @@ class Meet {
         }
     }
     racePartHeat() {
-        if (this.horses.length >= this.maxHeat) {
+        if (this.numPlaces == 0) {
+            return;
+        }
+
+        if (this.horses.length > this.maxHeat) {
             this.raceFullHeats();
         }
-        if (this.horses.length > 1) {
+        if (this.numHorses == 1 
+            ||
+            this.horses.length > 1
+        ) {
             let horses = [],
                 heat,
                 winner;
@@ -286,6 +296,7 @@ var animateHorseRace = function (meetObj) {
             svgId:svgId,
             parentId:parentId,
         },
+        parent = d3.select(`#${parentId}`).html(""),
         svgDoc = svgDraw(config);
 
         meetObj.heats.push(new Heat(meetObj.winners))
@@ -328,9 +339,7 @@ var animateHorseRace = function (meetObj) {
                 .attr("x",textX)
                 .text(horse.getTime().toFixed(2));
         }
-
     }
 
-
-        return svgDoc;
+    return svgDoc;
 }

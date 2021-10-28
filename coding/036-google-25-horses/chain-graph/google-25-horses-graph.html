@@ -17,36 +17,6 @@
 
 <!-- reuseable template for svg doc-->
 <script id="svg-template" type="image/svg+xml">
-<form id="animate-horses" onsubmit="return false;">
-
-<fieldset>
-<legend>Horse Race Options</legend>
-<ul>
-<li>
-    <label for="numHorsesIn"># Horses</label>
-    <input name="numHorsesIn" id="numHorsesIn" type="number" min="1" step="1" max="500" value="25" />
-</li>
-<li>
-    <label for="maxHeatIn">Max Heat</label>
-    <input name="maxHeatIn" id="maxHeatIn" type="number" min="2" step="1" max="500" value="5" />
-</li>
-<li>
-    <label for="numPlacesIn">Places</label>
-    <input name="numPlacesIn" id="numPlacesIn" type="number" min="1" max="500" step="1" value="3" />
-</li>
-</ul>
-</fieldset>
-
-<fieldset>
-<legend>Animate</legend>
-<ul>
-<li><button id="run-animation">Play Demo</button><li>
-<li><button id="reset-maze">Reset</button></li>
-<li><button id="solve-maze">Solve</button></li>
-</ul>
-</fieldset>
-
-</form>
 <svg
     id="svgtmp"
     xmlns:svg="http://www.w3.org/2000/svg"
@@ -167,13 +137,93 @@ g.heat {
 </head>
 <body>
 
-<div id="examples"></div>
+<div id="meet-0-parent">
+<form id="animate-horses" onsubmit="return false;">
+
+<fieldset>
+<legend>Horse Race Options</legend>
+<ul>
+<li>
+    <label for="numHorsesIn"># Horses</label>
+    <input name="numHorsesIn" id="numHorsesIn" type="number" min="1" step="1" max="500" value="25" />
+</li>
+<li>
+    <label for="maxHeatIn">Max Heat</label>
+    <input name="maxHeatIn" id="maxHeatIn" type="number" min="2" step="1" max="500" value="5" />
+</li>
+<li>
+    <label for="numPlacesIn">Places</label>
+    <input name="numPlacesIn" id="numPlacesIn" type="number" min="1" max="500" step="1" value="3" />
+</li>
+</ul>
+</fieldset>
+
+<fieldset>
+<legend>Animate</legend>
+<ul>
+<li><button id="run-animation">Step by Step</button><li>
+<li><button id="reset-maze">Reset</button></li>
+<li><button id="solve-maze">Solve</button></li>
+</ul>
+</fieldset>
+
+</form>
+
+</div>
+
+<div id="examples">
+
+</div>
+</div>
 <div id="horseRaces"></div>
 <script>
 
+var meet;
+
+var initialConf = {
+    numHorses:{id:"numHorsesIn",value:0},
+    maxHeat:{id:"maxHeatIn",value:0},
+    numPlaces:{id:"numPlacesIn",value:0},
+}
+
+var processForm = function(conf) {
+    let value;
+    conf = conf?conf:initialConf;
+    for (let [key,obj] of Object.entries(conf)) {
+        value = document.getElementById(obj.id).value;
+        conf[key] = {id:obj.id,value:value}
+    }
+    return conf
+}
+
+var updateForm = function(conf) {
+    for (let [_,obj] of Object.entries(conf)) {
+         document.getElementById(obj.id).value =obj.value;
+    }
+    return conf;
+}
+
+var runConfig = function (conf) {
+    conf = conf?conf:processForm();
+    meet = new Meet(
+        parseInt(conf.numHorses.value),
+        parseInt(conf.maxHeat.value),
+        parseInt(conf.numPlaces.value),
+        animateHorseRace);
+    meet.runMeet();
+    updateForm(conf);
+}
+ 
 window.addEventListener('DOMContentLoaded', () => {
-   // svgDraw({},"svgOne","svg-template","exampleOne");
+   meet = new Meet(0,0,0,animateHorseRace);
+   meet.runMeet();
+   processForm();
+   for (let [key,obj] of Object.entries(initialConf)) {
+       initialConf[key] = {id:obj.id,value:meet[key]}
+   }
+   updateForm(initialConf);
 });
+document.getElementById("solve-maze").addEventListener("click",runConfig);
 </script>
 
 </body>
