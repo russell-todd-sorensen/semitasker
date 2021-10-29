@@ -223,29 +223,31 @@ class Meet {
     pruneFollowers() {
         let nextPlace = this.winners.length+1,
             remainingPlaces = this.numPlaces-this.winners.length,
-            horse,
             totalHorses = 0;
 
-        for (let i=0,following;i<this.horses.length;i++) {
+        for (let i=0,horse,following;i<this.horses.length;i++) {
             horse = this.horses[i];
             following = horse.pruneFollowers(nextPlace,this.numPlaces);
             totalHorses += following;
         }
         if (this.horses.length == 1) {
+            let onlyHorse = this.horses.shift();
             if (remainingPlaces > 0) {
-                this.winners.push(this.horses.shift());
+                this.winners.push(onlyHorse);
                 remainingPlaces--;
             }
             if (remainingPlaces > 0) {// was remainingPlaces>= 0
                 if (this.isFlattened) { // final heat is in order, push remaining places
+                    this.horses = onlyHorse.followers;
+                    this.horses = this.flattenHorses();
                     while (this.winners.length < this.numPlaces && remainingPlaces > 0) {
-                        this.winners.push(horse.followers.shift());
+                        this.winners.push(this.horses.shift());
                         remainingPlaces--;
                     }
                     return;
                 }
-                while (horse.followers.length > 0) {
-                    this.horses.push(horse.followers.shift());
+                while (onlyHorse.followers.length > 0) {
+                    this.horses.push(onlyHorse.followers.shift());
                 }
                 if (totalHorses-1 <= this.maxHeat) {
                     // place all remaining horses in final heat

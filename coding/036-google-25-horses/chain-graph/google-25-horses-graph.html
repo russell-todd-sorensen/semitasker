@@ -163,7 +163,7 @@ g.heat {
 <ul>
 <li><button id="run-animation">Step by Step</button><li>
 <li><button id="reset-maze">Reset</button></li>
-<li><button id="solve-maze">Solve</button></li>
+<li><button id="solve-maze" data-age="12">Solve</button></li>
 </ul>
 </fieldset>
 
@@ -178,7 +178,7 @@ g.heat {
 <div id="horseRaces"></div>
 <script>
 
-var meet;
+var meet = [];
 
 var initialConf = {
     numHorses:{id:"numHorsesIn",value:0},
@@ -196,34 +196,45 @@ var processForm = function(conf) {
     return conf
 }
 
-var updateForm = function(conf) {
-    for (let [_,obj] of Object.entries(conf)) {
-         document.getElementById(obj.id).value =obj.value;
+// updateForm runs after meet is finished,
+// and syncs form with actual values used in meet
+var updateForm = function(conf,m) { 
+    for (let [key,obj] of Object.entries(conf)) {
+        conf[key] = {id:obj.id,value:m[key]}
+        document.getElementById(obj.id).value = m[key];
     }
     return conf;
 }
 
 var runConfig = function (conf) {
     conf = conf?conf:processForm();
-    meet = new Meet(
+    let m = new Meet(
         parseInt(conf.numHorses.value),
         parseInt(conf.maxHeat.value),
         parseInt(conf.numPlaces.value),
         animateHorseRace);
-    meet.runMeet();
-    updateForm(conf);
+    m.runMeet();
+    meet[m.id] = m;
+    updateForm(conf,m);
 }
- 
+
+var handleButton = function (evt) {
+    runConfig()
+}
+
 window.addEventListener('DOMContentLoaded', () => {
-   meet = new Meet(0,0,0,animateHorseRace);
-   meet.runMeet();
+   let m = new Meet(0,0,0,animateHorseRace);
+   m.runMeet();
+   meet[m.id] = m;
    processForm();
    for (let [key,obj] of Object.entries(initialConf)) {
-       initialConf[key] = {id:obj.id,value:meet[key]}
+       initialConf[key] = {id:obj.id,value:m[key]}
    }
-   updateForm(initialConf);
+   updateForm(initialConf,m);
 });
-document.getElementById("solve-maze").addEventListener("click",runConfig);
+document.getElementById("solve-maze").addEventListener("click",handleButton);
+//var runButton = d3.select("#solve-maze");
+//runButton.dispatch("click",runConfig,)
 </script>
 
 </body>
