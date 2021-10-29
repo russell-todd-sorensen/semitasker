@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="#587c00" >
+<meta name="description" content="Fib Flex" >
+
+<title>Fib Flex</title>
+
+<script>
+// avoid need to load logging widget
+var Log = {}
+Log.Notice = function() {}
+Log.Hide = function() {}
+Log.Remove = function() {}
+Log.Debug = function() {}
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/js/queue-function.js"></script>
+<style>
+html,
+body {
+    margin:0;
+    padding:0;
+    border:0;
+}
+svg {
+    display: block;
+}
+button {
+    margin-left: 10px;
+}
+</style>
+
+</head>
+<body>
+<!-- reuseable template for svg doc-->
+<script id="svg-base" type="image/svg+xml">
+<svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    externalResourcesRequired="true"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<defs>
+
+<rect id="conf-cell-base" height="50" width="50" />
+<rect id="cell-base" height="100" width="100" />
+<line id="hwall-base" x1="0" y1="0" x2="100" y2="0" />
+<line id="vwall-base" x1="0" y1="0" x2="0" y2="100" />
+<line id="hconf-base" x1="5" y1="0" x2="95" y2="0" />
+<line id="vconf-base" x1="0" y1="5" x2="0" y2="95" />
+
+</defs>
+</svg>
+<button id="run-animation">Play Demo</button>
+<button id="reset-maze">Reset</button>
+<button id="solve-maze">Solve</button>
+</script>
+
+<div id="mazes"></div>
+
+<style>
+#flexcanvas {
+    width: 100%;
+    height: 600px !important;
+    display:flex;
+}
+
+.rowParent, 
+.columnParent {
+    border: 1px solid plum;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-direction: normal;
+    -webkit-box-orient: horizontal;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-flex-wrap: nowrap;
+    -ms-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-align-content: stretch;
+    -ms-flex-line-pack: stretch;
+    align-content: stretch;
+    -webkit-box-align: stretch;
+    -webkit-align-items: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+}
+
+.columnParent {
+    -webkit-box-orient: vertical;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.flexChild {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    -webkit-align-self: auto;
+    -ms-flex-item-align: auto;
+    align-self: auto;
+}
+</style>
+<div id="flexcanvas">
+<div id="container" class="flexChild columnParent">
+  <div id="columnChild50276" class="flexChild"></div>
+  <div id="columnChild24534" class="flexChild rowParent">
+    <div id="rowChild1644" class="flexChild"></div>
+    <div id="rowChild85489" class="flexChild columnParent">
+      <div id="columnChild42859" class="flexChild rowParent">
+        <div id="rowChild15816" class="flexChild"></div>
+        <div id="rowChild22566" class="flexChild columnParent">
+          <div id="columnChild45198" class="flexChild rowParent">
+            <div id="rowChild75761" class="flexChild columnParent">
+              <div id="columnChild8637" class="flexChild rowParent">
+                <div id="rowChild4001" class="flexChild"></div>
+                <div id="rowChild25810" class="flexChild"></div>
+              </div>
+              <div id="columnChild54633" class="flexChild"></div>
+            </div>
+            <div id="rowChild99914" class="flexChild"></div>
+          </div>
+          <div id="columnChild35004" class="flexChild"></div>
+        </div>
+      </div>
+      <div id="columnChild4927" class="flexChild"></div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+
+window.addEventListener("DOMContentLoaded", () => {
+
+});
+
+</script>
+
+</body>
+</html>

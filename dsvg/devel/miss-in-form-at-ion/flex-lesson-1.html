@@ -1,0 +1,252 @@
+<html><head>
+ <title>Learn HTML 20</title>
+</head>
+<body>
+<examples>
+<example id="Example-2">
+ <tags>
+
+<div id="flex-container" class="fc">
+<div class="ff">A</div>
+<div class="ff">B</div>
+
+<div class="ff">C</div>
+
+<div class="ff">D</div>
+
+<div class="ff">E</div>
+
+</div>
+
+ </tags>
+ <css>
+
+.fc {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+}
+.ff {
+  flex: 1;
+  background-color: lightblue;
+  font-size: 2em;
+  border: 1px solid yellow;
+  margin: 2px;
+}
+#flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#flex-container &gt; .ff {
+  flex: auto;
+}
+
+#flex-container &gt; .raw-item {
+  width: 5rem;
+}
+
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-3">
+ <tags>
+
+<div id="flex-container" class="fc">
+<div id="first" class="ff">A</div>
+<div class="ff">B</div>
+
+<div class="ff">C</div>
+
+<div class="ff">D</div>
+
+<div id="last" class="ff">E</div>
+
+</div>
+
+ </tags>
+ <css>
+
+.fc {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+}
+.ff {
+  flex: 1;
+  background-color: lightblue;
+  font-size: 2em;
+  border: 1px solid yellow;
+  margin: 2px;
+}
+#flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#flex-container &gt; .ff {
+  flex: auto;
+}
+
+#flex-container &gt; .ff {
+  width: 10rem;
+}
+
+#first.ff {
+  flex: 5 0 1em;
+}
+#last.ff {
+ flex: 1 1 3em;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-1">
+ <tags>
+
+<div class="fc">
+<div class="ff">A</div>
+<div class="ff">B</div>
+
+<div class="ff">C</div>
+
+<div class="ff">D</div>
+
+<div class="ff">E</div>
+
+</div>
+
+ </tags>
+ <css>
+
+.fc {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+}
+.ff {
+ flex: 1;
+background-color: lightblue;
+font-size: 2em;
+border: 1px solid yellow;
+margin: 2px;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-0">
+ <tags>
+
+<div class="fc">
+<div class="ff">A</div>
+<div class="ff">B</div>
+
+<div class="ff">C</div>
+
+<div class="ff">D</div>
+
+<div class="ff">E</div>
+
+</div>
+
+ </tags>
+ <css>
+.fc {
+}
+.ff {
+ display:flex;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+<example id="Example-current">
+ <tags>
+
+<div id="flex-container" class="fc">
+<div id="first" class="ff">A</div>
+<div class="ff">B</div>
+
+<div class="ff">C</div>
+
+<div class="ff">D</div>
+
+<div id="last" class="ff">E</div>
+
+</div>
+
+ </tags>
+ <css>
+
+.fc {
+  display: flex;
+  flex-direction: row;
+  background-color: white;
+}
+.ff {
+  flex: 1;
+  background-color: lightblue;
+  font-size: 2em;
+  border: 1px solid yellow;
+  margin: 2px;
+}
+#flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+#flex-container &gt; .ff {
+  flex: auto;
+}
+
+#flex-container &gt; .ff {
+  width: 10rem;
+}
+
+#first.ff {
+  flex: 5 0 1em;
+}
+#last.ff {
+ flex: 1 1 3em;
+}
+
+ </css>
+ <js>
+
+ </js>
+ <graphics>
+
+ </graphics>
+ <comment></comment>
+</example>
+
+</examples>
+
+</body></html>

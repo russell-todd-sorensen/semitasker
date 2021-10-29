@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="#587c00" >
+<meta name="description" content="Maze Generator WebApp: code by Russell Sorensen.
+Generates Maze image given dimensions, walls and cell config. Solves for all
+possible solutions, depth first." >
+
+<title>Phone Number Input</title>
+<link rel="stylesheet" href="./css/flex-form.css" media="all">
+
+<script>
+// avoid need to load logging widget
+var Log = {}
+Log.Notice = function() {}
+Log.Hide = function() {}
+Log.Remove = function() {}
+Log.Debug = function() {}
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="/js/queue-function.js"></script>
+<script src="./js/flex-form.js"></script>
+<style>
+html,
+body {
+    margin:0;
+    padding:0;
+    border:0;
+}
+svg {
+    display: block;
+}
+button {
+    margin-left: 10px;
+}
+</style>
+</head>
+<body>
+<!-- reuseable template for svg doc-->
+<script id="svg-base" type="image/svg+xml">
+<svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    externalResourcesRequired="true"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<defs>
+
+<rect id="conf-cell-base" height="50" width="50" />
+<rect id="cell-base" height="100" width="100" />
+<line id="hwall-base" x1="0" y1="0" x2="100" y2="0" />
+<line id="vwall-base" x1="0" y1="0" x2="0" y2="100" />
+<line id="hconf-base" x1="5" y1="0" x2="95" y2="0" />
+<line id="vconf-base" x1="0" y1="5" x2="0" y2="95" />
+
+</defs>
+</svg>
+<button id="run-animation">Play Demo</button>
+<button id="reset-maze">Reset</button>
+<button id="solve-maze">Solve</button>
+</script>
+
+<div id="mazes"></div>
+
+<script>
+
+window.addEventListener("DOMContentLoaded", () => {
+    loadMaze("demo");
+    loadMaze("demo2");
+});
+
+</script>
+</body>
+</html>
