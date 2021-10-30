@@ -3,13 +3,21 @@ class Horse {
     static #idSequence = 0;
     id;
     #time = 0.0;
-    stats = [];
+    stats; // flag to collect sorting stats
+    statsData = [];
+    config;
     followers = [];
     currentPlace = 0;
 
-    constructor() {
+    constructor(config) {
         this.id = this.getId();
         this.setTime();
+        if (config) {
+            for (let [key,value] of Object.entries(config)) {
+                this[key] = value;
+            }
+            this.config = config;
+        }
     }
 
     getId() {
@@ -60,12 +68,18 @@ class Horse {
     static timeDiff(a,b) {
         let aTime = a.#time,
             bTime = b.#time,
-            diff  = aTime - bTime;
+            diff  = parseInt((aTime - bTime)*100)/100;
 
         if (Math.abs(diff) < Number.EPSILON) {
             diff = 0;
         }
-        console.log(`aTime='${aTime}', bTime='${bTime}'`);
+        //console.log(`aTime='${aTime}', bTime='${bTime}'`);
+        if (a.stats) {
+            a.statsData.push({p:"a",oid:b.id,time:aTime,amb:diff});
+        }
+        if (b.stats) {
+            b.statsData.push({p:"b",oid:a.id,time:bTime,amb:diff});
+        }
         return diff;
     }
     static cmpId(a,b) {
@@ -86,6 +100,7 @@ class Heat {
     id;
     winner = null;
     horses;
+
     raced = false;
 
     constructor (horses) {
@@ -136,12 +151,15 @@ class Meet {
     globalLinks = [];
     isFlattened = false;
     graphicsCallback = null;
+    stats = false;
+    statsData = [];
     nullCallback = ( meetObj => {console.log(meetObj.id)});
 
-    constructor(numHorses,maxHeat,numPlaces,graphicsCallback) {
+    constructor(numHorses,maxHeat,numPlaces,stats,graphicsCallback) {
         this.numHorses = numHorses?numHorses:0;
         this.maxHeat   = maxHeat?maxHeat:1;
         this.numPlaces = numPlaces?numPlaces:1;
+        this.stats     = stats?stats:false;
         this.graphicsCallback = graphicsCallback?graphicsCallback:this.nullCallback;
 
         if (this.numPlaces > this.numHorses) {
@@ -154,8 +172,13 @@ class Meet {
     }
     init() {
         this.id = this.getId();
-        for (let i=0;i<this.numHorses;i++) {
-            this.horses.push(new Horse());
+        let config = {stats:this.stats}
+        for (let i=0, horse;i<this.numHorses;i++) {
+            horse = new Horse(config)
+            this.horses.push(horse);
+            if (this.stats) {
+                this.statsData.push({id:horse.id,data:horse.statsData})
+            }
         }
     }
     getId() {

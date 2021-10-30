@@ -100,6 +100,12 @@ label:after {
 input {
     width: 50px;
 }
+label.check {
+    width: 50px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
 
 text.horse-time,
 text.horse-name {
@@ -164,6 +170,10 @@ g.heat {
 <li><button id="run-animation">Step by Step</button><li>
 <li><button id="reset-maze">Reset</button></li>
 <li><button id="solve-maze" data-age="12">Solve</button></li>
+<li>
+    <label class="check" for="statsIn">Stats?</label>
+    <input name="statsIn" id="statsIn" type="checkbox" checked value="1" />
+</li>
 </ul>
 </fieldset>
 
@@ -184,14 +194,41 @@ var initialConf = {
     numHorses:{id:"numHorsesIn",value:0},
     maxHeat:{id:"maxHeatIn",value:0},
     numPlaces:{id:"numPlacesIn",value:0},
+    stats:{id:"statsIn",value:{type:"checkbox",value:1,checked:true}},
 }
 
 var processForm = function(conf) {
-    let value;
+    let value,
+        ele,
+        checked;
     conf = conf?conf:initialConf;
     for (let [key,obj] of Object.entries(conf)) {
-        value = document.getElementById(obj.id).value;
-        conf[key] = {id:obj.id,value:value}
+        ele = document.getElementById(obj.id);
+        if (typeof obj.value == "object") {
+            let type = obj.value.type;
+            switch (type) {
+            case "number": 
+                obj.value.value = ele.value;
+                break;
+            case "checkbox": 
+                obj.value.checked = ele.checked;
+                obj.value.value = ele.value;
+                break;
+            case "radio": 
+                break;
+            case "text": 
+            case "hidden": 
+                obj.value.value = ele.value;
+                break;
+            default: 
+                break;
+            }
+            conf[key]=obj
+        }
+        else {
+            obj.value = ele.value;
+            conf[key] = obj;
+        }
     }
     return conf
 }
@@ -199,9 +236,30 @@ var processForm = function(conf) {
 // updateForm runs after meet is finished,
 // and syncs form with actual values used in meet
 var updateForm = function(conf,m) { 
+    let ele;
     for (let [key,obj] of Object.entries(conf)) {
-        conf[key] = {id:obj.id,value:m[key]}
-        document.getElementById(obj.id).value = m[key];
+        ele = document.getElementById(obj.id);
+        if (typeof obj.value == "object") {
+            switch (obj.value.type) {
+            case "number":
+                ele.value = m[key];
+                break;
+            case "checkbox":
+                ele.checked = m[key];
+                ele.value   = obj.value.value;
+                break;
+            case "text":
+            case "hidden":
+                ele.value = m[key];
+                break;
+            case "radio":
+                break;
+            default:
+                break;
+            }
+        } else {
+            ele.value = m[key];
+        }
     }
     return conf;
 }
@@ -212,6 +270,7 @@ var runConfig = function (conf) {
         parseInt(conf.numHorses.value),
         parseInt(conf.maxHeat.value),
         parseInt(conf.numPlaces.value),
+        conf.stats.value.checked,
         animateHorseRace);
     m.runMeet();
     meet[m.id] = m;
@@ -223,13 +282,13 @@ var handleButton = function (evt) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-   let m = new Meet(0,0,0,animateHorseRace);
+   let m = new Meet(0,0,0,true,animateHorseRace);
    m.runMeet();
    meet[m.id] = m;
-   processForm();
-   for (let [key,obj] of Object.entries(initialConf)) {
-       initialConf[key] = {id:obj.id,value:m[key]}
-   }
+   //processForm();
+   //for (let [key,obj] of Object.entries(initialConf)) {
+   //    initialConf[key] = {id:obj.id,value:m[key]}
+   //}
    updateForm(initialConf,m);
 });
 document.getElementById("solve-maze").addEventListener("click",handleButton);
