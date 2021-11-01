@@ -285,16 +285,9 @@ window.addEventListener('DOMContentLoaded', () => {
    let m = new Meet(0,0,0,true,animateHorseRace);
    m.runMeet();
    meet[m.id] = m;
-   //processForm();
-   //for (let [key,obj] of Object.entries(initialConf)) {
-   //    initialConf[key] = {id:obj.id,value:m[key]}
-   //}
    updateForm(initialConf,m);
 });
 document.getElementById("solve-maze").addEventListener("click",handleButton);
-//var runButton = d3.select("#solve-maze");
-//runButton.dispatch("click",runConfig,)
 </script>
-
 </body>
 </html>
