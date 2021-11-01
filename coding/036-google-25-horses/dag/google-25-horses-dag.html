@@ -1,0 +1,293 @@
+<html lang="en-US">
+<head>
+<title>Google 25 Horses: Chain/Graph Solution</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="#587c00" >
+<meta name="description" content="Google 25 Horses: Chain/Graph Solution" >
+
+<link rel="stylesheet" href="/css/meyerweb-reset/reset.css" media="all">
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="./js/dag.js"></script>
+<script src="./js/google-25-horses-dag.js" ></script>
+<script src="./js/events-dag.js"></script>
+
+<!-- reuseable template for svg doc-->
+<script id="svg-template" type="image/svg+xml">
+<svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<style>
+
+</style>
+<defs>
+<rect id="horse-base" height="50" width="50" />
+</defs>
+</svg>
+</script>
+
+<style>
+html,
+head {
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+
+svg {
+    font-family: inherit;
+    display: block;
+    margin: 15px;
+}
+
+form {
+    display: inline;
+}
+
+button {
+    margin-left: 10px;
+}
+
+ul {
+    display: inline-block;
+}
+
+li {
+    display: inline-block;
+}
+
+fieldset {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+
+legend {
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    display: inline-block;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 90px;
+}
+label:after {
+    content: ":"
+}
+input {
+    width: 50px;
+}
+label.check {
+    width: 50px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
+
+text.horse-time,
+text.horse-name {
+    fill: black;
+    font-family: 'Fira Code';
+    /*font-size: 12px; */
+    text-anchor: middle;
+}
+
+rect.horse {
+    stroke-width: 2px;
+    stroke: black;
+    fill:white;
+}
+g.heat {
+
+}
+.horse.place-1 {
+    fill: gold;
+}
+.horse.place-2 {
+    fill: silver;
+}
+.horse.place-3 {
+    fill: lightpink;
+}
+.horse.place-4 {
+    fill: lightblue;
+}
+.horse.place-5 {
+    fill: yellowgreen;
+}
+</style>
+
+</head>
+<body>
+
+<div id="meet-0-parent">
+<form id="animate-horses" onsubmit="return false;">
+
+<fieldset>
+<legend>Horse Race Options</legend>
+<ul>
+<li>
+    <label for="numHorsesIn"># Horses</label>
+    <input name="numHorsesIn" id="numHorsesIn" type="number" min="1" step="1" max="500" value="25" />
+</li>
+<li>
+    <label for="maxHeatIn">Max Heat</label>
+    <input name="maxHeatIn" id="maxHeatIn" type="number" min="2" step="1" max="500" value="5" />
+</li>
+<li>
+    <label for="numPlacesIn">Places</label>
+    <input name="numPlacesIn" id="numPlacesIn" type="number" min="1" max="500" step="1" value="3" />
+</li>
+</ul>
+</fieldset>
+
+<fieldset>
+<legend>Animate</legend>
+<ul>
+<li><button id="run-animation">Step by Step</button><li>
+<li><button id="reset-maze">Reset</button></li>
+<li><button id="solve-maze" data-age="12">Solve</button></li>
+<li>
+    <label class="check" for="statsIn">Stats?</label>
+    <input name="statsIn" id="statsIn" type="checkbox" checked value="1" />
+</li>
+</ul>
+</fieldset>
+
+</form>
+
+</div>
+
+<div id="examples">
+
+</div>
+</div>
+<div id="horseRaces"></div>
+<script>
+
+var meet = [];
+
+var initialConf = {
+    numHorses:{id:"numHorsesIn",value:0},
+    maxHeat:{id:"maxHeatIn",value:0},
+    numPlaces:{id:"numPlacesIn",value:0},
+    stats:{id:"statsIn",value:{type:"checkbox",value:1,checked:true}},
+}
+
+var processForm = function(conf) {
+    let value,
+        ele,
+        checked;
+    conf = conf?conf:initialConf;
+    for (let [key,obj] of Object.entries(conf)) {
+        ele = document.getElementById(obj.id);
+        if (typeof obj.value == "object") {
+            let type = obj.value.type;
+            switch (type) {
+            case "number": 
+                obj.value.value = ele.value;
+                break;
+            case "checkbox": 
+                obj.value.checked = ele.checked;
+                obj.value.value = ele.value;
+                break;
+            case "radio": 
+                break;
+            case "text": 
+            case "hidden": 
+                obj.value.value = ele.value;
+                break;
+            default: 
+                break;
+            }
+            conf[key]=obj
+        }
+        else {
+            obj.value = ele.value;
+            conf[key] = obj;
+        }
+    }
+    return conf
+}
+
+// updateForm runs after meet is finished,
+// and syncs form with actual values used in meet
+var updateForm = function(conf,m) { 
+    let ele;
+    for (let [key,obj] of Object.entries(conf)) {
+        ele = document.getElementById(obj.id);
+        if (typeof obj.value == "object") {
+            switch (obj.value.type) {
+            case "number":
+                ele.value = m[key];
+                break;
+            case "checkbox":
+                ele.checked = m[key];
+                ele.value   = obj.value.value;
+                break;
+            case "text":
+            case "hidden":
+                ele.value = m[key];
+                break;
+            case "radio":
+                break;
+            default:
+                break;
+            }
+        } else {
+            ele.value = m[key];
+        }
+    }
+    return conf;
+}
+
+var runConfig = function (conf) {
+    conf = conf?conf:processForm();
+    let m = new Meet(
+        parseInt(conf.numHorses.value),
+        parseInt(conf.maxHeat.value),
+        parseInt(conf.numPlaces.value),
+        conf.stats.value.checked,
+        animateHorseRace);
+    m.runMeet();
+    meet[m.id] = m;
+    updateForm(conf,m);
+}
+
+var handleButton = function (evt) {
+    runConfig()
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+   let m = new Meet(0,0,0,true,animateHorseRace);
+   m.runMeet();
+   meet[m.id] = m;
+   updateForm(initialConf,m);
+});
+document.getElementById("solve-maze").addEventListener("click",handleButton);
+</script>
+</body>
+</html>
