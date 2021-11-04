@@ -7,6 +7,7 @@ class Horse {
     statsData = [];
     config;
     followers = [];
+    parents = [];
     currentPlace = 0;
 
     constructor(config) {
@@ -19,7 +20,6 @@ class Horse {
             this.config = config;
         }
     }
-
     getId() {
         if (!this.id) {
             ++Horse.#idSequence;
@@ -38,6 +38,11 @@ class Horse {
     addFollower(horse) {
         if (horse) {
             this.followers.unshift(horse);
+        }
+    }
+    addParent(horse) {
+        if (!this.parents.includes(horse)) {
+            this.parents.unshift(horse);
         }
     }
     flattenHorses(flattened) {
@@ -126,8 +131,11 @@ class Heat {
     race() {
         if (this.raced === false) {
             this.horses.sort(Horse.cmp);
-            for (let i=0,len=this.len()-1,horse;i<len;i++) {
-                this.horses[i].addFollower(this.horses[i+1])
+            for (let i=0,len=this.len()-1;i<len;i++) {
+                this.horses[i].addFollower(this.horses[i+1]);
+            }
+            for (let j=1,len=this.len();j<len;j++) {
+                this.horses[j].addParent(this.horses[j-1]);
             }
             this.winner = this.horses[0];
             this.raced = true;
@@ -145,6 +153,7 @@ class Meet {
     heats = [];
     numPlaces;
     winners = [];
+    graphs = [];
     fullHeats;
     partHeatSize;
     heatSizes = [];
@@ -177,7 +186,7 @@ class Meet {
             horse = new Horse(config)
             this.horses.push(horse);
             if (this.stats) {
-                this.statsData.push({id:horse.id,data:horse.statsData})
+                this.statsData.push({id:horse.id,data:horse.statsData,horse:horse});
             }
         }
     }
@@ -202,7 +211,25 @@ class Meet {
            winner = heat.race();
            this.heats.push(heat);
            this.horses.push(winner);
+           this.recordGraph();
         }
+    }
+    recordGraph() {
+        let snapShot = [],
+            len = this.statsData.length;
+            
+        for (let i=0;i<len;i++) {
+            let stat = this.statsData[i],
+                id = stat.id,
+                horse = stat.horse,
+                parents = horse.parents,
+                parentIds = [];
+            for (let j=0;j<parents.length;j++) {
+                parentIds.push(parents[j].id)
+            }
+            snapShot.push({id:id,parentIds:parentIds,data:{heat:this.heats.length-1,}});
+        }
+        this.graphs.push(snapShot);
     }
     racePartHeat() {
         if (this.numPlaces == 0) {
@@ -228,6 +255,7 @@ class Meet {
             winner = heat.race();
             this.heats.push(heat);
             this.horses.push(winner);
+            this.recordGraph();
 
             if (this.horses.length > 1) {
                 console.log(`strangeness this.horses.length=${this.horses.length}`);
@@ -287,6 +315,9 @@ class Meet {
         }
     }
     printResults() {
+
+    }
+    generateGraphData(heats) {
 
     }
     runMeet() {

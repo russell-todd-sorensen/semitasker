@@ -11,7 +11,7 @@ class Graph {
     };
     constructor(name,links) {
         this.getId();
-        this.name = name?name:`graph-${this.id}`;
+        this.name = name?name:`${this.id}`;
         this.addLinks(links?links:[]);
     }
     addLinks (links) { // input is array

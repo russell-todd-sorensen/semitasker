@@ -11,8 +11,7 @@ var initialConf = {
 
 var processForm = function(conf) {
     let value,
-        ele,
-        checked;
+        ele;
     conf = conf?conf:initialConf;
     for (let [key,obj] of Object.entries(conf)) {
         ele = document.getElementById(obj.id);
