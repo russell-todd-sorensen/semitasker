@@ -270,10 +270,21 @@ class Meet {
             this.heats.push(heat);
             this.horses.push(winner);
             this.recordGraph();
+            this.winners.push(this.horses.pop())
 
-            if (this.horses.length > 1) {
+            if (this.horses.length > 0) {
                 console.log(`strangeness this.horses.length=${this.horses.length}`);
                 return;
+            }
+            for (let i=0,horse;i<winner.followers.length;i++) {
+                horse = winner.followers[i];
+                for (let j=0;j<horse.parents.length;j++) {
+                    if (horse.parents[j].id == winner.id) {
+                        horse.parents.splice(j,1);
+                    }
+                }
+                winner.followers = []; // see if this works
+                this.horses.push(horse);
             }
             
         }
