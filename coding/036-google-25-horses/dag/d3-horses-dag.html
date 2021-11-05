@@ -27,14 +27,14 @@ svg {
 (async () => {
   // fetch data and render
   const resp = await fetch(
-    "https://home.highfivediet.com/coding/036-google-25-horses/dag/json/horses-25-5-25.json"
+    "https://home.highfivediet.com/coding/036-google-25-horses/dag/json/horses-25-5-25-nums.json"
   );
   const data = await resp.json();
   const dag = d3.dagStratify()(data);
   const nodeRadius = 20;
   const layout = d3
     .sugiyama() // base layout
-    .decross(d3.decrossOpt()) // minimize number of crossings
+    //.decross(d3.decrossOpt()) // minimize number of crossings
     .nodeSize((node) => [(node ? 3.6 : 0.25) * nodeRadius, 3 * nodeRadius]); // set node size instead of constraining to fit
   const { width, height } = layout(dag);
 

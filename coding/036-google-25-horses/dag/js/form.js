@@ -47,21 +47,25 @@ var processForm = function(conf) {
 // updateForm runs after meet is finished,
 // and syncs form with actual values used in meet
 var updateForm = function(conf,m) {
-    let ele;
+    let ele,
+        val;
     for (let [key,obj] of Object.entries(conf)) {
+
         ele = document.getElementById(obj.id);
+
         if (typeof obj.value == "object") {
+            val =(m[key] || m[key]==0)?m[key]:obj.value.value;
             switch (obj.value.type) {
             case "number":
-                ele.value = m[key];
+                ele.value = val;
                 break;
             case "checkbox":
-                ele.checked = m[key];
+                ele.checked = val;
                 ele.value   = obj.value.value;
                 break;
             case "text":
             case "hidden":
-                ele.value = m[key];
+                ele.value = val;
                 break;
             case "radio":
                 break;
@@ -69,7 +73,7 @@ var updateForm = function(conf,m) {
                 break;
             }
         } else {
-            ele.value = m[key];
+            ele.value = (m[key] || m[key]==0)?m[key]:obj.value;
         }
     }
     return conf;

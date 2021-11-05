@@ -9,12 +9,16 @@
 
 <link rel="stylesheet" href="/css/meyerweb-reset/reset.css" media="all">
 
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></script>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/d3-dag@0.8.2"></script>
+<!--<  script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></  script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script src="./js/dag.js"></script>
 <script src="./js/google-25-horses-dag.js" ></script>
 <script src="./js/events-dag.js"></script>
 <script src="./js/form.js"></script>
+<script src="./js/d3-dag-svg.js"></script>
 
 <!-- reuseable template for svg doc-->
 <script id="svg-template" type="image/svg+xml">
@@ -146,7 +150,7 @@ g.heat {
 
 <div id="meet-0-parent">
 <form id="animate-horses" onsubmit="return false;">
-
+<input type="hidden" id="meetId" name="meetId" value=""/>
 <fieldset>
 <legend>Horse Race Options</legend>
 <ul>
@@ -168,8 +172,10 @@ g.heat {
 <fieldset>
 <legend>Animate</legend>
 <ul>
-<li><button id="run-animation">Step by Step</button><li>
-<li><button id="reset-maze">Reset</button></li>
+<li><button id="anim-prev">&lt;= </button>
+<input type="number" min="-1" step="1" id="animStepIn" name="animStepIn" value="-1" >
+<button id="anim-next"> =&gt;</button><li>
+<li> </li>
 <li><button id="solve-maze" data-age="12">Solve</button></li>
 <li>
     <label class="check" for="statsIn">Stats?</label>
@@ -181,7 +187,9 @@ g.heat {
 </form>
 
 </div>
-
+<div id="graph-container">
+<svg id="graph" height="0" width="0"></svg>
+</div>
 <div id="examples">
 
 </div>
@@ -196,6 +204,8 @@ var initialConf = {
     maxHeat:{id:"maxHeatIn",value:0},
     numPlaces:{id:"numPlacesIn",value:0},
     stats:{id:"statsIn",value:{type:"checkbox",value:1,checked:true}},
+    animStep:{id:"animStepIn",value:{type:"number",value:-1}},
+    id:{id:"meetId",value:{type:"hidden",value:"meet-0"}}
 }
 
 var runConfig = function (conf) {
@@ -208,20 +218,59 @@ var runConfig = function (conf) {
         animateHorseRace);
     m.runMeet();
     meet[m.id] = m;
+    conf.id.value.value=m.id;
     updateForm(conf,m);
 }
 
-var handleButton = function (evt) {
+var handleSolveMaze = function (evt) {
     runConfig()
 }
 
+var animateHeats = function(conf,op) {
+    conf = processForm(conf);
+    let animStep = parseInt(conf.animStep.value.value),
+        m = meet[conf.id.value.value],
+        max = m.graphs.length-1,
+        animTo;
+    if (max<0) { // not ready yet?
+        return;
+    }
+    switch (op) {
+    case "anim-next": 
+        animTo = animStep+1;
+        break;
+    case "anim-prev": 
+        animTo = animStep-1;
+        break;
+    default: 
+        animTo = animStep;
+        break;
+    }
+
+    if (animTo < 0) {
+        animTo = 0;
+    } else
+    if (animTo > max) {
+        animTo = max;
+    }
+    graphData(m.getSnapShot(animTo), "#graph");
+    conf.animStep.value.value = animTo;
+    updateForm(conf,m);
+
+}
+var handleAnimateHeats = function (evt) {
+    let id = evt.currentTarget.id;
+    animateHeats(initialConf,id);
+} 
 
 window.addEventListener('DOMContentLoaded', () => {
     let m = new Meet(0,0,0,true,animateHorseRace);
     m.runMeet();
     meet[m.id] = m;
     updateForm(initialConf,m);
-    document.getElementById("solve-maze").addEventListener("click",handleButton);
+    document.getElementById("solve-maze").addEventListener("click",handleSolveMaze);
+    document.getElementById("anim-prev").addEventListener("click",handleAnimateHeats);
+    document.getElementById("anim-next").addEventListener("click",handleAnimateHeats);
 });
 </script>
 </body>

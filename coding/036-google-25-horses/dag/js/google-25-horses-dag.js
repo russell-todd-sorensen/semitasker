@@ -153,6 +153,7 @@ class Meet {
     heats = [];
     numPlaces;
     winners = [];
+
     graphs = [];
     fullHeats;
     partHeatSize;
@@ -227,9 +228,22 @@ class Meet {
             for (let j=0;j<parents.length;j++) {
                 parentIds.push(parents[j].id)
             }
-            snapShot.push({id:id,parentIds:parentIds,data:{heat:this.heats.length-1,}});
+            snapShot.push({id:id,parentIds:parentIds,data:{horseId:id,heat:this.heats.length-1,horse:horse}});
         }
         this.graphs.push(snapShot);
+    }
+    snapShotToJson(index,includeAttrs,space) {
+        index = index?index:0;
+        includeAttrs = includeAttrs?includeAttrs:["id","parentIds"];
+        space = space?space:null;
+        let len = this.graphs.length,
+            snapShot = this.graphs[index<len?index:len-1];
+        return JSON.stringify(snapShot,includeAttrs,space);
+    }
+    getSnapShot(index) {
+        index = index?index:0;
+        let len = this.graphs.length;
+        return this.graphs[index<len?index:len-1];
     }
     racePartHeat() {
         if (this.numPlaces == 0) {
@@ -256,11 +270,23 @@ class Meet {
             this.heats.push(heat);
             this.horses.push(winner);
             this.recordGraph();
+            this.winners.push(this.horses.pop())
 
-            if (this.horses.length > 1) {
+            if (this.horses.length > 0) {
                 console.log(`strangeness this.horses.length=${this.horses.length}`);
                 return;
             }
+            for (let i=0,horse;i<winner.followers.length;i++) {
+                horse = winner.followers[i];
+                for (let j=0;j<horse.parents.length;j++) {
+                    if (horse.parents[j].id == winner.id) {
+                        horse.parents.splice(j,1);
+                    }
+                }
+                winner.followers = []; // see if this works
+                this.horses.push(horse);
+            }
+            
         }
         this.pruneFollowers()
     }
