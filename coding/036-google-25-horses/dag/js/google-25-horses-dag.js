@@ -32,6 +32,16 @@ class Horse {
             this.#time = parseInt(Math.random()*10000)/100;
         }
     }
+    forceTime(time) {
+        time = parseFloat(time);
+        while (time>99.99) {
+            time /= 10;
+        }
+        while (time < 0.001) {
+            time *= 10;
+        }
+        this.#time = parseInt(parseFloat(time)*100)/100;
+    }
     getTime () {
         return this.#time;
     }
@@ -162,6 +172,8 @@ class Meet {
     isFlattened = false;
     graphicsCallback = null;
     stats = false;
+    forceTimes = false;
+    times = [];
     statsData = [];
     nullCallback = ( meetObj => {console.log(meetObj.id)});
 
@@ -189,6 +201,11 @@ class Meet {
             if (this.stats) {
                 this.statsData.push({id:horse.id,data:horse.statsData,horse:horse});
             }
+        }
+    }
+    forceRaceTimes(raceTimes) {
+        for (let [index,time] of Object.entries(raceTimes)) {
+            this.horses[index].forceTime(time);
         }
     }
     getId() {

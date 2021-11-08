@@ -11,14 +11,13 @@
 
 <script src="https://d3js.org/d3.v7.min.js"></script>
 <script src="https://unpkg.com/d3-dag@0.8.2"></script>
-<!--<  script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></  script>-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script src="./js/dag.js"></script>
 <script src="./js/google-25-horses-dag.js" ></script>
 <script src="./js/events-dag.js"></script>
 <script src="./js/form.js"></script>
-<script src="./js/d3-dag-svg.js"></script>
+<script src="./js/d3-dag-svg-2.js"></script>
 
 <!-- reuseable template for svg doc-->
 <script id="svg-template" type="image/svg+xml">
@@ -108,6 +107,9 @@ input {
 label.check {
     width: 50px;
 }
+label.check.wide {
+    width: 130px;
+}
 input[type="checkbox"] {
     width: 25px;
 }
@@ -143,6 +145,22 @@ g.heat {
 .horse.place-5 {
     fill: yellowgreen;
 }
+#animate-horses fieldset {
+    vertical-align: top;
+}
+#animate-horses ul {
+    padding-top: 10px;
+}
+#timesIn {
+    width: 200px;
+}
+
+ul#timescheck,
+ul#statscheck {
+    display: block;
+    padding-top: 20px;
+    min-height: 35px;
+}
 </style>
 
 </head>
@@ -167,6 +185,16 @@ g.heat {
     <input name="numPlacesIn" id="numPlacesIn" type="number" min="1" max="500" step="1" value="3" />
 </li>
 </ul>
+<ul id="timescheck">
+    <li>
+    <label class="check wide" for="forceTimesIn">Force Times?</label>
+    <input name="forceTimesIn" id="forceTimesIn" type="checkbox" value="1" />
+    </li>
+    <li>
+        <label for="timesIn">Times</label>
+        <input type="text" id="timesIn" name="timesIn" value="[{}]">
+    </li>
+</ul>
 </fieldset>
 
 <fieldset>
@@ -177,6 +205,8 @@ g.heat {
 <button id="anim-next"> =&gt;</button><li>
 <li> </li>
 <li><button id="solve-maze" data-age="12">Solve</button></li>
+</ul>
+<ul id="statscheck">
 <li>
     <label class="check" for="statsIn">Stats?</label>
     <input name="statsIn" id="statsIn" type="checkbox" checked value="1" />
@@ -195,6 +225,8 @@ g.heat {
 </div>
 </div>
 <div id="horseRaces"></div>
+<style>
+</style>
 <script>
 
 var meet = [];
@@ -205,7 +237,9 @@ var initialConf = {
     numPlaces:{id:"numPlacesIn",value:0},
     stats:{id:"statsIn",value:{type:"checkbox",value:1,checked:true}},
     animStep:{id:"animStepIn",value:{type:"number",value:-1}},
-    id:{id:"meetId",value:{type:"hidden",value:"meet-0"}}
+    id:{id:"meetId",value:{type:"hidden",value:"meet-0"}},
+    forceTimes:{id:"forceTimesIn",value:{type:"checkbox",value:1,checked:false}},
+    times:{id:"timesIn",value:JSON.stringify({})},
 }
 
 var runConfig = function (conf) {
@@ -216,6 +250,11 @@ var runConfig = function (conf) {
         parseInt(conf.numPlaces.value),
         conf.stats.value.checked,
         animateHorseRace);
+    if (conf.forceTimes.value.checked) {
+        m.forceTimes = true;
+        m.times = conf.times.value;
+        m.forceRaceTimes(JSON.parse(m.times));
+    }
     m.runMeet();
     meet[m.id] = m;
     conf.id.value.value=m.id;
