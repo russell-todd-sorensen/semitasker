@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+<title>Google 25 Horses: Chain/Graph Solution</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#587c00">
+<meta name="description" content="Google 25 Horses: Chain/Graph Solution">
+
+<link rel="stylesheet" href="./Google 25 Horses_ Chain_Graph Solution_files/reset.css" media="all">
+
+<script src="./Google 25 Horses_ Chain_Graph Solution_files/d3.v7.min.js">
+</script>
+<script src="./Google 25 Horses_ Chain_Graph Solution_files/d3-dag@0.8.2">
+</script>
+<!--<  script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js">
+</  script>-->
+<script src="./Google 25 Horses_ Chain_Graph Solution_files/jquery.min.js">
+</script>
+
+<script src="./Google 25 Horses_ Chain_Graph Solution_files/dag.js">
+</script>
+<script src="./Google 25 Horses_ Chain_Graph Solution_files/google-25-horses-dag.js">
+</script>
+<script src="./Google 25 Horses_ Chain_Graph Solution_files/events-dag.js">
+</script>
+<script src="./Google 25 Horses_ Chain_Graph Solution_files/form.js">
+</script>
+<script src="./Google 25 Horses_ Chain_Graph Solution_files/d3-dag-svg.js">
+</script>
+
+<!-- reuseable template for svg doc-->
+<script id="svg-template" type="image/svg+xml">
+<svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<style>
+
+</style>
+<defs>
+<rect id="horse-base" height="50" width="50" />
+</defs>
+</svg>
+</script>
+
+<style>
+html,
+head {
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+
+svg {
+    font-family: inherit;
+    display: block;
+    margin: 15px;
+}
+
+form {
+    display: inline;
+}
+
+button {
+    margin-left: 10px;
+}
+
+ul {
+    display: inline-block;
+}
+
+li {
+    display: inline-block;
+}
+
+fieldset {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+
+legend {
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    display: inline-block;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 90px;
+}
+label:after {
+    content: ":"
+}
+input {
+    width: 50px;
+}
+label.check {
+    width: 50px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
+
+text.horse-time,
+text.horse-name {
+    fill: black;
+    font-family: 'Fira Code';
+    /*font-size: 12px; */
+    text-anchor: middle;
+}
+
+rect.horse {
+    stroke-width: 2px;
+    stroke: black;
+    fill:white;
+}
+g.heat {
+
+}
+.horse.place-1 {
+    fill: gold;
+}
+.horse.place-2 {
+    fill: silver;
+}
+.horse.place-3 {
+    fill: lightpink;
+}
+.horse.place-4 {
+    fill: lightblue;
+}
+.horse.place-5 {
+    fill: yellowgreen;
+}
+</style>
+
+</head>
+<body>
+
+<div id="meet-0-parent">
+<form id="animate-horses" onsubmit="return false;">
+<input type="hidden" id="meetId" name="meetId" value="meet-2">
+<fieldset>
+<legend>Horse Race Options</legend>
+<ul>
+<li>
+    <label for="numHorsesIn"># Horses</label>
+    <input name="numHorsesIn" id="numHorsesIn" type="number" min="1" step="1" max="500" value="25">
+</li>
+<li>
+    <label for="maxHeatIn">Max Heat</label>
+    <input name="maxHeatIn" id="maxHeatIn" type="number" min="2" step="1" max="500" value="5">
+</li>
+<li>
+    <label for="numPlacesIn">Places</label>
+    <input name="numPlacesIn" id="numPlacesIn" type="number" min="1" max="500" step="1" value="3">
+</li>
+</ul>
+</fieldset>
+
+<fieldset>
+<legend>Animate</legend>
+<ul>
+<li>
+<button id="anim-prev">&lt;= </button>
+<input type="number" min="-1" step="1" id="animStepIn" name="animStepIn" value="-1">
+<button id="anim-next"> =&gt;</button>
+</li>
+<li>
+</li>
+<li> </li>
+<li>
+<button id="solve-maze" data-age="12">Solve</button>
+</li>
+<li>
+    <label class="check" for="statsIn">Stats?</label>
+    <input name="statsIn" id="statsIn" type="checkbox" checked="" value="1">
+</li>
+</ul>
+</fieldset>
+
+</form>
+
+</div>
+<div id="graph-container">
+<svg 
+    id="graph" 
+    height="540" 
+    width="360" 
+    viewBox="0 0 360 540"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink">
+<defs>
+
+<rect id="store-anim-10-7">
+
+</rect>
+
+<lineargradient 
+    id="horse-10--horse-7" 
+    gradientUnits="userSpaceOnUse" 
+    x1="210.3319497171219" 
+    y1="30" 
+    x2="257.40515827880125" 
+    y2="210">
+    <animate  id="anim-h10-h7"
+        attributeName="x1" 
+        attributeType="XML" 
+        values="210.3319;
+                200.8943;
+                210.3319" 
+        dur="5s" 
+        begin="0s;graph.click" 
+        fill="freeze" />
+<stop offset="0%" 
+    stop-color="rgb(110, 64, 170)">
+</stop>
+<stop offset="100%" 
+    stop-color="rgb(35, 230, 150)">
+</stop>
+
+</lineargradient>
+
+
+<lineargradient id="horse-10--horse-19" gradientUnits="userSpaceOnUse" x1="210.3319497171219" x2="195.03270455116186" y1="30" y2="90">
+<stop offset="0%" stop-color="rgb(110, 64, 170)">
+</stop>
+<stop offset="100%" stop-color="rgb(142, 62, 178)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-19--horse-7" gradientUnits="userSpaceOnUse" x1="195.03270455116186" x2="257.40515827880125" y1="90" y2="210">
+<stop offset="0%" stop-color="rgb(142, 62, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(35, 230, 150)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-19--horse-17" gradientUnits="userSpaceOnUse" x1="195.03270455116186" x2="252.00000000000009" y1="90" y2="270">
+<stop offset="0%" stop-color="rgb(142, 62, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(26, 214, 176)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-19--horse-22" gradientUnits="userSpaceOnUse" x1="195.03270455116186" x2="170.40278003456586" y1="90" y2="150">
+<stop offset="0%" stop-color="rgb(142, 62, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(175, 60, 178)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-22--horse-7" gradientUnits="userSpaceOnUse" x1="170.40278003456586" x2="257.40515827880125" y1="150" y2="210">
+<stop offset="0%" stop-color="rgb(175, 60, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(35, 230, 150)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-22--horse-12" gradientUnits="userSpaceOnUse" x1="170.40278003456586" x2="161.76111201382645" y1="150" y2="210">
+<stop offset="0%" stop-color="rgb(175, 60, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(255, 109, 81)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-22--horse-23" gradientUnits="userSpaceOnUse" x1="170.40278003456586" x2="89.76111201382648" y1="150" y2="210">
+<stop offset="0%" stop-color="rgb(175, 60, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(207, 61, 169)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-23--horse-24" gradientUnits="userSpaceOnUse" x1="89.76111201382648" x2="36.000000000000114" y1="210" y2="270">
+<stop offset="0%" stop-color="rgb(207, 61, 169)">
+</stop>
+<stop offset="100%" stop-color="rgb(234, 66, 153)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-24--horse-21" gradientUnits="userSpaceOnUse" x1="36.000000000000114" x2="36" y1="270" y2="330">
+<stop offset="0%" stop-color="rgb(234, 66, 153)">
+</stop>
+<stop offset="100%" stop-color="rgb(254, 75, 131)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-21--horse-25" gradientUnits="userSpaceOnUse" x1="36" x2="36" y1="330" y2="390">
+<stop offset="0%" stop-color="rgb(254, 75, 131)">
+</stop>
+<stop offset="100%" stop-color="rgb(255, 90, 106)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-12--horse-3" gradientUnits="userSpaceOnUse" x1="161.76111201382645" x2="180.00000000000014" y1="210" y2="270">
+<stop offset="0%" stop-color="rgb(255, 109, 81)">
+</stop>
+<stop offset="100%" stop-color="rgb(183, 230, 76)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-12--horse-15" gradientUnits="userSpaceOnUse" x1="161.76111201382645" x2="108.0000000000001" y1="210" y2="270">
+<stop offset="0%" stop-color="rgb(255, 109, 81)">
+</stop>
+<stop offset="100%" stop-color="rgb(255, 131, 61)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-15--horse-14" gradientUnits="userSpaceOnUse" x1="108.0000000000001" x2="108.00000000000009" y1="270" y2="330">
+<stop offset="0%" stop-color="rgb(255, 131, 61)">
+</stop>
+<stop offset="100%" stop-color="rgb(246, 157, 49)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-14--horse-11" gradientUnits="userSpaceOnUse" x1="108.00000000000009" x2="108" y1="330" y2="390">
+<stop offset="0%" stop-color="rgb(246, 157, 49)">
+</stop>
+<stop offset="100%" stop-color="rgb(226, 183, 47)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-11--horse-13" gradientUnits="userSpaceOnUse" x1="108" x2="108.00000000000007" y1="390" y2="450">
+<stop offset="0%" stop-color="rgb(226, 183, 47)">
+</stop>
+<stop offset="100%" stop-color="rgb(204, 208, 56)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-3--horse-1" gradientUnits="userSpaceOnUse" x1="180.00000000000014" x2="180.00000000000009" y1="270" y2="330">
+<stop offset="0%" stop-color="rgb(183, 230, 76)">
+</stop>
+<stop offset="100%" stop-color="rgb(156, 243, 87)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-1--horse-2" gradientUnits="userSpaceOnUse" x1="180.00000000000009" x2="180.0000000000001" y1="330" y2="390">
+<stop offset="0%" stop-color="rgb(156, 243, 87)">
+</stop>
+<stop offset="100%" stop-color="rgb(117, 246, 90)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-2--horse-4" gradientUnits="userSpaceOnUse" x1="180.0000000000001" x2="180.0000000000002" y1="390" y2="450">
+<stop offset="0%" stop-color="rgb(117, 246, 90)">
+</stop>
+<stop offset="100%" stop-color="rgb(82, 246, 103)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-4--horse-5" gradientUnits="userSpaceOnUse" x1="180.0000000000002" x2="180.0000000000001" y1="450" y2="510">
+<stop offset="0%" stop-color="rgb(82, 246, 103)">
+</stop>
+<stop offset="100%" stop-color="rgb(54, 241, 124)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-7--horse-9" gradientUnits="userSpaceOnUse" x1="257.40515827880125" x2="324.0000000000001" y1="210" y2="270">
+<stop offset="0%" stop-color="rgb(35, 230, 150)">
+</stop>
+<stop offset="100%" stop-color="rgb(67, 122, 224)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-7--horse-17" gradientUnits="userSpaceOnUse" x1="257.40515827880125" x2="252.00000000000009" y1="210" y2="270">
+<stop offset="0%" stop-color="rgb(35, 230, 150)">
+</stop>
+<stop offset="100%" stop-color="rgb(26, 214, 176)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-17--horse-18" gradientUnits="userSpaceOnUse" x1="252.00000000000009" x2="252.00000000000006" y1="270" y2="330">
+<stop offset="0%" stop-color="rgb(26, 214, 176)">
+</stop>
+<stop offset="100%" stop-color="rgb(27, 194, 199)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-18--horse-16" gradientUnits="userSpaceOnUse" x1="252.00000000000006" x2="252.0000000000001" y1="330" y2="390">
+<stop offset="0%" stop-color="rgb(27, 194, 199)">
+</stop>
+<stop offset="100%" stop-color="rgb(35, 171, 216)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-16--horse-20" gradientUnits="userSpaceOnUse" x1="252.0000000000001" x2="252.00000000000023" y1="390" y2="450">
+<stop offset="0%" stop-color="rgb(35, 171, 216)">
+</stop>
+<stop offset="100%" stop-color="rgb(50, 146, 225)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-9--horse-6" gradientUnits="userSpaceOnUse" x1="324.0000000000001" x2="324.0000000000001" y1="270" y2="330">
+<stop offset="0%" stop-color="rgb(67, 122, 224)">
+</stop>
+<stop offset="100%" stop-color="rgb(85, 99, 213)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-6--horse-8" gradientUnits="userSpaceOnUse" x1="324.0000000000001" x2="324.0000000000001" y1="330" y2="390">
+<stop offset="0%" stop-color="rgb(85, 99, 213)">
+</stop>
+<stop offset="100%" stop-color="rgb(100, 80, 195)">
+</stop>
+</lineargradient>
+<rect id="anim-store-path-anim-10-7">
+    
+</rect>
+</defs>
+<g>
+
+<path 
+    d="M210.3319497171219,30
+       C210.3319497171219,30,
+       226.99475788274262,
+       69.81602402815541,
+       233.53270455116186,90
+       C239.95358016586434,
+       109.82255373103139,
+       245.34817174851577,
+       129.8756215131671,
+       249.33572388732148,150
+       C253.27458419091502,169.8786405285771,
+       257.40515827880125,210,
+       257.40515827880125,210" 
+    fill="none" stroke-width="3" stroke="url(#horse-10--horse-7)">
+    <animate attributeName="d" dur="5s" begin="0s;graph.click" values="M210.3319497171219,30
+       C210.3319497171219,30,
+       226.99475788274262,
+       69.81602402815541,
+       233.53270455116186,90
+       C239.95358016586434,
+       109.82255373103139,
+       245.34817174851577,
+       129.8756215131671,
+       249.33572388732148,150
+       C253.27458419091502,169.8786405285771,
+       257.40515827880125,210,
+       257.40515827880125,210;
+       M200.89432779947919,30
+         C200.89432779947919,30,
+         216.98062771363584,69.74809733293283,
+         220.18054199218747,90
+         C223.3027615429368,109.76018134948575,
+         221.34426227131664,130.0271835571062,
+         220.32539876302081,150
+         C219.30375427141897,
+         170.02733215441833,214.04151746961807,
+         210,214.04151746961807,210;
+         M210.3319497171219,30
+       C210.3319497171219,30,
+       226.99475788274262,
+       69.81602402815541,
+       233.53270455116186,90
+       C239.95358016586434,
+       109.82255373103139,
+       245.34817174851577,
+       129.8756215131671,
+       249.33572388732148,150
+       C253.27458419091502,169.8786405285771,
+       257.40515827880125,210,
+       257.40515827880125,210"/>
+</path>
+
+<path d="M210.3319497171219,30L195.03270455116186,90" fill="none" stroke-width="3" stroke="url(#horse-10--horse-19)">
+</path>
+<path d="M195.03270455116186,90C195.03270455116186,90,215.82352246037487,130,226.21893141498148,150C236.61434036958804,170,257.40515827880125,210,257.40515827880125,210" fill="none" stroke-width="3" stroke="url(#horse-19--horse-7)">
+</path>
+<path d="M195.03270455116186,90C195.03270455116186,90,204.91568795059294,129.93799970470278,208.9027800345659,150C212.86537934731115,169.9387591026552,212.1462528974071,190.56092877822888,218.90515827880125,210C226.07879944682432,230.63187953015338,252.00000000000009,270,252.00000000000009,270" fill="none" stroke-width="3" stroke="url(#horse-19--horse-17)">
+</path>
+<path d="M195.03270455116186,90L170.40278003456586,150" fill="none" stroke-width="3" stroke="url(#horse-19--horse-22)">
+</path>
+<path d="M170.40278003456586,150L257.40515827880125,210" fill="none" stroke-width="3" stroke="url(#horse-22--horse-7)">
+</path>
+<path d="M170.40278003456586,150L161.76111201382645,210" fill="none" stroke-width="3" stroke="url(#horse-22--horse-12)">
+</path>
+<path d="M170.40278003456586,150L89.76111201382648,210" fill="none" stroke-width="3" stroke="url(#horse-22--horse-23)">
+</path>
+<path d="M89.76111201382648,210L36.000000000000114,270" fill="none" stroke-width="3" stroke="url(#horse-23--horse-24)">
+</path>
+<path d="M36.000000000000114,270L36,330" fill="none" stroke-width="3" stroke="url(#horse-24--horse-21)">
+</path>
+<path d="M36,330L36,390" fill="none" stroke-width="3" stroke="url(#horse-21--horse-25)">
+</path>
+<path d="M161.76111201382645,210L180.00000000000014,270" fill="none" stroke-width="3" stroke="url(#horse-12--horse-3)">
+</path>
+<path d="M161.76111201382645,210L108.0000000000001,270" fill="none" stroke-width="3" stroke="url(#horse-12--horse-15)">
+</path>
+<path d="M108.0000000000001,270L108.00000000000009,330" fill="none" stroke-width="3" stroke="url(#horse-15--horse-14)">
+</path>
+<path d="M108.00000000000009,330L108,390" fill="none" stroke-width="3" stroke="url(#horse-14--horse-11)">
+</path>
+<path d="M108,390L108.00000000000007,450" fill="none" stroke-width="3" stroke="url(#horse-11--horse-13)">
+</path>
+<path d="M180.00000000000014,270L180.00000000000009,330" fill="none" stroke-width="3" stroke="url(#horse-3--horse-1)">
+</path>
+<path d="M180.00000000000009,330L180.0000000000001,390" fill="none" stroke-width="3" stroke="url(#horse-1--horse-2)">
+</path>
+<path d="M180.0000000000001,390L180.0000000000002,450" fill="none" stroke-width="3" stroke="url(#horse-2--horse-4)">
+</path>
+<path d="M180.0000000000002,450L180.0000000000001,510" fill="none" stroke-width="3" stroke="url(#horse-4--horse-5)">
+</path>
+<path d="M257.40515827880125,210L324.0000000000001,270" fill="none" stroke-width="3" stroke="url(#horse-7--horse-9)">
+</path>
+<path d="M257.40515827880125,210L252.00000000000009,270" fill="none" stroke-width="3" stroke="url(#horse-7--horse-17)">
+</path>
+<path d="M252.00000000000009,270L252.00000000000006,330" fill="none" stroke-width="3" stroke="url(#horse-17--horse-18)">
+</path>
+<path d="M252.00000000000006,330L252.0000000000001,390" fill="none" stroke-width="3" stroke="url(#horse-18--horse-16)">
+</path>
+<path d="M252.0000000000001,390L252.00000000000023,450" fill="none" stroke-width="3" stroke="url(#horse-16--horse-20)">
+</path>
+<path d="M324.0000000000001,270L324.0000000000001,330" fill="none" stroke-width="3" stroke="url(#horse-9--horse-6)">
+</path>
+<path d="M324.0000000000001,330L324.0000000000001,390" fill="none" stroke-width="3" stroke="url(#horse-6--horse-8)">
+</path>
+</g>
+<g>
+
+
+<g transform="translate(210.3319497171219, 30)">
+    <animateTransform attributeName="transform" 
+        type="translate" attributeType="XML" 
+        values="210.3319,30;
+                200.8943,30;
+                210.3319,30" 
+        dur="5s" 
+        begin="0s;graph.click" 
+        fill="freeze" />
+
+<circle r="20" fill="rgb(110, 64, 170)">
+</circle>
+<text font-weight="bold" 
+    font-family="sans-serif" 
+    text-anchor="middle" 
+    alignment-baseline="middle" 
+    fill="white">10</text>
+</g>
+
+
+<g transform="translate(195.03270455116186, 90)">
+<circle r="20" fill="rgb(142, 62, 178)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">19</text>
+</g>
+<g transform="translate(170.40278003456586, 150)">
+<circle r="20" fill="rgb(175, 60, 178)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">22</text>
+</g>
+<g transform="translate(89.76111201382648, 210)">
+<circle r="20" fill="rgb(207, 61, 169)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">23</text>
+</g>
+<g transform="translate(36.000000000000114, 270)">
+<circle r="20" fill="rgb(234, 66, 153)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">24</text>
+</g>
+<g transform="translate(36, 330)">
+<circle r="20" fill="rgb(254, 75, 131)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">21</text>
+</g>
+<g transform="translate(36, 390)">
+<circle r="20" fill="rgb(255, 90, 106)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">25</text>
+</g>
+<g transform="translate(161.76111201382645, 210)">
+<circle r="20" fill="rgb(255, 109, 81)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">12</text>
+</g>
+<g transform="translate(108.0000000000001, 270)">
+<circle r="20" fill="rgb(255, 131, 61)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">15</text>
+</g>
+<g transform="translate(108.00000000000009, 330)">
+<circle r="20" fill="rgb(246, 157, 49)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">14</text>
+</g>
+<g transform="translate(108, 390)">
+<circle r="20" fill="rgb(226, 183, 47)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">11</text>
+</g>
+<g transform="translate(108.00000000000007, 450)">
+<circle r="20" fill="rgb(204, 208, 56)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">13</text>
+</g>
+<g transform="translate(180.00000000000014, 270)">
+<circle r="20" fill="rgb(183, 230, 76)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">3</text>
+</g>
+<g transform="translate(180.00000000000009, 330)">
+<circle r="20" fill="rgb(156, 243, 87)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">1</text>
+</g>
+<g transform="translate(180.0000000000001, 390)">
+<circle r="20" fill="rgb(117, 246, 90)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">2</text>
+</g>
+<g transform="translate(180.0000000000002, 450)">
+<circle r="20" fill="rgb(82, 246, 103)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">4</text>
+</g>
+<g transform="translate(180.0000000000001, 510)">
+<circle r="20" fill="rgb(54, 241, 124)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">5</text>
+</g>
+
+
+<g transform="translate(257.40515827880125, 210)">
+    <animateTransform attributeName="transform" 
+        type="translate" attributeType="XML" 
+        values="257.4052, 210;
+                214.04151,210;
+                257.4052, 210" 
+        dur="5s" 
+        begin="0s;graph.click" 
+        fill="freeze" />
+<circle r="20" fill="rgb(35, 230, 150)">
+</circle>
+<text font-weight="bold" 
+    font-family="sans-serif" 
+    text-anchor="middle" 
+    alignment-baseline="middle" 
+    fill="white">7</text>
+</g>
+
+
+<g transform="translate(252.00000000000009, 270)">
+<circle r="20" fill="rgb(26, 214, 176)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">17</text>
+</g>
+<g transform="translate(252.00000000000006, 330)">
+<circle r="20" fill="rgb(27, 194, 199)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">18</text>
+</g>
+<g transform="translate(252.0000000000001, 390)">
+<circle r="20" fill="rgb(35, 171, 216)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">16</text>
+</g>
+<g transform="translate(252.00000000000023, 450)">
+<circle r="20" fill="rgb(50, 146, 225)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">20</text>
+</g>
+<g transform="translate(324.0000000000001, 270)">
+<circle r="20" fill="rgb(67, 122, 224)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">9</text>
+</g>
+<g transform="translate(324.0000000000001, 330)">
+<circle r="20" fill="rgb(85, 99, 213)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">6</text>
+</g>
+<g transform="translate(324.0000000000001, 390)">
+<circle r="20" fill="rgb(100, 80, 195)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">8</text>
+</g>
+</g>
+</svg>
+</div>
+
+<script>
+
+var meet = [];
+
+var initialConf = {
+    numHorses:{id:"numHorsesIn",value:0},
+    maxHeat:{id:"maxHeatIn",value:0},
+    numPlaces:{id:"numPlacesIn",value:0},
+    stats:{id:"statsIn",value:{type:"checkbox",value:1,checked:true}},
+    animStep:{id:"animStepIn",value:{type:"number",value:-1}},
+    id:{id:"meetId",value:{type:"hidden",value:"meet-0"}}
+}
+
+var runConfig = function (conf) {
+    conf = conf?conf:processForm();
+    let m = new Meet(
+        parseInt(conf.numHorses.value),
+        parseInt(conf.maxHeat.value),
+        parseInt(conf.numPlaces.value),
+        conf.stats.value.checked,
+        animateHorseRace);
+    m.runMeet();
+    meet[m.id] = m;
+    conf.id.value.value=m.id;
+    updateForm(conf,m);
+}
+
+var handleSolveMaze = function (evt) {
+    runConfig()
+}
+
+var animateHeats = function(conf,op) {
+    conf = processForm(conf);
+    let animStep = parseInt(conf.animStep.value.value),
+        m = meet[conf.id.value.value],
+        max = m.graphs.length-1,
+        animTo;
+    if (max<0) { // not ready yet?
+        return;
+    }
+    switch (op) {
+    case "anim-next": 
+        animTo = animStep+1;
+        break;
+    case "anim-prev": 
+        animTo = animStep-1;
+        break;
+    default: 
+        animTo = animStep;
+        break;
+    }
+
+    if (animTo < 0) {
+        animTo = 0;
+    } else
+    if (animTo > max) {
+        animTo = max;
+    }
+    graphData(m.getSnapShot(animTo), "#graph");
+    conf.animStep.value.value = animTo;
+    updateForm(conf,m);
+
+}
+var handleAnimateHeats = function (evt) {
+    let id = evt.currentTarget.id;
+    animateHeats(initialConf,id);
+} 
+
+window.addEventListener('DOMContentLoaded', () => {
+    let m = new Meet(0,0,0,true,animateHorseRace);
+    m.runMeet();
+    meet[m.id] = m;
+    updateForm(initialConf,m);
+    document.getElementById("solve-maze").addEventListener("click",handleSolveMaze);
+    document.getElementById("anim-prev").addEventListener("click",handleAnimateHeats);
+    document.getElementById("anim-next").addEventListener("click",handleAnimateHeats);
+});
+</script>
+
+</body>
+</html>

@@ -1,69 +1,3 @@
-var captureGraphData = function(data) {
-    
-        let dag = d3.dagStratify()(data),
-            nodeRadius = 20,
-            layout = d3
-                .sugiyama()
-                .nodeSize((node) => [(node?3.6:0.25)*nodeRadius,3*nodeRadius]);
-
-        let {width,height} = layout(dag);
-
-        width = parseInt(width);
-        height = parseInt(height);
-        let steps = dag.size(),
-            colorMap = getColorMap(dag,steps),
-            line = d3
-                .line()
-                .curve(d3.curveCatmullRom)
-                .x((d) => d.x)
-                .y((d) => d.y),
-            links = dag.links(),
-            nodes  = dag.descendants();
-    
-    return {
-        dag:dag,
-        steps:steps,
-        colorMap:colorMap,
-        line:line,
-        links:links,
-        nodes:nodes,
-    }
-}
-
-var getColorMap = function(dag,steps) {
-    let cMap = new Map(),
-        interp = d3.interpolateRainbow;
-
-    for (let [i, node] of dag.idescendants().entries()) {
-        cMap.set(node.data.id,interp(i/steps))
-    }
-    return cMap;
-} 
-
-var calcLinearGradient = function (defs,source,target) {
-
-    // encodeURIComponents for spaces, hope id doesn't have a `--` in it
-    let gradId = encodeURIComponent(`${source.data.id}--${target.data.id}`),
-        grad = defs
-            .append("linearGradient")
-            .attr("id", gradId)
-            .attr("gradientUnits", "userSpaceOnUse")
-            .attr("x1", source.x)
-            .attr("x2", target.x)
-            .attr("y1", source.y)
-            .attr("y2", target.y);
-
-    grad
-        .append("stop")
-        .attr("offset", "0%")
-        .attr("stop-color", colorMap.get(source.data.id));
-    grad
-        .append("stop")
-        .attr("offset", "100%")
-        .attr("stop-color", colorMap.get(target.data.id));
-
-    return `url(#${gradId})`;
-}
 
 var graphData = function(data,svgSelector) {
     let dag = d3.dagStratify()(data),
@@ -103,8 +37,6 @@ var graphData = function(data,svgSelector) {
             .x((d) => d.x)
             .y((d) => d.y);
 
-    let links = dag.links();
-
     // Plot edges
     svgSelection
         .append("g")
@@ -139,7 +71,6 @@ var graphData = function(data,svgSelector) {
             return `url(#${gradId})`;
         });
 
-    let desc = dag.descendants();
     // Select nodes
     let nodes = svgSelection
             .append("g")
@@ -149,7 +80,6 @@ var graphData = function(data,svgSelector) {
             .append("g")
             .attr("transform", ({ x, y }) => `translate(${x}, ${y})`);
 
-    let cm = colorMap ;
     // Plot node circles
     nodes
         .append("circle")

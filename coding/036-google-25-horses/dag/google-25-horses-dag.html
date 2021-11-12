@@ -185,15 +185,12 @@ ul#statscheck {
     <input name="numPlacesIn" id="numPlacesIn" type="number" min="1" max="500" step="1" value="3" />
 </li>
 </ul>
-<ul id="timescheck">
-    <li>
-    <label class="check wide" for="forceTimesIn">Force Times?</label>
-    <input name="forceTimesIn" id="forceTimesIn" type="checkbox" value="1" />
-    </li>
-    <li>
-        <label for="timesIn">Times</label>
-        <input type="text" id="timesIn" name="timesIn" value="[{}]">
-    </li>
+<ul id="statscheck">
+<li>
+    <label class="check" for="statsIn">Stats?</label>
+    <input name="statsIn" id="statsIn" type="checkbox" checked value="1" />
+</li>
+<li><button id="solve-maze" data-age="12">Solve</button></li>
 </ul>
 </fieldset>
 
@@ -204,13 +201,16 @@ ul#statscheck {
 <input type="number" min="-1" step="1" id="animStepIn" name="animStepIn" value="-1" >
 <button id="anim-next"> =&gt;</button><li>
 <li> </li>
-<li><button id="solve-maze" data-age="12">Solve</button></li>
 </ul>
-<ul id="statscheck">
-<li>
-    <label class="check" for="statsIn">Stats?</label>
-    <input name="statsIn" id="statsIn" type="checkbox" checked value="1" />
-</li>
+<ul id="timescheck">
+    <li>
+    <label class="check wide" for="forceTimesIn">Force Times?</label>
+    <input name="forceTimesIn" id="forceTimesIn" type="checkbox" value="1" />
+    </li>
+    <li>
+        <label for="timesIn">Times</label>
+        <input type="text" id="timesIn" name="timesIn" value="[{}]">
+    </li>
 </ul>
 </fieldset>
 

@@ -1,0 +1,698 @@
+
+<!-- saved from url=(0087)https://home.highfivediet.com/coding/036-google-25-horses/dag/google-25-horses-dag.html -->
+<html lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style>@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+<title>Google 25 Horses: Chain/Graph Solution</title>
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#587c00">
+<meta name="description" content="Google 25 Horses: Chain/Graph Solution">
+
+<link rel="stylesheet" href="./Google 25 Horses_ Chain_Graph Solution-2_files/reset.css" media="all">
+
+<script src="./Google 25 Horses_ Chain_Graph Solution-2_files/d3.v7.min.js">
+</script>
+<script src="./Google 25 Horses_ Chain_Graph Solution-2_files/d3-dag@0.8.2">
+</script>
+<!--<  script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js">
+</  script>-->
+<script src="./Google 25 Horses_ Chain_Graph Solution-2_files/jquery.min.js">
+</script>
+
+<script src="./Google 25 Horses_ Chain_Graph Solution-2_files/dag.js">
+</script>
+<script src="./Google 25 Horses_ Chain_Graph Solution-2_files/google-25-horses-dag.js">
+</script>
+<script src="./Google 25 Horses_ Chain_Graph Solution-2_files/events-dag.js">
+</script>
+<script src="./Google 25 Horses_ Chain_Graph Solution-2_files/form.js">
+</script>
+<script src="./Google 25 Horses_ Chain_Graph Solution-2_files/d3-dag-svg.js">
+</script>
+
+<!-- reuseable template for svg doc-->
+<script id="svg-template" type="image/svg+xml">
+<svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<style>
+
+</style>
+<defs>
+<rect id="horse-base" height="50" width="50" />
+</defs>
+</svg>
+</script>
+
+<style>
+html,
+head {
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+
+svg {
+    font-family: inherit;
+    display: block;
+    margin: 15px;
+}
+
+form {
+    display: inline;
+}
+
+button {
+    margin-left: 10px;
+}
+
+ul {
+    display: inline-block;
+}
+
+li {
+    display: inline-block;
+}
+
+fieldset {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+
+legend {
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    display: inline-block;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 90px;
+}
+label:after {
+    content: ":"
+}
+input {
+    width: 50px;
+}
+label.check {
+    width: 50px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
+
+text.horse-time,
+text.horse-name {
+    fill: black;
+    font-family: 'Fira Code';
+    /*font-size: 12px; */
+    text-anchor: middle;
+}
+
+rect.horse {
+    stroke-width: 2px;
+    stroke: black;
+    fill:white;
+}
+g.heat {
+
+}
+.horse.place-1 {
+    fill: gold;
+}
+.horse.place-2 {
+    fill: silver;
+}
+.horse.place-3 {
+    fill: lightpink;
+}
+.horse.place-4 {
+    fill: lightblue;
+}
+.horse.place-5 {
+    fill: yellowgreen;
+}
+</style>
+
+</head>
+<body>
+
+<div id="meet-0-parent">
+<form id="animate-horses" onsubmit="return false;">
+<input type="hidden" id="meetId" name="meetId" value="meet-2">
+<fieldset>
+<legend>Horse Race Options</legend>
+<ul>
+<li>
+    <label for="numHorsesIn"># Horses</label>
+    <input name="numHorsesIn" id="numHorsesIn" type="number" min="1" step="1" max="500" value="25">
+</li>
+<li>
+    <label for="maxHeatIn">Max Heat</label>
+    <input name="maxHeatIn" id="maxHeatIn" type="number" min="2" step="1" max="500" value="5">
+</li>
+<li>
+    <label for="numPlacesIn">Places</label>
+    <input name="numPlacesIn" id="numPlacesIn" type="number" min="1" max="500" step="1" value="3">
+</li>
+</ul>
+</fieldset>
+
+<fieldset>
+<legend>Animate</legend>
+<ul>
+<li>
+<button id="anim-prev">&lt;= </button>
+<input type="number" min="-1" step="1" id="animStepIn" name="animStepIn" value="-1">
+<button id="anim-next"> =&gt;</button>
+</li>
+<li>
+</li>
+<li> </li>
+<li>
+<button id="solve-maze" data-age="12">Solve</button>
+</li>
+<li>
+    <label class="check" for="statsIn">Stats?</label>
+    <input name="statsIn" id="statsIn" type="checkbox" checked="" value="1">
+</li>
+</ul>
+</fieldset>
+
+</form>
+
+</div>
+<div id="graph-container">
+<svg id="graph" height="600" width="360" viewBox="0 0 360 600">
+<defs>
+
+
+<lineargradient 
+    id="horse-10--horse-7" 
+    gradientUnits="userSpaceOnUse" 
+    x1="200.89432779947919" 
+    y1="30" 
+    x2="214.04151746961807" 
+    y2="210">
+<stop offset="0%" 
+    stop-color="rgb(110, 64, 170)">
+</stop>
+<stop offset="100%" 
+    stop-color="rgb(35, 230, 150)">
+</stop>
+</lineargradient>
+
+
+
+
+<lineargradient id="horse-10--horse-19" gradientUnits="userSpaceOnUse" x1="200.89432779947919" x2="181.68054199218747" y1="30" y2="90">
+<stop offset="0%" stop-color="rgb(110, 64, 170)">
+</stop>
+<stop offset="100%" stop-color="rgb(142, 62, 178)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-19--horse-7" gradientUnits="userSpaceOnUse" x1="181.68054199218747" x2="214.04151746961807" y1="90" y2="210">
+<stop offset="0%" stop-color="rgb(142, 62, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(35, 230, 150)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-19--horse-17" gradientUnits="userSpaceOnUse" x1="181.68054199218747" x2="206.404052734375" y1="90" y2="270">
+<stop offset="0%" stop-color="rgb(142, 62, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(26, 214, 176)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-19--horse-22" gradientUnits="userSpaceOnUse" x1="181.68054199218747" x2="155.79736328125003" y1="90" y2="150">
+<stop offset="0%" stop-color="rgb(142, 62, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(175, 60, 178)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-22--horse-7" gradientUnits="userSpaceOnUse" x1="155.79736328125003" x2="214.04151746961807" y1="150" y2="210">
+<stop offset="0%" stop-color="rgb(175, 60, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(35, 230, 150)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-22--horse-12" gradientUnits="userSpaceOnUse" x1="155.79736328125003" x2="134.404052734375" y1="150" y2="270">
+<stop offset="0%" stop-color="rgb(175, 60, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(255, 109, 81)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-22--horse-23" gradientUnits="userSpaceOnUse" x1="155.79736328125003" x2="36" y1="150" y2="330">
+<stop offset="0%" stop-color="rgb(175, 60, 178)">
+</stop>
+<stop offset="100%" stop-color="rgb(207, 61, 169)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-23--horse-24" gradientUnits="userSpaceOnUse" x1="36" x2="36.00000000000003" y1="330" y2="390">
+<stop offset="0%" stop-color="rgb(207, 61, 169)">
+</stop>
+<stop offset="100%" stop-color="rgb(234, 66, 153)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-24--horse-21" gradientUnits="userSpaceOnUse" x1="36.00000000000003" x2="36" y1="390" y2="450">
+<stop offset="0%" stop-color="rgb(234, 66, 153)">
+</stop>
+<stop offset="100%" stop-color="rgb(254, 75, 131)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-21--horse-25" gradientUnits="userSpaceOnUse" x1="36" x2="36.000000000000085" y1="450" y2="510">
+<stop offset="0%" stop-color="rgb(254, 75, 131)">
+</stop>
+<stop offset="100%" stop-color="rgb(255, 90, 106)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-12--horse-3" gradientUnits="userSpaceOnUse" x1="134.404052734375" x2="180" y1="270" y2="330">
+<stop offset="0%" stop-color="rgb(255, 109, 81)">
+</stop>
+<stop offset="100%" stop-color="rgb(183, 230, 76)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-12--horse-15" gradientUnits="userSpaceOnUse" x1="134.404052734375" x2="108.00000000000007" y1="270" y2="330">
+<stop offset="0%" stop-color="rgb(255, 109, 81)">
+</stop>
+<stop offset="100%" stop-color="rgb(255, 131, 61)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-12--horse-23" gradientUnits="userSpaceOnUse" x1="134.404052734375" x2="36" y1="270" y2="330">
+<stop offset="0%" stop-color="rgb(255, 109, 81)">
+</stop>
+<stop offset="100%" stop-color="rgb(207, 61, 169)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-15--horse-14" gradientUnits="userSpaceOnUse" x1="108.00000000000007" x2="108.00000000000003" y1="330" y2="390">
+<stop offset="0%" stop-color="rgb(255, 131, 61)">
+</stop>
+<stop offset="100%" stop-color="rgb(246, 157, 49)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-14--horse-11" gradientUnits="userSpaceOnUse" x1="108.00000000000003" x2="107.99999999999997" y1="390" y2="450">
+<stop offset="0%" stop-color="rgb(246, 157, 49)">
+</stop>
+<stop offset="100%" stop-color="rgb(226, 183, 47)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-11--horse-13" gradientUnits="userSpaceOnUse" x1="107.99999999999997" x2="108.00000000000013" y1="450" y2="510">
+<stop offset="0%" stop-color="rgb(226, 183, 47)">
+</stop>
+<stop offset="100%" stop-color="rgb(204, 208, 56)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-3--horse-1" gradientUnits="userSpaceOnUse" x1="180" x2="180.00000000000003" y1="330" y2="390">
+<stop offset="0%" stop-color="rgb(183, 230, 76)">
+</stop>
+<stop offset="100%" stop-color="rgb(156, 243, 87)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-1--horse-2" gradientUnits="userSpaceOnUse" x1="180.00000000000003" x2="179.99999999999997" y1="390" y2="450">
+<stop offset="0%" stop-color="rgb(156, 243, 87)">
+</stop>
+<stop offset="100%" stop-color="rgb(117, 246, 90)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-2--horse-4" gradientUnits="userSpaceOnUse" x1="179.99999999999997" x2="180.0000000000001" y1="450" y2="510">
+<stop offset="0%" stop-color="rgb(117, 246, 90)">
+</stop>
+<stop offset="100%" stop-color="rgb(82, 246, 103)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-4--horse-5" gradientUnits="userSpaceOnUse" x1="180.0000000000001" x2="180.0000000000001" y1="510" y2="570">
+<stop offset="0%" stop-color="rgb(82, 246, 103)">
+</stop>
+<stop offset="100%" stop-color="rgb(54, 241, 124)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-7--horse-9" gradientUnits="userSpaceOnUse" x1="214.04151746961807" x2="278.4040527343751" y1="210" y2="270">
+<stop offset="0%" stop-color="rgb(35, 230, 150)">
+</stop>
+<stop offset="100%" stop-color="rgb(67, 122, 224)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-7--horse-12" gradientUnits="userSpaceOnUse" x1="214.04151746961807" x2="134.404052734375" y1="210" y2="270">
+<stop offset="0%" stop-color="rgb(35, 230, 150)">
+</stop>
+<stop offset="100%" stop-color="rgb(255, 109, 81)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-7--horse-17" gradientUnits="userSpaceOnUse" x1="214.04151746961807" x2="206.404052734375" y1="210" y2="270">
+<stop offset="0%" stop-color="rgb(35, 230, 150)">
+</stop>
+<stop offset="100%" stop-color="rgb(26, 214, 176)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-17--horse-18" gradientUnits="userSpaceOnUse" x1="206.404052734375" x2="251.99999999999994" y1="270" y2="330">
+<stop offset="0%" stop-color="rgb(26, 214, 176)">
+</stop>
+<stop offset="100%" stop-color="rgb(27, 194, 199)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-18--horse-16" gradientUnits="userSpaceOnUse" x1="251.99999999999994" x2="252.00000000000003" y1="330" y2="390">
+<stop offset="0%" stop-color="rgb(27, 194, 199)">
+</stop>
+<stop offset="100%" stop-color="rgb(35, 171, 216)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-16--horse-20" gradientUnits="userSpaceOnUse" x1="252.00000000000003" x2="252.00000000000003" y1="390" y2="450">
+<stop offset="0%" stop-color="rgb(35, 171, 216)">
+</stop>
+<stop offset="100%" stop-color="rgb(50, 146, 225)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-9--horse-6" gradientUnits="userSpaceOnUse" x1="278.4040527343751" x2="323.99999999999994" y1="270" y2="330">
+<stop offset="0%" stop-color="rgb(67, 122, 224)">
+</stop>
+<stop offset="100%" stop-color="rgb(85, 99, 213)">
+</stop>
+</lineargradient>
+<lineargradient id="horse-6--horse-8" gradientUnits="userSpaceOnUse" x1="323.99999999999994" x2="324" y1="330" y2="390">
+<stop offset="0%" stop-color="rgb(85, 99, 213)">
+</stop>
+<stop offset="100%" stop-color="rgb(100, 80, 195)">
+</stop>
+</lineargradient>
+</defs>
+<g>
+
+<path d="M200.89432779947919,30
+         C200.89432779947919,30,
+         216.98062771363584,69.74809733293283,
+         220.18054199218747,90
+         C223.3027615429368,109.76018134948575,
+         221.34426227131664,130.0271835571062,
+         220.32539876302081,150
+         C219.30375427141897,
+         170.02733215441833,214.04151746961807,
+         210,214.04151746961807,210" 
+    fill="none" stroke-width="3" stroke="url(#horse-10--horse-7)">
+</path>
+<path d="M200.89432779947919,30L181.68054199218747,90" fill="none" stroke-width="3" stroke="url(#horse-10--horse-19)">
+</path>
+<path d="M181.68054199218747,90C181.68054199218747,90,193.89043684445647,129.93948594597236,199.29736328125003,150C204.67186395794386,169.9402095846035,214.04151746961807,210,214.04151746961807,210" fill="none" stroke-width="3" stroke="url(#horse-19--horse-7)">
+</path>
+<path d="M181.68054199218747,90C181.68054199218747,90,195.24931594077867,130.12335929607633,194.29736328125006,150C193.33344506363255,170.12647991239174,173.84562955629087,190.3414404618164,175.54151746961807,210C177.298475155891,230.3664741108405,206.404052734375,270,206.404052734375,270" fill="none" stroke-width="3" stroke="url(#horse-19--horse-17)">
+</path>
+<path d="M181.68054199218747,90L155.79736328125003,150" fill="none" stroke-width="3" stroke="url(#horse-19--horse-22)">
+</path>
+<path d="M155.79736328125003,150L214.04151746961807,210" fill="none" stroke-width="3" stroke="url(#horse-22--horse-7)">
+</path>
+<path d="M155.79736328125003,150C155.79736328125003,150,148.666259765625,189.99999999999997,145.10070800781253,210C141.53515625,229.99999999999991,134.404052734375,270,134.404052734375,270" fill="none" stroke-width="3" stroke="url(#horse-22--horse-12)">
+</path>
+<path d="M155.79736328125003,150C155.79736328125003,150,133.43203934891147,190.44558300069858,119.85815429687496,210C105.63537871913046,230.48920286775015,86.16198456211957,249.51079713224985,71.93920898437507,270C58.36532393233857,289.5544169993015,36,330,36,330" fill="none" stroke-width="3" stroke="url(#horse-22--horse-23)">
+</path>
+<path d="M36,330L36.00000000000003,390" fill="none" stroke-width="3" stroke="url(#horse-23--horse-24)">
+</path>
+<path d="M36.00000000000003,390L36,450" fill="none" stroke-width="3" stroke="url(#horse-24--horse-21)">
+</path>
+<path d="M36,450L36.000000000000085,510" fill="none" stroke-width="3" stroke="url(#horse-21--horse-25)">
+</path>
+<path d="M134.404052734375,270L180,330" fill="none" stroke-width="3" stroke="url(#horse-12--horse-3)">
+</path>
+<path d="M134.404052734375,270L108.00000000000007,330" fill="none" stroke-width="3" stroke="url(#horse-12--horse-15)">
+</path>
+<path d="M134.404052734375,270L36,330" fill="none" stroke-width="3" stroke="url(#horse-12--horse-23)">
+</path>
+<path d="M108.00000000000007,330L108.00000000000003,390" fill="none" stroke-width="3" stroke="url(#horse-15--horse-14)">
+</path>
+<path d="M108.00000000000003,390L107.99999999999997,450" fill="none" stroke-width="3" stroke="url(#horse-14--horse-11)">
+</path>
+<path d="M107.99999999999997,450L108.00000000000013,510" fill="none" stroke-width="3" stroke="url(#horse-11--horse-13)">
+</path>
+<path d="M180,330L180.00000000000003,390" fill="none" stroke-width="3" stroke="url(#horse-3--horse-1)">
+</path>
+<path d="M180.00000000000003,390L179.99999999999997,450" fill="none" stroke-width="3" stroke="url(#horse-1--horse-2)">
+</path>
+<path d="M179.99999999999997,450L180.0000000000001,510" fill="none" stroke-width="3" stroke="url(#horse-2--horse-4)">
+</path>
+<path d="M180.0000000000001,510L180.0000000000001,570" fill="none" stroke-width="3" stroke="url(#horse-4--horse-5)">
+</path>
+<path d="M214.04151746961807,210L278.4040527343751,270" fill="none" stroke-width="3" stroke="url(#horse-7--horse-9)">
+</path>
+<path d="M214.04151746961807,210L134.404052734375,270" fill="none" stroke-width="3" stroke="url(#horse-7--horse-12)">
+</path>
+<path d="M214.04151746961807,210L206.404052734375,270" fill="none" stroke-width="3" stroke="url(#horse-7--horse-17)">
+</path>
+<path d="M206.404052734375,270L251.99999999999994,330" fill="none" stroke-width="3" stroke="url(#horse-17--horse-18)">
+</path>
+<path d="M251.99999999999994,330L252.00000000000003,390" fill="none" stroke-width="3" stroke="url(#horse-18--horse-16)">
+</path>
+<path d="M252.00000000000003,390L252.00000000000003,450" fill="none" stroke-width="3" stroke="url(#horse-16--horse-20)">
+</path>
+<path d="M278.4040527343751,270L323.99999999999994,330" fill="none" stroke-width="3" stroke="url(#horse-9--horse-6)">
+</path>
+<path d="M323.99999999999994,330L324,390" fill="none" stroke-width="3" stroke="url(#horse-6--horse-8)">
+</path>
+</g>
+<g>
+
+<g transform="translate(200.89432779947919, 30)">
+<circle r="20" fill="rgb(110, 64, 170)">
+</circle>
+<text font-weight="bold" 
+    font-family="sans-serif"
+    text-anchor="middle" alignment-baseline="middle" 
+    fill="white">10</text>
+</g>
+
+
+<g transform="translate(181.68054199218747, 90)">
+<circle r="20" fill="rgb(142, 62, 178)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">19</text>
+</g>
+<g transform="translate(155.79736328125003, 150)">
+<circle r="20" fill="rgb(175, 60, 178)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">22</text>
+</g>
+<g transform="translate(36, 330)">
+<circle r="20" fill="rgb(207, 61, 169)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">23</text>
+</g>
+<g transform="translate(36.00000000000003, 390)">
+<circle r="20" fill="rgb(234, 66, 153)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">24</text>
+</g>
+<g transform="translate(36, 450)">
+<circle r="20" fill="rgb(254, 75, 131)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">21</text>
+</g>
+<g transform="translate(36.000000000000085, 510)">
+<circle r="20" fill="rgb(255, 90, 106)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">25</text>
+</g>
+<g transform="translate(134.404052734375, 270)">
+<circle r="20" fill="rgb(255, 109, 81)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">12</text>
+</g>
+<g transform="translate(108.00000000000007, 330)">
+<circle r="20" fill="rgb(255, 131, 61)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">15</text>
+</g>
+<g transform="translate(108.00000000000003, 390)">
+<circle r="20" fill="rgb(246, 157, 49)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">14</text>
+</g>
+<g transform="translate(107.99999999999997, 450)">
+<circle r="20" fill="rgb(226, 183, 47)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">11</text>
+</g>
+<g transform="translate(108.00000000000013, 510)">
+<circle r="20" fill="rgb(204, 208, 56)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">13</text>
+</g>
+<g transform="translate(180, 330)">
+<circle r="20" fill="rgb(183, 230, 76)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">3</text>
+</g>
+<g transform="translate(180.00000000000003, 390)">
+<circle r="20" fill="rgb(156, 243, 87)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">1</text>
+</g>
+<g transform="translate(179.99999999999997, 450)">
+<circle r="20" fill="rgb(117, 246, 90)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">2</text>
+</g>
+<g transform="translate(180.0000000000001, 510)">
+<circle r="20" fill="rgb(82, 246, 103)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">4</text>
+</g>
+<g transform="translate(180.0000000000001, 570)">
+<circle r="20" fill="rgb(54, 241, 124)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">5</text>
+</g>
+
+
+<g transform="translate(214.04151746961807, 210)">
+<circle r="20" fill="rgb(35, 230, 150)">
+</circle>
+<text font-weight="bold" 
+    font-family="sans-serif" 
+    text-anchor="middle" 
+    alignment-baseline="middle" 
+    fill="white">7</text>
+</g>
+
+
+<g transform="translate(206.404052734375, 270)">
+<circle r="20" fill="rgb(26, 214, 176)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">17</text>
+</g>
+<g transform="translate(251.99999999999994, 330)">
+<circle r="20" fill="rgb(27, 194, 199)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">18</text>
+</g>
+<g transform="translate(252.00000000000003, 390)">
+<circle r="20" fill="rgb(35, 171, 216)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">16</text>
+</g>
+<g transform="translate(252.00000000000003, 450)">
+<circle r="20" fill="rgb(50, 146, 225)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">20</text>
+</g>
+<g transform="translate(278.4040527343751, 270)">
+<circle r="20" fill="rgb(67, 122, 224)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">9</text>
+</g>
+<g transform="translate(323.99999999999994, 330)">
+<circle r="20" fill="rgb(85, 99, 213)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">6</text>
+</g>
+<g transform="translate(324, 390)">
+<circle r="20" fill="rgb(100, 80, 195)">
+</circle>
+<text font-weight="bold" font-family="sans-serif" text-anchor="middle" alignment-baseline="middle" fill="white">8</text>
+</g>
+</g>
+</svg>
+</div>
+
+</div>
+
+<script>
+
+var meet = [];
+
+var initialConf = {
+    numHorses:{id:"numHorsesIn",value:0},
+    maxHeat:{id:"maxHeatIn",value:0},
+    numPlaces:{id:"numPlacesIn",value:0},
+    stats:{id:"statsIn",value:{type:"checkbox",value:1,checked:true}},
+    animStep:{id:"animStepIn",value:{type:"number",value:-1}},
+    id:{id:"meetId",value:{type:"hidden",value:"meet-0"}}
+}
+
+var runConfig = function (conf) {
+    conf = conf?conf:processForm();
+    let m = new Meet(
+        parseInt(conf.numHorses.value),
+        parseInt(conf.maxHeat.value),
+        parseInt(conf.numPlaces.value),
+        conf.stats.value.checked,
+        animateHorseRace);
+    m.runMeet();
+    meet[m.id] = m;
+    conf.id.value.value=m.id;
+    updateForm(conf,m);
+}
+
+var handleSolveMaze = function (evt) {
+    runConfig()
+}
+
+var animateHeats = function(conf,op) {
+    conf = processForm(conf);
+    let animStep = parseInt(conf.animStep.value.value),
+        m = meet[conf.id.value.value],
+        max = m.graphs.length-1,
+        animTo;
+    if (max<0) { // not ready yet?
+        return;
+    }
+    switch (op) {
+    case "anim-next": 
+        animTo = animStep+1;
+        break;
+    case "anim-prev": 
+        animTo = animStep-1;
+        break;
+    default: 
+        animTo = animStep;
+        break;
+    }
+
+    if (animTo < 0) {
+        animTo = 0;
+    } else
+    if (animTo > max) {
+        animTo = max;
+    }
+    graphData(m.getSnapShot(animTo), "#graph");
+    conf.animStep.value.value = animTo;
+    updateForm(conf,m);
+
+}
+var handleAnimateHeats = function (evt) {
+    let id = evt.currentTarget.id;
+    animateHeats(initialConf,id);
+} 
+
+window.addEventListener('DOMContentLoaded', () => {
+    let m = new Meet(0,0,0,true,animateHorseRace);
+    m.runMeet();
+    meet[m.id] = m;
+    updateForm(initialConf,m);
+    document.getElementById("solve-maze").addEventListener("click",handleSolveMaze);
+    document.getElementById("anim-prev").addEventListener("click",handleAnimateHeats);
+    document.getElementById("anim-next").addEventListener("click",handleAnimateHeats);
+});
+</script>
+
+</body>
+</html>
