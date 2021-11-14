@@ -1,0 +1,314 @@
+<html lang="en-US">
+<head>
+<title>Google 25 Horses: Chain/Graph Solution</title>
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="#587c00" >
+<meta name="description" content="Google 25 Horses: Chain/Graph Solution" >
+
+<link rel="stylesheet" href="/css/meyerweb-reset/reset.css" media="all">
+
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://unpkg.com/d3-dag@0.8.2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="./js/dag-v2.js"></script>
+<script src="./js/google-25-horses-dag-v2.js" ></script>
+<script src="./js/events-dag-v2.js"></script>
+<script src="./js/form-v2.js"></script>
+<script src="./js/d3-dag-svg-2-v2.js"></script>
+
+<!-- reuseable template for svg doc-->
+<script id="svg-template" type="image/svg+xml">
+<svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<style>
+
+</style>
+<defs>
+<rect id="horse-base" height="50" width="50" />
+</defs>
+</svg>
+</script>
+
+<style>
+html,
+head {
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+
+svg {
+    font-family: inherit;
+    display: block;
+    margin: 15px;
+}
+
+form {
+    display: inline;
+}
+
+button {
+    margin-left: 10px;
+}
+
+ul {
+    display: inline-block;
+}
+
+li {
+    display: inline-block;
+}
+
+fieldset {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+
+legend {
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    display: inline-block;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 90px;
+}
+label:after {
+    content: ":"
+}
+input {
+    width: 50px;
+}
+label.check {
+    width: 50px;
+}
+label.check.wide {
+    width: 130px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
+
+text.horse-time,
+text.horse-name {
+    fill: black;
+    font-family: 'Fira Code';
+    /*font-size: 12px; */
+    text-anchor: middle;
+}
+
+rect.horse {
+    stroke-width: 2px;
+    stroke: black;
+    fill:white;
+}
+.horse.place-1 {
+    fill: gold;
+}
+.horse.place-2 {
+    fill: silver;
+}
+.horse.place-3 {
+    fill: lightpink;
+}
+.horse.place-4 {
+    fill: lightblue;
+}
+.horse.place-5 {
+    fill: yellowgreen;
+}
+#animate-horses fieldset {
+    vertical-align: top;
+}
+#animate-horses ul {
+    padding-top: 10px;
+}
+#timesIn {
+    width: 200px;
+}
+
+ul#timescheck,
+ul#statscheck {
+    display: block;
+    padding-top: 20px;
+    min-height: 35px;
+}
+</style>
+
+</head>
+<body>
+
+<div id="meet-0-parent">
+<form id="animate-horses" onsubmit="return false;">
+<input type="hidden" id="meetId" name="meetId" value=""/>
+<fieldset>
+<legend>Horse Race Options</legend>
+<ul>
+<li>
+    <label for="numHorsesIn"># Horses</label>
+    <input name="numHorsesIn" id="numHorsesIn" type="number" min="1" step="1" max="500" value="25" />
+</li>
+<li>
+    <label for="maxHeatIn">Max Heat</label>
+    <input name="maxHeatIn" id="maxHeatIn" type="number" min="2" step="1" max="500" value="5" />
+</li>
+<li>
+    <label for="numPlacesIn">Places</label>
+    <input name="numPlacesIn" id="numPlacesIn" type="number" min="1" max="500" step="1" value="3" />
+</li>
+</ul>
+<ul id="statscheck">
+<li>
+    <label class="check" for="statsIn">Stats?</label>
+    <input name="statsIn" id="statsIn" type="checkbox" checked value="1" />
+</li>
+<li><button id="solve-maze" data-age="12">Solve</button></li>
+</ul>
+</fieldset>
+
+<fieldset>
+<legend>Animate</legend>
+<ul>
+<li><button id="anim-prev">&lt;= </button>
+<input type="number" min="-1" step="1" id="animStepIn" name="animStepIn" value="-1" >
+<button id="anim-next"> =&gt;</button><li>
+<li> </li>
+</ul>
+<ul id="timescheck">
+    <li>
+    <label class="check wide" for="forceTimesIn">Force Times?</label>
+    <input name="forceTimesIn" id="forceTimesIn" type="checkbox" value="1" />
+    </li>
+    <li>
+        <label for="timesIn">Times</label>
+        <input type="text" id="timesIn" name="timesIn" value="{}">
+    </li>
+</ul>
+</fieldset>
+
+</form>
+
+</div>
+<div id="graph-container">
+<svg id="graph" height="0" width="0"></svg>
+</div>
+<div id="examples">
+
+</div>
+</div>
+<div id="horseRaces"></div>
+<style>
+</style>
+<script>
+
+var meet = [];
+
+var initialConf = {
+    numHorses:{id:"numHorsesIn",value:0},
+    maxHeat:{id:"maxHeatIn",value:0},
+    numPlaces:{id:"numPlacesIn",value:0},
+    stats:{id:"statsIn",value:{type:"checkbox",value:1,checked:true}},
+    animStep:{id:"animStepIn",value:{type:"number",value:-1}},
+    id:{id:"meetId",value:{type:"hidden",value:"meet-0"}},
+    forceTimes:{id:"forceTimesIn",value:{type:"checkbox",value:1,checked:false}},
+    times:{id:"timesIn",value:JSON.stringify({})},
+}
+
+var runConfig = function (conf) {
+    conf = conf?conf:processForm();
+    let m = new Meet(
+        parseInt(conf.numHorses.value),
+        parseInt(conf.maxHeat.value),
+        parseInt(conf.numPlaces.value),
+        conf.stats.value.checked,
+        animateHorseRace);
+    if (conf.forceTimes.value.checked) {
+        m.forceTimes = true;
+        m.times = conf.times.value;
+        m.forceRaceTimes(JSON.parse(m.times));
+    }
+    m.runMeet();
+    meet[m.id] = m;
+    conf.id.value.value=m.id;
+    updateForm(conf,m);
+}
+
+var handleSolveMaze = function (evt) {
+    runConfig()
+}
+
+var animateHeats = function(conf,op) {
+    conf = processForm(conf);
+    let animStep = parseInt(conf.animStep.value.value),
+        m = meet[conf.id.value.value],
+        max = m.graphs.length-1,
+        animTo;
+    if (max<0) { // not ready yet?
+        return;
+    }
+    switch (op) {
+    case "anim-next": 
+        animTo = animStep+1;
+        break;
+    case "anim-prev": 
+        animTo = animStep-1;
+        break;
+    default: 
+        animTo = animStep;
+        break;
+    }
+
+    if (animTo < 0) {
+        animTo = 0;
+    } else
+    if (animTo > max) {
+        animTo = max;
+    }
+    //graphData(m.getSnapShot(animTo), "#graph");
+    graphData(m.removePlacedHorses(animTo), "#graph");
+    conf.animStep.value.value = animTo;
+    updateForm(conf,m);
+
+}
+var handleAnimateHeats = function (evt) {
+    let id = evt.currentTarget.id;
+    animateHeats(initialConf,id);
+} 
+
+window.addEventListener('DOMContentLoaded', () => {
+    let m = new Meet(0,0,0,true,animateHorseRace);
+    m.runMeet();
+    meet[m.id] = m;
+    updateForm(initialConf,m);
+    document.getElementById("solve-maze").addEventListener("click",handleSolveMaze);
+    document.getElementById("anim-prev").addEventListener("click",handleAnimateHeats);
+    document.getElementById("anim-next").addEventListener("click",handleAnimateHeats);
+});
+</script>
+</body>
+</html>
