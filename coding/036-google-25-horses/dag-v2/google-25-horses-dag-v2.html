@@ -290,7 +290,7 @@ var animateHeats = function(conf,op) {
         animTo = max;
     }
     //graphData(m.getSnapShot(animTo), "#graph");
-    graphData(m.removePlacedHorses(animTo), "#graph");
+    graphData(m.buildWinnersGraph(animTo,m.removePlacedHorses(animTo)), "#graph");
     conf.animStep.value.value = animTo;
     updateForm(conf,m);
 

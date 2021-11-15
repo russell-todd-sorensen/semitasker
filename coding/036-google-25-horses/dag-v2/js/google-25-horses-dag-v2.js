@@ -256,7 +256,6 @@ class Meet {
     }
     removePlacedHorses(index) {
         let fullGraph  = JSON.parse(this.jsonGraphs[index]),
-            fgLen      = fullGraph.length,
             removeList = this.removeWinners[index],
             remLen     = removeList.length;
 
@@ -268,15 +267,29 @@ class Meet {
                 return (removeList.indexOf(ele2) < 0)
             });
             return true;
-         });
+        });
 
-         // Add Winners graph
-         for (let i=0;i<remLen;i++) {
-            let id = removeList[i],
-                parentId = i<1?[]:[removeList[i-1]];
-            fullGraph.push({id:id,parentIds:parentId})
-         }
+        // Add Winners graph
+        //for (let i=0;i<remLen;i++) {
+        //  let id = removeList[i],
+        //      parentId = i<1?[]:[removeList[i-1]];
+        //  fullGraph.push({id:id,parentIds:parentId})
+        //}
 
+        return fullGraph;
+    }
+    buildWinnersGraph(index,fullGraph) { // note that winners are disconnected from other nodes
+        index = (index||index==0)?index:this.removeWinners.length-1;
+        fullGraph = fullGraph?fullGraph:[];
+
+        let winnersList = this.removeWinners[index],
+            len = winnersList.length;
+
+        for (let i=0;i<len;i++) {
+           let id = winnersList[i],
+               parentId = i<1?[]:[winnersList[i-1]];
+           fullGraph.push({id:id,parentIds:parentId})
+        }
         return fullGraph;
     }
     snapShotToJson(index,includeAttrs,space) {
