@@ -1,0 +1,78 @@
+<html><head>
+ <title>Learn HTML 20</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/example-library.js"></script>
+<style>
+.c1 {
+    stroke-width: 160;
+    stroke: url(#RG);
+    stroke-dasharray: 3 123;
+    stroke-dashoffset: 1.5;
+}
+#L2 {
+    stroke-width:20;
+    stroke: url(#RG);
+}
+
+#R2 {
+    stroke-width: 2;
+    stroke: url(#RG2);
+    fill: url(#RG2);
+}
+</style>
+
+</head>
+<body>
+
+<svg xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" x="0" y="0" width="1000" height="1200" viewBox="0 0 1000 1200">
+<defs>
+
+<radialGradient color-interpolation="sRGB" id="RG" spreadMethod="reflect" fr="0">
+ <stop stop-color="green" offset="0"/>
+ <stop stop-color="rgba(0,255,0,.5)" offset="0.0">
+  <animate attributeName="offset" values="0.0;1.5;0.0" dur="30s" begin="0s;CC2.click" repeatCount="indefinite"></animate>
+ </stop>
+ <stop stop-color="rgba(255,0,255,.5)" offset="1" id="g-1">
+  <animate attributeName="offset" values="1.0;0.0;1.0" dur="40s" begin="0s;CC1.click" repeatCount="indefinite"></animate>
+ </stop>
+</radialGradient>
+
+<radialGradient color-interpolation="sRGB" id="RG2" spreadMethod="reflect"  >
+ <stop stop-color="green" offset="0"/>
+ <stop stop-color="rgba(0,255,0,.5)" offset="0.0">
+  <animate attributeName="offset" values="0.0;1.5;0.0" dur="30s" begin="0s;CC2.click" repeatCount="indefinite"></animate>
+ </stop>
+ <stop stop-color="rgba(255,0,255,.5)" offset="1" id="g-1">
+  <animate attributeName="offset" values="1.0;0.0;1.0" dur="40s" begin="0s;CC1.click" repeatCount="indefinite"></animate>
+ </stop>
+</radialGradient>
+</defs>
+
+<circle cx="100" cy="100" r="20" fill="rgba(255,255,0,.8)" class="c1" id="CC1">
+
+<animate attributeName="stroke-dashoffset" begin="0s;CC1.click" dur="10s" values="1.5;123.5;0;-123;1.5" repeatCount="2"></animate>
+</circle>
+<g id="G2" transform="translate(180,180)">
+<circle cx="0" cy="0" r="20" fill="rgba(255,255,0,.8)" class="c1" id="CC2">
+
+<animate attributeName="stroke-dashoffset" begin="0s;CC2.click" dur="10s" values="1.5;123.5;0;-123;1.5" repeatCount="2"></animate>
+</circle>
+<line id="L2" x1="0" y1="0" x2="200" y2="0" stroke="black" stroke-width="5"/>
+<rect id="R2" x="40" y="40" height="5" width="200" transform="translate(0,-2.5)" />
+
+</g>
+
+</svg>
+<!-- here comes the script    -->
+<script>
+
+
+</script>
+</body>
+</html>

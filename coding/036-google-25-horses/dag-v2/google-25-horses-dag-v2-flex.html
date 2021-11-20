@@ -98,9 +98,6 @@ input {
 label {
     width: 90px;
 }
-label:after {
-    content: ":"
-}
 input {
     width: 50px;
 }
@@ -158,8 +155,54 @@ ul#statscheck {
     padding-top: 20px;
     min-height: 35px;
 }
+#animate-horses label {
+    min-width: 85px;
+    text-align:right;
+    white-space: nowrap;
+    vertical-align: text-bottom;
+}
+#animate-horses label.wide {
+    min-width: 95px;
+}
+#animate-horses label.very-wide {
+    min-width: 95px;
+    padding-left: 26px;
+}
+#animate-horses label::after {
+    content: ":";
+    vertical-align: baseline;
+}
+#animate-horses input {
+    width: 50px;
+    padding-left: 3px;
+    vertical-align: text-bottom;
+}
+#animate-horses input[type="checkbox"] {
+    width: 15px;
+    padding-left: 2px;
+    vertical-align: text-bottom;
+    margin: 0;
+}
+#animate-horses select,
+#animate-horses textarea {
+    vertical-align: text-bottom;
+}
+#animate-horses select {
+    width: 210px;
+    padding-left: 10px;
+    margin-left: 8px;
+}
+#animate-horses button {
+    vertical-align: text-bottom;
+    margin-left:0;
+}
+#animate-horses button#run-meet {
+    margin-left:10px;
+}
+#animate-horses #step-controls {
+    display: inline-flex;
+}
 </style>
-
 </head>
 <body>
 
@@ -184,32 +227,36 @@ ul#statscheck {
 </ul>
 <ul id="statscheck">
 <li>
-    <label class="check" for="statsIn">Stats?</label>
+    <label class="check" for="statsIn">Stats</label>
     <input name="statsIn" id="statsIn" type="checkbox" checked value="1" />
 </li>
-<li><button id="run-meet" data-age="12">Run Meet</button></li>
+<li><label class="very-wide" for="graphTypeIn">Graph Type</label>
+    <select id="graphTypeIn" name="graphTypeIn" size="1">
+        <option value="none">Combine All</option>
+        <option value="winners">Separate Winners</option>
+        <option value="all">Separate All</option>
+    </select>
+</li>
 </ul>
 </fieldset>
 
 <fieldset>
 <legend>Animate</legend>
 <ul>
-<li><button id="anim-prev">&lt;= </button>
+<li><button id="run-meet" data-age="12">Run Meet Config</button></li>
+<li><label for="animStepIn">Step</label></li>
+<li id="step-controls"><button id="anim-prev">&lt;= </button>
 <input type="number" min="-1" step="1" id="animStepIn" name="animStepIn" value="-1" >
 <button id="anim-next"> =&gt;</button></li>
-<li>
-    <label for="sepWinners">Separate Winners?</label>
-    <input id="sepWinners" name="sepWinners" type="checkbox" value="1" />
-</li>
 </ul>
 <ul id="timescheck">
     <li>
-    <label class="check wide" for="forceTimesIn">Force Times?</label>
+    <label class="check wide" for="forceTimesIn">Force Times</label>
     <input name="forceTimesIn" id="forceTimesIn" type="checkbox" value="1" />
     </li>
     <li>
         <label for="timesIn">Times</label>
-        <input type="text" id="timesIn" name="timesIn" value="{}">
+        <textarea id="timesIn" name="timesIn" rows="1" cols="30">{}</textarea>
     </li>
 </ul>
 </fieldset>
@@ -240,6 +287,7 @@ var initialConf = {
     id:{id:"meetId",value:{type:"hidden",value:"meet-0"}},
     forceTimes:{id:"forceTimesIn",value:{type:"checkbox",value:1,checked:false}},
     times:{id:"timesIn",value:JSON.stringify({})},
+    graphType:{id:"graphTypeIn",value:{type:"select",value:"none",options:["none","winners","all"]}},
 }
 
 var runConfig = function (conf) {

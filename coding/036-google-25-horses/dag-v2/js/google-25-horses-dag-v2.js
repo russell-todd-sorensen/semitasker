@@ -269,13 +269,6 @@ class Meet {
             return true;
         });
 
-        // Add Winners graph
-        //for (let i=0;i<remLen;i++) {
-        //  let id = removeList[i],
-        //      parentId = i<1?[]:[removeList[i-1]];
-        //  fullGraph.push({id:id,parentIds:parentId})
-        //}
-
         return fullGraph;
     }
     buildWinnersGraph(index,fullGraph) { // note that winners are disconnected from other nodes

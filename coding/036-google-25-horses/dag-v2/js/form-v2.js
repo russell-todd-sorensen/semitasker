@@ -31,6 +31,20 @@ var processForm = function(conf) {
             case "hidden":
                 obj.value.value = ele.value;
                 break;
+            case "select":
+                if (ele.multiple) {
+                    let selectedOptions = ele.selectedOptions;
+                    obj.value.value = {};
+                    obj.value.multiple = true; 
+                    for (let i=0,option;i<selectedOptions.length;i++) {
+                        option = selectedOptions[i];
+                        obj.value.value[option.value] = option.index;
+                    }
+                    console.log(`obj.value.value=${JSON.stringify(obj.value.value)}`);
+                } else {
+                    obj.value.value = ele.value;
+                }
+                break;
             default:
                 break;
             }
@@ -66,6 +80,15 @@ var updateForm = function(conf,m) {
             case "text":
             case "hidden":
                 ele.value = val;
+                break;
+            case "select":
+                if (obj.value.multiple) {
+                    for (let [_, oIndex] of Object.entries(obj.value.value)) {
+                        ele.options[oIndex].selected = true;
+                    }
+                } else {
+                    ele.value = val;
+                }
                 break;
             case "radio":
                 break;
