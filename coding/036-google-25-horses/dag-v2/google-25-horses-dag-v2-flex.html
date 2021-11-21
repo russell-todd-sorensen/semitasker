@@ -202,18 +202,22 @@ ul#statscheck {
 #animate-horses #step-controls {
     display: inline-flex;
 }
+#graph-container svg {
+    vertical-align: top;
+    display: inline-block;
+}
 </style>
 </head>
 <body>
 
-<div id="meet-0-parent">
+<div id="form-container">
 <form id="animate-horses" onsubmit="return false;">
 <input type="hidden" id="meetId" name="meetId" value=""/>
 <fieldset>
 <legend>Horse Race Options</legend>
 <ul>
 <li>
-    <label for="numHorsesIn"># Horses</label>
+    <label for="numHorsesIn">Horses</label>
     <input name="numHorsesIn" id="numHorsesIn" type="number" min="1" step="1" max="500" value="25" />
 </li>
 <li>
@@ -260,11 +264,11 @@ ul#statscheck {
     </li>
 </ul>
 </fieldset>
-
 </form>
+</div> <!-- Ends div#form-container -->
 
-</div>
 <div id="graph-container">
+<svg id="winners-graph" height="0" width="0"></svg>
 <svg id="graph" height="0" width="0"></svg>
 </div>
 <div id="examples">
@@ -340,8 +344,27 @@ var animateHeats = function(conf,op) {
     if (animTo > max) {
         animTo = max;
     }
-    //graphData(m.getSnapShot(animTo), "#graph");
-    graphData(m.buildWinnersGraph(animTo,m.removePlacedHorses(animTo)), "#graph");
+
+    // each graph, used or not needs to be cleared at each step
+    let graphs = {main:[[],"#graph"],winners:[[],"#winners-graph"]};
+
+    switch (conf.graphType.value.value) {
+    case "none": 
+        graphs.main = [JSON.parse(m.jsonGraphs[animTo]),"#graph"];
+        break;
+    case "winners": 
+        graphs.main = [m.buildWinnersGraph(animTo,m.removePlacedHorses(animTo)),"#graph"];
+        break; 
+    case "all": 
+    default: 
+        graphs.winners = [m.buildWinnersGraph(animTo,[]),"#winners-graph"];
+        graphs.main = [m.removePlacedHorses(animTo),"#graph"];
+        break;
+    }
+   
+    graphData(...graphs.main);
+    graphData(...graphs.winners);
+
     conf.animStep.value.value = animTo;
     updateForm(conf,m);
 

@@ -66,6 +66,12 @@ var calcLinearGradient = function (defs,source,target) {
 }
 
 var graphData = function(data,svgSelector) {
+
+    let svgSelection = d3.select(svgSelector);
+    svgSelection.html("");
+    if (!(data && data.length > 0)) {
+        return;
+    }
     let dag = d3.dagStratify()(data),
         nodeRadius = 20,
         layout = d3
@@ -77,8 +83,6 @@ var graphData = function(data,svgSelector) {
     // --------------------------------
     // This code only handles rendering
     // --------------------------------
-    let svgSelection = d3.select(svgSelector);
-    svgSelection.html("");
     width = parseInt(width); 
     height = parseInt(height);
 

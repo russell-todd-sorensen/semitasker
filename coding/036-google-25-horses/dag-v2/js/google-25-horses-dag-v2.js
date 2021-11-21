@@ -348,11 +348,16 @@ class Meet {
         }
         return flattened;
     }
+    addWinner(horse) {
+        this.winners.push(horse);
+        this.recordGraph();
+    }
+    remainingPlaces() {
+        return (this.numPlaces-this.winners.length);
+    }
     pruneFollowers() {
         let nextPlace = this.winners.length+1,
-            remainingPlaces = this.numPlaces-this.winners.length,
-            totalHorses = 0,
-            updateHorses = false;
+            totalHorses = 0;
 
         for (let i=0,horse,following;i<this.horses.length;i++) {
             horse = this.horses[i];
@@ -361,49 +366,36 @@ class Meet {
         }
         if (this.horses.length == 1) {
             let onlyHorse = this.horses.shift();
-            if (remainingPlaces > 0) {
-                this.winners.push(onlyHorse);
-                remainingPlaces--;
+            if (this.remainingPlaces() > 0) {
+                this.addWinner(onlyHorse);
             }
-            if (remainingPlaces > 0) {// was remainingPlaces>= 0
+            if (this.remainingPlaces() > 0) {// was this.remainingPlaces()>= 0
                 if (this.isFlattened) { // final heat is in order, push remaining places
                     this.horses = onlyHorse.followers;
                     this.horses = this.flattenHorses();
-                    while (this.winners.length < this.numPlaces && remainingPlaces > 0) {
-                        this.winners.push(this.horses.shift());
-                        this.recordGraph();
-                        remainingPlaces--;
+                    while (this.winners.length < this.numPlaces && this.remainingPlaces() > 0) {
+                        this.addWinner(this.horses.shift());
                     }
                     return;
                 }
-
                 while (onlyHorse.followers.length > 0) {
                     this.horses.push(onlyHorse.followers.shift());
-                    updateHorses = true;
-                }
-                if (updateHorses) {
-                    this.recordGraph()
-                    updateHorses = false;
+                    //this.recordGraph()
                 }
                 if (totalHorses-1 <= this.maxHeat) {
                     // place all remaining horses in final heat
                     this.horses = this.flattenHorses();
+                    //this.recordGraph();
                     this.isFlattened = true;
-                    updateHorses = true;
                 }
-                if (updateHorses) {
-                    this.recordGraph();
-                    updateHorses = false;
-                }
-                if (this.heats.length == 1 && this.horses.length == remainingPlaces) {
+                if (this.heats.length == 1 && this.horses.length == this.remainingPlaces()) {
                     while (this.horses.length > 0) {
-                        this.winners.push(this.horses.shift());
-                        this.recordGraph();
-                        remainingPlaces--;
+                        this.addWinner(this.horses.shift());
                     }
                 }
             }
         }
+        //this.recordGraph()
     }
     printResults() {
 
