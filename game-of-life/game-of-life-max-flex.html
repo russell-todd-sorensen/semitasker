@@ -20,7 +20,6 @@ svg {
     stroke-width: .5px;
 }
 .cell-alive {
-    /*fill: black; */
     fill: url(#rg1);
 }
 
@@ -40,56 +39,25 @@ svg {
     letter-spacing: -1px;
     color: black;
     background-color: white;
-  /*  padding-right: 10px; */
 }
 #board {
     display: inline-block;
     vertical-align: top;
 }
-/*
-#controls fieldset {
-    display: inline-block;
-    width: auto;
-    max-width: 300px;
-}
-*/
 #controls ul {
     font-family: inherit;
     list-style: none;
-  /*  padding-top: 2px;
-    padding-bottom: 2px;
-    padding-inline-start: 5px;
-    margin-block-start: 5px;
-    margin-block-end: 5px; */
-}
-#controls ul li { /*
-    display: inline-block;
-    width: 250px; */
 }
 #controls li label {
     display: inline-block;
-  /*  width: 75px;
-    padding: 2px; */ /* 90might be good*/
     font-family: "Rubik";
     font-weight: bold;
-}
-
-#controls ul {
-  /*  position: relative; */
 }
 
 #controls input[type="number"] {
     display: inline-block;
     font-family: "Rubik";
     font-size: 15px;
-  /*  width: 60px;
-    text-align: right; */
-}
-
-#controls #cellRx,
-#controls #cellRy {
-  /*  width: 60px;
-    text-align: right; */
 }
 
 #controls select {
@@ -97,10 +65,7 @@ svg {
     font-family: "Rubik";
     font-weight: bold;
     font-size: 16px;
-  /*  width: 174px; 
-    justify-self: right;*/
 }
-
 
 /* this is how you change the font of select options!!! */
 #theory { /* select id */
@@ -111,12 +76,8 @@ svg {
 #controls #fadeInColor,
 #controls #fadeOutColor,
 #controls #fadeEndColor {
-  /*  width: 170px; */
     font-family: "Rubik";
     font-size: 16px;
-}
-#controls li {
-  /*  padding: 2px; */
 }
 #controls #infinite-world {
     color: hsla(0,85%,25%,1.0);
@@ -124,91 +85,24 @@ svg {
     font-weight: bold;
 }
 
-#controls ul {
-   /* width: 360px;
-    width: auto;
-    display: inline-block;
-    vertical-align: top; */
-}
 .parity-cells button {
     height: 20px;
     width: 20px;
 }
-#controls #parity-cell-groups li.parity-cells-group {
-  /*  display: inline-block;
-    width: auto; */
-}
-
 #controls #parity-cell-groups thead {
     text-align: center;
 }
-#controls #parity-cell-container {
-   /* width: auto;
-    width: 352px; */
-}
-
-#controls #parity-cell-groups {
-  /*  width: 326px;
-    max-width: 326px;*/
-}
-#controls #timing-options {
- /*   max-width: 180px; */
-}
-/*
-#controls #game-of-life-options {
-    max-width: 284px;
-}
-#controls #color-options {
-    max-width: 260px;
-}
-#controls #board-dimensions {
-    max-width: 265px;
-}
-#controls #board-dimensions label {
-    width: 50px;
-}
-#controls #board-dimensions input[type=number] {
-    width: 50px;
-}
-*/
 #controls #board-dimensions input[type=text] {
-  /*  width: 50px; */
     font-family: Rubik;
     font-size: 15px;
 }
 
-/*
-@media (max-aspect-ratio: 8/5) {
-    #controls {
-        width: 375px;
-    }
-    #controls ul {
-        width: 360px;
-    }
-    #controls #board-dimensions {
-        max-width: 326px;
-    }
-    #controls #parity-cell-groups {
-        width: 326px;
-        max-width: 326px;
-    }
-    #controls #timing-options {
-        max-width: 326px;
-    }
-    #controls #game-of-life-options {
-        max-width: 326px;
-    }
-    #controls #color-options {
-        max-width: 326px;
-    }
-}
-*/
 </style>
 
 <script src="/js/jquery-1.7.1.js"></script>
 <script src="/js/d3.v3.js"></script>
 <script src="/js/log-2.js"></script>
-
+<script src="js/random-select.js"></script>
 <script language="javascript">
 if (false) {
 var Log = {}
@@ -249,7 +143,7 @@ function scheduleFunction(funcRef, timeout, rescheduleOnSuccessP, passArgsP, arg
     }
 
     var result = funcRef(funcArgs);
-    Log.Notice("result=" + result + ", animationFunctionId=" + funcArgs.animationFunctionId)
+
     if (result.continueAnimation == false) {
         result = false;
     } 
@@ -487,9 +381,6 @@ class ParityCellGroup {
 
 
 window.addEventListener('DOMContentLoaded', () => {
-    //gameInitWrap();
-    //startAnimationPre();
-    //showHint("hint");
 
     parityCellGroups[0] = new ParityCellGroup("rulea",9);
     parityCellGroups[1] = new ParityCellGroup("ruleb",9);
@@ -531,7 +422,7 @@ window.addEventListener('DOMContentLoaded', () => {
       <option value="12">Majority Rule 2 (all)</option>
       <option value="13">Parity Rule 9</option>
       <option value="14">Parity Rule 10</option>
-      <option value="15">Parity Rule A,B,C</option>
+      <option value="15">Parity Rule A,B,C,D</option>
      </select>
     </li>
     <li>
@@ -605,27 +496,24 @@ window.addEventListener('DOMContentLoaded', () => {
     <fieldset id="board-dimensions">
     <legend>Board Dimensions/Cell Shape</legend>
     <input type="hidden" name="persist" id="persist" value="true"/>
-    <!--<li>
-    <label for="persist">Persist:</label>
-    </li>-->
     <li>
     <label for="cellsWide">Board: </label>&nbsp;Wide:
-    &nbsp;&nbsp;<input type="number" name="cellsWide" id="cellsWide" value="100" min="10" step="5" max="1500" />
-    High:&nbsp;&nbsp;&nbsp;&nbsp;
-    <input type="number" name="cellsHigh" id="cellsHigh" value="100" min="10" step="5" max="1500" />
+    <input type="number" name="cellsWide" id="cellsWide" value="100" min="1" step="1" max="1500" />
+    High:
+    <input type="number" name="cellsHigh" id="cellsHigh" value="100" min="1" step="1" max="1500" />
 
     </li>
     <li>
     <label for="cellsWidth">Cell: </label>
     Width: <input type="number" name="cellWidth" id="cellWidth" value="14.0" min="1" step="0.1" max="150" />
-    Height: 
+    Height:
     <input type="number" name="cellHeight" id="cellHeight" value="14.0" min="1" step="0.1" max="150" />
     </li>
     <li>
     <label>Radius:</label>
-        <span class="radius">X:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <span class="radius">X:
          <input type="number" name="cellRx" id="cellRx" value="3.0" min="0" step="1" max="100"/></span>
-         <span class="radius">Y: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+         <span class="radius">Y:
          <input type="number" name="cellRy" id="cellRy" value="3.0" min="0" step="1" max="100"/></span>
     </li>
     </fieldset>
@@ -762,12 +650,13 @@ class gameOfLife {
 
     configId = null;
     config = null;
-    width = 10;
-    height = 10;
-    cellCount = this.width * this.height;
-    cellState = new Array(this.cellCount);
-    neighborhood = new Array(this.cellCount);
-    cellNeighbors = new Array(this.cellCount);
+    stats = [0,0];
+    width = 0;
+    height = 0;
+    cellCount = 0;
+    cellState = [];
+    neighborhood = [];
+    cellNeighbors = [];
     wrap = true;
     continueAnimation = false;
     randomInitArea = null;
@@ -979,13 +868,19 @@ class gameOfLife {
         }
     }
     randomSeed(percent) {
-        for (let i = 0; i<this.cellCount;i++) {
-            this.cellState[i] = (Math.random() <= percent ? 1 : 0);
+        this.stats = [0,0];
+        for (let i = 0,state; i<this.cellCount;i++) {
+            state = (Math.random() <= percent ? 1 : 0);
+            this.cellState[i] = state;
+            this.stats[state]++;
         }
+        console.log(`randomSeed(${percent}) [dead,alive]=${this.stats} count=${this.cellCount}`)
     }
     
     randomSeedLimitedArea(percent,initArea) {
 
+        let state;
+    
         if (this.config.options.toggleSingleCellAlive==true) {
             let i = this.width * Math.floor(this.height/2) + Math.floor(this.width/2);
             this.cellState[i] = 1;
@@ -993,12 +888,16 @@ class gameOfLife {
         } 
 
         initArea = initArea?initArea:this.initArea;
+        this.stats = [0,0];
         for (let row=initArea.y;row<initArea.y+initArea.height;row++) {
             for (let col=initArea.x;col<initArea.x+initArea.width;col++) {
-                let i = (this.width *(row -1) + col);
-                this.cellState[i] = (Math.random() <= percent ? 1 : 0);
+                let i = (this.width*row + col); //??
+                state = (Math.random() <= percent ? 1 : 0);
+                this.cellState[i] = state;
+                this.stats[state]++
             }
         }
+        console.log(`randomSeed(${percent}) [dead,alive]=${this.stats} count=${this.stats[0]+this.stats[1]}`)
         return;
     };
 
