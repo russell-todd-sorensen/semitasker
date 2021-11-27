@@ -4,7 +4,6 @@
 <meta charset="utf-8" />
 <title>CPC-Game-Of-Life</title>
 <link rel="stylesheet" href="https://home.semitasker.com/css/fonts.css" media="all">
-<link rel="stylesheet" href="https://home.semitasker.com/css/log.css" media="all">
 <style>
 html,
 body {
@@ -35,6 +34,8 @@ svg {
 
 #controls {
     display: flex; /* remember vert-align-top */
+    flex-direction: row;
+    flex-wrap: wrap;
     font-family: "Rubik";
     letter-spacing: -1px;
     color: black;
@@ -47,7 +48,24 @@ svg {
 #controls ul {
     font-family: inherit;
     list-style: none;
+    flex: 360px;
 }
+
+#controls fieldset {
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#controls fieldset li {
+    flex:350px;
+    height: 1.5em;
+}
+
+#controls fieldset#parity-cell-groups {
+    display:initial;
+}
+
 #controls li label {
     display: inline-block;
     font-family: "Rubik";
@@ -85,26 +103,37 @@ svg {
     font-weight: bold;
 }
 
-.parity-cells button {
-    height: 20px;
-    width: 20px;
-}
-#controls #parity-cell-groups thead {
-    text-align: center;
-}
 #controls #board-dimensions input[type=text] {
     font-family: Rubik;
     font-size: 15px;
+}
+
+.pc-group {
+   display: inline-flex;
+   flex-direction:column;
+   flex-wrap: wrap;
+   width: 80px;
+   height: 110px;
+}
+.pc-group .pc-row {
+   background-color:silver;
+   display: inline-flex;
+   flex: 1;
+}
+.pc-group .pc-row .pc-rule-label {
+    flex: 1;
+}
+.pc-group .pcb {
+   flex: 1;
 }
 
 </style>
 
 <script src="/js/jquery-1.7.1.js"></script>
 <script src="/js/d3.v3.js"></script>
-<script src="/js/log-2.js"></script>
 <script src="js/random-select.js"></script>
 <script language="javascript">
-if (false) {
+if (true) {
 var Log = {}
 Log.Notice = function() {}
 Log.Hide = function() {}
@@ -336,7 +365,7 @@ class ParityCellGroup {
         let len = labels.length,
             selector;
         for (let i=0;i<len;i++) {
-            selector = "#parity-group-" + this.name + " #" + labels[i];
+            selector = "#pcb-" + this.name + "-" + labels[i];
             $(selector).val(this.values[i]);
             document.querySelector(selector).innerText = this.values[i];
             if (init) {
@@ -349,7 +378,7 @@ class ParityCellGroup {
         let len = labels.length,
             selector;
         for (let i=0;i<len;i++) {
-            selector = "#parity-group-" + this.name + " #" + labels[i];
+            selector = "#pcb-" + this.name + "-" + labels[i];
             this.values[i] = $(selector).val();
         }
     }
@@ -400,221 +429,216 @@ window.addEventListener('DOMContentLoaded', () => {
 
 </div><!-- end of board -->
 
+<form id="controlsForm" onSubmit="return false;" spellcheck="false">
+<input type="hidden" name="gameId" id="gameId" value="0" />
 <div id="controls">
-    <form id="controlsForm" onSubmit="return false;" spellcheck="false">
-    <input type="hidden" name="gameId" id="gameId" value="0" />
-    <ul>
-    <fieldset id="game-of-life-options">
-    <legend>Game of Life Options</legend>
-    <li>
-     <label for="animationFunctionId">Anim Fn:</label>
-     <select name="animationFunctionId" id="animationFunctionId" onChange="showHint('hint');">
-      <option value="0" selected>Game Of Life</option>
-      <option value="1">Majority Rule</option>
-      <option value="2">One Out of Eight</option>
-      <option value="3">Parity Rule</option>
-      <option value="4">Parity Rule 2</option>
-      <option value="7">Parity Rule 3</option>
-      <option value="8">Parity Rule 4</option>
-      <option value="9">Parity Rule 5</option>
-      <option value="10">Parity Rule 6</option>
-      <option value="11">Parity Rule 7</option>
-      <option value="12">Majority Rule 2 (all)</option>
-      <option value="13">Parity Rule 9</option>
-      <option value="14">Parity Rule 10</option>
-      <option value="15">Parity Rule A,B,C,D</option>
-     </select>
-    </li>
-    <li>
-    <label for="randomSeedValue">Living %:</label> <!-- alive percent -->
-    <input type="number" name="randomSeedValue" id="randomSeedValue"
-           value="14.00" min="0.00" max="100.00" step="0.05" />
-           <span id="hint">This is a hint.</span>
-    </li>
-    <li>
-    <label>Initialize:</label>
-    <button id="infinite-world" onClick="gameInitWrap();">Infinite World!</button>
-    <button id="finite-world" onClick="gameInit()">No Wrap.</button>
-    </li>
-    <li>
-    <label >Animate:</label>
-    <button onClick="startAnimationPre('gameId');">Start</button>
-    <button onClick="startAnimationPre('gameId','round-robin');">Round Robin</button>
-    <button onClick="stopAnimation('gameId');">Pause</button>
-    </li>
-    </fieldset>
-    </ul>
-    <ul>
-    <fieldset id="timing-options">
-    <legend>Timing Options</legend>
-    <li>
-    <label for="timeout">Step Time:</label>
-    <input type="number" name="timeout" id="timeout" value="100" min="20" step="5" max="10000" /> ms
-    </li>
-    <li>
-    <label for="fadeIn">Fade In:</label>
-    <input type="number" name="fadeIn" id="fadeIn" value="500" min="0" step="10" max="10000" /> ms
-    </li>
-    <li>
-    <label for="fadeOut">Fade Out:</label>
-    <input type="number" name="fadeOut" id="fadeOut" value="1000" min="0" step="10" max="15000" /> ms
-    </li>
-    <li>
-    <label for="fadeEnd">Fade End:</label>
-    <input type="number" name="fadeEnd" id="fadeEnd" value="3000" min="0" step="10" max="15000" /> ms
-    </li>
-    </fieldset>
-    </ul>
-    <ul>
-    <fieldset id="color-options">
-    <legend>Color Options</legend>
-    <li>
-    <label for="fadeInColor">Fade In:</label>
-    <input type="text" name="fadeInColor" id="fadeInColor" value="hsla(0,85%,50%,0.75)" />
-    </li>
-    <li>
-    <label for="fadeOutColor">Fade Out:</label>
-    <input type="text" name="fadeOutColor" id="fadeOutColor" value="hsla(180,85%,70%,0.75)" />
-    </li>
-    <li>
-    <label for="fadeEndColor">Fade End:</label>
-    <input type="text" name="fadeEndColor" id="fadeEndColor" value="hsla(270,0%,20%,0.75)" />
-    </li>
-    <li>
-    <label for="ease">Easing:</label>
-    <select id="ease" name="ease" >
-     <option value="linear">Linear</option>
-     <option value="bounce">Bounce</option>
-     <option value="bounce-in">Bounce In</option>
-     <option value="bounce-out">Bounce Out</option>
-     <option value="bounce-in-out">Bounce In/Out</option>
+<ul>
+<fieldset id="game-of-life-options">
+<legend>Game of Life Options</legend>
+<li>
+    <label for="animationFunctionId">Anim Fn:</label>
+    <select name="animationFunctionId" id="animationFunctionId" onChange="showHint('hint');">
+    <option value="0" selected>Game Of Life</option>
+    <option value="1">Majority Rule</option>
+    <option value="2">One Out of Eight</option>
+    <option value="3">Parity Rule</option>
+    <option value="4">Parity Rule 2</option>
+    <option value="7">Parity Rule 3</option>
+    <option value="8">Parity Rule 4</option>
+    <option value="9">Parity Rule 5</option>
+    <option value="10">Parity Rule 6</option>
+    <option value="11">Parity Rule 7</option>
+    <option value="12">Majority Rule 2 (all)</option>
+    <option value="13">Parity Rule 9</option>
+    <option value="14">Parity Rule 10</option>
+    <option value="15">Parity Rule A,B,C,D</option>
     </select>
-    </li>
-    </fieldset>
-    </ul>
-    <ul>
-    <fieldset id="board-dimensions">
-    <legend>Board Dimensions/Cell Shape</legend>
-    <input type="hidden" name="persist" id="persist" value="true"/>
-    <li>
-    <label for="cellsWide">Board: </label>&nbsp;Wide:
-    <input type="number" name="cellsWide" id="cellsWide" value="100" min="1" step="1" max="1500" />
-    High:
-    <input type="number" name="cellsHigh" id="cellsHigh" value="100" min="1" step="1" max="1500" />
+</li>
+<li>
+<label for="randomSeedValue">Living %:</label> <!-- alive percent -->
+<input type="number" name="randomSeedValue" id="randomSeedValue"
+        value="14.00" min="0.00" max="100.00" step="0.05" />
+        <span id="hint">This is a hint.</span>
+</li>
+<li>
+<label>Initialize:</label>
+<button id="infinite-world" onClick="gameInitWrap();">Infinite World!</button>
+<button id="finite-world" onClick="gameInit()">No Wrap.</button>
+</li>
+<li>
+<label >Animate:</label>
+<button onClick="startAnimationPre('gameId');">Start</button>
+<button onClick="startAnimationPre('gameId','round-robin');">Round Robin</button>
+<button onClick="stopAnimation('gameId');">Pause</button>
+</li>
+</fieldset>
+</ul>
+<ul>
+<fieldset id="timing-options">
+<legend>Timing Options</legend>
+<li>
+<label for="timeout">Step Time:</label>
+<input type="number" name="timeout" id="timeout" value="100" min="20" step="5" max="10000" /> ms
+</li>
+<li>
+<label for="fadeIn">Fade In:</label>
+<input type="number" name="fadeIn" id="fadeIn" value="500" min="0" step="10" max="10000" /> ms
+</li>
+<li>
+<label for="fadeOut">Fade Out:</label>
+<input type="number" name="fadeOut" id="fadeOut" value="1000" min="0" step="10" max="15000" /> ms
+</li>
+<li>
+<label for="fadeEnd">Fade End:</label>
+<input type="number" name="fadeEnd" id="fadeEnd" value="3000" min="0" step="10" max="15000" /> ms
+</li>
+</fieldset>
+</ul>
+<ul>
+<fieldset id="color-options">
+<legend>Color Options</legend>
+<li>
+<label for="fadeInColor">Fade In:</label>
+<input type="text" name="fadeInColor" id="fadeInColor" value="hsla(0,85%,50%,0.75)" />
+</li>
+<li>
+<label for="fadeOutColor">Fade Out:</label>
+<input type="text" name="fadeOutColor" id="fadeOutColor" value="hsla(180,85%,70%,0.75)" />
+</li>
+<li>
+<label for="fadeEndColor">Fade End:</label>
+<input type="text" name="fadeEndColor" id="fadeEndColor" value="hsla(270,0%,20%,0.75)" />
+</li>
+<li>
+<label for="ease">Easing:</label>
+<select id="ease" name="ease" >
+    <option value="linear">Linear</option>
+    <option value="bounce">Bounce</option>
+    <option value="bounce-in">Bounce In</option>
+    <option value="bounce-out">Bounce Out</option>
+    <option value="bounce-in-out">Bounce In/Out</option>
+</select>
+</li>
+</fieldset>
+</ul>
+<ul>
+<fieldset id="board-dimensions">
+<legend>Board Dimensions/Cell Shape</legend>
+<input type="hidden" name="persist" id="persist" value="true"/>
+<li>
+<label for="cellsWide">Board: </label>&nbsp;Wide:
+<input type="number" name="cellsWide" id="cellsWide" value="100" min="1" step="1" max="1500" />
+High:
+<input type="number" name="cellsHigh" id="cellsHigh" value="100" min="1" step="1" max="1500" />
 
-    </li>
-    <li>
-    <label for="cellsWidth">Cell: </label>
-    Width: <input type="number" name="cellWidth" id="cellWidth" value="14.0" min="1" step="0.1" max="150" />
-    Height:
-    <input type="number" name="cellHeight" id="cellHeight" value="14.0" min="1" step="0.1" max="150" />
-    </li>
-    <li>
-    <label>Radius:</label>
-        <span class="radius">X:
-         <input type="number" name="cellRx" id="cellRx" value="3.0" min="0" step="1" max="100"/></span>
-         <span class="radius">Y:
-         <input type="number" name="cellRy" id="cellRy" value="3.0" min="0" step="1" max="100"/></span>
-    </li>
-    </fieldset>
-    </ul>
-   <ul id="parity-cell-container">
-    <fieldset id="parity-cell-groups">
-    <legend>Parity Cells Tri-State</legend>
-    <li class="parity-cells-group">
-        <table id="parity-group-rulea" class="parity-cells">
-            <thead><tr><th colspan="3">Rule A</th></tr></thead>
-            <tbody>
-            <tr>
-                <td><button id="nw" name="nw" value=""> </button></td>
-                <td><button id="n" name="n" value=""> </button></td>
-                <td><button id="ne" name="ne" value=""> </button></td>
-            </tr>
-            <tr>
-                <td><button id="w" name="w" value=""> </button></td>
-                <td><button id="c" name="c" value=""> </button></td>
-                <td><button id="e" name="e" value=""> </button></td>
-            </tr>
-            <tr>
-                <td><button id="sw" name="sw" value=""> </button></td>
-                <td><button id="s" name="s" value=""> </button></td>
-                <td><button id="se" name="se" value=""> </button></td>
-            </tr>
-            </tbody>
-        </table>
-    </li>
-    <li class="parity-cells-group">
-        <table id="parity-group-ruleb" class="parity-cells">
-            <thead><tr><th colspan="3">Rule B</th></tr></thead>
-            <tbody>
-            <tr>
-                <td><button id="nw" name="nw" value=""> </button></td>
-                <td><button id="n" name="n" value=""> </button></td>
-                <td><button id="ne" name="ne" value=""> </button></td>
-            </tr>
-            <tr>
-                <td><button id="w" name="w" value=""> </button></td>
-                <td><button id="c" name="c" value=""> </button></td>
-                <td><button id="e" name="e" value=""> </button></td>
-            </tr>
-            <tr>
-                <td><button id="sw" name="sw" value=""> </button></td>
-                <td><button id="s" name="s" value=""> </button></td>
-                <td><button id="se" name="se" value=""> </button></td>
-            </tr>
-            </tbody>
-        </table>
-    </li>
-    <li class="parity-cells-group">
-        <table id="parity-group-rulec" class="parity-cells">
-            <thead><tr><th colspan="3">Rule C</th></tr></thead>
-            <tbody>
-            <tr>
-                <td><button id="nw" name="nw" value=""> </button></td>
-                <td><button id="n" name="n" value=""> </button></td>
-                <td><button id="ne" name="ne" value=""> </button></td>
-            </tr>
-            <tr>
-                <td><button id="w" name="w" value=""> </button></td>
-                <td><button id="c" name="c" value=""> </button></td>
-                <td><button id="e" name="e" value=""> </button></td>
-            </tr>
-            <tr>
-                <td><button id="sw" name="sw" value=""> </button></td>
-                <td><button id="s" name="s" value=""> </button></td>
-                <td><button id="se" name="se" value=""> </button></td>
-            </tr>
-            </tbody>
-        </table>
-    </li>
-    <li class="parity-cells-group">
-        <table id="parity-group-ruled" class="parity-cells">
-            <thead><tr><th colspan="3">Rule D</th></tr></thead>
-            <tbody>
-            <tr>
-                <td><button id="nw" name="nw" value=""> </button></td>
-                <td><button id="n" name="n" value=""> </button></td>
-                <td><button id="ne" name="ne" value=""> </button></td>
-            </tr>
-            <tr>
-                <td><button id="w" name="w" value=""> </button></td>
-                <td><button id="c" name="c" value=""> </button></td>
-                <td><button id="e" name="e" value=""> </button></td>
-            </tr>
-            <tr>
-                <td><button id="sw" name="sw" value=""> </button></td>
-                <td><button id="s" name="s" value=""> </button></td>
-                <td><button id="se" name="se" value=""> </button></td>
-            </tr>
-            </tbody>
-        </table>
-    </li>
-    </fieldset>
-    </ul>
-    </form>
-    </div>
+</li>
+<li>
+<label for="cellsWidth">Cell: </label>
+Width: <input type="number" name="cellWidth" id="cellWidth" value="14.0" min="1" step="0.1" max="150" />
+Height:
+<input type="number" name="cellHeight" id="cellHeight" value="14.0" min="1" step="0.1" max="150" />
+</li>
+<li>
+<label>Radius:</label>
+    <span class="radius">X:
+        <input type="number" name="cellRx" id="cellRx" value="3.0" min="0" step="1" max="100"/></span>
+        <span class="radius">Y:
+        <input type="number" name="cellRy" id="cellRy" value="3.0" min="0" step="1" max="100"/></span>
+</li>
+</fieldset>
+</ul>
+<div id="parity-cell-container">
+<fieldset id="parity-cell-groups">
+<legend>Parity Cells Tri-State</legend>
+
+<div class="pc-group">
+<div class="pc-row">
+    <button id="pcb-rulea" class="pc-rule-label">Rule A</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulea-nw" class="pcb">0</button>
+<button id="pcb-rulea-n" class="pcb">0</button>
+<button id="pcb-rulea-ne" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulea-w" class="pcb">0</button>
+<button id="pcb-rulea-c" class="pcb">1</button>
+<button id="pcb-rulea-e" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulea-sw" class="pcb">0</button>
+<button id="pcb-rulea-s" class="pcb">0</button>
+<button id="pcb-rulea-se" class="pcb">0</button>
+</div>
+</div>
+
+<div class="pc-group">
+<div class="pc-row">
+    <button id="pcb-ruleb" class="pc-rule-label">Rule B</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruleb-nw" class="pcb">0</button>
+<button id="pcb-ruleb-n" class="pcb">0</button>
+<button id="pcb-ruleb-ne" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruleb-w" class="pcb">0</button>
+<button id="pcb-ruleb-c" class="pcb">1</button>
+<button id="pcb-ruleb-e" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruleb-sw" class="pcb">0</button>
+<button id="pcb-ruleb-s" class="pcb">0</button>
+<button id="pcb-ruleb-se" class="pcb">0</button>
+</div>
+</div>
+
+<div class="pc-group">
+<div class="pc-row">
+    <button id="pcb-rulec" class="pc-rule-label">Rule C</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulec-nw" class="pcb">0</button>
+<button id="pcb-rulec-n" class="pcb">0</button>
+<button id="pcb-rulec-ne" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulec-w" class="pcb">0</button>
+<button id="pcb-rulec-c" class="pcb">1</button>
+<button id="pcb-rulec-e" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulec-sw" class="pcb">0</button>
+<button id="pcb-rulec-s" class="pcb">0</button>
+<button id="pcb-rulec-se" class="pcb">0</button>
+</div>
+</div>
+
+<div class="pc-group">
+<div class="pc-row">
+    <button id="pcb-ruled" class="pc-rule-label">Rule D</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruled-nw" class="pcb">0</button>
+<button id="pcb-ruled-n" class="pcb">0</button>
+<button id="pcb-ruled-ne" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruled-w" class="pcb">0</button>
+<button id="pcb-ruled-c" class="pcb">1</button>
+<button id="pcb-ruled-e" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruled-sw" class="pcb">0</button>
+<button id="pcb-ruled-s" class="pcb">0</button>
+<button id="pcb-ruled-se" class="pcb">0</button>
+</div>
+</div>
+</fieldset>
+</div>
+</div>
+</form>
 <script>
-
 
 var Games = new Array();
 var animationFunctions = new Array();

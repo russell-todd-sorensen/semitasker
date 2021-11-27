@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>FlexBox With Buttons</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/d3.v3.js"></script>
+<style>
+
+.pc-group {
+   display: inline-flex;
+   flex-direction:column;
+   flex-wrap: wrap;
+   width: 80px;
+   height: 110px;
+}
+.pc-group .pc-row {
+   background-color:silver;
+   display: inline-flex;
+   flex: 1;
+}
+.pc-group .pc-row .pc-rule-label {
+    flex: 1;
+}
+.pc-group .pcb {
+   flex: 1;
+}
+
+</style>
+</head>
+<body>
+
+<div class="pc-group">
+<div class="pc-row">
+    <button id="pcb-rulea" class="pc-rule-label">Rule A</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulea-nw" class="pcb">0</button>
+<button id="pcb-rulea-n" class="pcb">0</button>
+<button id="pcb-rulea-ne" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulea-w" class="pcb">0</button>
+<button id="pcb-rulea-c" class="pcb">1</button>
+<button id="pcb-rulea-e" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulea-sw" class="pcb">0</button>
+<button id="pcb-rulea-s" class="pcb">0</button>
+<button id="pcb-rulea-se" class="pcb">0</button>
+</div>
+</div>
+
+<div class="pc-group">
+<div class="pc-row">
+    <button id="pcb-ruleb" class="pc-rule-label">Rule B</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruleb-nw" class="pcb">0</button>
+<button id="pcb-ruleb-n" class="pcb">0</button>
+<button id="pcb-ruleb-ne" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruleb-w" class="pcb">0</button>
+<button id="pcb-ruleb-c" class="pcb">1</button>
+<button id="pcb-ruleb-e" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruleb-sw" class="pcb">0</button>
+<button id="pcb-ruleb-s" class="pcb">0</button>
+<button id="pcb-ruleb-se" class="pcb">0</button>
+</div>
+</div>
+
+<div class="pc-group">
+<div class="pc-row">
+    <button id="pcb-rulec" class="pc-rule-label">Rule C</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulec-nw" class="pcb">0</button>
+<button id="pcb-rulec-n" class="pcb">0</button>
+<button id="pcb-rulec-ne" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulec-w" class="pcb">0</button>
+<button id="pcb-rulec-c" class="pcb">1</button>
+<button id="pcb-rulec-e" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-rulec-sw" class="pcb">0</button>
+<button id="pcb-rulec-s" class="pcb">0</button>
+<button id="pcb-rulec-se" class="pcb">0</button>
+</div>
+</div>
+
+<div class="pc-group">
+<div class="pc-row">
+    <button id="pcb-ruled" class="pc-rule-label">Rule D</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruled-nw" class="pcb">0</button>
+<button id="pcb-ruled-n" class="pcb">0</button>
+<button id="pcb-ruled-ne" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruled-w" class="pcb">0</button>
+<button id="pcb-ruled-c" class="pcb">1</button>
+<button id="pcb-ruled-e" class="pcb">0</button>
+</div>
+<div class="pc-row">
+<button id="pcb-ruled-sw" class="pcb">0</button>
+<button id="pcb-ruled-s" class="pcb">0</button>
+<button id="pcb-ruled-se" class="pcb">0</button>
+</div>
+</div>
+
+</body>
+</html>

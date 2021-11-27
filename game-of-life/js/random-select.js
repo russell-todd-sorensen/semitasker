@@ -11,6 +11,21 @@ function getRangeIndex (list) {
     //Log.Notice('r=' + r + ' pct=' + pct +  ' i=' + i );
     return i;
 }
+function getRangeIndexNormalized (list) {
+    let sum = 0;
+    list.apply((item) => {return sum+item})
+    var r = Math.random();
+    var pct = 0;
+    var i = 0;
+
+    while (i<list.length) {
+        pct = pct + list[i];
+        if (r<pct) break;
+        i++;
+    }
+    //Log.Notice('r=' + r + ' pct=' + pct +  ' i=' + i );
+    return i;
+}
 
 function runTest(list,iterations) {
     list = list?list:[.15,.35,.5];
