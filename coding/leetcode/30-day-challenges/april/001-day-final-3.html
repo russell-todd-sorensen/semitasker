@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Radix Sort</title>
+<style>
+</style>
+
+<!--
+Problem is to find in O(n) time and constant space
+one un-matched integer in list of integers.
+
+Radix sort can be used as a starting point, which 
+has O(kn) time. However, radix sort sorts the entire 
+list, which isn't needed here. After each pass, the 
+half with an even number of members is thrown away. 
+This should take about a total of 2N operations.
+
+The reasoning behind radix sorting is purely a trick of
+the finite precision of integers, so it is an engineering
+argument, not a mathematical one. Once you limit the size
+of the inputs, the sorting cost is fixed. For an integer
+size of 32 bits and memory the same size, you could only have
+2^31-1 pairs of matched numbers, you couldn't even keep track
+in one integer the number of operations required. The bottom line
+is that the efficiency of the algo, although theoretical, is never
+reached in practice.
+
+The current problem might be better cast as bucket sort.
+Looking at the lowest value binary digit, sort into bucket0
+and bucket1, repeat with the bucket with odd number of members.
+
+What about using log2(N) buckets
+-->
+<!-- Sorting into log2(N) buckets -->
+<script>
+
+function genIntegerList(len,min,max) {
+    len = len?len:10;
+    min = min?min:0;
+    max = max?max:2**30;
+
+    let range = max-min,
+        list  = [];
+
+    // Min Range value check
+    if (range < Number.EPSILON) {
+        console.log(`Error: min (${min}) and max (${max}) differ by less than Number.EPSILON (${Number.EPSILON})`);
+        return [];
+    }
+
+    for (let i=0;i<len;i++) {
+        list.push(min + parseInt(Math.random()*range));
+    }
+    return list;
+}
+
+function genPairedArrayWithMarker(len,min,max,marker) {
+        len = len?len:10;
+        min = min?min:0;
+        max = max?max:2**30;
+        marker = marker?marker:(min + parseInt(Math.random*(max-min))),
+        removeWhenDone = "removeWhenDone";
+
+    let pArray   = [marker,removeWhenDone],
+        pLen     = pArray.length,
+        halfLen  = parseInt(Math.floor(len/2)),
+        randList = genIntegerList(halfLen,min,max),
+        item,
+        spliceIdx1,
+        spliceIdx2;
+
+    while (randList.length > 0) {
+        item = randList.pop();
+        spliceIdx1 = parseInt(pArray.length*Math.random());
+        pArray.splice(spliceIdx1,0,item);
+        spliceIdx2 = parseInt(pArray.length*Math.random());
+        pArray.splice(spliceIdx2,0,item);
+    }
+    pArray.pop(); //remove removeWhenDone
+    return pArray;
+}
+
+function statPairSpread (list) {
+    let len = list.length,
+        spread = [],
+        sum = 0;
+
+    for (let i=0,val;i<len;i++) {
+        val = list[i];
+        idx = list.indexOf(val,i+1);
+        if (idx && idx>0) {
+            spread.push(idx-i)
+            sum += (idx-i);
+        }
+    }
+    return {avg:(sum/len),spread:spread};
+}
+
+var nbmap = new Map();
+nbmap.set(31,29)
+nbmap.set(29,23)
+nbmap.set(23,19)
+nbmap.set(19,17)
+nbmap.set(17,13)
+nbmap.set(13,11)
+nbmap.set(11,7)
+nbmap.set(7,5)
+nbmap.set(5,3)
+nbmap.set(3,2)
+nbmap.set(2,2)
+
+
+var pickNextBuckets = function(alen,prev) {
+    
+    let len = Math.log2(alen),
+        next = (
+        len<3?2
+        :len==3?3
+        :len<6?5
+        :len<9?7
+        :len<12?11
+        :len<16?13
+        :len<18?17
+        :len<21?19
+        :len<26?23
+        :len<30?29
+        :31);
+    if (next==prev) {
+        return nbmap.get(next);
+    } else {
+        return next;
+    }
+}
+var singleNumber = function (arr) {
+
+    let alen = arr.length,
+        prev = null,
+        numBuckets = pickNextBuckets(alen,prev),
+        buckets = [],
+        n = 1,
+        found = false,
+        k=0, // estimated time complexity ~= N*1.1 = O(N)
+        total = 0,
+        loopBreak = 0,
+        maxLoop = 3*alen,
+        answer = null,
+        returnObj = {alen:alen+0,numBuckets:[numBuckets+0],k:k,n:n,answer:answer},
+        val,
+        bucket;
+whiletag:
+    while (!found) {
+        k += alen;
+        if (numBuckets > 2) {
+            while (arr.length > 0) {
+                bucket = arr[0]%numBuckets;
+                if (buckets[bucket]) {
+                    buckets[bucket].push(arr.shift()); // reuse memory
+                } else {
+                    buckets[bucket] = [arr.shift()];
+                }
+            }
+        } else {
+            while (arr.length > 0) {
+                bucket = ((arr[0] & 1<<n)==0)?0:1;
+                if (buckets[bucket]) {
+                    buckets[bucket].push(arr.shift()); // reuse memory
+                } else {
+                    buckets[bucket] = [arr.shift()];
+                }
+            }
+            n++
+        }
+        for (let j in buckets) {
+            k++;
+            if ((buckets[j].length%2) == 1) {
+                arr = buckets[j];
+                alen = arr.length;
+                buckets = [];
+                break;
+            }
+        }
+        if (arr.length == 1) {
+            answer = arr[0];
+            found = true;
+            break;
+        }
+        numBuckets = pickNextBuckets(alen,numBuckets);
+        returnObj.numBuckets.push(numBuckets);
+        if (returnObj.numBuckets.length >= Math.log2(maxLoop)) {
+            returnObj.remain = arr;
+            let arr0 = arr[0]; 
+            for (let i=1,arr0=arr[0];i<arr.length;i++) {
+                if (arr0 != arr[i]) {
+                    break whiletag;
+                }
+            }
+            answer = arr[0];
+            break;
+        }
+    }
+    returnObj.k = k;
+    returnObj.n = n;
+    returnObj.answer = answer;
+    return returnObj;
+}
+
+function timeIt(fn,args) {
+    let x = new Date().valueOf(),
+        result = fn(...args),
+        y = new Date().valueOf(),
+        diff = y-x;
+
+    result.x = x;
+    result.y = y;
+    result.diff = diff;
+
+    return result;
+}
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
