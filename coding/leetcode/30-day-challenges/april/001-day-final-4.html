@@ -34,6 +34,7 @@ and bucket1, repeat with the bucket with odd number of members.
 What about using log2(N) buckets
 -->
 <!-- Sorting into log2(N) buckets -->
+<script src="10x6-array.js"></script>
 <script>
 
 function genIntegerList(len,min,max) {
@@ -127,10 +128,10 @@ var pickNextBuckets = function(alen,prev) {
         :len<26?23
         :len<30?29
         :31);
-    if (next==prev) {
-        return nbmap.get(next);
-    } else {
+    if (next < prev || (prev==null)) {
         return next;
+    } else {
+        return nbmap.get(prev);
     }
 }
 var singleNumber = function (arr) {
@@ -195,7 +196,7 @@ whiletag:
         }
         numBuckets = pickNextBuckets(len,numBuckets);
         returnObj.numBuckets.push(numBuckets);
-        if (returnObj.numBuckets.length >= Math.log2(maxLoop)) {
+        if (returnObj.numBuckets.length >= (Math.log2(maxLoop + 32))) {
             returnObj.remain = arrs[aIdx];
             let arr0 = arr[arrs[aIdx][0]]; 
             for (let i=1;i<len;i++) {
@@ -228,6 +229,19 @@ function timeIt(fn,args) {
     return result;
 }
 
+function timeIt2(arr) {
+    let x = new Date().valueOf(),
+        result = singleNumber(arr),
+        y = new Date().valueOf(),
+        diff = y-x;
+
+    result.x = x;
+    result.y = y;
+    result.diff = diff;
+
+    return result;
+
+}
 </script>
 </head>
 <body>
