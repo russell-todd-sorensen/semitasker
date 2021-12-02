@@ -35,8 +35,9 @@ What about using log2(N) buckets
 -->
 <!-- Sorting into log2(N) buckets -->
 <script src="10x6-array.js"></script>
+<script src="generate-random-arrays.js"></script>
 <script>
-
+if (false) {
 function genIntegerList(len,min,max) {
     len = len?len:10;
     min = min?min:0;
@@ -83,6 +84,7 @@ function genPairedArrayWithMarker(len,min,max,marker) {
     return pArray;
 }
 
+}
 function statPairSpread (list) {
     let len = list.length,
         spread = [],
