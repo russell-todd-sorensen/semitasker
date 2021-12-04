@@ -1,0 +1,32 @@
+Description: 100 Million random integers (50 Million pairs) plus one un-Paired
+ integer. 
+ There may be one or mulitple paird integers with the same value as the unpaired,
+ but this only results in a few additional "extra" cycles 
+
+res = timeIt(genPairedArrayWithMarker3,[100000000,0,1000000000,58717317]);
+1638581509028 Start gen Paired array
+genPairedArrayWithMarker3 len=100000000 min=0, max=1000000000 marker=58717317
+28254 Elapsed in 0 iterations.
+28905 Elapsed in 10000000 iterations.
+29473 Elapsed in 20000000 iterations.
+30031 Elapsed in 30000000 iterations.
+30587 Elapsed in 40000000 iterations.
+31150 Total Elapsed.
+{randList: Array(50000000), marker: 58717317, pArray: Array(100000001), x: 1638581509028, y: 1638581540178, …}
+res.randList = null
+res.randList = null
+null
+null
+aa  = timeIt2(res.pArray)
+0 elapsed processed 0 next batch 100000001
+2410 elapsed processed 100000004 next batch 3445427
+2544 elapsed processed 103445451 next batch 149347
+2555 elapsed processed 103594813 next batch 8739
+2556 elapsed processed 103603562 next batch 659
+2556 elapsed processed 103604232 next batch 73
+2556 elapsed processed 103604307 next batch 9
+2556 elapsed processed 103604318 next batch 5
+2556 elapsed processed 103604324 next batch 5
+2556 elapsed processed 103604330 next batch 5
+2556 elapsed processed 103604336 next batch 3
+{alen: 100000001, numBuckets: Array(11), k: 103604340, n: 4, answer: 58717317, …}

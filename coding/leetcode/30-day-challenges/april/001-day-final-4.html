@@ -140,7 +140,9 @@ var singleNumber = function (arr) {
 
     const alen = arr.length;
     let aIdx = 0,
-        arrs = [];
+        arrs = [],
+        start = new Date().valueOf();
+
     arrs[aIdx] = arr;
 
     let answer = null,
@@ -158,6 +160,7 @@ var singleNumber = function (arr) {
 whiletag:
     while (!found) {
         //len = arrs[aIdx].length;
+        console.log(`${new Date().valueOf() - start} elapsed processed ${k} next batch ${len}`)
         k += len;
         if (numBuckets > 2) {
             for (let i=0,j;i<len;i++) {
@@ -213,7 +216,7 @@ whiletag:
     returnObj.k = k;
     returnObj.n = n;
     returnObj.answer = answer;
-    arrs.shift();
+    //arrs.shift();
     returnObj.arrs = arrs;
     return returnObj;
 }

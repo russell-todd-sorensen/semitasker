@@ -1,0 +1,13 @@
+res = timeIt(genPairedArrayWithMarker3,[250000000,0,500000000,264717317]);
+1638584055965 Start gen Paired array
+24145 elapsed creating 0 random ints
+24394 elapsed creating 12500000 random ints
+24579 elapsed creating 25000000 random ints
+24759 elapsed creating 37500000 random ints
+24942 elapsed creating 50000000 random ints
+25120 elapsed creating 62500000 random ints
+25299 elapsed creating 75000000 random ints
+25484 elapsed creating 87500000 random ints
+25665 elapsed creating 100000000 random ints
+25851 elapsed creating 112500000 random ints
+26036 finished creating 125000000 random ints
