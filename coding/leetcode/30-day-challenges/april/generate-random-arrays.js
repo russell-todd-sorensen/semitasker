@@ -170,28 +170,29 @@ function integerIndexTest(min,max) {
     let rand    = Math.random(),
         range   = max-min+1,
         index   = Math.floor(rand*range),
-        integer = index+min;
+        integer = index+min,
+        mozInteger = getRandomIntInclusive(min,max,rand);
 
     return [
         integer,
-        index
+        index,
+        mozInteger,
     ];
 }
 
-function indexInRange(min,max) {
+function indexInRange(min,max,rand) {
 
     min = Math.floor(min),
     max = Math.floor(max),
-    range = max-min+1;
-    return (Math.floor(Math.random()*range-min));
+    rand = rand||rand==0?rand:Math.random();
+    let range = max-min+1;
+
+    return (Math.floor(rand*range));
 }
 
-function intInRange(min,max) {
-    min = Math.floor(min),
-    max = Math.floor(max),
-    range = max-min+1;
+function intInRange(min,max,rand) {
 
-    return (Math.floor(Math.random()*range));
+    return (indexInRange(min,max,rand) + min);
 }
 
 function genIntegerList3(len,min,max) {
@@ -235,4 +236,19 @@ function runRangeTest (num,min,max) {
         }
     }
     return numArr
+}
+// from: 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random
+// Note: this function takes floating-point values so it uses Math.ceil(min)
+// Math.ceil(5) == Math.floor(5) == Math.ceil(4.001) === etc.
+
+function getRandomIntInclusive(min, max,randomValue) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    if (!isNaN(randomValue) && randomValue >=0 && randomValue < 1) {
+        rand = randomValue;
+    } else {
+        rand = Math.random();
+    }
+    return Math.floor(rand * (max - min + 1) + min); //The maximum is inclusive and the minimum is inclusive
 }
