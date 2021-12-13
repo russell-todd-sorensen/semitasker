@@ -1,5 +1,9 @@
 set problem {
     # Enter problem description, exactly started
+    How to Pick a Random Element from an Infinite Stream
+    Let’s work through the problem of uniformly picking a 
+    random element from a gigantic stream. This is a common 
+    interview question at companies like Google and Facebook.
 }
 
 set solution {
