@@ -247,6 +247,63 @@ function timeIt2(arr) {
     return result;
 
 }
+
+/*
+    Given an array of fixed length [0,1,2...N],
+    replace the elements with unique random value
+    in range 0 to size-1.
+
+ */
+function gassify (sampleSize,spaceSize) {
+
+    let m = new Map(),
+        i = 0;
+
+    for (;i<sampleSize;i++) {
+        m.set(i,i);
+    }
+
+    for (;i<spaceSize;i++) {
+        let int = Math.floor((i+1)*Math.random()),
+            idx = m.get(int);
+        if (!isNaN(idx)) {
+            m.set(i,idx);
+            m.delete(int);
+        }
+    }
+    return m
+}
+
+function iterateGassy(sampleSize,spaceSize,iter) {
+
+    let res = new Array(spaceSize).fill(0);
+
+    for (let i=0,m;i<iter;i++) {
+        m = gassify(sampleSize,spaceSize);
+        for (let key of m.keys()) {
+            res[key]++
+        }
+    }
+    return res;
+}
+
+function fractionNumsEndingIn(start,end,nums) {
+    start = start?start:0;
+    end = end?end:1000;
+    nums = nums?nums:[0,1,2,3,4,5,6,7,8,9];
+    stats = new Array(10).fill(0);
+    let i = start;
+
+    for (;i<(end-start);i++) {
+        stats[i%10]++;
+    }
+    let norm = new Array(10).fill(0);
+    for (let j=0;j<nums.length;j++) {
+        norm[j] = stats[j]/i;
+    }
+    return {s:start,e:end,n:nums,stats:stats,norm:norm}
+}
+
 </script>
 </head>
 <body>
