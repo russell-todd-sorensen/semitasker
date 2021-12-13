@@ -90,7 +90,7 @@ ns_return 200 text/html "
 </head>
 <body>
 
-<a href='source.txt'>Source Code</a><br>
+<a href='source.tcl'>Source Code</a><br>
 <a href='explained.txt'>Solution Explained</a>
 <pre>
 Create root node like this:
