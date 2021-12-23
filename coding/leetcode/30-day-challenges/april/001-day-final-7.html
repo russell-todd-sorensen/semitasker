@@ -38,47 +38,6 @@ What about using log2(N) buckets
 <script src="/js/schedFunc.js"></script>
 <script>
 
-function* nextType (sampleSize,spaceSize) {
-
-    let m    = new Map(),
-        type = 0,
-        hits = []; // by definition 0 is always chosen in first iteration
-
-    for (let idx,tmp;type<sampleSize;type++) {
-        m.set(type,type)
-        hits[type] = [type];
-        idx = Math.floor((type+1)*Math.random());
-        tmp = m.get(idx);
-        if (idx == type) {
-            continue
-        } else {
-            m.set(type,tmp);
-            m.set(idx,type);
-            hits[type].push(tmp);
-            hits[idx].push(type);
-        }
-        //yield i;
-    }
-    yield {m:m,hits:hits};
-
-    let i = type; 
-
-    while (i<spaceSize) {
-        let int = Math.floor((i+1)*Math.random()),
-            idx = m.get(int);
-        if (!isNaN(idx)) {
-            m.set(i,idx);
-            hits[idx].push(i);
-            m.delete(int);
-            yield idx;
-        } else {
-            yield "";
-        }
-        i++;
-    }
-    yield {m:m, hits:hits};
-}
-
 var animationIndex = 0;
 var continueAnimation = true;
 
@@ -123,7 +82,7 @@ class RandomSelect {
             .attr("height",this.gHeight)
             .attr("width", this.gWidth);
 
-        this.getNextType = nextType(this.size,this.infinity);
+        this.getNextType = this.nextType(this.size,this.infinity);
         this.initialSort = this.getNextType.next().value;
         this.initialMap  = this.initialSort.m
         for (let i of this.initialMap.keys()) {
@@ -177,21 +136,24 @@ class RandomSelect {
     *nextType (sampleSize,spaceSize) {
 
         let m    = new Map(),
+            idx  = 0,
             type = 0,
+            tmpt = 0,
+            ridx = 0,
             hits = []; // by definition 0 is always chosen in first iteration
 
-        for (let idx,tmp;type<sampleSize;type++) {
-            m.set(type,type)
-            hits[type] = [type];
-            idx = Math.floor((type+1)*Math.random());
-            tmp = m.get(idx);
-            if (idx == type) {
+        for (;idx<sampleSize;type++,idx++) {
+            m.set(idx,type);
+            hits[type] = [idx];
+            ridx = Math.floor((type+1)*Math.random());
+            tmpt = m.get(ridx);
+            if (tmpt == type) {
                 continue
             } else {
-                m.set(type,tmp);
-                m.set(idx,type);
-                hits[type].push(tmp);
-                hits[idx].push(type);
+                m.set(idx,tmpt);
+                m.set(ridx,type);
+                hits[type].push(ridx);
+                hits[tmpt].push(idx);
             }
         }
 
@@ -199,20 +161,18 @@ class RandomSelect {
         this.stats = {m:m,hits:hits};
         yield this.stats;
 
-        let i = type;
-
-        while (i<spaceSize) {
-            let int = Math.floor((i+1)*Math.random()),
-                idx = m.get(int);
-            if (!isNaN(idx)) {
-                m.set(i,idx);
-                hits[idx].push(i);
-                m.delete(int);
-                yield idx;
+        while (idx<spaceSize) {
+            ridx = Math.floor((idx+1)*Math.random()),
+            type = m.get(ridx);
+            if (!isNaN(type)) {
+                m.set(idx,type);
+                hits[type].push(idx);
+                m.delete(ridx);
+                yield type;
             } else {
                 yield "";
             }
-            i++;
+            idx++;
         }
         this.stats = {m:m, hits:hits};
         yield -1;
