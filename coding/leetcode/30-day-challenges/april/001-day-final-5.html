@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Radix Sort</title>
+<style>
+</style>
+
+<!--
+Problem is to find in O(n) time and constant space
+one un-matched integer in list of integers.
+
+Radix sort can be used as a starting point, which 
+has O(kn) time. However, radix sort sorts the entire 
+list, which isn't needed here. After each pass, the 
+half with an even number of members is thrown away. 
+This should take about a total of 2N operations.
+
+The reasoning behind radix sorting is purely a trick of
+the finite precision of integers, so it is an engineering
+argument, not a mathematical one. Once you limit the size
+of the inputs, the sorting cost is fixed. For an integer
+size of 32 bits and memory the same size, you could only have
+2^31-1 pairs of matched numbers, you couldn't even keep track
+in one integer the number of operations required. The bottom line
+is that the efficiency of the algo, although theoretical, is never
+reached in practice.
+
+The current problem might be better cast as bucket sort.
+Looking at the lowest value binary digit, sort into bucket0
+and bucket1, repeat with the bucket with odd number of members.
+
+What about using log2(N) buckets
+-->
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/schedu"
+<script>
+
+function timeIt(fn,args) {
+    let x = new Date().valueOf(),
+        result = fn(...args),
+        y = new Date().valueOf(),
+        diff = y-x;
+
+    result.x = x;
+    result.y = y;
+    result.diff = diff;
+
+    return result;
+}
+
+function timeIt2(arr) {
+    let x = new Date().valueOf(),
+        result = singleNumber(arr),
+        y = new Date().valueOf(),
+        diff = y-x;
+
+    result.x = x;
+    result.y = y;
+    result.diff = diff;
+
+    return result;
+
+}
+
+/*
+    Given an array of fixed length [0,1,2...N],
+    replace the elements with unique random value
+    in range 0 to size-1.
+
+ */
+function gassify (sampleSize,spaceSize) {
+
+    let m = new Map(),
+        i = 0;
+
+    for (;i<sampleSize;i++) {
+        m.set(i,i);
+    }
+
+    for (;i<spaceSize;i++) {
+        let int = Math.floor((i+1)*Math.random()),
+            idx = m.get(int);
+        if (!isNaN(idx)) {
+            m.set(i,idx);
+            m.delete(int);
+        }
+    }
+    return m
+}
+
+function gassifyAndRecord (sampleSize,spaceSize) {
+
+    let m = new Map(),
+        i = 0,
+        hits = []; // by definition 0 is always chosen in first iteration
+
+    for (i=0;i<sampleSize;i++) {
+        m.set(i,i);
+        hits[i] = [i];
+    }
+
+    for (;i<spaceSize;i++) {
+        let int = Math.floor((i+1)*Math.random()),
+            idx = m.get(int);
+        if (!isNaN(idx)) {
+            m.set(i,idx);
+            hits[idx].push(i);
+            m.delete(int);
+        }
+    }
+    return {m:m, hits:hits}
+}
+
+function* nextType (sampleSize,spaceSize) {
+
+    let m    = new Map(),
+        type = 0,
+        hits = []; // by definition 0 is always chosen in first iteration
+
+    for (let idx,tmp;type<sampleSize;type++) {
+        m.set(type,type)
+        hits[type] = [type];
+        idx = Math.floor((type+1)*Math.random());
+        tmp = m.get(idx);
+        if (idx == type) {
+            continue
+        } else {
+            m.set(type,tmp);
+            m.set(idx,type);
+            hits[type].push(tmp);
+            hits[idx].push(type);
+        }
+        //yield i;
+    }
+    yield {m:m,hits:hits};
+
+    let i = type; 
+
+    while (i<spaceSize) {
+        let int = Math.floor((i+1)*Math.random()),
+            idx = m.get(int);
+        if (!isNaN(idx)) {
+            m.set(i,idx);
+            hits[idx].push(i);
+            m.delete(int);
+            yield idx;
+        } else {
+            yield "";
+        }
+        i++;
+    }
+    yield {m:m, hits:hits};
+}
+
+function iterateGassy(sampleSize,spaceSize,iter) {
+
+    let res = new Array(spaceSize).fill(0);
+
+    for (let i=0,m;i<iter;i++) {
+        m = gassify(sampleSize,spaceSize);
+        for (let key of m.keys()) {
+            res[key]++
+        }
+    }
+    return res;
+}
+
+function* getNext(start,max) {
+    let i=start?start:0;
+    max = max?max:Infinity;
+
+    while(i<=max) {
+        yield i;
+        i++;
+    }
+}
+
+const genIndex = getNext(0,1000);
+const getNextType = nextType(1,10);
+
+var animationIndex = 0;
+var continueAnimation = true;
+
+class RandomSelect {
+    svg;
+    defs;
+    main;
+    bg;
+    width;
+    height   = 200;
+    yOffset  = 20;
+    xOffset  = 20;
+    gHeight  = this.height+this.yOffset;
+    gWidth;
+    hueStart = 0;
+    hueDiff;
+    xAxis    = this.gHeight;
+    yAxis    = this.xOffset;
+    timeInterval = 1000; // milliseconds
+    animationIndex    = 0;
+    continueAnimation = false;
+
+    constructor (svgId,size) {
+        this.svgId   = svgId?svgId:"svg1";
+        this.size    = size?Math.floor(size)?Math.floor(size):10:10;
+        this.svg     = d3.select(`#${this.svgId}`);
+        this.defs    = this.svg.select("defs");
+        this.main    = this.svg.select("#main")
+        this.bg      = this.main.select("#bg");
+        this.width   = 10 * Math.floor(this.size);
+        this.hueDiff = Math.floor(360/(this.size+1));
+        this.gWidth  = this.width+this.xOffset;
+        this.main
+            .attr("transform",`translate(${this.xOffset},${this.yOffset})`);
+        this.bg
+            .attr("height",this.gHeight)
+            .attr("width", this.gWidth);
+
+        for (let i=0;i<this.size;i++) {
+            this.defs
+                .append("rect")
+                .attr("id",`rect-type-${i}`)
+                .attr("class",`C-${i}`)
+                .attr("fill",`hsl(${i*this.hueDiff},80%,50%)`)
+                .attr("stroke-width",0)
+                .attr("height",`${Math.floor(this.height/10)}`)
+                .attr("width",1);
+            if (false) {
+            this.main
+                .append("use")
+                .attr("id",`ltype-${i}`)
+                .attr("class",`U-${i}`)
+                .attr("href",`#rect-type-${i}`)
+                .attr("x",`${i}`)
+                .attr("y",`${this.height}`);
+            } else {
+                this.draw(i,i);
+            }
+        }
+        this.animationIndex = this.size;
+    }
+    draw(type,index) { 
+        this.main
+            .append("use")
+            .attr("id",`ltype-${type}`)
+            .attr("class",`U-${type}`)
+            .attr("href",`#rect-type-${type}`)
+            .attr("x",`${index}`)
+            .attr("y",`${this.height}`);
+    }
+    start() {
+        this.continueAnimation = true;
+
+    }
+    oneStep() {
+
+    }
+
+}
+
+function animateOneStep() {
+
+}
+
+</script>
+
+</head>
+<body>
+<svg
+    id="svg1"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<style>
+
+</style>
+<defs id="defs">
+</defs>
+<g id="main" transform="translate(0,0)">
+    <rect id="bg" x="0" y="0" height="1" width="1" />
+
+</g>
+</svg>
+<pre>
+
+</pre>
+<style>
+html,
+head {
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+
+svg {
+    font-family: inherit;
+    display: block;
+    margin: 15px;
+}
+#bg {
+    fill:rgba(0,0,0,10%)
+}
+form {
+    display: inline;
+}
+</style>
+</body>
+</html>

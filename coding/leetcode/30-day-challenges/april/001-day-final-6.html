@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Radix Sort</title>
+<style>
+</style>
+
+<!--
+Problem is to find in O(n) time and constant space
+one un-matched integer in list of integers.
+
+Radix sort can be used as a starting point, which 
+has O(kn) time. However, radix sort sorts the entire 
+list, which isn't needed here. After each pass, the 
+half with an even number of members is thrown away. 
+This should take about a total of 2N operations.
+
+The reasoning behind radix sorting is purely a trick of
+the finite precision of integers, so it is an engineering
+argument, not a mathematical one. Once you limit the size
+of the inputs, the sorting cost is fixed. For an integer
+size of 32 bits and memory the same size, you could only have
+2^31-1 pairs of matched numbers, you couldn't even keep track
+in one integer the number of operations required. The bottom line
+is that the efficiency of the algo, although theoretical, is never
+reached in practice.
+
+The current problem might be better cast as bucket sort.
+Looking at the lowest value binary digit, sort into bucket0
+and bucket1, repeat with the bucket with odd number of members.
+
+What about using log2(N) buckets
+-->
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/schedFunc.js"></script>
+<script>
+
+function* nextType (sampleSize,spaceSize) {
+
+    let m    = new Map(),
+        type = 0,
+        hits = []; // by definition 0 is always chosen in first iteration
+
+    for (let idx,tmp;type<sampleSize;type++) {
+        m.set(type,type)
+        hits[type] = [type];
+        idx = Math.floor((type+1)*Math.random());
+        tmp = m.get(idx);
+        if (idx == type) {
+            continue
+        } else {
+            m.set(type,tmp);
+            m.set(idx,type);
+            hits[type].push(tmp);
+            hits[idx].push(type);
+        }
+        //yield i;
+    }
+    yield {m:m,hits:hits};
+
+    let i = type; 
+
+    while (i<spaceSize) {
+        let int = Math.floor((i+1)*Math.random()),
+            idx = m.get(int);
+        if (!isNaN(idx)) {
+            m.set(i,idx);
+            hits[idx].push(i);
+            m.delete(int);
+            yield idx;
+        } else {
+            yield "";
+        }
+        i++;
+    }
+    yield {m:m, hits:hits};
+}
+
+var animationIndex = 0;
+var continueAnimation = true;
+
+class RandomSelect {
+    svg;
+    defs;
+    main;
+    bg;
+    width;
+    height   = 50;
+    yOffset  = 0;
+    xOffset  = 20;
+    gHeight;
+    gWidth;
+    hueStart = 0;
+    hueDiff;
+    xAxis    = this.gHeight;
+    yAxis    = this.xOffset;
+    timeout  = 1000; // milliseconds
+    animationIndex    = 0;
+    continueAnimation = false;
+    stats = {};
+
+    constructor (svgId,size,infinity) {
+        this.svgId   = svgId?svgId:"svg1";
+        this.size    = size?Math.floor(size)?Math.floor(size):10:10;
+        this.infinity = infinity?infinity:1000;
+        this.svg     = d3.select(`#${this.svgId}`);
+        this.defs    = this.svg.select("defs");
+        this.main    = this.svg.select("#main")
+        this.bg      = this.main.select("#bg");
+        this.height  = 50;
+        this.width   = this.infinity;
+        this.hueDiff = Math.floor(360/(this.size+1));
+        this.gWidth  = this.width+this.xOffset;
+        this.gHeight = this.height+this.yOffset;
+        this.top     = 0;
+
+        this.main
+            .attr("transform",`translate(${this.xOffset},${this.yOffset})`);
+        this.bg
+            .attr("height",this.gHeight)
+            .attr("width", this.gWidth);
+
+        this.getNextType = nextType(this.size,this.infinity);
+        this.initialSort = this.getNextType.next().value;
+        this.initialMap  = this.initialSort.m
+        for (let i of this.initialMap.keys()) {
+            let type = this.initialMap.get(i);
+            this.defs
+                .append("rect")
+                .attr("id",`rect-type-${type}`)
+                .attr("class",`C-${type}`)
+                .attr("fill",`hsl(${type*this.hueDiff},80%,50%)`)
+                .attr("stroke-width",0)
+                .attr("height",`${Math.floor(this.height)}`)
+                .attr("width",0.75);
+
+            this.draw(i,type);
+        }
+        this.animationIndex = this.size;
+    }
+    draw(index,type) { 
+        this.main
+            .append("use")
+            .attr("id",`ltype-${type}`)
+            .attr("class",`U-${type}`)
+            .attr("href",`#rect-type-${type}`)
+            .attr("x",`${index}`)
+            .attr("y",`${this.top}`);
+    }
+    start() {
+        this.continueAnimation = true;
+    }
+    stop() {
+        this.continueAnimation = false;
+    }
+    oneStep() {
+        let nextType = this.getNextType.next().value;
+        if (isNaN(nextType) || nextType == -1) {
+            this.continueAnimation = false;
+        } else {
+            this.draw(this.animationIndex,nextType);
+            this.animationIndex++;
+            this.timeout = Math.max(100,Math.floor(10000/this.infinity))
+        }
+        return {
+            continueAnimation:this.continueAnimation,
+            timeout:this.timeout,
+        };
+    }
+    animate() {
+        //this.oneStep.bind(this);
+        //schedFunc.bind(this);
+        //schedFunc(this.oneStep,1000,true,this);
+        this.continueAnimation = true;
+        schedFunc.call(this,this.oneStep,1000,true,this)
+    }
+    *nextType (sampleSize,spaceSize) {
+
+        let m    = new Map(),
+            type = 0,
+            hits = []; // by definition 0 is always chosen in first iteration
+
+        for (let idx,tmp;type<sampleSize;type++) {
+            m.set(type,type)
+            hits[type] = [type];
+            idx = Math.floor((type+1)*Math.random());
+            tmp = m.get(idx);
+            if (idx == type) {
+                continue
+            } else {
+                m.set(type,tmp);
+                m.set(idx,type);
+                hits[type].push(tmp);
+                hits[idx].push(type);
+            }
+        }
+        this.stats = {m:m,hits:hits};
+        yield this.stats;
+
+        let i = type; 
+
+        while (i<spaceSize) {
+            let int = Math.floor((i+1)*Math.random()),
+                idx = m.get(int);
+            if (!isNaN(idx)) {
+                m.set(i,idx);
+                hits[idx].push(i);
+                m.delete(int);
+                yield idx;
+            } else {
+                yield "";
+            }
+            i++;
+        }
+        this.stats = {m:m, hits:hits};
+        yield -1;
+    }
+}
+</script>
+</head>
+<body>
+<svg
+    id="svg1"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<style>
+
+</style>
+<defs id="defs">
+</defs>
+<g id="main" transform="translate(0,0)">
+    <rect id="bg" x="0" y="0" height="1" width="1" />
+
+</g>
+</svg>
+<pre>
+
+</pre>
+<style>
+html,
+head {
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+svg {
+    font-family: inherit;
+    display: block;
+    margin: 15px;
+}
+#bg {
+    fill:rgba(0,0,0,10%)
+}
+form {
+    display: inline;
+}
+</style>
+</body>
+</html>
