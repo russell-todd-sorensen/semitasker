@@ -1,5 +1,5 @@
 
-let svgDraw = function (config,svgId,templateId,parentId) {
+var svgDraw = function (config,svgId,templateId,parentId) {
     config = Object.assign({
         svgId:"svgOne",
         templateId:"svg-template",

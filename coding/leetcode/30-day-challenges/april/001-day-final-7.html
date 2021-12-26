@@ -3,208 +3,8 @@
 <head>
 <meta charset="utf-8" >
 
-<title>Radix Sort</title>
-<style>
-</style>
+<title>Random Select from Infintite Stream</title>
 
-<!--
-Problem is to find in O(n) time and constant space
-one un-matched integer in list of integers.
-
-Radix sort can be used as a starting point, which 
-has O(kn) time. However, radix sort sorts the entire 
-list, which isn't needed here. After each pass, the 
-half with an even number of members is thrown away. 
-This should take about a total of 2N operations.
-
-The reasoning behind radix sorting is purely a trick of
-the finite precision of integers, so it is an engineering
-argument, not a mathematical one. Once you limit the size
-of the inputs, the sorting cost is fixed. For an integer
-size of 32 bits and memory the same size, you could only have
-2^31-1 pairs of matched numbers, you couldn't even keep track
-in one integer the number of operations required. The bottom line
-is that the efficiency of the algo, although theoretical, is never
-reached in practice.
-
-The current problem might be better cast as bucket sort.
-Looking at the lowest value binary digit, sort into bucket0
-and bucket1, repeat with the bucket with odd number of members.
-
-What about using log2(N) buckets
--->
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/schedFunc.js"></script>
-<script>
-
-var animationIndex = 0;
-var continueAnimation = true;
-
-class RandomSelect {
-    svg;
-    defs;
-    main;
-    bg;
-    width;
-    height   = 50;
-    yOffset  = 0;
-    xOffset  = 20;
-    gHeight;
-    gWidth;
-    hueStart = 0;
-    hueDiff;
-    xAxis    = this.gHeight;
-    yAxis    = this.xOffset;
-    timeout  = 1000; // milliseconds
-    animationIndex    = 0;
-    continueAnimation = false;
-    stats = {};
-
-    constructor (svgId,size,infinity) {
-        this.svgId   = svgId?svgId:"svg1";
-        this.size    = size?Math.floor(size)?Math.floor(size):10:10;
-        this.infinity = infinity?infinity:1000;
-        this.svg     = d3.select(`#${this.svgId}`);
-        this.defs    = this.svg.select("defs");
-        this.main    = this.svg.select("#main")
-        this.bg      = this.main.select("#bg");
-        this.height  = 50;
-        this.width   = this.infinity;
-        this.hueDiff = Math.floor(360/(this.size+1));
-        this.gWidth  = this.width+this.xOffset;
-        this.gHeight = this.height+this.yOffset;
-        this.top     = 0;
-
-        this.main
-            .attr("transform",`translate(${this.xOffset},${this.yOffset})`);
-        this.bg
-            .attr("height",this.gHeight)
-            .attr("width", this.gWidth);
-
-        this.getNextType = this.nextType(this.size,this.infinity);
-        this.initialSort = this.getNextType.next().value;
-        this.initialMap  = this.initialSort.m
-        for (let i of this.initialMap.keys()) {
-            let type = this.initialMap.get(i);
-            this.defs
-                .append("rect")
-                .attr("id",`rect-type-${type}`)
-                .attr("class",`C-${type}`)
-                .attr("fill",`hsl(${type*this.hueDiff},80%,50%)`)
-                .attr("stroke-width",0)
-                .attr("height",`${Math.floor(this.height)}`)
-                .attr("width",0.75);
-
-            this.draw(i,type);
-        }
-        this.animationIndex = this.size;
-    }
-    draw(index,type) { 
-        this.main
-            .append("use")
-            .attr("id",`ltype-${type}`)
-            .attr("class",`U-${type}`)
-            .attr("href",`#rect-type-${type}`)
-            .attr("x",`${index}`)
-            .attr("y",`${this.top}`);
-    }
-    start() {
-        this.continueAnimation = true;
-    }
-    stop() {
-        this.continueAnimation = false;
-    }
-    oneStep() {
-        let nextType = this.getNextType.next().value;
-        if (isNaN(nextType) || nextType == -1) {
-            this.continueAnimation = false;
-        } else {
-            this.draw(this.animationIndex,nextType);
-            this.animationIndex++;
-            this.timeout = Math.max(5,Math.floor(10000/this.infinity))
-        }
-        return {
-            continueAnimation:this.continueAnimation,
-            timeout:this.timeout,
-        };
-    }
-    animate() {
-        this.continueAnimation = true;
-        schedFunc.call(this,this.oneStep,1000,true,this)
-    }
-    *nextType (sampleSize,spaceSize) {
-
-        let m    = new Map(),
-            idx  = 0,
-            type = 0,
-            tmpt = 0,
-            ridx = 0,
-            hits = []; // by definition 0 is always chosen in first iteration
-
-        for (;idx<sampleSize;type++,idx++) {
-            m.set(idx,type);
-            hits[type] = [idx];
-            ridx = Math.floor((type+1)*Math.random());
-            tmpt = m.get(ridx);
-            if (tmpt == type) {
-                continue
-            } else {
-                m.set(idx,tmpt);
-                m.set(ridx,type);
-                hits[type].push(ridx);
-                hits[tmpt].push(idx);
-            }
-        }
-
-        // stats is the initial randomized ordering of "types"
-        this.stats = {m:m,hits:hits};
-        yield this.stats;
-
-        while (idx<spaceSize) {
-            ridx = Math.floor((idx+1)*Math.random()),
-            type = m.get(ridx);
-            if (!isNaN(type)) {
-                m.set(idx,type);
-                hits[type].push(idx);
-                m.delete(ridx);
-                yield type;
-            } else {
-                yield "";
-            }
-            idx++;
-        }
-        this.stats = {m:m, hits:hits};
-        yield -1;
-    }
-}
-</script>
-</head>
-<body>
-<svg
-    id="svg1"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    x="0"
-    y="0"
-    width="1000"
-    height="1000"
-    viewBox="0 0 1000 1000"
-    >
-<style>
-
-</style>
-<defs id="defs">
-</defs>
-<g id="main" transform="translate(0,0)">
-    <rect id="bg" x="0" y="0" height="1" width="1" />
-
-</g>
-</svg>
-<pre>
-
-</pre>
 <style>
 html,
 head {
@@ -225,6 +25,324 @@ svg {
 }
 form {
     display: inline;
+}
+button {
+    margin-left: 10px;
+}
+ul {
+    display: inline-block;
+    padding-inline-start: 10px;
+    margin:0;
+}
+li {
+    display: inline-block;
+}
+fieldset {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+legend {
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    display: inline-block;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 90px;
+}
+input {
+    width: 50px;
+}
+label.check {
+    width: 50px;
+}
+label.check.wide {
+    width: 130px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
+svg#svg1 {
+    background-color: #ddd;
+}
+</style>
+
+<!-- reuseable template for svg doc-->
+<script id="svg-template" type="image/svg+xml">
+<svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<style>
+
+</style>
+<defs id="defs">
+</defs>
+<g id="main" transform="translate(0,0)">
+    <rect id="bg" x="0" y="0" height="1" width="1" />
+
+</g>
+</svg>
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/process-form.js"></script>
+<script src="/coding/036-google-25-horses/dag-v2/js/events-dag-v2.js"></script>
+<script src="random-select.js"></script>
+<script src="/js/schedFunc.js"></script>
+</head>
+<body>
+
+<div id="form-container">
+<form id="animate-rand-select" onsubmit="return false;">
+<input type="hidden" id="animIdIn" name="animIdIn" value="anim-0"/>
+<fieldset>
+<legend>Random Select from Infinite Stream: Options</legend>
+<ul>
+<li>
+    <label for="numItemsIn">Items</label>
+    <input name="numItemsIn" id="numItemsIn" type="number" min="1" step="1" max="1000" value="1" />
+</li>
+<li>
+    <label for="infinityIn">Infinity</label>
+    <input name="infinityIn" id="infinityIn" type="number" min="2" step="1" max="10000" value="1000" />
+</li><!--
+<li>
+    <label for="numPlacesIn">Places</label>
+    <input name="numPlacesIn" id="numPlacesIn" type="number" min="1" max="500" step="1" value="3" />
+</li>-->
+</ul>
+<ul id="statscheck">
+<li>
+    <label class="check" for="statsIn">Stats</label>
+    <input name="statsIn" id="statsIn" type="checkbox" checked value="1" />
+</li>
+<li><label class="very-wide" for="visTypeIn">Show</label>
+    <select id="visTypeIn" name="visTypeIn" size="1">
+        <option value="current">Current</option>
+        <option value="lazy">Previous+Current</option>
+        <option value="animate">Animate Moves</option>
+    </select>
+</li>
+</ul>
+</fieldset>
+
+<fieldset>
+<legend>Animate</legend>
+<ul>
+<li><button id="init-anim">Init Animation</button></li>
+<li><label for="animStepIn">Step</label></li>
+<li id="step-controls"><button id="anim-prev">&lt;= </button>
+<input type="number" min="-1" step="1" id="animStepIn" name="animStepIn" value="-1" >
+<button id="anim-next"> =&gt;</button></li>
+</ul>
+<ul id="statscheck">
+<li><button id="run-anim" >Continue Anim</button></li>
+<li><label for="animStepIn">Step</label></li>
+<li id="step-controls"><button id="anim-prev">&lt;= </button>
+<input type="number" min="-1" step="1" id="animStepIn" name="animStepIn" value="-1" >
+<button id="anim-next"> =&gt;</button></li>
+</ul>
+</fieldset>
+</form>
+</div> <!-- Ends div#form-container -->
+
+<div id="svg-container"></div>
+<div id="examples"></div>
+<script>
+
+var animations = new Map();
+var initialConf = {
+    numItems:{id:"numItemsIn",value:10},
+    infinity:{id:"infinityIn",value:100},
+    id:{id:"animIdIn",
+        value:{
+            type:"hidden",
+            value:"anim-0",
+        },
+    },
+    stats:{
+        id:"statsIn",
+        value:{
+            type:"checkbox",
+            value:1,
+            checked:false,
+        },
+    },
+    visType:{
+        id:"visTypeIn",
+        value:{
+            type:"select",
+            value:"lazy",
+            options:["lazy","current","animate"],
+        },
+    },
+
+};
+
+var runConfig = function(conf) {
+    conf=conf?conf:processForm();
+    let svgConf = {svgId:"svg1",templateId:"svg-template",parentId:"examples"}
+    let svg = svgDraw(svgConf),
+        rsConf = Object.assign({
+            svgId:"svgOne",
+            svg:svg,
+            templateId:"svg-template",
+            parentId:"exampleOne",
+            height:100,
+            width:500,
+            x:0,
+            y:0,
+            numItems:Math.floor(conf.numItems.value),
+            infinity:Math.floor(conf.infinity.value),
+            id:conf.id.value.value,
+            stats:conf.stats.value.checked,
+            visType:conf.visType.value.value,
+    },(svgConf?svgConf:{}));
+    let rsel = new RandomSelect(rsConf);
+    animations.set(conf.id.value.value,rsel);
+}
+
+var handleInitAnim = function (evt) {
+    runConfig()
+}
+
+var handleRunAnim = function (evt) {
+    let conf = processForm(),
+        id   = conf.id.value.value,
+        rs   = animations.get(id);
+
+    rs.animate();
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("init-anim").addEventListener("click",handleInitAnim);
+    document.getElementById("run-anim").addEventListener("click",handleRunAnim);
+
+});
+</script>
+<style>
+    /* Additional experimental styles */
+
+text.horse-time,
+text.horse-name {
+    fill: black;
+    font-family: 'Fira Code';
+    /*font-size: 12px; */
+    text-anchor: middle;
+}
+
+rect.horse {
+    stroke-width: 2px;
+    stroke: black;
+    fill:white;
+}
+.horse.place-1 {
+    fill: gold;
+}
+.horse.place-2 {
+    fill: silver;
+}
+.horse.place-3 {
+    fill: lightpink;
+}
+.horse.place-4 {
+    fill: lightblue;
+}
+.horse.place-5 {
+    fill: yellowgreen;
+}
+#animate-rand-select fieldset {
+    vertical-align: top;
+}
+#animate-rand-select ul {
+    padding-top: 10px;
+}
+#timesIn {
+    width: 200px;
+}
+
+ul#timescheck,
+ul#statscheck {
+    display: block;
+    padding-top: 20px;
+    min-height: 35px;
+}
+#animate-rand-select label {
+    min-width: 85px;
+    text-align:right;
+    white-space: nowrap;
+    vertical-align: text-bottom;
+}
+#animate-rand-select label.wide {
+    min-width: 95px;
+}
+#animate-rand-select label.very-wide {
+    min-width: 95px;
+    padding-left: 26px;
+}
+#animate-rand-select label::after {
+    content: ":";
+    vertical-align: baseline;
+}
+#animate-rand-select input {
+    width: 50px;
+    padding-left: 3px;
+    vertical-align: text-bottom;
+}
+#animate-rand-select input[type="checkbox"] {
+    width: 15px;
+    padding-left: 2px;
+    vertical-align: text-bottom;
+    margin: 0;
+}
+#animate-rand-select input[type="number"] {
+    width: 65px;
+    padding-left: 2px;
+    vertical-align: text-bottom;
+    margin: 0;
+}
+#animate-rand-select select,
+#animate-rand-select textarea {
+    vertical-align: text-bottom;
+}
+#animate-rand-select select {
+    width: 210px;
+    padding-left: 10px;
+    margin-left: 8px;
+}
+#animate-rand-select button {
+    vertical-align: text-bottom;
+    margin-left:0;
+}
+#animate-rand-select button#init-anim,
+#animate-rand-select button#run-anim {
+    margin-left:10px;
+    width: 150px;
+}
+#animate-rand-select #step-controls {
+    display: inline-flex;
+}
+#graph-container svg {
+    vertical-align: top;
+    display: inline-block;
 }
 </style>
 </body>
