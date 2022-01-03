@@ -45,3 +45,5 @@ var svgDraw = function (config,svgId,templateId,parentId) {
 
     return svg;
 }
+
+// Draw on given svg at given node

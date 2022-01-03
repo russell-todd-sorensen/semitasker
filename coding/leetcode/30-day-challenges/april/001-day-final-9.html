@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title>Random Select from Infintite Stream</title>
+
+<style>
+html,
+head {
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+svg {
+    font-family: inherit;
+    display: block;
+    margin: 15px;
+}
+#bg {
+    fill:rgba(0,0,0,10%)
+}
+form {
+    display: inline;
+}
+button {
+    margin-left: 10px;
+}
+ul {
+    display: inline-block;
+    padding-inline-start: 10px;
+    margin:0;
+}
+li {
+    display: inline-block;
+}
+fieldset {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+legend {
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    display: inline-block;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 90px;
+}
+input {
+    width: 50px;
+}
+label.check {
+    width: 50px;
+}
+label.check.wide {
+    width: 130px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
+svg#svg1 {
+    background-color: #ddd;
+}
+defs .defShape {
+    rx:5;
+    ry:5;
+    stroke-width:.5;
+    stroke:black;
+}
+</style>
+
+<!-- reuseable template for svg doc-->
+<script id="svg-template" type="image/svg+xml">
+<svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<style>
+
+</style>
+<defs id="defs">
+</defs>
+<g id="main" transform="translate(0,0)">
+    <rect id="bg" x="0" y="0" height="1" width="1" />
+
+</g>
+</svg>
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/process-form.js"></script>
+<script src="/coding/036-google-25-horses/dag-v2/js/events-dag-v2.js"></script>
+<script src="class-t.js"></script>
+<script src="random-select-3.js"></script>
+<script src="/js/schedFunc.js"></script>
+</head>
+<body>
+
+<div id="form-container">
+<form id="animate-rand-select" onsubmit="return false;">
+<input type="hidden" id="animIdIn" name="animIdIn" value="anim-0"/>
+<fieldset>
+<legend>Random Select from Infinite Stream: Options</legend>
+<ul>
+<li>
+    <label for="numItemsIn">Items</label>
+    <input name="numItemsIn" id="numItemsIn" type="number" min="1" step="1" max="1000" value="10" />
+</li>
+<li>
+    <label for="infinityIn">Infinity</label>
+    <input name="infinityIn" id="infinityIn" type="number" min="2" step="1" max="10000" value="100" />
+</li>
+</ul>
+<ul id="statscheck">
+<li>
+    <label class="check" for="statsIn">Stats</label>
+    <input name="statsIn" id="statsIn" type="checkbox" checked value="1" />
+</li>
+<li><label class="very-wide" for="visTypeIn">Show</label>
+    <select id="visTypeIn" name="visTypeIn" size="1">
+        <option value="current">Current</option>
+        <option value="lazy">Previous+Current</option>
+        <option value="animate">Animate Moves</option>
+    </select>
+</li>
+</ul>
+</fieldset>
+
+<fieldset>
+<legend>Animate</legend>
+<ul>
+<li><button id="init-anim">Init Animation</button></li>
+<li><label for="initAnimStepIn">Step</label></li>
+<li id="step-controls"><button id="init-anim-prev">&lt;= </button>
+<input type="number" min="-1" step="1" id="initAnimStepIn" name="initAnimStepIn" value="-1" >
+<button id="init-anim-next"> =&gt;</button></li>
+</ul>
+<ul id="statscheck">
+<li><button id="run-anim" >Continue Anim</button></li>
+<li><label for="runAnimStepIn">Step</label></li>
+<li id="step-controls"><button id="run-anim-prev">&lt;= </button>
+<input type="number" min="-1" step="1" id="runAnimStepIn" name="runAnimStepIn" value="-1" >
+<button id="run-anim-next"> =&gt;</button></li>
+</ul>
+</fieldset>
+</form>
+</div> <!-- Ends div#form-container -->
+
+<div id="svg-container"></div>
+<div id="examples"></div>
+<script>
+
+var animations = new Map();
+var initialConf = {
+    numItems:{id:"numItemsIn",value:10},
+    infinity:{id:"infinityIn",value:100},
+    id:{id:"animIdIn",
+        value:{
+            type:"hidden",
+            value:"anim-0",
+        },
+    },
+    stats:{
+        id:"statsIn",
+        value:{
+            type:"checkbox",
+            value:1,
+            checked:false,
+        },
+    },
+    visType:{
+        id:"visTypeIn",
+        value:{
+            type:"select",
+            value:"lazy",
+            options:["lazy","current","animate"],
+        },
+    },
+    initAnimStep:{
+        id:"initAnimStepIn",
+        value:{
+            type:"number",
+            value:-1,
+        }
+    },
+    runAnimStep:{
+        id:"runAnimStepIn",
+        value:{
+            type:"number",
+            value:-1,
+        }
+    }
+
+};
+
+var runConfig = function(conf) {
+    conf=conf?conf:processForm();
+    let svgConf = {
+        svgId:"svg1",
+        templateId:"svg-template",
+        parentId:"examples",
+        height:10*conf.numItems.value, // move 10 into var
+        width:conf.infinity.value,
+    }
+    let svg = svgDraw(svgConf),
+        rsConf = Object.assign({
+            svgId:"svgOne",
+            svg:svg,
+            templateId:"svg-template",
+            parentId:"exampleOne",
+            height:10*conf.numItems.value, // move 10 into var
+            width:500,
+            x:0,
+            y:0,
+            numItems:Math.floor(conf.numItems.value),
+            infinity:Math.floor(conf.infinity.value),
+            id:conf.id.value.value,
+            stats:conf.stats.value.checked,
+            visType:conf.visType.value.value,
+    },(svgConf?svgConf:{}));
+    let rsel = new RandomSelect(rsConf);
+    animations.set(conf.id.value.value,rsel);
+}
+
+var handleInitAnim = function (evt) {
+    runConfig()
+}
+
+var handleRunAnim = function (evt) {
+    let conf = processForm(),
+        id   = conf.id.value.value,
+        rs   = animations.get(id);
+
+    rs.animate();
+}
+
+var handleInitAnimPrev = function (evt) {
+    let conf = processForm(),
+        id   = conf.id.value.value,
+        rs   = animations.get(id),
+        dir  = -1,
+        index = parseInt(conf.initAnimStep.value.value) + dir;
+
+    if (index < -1) {
+        return false;
+    }
+    if (index >= conf.numItems.value) {
+        return false;
+    }
+    if (index <= rs.steps.length) {
+        rs.animateStep(index);
+    }
+    conf.initAnimStep.value.value = index;
+    updateForm(conf,rs);
+}
+
+var handleInitAnimNext = function (evt) {
+    let conf = processForm(),
+        id   = conf.id.value.value,
+        rs   = animations.get(id),
+        dir  = 1,
+        index = parseInt(conf.initAnimStep.value.value) + dir;
+
+    if (index < -1) {
+        return false;
+    }
+    if (index >= conf.numItems.value) {
+        return false;
+    }
+    if (index <= rs.steps.length) {
+        rs.animateStep(index)
+    }
+    conf.initAnimStep.value.value = index;
+    updateForm(conf,rs);
+}
+
+var handleRunAnimPrev = function (evt) {
+
+}
+
+var handleRunAnimNext = function (evt) {
+
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById("init-anim").addEventListener("click",handleInitAnim);
+    document.getElementById("run-anim").addEventListener("click",handleRunAnim);
+    document.getElementById("init-anim-prev").addEventListener("click",handleInitAnimPrev);
+    document.getElementById("init-anim-next").addEventListener("click",handleInitAnimNext);
+    document.getElementById("run-anim-prev").addEventListener("click",handleRunAnimPrev);
+    document.getElementById("run-anim-next").addEventListener("click",handleRunAnimNext);
+});
+
+
+</script>
+<style>
+    /* Additional experimental styles */
+
+text.horse-time,
+text.horse-name {
+    fill: black;
+    font-family: 'Fira Code';
+    /*font-size: 12px; */
+    text-anchor: middle;
+}
+
+rect.horse {
+    stroke-width: 2px;
+    stroke: black;
+    fill:white;
+}
+.horse.place-1 {
+    fill: gold;
+}
+.horse.place-2 {
+    fill: silver;
+}
+.horse.place-3 {
+    fill: lightpink;
+}
+.horse.place-4 {
+    fill: lightblue;
+}
+.horse.place-5 {
+    fill: yellowgreen;
+}
+#animate-rand-select fieldset {
+    vertical-align: top;
+}
+#animate-rand-select ul {
+    padding-top: 10px;
+}
+#timesIn {
+    width: 200px;
+}
+
+ul#timescheck,
+ul#statscheck {
+    display: block;
+    padding-top: 20px;
+    min-height: 35px;
+}
+#animate-rand-select label {
+    min-width: 85px;
+    text-align:right;
+    white-space: nowrap;
+    vertical-align: text-bottom;
+}
+#animate-rand-select label.wide {
+    min-width: 95px;
+}
+#animate-rand-select label.very-wide {
+    min-width: 95px;
+    padding-left: 26px;
+}
+#animate-rand-select label::after {
+    content: ":";
+    vertical-align: baseline;
+}
+#animate-rand-select input {
+    width: 50px;
+    padding-left: 3px;
+    vertical-align: text-bottom;
+}
+#animate-rand-select input[type="checkbox"] {
+    width: 15px;
+    padding-left: 2px;
+    vertical-align: text-bottom;
+    margin: 0;
+}
+#animate-rand-select input[type="number"] {
+    width: 65px;
+    padding-left: 2px;
+    vertical-align: text-bottom;
+    margin: 0;
+}
+#animate-rand-select select,
+#animate-rand-select textarea {
+    vertical-align: text-bottom;
+}
+#animate-rand-select select {
+    width: 210px;
+    padding-left: 10px;
+    margin-left: 8px;
+}
+#animate-rand-select button {
+    vertical-align: text-bottom;
+    margin-left:0;
+}
+#animate-rand-select button#init-anim,
+#animate-rand-select button#run-anim {
+    margin-left:10px;
+    width: 150px;
+}
+#animate-rand-select #step-controls {
+    display: inline-flex;
+}
+#graph-container svg {
+    vertical-align: top;
+    display: inline-block;
+}
+</style>
+</body>
+</html>
