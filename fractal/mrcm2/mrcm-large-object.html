@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+
+<title>Multiple Reduction Copy Machine using Affine Transforms</title>
+<style>
+
+body,html {
+  font-family:"Lucida Console", Monaco, monospace;
+  background-color: white;
+  margin:0;
+  padding:0;
+  border:0;
+}
+
+#composite {
+    position: relative;
+    width: 80%;
+}
+#svg {
+    margin: 15px;
+}
+#svg2 {
+    position: absolute;
+    top: 15.5px;
+    left: 30.5px;
+}
+
+#main, #main2 {
+    position: relative;
+    border: 3px solid black;
+    display: inline-block;
+}
+
+#myCanvas, #myCanvas2 {
+    border: 1px solid #444;
+    margin-top: 15px;
+    margin-left: 30px;
+    background-clip:padding-box;
+    background-color: black;
+}
+
+#box, #box2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255,0,0,.1);
+    border: 1px solid black;
+}
+
+#controls {
+    font-family: "Consolas Bold";
+    color: white;
+    background-color: #444;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+}
+
+#controls-2 {
+    font-family: "Consolas Bold";
+    color: white;
+    background-color: #444;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#colors {
+    border: 2px solid #555;
+    position: absolute;
+    right: 285px;
+    top: 3px;
+}
+
+#controls ul,
+#controls-2 ul {
+    font-family: inherit;
+    list-style: none;
+    padding: 0;
+    width: 270px;
+}
+
+
+#controls input, #controls-2 input,
+#controls select, #controls-2 select {
+    display: inline-block;
+    font-family: "Tw Cen MT Bold";
+    font-size: 15px;
+    width: 162px;
+    margin-left: 12px;
+}
+
+#controls input[type=range],
+#controls-2 input[type=range] {
+    width: 200px;
+}
+
+/* this is how you change the font of select options!!! */
+#theory { /* select id */
+    font-family: "Tw Cen MT Bold";
+    font-size: 16px;
+}
+
+#mode-controls {
+    letter-spacing: 1px;
+}
+
+#controls input[type=number] {
+    width: 60px;
+}
+
+#timeout, #colorOffsetAmount, #fractalImageId {
+
+}
+
+#controls #pixelJump input[type=number],
+#controls-2 #pixelJump input[type=number] {
+    width: 50px;
+}
+
+#controls select,
+#controls-2 select {
+    width: 100px;
+}
+
+#hide {
+    display: none;
+}
+circle {
+    fill: inherit;
+}
+</style>
+<script>
+
+var M = new Array();
+var Points = new Array();
+var w = 600;
+var h = 600;
+var left = 30;
+var w1 = w + left;
+var numPoints = 100000;
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="js/matrix2.js" charset="utf-8"></script>
+<script src="js/mrcm-affine.js" charset="utf-8"></script>
+<script src="js/matrix-math.js" charset="utf-8"></script>
+<script src="js/mrcm-data-objects.js"></script>
+<script>
+
+function applyMatrix(groupId,href,matrix) {
+    let svg = d3.select("#svg"),
+        show = svg.select("#show"),
+        group = svg.select(`#${groupId}`);
+
+    group.append("use")
+        .attr("href",href)
+        .attr("transform",matrix.toMatrix())
+        .attr("opacity",matrix.pct);
+
+    show.attr("href",`#${groupId}`);
+}
+
+function groupAppend(group,href,matrix) {
+    group.append("use")
+        .attr("href",href)
+        .attr("transform",matrix.toMatrix());
+}
+
+function applyAllMatrices(href,matrix) {
+    let len = matrix.length,
+        svg = d3.select("#svg"),
+        show = svg.select("#show"),
+        defs = svg.select("defs"),
+        lastGid = `g${subGroups.length}`;
+    if (subGroups.length) {
+        href = `#g${subGroups.length-1}`;
+    }
+    subGroups.push(href);
+    defs.append("g")
+        .attr("id",lastGid);
+    let group = defs.select(`#${lastGid}`);
+    show.attr("href",`#${lastGid}`);
+
+    for (let i=0;i<len;i++) {
+        groupAppend(group,href,matrix[i]);
+    }
+
+}
+var subGroups = [];
+
+</script>
+
+</head>
+<body>
+<div id="no-hide">
+<svg id="svg" x="-20" y="-20" height="650" width="650" viewBox="-20 -20 650 650">
+<defs>
+<style>
+#svg {
+    border:1px dashed tan;
+}
+#svg text {
+    font-size: 150px;
+    fill: black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+}
+#gr1 rect {
+    stroke: purple;
+    stroke-width: 2;
+    fill: transparent;
+}
+</style>
+<circle id="c1" x="0" y="0" cx="300" cy="300" r="300" fill="#000" />
+<g id="gr1">
+ <rect id="r1" x="2" y="2" height="600" width="300" />
+ <text id="t1" x="10" y="140" >L</text>
+</g>
+</defs>
+
+<g id="euclidian-transform-xy-plane" transform="matrix(1 0 0 -1 1200 1200)">
+<line y1="0" x1="-100%" x2="100%" y2="0"  stroke="black" stroke-width="1" />
+<line x1="0" y1="-100%" y2="100%" x2="0"  stroke="black" stroke-width="1" />
+</g>
+
+<use id="show" href="#gr1"></use>
+
+
+</svg>
+</div>
+</body>
+</html>
