@@ -9,7 +9,7 @@
 html,
 head {
     font-size: 16px;
-    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-family: 'Fira Code VF', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 body {
     font-size: 1em;
@@ -289,7 +289,7 @@ var handleInitAnimNext = function (evt) {
         return false;
     }
     if (index <= rs.steps.length) {
-        rs.animateStep(index)
+        rs.animateStep(index,dir);
     }
     conf.initAnimStep.value.value = index;
     updateForm(conf,rs);

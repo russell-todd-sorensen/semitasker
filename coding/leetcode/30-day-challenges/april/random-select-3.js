@@ -115,8 +115,34 @@ class RandomSelect {
         this.continueAnimation = true;
         schedFunc.call(this,this.oneStep,1000,true,this)
     }
-    animateStep(index) {
+    animateStep(index,dir) {
+        let from = index + dir,
+            fstep = from==-1?[{ty:null,fr:null,to:null}]:this.steps[from],
+            tstep = this.steps[index],
+            main = this.main;
+
+        if (tstep.length == 0) {
+            return;
+        }
+        const t = main.transition()
+            .duration(500);
         
+        const posUpdate = main.selectAll("use")
+            .data(tstep, function(d) {
+                return d ? `ltype-${d.ty}` : this.id;
+            })
+
+                if (i==0) {
+                    main.select(`#ltype-${d.ty}`)
+                        .call(update => update.transition(t)
+                            .attr("x","${d.to}")
+                            )
+                } else {
+                    main.select(`#ltype-${d.ty}`)
+                        .call(update => update.transition(t)
+                            .attr("x","${d.to")
+                        )
+                }
     }
     *nextType (sampleSize,spaceSize) {
 
