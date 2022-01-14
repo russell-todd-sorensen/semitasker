@@ -1,23 +1,19 @@
 
 class Matrix {
-    a;
-    b;
-    c;
-    d;
+    a;ap;
+    b;bp;
+    c;cp;
+    d;dp;
     e;
     f;
-    pct;
-    pctEst = 0;
+    p;
+    q;
     r;
     s;
     φ = 0.0;
     ψ = 0.0;
-    ap;
-    bp;
-    cp;
-    dp;
-    p;
-    q;
+    pctEst = 0;
+    pct;
     contraction;
 
     constructor(a, b, c, d, e, f, pct) {
@@ -44,26 +40,42 @@ class Matrix {
         if (this.b != 0 && this.s != 0) {
             this.ψ = Math.asin(-this.b / this.s);
         }
-        else if (this.c != 0 && this.s != 0) {
-            this.ψ = Math.acos(this.d / this.s);
+        else if (this.d != 0 && this.s != 0) {
+            this.ψ = Math.acos(this.d / this.s); // changing to 
         }
+        // check following formulas again:
         this.ap = this.r * Math.cos(-this.φ);
         this.bp = -this.s * Math.sin(-this.ψ);
         this.cp = this.r * Math.sin(-this.φ);
         this.dp = this.s * Math.cos(-this.ψ);
     }
-    invX() {
-        return ((-this.e * (this.d - 1) + this.b * this.f)
-                / ((this.a - 1) * (this.d - 1) - this.b * this.c));
+    invX(denom) {
+        let numer = (-this.e * (this.d - 1) + this.b * this.f);
+
+        if (denom != 0) {
+            return (numer/denom);
+        } else {
+            return Infinity;
+        }
     }
-    invY() {
-        return ((-this.f * (this.a - 1) + this.c * this.e)
-            / ((this.a - 1) * (this.d - 1) - this.b * this.c));
+    invY(denom) {
+        let numer =  (-this.f * (this.a - 1) + this.c * this.e);
+
+        if (denom != 0) {
+            return (numer/denom);
+        } else {
+            return Infinity;
+        }
     }
     invariant() {
+        let denom = ((this.a - 1) * (this.d - 1) - this.b * this.c);
+        if (Math.abs(denom) <= Number.EPSILON) {
+            return {x:Infinity,y:Infinity,e:true}
+        } 
         return {
-            x:this.invX(),
-            y:this.invY(),
+            x:this.invX(denom),
+            y:this.invY(denom),
+            e:false,
         };
     };
     transformPoint(x, y) {

@@ -4,552 +4,32 @@
 <meta charset="utf-8">
 
 <title>Multiple Reduction Copy Machine using Affine Transforms</title>
+<link rel="stylesheet" type="text/css" href="css/mrcm-demo-2.css" media="all">
 <style>
-
-body,html {
-  font-family:"Lucida Console", Monaco, monospace;
-  background-color: white;
-  margin:0;
-  padding:0;
-  border:0;
+#log-parent {
+    display:none;
 }
-
-#composite {
-    position: relative;
-    width: 80%;
-}
-
-#svg2 {
-    position: absolute;
-    top: 15.5px;
-    left: 30.5px;
-}
-
-#main, #main2 {
-    position: relative;
-    border: 3px solid black;
-    display: inline-block;
-}
-
-#myCanvas, #myCanvas2 {
-    border: 1px solid #444;
-    margin-top: 15px;
-    margin-left: 30px;
-    background-clip:padding-box;
-    background-color: black;
-}
-
-#box, #box2 {
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-color: rgba(255,0,0,.1);
-    border: 1px solid black;
-}
-
-#controls {
-    font-family: "Consolas Bold";
-    color: white;
-    background-color: #444;
-    position: absolute;
-    right: 0;
-    top: 0;
-    display: none;
-}
-
-#controls-2 {
-    font-family: "Consolas Bold";
-    color: white;
-    background-color: #444;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-#colors {
-    border: 2px solid #555;
-    position: absolute;
-    right: 285px;
-    top: 3px;
-}
-
-#controls ul,
-#controls-2 ul {
-    font-family: inherit;
-    list-style: none;
-    padding: 0;
-    width: 270px;
-}
-
-
-#controls input, #controls-2 input,
-#controls select, #controls-2 select {
-    display: inline-block;
-    font-family: "Tw Cen MT Bold";
-    font-size: 15px;
-    width: 162px;
-    margin-left: 12px;
-}
-
-#controls input[type=range],
-#controls-2 input[type=range] {
-    width: 200px;
-}
-
-/* this is how you change the font of select options!!! */
-#theory { /* select id */
-    font-family: "Tw Cen MT Bold";
-    font-size: 16px;
-}
-
-#mode-controls {
-    letter-spacing: 1px;
-}
-
-#controls input[type=number] {
-    width: 60px;
-}
-
-#timeout, #colorOffsetAmount, #fractalImageId {
-
-}
-
-#controls #pixelJump input[type=number],
-#controls-2 #pixelJump input[type=number] {
-    width: 50px;
-}
-
-#controls select,
-#controls-2 select {
-    width: 100px;
-}
-
-#hide {
-    display: none;
-}
-
 </style>
-<script>
-
-var M = new Array();
-var Points = new Array();
-var w = 600;
-var h = 600;
-var left = 30;
-var w1 = w + left;
-var numPoints = 100000;
-</script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/log-2.js"></script>
-<script src="js/matrix2.js" charset="utf-8"></script>
-<script src="js/mrcm-affine.js" charset="utf-8"></script>
-<script src="js/matrix-math.js" charset="utf-8"></script>
-<script src="js/mrcm-data-objects.js"></script>
-<script>
-
-M[0]    = new Array();
-M[0][0] = new Matrix(0,0,0,.27,.5*w,0*h,.02);
-M[0][1] = new Matrix(-.139,.263,.246,.224,.57*w,-.036*h,.15);
-M[0][2] = new Matrix(.17,-.215,.222,.176,.408*w,.0893*h,.13);
-M[0][3] = new Matrix(.781,.034,-.032,.739,.1075*w,.27*h,.7);
-
-
-M[1]    = new Array();
-M[1][0] = new Matrix(.5,0,0,.5,0,h-.5*h,.333);
-M[1][1] = new Matrix(.5,0,0,.5,0,0,.333);
-M[1][2] = new Matrix(.5,0,0,.5,.5*w,h-.5*h,.334);
-
-M[2]    = new Array();
-M[2][0] = new Matrix(0,-.5,.5,0,.5*w,0,.333);
-M[2][1] = new Matrix(0,.5,-.5,0,.5*w,.5*w,.333);
-M[2][2] = new Matrix(.5,0,0,.5,.25*w,.5*w,.334);
-
-M[3]    = new Array();
-M[3][0] = new Matrix(0,.577,-.577,0,.0951*w,.5893*w,.333);
-M[3][1] = new Matrix(0,.577,-.577,0,.4413*w,.7893*w,.333);
-M[3][2] = new Matrix(0,.577,-.577,0,.0952*w,.9893*w,.334);
-
-M[4]    = new Array();
-M[4][0] = new Matrix(.333,0,0,.333,.333*w,.666*w,.2); // magenta
-M[4][1] = new Matrix(0,.333,1,0,.666*w,0*w,.4); //  blueish
-M[4][2] = new Matrix(0,-.333,1,0,.333*w,0*w,.4); // greenish
-
-M[5]    = new Array();
-M[5][0] = new Matrix(.387,.430,.430,-.387,.2560*w,.522*w,.333); //magenta
-M[5][1] = new Matrix(.441,-.091,-.009,-.322,.4219*w,.5059*w,.333); //blueish
-M[5][2] = new Matrix(-.468,.020,-.113,.015,.4*w,.4*w,.334); // greenish
-
-M[6]    = new Array();
-M[6][0] = new Matrix(.255,0,0,.255,.3726*w,.6714*w,.16);
-M[6][1] = new Matrix(.255,0,0,.255,.1146*w,.2232*w,.16);
-M[6][2] = new Matrix(.255,0,0,.255,.6306*w,.2232*w,.16);
-M[6][3] = new Matrix(.37,-.642,.642,.37,.6356*w,-.0061*w,.52); // purple
-
-M[7]    = new Array();
-M[7][0] = new Matrix(.382,0,0,.382,.3072*w,.619*w,.2);
-M[7][1] = new Matrix(.382,0,0,.382,.6033*w,.4044*w,.2);
-M[7][2] = new Matrix(.382,0,0,.382,.0139*w,.4044*w,.2);
-M[7][3] = new Matrix(.382,0,0,.382,.1253*w,.0595*w,.2);
-M[7][4] = new Matrix(.382,0,0,.382,.4920*w,.0595*w,.2); // limegreen
-
-M[8]    = new Array();
-M[8][0] = new Matrix(.195,-.488,.344,.443,.4431*w,.2452*w,.2);
-M[8][1] = new Matrix(.462,.414,-.252,.361,.2511*w,.5692*w,.2);
-M[8][2] = new Matrix(-.058,-.07,.453,-.111,.5976*w,.0969*w,.2);
-M[8][3] = new Matrix(-.035,.07,-.469,-.022,.4884*w,.5069*w,.2);
-M[8][4] = new Matrix(-.637,0,0,.501,.8562*w,.2513*w,.2);
-
-M[9]    = new Array();
-M[9][0] = new Matrix(.849,.037,-.037,.849,.075*w,.183*w,.70);
-M[9][1] = new Matrix(.197,-.226,.226,.197,.4*w,.049*w,.13);
-M[9][2] = new Matrix(-.15,.283,.26,.237,.575*w,-.084*w,.13);
-M[9][3] = new Matrix(0,0,0,.16,.5*w,0*w,.04);
-
-M[10]    = new Array();
-M[10][0] = new Matrix(.849,.137,-.037,.849,.075*w,.183*w,.70);
-M[10][1] = new Matrix(.197,-.226,.226,.197,.4*w,.049*w,.13);
-M[10][2] = new Matrix(-.15,.283,.46,.237,.575*w,-.084*w,.13);
-M[10][3] = new Matrix(0,0,0,.16,.5*w,0*w,.04);
-
-M[11]    = new Array();
-M[11][0] = new Matrix(.387,.430,.430,-.387,.2560*w,.522*w,.333); //magenta
-M[11][1] = new Matrix(.441,-.091,-.109,-.322,.4219*w,.5059*w,.333); //blueish
-M[11][2] = new Matrix(-.468,.020,-.113,.015,.4*w,.4*w,.334); // greenish
-
-M[12]    = new Array();
-M[12][0] = new Matrix(.5,0,0,-.5,.5*w,.5*h,.333);
-M[12][1] = new Matrix(.5,0,0,-.5,0,h,.333);
-M[12][2] = new Matrix(.5,0,0,-.5,.5*w,h,.334);
-
-M[13]    = new Array();
-M[13][0] = new Matrix(0,-.6,-.6,0,0,0,.333);
-M[13][1] = new Matrix(0,-.5,-.5,0,0,.5*h,.333);
-M[13][2] = new Matrix(0,-.5,-.5,0,.5*w,.5*h,.334);
-
-M[14]    = new Array();
-M[14][0] = new Matrix(.5,0,0,.5,.5*w,0,.333);
-M[14][1] = new Matrix(.5,0,0,.5,0,.5*h,.333);
-M[14][2] = new Matrix(.5,0,0,.5,.5*w,.5*h,.334);
-
-M[15]    = new Array();
-M[15][0] = new Matrix(0,0,0,.16,.5*w,0*h,.02);
-M[15][1] = new Matrix(-.150,.283,.260,.237,.575*w,-.084*h,.15);
-M[15][2] = new Matrix(.197,-.226,.226,.197,.400*w,.0490*h,.13);
-M[15][3] = new Matrix(.849,.037,-.037,.849,.075*w,.1830*h,.7);
-
-function generatePoints(m,p,count=numPoints) {
-    var rangeList = [];
-    for (var i = 0; i<m.length;i++) {
-        rangeList[i] = m[i].pct;
-    }
-    var i = 0;
-    var r = 0;
-    p[i] = {x:m[0].e,y:0,r:0};
-    while (i<count) {
-        r = getRangeIndex(rangeList);
-        p[i+1] = {
-            x:m[r].a * p[i].x + m[r].b * p[i].y + m[r].e,
-            y:m[r].c * p[i].x + m[r].d * p[i].y + m[r].f,
-            r:r
-        };
-        i++;
-    }
-}
-
-function generatePoints2(m,p,count=numPoints) {
-    var rangeList = [];
-    for (var i = 0; i<m.length;i++) {
-        rangeList[i] = m[i].pct;
-    }
-    var i = 0;
-    var r = 0;
-    p[i] = {x:m[0].e,y:0,r:0};
-    while (i<count) {
-        r = getRangeIndex(rangeList);
-        p[i+1] = {
-            x:m[r].ap * p[i].x + m[r].bp * p[i].y + m[r].e,
-            y:m[r].cp * p[i].x + m[r].dp * p[i].y + m[r].f,
-            r:r
-        };
-        i++;
-    }
-}
-
-function generateImage(id,points) {
-    var g = d3.select('#' + id);
-
-    g.selectAll('circle')
-     .data(points)
-     .enter()
-     .append('circle')
-     .attr('r',2)
-     .attr('cx', function(d,i) {return d.x})
-     .attr('cy', function(d,i) {return d.y})
-     .attr('fill', function(d,i) {
-         return 'rgba(' + Math.abs((255-40*((d.r+1%3)))%255)
-                 + ',' + Math.abs((255-40*(d.r%3))%255)
-                 + ',' + Math.abs((255-40*((d.r+2)%3))%255)
-                + ',1'
-                + ')';
-     })
-}
-function generateImage2(id,radius,points) {
-    var g = d3.select('#' + id);
-    g.html("");
-    g.selectAll('circle')
-     .data(points)
-     .enter()
-     .append('circle')
-     .attr('r',radius)
-     .attr('cx', function(d,i) {return d.x})
-     .attr('cy', function(d,i) {return d.y})
-     .attr('fill', function(d,i) {
-         return 'rgba(' + Math.abs((255-40*((d.r+1%3)))%255)
-                 + ',' + Math.abs((255-40*(d.r%3))%255)
-                 + ',' + Math.abs((255-40*((d.r+2)%3))%255)
-                + ',1'
-                + ')';
-     })
-}
-
-function generateImage3(id,radius,points) {
-    let svg = d3.select('#' + id);
-    svg.html("");
-    let defs = svg.append("defs");
-
-    defs.append("circle")
-        .attr("r",radius)
-        .attr("cx",0)
-        .attr("cy",0)
-        .attr("id","cir-1");
-        //.attr("fill","hsl(180,0.85,0.5)")
-
-    svg.selectAll('use')
-     .data(points)
-     .enter()
-     .append('use')
-     .attr("href","#cir-1")
-     .attr("id",(d,i) => {return `c-${i}`})
-     .attr('x', function(d,i) {return (d.x).toFixed(3)})
-     .attr('y', function(d,i) {return (d.y).toFixed(3)})
-     .attr('class', function(d,i) {
-         return `fill-${d.r}`;
-         //return `hsla(${(d.r*60)%360},0.85,0.5,1.0)`
-     })
-}
-function generateImage4(id,radius,points) {
-    let svg = d3.select('#' + id);
-    svg.html("");
-
-    svg.selectAll('circle')
-     .data(points)
-     .enter()
-     .append('circle')
-     .attr("id",(d,i) => {return `c-${i}`})
-     .attr('class', (d,i) =>{return `fill-${d.r}`})
-     .attr('cx', function(d,i) {return (d.x).toFixed(3)})
-     .attr('cy', function(d,i) {return (d.y).toFixed(3)})
-     .attr('r',radius)
-}
-var myImage;
-
-function generateImage5(id,dims,points) {
-    let svg = d3.select('#' + id);
-    svg.html("");
-
-    svg.selectAll('rect')
-     .data(points)
-     .enter()
-     .append('rect')
-     .attr("id",(d,i) => {return `r-${i}`})
-     .attr('height',dims.h)
-     .attr('width',dims.w)
-     .attr('class', (d,i) =>{return `fill-${d.r}`})
-     .attr('x', function(d,i) {return (d.x).toFixed(3)})
-     .attr('y', function(d,i) {return (d.y).toFixed(3)})
-     .attr('r',dims.r)
-}
-function changeImage(count=numPoints,hideTransforms=true) {
-    var id = parseInt($('#matrixId option:selected').val());
-    var matrix = M[id];
-    imageContractionEstimate(matrix);
-    generatePoints(matrix,Points,count);
-    myImage = new fractalImage('myCanvas',600,600,Points);
-    myImage.drawImage();
-    //myImage.drawMatrix(id);
-    changeTransforms3(id,hideTransforms);
-}
-
-function changeTransforms3(id,hideTransforms=true) {
-
-    var m = M[parseInt(id)];
-    for (var i = 0; i<6;i++) {
-        d3.select('#box-' +i).style('display','none');
-    }
-    if (hideTransforms) { return }
-    for (var i = 0;i<m.length;i++) {
-        d3.select('#box-' + i)
-        .attr('points',m[i].toPolygonPoints())
-        .style('display','block');
-        ;
-    }
-}
-
-function loadMatrixTransform() {
-    var mrcmId = parseInt($('#matrixId option:selected').val());
-    var matrixIndex = parseInt($('#matrixIndex option:selected').val());
-    var matrix = M[mrcmId][matrixIndex];
-    var pct = matrix.pct;
-    var r = parseFloat($('#r').val(matrix.r));
-    var s = parseFloat($('#s').val(matrix.s));
-    var φ = parseFloat($('#t').val(matrix.φ));
-    var ψ = parseFloat($('#u').val(matrix.ψ));
-    var e = parseFloat($('#e').val(matrix.e));
-    var f = parseFloat($('#f').val(matrix.f));
-
-}
-
-function updateMatrixTransform() {
-
-    var mrcmId = parseInt($('#matrixId option:selected').val());
-    var matrixIndex = parseInt($('#matrixIndex option:selected').val());
-    var matrix = M[mrcmId][matrixIndex];
-    var pct = matrix.pct;
-    Log.Notice('...pre updateMatrixTransform matrix=' + matrix);
-    var r = parseFloat($('#r').val());
-    var s = parseFloat($('#s').val());
-    var φ = parseFloat($('#t').val());
-    var ψ = parseFloat($('#u').val());
-    var e = parseFloat($('#e').val());
-    var f = parseFloat($('#f').val());
-    M[mrcmId][matrixIndex] = MatrixPre(r,s,φ,ψ,e,f,pct);
-    Log.Notice('post updateMatrixTransform r=' +r + ' s=' + s + ' φ=' + φ + ' ψ=' + ψ + ' e=' + e + ' f=' + f);
-    changeImage();
-}
-
-function nonrandomselect(m,p,width,height) {
-    var rangeList = [];
-    for (var i = 0; i<m.length;i++) {
-        rangeList[i] = m[i].pct;
-    }
-    let index = 0,
-        r = 0;
-    if (p.length != height*width) { // initialize points
-        
-    }
-    for (let x=0;x<width;x++) {
-        for (let y=0;y<height;y++) {
-            r = getRangeIndex(rangeList);
-            p[index] = {
-                x:m[r].ap * x + m[r].bp * y + m[r].e,
-                y:m[r].cp * x + m[r].dp * y + m[r].f,
-                r:r
-            };
-            index++;
-        }
-    }
-}
-
-$(document).ready(function() {
-
-    Log.Notice('Document Ready');
-    Log.Remove();
-    changeImage();
-});
-</script>
 </head>
 <body>
-<div id="hide">
+<div id="svg-parent">
 <svg id="svg" x="50" y="50" height="100" width="100" viewBox="50 50 100 100">
-<defs>
+<defs id="svg-defs">
 
 </defs>
 
-<g id="euclidian-transform-xy-plane" transform="matrix(1 0 0 -1 1200 1200)">
-<line y1="0" x1="-100%" x2="100%" y2="0"  stroke="black" stroke-width="1" />
-<line x1="0" y1="-100%" y2="100%" x2="0"  stroke="black" stroke-width="1" />
-
-<g id="g1">
-<rect id="r1" x="0" y="0" height="120" width="280" fill="#abc" stroke="black" stroke-width="1" />
-<text id="t1" font-size="70" fill="yellow" x="5" y="100">Hi There</text>
-</g>
-</g>
-<g transform="scale(2)" id="mPoints" >
-
-</g>
 </svg>
 </div>
 
 <style>
-#myCanvas2 {
-    display:none;
-}
-#svg3 circle {
-    stroke: powderblue;
-    stroke-width:0;
-}
-.fill-0 {
-    fill:hsl(0,85%,50%);
-}
-.fill-2 {
-    fill:hsl(45,85%,50%);
-}
-.fill-4 {
-    fill:hsl(90,85%,50%);
-}
-.fill-6 {
-    fill:hsl(135,85%,50%);
-}
-.fill-1 {
-    fill:hsl(180,85%,50%);
-}
-.fill-3 {
-    fill:hsl(225,85%,50%);
-}
-.fill-5 {
-    fill:hsl(270,85%,50%);
-}
-.fill-7 {
-    fill:hsl(315,85%,50%);
-}
-#svg3 circle {
-    fill: inherit;
-}
-svg polyline,
-#svg2 polyline,
-#svg3 polyline  {
-    fill:transparent;
-    stroke-width: 3;
-}
 </style>
 <div id="composite">
 <canvas id="myCanvas" height="600" width="600">Your browser doesn't support canvas</canvas>
 
-<svg id="svg2" x="0" y="0" height="600" width="600" viewBox="0 0 600 600">
-<style>
-#svg2 polyline {
-    opacity: 1;
-}
-</style>
-<defs id="defs2">
-
-</defs>
-
-
-<polyline id="box-0" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="#7f8" opacity=".5" stroke="tan" stroke-width="1" fill-rule="evenodd"  />
-<polyline id="box-1" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="#acb" opacity=".5" stroke="orange" stroke-width="1" fill-rule="evenodd"  />
-<polyline id="box-2" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="yellow" opacity=".5" stroke="blue" stroke-width="1" fill-rule="evenodd"  />
-<polyline id="box-3" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="green" opacity=".5" stroke="aqua" stroke-width="1" fill-rule="evenodd"  />
-<polyline id="box-4" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="tan" opacity=".5" stroke="red" stroke-width="1" fill-rule="evenodd"  />
-<polyline id="box-5" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="silver" opacity=".5" stroke="black" stroke-width="1" fill-rule="evenodd"  />
-
-</svg>
 </div>
 
 <div id="controls-2">
-<form id="matrixForm" >
+<form id="matrixForm" onChange="runConfig()" >
 <input type="hidden" id="matrix-value" />
 <fieldset>
 <legend>Matrix Options</legend>
@@ -622,5 +102,239 @@ svg polyline,
 </fieldset>
 </form>
 </div>
+<script>
+//var crObj;
+var M = new Array();
+var Points = new Array();
+var w = 600;
+var h = 600;
+//var left = 30;
+//var w1 = w + left;
+var numPoints = 100000;
+
+var initialConf = {
+    matrixId:{
+        id:"matrixId",
+        value:{
+            type:"select",
+            value:"12",
+            options:["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"]
+        },
+    },
+    matrixIndex:{
+        id:"matrixIndex",
+        value:{
+            type:"select",
+            value:"0",
+            options:["0","1","2","3","4","5","6","7","8","9"],
+        },
+    },
+    r:{
+        id:"r",
+        value:{
+            type:"range",
+            min:-1.000,
+            max:1.000,
+            value:0.1,
+            label:"ScaleX",
+        },
+    },
+    s:{
+        id:"s",
+        value:{
+            type:"range",
+            min:-1.000,
+            max:1.000,
+            value:0.1,
+            label:"ScaleY",
+        },
+    },
+    t:{
+        id:"t",
+        value:{
+            type:"range",
+            min:-2*Math.PI,
+            max:2*Math.PI,
+            value:0.0,
+            label:"SkewY",
+        },
+    },
+    u:{
+        id:"u",
+        value:{
+            type:"range",
+            min:-2*Math.PI,
+            max:2*Math.PI,
+            value:0.0,
+            label:"SkewX",
+        },
+    },
+    e:{
+        id:"e",
+        value:{
+            type:"range",
+            min:-600,
+            max:600,
+            value:300,
+            label:"TransX",
+        },
+    },
+    f:{
+        id:"f",
+        value:{
+            type:"range",
+            min:-600,
+            max:600,
+            value:300,
+            label:"TransY",
+        },
+    },
+}
+
+var runConfig = function (conf) {
+    conf=conf?conf:processForm();
+    let m = M[conf.matrixId.value.value][conf.matrixIndex.value.value]
+        svgConf = {
+        svgId:"svg",
+        templateId:"svg-template",
+        parentId:"svg-parent",
+        height:h,
+        width:w,
+        x:0,
+        y:0,
+    }
+    updateForm(conf,m)
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    Log.Notice('Document Ready');
+    Log.Remove();
+    captureR = [];
+    //updateForm(initialConf);
+    changeImage();
+});
+
+var addressStats = function (inArray,slice) {
+    let stats = new Map(),
+        len   = inArray.length,
+        i     = 0;
+
+    for (let key;i<len-slice;i++) {
+        key = inArray.slice(i,slice+i).join("");
+        if (!stats.get(key)) {
+            stats.set(key,1);
+        } else {
+            stats.set(key,(stats.get(key)+1));
+        }
+    }
+    return stats;
+}
+
+var addressStatsFromString = function (inArray,slice) {
+    let stats = new Map(),
+        len   = inArray.length,
+        i     = 0;
+
+    for (let key;i<len-slice;i++) {
+        key = inArray.slice(i,slice+i);
+        if (!stats.get(key)) {
+            stats.set(key,1);
+        } else {
+            stats.set(key,(stats.get(key)+1));
+        }
+    }
+    return stats;
+}
+
+var addressStatsIntKeys = function (inArray,slice) {
+    let stats = new Map(),
+        len   = inArray.length,
+        i     = 0;
+
+    for (let key;i<len-slice;i++) {
+        key = parseInt(inArray.slice(i,slice+i).join(""));
+        if (!stats.get(key)) {
+            stats.set(key,1);
+        } else {
+            stats.set(key,(stats.get(key)+1));
+        }
+    }
+    return stats;
+}
+
+var sortStatsByKey = function(m) {
+    for (let [key,val] of m.keys()) {
+
+    }
+}
+
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/log-2.js" charset="utf-8"></script>
+<script src="/js/process-form.js" charset="utf-8"></script>
+<script src="js/matrix2.js" charset="utf-8"></script>
+<script src="js/mrcm-affine-demo.js" charset="utf-8"></script>
+<script src="js/matrix-math.js" charset="utf-8"></script>
+<script src="js/orig-matrix-data.js" charset="utf-8" ></script>
+<script src="js/mrcm-data-objects.js" charset="utf-8"></script>
+<script src="js/mrcm-lib.js" charset="utf-8"></script>
+
+<!-- reuseable template for svg doc-->
+<script id="svg-template" type="image/svg+xml">
+<svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    >
+<style>
+
+</style>
+<defs id="defs">
+</defs>
+<g id="main" transform="translate(0,0)">
+    <rect id="bg" x="0" y="0" height="1" width="1" />
+
+</g>
+</svg>
+</script>
+<script id="svg-matrix-overlay" type="image/svg+xml">
+
+<svg 
+    id="svgtmp2"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" 
+    x="0" 
+    y="0" 
+    height="600" 
+    width="600" 
+    viewBox="0 0 600 600"
+    >
+<style>
+#svgtmp2 polyline {
+    opacity: 1;
+}
+</style>
+<defs id="defs2">
+
+</defs>
+
+<polyline id="box-0" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="#7f8" opacity=".5" stroke="tan" stroke-width="1" fill-rule="evenodd"  />
+<polyline id="box-1" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="#acb" opacity=".5" stroke="orange" stroke-width="1" fill-rule="evenodd"  />
+<polyline id="box-2" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="yellow" opacity=".5" stroke="blue" stroke-width="1" fill-rule="evenodd"  />
+<polyline id="box-3" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="green" opacity=".5" stroke="aqua" stroke-width="1" fill-rule="evenodd"  />
+<polyline id="box-4" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="tan" opacity=".5" stroke="red" stroke-width="1" fill-rule="evenodd"  />
+<polyline id="box-5" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="silver" opacity=".5" stroke="black" stroke-width="1" fill-rule="evenodd"  />
+
+</svg>
+</script>
 </body>
 </html>

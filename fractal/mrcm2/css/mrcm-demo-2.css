@@ -1,0 +1,175 @@
+
+body,
+html {
+  font-family:"Lucida Console", Monaco, monospace;
+  background-color: white;
+  margin:0;
+  padding:0;
+  border:0;
+}
+
+#composite {
+    position: relative;
+    width: 80%;
+}
+
+#svg2 {
+    position: absolute;
+    top: 15.5px;
+    left: 30.5px;
+}
+
+#main,
+#main2 {
+    position: relative;
+    border: 3px solid black;
+    display: inline-block;
+}
+
+#myCanvas,
+#myCanvas2 {
+    border: 1px solid #444;
+    margin-top: 15px;
+    margin-left: 30px;
+    background-clip:padding-box;
+    background-color: black;
+}
+
+#box,
+#box2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255,0,0,.1);
+    border: 1px solid black;
+}
+
+#controls {
+    font-family: "Consolas Bold";
+    color: white;
+    background-color: #444;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+}
+
+#controls-2 {
+    font-family: "Consolas Bold";
+    color: white;
+    background-color: #444;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#colors {
+    border: 2px solid #555;
+    position: absolute;
+    right: 285px;
+    top: 3px;
+}
+
+#controls ul,
+#controls-2 ul {
+    font-family: inherit;
+    list-style: none;
+    padding: 0;
+    width: 270px;
+}
+
+#controls input, 
+#controls-2 input,
+#controls select, 
+#controls-2 select {
+    display: inline-block;
+    font-family: "Tw Cen MT Bold";
+    font-size: 15px;
+    width: 162px;
+    margin-left: 12px;
+}
+
+#controls input[type=range],
+#controls-2 input[type=range] {
+    width: 200px;
+}
+
+/* this is how you change the font of select options!!! */
+#theory { /* select id */
+    font-family: "Tw Cen MT Bold";
+    font-size: 16px;
+}
+
+#mode-controls {
+    letter-spacing: 1px;
+}
+
+#controls input[type=number] {
+    width: 60px;
+}
+
+#controls #pixelJump input[type=number],
+#controls-2 #pixelJump input[type=number] {
+    width: 50px;
+}
+
+#controls select,
+#controls-2 select {
+    width: 100px;
+}
+
+#hide {
+    display: none;
+}
+
+#myCanvas2 {
+    display:none;
+}
+
+#svg3 circle {
+    stroke: powderblue;
+    stroke-width:0;
+}
+
+.fill-0 {
+    fill:hsl(0,85%,50%);
+}
+
+.fill-2 {
+    fill:hsl(45,85%,50%);
+}
+
+.fill-4 {
+    fill:hsl(90,85%,50%);
+}
+
+.fill-6 {
+    fill:hsl(135,85%,50%);
+}
+
+.fill-1 {
+    fill:hsl(180,85%,50%);
+}
+
+.fill-3 {
+    fill:hsl(225,85%,50%);
+}
+
+.fill-5 {
+    fill:hsl(270,85%,50%);
+}
+
+.fill-7 {
+    fill:hsl(315,85%,50%);
+}
+
+#svg3 circle {
+    fill: inherit;
+}
+
+svg polyline,
+#svg2 polyline,
+#svg3 polyline  {
+    fill:transparent;
+    stroke-width: 3;
+}

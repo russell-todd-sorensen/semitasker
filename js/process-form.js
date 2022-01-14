@@ -21,6 +21,9 @@ var processForm = function(conf) {
             case "number":
                 obj.value.value = ele.value;
                 break;
+            case "range": 
+                obj.value.value = ele.value;
+                break;
             case "checkbox":
                 obj.value.checked = ele.checked;
                 obj.value.value = ele.value;
@@ -71,6 +74,9 @@ var updateForm = function(conf,m) {
             val =(m[key] || m[key]==0)?m[key]:obj.value.value;
             switch (obj.value.type) {
             case "number":
+                ele.value = val;
+                break;
+            case "range":
                 ele.value = val;
                 break;
             case "checkbox":
