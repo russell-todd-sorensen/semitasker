@@ -1,0 +1,182 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<title>Frog Puzzle</title>
+<link rel="stylesheet" href="/css/fira-code/fira_code.css" media="all">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="css/image-puzzle.css" media="all">
+
+<style type="text/css">
+/* place any page unique styles here */
+
+html,
+head {
+    font-size: 16px;
+    font-family: 'Fira Code VF', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+svg {
+    font-family: inherit;
+    font-size: inherit;
+    display: block;
+    margin: 15px;
+}
+
+#bg {
+    fill:rgba(0,0,0,10%)
+}
+form {
+    display: inline;
+    font-size: inherit;
+}
+button {
+    margin-left: 10px;
+}
+ul {
+    font-family: inherit;
+    font-size: inherit;
+    display: flex;
+    padding-inline-start: 40px;
+    flex-wrap: wrap;
+}
+li {
+    font-family: inherit;
+    font-size: inherit;
+    display: inline-flex;
+    padding: 2px;
+}
+fieldset {
+    font-family: inherit;
+    font-size: inherit;
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+legend {
+    font-family: inherit;
+    font-size: inherit;
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    font-size: inherit;
+    display: inline-flex;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 120px;
+}
+input {
+    width: 50px;
+}
+label.check {
+    width: 50px;
+}
+label.check.wide {
+    width: 130px;
+}
+label::after {
+    content: ":";
+}
+input[type="checkbox"] {
+    width: 25px;
+}
+.tile {
+    text-align: center;
+    vertical-align: middle;
+}
+.tile span {
+    display: inline-block;
+    width: 45px;
+    color: white;
+    background-color: rgba(255,255,255,.25);
+    font-size: 36px;
+}
+#option-form select,
+#option-form option,
+select,
+option,
+button {
+    display: inline-flex;
+    font-family: inherit;
+    font-size: inherit;
+}
+#image-url {
+    width: 247px;
+}
+</style>
+
+</head>
+<body>
+
+<div id="form-container">
+<form id="option-form" onsubmit="return false;" spellcheck="false" novalidate>
+<fieldset>
+<legend>Puzzle Options</legend>
+<ul>
+ <li>  
+    <label for="tile-size">Tile Size</label>
+    <input id="tile-size" name="tileSize" value="75" type="number">
+</li>
+ <li>  
+    <label for="rows-n-cols">Rows &amp; Cols</label>
+    <input id="rows-n-cols" name="rowsNCols" value="5" type="number">
+</li>
+ <li>  
+    <label for="rand-time">Rand. Time</label>
+    <input id="rand-time" name="rand-time" size="3" value="10" type="number">
+</li>
+ <li>  
+    <label for="border">Border</label>
+    <input id="border" name="border" size="2" value="1" type="number">
+</li>
+<li>  
+    <label for="image-url">Image</label>
+    <select id="image-url" name="image-url" value="images/frog-35.jpg">
+        <option value="images/frog-35.jpg">Frog 35</option>
+    </select>
+</li>
+<li> </li>
+<li> </li>
+<li>
+    <button
+        id="start" name="start"
+        onClick="startNewPuzzle('picture','puzzle','image-url','tile-size','rows-n-cols','rand-time','border');" 
+        >Click to Start Puzzle</button>
+</li>
+<li> </li>
+</ul>
+</fieldset>
+</form>
+</div>
+
+<div id="puzzle"></div>
+<div id="picture"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="js/image-puzzle-max.js"></script>
+
+<script>
+
+$(document).ready(function() {
+
+  Log.Notice("jQuery Ready!");
+  Log.Remove();
+
+});
+
+</script>
+</body>
+</html>

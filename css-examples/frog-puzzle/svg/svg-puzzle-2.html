@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 <link rel="stylesheet" type="text/css" href="css/svg-puzzle-2.css" media="all">
 
-<style type="text/css">
+<style>
 /* place any page unique styles here */
 
 body {
@@ -147,16 +147,15 @@ fill: none;
 </form>
 </div>
 
-<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jquery-1.7.1.js"></script>
 <script src="/js/d3.v3.js"></script>
-<script type="text/javascript" src="/js/log-2.js"></script>
-<script type="text/javascript" src="js/svg-puzzle-2.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="js/svg-puzzle-2.js"></script>
 
 <script>
 window.addEventListener('DOMContentLoaded', () => {
-
-  Log.Notice("Page Loaded!");
-  //Log.Hide();
+    Log.Notice("Page Loaded!");
+    Log.Remove();
 });
 </script>
 </body>
