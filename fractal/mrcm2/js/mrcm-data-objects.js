@@ -1,8 +1,8 @@
 
 class MRCM {
-    M = [];
     w = 1.0;
     h = 1.0;
+    M = [];
     constructor(w=1.0,h=1.0,...m) {
         this.w=w?w:1.0; //w != 0
         this.h=h?h:1.0; //h != 0

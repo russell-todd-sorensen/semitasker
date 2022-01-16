@@ -34,7 +34,7 @@ html {
     background-clip:padding-box;
     background-color: black;
 }
-
+/*
 #box,
 #box2 {
     position: absolute;
@@ -43,7 +43,7 @@ html {
     background-color: rgba(255,0,0,.1);
     border: 1px solid black;
 }
-
+*/
 #controls {
     font-family: "Consolas Bold";
     color: white;
@@ -55,12 +55,13 @@ html {
 }
 
 #controls-2 {
+    display: inline-block;
     font-family: "Consolas Bold";
     color: white;
-    background-color: #444;
+    background-color: #444; /*
     position: absolute;
     right: 0;
-    top: 0;
+    top: 0; */
 }
 
 #colors {

@@ -141,7 +141,6 @@ function generateImage4(id,radius,points) {
      .attr('cy', function(d,i) {return (d.y).toFixed(3)})
      .attr('r',radius)
 }
-var myImage;
 
 function generateImage5(id,dims,points) {
     let svg = d3.select('#' + id);
@@ -161,17 +160,28 @@ function generateImage5(id,dims,points) {
 }
 function changeImage(count=numPoints,hideTransforms=true,collectStats=true) {
     let id = parseInt($('#matrixId option:selected').val()),
-        matrix = M[id];
+        matrix = CM[id].M;
+        slice = new Map();
     imageContractionEstimate(matrix);
     generatePoints(matrix,Points,count,collectStats);
-    myImage = new fractalImage('myCanvas',w,h,Points);
+
+    slice.set(0,0);
+    slice.set(1,1);
+    slice.set(2,2);
+    slice.set(3,3);
+    slice.set(w-2,4);
+    slice.set(w-1,5);
+
+    myImage = new fractalImage('myCanvas',w,h,Points,{slice:slice});
     myImage.drawImage();
+    let matrixIndex = parseInt($('#matrixIndex option:selected').val());
     changeTransforms3(id,hideTransforms);
+    return matrix[matrixIndex];
 }
 
 function changeTransforms3(id,hideTransforms=true) {
 
-    let m = M[parseInt(id)];
+    let m = CM[parseInt(id)].M;
 
     for (let i = 0; i<6;i++) {
         d3.select('#box-' +i).style('display','none');
@@ -187,7 +197,7 @@ function changeTransforms3(id,hideTransforms=true) {
 function loadMatrixTransform() {
     var mrcmId = parseInt($('#matrixId option:selected').val());
     var matrixIndex = parseInt($('#matrixIndex option:selected').val());
-    var matrix = M[mrcmId][matrixIndex];
+    var matrix = CM[mrcmId].M[matrixIndex];
     var pct = matrix.pct;
     var r = parseFloat($('#r').val(matrix.r));
     var s = parseFloat($('#s').val(matrix.s));
@@ -202,7 +212,7 @@ function updateMatrixTransform() {
 
     var mrcmId = parseInt($('#matrixId option:selected').val());
     var matrixIndex = parseInt($('#matrixIndex option:selected').val());
-    var matrix = M[mrcmId][matrixIndex];
+    var matrix = CM[mrcmId].M[matrixIndex];
     var pct = matrix.pct;
     Log.Notice('...pre updateMatrixTransform matrix=' + matrix);
     var r = parseFloat($('#r').val());
@@ -211,8 +221,7 @@ function updateMatrixTransform() {
     var ψ = parseFloat($('#u').val());
     var e = parseFloat($('#e').val());
     var f = parseFloat($('#f').val());
-    M[mrcmId][matrixIndex] = MatrixPre(r,s,φ,ψ,e,f,pct);
-    Log.Notice('post updateMatrixTransform r=' +r + ' s=' + s + ' φ=' + φ + ' ψ=' + ψ + ' e=' + e + ' f=' + f);
+    CM[mrcmId].M[matrixIndex] = MatrixPre(r,s,φ,ψ,e,f,pct);
     changeImage();
 }
 

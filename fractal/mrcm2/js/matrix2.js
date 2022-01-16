@@ -116,7 +116,7 @@ class Matrix {
     }
     toPolygonPoints() {
         let path = '',
-            inv = this.invariant(),    // cant figure out where I got this??
+            inv = this.invariant(),
             point0,
             point;
         // 0 0
@@ -127,10 +127,122 @@ class Matrix {
         point = this.transformPoint(600, 600);
         path += ', ' + point.x + ' ' + point.y;
         point = this.transformPoint(0, 600);
-        path += ', ' + point.x + ' ' + point.y;
+        path += ', ' + point.x  + ' ' + point.y;
         path += ', ' + point0.x + ' ' + point0.y;
 
         return path;
     }
 }
 
+class MRCM {
+    w = 1.0;
+    h = 1.0;
+    cmId;
+    desc;
+    Mnorm = [];
+    M = [];
+    constructor(w,h,cmId,desc,...m) {
+        this.w=w?w:1.0; //w != 0
+        this.h=h?h:1.0; //h != 0
+        this.cmId=cmId;
+        this.desc=desc?desc:`MRCM-${cmId}`;
+        for (let i=0,matrix;i<m.length;i++) {
+            this.Mnorm[i]=m[i];
+            this.M[i] = new Matrix(
+                m[i].a*1,
+                m[i].b*1,
+                m[i].c*1,
+                m[i].d*1,
+                m[i].e*this.w,
+                m[i].f*this.h,
+                m[i].pct*1
+            )
+        }
+    }
+}
+
+var CM = [];
+CM.push(
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Leaf`,
+        {a:0,b:0,c:0,d:.27,e:.5,f:0,pct:.02},
+        {a:-.139,b:.263,c:.246,d:.224,e:.57,f:-.036,pct:.15},
+        {a:.17,b:-.215,c:.222,d:.176,e:.408,f:.0893,pct:.13},
+        {a:.781,b:.034,c:-.032,d:.739,e:.1075,f:.27,pct:.7},
+    )
+);
+CM.push(
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Sierpinski Gasket`,
+        {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333},
+        {a:.5,b:0,c:0,d:.5,e:0,f:0,pct:.333},
+        {a:.5,b:0,c:0,d:.5,e:.5,f:.5,pct:.334},
+    )
+);
+CM.push(
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: SG2`,
+        {a:0,b:-0.5,c:.5,d:0,e:.5,f:0,pct:.333},
+        {a:0,b:0.5,c:-.5,d:0,e:.5,f:.5,pct:.333},
+        {a:.5,b:0,c:0,d:.5,e:.25,f:.5,pct:.334},
+    )
+);
+
+CM.push(
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Fractal Blob`,
+        {a:0,b:.577,c:-.577,d:0,e:.0951,f:.5893,pct:.333},
+        {a:0,b:.577,c:-.577,d:0,e:.4413,f:.7893,pct:.333},
+        {a:0,b:.577,c:-.577,d:0,e:.0952,f:.9893,pct:.334},
+    )
+);
+
+CM.push(
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Sierpinski Maze`,
+        {a:.333,b:0,c:0,d:.333,e:.333,f:.666,pct:.2},
+        {a:0,b:.333,c:1,d:0,e:.666,f:0,pct:.4},
+        {a:0,b:-.333,c:1,d:0,e:.333,f:0,pct:.4},
+    )
+);
+
+CM.push(
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Twig`,
+    {a:.387,b:.430,c:.430,d:-.387,e:.2560,f:.522,pct:.333},
+    {a:0.441,b:-.091,c:-.009,d:-.322,e:.4219,f:.5059,pct:.333},
+    {a:-.468,b:.020,c:-.113,d:.015,e:.4,f:.4,pct:.334},
+    )
+);
+
+CM.push(
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Snowflake`,
+    {a:0.255,b:0,c:0,d:.255,e:.3726,f:.6714,pct:.16},
+    {a:0.255,b:0,c:0,d:.255,e:.1146,f:.2232,pct:.16},
+    {a:0.255,b:0,c:0,d:.255,e:.6306,f:.2232,pct:.16},
+    {a:0.37,b:-.642,c:.642,d:.37,e:.6356,f:-.0061,pct:.52},
+    )
+);
+
+CM.push(
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Pentagons`,
+        {a:0.382,b:0,c:0,d:.382,e:.3072,f:.619,pct:.2},
+        {a:0.382,b:0,c:0,d:.382,e:.6033,f:.4044,pct:.2},
+        {a:0.382,b:0,c:0,d:.382,e:.0139,f:.4044,pct:.2},
+        {a:0.382,b:0,c:0,d:.382,e:.1253,f:.0595,pct:.2},
+        {a:0.382,b:0,c:0,d:.382,e:.4920,f:.0595,pct:.2},
+    )
+);
+
+CM.push(
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Tree`,
+        {a:0.195,b:-.488,c:.344,d:.443,e:.4431,f:.2452,pct:.2},
+        {a:0.462,b:.414,c:-.252,d:.361,e:.2511,f:.5692,pct:.2},
+        {a:-.058,b:-.07,c:.453,d:-.111,e:.5976,f:.0969,pct:.2},
+        {a:-.035,b:.07,c:-.469,d:-.022,e:.4884,f:.5069,pct:.2},
+        {a:-.637,b:0,c:0,d:.501,e:.8562,f:.2513,pct:.2},
+    )
+);
+
+CM.push(
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Leaf2`,
+        {a:0.849,b:.037,c:-.037,d:.849,e:.075,f:.183,pct:.70},
+        {a:0.197,b:-.226,c:.226,d:.197,e:.4,f:.049,pct:.13},
+        {a:-0.15,b:.283,c:.26,d:.237,e:.575,f:-.084,pct:.13},
+        {a:0,b:0,c:0,d:.16,e:.5,f:0,pct:.04},
+    )
+);

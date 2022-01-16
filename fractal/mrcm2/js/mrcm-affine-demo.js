@@ -11,6 +11,8 @@ class fractalImage {
     points;
     continueAnimation = false;
     animationIndex = 0;
+    edgeArray = []; // used to look at vertical slice of imagedata
+    slice = new Map(); // pass in using startUpData to use...
     constructor(canvasId, height, width, points, startUpData) {
         this.id = canvasId;
         this.name = canvasId;
@@ -73,7 +75,6 @@ class fractalImage {
             this.imageData = this.context.getImageData(0, 0, this.width, this.height);
         }
         else {
-            Log.Debug('doImageStuff: using default image creation method');
             this.imageData = {
                 'width': this.width,
                 'height': this.height,
@@ -82,9 +83,9 @@ class fractalImage {
         }
 
         this.pixels = this.imageData.data;
-
+        this.edgeArray = new Array(4*this.height).fill(-1);
         for (let i = 0, n = this.pixels.length; i < n; i++) {
-            this.pixels[i] = 0;
+            this.pixels[i] = 255;
             //this.counters[i] = this.counterMax;
         }
         let point,
@@ -93,14 +94,21 @@ class fractalImage {
 
         for (let i = 0; i < this.points.length; i++) {
             point = this.points[i];
-            col = Math.round(point.x);
-            row = Math.round(point.y);
+            col = Math.floor(point.x);
+            row = Math.floor(point.y);
             type = point.r;
             currentIndex = 4 * (this.width * row + col);
             this.pixels[currentIndex++] = Math.abs((255 - 40 * ((type + 1 % 3))) % 255);
             this.pixels[currentIndex++] = Math.abs((255 - 40 * (type % 3)) % 255);
             this.pixels[currentIndex++] = Math.abs((255 - 40 * ((type + 2) % 3)) % 255);
             this.pixels[currentIndex] = 255;
+            if (this.slice.has(col)) {
+                let idx = 4*(row*this.slice.size+this.slice.get(col));
+                this.edgeArray[idx++] = col;
+                this.edgeArray[idx++] = row;
+                this.edgeArray[idx++] = point.r+1;
+                this.edgeArray[idx]   = 254-point.r;
+            }
         }
         // Finish profile
         this.context.putImageData(this.imageData, 0, 0);

@@ -36,11 +36,10 @@
 <ul>
 <li>
  <label for="matrixId">MRCM:</label>
- <select id="matrixId" name="matrixId" onChange="changeImage();loadMatrixTransform()">
- <option value="12" selected="selected">Matrix 12: Garbage (1)</option>
+ <select id="matrixId" name="matrixId" onChange=""><!--changeImage();loadMatrixTransform()-->
  <option value="0">Matrix 0: Leaf</option>
  <option value="1">Matrix 1: Sierpinski Gasket</option>
- <option value="2">Matrix 2: SG2</option>
+ <option value="2" selected="selected">Matrix 2: SG2</option>
  <option value="3">Matrix 3: Fractal Blob</option>
  <option value="4">Matrix 4: Sierpinski Maze</option>
  <option value="5">Matrix 5: Twig</option>
@@ -50,7 +49,7 @@
  <option value="9">Matrix 9: Leaf</option>
  <option value="10">Matrix 10: Garbage (10)</option>
  <option value="11">Matrix 11: Garbage (5)</option>
-
+ <option value="12">Matrix 12: Garbage (1)</option>
  <option value="13">Matrix 13: Garbage (12)</option>
  <option value="14">Matrix 13: Garbage (1)</option>
  <option value="15">Matrix 15: New Leaf</option>
@@ -104,20 +103,21 @@
 </div>
 <script>
 //var crObj;
-var M = new Array();
+//var M = new Array();
 var Points = new Array();
 var w = 600;
 var h = 600;
 //var left = 30;
 //var w1 = w + left;
 var numPoints = 100000;
+var myImage;
 
 var initialConf = {
     matrixId:{
         id:"matrixId",
         value:{
             type:"select",
-            value:"12",
+            value:"2",
             options:["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"]
         },
     },
@@ -193,7 +193,7 @@ var initialConf = {
 
 var runConfig = function (conf) {
     conf=conf?conf:processForm();
-    let m = M[conf.matrixId.value.value][conf.matrixIndex.value.value]
+    let m = CM[conf.matrixId.value.value].M[conf.matrixIndex.value.value]
         svgConf = {
         svgId:"svg",
         templateId:"svg-template",
@@ -210,8 +210,8 @@ window.addEventListener('DOMContentLoaded', () => {
     Log.Notice('Document Ready');
     Log.Remove();
     captureR = [];
-    //updateForm(initialConf);
-    changeImage();
+    let m = changeImage();
+    updateForm(initialConf,m);
 });
 
 var addressStats = function (inArray,slice) {
@@ -277,8 +277,6 @@ var sortStatsByKey = function(m) {
 <script src="js/matrix2.js" charset="utf-8"></script>
 <script src="js/mrcm-affine-demo.js" charset="utf-8"></script>
 <script src="js/matrix-math.js" charset="utf-8"></script>
-<script src="js/orig-matrix-data.js" charset="utf-8" ></script>
-<script src="js/mrcm-data-objects.js" charset="utf-8"></script>
 <script src="js/mrcm-lib.js" charset="utf-8"></script>
 
 <!-- reuseable template for svg doc-->
