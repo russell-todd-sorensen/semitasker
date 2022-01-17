@@ -191,50 +191,62 @@ var subGroups = [];
 /////////// NOTE /////////////
 ///Zeroing out the CM array to use indexes == labels
 CM=[];
-
+var wd=64,
+    ht=64;
 CM.push(  // Matrix 0: d0 (AKA: neutral element e)
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d0)`,
+    new MRCM(wd,ht,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d0)`,
         {a:1,b:0,c:0,d:1,e:0,f:0,pct:1.0000},  // V1(x,y) = (x,y)
     )
 );
 CM.push(  // Matrix 1: d1 (Horizontal Mirror) 
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d1)`,
+    new MRCM(wd,ht,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d1)`,
        // {a:1,b:-1,c:-1,d:1,e:1,f:0,pct:1.0000},  // V1(x,y) = (y,x)
        {a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000},  
     )
 );
 CM.push(  // Matrix 2: d2 (rotate 180deg clockwise)
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d2)`,
+    new MRCM(wd,ht,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d2)`,
         {a:-1,b:0,c:0,d:-1,e:1,f:1,pct:1.0000},  // V1(x,y) = (1-x,1-y)
     )
 );
 CM.push(  // Matrix 3: d3 (Horizontal Mirror) d1^3
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d3)`,
+    new MRCM(wd,ht,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d3)`,
         {a:0,b:-1,c:1,d:0,e:0,f:1,pct:1.0000},  // V1(x,y) = (y,x)
     )
 );
 CM.push(  // Matrix 4: d4 (Horizontal Mirror)
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d4)`,
+    new MRCM(wd,ht,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d4)`,
         {a:1,b:0,c:0,d:-1,e:0,f:1,pct:1.0000},  // V1(x,y) = (x,1-y)
     )
 );
 CM.push(  // Matrix 5: d5 (Vertical Mirror) = (d1^2)*d4
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d5)`,
+    new MRCM(wd,ht,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d5)`,
         {a:-1,b:0,c:0,d:1,e:1,f:0,pct:1.0000},  // V1(x,y) = (1-x,y)
     )
 );
 CM.push(  // Matrix 6: d6 (Horizontal Mirror)
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d6)`,
+    new MRCM(wd,ht,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d6)`,
         {a:0,b:1,c:1,d:0,e:0,f:0,pct:1.0000},  // V1(x,y) = (y,x)
     )
 );
 CM.push(  // Matrix 7: d7 (Horizontal Mirror) (d1^3)*d4
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d7)`,
+    new MRCM(wd,ht,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d7)`,
         {a:0,b:-1,c:-1,d:0,e:1,f:1,pct:1.0000},  // V1(x,y) = (y,x)
     )
 );
 
 //////////// END OF BASIC TRANSFORMATIONS ON UNIT SQUARE ///////////////////
+
+
+
+
+
+
+
+
+
+
+
 
 CM.push(  // Matrix 18: xx (Horizontal Mirror) (d1^3)*d4 ??
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (xx)`,
@@ -266,7 +278,7 @@ CM.push(  // Matrix 11: Squares2
 <body>
 <div id="no-hide">
  <!--  <svg id="svg" x="-10" y="-10" height="660" width="660" viewBox="-10 -10 660 660">-->
- <svg id="svg" x="-660" y="-660" height="1320" width="1320" viewBox="-660 -660 1320 1320">
+ <svg id="svg" x="-512" y="-512" height="1220" width="1220" viewBox="-512 -512 1220 1220">
 <defs>
 <style>
 #svg {
@@ -297,7 +309,7 @@ CM.push(  // Matrix 11: Squares2
     <rect id="r1" class="r0" height="8" width="8" />
     <path id="p1" class="p0" d="M 1 1 h 3 v 1 h -2 v 5 h -1 v -6" />
 </g>
-<g id="gr3" transform="scale(40)" x="0" y="0">
+<g id="gr3" transform="scale(4)" x="0" y="0">
     <rect id="r1" class="r0" height="16" width="16" />
     <path id="p1" class="p0" d="M 2 2 h 6 v 2 h -4 v 10 h -2 v -12" />
 </g>
@@ -311,20 +323,55 @@ CM.push(  // Matrix 11: Squares2
 <g id="test">
 <use href="#gr3" transform="scale(.25)" />
 </g>
--->
 <use id="show" href="#gr3" transform="scale(1.00)"></use>
-
+-->
+<!--
+<g x="0" y="0" transform="matrix(-1 0 0 1 64 0)">
+    <g transform="matrix(0,1,-1,0,64,0)">
+        <use href="#gr3" />
+    </g>
+</g>-->
 <g id="composition-table">
 
 </g>
 </svg>
 </div>
-
 <script>
 
-//var compTable = d3.select("#composition-table")
+var compTable = d3.select("#composition-table")
 
+function buildCompositions(ct,ht,wd,href) {
+
+    let k = 0,
+        l = 0,
+        x,
+        y;
+
+    for (l=0;l<8;l++) {
+        y=l*ht;
+        let mtl = CM[l].M[0].toMatrix();
+        for (k=0;k<8;k++) {
+            x = k*wd;
+            let mtk = CM[k].M[0].toMatrix();
+            let outer = ct.append("g")
+                .attr("transform",mtk);
+            let inner = outer.append("g")
+                .attr("transform",mtl)
+                .attr("data",`k=${k},l=${l}`);
+            let final = inner.append("use")
+                .attr("href",href)
+                .attr("x",x)
+                .attr("y",y);
+
+            //    .attr("transform",`${mtl} ${mtk}`);
+
+            console.log(`k=${k},l=${l},x=${x},y=${y}`)
+        }
+    }
+}
+//try inner g and outer g for transforms
 </script>
+
 <style>
 #log-parent {
     display:none;
