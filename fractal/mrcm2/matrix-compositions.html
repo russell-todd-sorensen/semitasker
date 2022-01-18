@@ -294,10 +294,38 @@ if (false) {
 }
 .r0 {
     fill: rgba(0,0,0,.1);
+    stroke: rgba(0,0,0,1);
+    stroke-width: .125px;
+}
+#svg text.tcomp {
+    font-size: 10px;
+    font-family:cursive;
+    font-weight:normal;
+    fill: rgba(0,0,0,.5);
+    stroke: rgba(0,0,0,.5);
+    stroke-width:.0px;
+}
+#gr4 text {
+    font-size: 250px;
+    font-family: "Fira Code";
+    font-weight: normal;
+    fill:steelblue;
+}
+#gr4 rect {
+    stroke: rgb(0, 128, 117);
+    stroke-width: 2;
+    fill: transparent;
+}
+#gr4 line {
+    stroke-width: 1;
+    stroke:rgb(0, 128, 117);
 }
 </style>
 <circle id="c1" x="0" y="0" cx="300" cy="300" r="300" fill="#000" />
 <circle id="c2" x="0" y="0" cx="32" cy="32" r="30" fill="#000" />
+<g id="c22">
+    <circle id="c2" x="0" y="0" cx="32" cy="32" r="30" fill="#000" />
+</g>
 <g id="gr1" transform="scale(0.1)">
  <rect id="r1" x="2" y="2" height="600" width="300" />
  <text id="t1" x="10" y="140" >L</text>
@@ -308,7 +336,13 @@ if (false) {
 </g>
 <g id="gr0" transform="scale(0.1)">
     <rect id="r1" x="2" y="2" height="636" width="636" />
-    <text id="t1" x="320" y="620"transform="rotate(180,320,320)">R</text>
+    <text id="t1" x="320" y="320" transform="rotate(180,320,320)">R</text>
+</g>
+<g id="gr4" transform="scale(0.1)">
+    <rect id="r1" x="2" y="2" height="636" width="636" />
+    <line id="lv" x1="320" y1="2" x2="320" y2="638" />
+    <line id="lh" x1="2" y1="320" x2="638" y2="320" />
+    <text id="t1" x="320" y="384.75" transform="rotate(180,320,320)">wow</text>
 </g>
 <g id="gr2" transform="scale(80)" x="0" y="0">
     <rect id="r1" class="r0" height="8" width="8" />
@@ -354,10 +388,18 @@ function buildCompositions(defsId,baseId,compId,cm) {
         primMap = new Map(),
         compMap = new Map(),
         matrix = null,
-        height,
-        width,
+        height = cm[0].h,
+        width  = cm[0].w,
         defs = d3.select(`#${defsId}`),
         comp = d3.select(`#${compId}`);
+
+    comp.append("use").attr("href",`#${baseId}`).attr("y",-1*height).attr("x",-1*width);
+    comp.append("text").attr("class","tcomp")
+            .attr("x",((-0.5)*width).toFixed(3))
+            .attr("y",(-.6*height).toFixed(3))
+            .attr("textLength",.4*width)
+            .attr("lengthAdjust","spacingAndGlyphs")
+            .text(`image`);
 
     for (let i=0;i<len;i++) {
         matrix = cm[i].M[0].toMatrix();
@@ -366,7 +408,19 @@ function buildCompositions(defsId,baseId,compId,cm) {
         primId = `p-d${i}`
         primMap.set(primId,buildPrimitive(defs,baseId,primId,matrix));
         comp.append("use").attr("href",`#${primId}`).attr("y",-1*height).attr("x",i*width);
+        comp.append("text").attr("class","tcomp")
+                .attr("x",((i+0.5)*width).toFixed(3))
+                .attr("y",(-.6*height).toFixed(3))
+                .attr("textLength",.25*width)
+                .attr("lengthAdjust","spacingAndGlyphs")
+                .text(`d${i}`);
         comp.append("use").attr("href",`#${primId}`).attr("x",-1*width).attr("y",i*height);
+        comp.append("text").attr("class","tcomp")
+                .attr("x",(-.5*width).toFixed(3))
+                .attr("y",((i+.4)*height).toFixed(3))
+                .attr("textLength",.25*width)
+                .attr("lengthAdjust","spacingAndGlyphs")
+                .text(`d${i}`);
     }
 
     //return primMap;
@@ -380,17 +434,12 @@ function buildCompositions(defsId,baseId,compId,cm) {
                 cId = `c-d${l}-d${k}`;
             compMap.set(cId,buildPrimitive(defs,lPrimitiveId,cId,kMatrix));
             comp.append("use").attr("href",`#${cId}`).attr("y",y).attr("x",x).data(`l=${l},k=${k}`);
-            //let outer = ct.append("g")
-            //    .attr("transform",mtk);
-            //let inner = outer.append("g")
-            //    .attr("transform",mtl)
-            //    .attr("data",`k=${k},l=${l}`);
-            //let final = inner.append("use")
-            //    .attr("href",href)
-             //   .attr("x",x)
-            //    .attr("y",y);
-
-            //    .attr("transform",`${mtl} ${mtk}`);
+            comp.append("text").attr("class","tcomp")
+                .attr("x",(x+.5*width).toFixed(3))
+                .attr("y",(y + .4*height).toFixed(3))
+                .attr("textLength",.32*width)
+                .attr("lengthAdjust","spacingAndGlyphs")
+                .text(`d${k}(d${l})`);
 
             console.log(`k=${k},l=${l},x=${x},y=${y}`)
         }

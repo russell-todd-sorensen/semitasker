@@ -246,3 +246,50 @@ CM.push(
         {a:0,b:0,c:0,d:.16,e:.5,f:0,pct:.04},
     )
 );
+
+CM.push(  // Matrix ..: Squares1
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Squares1`,
+        {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333333},
+        {a:.5,b:0,c:0,d:.5,e:0,f:0,pct:.333333},
+        {a:.5,b:0,c:0,d:.5,e:.5,f:.5,pct:.333334},
+    )
+);
+CM.push(  // Matrix ..: Squares2
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Squares2`,
+        {a:.5,b:0,c:0,d:.5,e:0,f:0,pct:.333333},  // V1(x,y) = (x/2,y/2)
+        {a:.5,b:0,c:0,d:.5,e:.5,f:0,pct:.333334}, // V2(x,y) = ((x+1)/2,y/2)
+        {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333333}, // V3(x,y) = (x/2,(y+1)/2)
+    )
+);
+
+CM.push(  // Matrix ..: Squares3
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Squares3`,
+        {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333333},
+        {a:.5,b:0,c:0,d:.5,e:.25,f:0,pct:.333333},
+        {a:.5,b:0,c:0,d:.5,e:.5,f:.5,pct:.333334},
+    )
+);
+CM.push( // Matrix ..: Sierpinski Carpet
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Sierpinski Carpet`,
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
+    )
+);
+CM.push( // Matrix ..: Sierpinski Carpet 2
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 2`,
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
+    )
+);

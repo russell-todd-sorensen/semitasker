@@ -112,10 +112,6 @@ body,html {
     width: 60px;
 }
 
-#timeout, #colorOffsetAmount, #fractalImageId {
-
-}
-
 #controls #pixelJump input[type=number],
 #controls-2 #pixelJump input[type=number] {
     width: 50px;
@@ -150,7 +146,6 @@ var numPoints = 100000;
 <script src="js/matrix2.js" charset="utf-8"></script>
 <script src="js/mrcm-affine.js" charset="utf-8"></script>
 <script src="js/matrix-math.js" charset="utf-8"></script>
-<script src="js/mrcm-data-objects.js"></script>
 <script>
 
 function applyMatrix(groupId,href,matrix) {
@@ -193,13 +188,95 @@ function applyAllMatrices(href,matrix) {
 
 }
 var subGroups = [];
+/////////// NOTE /////////////
+///Zeroing out the CM array to use indexes == labels
+CM=[];
+
+CM.push(  // Matrix 0: d0 (AKA: neutral element e)
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d0)`,
+        {a:1,b:0,c:0,d:1,e:0,f:0,pct:1.0000},  // V1(x,y) = (x,y)
+    )
+);
+CM.push(  // Matrix 1: d1 (Horizontal Mirror) 
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d1)`,
+       // {a:1,b:-1,c:-1,d:1,e:1,f:0,pct:1.0000},  // V1(x,y) = (y,x)
+       {a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000},  
+    )
+);
+CM.push(  // Matrix 2: d2 (rotate 180deg clockwise)
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d2)`,
+        {a:-1,b:0,c:0,d:-1,e:1,f:1,pct:1.0000},  // V1(x,y) = (1-x,1-y)
+    )
+);
+CM.push(  // Matrix 3: d3 (Horizontal Mirror) d1^3
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d3)`,
+        {a:0,b:-1,c:1,d:0,e:0,f:1,pct:1.0000},  // V1(x,y) = (y,x)
+    )
+);
+CM.push(  // Matrix 4: d4 (Horizontal Mirror)
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d4)`,
+        {a:1,b:0,c:0,d:-1,e:0,f:1,pct:1.0000},  // V1(x,y) = (x,1-y)
+    )
+);
+CM.push(  // Matrix 5: d5 (Vertical Mirror) = (d1^2)*d4
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d5)`,
+        {a:-1,b:0,c:0,d:1,e:1,f:0,pct:1.0000},  // V1(x,y) = (1-x,y)
+    )
+);
+CM.push(  // Matrix 6: d6 (Horizontal Mirror)
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d6)`,
+        {a:0,b:1,c:1,d:0,e:0,f:0,pct:1.0000},  // V1(x,y) = (y,x)
+    )
+);
+CM.push(  // Matrix 7: d7 (Horizontal Mirror) (d1^3)*d4
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d7)`,
+        {a:0,b:-1,c:-1,d:0,e:1,f:1,pct:1.0000},  // V1(x,y) = (y,x)
+    )
+);
+
+//////////// END OF BASIC TRANSFORMATIONS ON UNIT SQUARE ///////////////////
+
+CM.push(  // Matrix 18: xx (Horizontal Mirror) (d1^3)*d4 ??
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (xx)`,
+        {a:0,b:-1,c:-1,d:0,e:1,f:1,pct:1.0000},  // V1(x,y) = (y,x)
+    )
+);
+CM.push(  // Matrix 20: xx (Horizontal Mirror) 
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (xx)`,
+        {a:1,b:1,c:1,d:-1,e:0,f:0,pct:1.0000},  // V1(x,y) = (y,x)
+    )
+);
+CM.push(  // Matrix 10: Squares1
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Squares1`,
+        {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333333},
+        {a:.5,b:0,c:0,d:.5,e:0,f:0,pct:.333333},
+        {a:.5,b:0,c:0,d:.5,e:.5,f:.5,pct:.333334},
+    )
+);
+
+CM.push(  // Matrix 11: Squares2
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Squares2`,
+        {a:.5,b:0,c:0,d:.5,e:0,f:0,pct:.333333},  // V1(x,y) = (x/2,y/2)
+        {a:.5,b:0,c:0,d:.5,e:.5,f:0,pct:.333334}, // V2(x,y) = ((x+1)/2,y/2)
+        {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333333}, // V3(x,y) = (x/2,(y+1)/2)
+    )
+);
+
+CM.push(  // Matrix 12: Squares3
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Squares3`,
+        {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333333},
+        {a:.5,b:0,c:0,d:.5,e:.25,f:0,pct:.333333},
+        {a:.5,b:0,c:0,d:.5,e:.5,f:.5,pct:.333334},
+    )
+);
+
 
 </script>
 
 </head>
 <body>
 <div id="no-hide">
-<svg id="svg" x="-520" y="-520" height="1320" width="1320" viewBox="-520 -520 1320 1320">
+ <svg id="svg" x="-64" y="-64" height="1320" width="1320" viewBox="-64 -64 1320 1320">
 <defs>
 <style>
 #svg {
@@ -216,76 +293,57 @@ var subGroups = [];
     stroke-width: 2;
     fill: transparent;
 }
-#svg {
-    border:1px dashed tan;
-}
-#svg text {
-    font-size: 620px;
-    fill: black;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    font-weight: normal;
-    text-anchor:middle;
-}
-#gr0 rect {
-    fill:transparent;
-    stroke-width:2px;
-    stroke:tomato;
-}
-#gr1 rect {
-    stroke: purple;
-    stroke-width: 2;
-    fill: transparent;
-}
 .r0 {
     fill: rgba(0,0,0,.1);
-    stroke: rgba(0,0,0,1);
-    stroke-width: .125px;
-}
-#svg text.tcomp {
-    font-size: 10px;
-    font-family:cursive;
-    font-weight:normal;
-    fill: rgba(0,0,0,.5);
-    stroke: rgba(0,0,0,.5);
-    stroke-width:.0px;
-}
-#gr4 text {
-    font-size: 250px;
-    font-family: "Fira Code";
-    font-weight: normal;
-    fill:steelblue;
-}
-#gr4 rect {
-    stroke: rgb(0, 128, 117);
-    stroke-width: 2;
-    fill: transparent;
-}
-#gr4 line {
-    stroke-width: 1;
-    stroke:rgb(0, 128, 117);
 }
 </style>
 <circle id="c1" x="0" y="0" cx="300" cy="300" r="300" fill="#000" />
+<circle id="c2" x="0" y="0" cx="32" cy="32" r="30" fill="#000" />
+<g id="c22">
+    <circle id="c2" x="0" y="0" cx="32" cy="32" r="30" fill="#000" />
+</g>
+
 <g id="gr1">
  <rect id="r1" x="2" y="2" height="600" width="300" />
  <text id="t1" x="10" y="140" >L</text>
 </g>
 
+<g id="gr2" transform="scale(80)" x="0" y="0">
+    <rect id="r1" class="r0" height="8" width="8" />
+    <path id="p1" class="p0" d="M 1 1 h 3 v 1 h -2 v 5 h -1 v -6" />
+</g>
 <g id="gr3" transform="scale(40)" x="0" y="0">
     <rect id="r1" class="r0" height="16" width="16" />
     <path id="p1" class="p0" d="M 2 2 h 6 v 2 h -4 v 10 h -2 v -12" />
 </g>
 </defs>
 
-<g id="euclidian-transform-xy-plane" transform="matrix(1 0 0 -1 1200 1200)">
-<line y1="0" x1="-100%" x2="100%" y2="0"  stroke="black" stroke-width="1" />
-<line x1="0" y1="-100%" y2="100%" x2="0"  stroke="black" stroke-width="1" />
+<g id="euclidian-transform-xy-plane" >
+    <line y1="0" x1="-100%" x2="100%" y2="0"  stroke="black" stroke-width="1" />
+    <line x1="0" y1="-100%" y2="100%" x2="0"  stroke="black" stroke-width="1" />
 </g>
+<!--
+<g id="test">
+<use href="#gr3" transform="scale(.25)" />
+</g>
+-->
+<use id="show" href="#gr3" transform="scale(1.00)"></use>
 
-<use id="show" href="#gr3"></use>
+<g id="composition-table">
 
-
+</g>
 </svg>
 </div>
+
+<script>
+
+//var compTable = d3.select("#composition-table")
+
+</script>
+<style>
+#log-parent {
+    display:none;
+}
+</style>
 </body>
 </html>
