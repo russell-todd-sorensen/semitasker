@@ -13,6 +13,7 @@ class fractalImage {
     animationIndex = 0;
     edgeArray = []; // used to look at vertical slice of imagedata
     slice = new Map(); // pass in using startUpData to use...
+    typeColors = new Map();
     constructor(canvasId, height, width, points, startUpData) {
         this.id = canvasId;
         this.name = canvasId;
@@ -30,9 +31,15 @@ class fractalImage {
                 this[prop] = startUpData[prop];
             }
         }
+        if (this.typeColors.size == 0) {
+            
+        }
     }
     setTransform(a, b, c, d, e, f) {
         this.context.setTransform(a, b, c, d, e, f);
+    }
+    setTypeColors(type,rgbValue) {
+
     }
     drawRect(x, y, width, height, data) {
         this.context.fillStyle = "hotpink";
@@ -90,17 +97,21 @@ class fractalImage {
         }
         let point,
             currentIndex,
-            row, col, type;
+            row, col, type,
+            subSize = this.points[0].s;
 
         for (let i = 0; i < this.points.length; i++) {
             point = this.points[i];
             col = Math.floor(point.x);
             row = Math.floor(point.y);
             type = point.r;
+            this.points[i].key = `${col}-${row}`;
+            this.points[i].sx = Math.floor((point.x-col)*subSize);
+            this.points[i].sy = Math.floor((point.y-row)*subSize);
             currentIndex = 4 * (this.width * row + col);
-            this.pixels[currentIndex++] = Math.abs((255 - 40 * ((type + 1 % 3))) % 255);
-            this.pixels[currentIndex++] = Math.abs((255 - 40 * (type % 3)) % 255);
-            this.pixels[currentIndex++] = Math.abs((255 - 40 * ((type + 2) % 3)) % 255);
+            this.pixels[currentIndex++] = Math.abs((255 - 60 * ((type + 1 % 3))) % 255);
+            this.pixels[currentIndex++] = Math.abs((255 - 60 * (type % 3)) % 255);
+            this.pixels[currentIndex++] = Math.abs((255 - 60 * ((type + 2) % 3)) % 255);
             this.pixels[currentIndex] = 255;
             if (this.slice.has(col)) {
                 let idx = 4*(row*this.slice.size+this.slice.get(col));

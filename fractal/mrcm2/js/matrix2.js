@@ -293,3 +293,41 @@ CM.push( // Matrix ..: Sierpinski Carpet 2
      {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
     )
 );
+CM.push( // Matrix 15: Sierpinski Carpet 3
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 3`,
+     {a:0,b:1/3,c:1/3,d:0,e:-1,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
+    )
+);
+CM.push( // Matrix ..: Sierpinski Carpet 4
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 4`,
+     {a:0,b:1/3,c:1/3,d:0,e:-1,f:-1,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
+    )
+);
+CM.push( // Matrix ..: Sierpinski Carpet 5
+    new MRCM(600,600,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 5`,
+     {a:0,b:1/3,c:1/3,d:0,e:-1/3,f:-1/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
+     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
+    )
+);
+//{a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000}
+//{a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},

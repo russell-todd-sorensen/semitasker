@@ -9,6 +9,13 @@
 #log-parent {
     display:none;
 }
+#controls-2 select#matrixId ,
+#controls-2 #matrixId option {
+    width: 225px;
+}
+#svg-parent {
+    display: none;
+}
 </style>
 </head>
 <body>
@@ -25,41 +32,38 @@
 </style>
 <div id="composite">
 <canvas id="myCanvas" height="600" width="600">Your browser doesn't support canvas</canvas>
+<div id="mrcm-choice">
+<div class="mrcm-button">
+</div>
+</form>
 
+</div>
 </div>
 
 <div id="controls-2">
 <form id="matrixForm" onChange="runConfig()" >
 <input type="hidden" id="matrix-value" />
 <fieldset>
-<legend>Matrix Options</legend>
+<legend>Copy Machine</legend>
 <ul>
 <li>
  <label for="matrixId">MRCM:</label>
- <select id="matrixId" name="matrixId" onChange="changeImage()"><!--;loadMatrixTransform()-->
- <option value="0">Matrix 0: Leaf</option>
- <option value="1">Matrix 1: Sierpinski Gasket</option>
- <option value="2" selected="selected">Matrix 2: SG2</option>
- <option value="3">Matrix 3: Fractal Blob</option>
- <option value="4">Matrix 4: Sierpinski Maze</option>
- <option value="5">Matrix 5: Twig</option>
- <option value="6">Matrix 6: Snowflake</option>
- <option value="7">Matrix 7: Pentagons</option>
- <option value="8">Matrix 8: Tree</option>
- <option value="9">Matrix 9: Leaf</option>
- <option value="10">Matrix 10: Garbage (10)</option>
- <option value="11">Matrix 11: Garbage (5)</option>
- <option value="12">Matrix 12: Garbage (1)</option>
- <option value="13">Matrix 13: Garbage (12)</option>
- <option value="14">Matrix 13: Garbage (1)</option>
- <option value="15">Matrix 15: New Leaf</option>
- <option value="16">Matrix 16: New Leaf</option>
- <option value="17">Matrix 17: New Leaf</option>
+ <select id="matrixId" name="matrixId" onChange="changeImage()">
+
  </select>
- </li>
+</li>
+</ul>
+</fieldset>
+<fieldset id="adjust">
+<legend onClick="togglePanel('panel-matrix-options');" id="legend1"
+    style="cursor: pointer" 
+    title="Click to Minimize/Expand">Matrix Adjustments</legend>
+<ul id="panel-matrix-options">
  <li>
  <label for="matrixIndex">Matrix:</label>
- <select id="matrixIndex" name="matrixIndex" onChange="loadMatrixTransform()">
+ <select id="matrixIndex" 
+    name="matrixIndex" 
+    onChange="loadMatrixTransform()">
   <option value="0" selected="selected">0</option>
   <option value="1">1</option>
   <option value="2">2</option>
@@ -67,6 +71,9 @@
   <option value="4">4</option>
   <option value="5">5</option>
   <option value="6">6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option value="9">9</option>
  </select>
  </li>
  <li>
@@ -111,14 +118,15 @@ var w = 600;
 var h = 600;
 //var left = 30;
 //var w1 = w + left;
-var numPoints = 350000;//5000000;
+var numPoints = 10000;//5000000;
 var myImage;
-
+var mrcmIdSelectArray=[];
+var panelHidden = false;
 var initialConf = {
     matrixId:{
         id:"matrixId",
         value:{
-            type:"select",
+            type:"radio",
             value:"2",
             options:["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14"]
         },
@@ -126,7 +134,7 @@ var initialConf = {
     matrixIndex:{
         id:"matrixIndex",
         value:{
-            type:"select",
+            type:"radio",
             value:"0",
             options:["0","1","2","3","4","5","6","7","8","9"],
         },
@@ -208,9 +216,49 @@ var runConfig = function (conf) {
     updateForm(conf,m)
 }
 
+function updateSelect(selectId,options,appendOptions) {
+    let sel = $(`#${selectId}`),
+        len = options.length;
+
+    if (!appendOptions) {
+        sel.html("");
+    }
+    for (let i=0,opt;i<len;i++) {
+        opt = options[i];
+        sel.append(`<option value="${opt.value}">${(opt.text?opt.text:opt.value)}</option>\n`);
+    }
+}
+
+function togglePanel(ids) {
+    var id;
+    for (i in arguments) {
+        id = arguments[i];
+        if (panelHidden) {
+            $('#' + id).show();
+        } else {
+            $('#' + id).hide();
+        }
+    }
+    panelHidden = !panelHidden;
+    
+}
 window.addEventListener('DOMContentLoaded', () => {
     Log.Notice('Document Ready');
     Log.Remove();
+    mrcmIdSelectArray = [];
+    
+    for (let i=0;i<CM.length;i++) {
+        let mrcm = CM[i];
+        mrcmIdSelectArray.push(
+            {
+                value:i,
+                text:mrcm.desc,
+                subMatrix:mrcm.M.length,
+            }
+        )
+    }
+    updateSelect("matrixId",mrcmIdSelectArray,true)
+    setTimeout(togglePanel,20,'panel-matrix-options');
     captureR = [];
     let m = changeImage();
     updateForm(initialConf,m);

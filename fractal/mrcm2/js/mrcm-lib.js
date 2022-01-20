@@ -5,7 +5,8 @@
 function generatePoints(m,p,count=numPoints,collectStats) {
     let rangeList = [],
         capture = false,
-        cr = "";
+        cr = "",
+        s = 3;
 
     if (collectStats) {
         capture=true;
@@ -27,7 +28,7 @@ function generatePoints(m,p,count=numPoints,collectStats) {
         inv.y = 0;
     }
 
-    p[i] = {x:inv.x,y:inv.y,r:r}; //starting with invariant point of m[r]
+    p[i] = {x:inv.x,y:inv.y,r:r,s:s}; //starting with invariant point of m[r]
     while (i<count) {
         r = getRangeIndex(rangeList);
         if (capture) {
@@ -36,13 +37,13 @@ function generatePoints(m,p,count=numPoints,collectStats) {
         p[i+1] = {
             x:m[r].a * p[i].x + m[r].b * p[i].y + m[r].e,
             y:m[r].c * p[i].x + m[r].d * p[i].y + m[r].f,
-            r:r
+            r:r,
         };
         i++;
     }
 
     if (capture) {
-        crObj = {captureR:cr,inv:inv,rangeList:rangeList};
+        crObj = {captureR:cr,inv:inv,rangeList:rangeList,p:p};
     }
 }
 

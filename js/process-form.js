@@ -107,3 +107,21 @@ var updateForm = function(conf,m) {
     }
     return conf;
 }
+
+
+//################# TEMP #####################
+
+
+function writeSelect (selectId,options,appendOptions) {
+    let sel = $(`#${selectId}`),
+        len = options.length;
+
+    if (!appendOptions) {
+        sel.html("");
+    }
+    for (let i=0,opt;i<len;i++) {
+        opt = options[i];
+        sel.append(`<option value="${opt.value}">${(opt.text?opt.text:opt.value)}</option>\n`);
+    }
+}
+
