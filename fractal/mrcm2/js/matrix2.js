@@ -285,7 +285,7 @@ CM.push( // Matrix ..: Sierpinski Carpet 2
     new MRCM(600,600,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 2`,
      {a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
      {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
+     {a:1/4,b:0,c:0,d:1/4,e:3/5,f:1/5,pct:1/8},
      {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
      {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
      {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},

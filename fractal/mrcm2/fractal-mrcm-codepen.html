@@ -4,8 +4,164 @@
 <meta charset="utf-8">
 
 <title>The Chaos Game: How Randomness Creates Deterministic Shapes</title>
-<link rel="stylesheet" type="text/css" href="css/mrcm-demo-2.css" media="all">
 <style>
+
+body,
+html {
+  font-family:"Lucida Console", Monaco, monospace;
+  background-color: white;
+  margin:0;
+  padding:0;
+  border:0;
+}
+
+#composite {
+    position: relative;
+    width: 80%;
+}
+
+#svg2 {
+    position: absolute;
+    top: 15.5px;
+    left: 30.5px;
+}
+
+#main,
+#main2 {
+    position: relative;
+    border: 3px solid black;
+    display: inline-block;
+}
+
+#myCanvas,
+#myCanvas2 {
+    border: 1px solid #444;
+    margin-top: 15px;
+    margin-left: 30px;
+    background-clip:padding-box;
+    background-color: black;
+}
+#controls {
+    font-family: "Consolas Bold";
+    color: white;
+    background-color: #444;
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: none;
+}
+
+#controls-2 {
+    display: inline-block;
+    font-family: "Consolas Bold";
+    color: white;
+    background-color: #444; 
+}
+
+#colors {
+    border: 2px solid #555;
+    position: absolute;
+    right: 285px;
+    top: 3px;
+}
+
+#controls ul,
+#controls-2 ul {
+    font-family: inherit;
+    list-style: none;
+    padding: 0;
+    width: 350px;
+}
+
+#controls input, 
+#controls-2 input,
+#controls select, 
+#controls-2 select {
+    display: inline-block;
+    font-family: "Tw Cen MT Bold";
+    font-size: 15px;
+    width: 162px;
+    margin-left: 12px;
+}
+
+#controls input[type=range],
+#controls-2 input[type=range] {
+    width: 200px;
+}
+
+#mode-controls {
+    letter-spacing: 1px;
+}
+
+#controls input[type=number] {
+    width: 60px;
+}
+
+#controls #pixelJump input[type=number],
+#controls-2 #pixelJump input[type=number] {
+    width: 50px;
+}
+
+#controls select,
+#controls-2 select {
+    width: 100px;
+}
+
+#hide {
+    display: none;
+}
+
+#myCanvas2 {
+    display:none;
+}
+
+#svg3 circle {
+    stroke: powderblue;
+    stroke-width:0;
+}
+
+.fill-0 {
+    fill:hsl(0,85%,50%);
+}
+
+.fill-2 {
+    fill:hsl(45,85%,50%);
+}
+
+.fill-4 {
+    fill:hsl(90,85%,50%);
+}
+
+.fill-6 {
+    fill:hsl(135,85%,50%);
+}
+
+.fill-1 {
+    fill:hsl(180,85%,50%);
+}
+
+.fill-3 {
+    fill:hsl(225,85%,50%);
+}
+
+.fill-5 {
+    fill:hsl(270,85%,50%);
+}
+
+.fill-7 {
+    fill:hsl(315,85%,50%);
+}
+
+#svg3 circle {
+    fill: inherit;
+}
+
+svg polyline,
+#svg2 polyline,
+#svg3 polyline  {
+    fill:transparent;
+    stroke-width: 3;
+}
 #log-parent {
     display:none;
 }
@@ -49,7 +205,6 @@ a#citation:visited {
 <form id="matrixForm" onChange="runConfig()" onSubmit="return false;">
 <input type="hidden" id="matrix-value" />
 <input type="hidden" id="collectStatsIn" name="collectStatsIn" value="false"/>
-<!--<input type="hidden" id="numPointsIn" name="numPointsIn" value="100000" />-->
 <input type="hidden" id="hideTransformsIn" name="hideTransformsIn" value="true" />
 
 <fieldset>
@@ -129,14 +284,10 @@ a#citation:visited {
 </form>
 </div>
 <script>
-//var crObj;
-//var M = new Array();
 var Points = new Array();
 var w = 600;
 var h = 600;
-//var left = 30;
-//var w1 = w + left;
-var numPoints = 50000;//5000000;
+var numPoints = 1000000;
 var myImage;
 var mrcmIdSelectArray=[];
 var panelHidden = false;
@@ -309,12 +460,9 @@ window.addEventListener('DOMContentLoaded', () => {
         )
     }
     updateSelect("matrixId",mrcmIdSelectArray,true)
-    //setTimeout(togglePanel,20,'panel-matrix-options');
     togglePanel('panel-matrix-options');
     captureR = [];
-    //let m = changeImage();
     runConfig(initialConf)
-    //updateForm(initialConf,m);
 });
 
 var addressStats = function (inArray,slice) {
@@ -413,60 +561,7 @@ function getPerPixelHits(subP=false) {
 <script src="js/matrix-math.js" charset="utf-8"></script>
 <script src="js/mrcm-lib.js" charset="utf-8"></script>
 
-<!-- reuseable template for svg doc-->
-<script id="svg-template" type="image/svg+xml">
-<svg
-    id="svgtmp"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    x="0"
-    y="0"
-    width="1000"
-    height="1000"
-    viewBox="0 0 1000 1000"
-    >
-<style>
-
-</style>
-<defs id="defs">
-</defs>
-<g id="main" transform="translate(0,0)">
-    <rect id="bg" x="0" y="0" height="1" width="1" />
-
-</g>
-</svg>
 </script>
-<script id="svg-matrix-overlay" type="image/svg+xml">
 
-<svg 
-    id="svgtmp2"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink" 
-    x="0" 
-    y="0" 
-    height="600" 
-    width="600" 
-    viewBox="0 0 600 600"
-    >
-<style>
-#svgtmp2 polyline {
-    opacity: 1;
-}
-</style>
-<defs id="defs2">
-
-</defs>
-
-<polyline id="box-0" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="#7f8" opacity=".5" stroke="tan" stroke-width="1" fill-rule="evenodd"  />
-<polyline id="box-1" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="#acb" opacity=".5" stroke="orange" stroke-width="1" fill-rule="evenodd"  />
-<polyline id="box-2" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="yellow" opacity=".5" stroke="blue" stroke-width="1" fill-rule="evenodd"  />
-<polyline id="box-3" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="green" opacity=".5" stroke="aqua" stroke-width="1" fill-rule="evenodd"  />
-<polyline id="box-4" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="tan" opacity=".5" stroke="red" stroke-width="1" fill-rule="evenodd"  />
-<polyline id="box-5" x="0" y="0" points="0 0, 600 0, 600 600, 0 600" fill="silver" opacity=".5" stroke="black" stroke-width="1" fill-rule="evenodd"  />
-
-</svg>
-</script>
 </body>
 </html>

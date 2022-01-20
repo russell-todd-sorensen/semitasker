@@ -2,7 +2,7 @@
 // an class...
 
 
-function generatePoints(m,p,count=numPoints,collectStats) {
+function generatePoints(m,p,count,collectStats) {
     let rangeList = [],
         capture = false,
         cr = "",
@@ -180,6 +180,30 @@ function changeImage(count=numPoints,hideTransforms=true,collectStats=true) {
     return matrix[matrixIndex];
 }
 
+function changeImage2(conf,matrixId,matrixIndex) {
+
+    let matrix = CM[matrixId].M,
+        slice = new Map(),
+        count=conf.numPoints.value.value,
+        collectStats=conf.collectStats.value.value,
+        hideTransforms=conf.hideTransforms.value.value;
+
+    imageContractionEstimate(matrix);
+    generatePoints(matrix,Points,count,collectStats);
+
+    slice.set(0,0);
+    slice.set(1,1);
+    slice.set(2,2);
+    slice.set(3,3);
+    slice.set(w-2,4);
+    slice.set(w-1,5);
+
+    myImage = new fractalImage('myCanvas',w,h,Points,{slice:slice});
+    myImage.drawImage();
+    changeTransforms3(matrixId,hideTransforms);
+    return matrix[matrixIndex];
+}
+
 function changeTransforms3(id,hideTransforms=true) {
 
     let m = CM[parseInt(id)].M;
@@ -198,7 +222,12 @@ function changeTransforms3(id,hideTransforms=true) {
 function loadMatrixTransform() {
     var mrcmId = parseInt($('#matrixId option:selected').val());
     var matrixIndex = parseInt($('#matrixIndex option:selected').val());
-    var matrix = CM[mrcmId].M[matrixIndex];
+    var cm = CM[mrcmId];
+    if (matrixIndex >= cm.M.length) {
+        matrixIndex = 0;
+        $('#matrixIndex option:selected').val(matrixIndex);
+    }
+    var matrix = cm.M[matrixIndex];
     var pct = matrix.pct;
     var r = parseFloat($('#r').val(matrix.r));
     var s = parseFloat($('#s').val(matrix.s));
@@ -215,7 +244,6 @@ function updateMatrixTransform() {
     var matrixIndex = parseInt($('#matrixIndex option:selected').val());
     var matrix = CM[mrcmId].M[matrixIndex];
     var pct = matrix.pct;
-    Log.Notice('...pre updateMatrixTransform matrix=' + matrix);
     var r = parseFloat($('#r').val());
     var s = parseFloat($('#s').val());
     var φ = parseFloat($('#t').val());
