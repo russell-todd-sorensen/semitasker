@@ -403,6 +403,17 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
     stroke-width: 0.05px;
 }
 
+#r6 {
+    fill: rgba(156, 144, 144,.6);
+    stroke: rgba(14, 160, 80,.6);
+    stroke-width: 0.05px;
+}
+
+#r5 {
+    fill: rgba(134, 7, 7, 0.8);
+    stroke: rgb(220, 223, 44);
+    stroke-width: 0.5px;
+}
 #r4 {
     fill: rgba(0,0,0,1);
 }
@@ -417,7 +428,9 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
     stroke-width: .125px;
 }
 </style>
-<circle id="c1" class="primitive" x="0" y="0" cx="300" cy="300" r="300" fill="#000" />
+<circle id="c1" class="primitive" x="0"
+     y="0" cx="300" cy="300" r="300" fill="#555"
+     stroke="tan" stroke-width=".2" />
 <g id="gr0" class="primitive" transform="scale(80)">
     <circle id="c0" cx="8" cy="8" r="7.75" class="c0" />
 </g>
@@ -429,7 +442,7 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
  <text id="t1" x="10" y="140" >L</text>
 </g>
 
-<g id="gr2" class="primitive" transform="scale(80)" x="0" y="0">
+<g id="gr2" class="primitive" transform="scale(30)" x="0" y="0">
     <rect id="r1" class="r0" height="8" width="8" />
     <path id="p1" class="p0" d="M 1 1 h 3 v 1 h -2 v 5 h -1 v -6" />
 </g>
@@ -446,13 +459,23 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
     <rect id="r4" x="5.333" y="5.333" height="5.333" width="5.333" />
 </g>
 
-<g id="sc3" class="primitive" transform="scale(40)" x="0" y="0">
-    <rect id="r3" x="0" y="0" height="16" width="16" />
+<g id="sc3" class="primitive" transform="scale(48)" x="0" y="0">
+    <rect id="r3" x="0" y="0" height="32" width="32" />
     <rect id="r4" x="5.333" y="5.333" height="5.333" width="5.333" />
 </g>
 
+<g id="sc4" class="primitive" transform="scale(40)" x="0" y="0">
+    <rect id="r5" x="0" y="0" height="32" width="32" />
+    <rect id="r6" x="5.333" y="5.333" height="5.333" width="5.333" />
+</g>
+
+<g id="sc5" class="primitive" transform="scale(10)" x="0" y="0">
+    <rect id="r5" x="0" y="0" height="32" width="32" />
+    <rect id="r6" x="5.333" y="5.333" height="5.333" width="5.333" />
+</g>
+
 <g id="prim-button">
-    <use id="prim-use" href="#gr0" x="0" y="0" transform="scale(0.1)" />
+    <use id="prim-use" href="#gr0" x="0" y="0" transform="scale(0.8)" />
 </g>
 </defs>
 
@@ -476,7 +499,7 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
 <form id="matrixForm" onSubmit="return false;">
 <fieldset>
 <legend>Start Image</legend>
-<ul id="radio-buttons">
+<ul id="image-buttons">
 <li>
 <button id="radio-0">
 <label for="initial-image-0" onClick="updateInitialImage('#gr0')" >
@@ -531,7 +554,7 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
 </fieldset>
 <fieldset>
 <legend> Transform #</legend>
-<ul id="radio-buttons">
+<ul id="mrcm-buttons">
 <li>
 <label for="apply-mrcm-11">
 <button id="mrcm-11" onClick="apply(11)">
@@ -634,12 +657,14 @@ button:active {
     margin:0;
     padding:0;
 }
-#controls-2 #radio-buttons {
+#controls-2 #image-buttons, 
+#controls-2 #mrcm-buttons {
     display: inline-flex;
     flex-direction: column;
     flex-wrap: wrap;
 }
-#controls-2 #radio-buttons li {
+#controls-2 #image-buttons li,
+#controls-2 #mrcm-buttons li {
     display: inline-flex;
     flex-wrap: wrap;
     flex-direction: column;
@@ -650,9 +675,16 @@ button:active {
 #controls-2 fieldset {
     display: inline-flex;
     justify-content: flex-start;
+    max-height:1000px;
+    width: 200px;
+}
+#matrixForm {
+    vertical-align: top;
+    display: inline-flex;
 }
 </style>
 <script>
+
 var initialImage = "#gr3";
 function updateInitialImage(href) {
     let target = document.querySelector("#g0"),
@@ -669,6 +701,81 @@ function updateInitialImage(href) {
     document.querySelector("use#prim-use").setAttribute("href",href)
  
 }
+
+function primitiveItemTemplate(index,primitive) {
+    return html = `<li>
+<button id="prim-button-${index}">
+<label for="initial-image-${index}" onClick="updateInitialImage('${primitive}')" >
+<svg 
+    id="svg-prim-button-${index}"
+    x="0"
+    y="0"
+    width="64"
+    height="64"
+    >
+    <use href="${primitive}" x="0" y="0" transform="scale(0.1)" />
+</svg>
+</label>
+</button>
+<input name="initial-image" id="initial-image-0" value="${primitive}" type="radio"/>
+</li>`
+}
+function matrixItemTemplate(index,group) {
+    return `<li>
+<label for="apply-mrcm-${index}">
+<button id="mrcm-${index}" onClick="apply(${index})">
+<svg 
+    id="svg-mrcm-${index}"
+    x="0"
+    y="0"
+    width="64"
+    height="64"
+    >
+    ${group}
+</svg>
+</button>
+</label>
+<input name="apply-mrcm" id="apply-mrcm-${index}" value="${index}" type="radio" />
+</li>`;
+}
+
+
+function writeImageButtons(parentId,listSelector) {
+    let formParent = $(`#${parentId}`),
+        imageList = $(listSelector),
+        id;
+        formParent.html("")
+        for (let i=0;i<imageList.length;i++) {
+            id=imageList[i].id;
+            formParent.append(primitiveItemTemplate(i,`#${id}`))
+        }
+}
+
+function writeMatrixButtons(parentId,mrcmArray) {
+    let formParent = $(`#${parentId}`),
+        imageList = $(listSelector);
+        
+        formParent.html("")
+
+        for (let i=0;i<mrcmArray.length;i++) {
+            let mrcm = mrcmArray[i].M,
+                len  = mrcm.length,
+                group = `<g x="0" y="0" id="g-button-${i}" transform="scale(.1)">\n`;
+            for (let m=0;m<mrcm.length;m++) {
+                group += `\t<use href="#prim-button" transform="${mrcm[m].toMatrix()}"/>\n `;
+            }        
+            group += "</g>";
+
+            formParent.append(matrixItemTemplate(i,group))
+            
+        }
+}
+
+var listSelector  = "#svg defs .primitive";
+var imageParentId = "image-buttons";
+var mrcmParentId  = "mrcm-buttons";
+
+
 function apply(matrixId) {
     if (false) {
         let radioButons = d3.selectAll("input[name='initial-image']"),
@@ -685,6 +792,15 @@ function apply(matrixId) {
     
     applyAllMatrices(initialImage,CM[matrixId].M)
 }
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    Log.Notice('Document Ready');
+    Log.Remove();
+    writeImageButtons("image-buttons",listSelector);
+    writeMatrixButtons("mrcm-buttons",CM)
+}
+);
 </script>
 </body>
 </html>

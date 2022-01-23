@@ -549,8 +549,8 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
 <input name="apply-mrcm" id="apply-mrcm-11" value="11" type="radio" />
 </li>
 <li>
+<button id="mrcm-12" onClick="console.log('ok');apply(12)">
 <label for="apply-mrcm-12">
-<button id="mrcm-12" onClick="apply(12)">
 <svg 
     id="svg-mrcm-12"
     x="0"
@@ -560,9 +560,9 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
     >
     <use href="#prim-button" x="0" y="0" transform="scale(0.1)" />
 </svg>
-</button>
 </label>
-<input id="apply-mrcm-12" name="apply-mrcm" value="12" type="radio" />
+</button>
+<input id="apply-mrcm-12" name="apply-mrcm" value="12" type="radio"/>
 </li>
 
 </ul>
@@ -578,11 +578,6 @@ div:first-of-type {
   display: inline-flex;
   align-items: flex-start;
   margin-bottom: 5px;
-}
-
-label {
-  /*margin-right: 15px;*/
-  line-height: 32px;
 }
 
 input {
@@ -651,8 +646,42 @@ button:active {
     display: inline-flex;
     justify-content: flex-start;
 }
+#controls-2 fieldset label {
+    display: inline-block;
+}
 </style>
 <script>
+
+var forms = new Map();
+var formConf = {
+    formId:"matrixForm",
+};
+class SVGform {
+    conf;
+    formId;
+    formNode;
+    formData;
+    constructor(conf) {
+        this.conf = conf;
+        this.formId = conf.formId;
+        this.formNode = document.getElementById(this.formId);
+        this.formData = new FormData(this.formNode);
+
+    }
+    getKeys() {
+        let keys = [];
+
+        for (let key of this.formData.keys()) {
+            this.keys.push(key);
+        }
+        return keys;
+    }
+}
+
+
+forms.set(formConf.formId,new SVGform(formConf))
+
+
 var initialImage = "#gr3";
 function updateInitialImage(href) {
     let target = document.querySelector("#g0"),
@@ -669,19 +698,7 @@ function updateInitialImage(href) {
     document.querySelector("use#prim-use").setAttribute("href",href)
  
 }
-function apply(matrixId) {
-    if (false) {
-        let radioButons = d3.selectAll("input[name='initial-image']"),
-            rb = radioButtons[0],
-            href = "#gr3";
-
-        for (let i=0,rbb;i<rb.length;i++) {
-            rbb = rb[i];
-            if (rbb.checked == true) {
-                href = rbb.value;
-            }
-        }
-    }
+function applyMRCM(matrixId) {
     
     applyAllMatrices(initialImage,CM[matrixId].M)
 }
