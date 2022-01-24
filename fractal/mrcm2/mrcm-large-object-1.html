@@ -151,6 +151,7 @@ var numPoints = 100000;
 
 function applyMatrix(groupId,href,matrix) {
     let svg = d3.select("#svg"),
+        compGroup = d3.select("#composition-table")
         show = svg.select("#show"),
         group = svg.select(`#${groupId}`);
 
@@ -198,7 +199,7 @@ CM.push(  // Matrix 0: d0 (AKA: neutral element e)
         {a:1,b:0,c:0,d:1,e:0,f:0,pct:1.0000},  // V1(x,y) = (x,y)
     )
 );
-CM.push(  // Matrix 1: d1 (Horizontal Mirror) 
+CM.push(  // Matrix 1: d1 (rotate 90deg clockwise) 
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d1)`,
        // {a:1,b:-1,c:-1,d:1,e:1,f:0,pct:1.0000},  // V1(x,y) = (y,x)
        {a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000},  
@@ -209,7 +210,7 @@ CM.push(  // Matrix 2: d2 (rotate 180deg clockwise)
         {a:-1,b:0,c:0,d:-1,e:1,f:1,pct:1.0000},  // V1(x,y) = (1-x,1-y)
     )
 );
-CM.push(  // Matrix 3: d3 (Horizontal Mirror) d1^3
+CM.push(  // Matrix 3: d3 (rotate 270deg clockwise) d1^3
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d3)`,
         {a:0,b:-1,c:1,d:0,e:0,f:1,pct:1.0000},  // V1(x,y) = (y,x)
     )
@@ -224,12 +225,12 @@ CM.push(  // Matrix 5: d5 (Vertical Mirror) = (d1^2)*d4
         {a:-1,b:0,c:0,d:1,e:1,f:0,pct:1.0000},  // V1(x,y) = (1-x,y)
     )
 );
-CM.push(  // Matrix 6: d6 (Horizontal Mirror)
+CM.push(  // Matrix 6: d6 (Mirror Around +45deg diagonal ( \ ) )
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d6)`,
         {a:0,b:1,c:1,d:0,e:0,f:0,pct:1.0000},  // V1(x,y) = (y,x)
     )
 );
-CM.push(  // Matrix 7: d7 (Horizontal Mirror) (d1^3)*d4
+CM.push(  // Matrix 7: d7 (Mirror Around -45deg diagonal ( / )) (d1^3)*d4
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d7)`,
         {a:0,b:-1,c:-1,d:0,e:1,f:1,pct:1.0000},  // V1(x,y) = (y,x)
     )
@@ -237,24 +238,19 @@ CM.push(  // Matrix 7: d7 (Horizontal Mirror) (d1^3)*d4
 
 //////////// END OF BASIC TRANSFORMATIONS ON UNIT SQUARE ///////////////////
 
-CM.push(  // Matrix 18: xx (Horizontal Mirror) (d1^3)*d4 ??
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (xx)`,
-        {a:0,b:-1,c:-1,d:0,e:1,f:1,pct:1.0000},  // V1(x,y) = (y,x)
-    )
-);
-CM.push(  // Matrix 20: xx (Horizontal Mirror) 
+CM.push(  // Matrix 8: xx (Horizontal Mirror) 
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (xx)`,
         {a:1,b:1,c:1,d:-1,e:0,f:0,pct:1.0000},  // V1(x,y) = (y,x)
     )
 );
-CM.push(  // Matrix 10: Squares1
+CM.push(  // Matrix 8: Squares1
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Squares1`,
         {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333333},
         {a:.5,b:0,c:0,d:.5,e:0,f:0,pct:.333333},
         {a:.5,b:0,c:0,d:.5,e:.5,f:.5,pct:.333334},
     )
 );
-CM.push(  // Matrix 11: Squares2
+CM.push(  // Matrix 10: Squares2
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Squares2`,
         {a:.5,b:0,c:0,d:.5,e:0,f:0,pct:.333333},  // V1(x,y) = (x/2,y/2)
         {a:.5,b:0,c:0,d:.5,e:.5,f:0,pct:.333334}, // V2(x,y) = ((x+1)/2,y/2)
@@ -262,14 +258,14 @@ CM.push(  // Matrix 11: Squares2
     )
 );
 
-CM.push(  // Matrix 12: Squares3
+CM.push(  // Matrix 11: Squares3
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Squares3`,
         {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333333},
         {a:.5,b:0,c:0,d:.5,e:.25,f:0,pct:.333333},
         {a:.5,b:0,c:0,d:.5,e:.5,f:.5,pct:.333334},
     )
 );
-CM.push( // Matrix 13: Sierpinski Carpet
+CM.push( // Matrix 12: Sierpinski Carpet
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Sierpinski Carpet`,
      {a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
      {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
@@ -281,33 +277,86 @@ CM.push( // Matrix 13: Sierpinski Carpet
      {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
     )
 );
-CM.push( // Matrix 14: Sierpinski Carpet 2
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 2`,
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
+
+CM.push(
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: SG2`,
+        {a:0,b:-0.5,c:.5,d:0,e:.5,f:0.5,pct:1/3},
+        {a:0,b:0.5,c:-.5,d:0,e:.5,f:0,pct:1/3},
+        {a:.5,b:0,c:0,d:.5,e:.25,f:0.5,pct:1/3},
     )
 );
 
-CM.push( // Matrix .15: Sierpinski Carpet 3
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 3`,
-     {a:0,b:1/3,c:-1/3,d:0,e:1/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
+CM.push( // Matrix 13: 
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Fractal Blob 2`,
+        {a:0,b:-.577,c:.577,d:0,e:.0951,f:.5893,pct:1/3},
+        {a:0,b:-.577,c:.577,d:0,e:.4413,f:.7893,pct:1/3},
+        {a:0,b:-.577,c:.577,d:0,e:.0952,f:.9893,pct:1/3},
     )
 );
-//{a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000}
-//{a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
+
+CM.push( // Matrix 14: 
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Cantor Maze 2`,
+        {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:.2},
+        {a:0,b:1,c:-1/3,d:0,e:1/3,f:0,pct:.4},
+        {a:0,b:1,c:1/3,d:0,e:2/3,f:0,pct:.4},
+    )
+);
+
+CM.push( // Matrix 15: 
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Twig`,
+    {a:.387,b:.430,c:.430,d:-.387,e:.2560,f:.522,pct:.333},
+    {a:0.441,b:-.091,c:-.009,d:-.322,e:.4219,f:.5059,pct:.333},
+    {a:-.468,b:.020,c:-.113,d:.015,e:.4,f:.4,pct:.334},
+    )
+);
+
+CM.push( // Matrix 16: 
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Snowflake`,
+    {a:0.255,b:0,c:0,d:.255,e:.3726,f:.6714,pct:.16},
+    {a:0.255,b:0,c:0,d:.255,e:.1146,f:.2232,pct:.16},
+    {a:0.255,b:0,c:0,d:.255,e:.6306,f:.2232,pct:.16},
+    {a:0.37,b:.642,c:-.642,d:.37,e:.6356,f:-.0061,pct:.52},
+    )
+);
+
+CM.push( // Matrix 17: 
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Pentagons`,
+        {a:0.382,b:0,c:0,d:.382,e:.3072,f:.619,pct:.2},
+        {a:0.382,b:0,c:0,d:.382,e:.6033,f:.4044,pct:.2},
+        {a:0.382,b:0,c:0,d:.382,e:.0139,f:.4044,pct:.2},
+        {a:0.382,b:0,c:0,d:.382,e:.1253,f:.0595,pct:.2},
+        {a:0.382,b:0,c:0,d:.382,e:.4920,f:.0595,pct:.2},
+    )
+);
+/*
+CM.push( // Matrix 18: 
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Tree`,
+        {a:0.195,b:-.488,c:.344,d:.443,e:.4431,f:.2452,pct:.2},
+        {a:0.462,b:.414,c:-.252,d:.361,e:.2511,f:.5692,pct:.2},
+        {a:-.058,b:-.07,c:.453,d:-.111,e:.5976,f:.0969,pct:.2},
+        {a:-.035,b:.07,c:-.469,d:-.022,e:.4884,f:.5069,pct:.2},
+        {a:-.637,b:0,c:0,d:.501,e:.8562,f:.2513,pct:.2},
+    )
+);
+*/
+CM.push( // Matrix 18: 
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Tree`,
+        {a:-.4880,b:.195,c:.443,d:.344,e:.2452,f:.4431,pct:.2},
+        {a:0.462,b:-.414,c:.252,d:.361,e:.2511,f:.5692,pct:.2}, //1
+        //{a:-.058,b:-.07,c:.453,d:-.111,e:.5976,f:.0969,pct:.2},
+        //{a:-.035,b:.07,c:-.469,d:-.022,e:.4884,f:.5069,pct:.2},
+        {a:-.637,b:0,c:0,d:.501,e:.8562,f:.2513,pct:.2},
+    )
+);
+
+CM.push( // Matrix 19: 
+    new MRCM(360,640,CM.length,`Matrix ${CM.length}: Leaf2`,
+      {a:0.849,b:.037,c:-.037,d:.849,e:.075,f:.183,pct:.70},
+        {a:0.197,b:.226,c:-.226,d:.197,e:.4,f:.049,pct:.13},
+       {a:-0.15,b:.283,c:.26,d:.237,e:.575,f:-.084,pct:.13},
+        {a:0.03,b:0,c:.01,d:.16,e:.5,f:0,pct:.04},
+    )
+);
 
 CM.push( // Matrix .16: Sierpinski Carpet 4
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 4`,
@@ -366,12 +415,13 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
 );
 //{a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000}
 //{a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
+
 </script>
 
 </head>
 <body>
 <div id="no-hide">
- <svg id="svg" x="-128" y="-128" height="704" width="704" viewBox="-128 -128 768 768">
+ <svg id="svg" x="-128" y="-128" height="896" width="896" viewBox="-128 -128 896 896">
 <defs>
 <style>
 #svg {
@@ -427,9 +477,19 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
     fill: rgba(0,0,255,.1);
     stroke-width: .125px;
 }
+#dashed-pos-boundary {
+    stroke-width: 1;
+    stroke-dasharray: 5 2; 
+    stroke: tan;
+    fill: none;
+}
+#dim-past-boundary {
+    fill: rgba(255,255,255,.8);
+    stroke-width:0;
+}
 </style>
 <circle id="c1" class="primitive" x="0"
-     y="0" cx="300" cy="300" r="300" fill="#555"
+     y="0" cx="320" cy="320" r="300" fill="#555"
      stroke="tan" stroke-width=".2" />
 <g id="gr0" class="primitive" transform="scale(80)">
     <circle id="c0" cx="8" cy="8" r="7.75" class="c0" />
@@ -437,17 +497,30 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
 <g id="gr00" class="primitive" transform="scale(80)">
     <circle id="c00" cx="8" cy="8" r="7.75" class="c00" />
 </g>
-<g id="gr1" class="primitive">
- <rect id="r1" x="2" y="2" height="600" width="300" />
- <text id="t1" x="10" y="140" >L</text>
-</g>
-
 <g id="gr2" class="primitive" transform="scale(30)" x="0" y="0">
     <rect id="r1" class="r0" height="8" width="8" />
     <path id="p1" class="p0" d="M 1 1 h 3 v 1 h -2 v 5 h -1 v -6" />
 </g>
+<g id="gr2-2" class="primitive" transform="scale(40)" x="0" y="0">
+    <rect id="r1" class="r0" height="16" width="16" />
+    <path id="p1" class="p0" d="M 1 9 h 3 v 1 h -2 v 5 h -1 v -6" />
+</g>
+<g id="gr2-3" class="primitive" transform="scale(40)" x="0" y="0">
+    <rect id="r1" class="r0" height="16" width="16" />
+    <path id="p1" class="p0" 
+        d="M 1 11 h 2 v .666667 h -1.333333 v 3.3333333 h -.6666667 v -4" />
+</g>
+<g id="gr2-4" class="primitive" transform="scale(40)" x="0" y="0">
+    <rect id="r1" class="r0" height="16" width="9" />
+    <path id="p1" class="p0" 
+        d="M 1 11 h 2 v .666667 h -1.333333 v 3.3333333 h -.6666667 v -4" />
+</g>
 <g id="gr3" class="primitive" transform="scale(40)" x="0" y="0">
     <rect id="r1" class="r0" height="16" width="16" />
+    <path id="p1" class="p0" d="M 2 2 h 6 v 2 h -4 v 10 h -2 v -12" />
+</g>
+<g id="gr3-1" class="primitive" transform="scale(40)" x="16" y="0">
+    <rect id="r1" class="r0" height="16" width="8" />
     <path id="p1" class="p0" d="M 2 2 h 6 v 2 h -4 v 10 h -2 v -12" />
 </g>
 <g id="sc1" class="primitive" transform="scale(40)" x="0" y="0">
@@ -475,11 +548,12 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
 </g>
 
 <g id="prim-button">
-    <use id="prim-use" href="#gr0" x="0" y="0" transform="scale(0.8)" />
+    <use id="prim-use" href="#gr0" x="0" y="0" /> <!-- transform="scale(0.8)"-->
 </g>
 </defs>
 
 <g id="euclidian-transform-xy-plane" >
+    <path id="dashed-pos-boundary" d="M 0 640 h 640 v -640" />
     <line y1="0" x1="-100%" x2="100%" y2="0" stroke="black" stroke-width="1" />
     <line x1="0" y1="-100%" y2="100%" x2="0" stroke="black" stroke-width="1" />
 </g>
@@ -488,11 +562,11 @@ CM.push( // Matrix .19: Sierpinski Carpet 4
 <use href="#gr3" transform="scale(.25)" />
 </g>
 -->
-<use id="show" href="#gr0" transform="scale(1.00)"></use>
 
 <g id="composition-table">
-
+<use id="show" href="#gr0" transform="scale(1.00)"></use>
 </g>
+<path id="dim-past-boundary" d="M 1 641 h 640 v -640 h 128 v 766 h -766 v -128" />
 </svg>
 </div>
 <div id="controls-2">
@@ -605,7 +679,7 @@ div:first-of-type {
 
 label {
   /*margin-right: 15px;*/
-  line-height: 32px;
+  line-height: 10px;
 }
 
 input {
@@ -629,8 +703,8 @@ input:checked {
   border: 6px solid black;
 }
 
-button,
-legend {
+button.x,
+legend.x {
   color: black;
   background-color: white;
   padding: 5px 10px;
@@ -669,8 +743,8 @@ button:active {
     flex-wrap: wrap;
     flex-direction: column;
     padding-left: 10px;
-    padding-bottom: 5px;
-    width: 88px;
+    padding-bottom: 3px;
+    width: 70px;
 }
 #controls-2 fieldset {
     display: inline-flex;
@@ -681,6 +755,11 @@ button:active {
 #matrixForm {
     vertical-align: top;
     display: inline-flex;
+}
+#matrixForm button {
+    padding:2px;
+    margin:0;
+    border:0;
 }
 </style>
 <script>
