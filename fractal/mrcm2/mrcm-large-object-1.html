@@ -338,7 +338,7 @@ CM.push( // Matrix 18:
         {a:-.637,b:0,c:0,d:.501,e:.8562,f:.2513,pct:.2},
     )
 );
-*/
+
 CM.push( // Matrix 18: 
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: Tree`,
         {a:-.4880,b:.195,c:.443,d:.344,e:.2452,f:.4431,pct:.2},
@@ -347,7 +347,7 @@ CM.push( // Matrix 18:
         //{a:-.035,b:.07,c:-.469,d:-.022,e:.4884,f:.5069,pct:.2},
         {a:-.637,b:0,c:0,d:.501,e:.8562,f:.2513,pct:.2},
     )
-);
+);*/
 
 CM.push( // Matrix 19: 
     new MRCM(360,640,CM.length,`Matrix ${CM.length}: Leaf2`,
@@ -764,7 +764,6 @@ button:active {
 </style>
 <script>
 
-var initialImage = "#gr3";
 function updateInitialImage(href) {
     let target = document.querySelector("#g0"),
         targets;
@@ -856,19 +855,7 @@ var mrcmParentId  = "mrcm-buttons";
 
 
 function apply(matrixId) {
-    if (false) {
-        let radioButons = d3.selectAll("input[name='initial-image']"),
-            rb = radioButtons[0],
-            href = "#gr3";
-
-        for (let i=0,rbb;i<rb.length;i++) {
-            rbb = rb[i];
-            if (rbb.checked == true) {
-                href = rbb.value;
-            }
-        }
-    }
-    
+    let initialImage = d3.select("#prim-use").attr("href");
     applyAllMatrices(initialImage,CM[matrixId].M)
 }
 
