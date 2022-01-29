@@ -143,305 +143,312 @@ var numPoints = 100000;
 
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/log-2.js"></script>
-<script src="js/matrix2.js" charset="utf-8"></script>
-<script src="js/mrcm-affine.js" charset="utf-8"></script>
-<script src="js/matrix-math.js" charset="utf-8"></script>
+<script src="https://www.highfivediet.com/js/log-2.js"></script>
+<script src="https://www.highfivediet.com/fractal/mrcm2/js/matrix2.js" charset="utf-8"></script>
+<script src="https://www.highfivediet.com/js/mrcm-affine.js" charset="utf-8"></script>
+<script src="https://www.highfivediet.com/fractal/mrcm2/js/matrix-math.js" charset="utf-8"></script>
 <script>
 
-function applyMatrix(groupId,href,matrix) {
-    let svg = d3.select("#svg"),
-        compGroup = d3.select("#composition-table")
+    function applyMatrix(groupId, href, matrix) {
+        let svg = d3.select("#svg"),
+            compGroup = d3.select("#composition-table")
         show = svg.select("#show"),
-        group = svg.select(`#${groupId}`);
+            group = svg.select(`#${groupId}`);
 
-    group.append("use")
-        .attr("href",href)
-        .attr("transform",matrix.toMatrix())
-        .attr("opacity",matrix.pct);
+        group.append("use")
+            .attr("href", href)
+            .attr("transform", matrix.toMatrix())
+            .attr("opacity", matrix.pct);
 
-    show.attr("href",`#${groupId}`);
-}
-
-function groupAppend(group,href,matrix) {
-    group.append("use")
-        .attr("href",href)
-        .attr("transform",matrix.toMatrix());
-}
-
-function applyAllMatrices(href,matrix) {
-    let len = matrix.length,
-        svg = d3.select("#svg"),
-        show = svg.select("#show"),
-        defs = svg.select("defs"),
-        lastGid = `g${subGroups.length}`;
-    if (subGroups.length) {
-        href = `#g${subGroups.length-1}`;
-    }
-    subGroups.push(href);
-    defs.append("g")
-        .attr("id",lastGid);
-    let group = defs.select(`#${lastGid}`);
-    show.attr("href",`#${lastGid}`);
-
-    for (let i=0;i<len;i++) {
-        groupAppend(group,href,matrix[i]);
+        show.attr("href", `#${groupId}`);
     }
 
-}
-var subGroups = [];
-/////////// NOTE /////////////
-///Zeroing out the CM array to use indexes == labels
-CM=[];
+    function groupAppend(group, href, matrix) {
+        group.append("use")
+            .attr("href", href)
+            .attr("transform", matrix.toMatrix());
+    }
 
-CM.push(  // Matrix 0: d0 (AKA: neutral element e)
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d0)`,
-        {a:1,b:0,c:0,d:1,e:0,f:0,pct:1.0000},  // V1(x,y) = (x,y)
-    )
-);
-CM.push(  // Matrix 1: d1 (rotate 90deg clockwise) 
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d1)`,
-       // {a:1,b:-1,c:-1,d:1,e:1,f:0,pct:1.0000},  // V1(x,y) = (y,x)
-       {a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000},  
-    )
-);
-CM.push(  // Matrix 2: d2 (rotate 180deg clockwise)
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d2)`,
-        {a:-1,b:0,c:0,d:-1,e:1,f:1,pct:1.0000},  // V1(x,y) = (1-x,1-y)
-    )
-);
-CM.push(  // Matrix 3: d3 (rotate 270deg clockwise) d1^3
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d3)`,
-        {a:0,b:-1,c:1,d:0,e:0,f:1,pct:1.0000},  // V1(x,y) = (y,x)
-    )
-);
-CM.push(  // Matrix 4: d4 (Horizontal Mirror)
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d4)`,
-        {a:1,b:0,c:0,d:-1,e:0,f:1,pct:1.0000},  // V1(x,y) = (x,1-y)
-    )
-);
-CM.push(  // Matrix 5: d5 (Vertical Mirror) = (d1^2)*d4
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d5)`,
-        {a:-1,b:0,c:0,d:1,e:1,f:0,pct:1.0000},  // V1(x,y) = (1-x,y)
-    )
-);
-CM.push(  // Matrix 6: d6 (Mirror Around +45deg diagonal ( \ ) )
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d6)`,
-        {a:0,b:1,c:1,d:0,e:0,f:0,pct:1.0000},  // V1(x,y) = (y,x)
-    )
-);
-CM.push(  // Matrix 7: d7 (Mirror Around -45deg diagonal ( / )) (d1^3)*d4
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (d7)`,
-        {a:0,b:-1,c:-1,d:0,e:1,f:1,pct:1.0000},  // V1(x,y) = (y,x)
-    )
-);
+    function applyAllMatrices(href, matrix) {
+        let len = matrix.length,
+            svg = d3.select("#svg"),
+            show = svg.select("#show"),
+            defs = svg.select("defs"),
+            lastGid = `g${subGroups.length}`;
+        if (subGroups.length) {
+            href = `#g${subGroups.length - 1}`;
+        }
+        subGroups.push(href);
+        defs.append("g")
+            .attr("id", lastGid);
+        let group = defs.select(`#${lastGid}`);
+        show.attr("href", `#${lastGid}`);
 
-//////////// END OF BASIC TRANSFORMATIONS ON UNIT SQUARE ///////////////////
+        for (let i = 0; i < len; i++) {
+            groupAppend(group, href, matrix[i]);
+        }
 
-CM.push(  // Matrix 8: xx (Horizontal Mirror) 
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Symmetry Transformations of the Square (xx)`,
-        {a:1,b:1,c:1,d:-1,e:0,f:0,pct:1.0000},  // V1(x,y) = (y,x)
-    )
-);
-CM.push(  // Matrix 8: Squares1
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Squares1`,
-        {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333333},
-        {a:.5,b:0,c:0,d:.5,e:0,f:0,pct:.333333},
-        {a:.5,b:0,c:0,d:.5,e:.5,f:.5,pct:.333334},
-    )
-);
-CM.push(  // Matrix 10: Squares2
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Squares2`,
-        {a:.5,b:0,c:0,d:.5,e:0,f:0,pct:.333333},  // V1(x,y) = (x/2,y/2)
-        {a:.5,b:0,c:0,d:.5,e:.5,f:0,pct:.333334}, // V2(x,y) = ((x+1)/2,y/2)
-        {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333333}, // V3(x,y) = (x/2,(y+1)/2)
-    )
-);
+    }
+    var subGroups = [];
+    /////////// NOTE /////////////
+    ///Zeroing out the CM array to use indexes == labels
+    CM = [];
 
-CM.push(  // Matrix 11: Squares3
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Squares3`,
-        {a:.5,b:0,c:0,d:.5,e:0,f:.5,pct:.333333},
-        {a:.5,b:0,c:0,d:.5,e:.25,f:0,pct:.333333},
-        {a:.5,b:0,c:0,d:.5,e:.5,f:.5,pct:.333334},
-    )
-);
-CM.push( // Matrix 12: Sierpinski Carpet
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Sierpinski Carpet`,
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
-    )
-);
+    CM.push(  // Matrix 0: d0 (AKA: neutral element e)
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Symmetry Transformations of the Square (d0)`,
+            { a: 1, b: 0, c: 0, d: 1, e: 0, f: 0, pct: 1.0000 },  // V1(x,y) = (x,y)
+        )
+    );
+    CM.push(  // Matrix 1: d1 (rotate 90deg clockwise) 
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Symmetry Transformations of the Square (d1)`,
+            // {a:1,b:-1,c:-1,d:1,e:1,f:0,pct:1.0000},  // V1(x,y) = (y,x)
+            { a: 0, b: 1, c: -1, d: 0, e: 1, f: 0, pct: 1.0000 },
+        )
+    );
+    CM.push(  // Matrix 2: d2 (rotate 180deg clockwise)
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Symmetry Transformations of the Square (d2)`,
+            { a: -1, b: 0, c: 0, d: -1, e: 1, f: 1, pct: 1.0000 },  // V1(x,y) = (1-x,1-y)
+        )
+    );
+    CM.push(  // Matrix 3: d3 (rotate 270deg clockwise) d1^3
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Symmetry Transformations of the Square (d3)`,
+            { a: 0, b: -1, c: 1, d: 0, e: 0, f: 1, pct: 1.0000 },  // V1(x,y) = (y,x)
+        )
+    );
+    CM.push(  // Matrix 4: d4 (Horizontal Mirror)
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Symmetry Transformations of the Square (d4)`,
+            { a: 1, b: 0, c: 0, d: -1, e: 0, f: 1, pct: 1.0000 },  // V1(x,y) = (x,1-y)
+        )
+    );
+    CM.push(  // Matrix 5: d5 (Vertical Mirror) = (d1^2)*d4
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Symmetry Transformations of the Square (d5)`,
+            { a: -1, b: 0, c: 0, d: 1, e: 1, f: 0, pct: 1.0000 },  // V1(x,y) = (1-x,y)
+        )
+    );
+    CM.push(  // Matrix 6: d6 (Mirror Around +45deg diagonal ( \ ) )
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Symmetry Transformations of the Square (d6)`,
+            { a: 0, b: 1, c: 1, d: 0, e: 0, f: 0, pct: 1.0000 },  // V1(x,y) = (y,x)
+        )
+    );
+    CM.push(  // Matrix 7: d7 (Mirror Around -45deg diagonal ( / )) (d1^3)*d4
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Symmetry Transformations of the Square (d7)`,
+            { a: 0, b: -1, c: -1, d: 0, e: 1, f: 1, pct: 1.0000 },  // V1(x,y) = (y,x)
+        )
+    );
 
-CM.push(
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: SG2`,
-        {a:0,b:-0.5,c:.5,d:0,e:.5,f:0.5,pct:1/3},
-        {a:0,b:0.5,c:-.5,d:0,e:.5,f:0,pct:1/3},
-        {a:.5,b:0,c:0,d:.5,e:.25,f:0.5,pct:1/3},
-    )
-);
+    //////////// END OF BASIC TRANSFORMATIONS ON UNIT SQUARE ///////////////////
 
-CM.push( // Matrix 13: 
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Fractal Blob 2`,
-        {a:0,b:-.577,c:.577,d:0,e:.0951,f:.5893,pct:1/3},
-        {a:0,b:-.577,c:.577,d:0,e:.4413,f:.7893,pct:1/3},
-        {a:0,b:-.577,c:.577,d:0,e:.0952,f:.9893,pct:1/3},
-    )
-);
+    CM.push(  // Matrix 8: xx (Horizontal Mirror) 
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Symmetry Transformations of the Square (xx)`,
+            { a: 1, b: 1, c: 1, d: -1, e: 0, f: 0, pct: 1.0000 },  // V1(x,y) = (y,x)
+        )
+    );
+    CM.push(  // Matrix 8: Squares1
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Squares1`,
+            { a: .5, b: 0, c: 0, d: .5, e: 0, f: .5, pct: .333333 },
+            { a: .5, b: 0, c: 0, d: .5, e: 0, f: 0, pct: .333333 },
+            { a: .5, b: 0, c: 0, d: .5, e: .5, f: .5, pct: .333334 },
+        )
+    );
+    CM.push(  // Matrix 10: Squares2
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Squares2`,
+            { a: .5, b: 0, c: 0, d: .5, e: 0, f: 0, pct: .333333 },  // V1(x,y) = (x/2,y/2)
+            { a: .5, b: 0, c: 0, d: .5, e: .5, f: 0, pct: .333334 }, // V2(x,y) = ((x+1)/2,y/2)
+            { a: .5, b: 0, c: 0, d: .5, e: 0, f: .5, pct: .333333 }, // V3(x,y) = (x/2,(y+1)/2)
+        )
+    );
 
-CM.push( // Matrix 14: 
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Cantor Maze 2`,
-        {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:.2},
-        {a:0,b:1,c:-1/3,d:0,e:1/3,f:0,pct:.4},
-        {a:0,b:1,c:1/3,d:0,e:2/3,f:0,pct:.4},
-    )
-);
+    CM.push(  // Matrix 11: Squares3
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Squares3`,
+            { a: .5, b: 0, c: 0, d: .5, e: 0, f: .5, pct: .333333 },
+            { a: .5, b: 0, c: 0, d: .5, e: .25, f: 0, pct: .333333 },
+            { a: .5, b: 0, c: 0, d: .5, e: .5, f: .5, pct: .333334 },
+        )
+    );
+    CM.push( // Matrix 12: Sierpinski Carpet
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Sierpinski Carpet`,
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 0, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 1 / 3, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 0, f: 1 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 1 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 0, f: 2 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 1 / 3, f: 2 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 2 / 3, pct: 1 / 8 },
+        )
+    );
 
-CM.push( // Matrix 15: 
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Twig`,
-    {a:.387,b:.430,c:.430,d:-.387,e:.2560,f:.522,pct:.333},
-    {a:0.441,b:-.091,c:-.009,d:-.322,e:.4219,f:.5059,pct:.333},
-    {a:-.468,b:.020,c:-.113,d:.015,e:.4,f:.4,pct:.334},
-    )
-);
+    CM.push(
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: SG2`,
+            { a: 0, b: -0.5, c: .5, d: 0, e: .5, f: 0.5, pct: 1 / 3 },
+            { a: 0, b: 0.5, c: -.5, d: 0, e: .5, f: 0, pct: 1 / 3 },
+            { a: .5, b: 0, c: 0, d: .5, e: .25, f: 0.5, pct: 1 / 3 },
+        )
+    );
 
-CM.push( // Matrix 16: 
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Snowflake`,
-    {a:0.255,b:0,c:0,d:.255,e:.3726,f:.6714,pct:.16},
-    {a:0.255,b:0,c:0,d:.255,e:.1146,f:.2232,pct:.16},
-    {a:0.255,b:0,c:0,d:.255,e:.6306,f:.2232,pct:.16},
-    {a:0.37,b:.642,c:-.642,d:.37,e:.6356,f:-.0061,pct:.52},
-    )
-);
+    CM.push( // Matrix 13: 
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Fractal Blob 2`,
+            { a: 0, b: -.577, c: .577, d: 0, e: .0951, f: .5893, pct: 1 / 3 },
+            { a: 0, b: -.577, c: .577, d: 0, e: .4413, f: .7893, pct: 1 / 3 },
+            { a: 0, b: -.577, c: .577, d: 0, e: .0952, f: .9893, pct: 1 / 3 },
+        )
+    );
 
-CM.push( // Matrix 17: 
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Pentagons`,
-        {a:0.382,b:0,c:0,d:.382,e:.3072,f:.619,pct:.2},
-        {a:0.382,b:0,c:0,d:.382,e:.6033,f:.4044,pct:.2},
-        {a:0.382,b:0,c:0,d:.382,e:.0139,f:.4044,pct:.2},
-        {a:0.382,b:0,c:0,d:.382,e:.1253,f:.0595,pct:.2},
-        {a:0.382,b:0,c:0,d:.382,e:.4920,f:.0595,pct:.2},
-    )
-);
+    CM.push( // Matrix 14: 
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Cantor Maze 2`,
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 1 / 3, f: 2 / 3, pct: .2 },
+            { a: 0, b: 1, c: -1 / 3, d: 0, e: 1 / 3, f: 0, pct: .4 },
+            { a: 0, b: 1, c: 1 / 3, d: 0, e: 2 / 3, f: 0, pct: .4 },
+        )
+    );
 
-CM.push( // Matrix 19: 
-    new MRCM(360,640,CM.length,`Matrix ${CM.length}: Leaf2`,
-      {a:0.849,b:.037,c:-.037,d:.849,e:.075,f:.183,pct:.70},
-        {a:0.197,b:.226,c:-.226,d:.197,e:.4,f:.049,pct:.13},
-       {a:-0.15,b:.283,c:.26,d:.237,e:.575,f:-.084,pct:.13},
-        {a:0.03,b:0,c:.01,d:.16,e:.5,f:0,pct:.04},
-    )
-);
+    CM.push( // Matrix 15: 
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Twig`,
+            { a: .387, b: .430, c: .430, d: -.387, e: .2560, f: .522, pct: .333 },
+            { a: 0.441, b: -.091, c: -.009, d: -.322, e: .4219, f: .5059, pct: .333 },
+            { a: -.468, b: .020, c: -.113, d: .015, e: .4, f: .4, pct: .334 },
+        )
+    );
 
-CM.push( // Matrix .16: Sierpinski Carpet 4
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 4`,
-     {a:0,b:1/4,c:-1/4,d:0,e:1/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
-    )
-);
-//{a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000}
-//{a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
-CM.push( // Matrix .17: Sierpinski Carpet 5
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 5`,
-        {a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
-       // {a:0,b:1/4,c:-1/4,d:0,e:1/4,f:0,pct:1/8},
-        {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
-        {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
-        {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
-        {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
-       // {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
-        {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
-      //  {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
-    )
-);
-//{a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000}
-CM.push( // Matrix .18: Sierpinski Carpet 4
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 6`,
-     //{a:0,b:1/4,c:-1/4,d:0,e:-1/5,f:-1/5,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
-    )
-);
-//{a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000}
-//{a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
-CM.push( // Matrix .19: Sierpinski Carpet 4
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: Sierpinski Carpet 7`,
-    {a:0,b:1/3,c:-1/3,d:0,e:1/3,f:0,pct:1/8},
-   //  {a:0,b:-1/4,c:1/4,d:0,e:-1/4,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:0,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:1/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:1/3,f:2/3,pct:1/8},
-     {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
-    )
-);
-//{a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000}
-//{a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
-CM.push(
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: AHT 1`,
-    {a:0,b:-.5,c:.5,d:0,e:0,f:.5},
-    {a:.5,b:0,c:0,d:.5,e:.25,f:.25},
-    {a:.5,b:0,c:0,d:.5,e:.5,f:0},
-    {a:0,b:.5,c:-.5,d:0,e:1,f:.5},
-    )
-);
-CM.push(
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: AHT 2`,
-    {a:0,b:.5,c:-.5,d:0,e:.5,f:0},
-    {a:.5,b:0,c:0,d:.5,e:0,f:.25},
-    {a:.5,b:0,c:0,d:.5,e:.25,f:.25},
-    {a:0,b:.5,c:-.5,d:0,e:.5,f:.75},
-    )
-)
-var side = Math.cos(Math.PI/12);
-CM.push(
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: AHT 3`,
-   // {a:0,b:.5,c:-.5,d:0,e:.5,f:0},
-   {a:-.5,b:0,c:0,d:-.5,e:0.75,f:.25},
-   // 
-   {a:.5,b:0,c:0,d:.5,e:.25,f:.25},
-   {a:-.5,b:0,c:0,d:-.5,e:.75,f:.25},
-  //  {a:0,b:.5,c:-.5,d:0,e:.5,f:.75},
-    )
-);
+    CM.push( // Matrix 16: 
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Snowflake`,
+            { a: 0.255, b: 0, c: 0, d: .255, e: .3726, f: .6714, pct: .16 },
+            { a: 0.255, b: 0, c: 0, d: .255, e: .1146, f: .2232, pct: .16 },
+            { a: 0.255, b: 0, c: 0, d: .255, e: .6306, f: .2232, pct: .16 },
+            { a: 0.37, b: .642, c: -.642, d: .37, e: .6356, f: -.0061, pct: .52 },
+        )
+    );
 
-// rotate by Math.PI/3 == 60deg
-function abcdByAngle(angle,scale,offsetX,offsetY) {
-    angle = angle?angle:0;
-    scale = scale?scale:1;
-    offsetX=offsetX?offsetX:0;
-    offsetY=offsetY?offsetY:0;
-    return {a:scale*Math.cos(angle),b:scale*-Math.sin(angle),c:scale*Math.sin(angle),d:scale*Math.cos(angle),e:offsetX,f:offsetY}
-}
-var rotate60 = abcdByAngle(2*Math.PI/3,.5,0,0);
-var rotate602 = abcdByAngle(-2*Math.PI/3,.5,.4375,.1425); //
-var rotate603 = abcdByAngle(2*Math.PI/3,.5,.8125,.575);
-CM.push(
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: AHT 4`,
-   {a:-.5,b:0,c:0,d:-.5,e:0.75,f:.25},
-   {a:.5,b:0,c:0,d:.5,e:.25,f:.25},
-    rotate602,
-    rotate603
+    CM.push( // Matrix 17: 
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Pentagons`,
+            { a: 0.382, b: 0, c: 0, d: .382, e: .3072, f: .619, pct: .2 },
+            { a: 0.382, b: 0, c: 0, d: .382, e: .6033, f: .4044, pct: .2 },
+            { a: 0.382, b: 0, c: 0, d: .382, e: .0139, f: .4044, pct: .2 },
+            { a: 0.382, b: 0, c: 0, d: .382, e: .1253, f: .0595, pct: .2 },
+            { a: 0.382, b: 0, c: 0, d: .382, e: .4920, f: .0595, pct: .2 },
+        )
+    );
+
+    CM.push( // Matrix 19: 
+        new MRCM(360, 640, CM.length, `Matrix ${CM.length}: Leaf2`,
+            { a: 0.849, b: .037, c: -.037, d: .849, e: .075, f: .183, pct: .70 },
+            { a: 0.197, b: .226, c: -.226, d: .197, e: .4, f: .049, pct: .13 },
+            { a: -0.15, b: .283, c: .26, d: .237, e: .575, f: -.084, pct: .13 },
+            { a: 0.03, b: 0, c: .01, d: .16, e: .5, f: 0, pct: .04 },
+        )
+    );
+
+    CM.push( // Matrix .16: Sierpinski Carpet 4
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Sierpinski Carpet 4`,
+            { a: 0, b: 1 / 4, c: -1 / 4, d: 0, e: 1 / 3, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 1 / 3, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 0, f: 1 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 1 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 0, f: 2 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 1 / 3, f: 2 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 2 / 3, pct: 1 / 8 },
+        )
+    );
+    //{a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000}
+    //{a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
+    CM.push( // Matrix .17: Sierpinski Carpet 5
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Sierpinski Carpet 5`,
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 0, f: 0, pct: 1 / 8 },
+            // {a:0,b:1/4,c:-1/4,d:0,e:1/4,f:0,pct:1/8},
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 1 / 3, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 0, f: 1 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 1 / 3, pct: 1 / 8 },
+            // {a:1/3,b:0,c:0,d:1/3,e:0,f:2/3,pct:1/8},
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 1 / 3, f: 2 / 3, pct: 1 / 8 },
+            //  {a:1/3,b:0,c:0,d:1/3,e:2/3,f:2/3,pct:1/8},
+        )
+    );
+    //{a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000}
+    CM.push( // Matrix .18: Sierpinski Carpet 4
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Sierpinski Carpet 6`,
+            //{a:0,b:1/4,c:-1/4,d:0,e:-1/5,f:-1/5,pct:1/8},
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 1 / 3, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 0, f: 1 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 1 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 0, f: 2 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 1 / 3, f: 2 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 2 / 3, pct: 1 / 8 },
+        )
+    );
+    //{a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000}
+    //{a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
+    CM.push( // Matrix .19: Sierpinski Carpet 4
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: Sierpinski Carpet 7`,
+            { a: 0, b: 1 / 3, c: -1 / 3, d: 0, e: 1 / 3, f: 0, pct: 1 / 8 },
+            //  {a:0,b:-1/4,c:1/4,d:0,e:-1/4,f:0,pct:1/8},
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 1 / 3, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 0, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 0, f: 1 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 1 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 0, f: 2 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 1 / 3, f: 2 / 3, pct: 1 / 8 },
+            { a: 1 / 3, b: 0, c: 0, d: 1 / 3, e: 2 / 3, f: 2 / 3, pct: 1 / 8 },
+        )
+    );
+    //{a:0,b:1,c:-1,d:0,e:1,f:0,pct:1.0000}
+    //{a:1/3,b:0,c:0,d:1/3,e:0,f:0,pct:1/8},
+    CM.push(
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: AHT 1`,
+            { a: 0, b: -.5, c: .5, d: 0, e: 0, f: .5 },
+            { a: .5, b: 0, c: 0, d: .5, e: .25, f: .25 },
+            { a: .5, b: 0, c: 0, d: .5, e: .5, f: 0 },
+            { a: 0, b: .5, c: -.5, d: 0, e: 1, f: .5 },
+        )
+    );
+    CM.push(
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: AHT 2`,
+            { a: 0, b: .5, c: -.5, d: 0, e: .5, f: 0 },
+            { a: .5, b: 0, c: 0, d: .5, e: 0, f: .25 },
+            { a: .5, b: 0, c: 0, d: .5, e: .25, f: .25 },
+            { a: 0, b: .5, c: -.5, d: 0, e: .5, f: .75 },
+        )
     )
-);
+    var side = Math.cos(Math.PI / 12);
+    CM.push(
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: AHT 3`,
+            // {a:0,b:.5,c:-.5,d:0,e:.5,f:0},
+            { a: -.5, b: 0, c: 0, d: -.5, e: 0.75, f: .25 },
+            // 
+            { a: .5, b: 0, c: 0, d: .5, e: .25, f: .25 },
+            { a: -.5, b: 0, c: 0, d: -.5, e: .75, f: .25 },
+            //  {a:0,b:.5,c:-.5,d:0,e:.5,f:.75},
+        )
+    );
+
+    // rotate by Math.PI/3 == 60deg
+    function abcdByAngle(angle, scale, offsetX, offsetY) {
+        angle = angle ? angle : 0;
+        scale = scale ? scale : 1;
+        offsetX = offsetX ? offsetX : 0;
+        offsetY = offsetY ? offsetY : 0;
+        return { 
+            a: scale * Math.cos(angle), 
+            b: scale * -Math.sin(angle), 
+            c: scale * Math.sin(angle), 
+            d: scale * Math.cos(angle), 
+            e: offsetX, 
+            f: offsetY 
+        };
+    }
+    var rotate60 = abcdByAngle(2 * Math.PI / 3, .5, 0, 0);
+    var rotate602 = abcdByAngle(-2 * Math.PI / 3, .5, .4375, .1425); //
+    var rotate603 = abcdByAngle(2 * Math.PI / 3, .5, .8125, .575);
+    CM.push(
+        new MRCM(640, 640, CM.length, `Matrix ${CM.length}: AHT 4`,
+            { a: -.5, b: 0, c: 0, d: -.5, e: 0.75, f: .25 },
+            { a: .5, b: 0, c: 0, d: .5, e: .25, f: .25 },
+            rotate602,
+            rotate603
+        )
+    );
 </script>
 
 </head>

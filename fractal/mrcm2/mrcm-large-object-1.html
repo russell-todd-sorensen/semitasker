@@ -187,6 +187,9 @@ function applyAllMatrices(href,matrix) {
     for (let i=0;i<len;i++) {
         groupAppend(group,href,matrix[i]);
     }
+    for (let i=0;i<len;i++) {
+        groupAppend(group,"#invariant",matrix[i]);
+    }
 
 }
 var subGroups = [];
@@ -430,38 +433,50 @@ CM.push(
     {a:.5,b:0,c:0,d:.5,e:.25,f:.25},
     {a:0,b:.5,c:-.5,d:0,e:.5,f:.75},
     )
-)
-var side = Math.cos(Math.PI/12);
-CM.push(
-    new MRCM(640,640,CM.length,`Matrix ${CM.length}: AHT 3`,
-   // {a:0,b:.5,c:-.5,d:0,e:.5,f:0},
-   {a:-.5,b:0,c:0,d:-.5,e:0.75,f:.25},
-   // 
-   {a:.5,b:0,c:0,d:.5,e:.25,f:.25},
-   {a:-.5,b:0,c:0,d:-.5,e:.75,f:.25},
-  //  {a:0,b:.5,c:-.5,d:0,e:.5,f:.75},
-    )
 );
-
 // rotate by Math.PI/3 == 60deg
 function abcdByAngle(angle,scale,offsetX,offsetY) {
     angle = angle?angle:0;
     scale = scale?scale:1;
     offsetX=offsetX?offsetX:0;
     offsetY=offsetY?offsetY:0;
-    return {a:scale*Math.cos(angle),b:scale*-Math.sin(angle),c:scale*Math.sin(angle),d:scale*Math.cos(angle),e:offsetX,f:offsetY}
+    let cos = Math.cos(angle),
+        sin = Math.sin(angle);
+        cos = (Math.abs(cos) < 1000*Number.EPSILON)?0:cos;
+        sin = (Math.abs(sin) < 1000*Number.EPSILON)?0:sin;
+    return {
+        a:scale*cos,
+        b:scale*-sin,
+        c:scale*sin,
+        d:scale*cos,
+        e:offsetX,
+        f:offsetY
+    };
 }
-var rotate60 = abcdByAngle(2*Math.PI/3,.5,0,0);
-var rotate602 = abcdByAngle(-2*Math.PI/3,.5,.4375,.1425); //
-var rotate603 = abcdByAngle(2*Math.PI/3,.5,.8125,.575);
+
 CM.push(
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: AHT 4`,
-   {a:-.5,b:0,c:0,d:-.5,e:0.75,f:.25},
-   {a:.5,b:0,c:0,d:.5,e:.25,f:.25},
-    rotate602,
-    rotate603
+        abcdByAngle(Math.PI,.5,.75,0.318), // rotate 180,scale .5
+        abcdByAngle(0,.5,.25,0.25), // rotate   0,scale .5
+        abcdByAngle(2*Math.PI/3,.5,.783,.625), // rotate 120,scale .5
+        abcdByAngle(-2*Math.PI/3,.5,.467125,.1925), // rotate -120,scale .5
     )
 );
+
+
+CM.push(
+    new MRCM(640,640-2*4.2871870789,CM.length,`Matrix ${CM.length}: AHT 5 (mod)`,
+        abcdByAngle(0,.5,.25,0), // rotate   0,scale .5 trans 1/4
+        abcdByAngle(Math.PI,.5,.75,.5),
+        abcdByAngle(4*Math.PI/3,.5,1.0,(0.75*4.2871870789/64)),
+        //+ (4.2871870789/64)
+      //  abcdByAngle(Math.PI,.5,.75,0.3175), // rotate 180,scale .5
+       // abcdByAngle(2*Math.PI/3,.5,.783,.625), // rotate 120,scale .5
+      //  abcdByAngle(4*Math.PI/3,.5,.467125,.1925), // rotate +240,scale .5
+    )
+);
+
+
 </script>
 
 </head>
@@ -508,13 +523,13 @@ CM.push(
 #r5 {
     fill: rgba(134, 7, 7, 0.8);
     stroke: rgb(220, 223, 44);
-    stroke-width: 0.5px;
+    stroke-width: 0.5px;  /**/
 }
 
 #svg .aht1 {
     fill: rgba(134, 7, 7, 0.8);
     stroke: rgb(220, 223, 44);
-    stroke-width: 0.5px;
+    stroke-width: 0.5px;  /**/
 }
 #r4 {
     fill: rgba(0,0,0,1);
@@ -543,6 +558,82 @@ CM.push(
     stroke: rgba(0,0,0,1);
     stroke-width: 0.50;
     fill: rgba(204,48,84,.9);
+}
+.align-1 {
+    stroke: black;
+    stroke-width: 2;
+}
+.align-2 {
+    stroke: white;
+    stroke-width: .5;
+}
+
+#alignment-2 .align-1 {
+    stroke: rgba(0,0,0,.6);
+    stroke-width: .5;
+}
+#alignment-2 .align-2 {
+    stroke: rgba(255,255,255,.90);
+    stroke-width: .1;
+}
+#aht6 .aht2,
+#aht7 .aht2 {
+    fill: rgba(134, 7, 7, 0.8);
+    stroke: rgb(220, 223, 44);
+    stroke-width: 0.5px;  /**/
+    stroke-width:0;
+}
+#g0 use:nth-of-type(2n) {
+    fill:lime;
+    fill: inherit;
+}
+#svg g:nth-of-type(2n) {
+    fill: inherit;
+     /* fill:lime;
+  background-color: lime; */
+}
+/*
+#svg use[href="#aht1"]:nth-of-type(4n) {
+    fill:yellow;
+}
+#svg use[href="#aht1"]:nth-of-type(4n+1) {
+    fill:blue;
+}
+#svg use[href="#aht1"]:nth-of-type(4n+3) {
+    fill:green;
+}
+#svg use[href="#aht1"]:nth-of-type(4n+2) {
+    fill:tan;
+}
+*/
+/*
+#svg use[href="#aht1"]:nth-of-type(4n+3) {
+    fill:rgb(179, 19, 72);
+}
+
+#svg use[href="#gr3-1"]:nth-of-type(5n+4) {
+    fill:yellow;
+}
+*/
+#svg #p1 {
+    fill: inherit;
+}
+#svg #aht1 {
+    fill:inherit;
+}
+#svg #path-aht1 {
+    fill:inherit;
+}
+#svg #invariant-circle {
+    fill:rgba(255,0,0,.5);
+    stroke:none;
+    stroke-width:0;
+}
+#svg #invariant-text {
+    text-anchor: middle;
+    font-size: 2em;
+    fill:black;
+    font-family: "Fira Code VF"
 }
 </style>
 <circle id="c1" class="primitive" x="0"
@@ -610,30 +701,82 @@ CM.push(
     <path id="path-aht2" class="aht1" d="M 0 0 h 32 v 64 h -32 v -64"/>
 </g>
 
-<g id="aht3" class="primitive" transform="scale(10)" x="0" y="0">
-    <path id="path-aht3" class="aht1" d="M 0 27.7128129211 L 16 0 L 48 0 L 64 27.7128129211 Z"/>
+<g id="aht4" class="primitive" transform="scale(10)" x="0" y="0">
+   <!-- <use href="#alignment-1" transform="scale(.1)" />-->
+    <path id="path-aht4" class="aht1" d="M 0 32 L 16 4.2871870789 h 32 L 64 32 Z"/>
 </g>
 
-<g id="aht4" class="primitive" transform="scale(10)" x="0" y="0">
-    <path id="path-aht4" class="aht1" d="M 0 32 L 16 4.2871870789 h 32 L 64 32 Z"/>
+<g id="aht4-2" class="primitive" transform="scale(10)" x="0" y="0">
+    <!-- <use href="#alignment-1" transform="scale(.1)" />-->
+    <use href="#alignment-2" transform="scale(.1)" />
+    <path id="path-aht4" class="aht1" d="M 16 32 h 32 L 64 4.2871870789 h -64 Z"/>
+ </g>
+ 
+<g id="aht5" class="primitive" transform="scale(10)" x="0" y="0">
+     <use href="#alignment-1" transform="scale(.1)" />
+     <path id="path-aht5" class="aht1" d="M 0 32 L 16 4.2871870789 h 32 L 64 32 Z"/>
+ </g>
+
+<g id="aht7" class="primitive" transform="scale(10)" x="0" y="0">
+    <use href="#alignment-2" transform="scale(.1)" />
+    <path id="path-aht7" class="aht2" d="M 32 32 L 16 59.71281292 L 48 59.71281292 Z"/>
 </g>
 
 <g id="prim-button">
     <use id="prim-use" href="#gr0" x="0" y="0" />
 </g>
+<g id="invariant">
+    <circle id="invariant-circle" cx="0" cy="0" r="10" />
+    <text id="invariant-text" >L</text>
+</g>
 
+<g id="alignment-2" class="primitive" transform="scale(10)" x="0" y="0">
+    <line class="align-1" y1="-64" x1="0" y2="128" x2="0"  /><!-- left border line -->
+    <line class="align-2" y1="-64" x1="0" y2="128" x2="0"  /> <!-- white left border line -->
+
+    <line class="align-1" y1="-64" x1="64" y2="128" x2="64"  /> <!-- right border line -->
+    <line class="align-2" y1="-64" x1="64" y2="128" x2="64"  />
+
+    <line class="align-1" x1="-64" y1="0" x2="128" y2="0"  /> <!-- top border line -->
+    <line class="align-2" x1="-64" y1="0" x2="128" y2="0"  /> <!-- white top border line -->
+
+    <line class="align-1" x1="-64" y1="32" x2="128" y2="32"  /> <!-- Middle horizontal line -->
+    <line class="align-2" x1="-64" y1="32" x2="128" y2="32"  />
+
+    <line class="align-1" x1="-64" y1="64" x2="128" y2="64"  /> <!-- bottom border -->
+    <line class="align-2" x1="-64" y1="64" x2="128" y2="64"  />
+</g>
+<g id="alignment-1" class="primitive" transform="scale(10)" x="0" y="0">
+    <line class="align-1" y1="-64" x1="0" y2="128" x2="0"  /> <!-- top border line -->
+    <line class="align-2" y1="-64" x1="0" y2="128" x2="0"  /> <!-- white top border line -->
+    <line class="align-1" y1="-64" x1="16" y2="128" x2="16"  />
+    <line class="align-2" y1="-64" x1="16" y2="128" x2="16"  />
+    <line class="align-1" y1="-64" x1="32" y2="128" x2="32"  />
+    <line class="align-2" y1="-64" x1="32" y2="128" x2="32"  />
+    <line class="align-1" y1="-64" x1="48" y2="128" x2="48"  />
+    <line class="align-2" y1="-64" x1="48" y2="128" x2="48"  />
+    <line class="align-1" y1="-64" x1="64" y2="128" x2="64"  />
+    <line class="align-2" y1="-64" x1="64" y2="128" x2="64"  />
+
+    <line class="align-1" x1="-64" y1="0" x2="128" y2="0"  /> <!-- left border line -->
+    <line class="align-2" x1="-64" y1="0" x2="128" y2="0"  /> <!-- white top border line -->
+    <line class="align-1" x1="-64" y1="16" x2="128" y2="16"  />
+    <line class="align-2" x1="-64" y1="16" x2="128" y2="16"  />
+    <line class="align-1" x1="-64" y1="32" x2="128" y2="32"  />
+    <line class="align-2" x1="-64" y1="32" x2="128" y2="32"  />
+    <line class="align-1" x1="-64" y1="48" x2="128" y2="48"  />
+    <line class="align-2" x1="-64" y1="48" x2="128" y2="48"  />
+    <line class="align-1" x1="-64" y1="64" x2="128" y2="64"  />
+    <line class="align-2" x1="-64" y1="64" x2="128" y2="64"  />
+</g>
 </defs>
 
 <g id="euclidian-transform-xy-plane" >
     <path id="dashed-pos-boundary" d="M 0 640 h 640 v -640" />
     <line y1="0" x1="-100%" x2="100%" y2="0" stroke="black" stroke-width="1" />
     <line x1="0" y1="-100%" y2="100%" x2="0" stroke="black" stroke-width="1" />
+    
 </g>
-<!--
-<g id="test">
-<use href="#gr3" transform="scale(.25)" />
-</g>
--->
 
 <g id="composition-table">
 <use id="show" href="#gr0" transform="scale(1.00)"></use>
@@ -845,19 +988,29 @@ var listSelector  = "#svg defs .primitive";
 var imageParentId = "image-buttons";
 var mrcmParentId  = "mrcm-buttons";
 
-
 function apply(matrixId) {
     let initialImage = d3.select("#prim-use").attr("href");
     applyAllMatrices(initialImage,CM[matrixId].M)
 }
 
+function initDisplay() {
+    let initialImage = d3.select("#prim-use").attr("href");
+    while (subGroups.length) {
+        let sg = subGroups.pop();
+         if (sg === initialImage) {
+             break;
+         }
+         d3.select(sg).remove();
+    }
+    updateInitialImage("#gr3");
+    writeImageButtons("image-buttons",listSelector);
+    writeMatrixButtons("mrcm-buttons",CM)
+}
 
 window.addEventListener('DOMContentLoaded', () => {
     Log.Notice('Document Ready');
     Log.Remove();
-    updateInitialImage("#gr3");
-    writeImageButtons("image-buttons",listSelector);
-    writeMatrixButtons("mrcm-buttons",CM)
+    initDisplay();
 }
 );
 </script>
