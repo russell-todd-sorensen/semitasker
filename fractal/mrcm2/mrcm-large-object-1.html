@@ -434,16 +434,19 @@ CM.push(
     {a:0,b:.5,c:-.5,d:0,e:.5,f:.75},
     )
 );
-// rotate by Math.PI/3 == 60deg
+
 function abcdByAngle(angle,scale,offsetX,offsetY) {
     angle = angle?angle:0;
     scale = scale?scale:1;
     offsetX=offsetX?offsetX:0;
     offsetY=offsetY?offsetY:0;
+
     let cos = Math.cos(angle),
         sin = Math.sin(angle);
-        cos = (Math.abs(cos) < 1000*Number.EPSILON)?0:cos;
-        sin = (Math.abs(sin) < 1000*Number.EPSILON)?0:sin;
+
+    cos = (Math.abs(cos) < 1000*Number.EPSILON)?0:cos;
+    sin = (Math.abs(sin) < 1000*Number.EPSILON)?0:sin;
+
     return {
         a:scale*cos,
         b:scale*-sin,
@@ -456,12 +459,33 @@ function abcdByAngle(angle,scale,offsetX,offsetY) {
 
 CM.push(
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: AHT 4`,
-        abcdByAngle(Math.PI,.5,.75,0.318), // rotate 180,scale .5
+        abcdByAngle(Math.PI,.5,.75,0.3142), // rotate 180,scale .5
         abcdByAngle(0,.5,.25,0.25), // rotate   0,scale .5
-        abcdByAngle(2*Math.PI/3,.5,.783,.625), // rotate 120,scale .5
+        abcdByAngle(2*Math.PI/3,.5,.785,.625), // rotate 120,scale .5 .783 .628318
         abcdByAngle(-2*Math.PI/3,.5,.467125,.1925), // rotate -120,scale .5
     )
 );
+
+CM.push(
+    new MRCM(640,640,CM.length,`Matrix ${CM.length}: AHT 4`,
+        abcdByAngle(Math.PI,.5,.75,0.21660635094610968), // rotate 180,scale .5 offsetY=0.21650635094610968
+        abcdByAngle(0,.5,0.25,0.21650635094610968), // rotate   0,scale .5 offsetY=0.21650635094610968
+        abcdByAngle(2*Math.PI/3,.5,.8125,.541400), // rotate 120,scale .5 .783 .628318 1*0.8660254037844387
+        abcdByAngle(-2*Math.PI/3,.5,0.4375,.1083), // rotate -120,scale .5 .25*.541525
+    )
+);
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 CM.push(
@@ -528,8 +552,8 @@ CM.push(
 
 #svg .aht1 {
     fill: rgba(134, 7, 7, 0.8);
-    stroke: rgb(220, 223, 44);
-    stroke-width: 0.5px;  /**/
+  /*  stroke: rgb(220, 223, 44);
+    stroke-width: 0.5px; */
 }
 #r4 {
     fill: rgba(0,0,0,1);
@@ -706,10 +730,16 @@ CM.push(
     <path id="path-aht4" class="aht1" d="M 0 32 L 16 4.2871870789 h 32 L 64 32 Z"/>
 </g>
 
+<g id="aht4-1" class="primitive" transform="scale(10)" x="0" y="0">
+    <!-- <use href="#alignment-1" transform="scale(.1)" />-->
+     <path id="path-aht4-1" class="aht1" 
+        d="M 16 0 h 32 L 64 27.71281292110204 h -64 Z" />
+ </g>
+ 
 <g id="aht4-2" class="primitive" transform="scale(10)" x="0" y="0">
     <!-- <use href="#alignment-1" transform="scale(.1)" />-->
     <use href="#alignment-2" transform="scale(.1)" />
-    <path id="path-aht4" class="aht1" d="M 16 32 h 32 L 64 4.2871870789 h -64 Z"/>
+    <path id="path-aht4-2" class="aht1" d="M 16 32 h 32 L 64 4.2871870789 h -64 Z"/>
  </g>
  
 <g id="aht5" class="primitive" transform="scale(10)" x="0" y="0">
