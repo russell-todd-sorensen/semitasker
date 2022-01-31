@@ -492,12 +492,23 @@ CM.push(
       //  abcdByAngle(-π/2,1,0,0),
       //  abcdByAngle(π,1,0,0),
        // abcdByAngle(π/2,1,0,0),
-        abcdByAngle(0,1,-1,0), // original
-        abcdByAngle(π/2,1,1,0),
-        abcdByAngle(π,1,0.5,1),
-        abcdByAngle(π/2,1,0,0.5),
-        abcdByAngle(-π/6,1,0,0),
-        abcdByAngle(-π/6,1,(Math.cos(π/3)),.5-Math.sin(π/3)),
+        abcdByAngle(0,1,1,0), // original
+        abcdByAngle(π/2,1,0,-1),
+        abcdByAngle(-π/2,1,0,1),
+        abcdByAngle(π,1,-1,0),
+        abcdByAngle(π/6,1,Math.cos(π/6),-Math.sin(π/6)),
+        abcdByAngle(2*π/3,1,Math.cos(2*π/3),-Math.sin(2*π/3)),
+        abcdByAngle(π/3,1,Math.cos(π/3),-Math.sin(π/3)),
+        abcdByAngle(5*π/6,1,Math.cos(5*π/6),-Math.sin(5*π/6)),
+        abcdByAngle(-π/6,1,Math.cos(-π/6),-Math.sin(-π/6)),
+        abcdByAngle(-π/3,1,Math.cos(-π/3),-Math.sin(-π/3)),
+        abcdByAngle(-2*π/3,1,Math.cos(-2*π/3),-Math.sin(-2*π/3)),
+        abcdByAngle(-5*π/6,1,Math.cos(-5*π/6),-Math.sin(-5*π/6)),
+
+
+       // abcdByAngle(π/2,1,0,0.5),
+       // abcdByAngle(-π/6,1,0,0),
+       // abcdByAngle(-π/6,1,(Math.cos(π/3)),.5-Math.sin(π/3)),
        
        // abcdByAngle(0,.5,.25,0.25), // rotate   0,scale .5
       //  abcdByAngle(2*Math.PI/3,.5,.785,.625), // rotate 120,scale .5 .783 .628318
@@ -534,7 +545,7 @@ CM.push(
 </head>
 <body>
 <div id="no-hide">
- <svg id="svg" x="-128" y="-128" height="896" width="896" viewBox="-128 -128 896 896">
+ <svg id="svg" x="-768" y="-768" height="1536" width="1536" viewBox="-768 -768 1536 1536">
 <defs>
 <style>
 #svg {
