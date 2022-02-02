@@ -188,7 +188,7 @@ function applyAllMatrices(href,matrix) {
         groupAppend(group,href,matrix[i]);
     }
     for (let i=0;i<len;i++) {
-        groupAppend(group,"#invariant",matrix[i]);
+       // groupAppend(group,"#invariant",matrix[i]);
     }
 
 }
@@ -488,10 +488,6 @@ var textMatrix = new Matrix(
 
 CM.push(
     new MRCM(640,640,CM.length,`Matrix ${CM.length}: AHT 4`,
-      //  abcdByAngle(0,1,0,0), // original
-      //  abcdByAngle(-π/2,1,0,0),
-      //  abcdByAngle(π,1,0,0),
-       // abcdByAngle(π/2,1,0,0),
         abcdByAngle(0,1,1,0), // original
         abcdByAngle(π/2,1,0,-1),
         abcdByAngle(-π/2,1,0,1),
@@ -505,14 +501,6 @@ CM.push(
         abcdByAngle(-2*π/3,1,Math.cos(-2*π/3),-Math.sin(-2*π/3)),
         abcdByAngle(-5*π/6,1,Math.cos(-5*π/6),-Math.sin(-5*π/6)),
 
-
-       // abcdByAngle(π/2,1,0,0.5),
-       // abcdByAngle(-π/6,1,0,0),
-       // abcdByAngle(-π/6,1,(Math.cos(π/3)),.5-Math.sin(π/3)),
-       
-       // abcdByAngle(0,.5,.25,0.25), // rotate   0,scale .5
-      //  abcdByAngle(2*Math.PI/3,.5,.785,.625), // rotate 120,scale .5 .783 .628318
-       // abcdByAngle(-2*Math.PI/3,.5,.467125,.1925), // rotate -120,scale .5
     )
 );
 
@@ -802,7 +790,6 @@ CM.push(
 
 
 <g id="text-image" class="primitive" x="0" y="0" transform="scale(1.0)" >
-    <use href="#alignment-2" transform="scale(.1)" />
     <text id="text-1" class="clock-text">12</text>
 </g>
 
@@ -880,7 +867,7 @@ CM.push(
 </g>
 
 <g id="composition-table">
-<use id="show" href="#gr0" transform="scale(1.00)"></use>
+<use id="show" href="#gr0" transform="scale(1.0)"></use>
 </g>
 <path id="dim-past-boundary" d="M 1 641 h 640 v -640 h 128 v 766 h -766 v -128" />
 </svg>

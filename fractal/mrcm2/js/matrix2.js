@@ -12,7 +12,7 @@ class Matrix {
     s;
     φ = 0.0;
     ψ = 0.0;
-    pctEst = 0;
+    pctEst = 1.0;
     pct;
     contraction;
 
@@ -23,7 +23,7 @@ class Matrix {
         this.d = d;
         this.e = e;
         this.f = f;
-        this.pct = pct;
+        this.pct = pct?pct:1.00;
         this.p = this.a * this.a + this.b * this.b + this.c * this.c + this.d * this.d;
         this.q = Math.pow(this.a * this.d - this.b * this.c, 2);
         this.r = Math.sqrt(this.a * this.a + this.c * this.c);
@@ -146,7 +146,7 @@ class MRCM {
         this.h=h?h:1.0; //h != 0
         this.cmId=cmId;
         this.desc=desc?desc:`MRCM-${cmId}`;
-        for (let i=0,matrix;i<m.length;i++) {
+        for (let i=0;i<m.length;i++) {
             this.Mnorm[i]=m[i];
             this.M[i] = new Matrix(
                 m[i].a*1,
