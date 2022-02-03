@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" />
+<base href="https://home.highfivediet.com/" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="orange" />
+
+<meta name="description" content="Semitasker Clock: Code by Russell Sorensen.
+    Analog Clock in SVG with Unique Animation Functions keeping the time 
+    correct within 1 sec." />
+
+<title>SVG Clock</title>
+
+<link rel="manifest" href="/clock/clock-manifest.json">
+<link rel="icon" sizes="512x512" href="/clock/images/icons/icon-512x512.png">
+<link rel="apple-touch-icon" href="/clock/images/icons/icon-192x192.png">
+
+<style>
+html,
+body {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+</style>
+<script>
+var Log = {};
+Log.msg = function(msg) {};
+Log.Notice = Log.Error = Log.Warning = Log.Debug = Log.Hide = Log.Show = Log.Remove = Log.msg;
+
+const compatUrl = "/clock/clock-compat.html";
+
+</script>
+<script>
+try {
+  class CanUsePrivateFields {
+      #privateField = false;
+      constructor() {
+          this.#privateField = true;
+      }
+      getPrivateField() {
+          return this.#privateField;
+      }
+  }
+  var myPrivateFieldInstance = new CanUsePrivateFields()
+  if (!myPrivateFieldInstance.getPrivateField()) {
+      window.location.replace(compatUrl);
+  }
+} catch (error) {
+    window.location.replace(compatUrl);
+    console.error(error);
+}
+</script>
+<script>
+try {
+    if (!myPrivateFieldInstance.getPrivateField()) {
+        window.location.replace(compatUrl);
+    }
+} catch (error) {
+    window.location.replace(compatUrl);
+}
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/form-save-restore.js"></script>
+
+<script>
+if ('serviceWorker' in navigator) {
+    // Use the window load event to keep the page load performant
+    //window.addEventListener('load', () => {
+        //navigator.serviceWorker.register('/clock/clock-sw.js');
+    //});
+}
+
+if ('serviceWorker' in navigator) {
+
+navigator.serviceWorker.getRegistrations().then(
+    function(registrations) {
+
+        for(let registration of registrations) {
+            registration.unregister()
+        }
+    }).catch(function(err) {
+        console.log('Service Worker registration failed: ', err);
+    });
+}
+</script>
+
+</head>
+<body>
+<svg 
+    id="svg-clock" 
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com"
+    externalResourcesRequired="true"
+    x="-768" 
+    y="-768" 
+    height="1536" 
+    width="1536" 
+    viewBox="-768 -768 1536 1536">
+<defs>
+<style>
+#svg-clock {
+    border: 1px dashed tan;
+    background-color: rgba(0,0,0,.2);
+}
+
+#svg-clock text {
+    font-size: 150px;
+    fill: black;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+}
+
+#svg-clock .clock-text {
+    text-anchor: middle;
+    text-align: center;
+    transform: matrix(0, 1, -1, 0, 0, 0);
+}
+#svg-clock #test-one {
+    font-size: 3em;
+}
+#svg-clock #c1 {
+    fill: rgba(0,0,0,0);/*rgba(0,0,0,.2) */
+    stroke: white;
+    stroke-width:120;
+}
+#svg-clock #second-tick-marks {
+    stroke: rgba(0,0,0,.5);
+    stroke-width:40;
+    stroke-dasharray: 1 63.5;
+    fill:transparent;
+}
+
+
+
+#svg-clock #hour-tick-marks {
+    stroke: rgba(0,0,0,.5);
+    stroke-width:230;
+    stroke-dasharray: 1.5 321;
+    fill:transparent;
+}
+#svg-clock #minutes {
+    stroke: rgba(0,0,0,.3);
+    stroke-width:235;
+    fill:rgba(255,255,255,.85);
+}
+#svg-clock #hours {
+    fill:white;
+}
+
+#hour-hand-circle {
+    fill: none;
+    stroke: rgba(100,100,100,0.2);
+    stroke-width: 1;
+}
+
+#minute-hand-circle,
+#second-hand-circle {
+    display: none;
+    fill: rgba(0,0,0,0.2);
+    stroke: rgba(100,100,100,0.4);
+    stroke-width: 1;
+}
+
+#hour-hand-line {
+    stroke: rgba(50,50,50,0.8);
+    stroke-width: 4.5;
+    stroke-linecap: round;
+    marker-start: url(#dot);
+    marker-end: url(#arrow-1);
+}
+
+#hour-minute-donut,
+#minute-second-donut {
+    fill-rule: evenodd;
+    fill: rgba(100,100,100,0.2);
+    stroke: rgba(100,100,100,0.4);
+    stroke-width: 0.5;
+}
+
+#hour-minute-donut {
+    stroke: none;
+}
+
+#minute-hand-line,
+#second-hand-line {
+    stroke: rgba(50,50,50,0.8);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+#minute-hand-line {
+    stroke-width: 2.7;
+}
+
+#number-background {
+    fill: rgba(255,255,255,1.0);
+    stroke: rgba(0,0,0,0.1);
+    stroke-width: 1;
+}
+
+.crosshairs {
+    stroke: rgba(0,0,0,0.3);
+    stroke-width: 0.5;
+}
+
+#dot,
+#arrow-1 {
+    fill: orange;
+}
+
+#container {
+    width: 364px;
+}
+
+#controls {
+    padding: 5px;
+    width: 50%;
+    margin: auto;
+    background-color: rgba(255,255,255,.3);
+}
+
+#showTimezone {
+    background-color: rgba(255,255,255,.6);
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: auto;
+}
+
+#tz-input {
+    background-color: transparent;
+    width: 65%;
+    margin: auto;
+}
+
+#timezone {
+    width: 35px;
+    height: 0.85em;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    text-align: right;
+}
+#update {
+    width: 65px;
+}
+
+#timezone,
+#update {
+    display: inline-block;
+}
+
+</style>
+<circle id="hour-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
+<circle id="second-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
+<circle id="c1" x="0" y="0" cx="0" cy="0" r="696"/>
+<circle id="minutes" x="0" y="0" cx="0" cy="0" r="480"/>
+<circle id="hours" x="0" y="0" cx="0" cy="0" r="420"/>
+<g id="g0">
+    <g transform="matrix(0.5 -0.8660254037844386 0.8660254037844386 0.5 320 -554.2562584220407)">
+        <text id="clock-num-1" class="clock-text num-1">1</text>
+    </g>
+    <g transform="matrix(0.8660254037844387 -0.5 0.5 0.8660254037844387 554.2562584220408 -320)">
+        <text id="clock-num-2" class="clock-text num-2">2</text>
+    </g>
+    <g transform="matrix(1 0 0 1 640 0)">
+        <text id="clock-num-3" class="clock-text num-3">3</text>
+    </g>
+    <g transform="matrix(0.8660254037844387 0.5 -0.5 0.8660254037844387 554.2562584220408 320)">
+        <text id="clock-num-4" class="clock-text num-4">4</text>
+    </g>
+    <g transform="matrix(0.5 0.8660254037844386 -0.8660254037844386 0.5 320 554.2562584220407)">
+        <text id="clock-num-5" class="clock-text num-5">5</text>
+    </g>
+    <g transform="matrix(0 1 -1 0 0 640)">
+        <text id="clock-num-6" class="clock-text num-6">6</text>
+    </g>
+    <g transform="matrix(-0.5 0.8660254037844387 -0.8660254037844387 -0.5 -320 554.2562584220408)">
+        <text id="clock-num-7" class="clock-text num-7">7</text>
+    </g>
+    <g transform="matrix(-0.8660254037844387 0.5 -0.5 -0.8660254037844387 -554.2562584220408 320)">
+        <text id="clock-num-8" class="clock-text num-8">8</text>
+    </g>
+    <g transform="matrix(-1 0 0 -1 -640 0)">
+        <text id="clock-num-9" class="clock-text num-9">9</text>
+    </g>
+    <g transform="matrix(-0.8660254037844387 -0.5 0.5 -0.8660254037844387 -554.2562584220408 -320)">
+        <text id="clock-num-10" class="clock-text num-10">10</text>
+    </g>
+    <g transform="matrix(-0.5 -0.8660254037844387 0.8660254037844387 -0.5 -320 -554.2562584220408)">
+        <text id="clock-num-11" class="clock-text num-11">11</text>
+    </g>
+    <g transform="matrix(0 -1 1 0 0 -640)">
+        <text id="clock-num-12" class="clock-text num-12">12</text>
+    </g>
+</g>
+
+<!-- MARKER OPTIONS FOR END OF CLOCK HANDS -->
+<marker id="arrow-1"
+    viewBox="0 0 10 10"
+    refX="1.7"
+    refY="5"
+    markerWidth="1.35"
+    markerHeight="5"
+    orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" />
+</marker>
+<marker id="dot"
+    viewBox="0 0 10 10"
+    refX="5"
+    refY="5"
+    markerWidth="2"
+    markerHeight="2">
+    <circle cx="5" cy="5" r="5" />
+</marker>
+
+
+<!-- NOTE: transform x and y = ((circle radius) * scale) -->
+<path id='circ5'
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform="translate(126 126) scale(25.2)" />
+
+<path id='donut2'
+      d='M  75 0 A  75  75 0 1 1  75 -0.5
+         M 100 0 A 100 100 0 1 1 100 -0.5'/>
+
+<path id='donut3'
+      d='M 100 0 A 100 100 0 1 1 100 -0.5
+         M 125 0 A 125 125 0 1 1 125 -0.5'/>
+
+</defs>
+
+<g id="euclidian-transform-xy-plane">
+    <line y1="0" x1="-100%" x2="100%" y2="0" stroke="black" stroke-width="1"></line>
+    <line x1="0" y1="-100%" y2="100%" x2="0" stroke="black" stroke-width="1"></line>
+</g>
+
+<g id="composition-table">
+    <use id="hour-ticks" href="#hour-tick-marks" />
+    <use id="second-ticks" href="#second-tick-marks" />
+    <use id="outer-face" href="#c1" />
+    <use id="minute-face" href="#minutes" />
+    <use id="hour-face" href="#hours" />
+    <use id="show" href="#g0" transform="scale(1.0)"/>
+    
+    <g transform="scale(4)">
+
+        <g transform="" id="second-hand">
+            <use id="minute-second-donut"
+                xlink:href="#donut3" />
+            <line id="second-hand-line"
+                x1="0" y1="0"
+                x2="0" y2="-157" />
+        </g>
+
+        <g transform="" id="minute-hand">
+            <line id="minute-hand-line"
+                x1="0" y1="0"
+                x2="0" y2="-148" />
+            <use id="hour-minute-donut"
+                xlink:href="#donut2"
+                x="0" y="0"  transform="scale(1.5)"/>
+        </g>
+
+        <g transform="" id="hour-hand">
+            <line id="hour-hand-line"
+                x1="0" y1="0"
+                x2="0" y2="-120" />
+        </g>
+    </g>
+</g>
+</svg>
+
+<div id="container">
+<div id="controls">
+<h3 id="showTimezone">Set Timezone:</h3>
+<div id="tz-input">
+<input id="timezone" name="timezone" type="number" min="-24.00" max="24.00" value="-5">
+<input type="button" id="update" name="update" value="Update" onClick="updateTimezone('timezone');">
+</div>
+</div>
+</div>
+<pre id="stats"></pre>
+
+<script >
+// This code is developed at https://home.semitasker.com/js/queue-function.js //
+
+class Queue {
+    #items = [];
+    #priority = [];
+
+    constructor() {
+        this.numItems = 0;
+        this.numProcessed = 0;
+        this.numQueued = 0;
+        this.intervalId = null;
+        this.running = false;
+    }
+    add (item) {
+        this.numItems++;
+        return this.#items.push(item)
+    }
+    addPriority (item) {
+        this.numItems++;
+        return this.#priority.push(item)
+    }
+    start (me, interval) {
+        if (me === this) {
+            this.intervalId = setInterval(() => {me.run()},interval)
+            this.running = true;
+        }
+        return this.intervalId;
+    }
+    stop () {
+        clearInterval(this.intervalId)
+        this.intervalId = null;
+        this.running = false;
+    }
+    run () {
+        let len = this.#priority.length;
+        let item;
+        if (len) {
+            for (let i = 0;i<len;i++) {
+                item = this.#priority[i]
+                setTimeout(item.func,0,item.data)
+                this.numProcessed++
+            }
+        }
+        this.#priority = [];
+        len = this.#items.length;
+        if (len) {
+            for (let i=0;i<len;i++) {
+                item = this.#items[i];
+                setTimeout(item.func,item.timeout,item.data)
+                this.numProcessed++
+            }
+        }
+        this.#items = [];
+        this.numItems = 0;
+    }
+    getItemCount () {
+        return (this.#items.length + this.#priority.length)
+    }
+    flush () {
+        this.#items = [];
+    }
+    flushPriority () {
+        this.#priority = [];
+    }
+    flushAll () {
+        this.flush();
+        this.flushPriority();
+    }
+}
+
+class QueueItem {
+
+    constructor(queue,func,timeout,data,priorityP) {
+        this.queue = queue;
+        this.func = func;
+        this.timeout = timeout;
+        this.data = data;
+        this.data.queue = queue;
+
+        if (priorityP) {
+            this.priorityP = true;
+            queue.addPriority(this)
+        }
+        else {
+            this.priorityP = false;
+            queue.add(this)
+        }
+    }
+}
+
+</script>
+<script>
+// This code is developed at https://home.semitasker.com/js/clock-nr.js //
+// Clock Hands Movement
+class Clock {
+
+    #queue;
+    #timezoneOffset = -8; // PST
+    #stats = [{h:0,m:0,s:0,ms:0,diff:0}];
+    #days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    #daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    constructor (queue,hourId,minuteId, secondId, subSecondOneId,subSecondTwoId) {
+        this.#queue = (queue?queue:new Queue());
+        this.hourId = (hourId?hourId:"hour-hand");
+        this.minuteId = (minuteId?minuteId:"minute-hand");
+        this.secondId = (secondId?secondId:"second-hand");
+        this.subSecondOneId = (subSecondOneId?subSecondOneId:"sub-second-hand-1");
+        this.subSecondTwoId = (subSecondTwoId?subSecondTwoId:"sub-second-hand-2");
+        this.continueAnimation = false;
+        this.runFunction = this.run;
+
+        this.data = {
+            obj:this,
+            hourId:this.hourId,
+            minuteId:this.minuteId,
+            secondId:this.secondId,
+            subSecondOneId:this.subSecondOneId,
+            subSecondTwoId:this.subSecondTwoId,
+            timezoneOffset:this.#timezoneOffset,
+            queue:this.#queue,
+        }
+        return this
+    }
+    start (animationFunction, timeout, data) {
+        let da = (data?data:this.data)
+        let obj = da.obj;
+        let af = (animationFunction?animationFunction:this.runFunction);
+        let to = (timeout?timeout:1000)
+        obj.continueAnimation = true;
+        this.continueAnimation = true;
+        da.af = af;
+        da.timeout = to;
+        // Initial queue uses priority scheduling
+        new QueueItem(obj.#queue,af,to,da,true)
+    }
+    set (dateObj,dataObj) {
+        let date = (dateObj?dateObj:new Date())
+        let data = (dataObj?dataObj:this.data)
+        let obj  = data.obj
+        let d    = document;
+        let millisecond = date.getMilliseconds();
+        let second = date.getUTCSeconds();
+        let minute = date.getUTCMinutes();
+        let hour = (date.getUTCHours() % 12);
+        let day = date.getUTCDate();
+        let month = date.getUTCMonth() + 1;
+        let year = date.getUTCFullYear();
+        // Adjust for Timezone Difference, if any
+        let tzo = date.getTimezoneOffset();
+        if (tzo < -24 || tzo > 24) {
+            tzo = 0;
+        }
+        let timezoneOffset = obj.getTimezoneOffset()
+        let origHour = hour;
+        if (tzo == 0) {
+            hour = date.getUTCHours() + timezoneOffset;
+            if (hour < 0) {
+                let i = 0
+                while (hour < 0) {
+                    hour += 12
+                    i++
+                }
+                // quick timezone fix, do better with constructed date
+                hour = hour % 12
+                day -= 1
+            }
+            if (day < 1) {
+                month--
+                if (month < 1) {
+                    year--
+                    month = 12
+                }
+                // back to day
+                day = this.#daysInMonth[month-1]
+            }
+        }
+
+        //this.pushStat(hour,minute,second,millisecond);
+        let sAngle = second * 6;
+        let mAngle = minute * 6 + (sAngle/60);
+        let hAngle = hour  * 30 + (mAngle/12);
+        let secondElement = d.getElementById(data.secondId)
+        secondElement.setAttribute('transform','rotate(' + sAngle + ')')
+        let minuteElement = d.getElementById(data.minuteId)
+        minuteElement.setAttribute('transform','rotate(' + mAngle + ')')
+        let hourElement = d.getElementById(data.hourId)
+        hourElement.setAttribute('transform','rotate(' + hAngle + ')')
+        let timeString = this.format(hour) + ":" + this.format(minute) + ":" + this.format(second);
+        document.querySelector("title").textContent = "SVG Clock: " + timeString;
+    }
+    format (number,digits) {
+        digits = digits?digits:2;
+        let fmt = "" + number;
+        fmt = "0".repeat(digits - fmt.length) + fmt;
+        return fmt;
+    }
+    pushStat(hour,minute,second,millisecond) {
+        let prev = this.#stats[this.#stats.length-1]
+        let diff  = (second - prev.s)
+        if (diff < 1) {
+            if (minute == prev.m) {
+                this.print('stats')
+            }
+        }
+        if (this.#stats.length > 70) {
+            //this.print('stats');
+            this.resetStats();
+        }
+        this.#stats.push({h:hour,m:minute,s:second,ms:millisecond,diff:diff});
+    }
+    run (data) {
+        let date = new Date();
+        let millisecond = date.getMilliseconds();
+        let obj  = data.obj;
+        obj.set(date,data);
+        data.continueAnimation = obj.continueAnimation
+        data.timeout = 1000-millisecond
+        return new QueueItem(obj.#queue,data.af,data.timeout,data,false);
+    }
+    stop () {
+        this.continueAnimation = false;
+    }
+    setTimezoneOffset(tz) {
+        this.#timezoneOffset = tz;
+        this.data.timezoneOffset = tz;
+    }
+    getTimezoneOffset() {
+        return this.#timezoneOffset;
+
+    }
+    resetStats() {
+        this.#stats = [{h:0,m:0,s:0,ms:0,diff:0}];
+    }
+    getStats() {
+        return this.#stats;
+    }
+    print(preId) {
+        let pre = document.getElementById(preId)
+        let html = ""
+        for (let i = 0;i<this.#stats.length;i++ ) {
+            html += "h:" + this.#stats[i].h 
+            + ", m:" + this.#stats[i].m
+            + ", s:" + this.#stats[i].s 
+            + " ms: " +  this.#stats[i].ms 
+            + ", diff:" + this.#stats[i].diff
+            + " <br />";
+        }
+        pre.innerHTML = html
+    }
+}
+
+</script>
+
+<script>
+
+var myQueue = new Queue();
+var myClock = new Clock(myQueue);
+var myTimezone;
+
+const timezoneId = "timezone"
+const timezoneField = document.querySelector(["#",timezoneId].join(""));
+const updateButton  = document.querySelector("#update");
+const timezoneHeader = document.querySelector("#showTimezone");
+
+window.addEventListener('DOMContentLoaded', () => {
+    Data.restoreInput('timezone');
+
+    setTimezone(timezoneId);
+});
+
+</script>
+<script>
+var setTimezone = function(inputId) {
+
+    myTimezone = timezoneField.value;
+    timezoneHeader.innerText = "Current Timezone: " + myTimezone;
+    myClock.setTimezoneOffset(parseFloat(myTimezone));
+    myClock.start();
+    myQueue.start(myQueue,10);
+}
+
+var getTimezone = function() {
+    timezoneField.value = myTimezone;
+    myClock.setTimezoneOffset(parseInt(myTimezone));
+    myClock.start();
+    myQueue.start(myQueue,10);
+}
+// setTimezone captures the new timezone offset,
+// stores it in LocalStorage and updates the clock
+
+var updateTimezone = function(inputId) {
+    let newTZ = timezoneField.value;
+    Data.saveInput(inputId,'setTimezone');
+    setTimezone(inputId);
+}
+/*
+    update.addEventListener("click",function (evt) {
+        myTimezone = parseInt(timezoneField.value);
+        timezoneHeader.innerText = "Current Timezone: " + myTimezone;
+        myClock.setTimezoneOffset(myTimezone);
+        docRef.set({
+            timezone: myTimezone
+        }).then(function() {
+            console.log("New Timezone =" + myTimezone);
+        }).catch (function (error) {
+            console.log("Error updating timezone: " + error);
+        });
+    });
+*/
+</script>
+</body>
+</html>

@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" />
+<base href="https://home.semitasker.com/" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="orange" />
+
+<meta name="description" content="Semitasker Clock: Code by Russell Sorensen.
+    Analog Clock in SVG with Unique Animation Functions keeping the time 
+    correct within 1 sec." />
+
+<title>SVG Clock</title>
+
+<link rel="manifest" href="/clock/clock-manifest.json">
+<link rel="icon" sizes="512x512" href="/clock/images/icons/icon-512x512.png">
+<link rel="apple-touch-icon" href="/clock/images/icons/icon-192x192.png">
+
+<style>
+html,
+body {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+</style>
+
+<script>
+if ('serviceWorker' in navigator) {
+    // Use the window load event to keep the page load performant
+    //window.addEventListener('load', () => {
+        //navigator.serviceWorker.register('/clock/clock-sw.js');
+    //});
+}
+
+if ('serviceWorker' in navigator) {
+
+navigator.serviceWorker.getRegistrations().then(
+    function(registrations) {
+
+        for(let registration of registrations) {
+            registration.unregister()
+        }
+    }).catch(function(err) {
+        console.log('Service Worker registration failed: ', err);
+    });
+}
+</script>
+
+</head>
+<body>
+<svg
+    id="svg-clock"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xml:base="https://home.semitasker.com"
+    externalResourcesRequired="true"
+    width="384"
+    height="600"
+    viewbox="0 0 384 600"
+    >
+<style>
+svg,
+body {
+    background-color: rgb(210,210,210);
+}
+svg {
+    margin: auto;
+    margin-left: 10px;
+}
+
+#t5 {
+    font-size: 42px;
+    font-family: Arial;
+}
+
+.nums5 {
+    fill: orange;
+}
+
+#svg-bg-grid {
+    display: none;
+}
+
+#hour-hand-circle {
+    fill: none;
+    stroke: rgba(100,100,100,0.2);
+    stroke-width: 1;
+}
+
+#minute-hand-circle,
+#second-hand-circle {
+    display: none;
+    fill: rgba(0,0,0,0.2);
+    stroke: rgba(100,100,100,0.4);
+    stroke-width: 1;
+}
+
+#hour-hand-line {
+    stroke: rgba(50,50,50,0.8);
+    stroke-width: 4.5;
+    stroke-linecap: round;
+    marker-start: url(#dot);
+    marker-end: url(#arrow-1);
+}
+
+#hour-minute-donut,
+#minute-second-donut {
+    fill-rule: evenodd;
+    fill: rgba(100,100,100,0.2);
+    stroke: rgba(100,100,100,0.4);
+    stroke-width: 0.5;
+}
+
+#hour-minute-donut {
+    stroke: none;
+}
+
+#minute-hand-line,
+#second-hand-line {
+    stroke: rgba(50,50,50,0.8);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+#minute-hand-line {
+    stroke-width: 2.7;
+}
+
+#number-background {
+    fill: rgba(255,255,255,1.0);
+    stroke: rgba(0,0,0,0.1);
+    stroke-width: 1;
+}
+
+.crosshairs {
+    stroke: rgba(0,0,0,0.3);
+    stroke-width: 0.5;
+}
+
+#dot,
+#arrow-1 {
+    fill: orange;
+}
+
+#controls {
+    padding: 5px;
+}
+</style>
+<defs>
+<!-- NOTE: transform x and y = ((circle radius) * scale) -->
+<path id='circ5'
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      transform="translate(126 126) scale(25.2)" />
+
+<path id='donut2'
+      d='M  75 0 A  75  75 0 1 1  75 -0.5
+         M 100 0 A 100 100 0 1 1 100 -0.5'/>
+
+<path id='donut3'
+      d='M 100 0 A 100 100 0 1 1 100 -0.5
+         M 125 0 A 125 125 0 1 1 125 -0.5'/>
+
+<!-- WARNING: Be careful to not use whitespace in clock numbers-->
+<text id='t5'
+      class="nums5"
+      letter-spacing="51"
+      textLength="100%"
+    ><textPath
+        id='rotate5' xlink:href="#circ5" startOffset="0"><tspan
+            dx="-1.5" letter-spacing="0">12</tspan><tspan
+            dx="36.7">.</tspan><tspan
+            dx="3.25">.</tspan><tspan
+            dx="-3">3</tspan><tspan
+            dx="-2.0">.</tspan><tspan
+            dx="3.1">.</tspan><tspan
+            dx="-2.0">9</tspan><!-- THIS IS 6 --><tspan
+            dx="-2.8">.</tspan><tspan
+            dx="3.1">.</tspan><tspan
+            dx="-2">9</tspan><tspan
+            dx="-2.8">.</tspan><tspan
+            dx="2.9">.</tspan></textPath></text>
+
+<!-- MARKER OPTIONS FOR END OF CLOCK HANDS -->
+<marker id="arrow-1"
+    viewBox="0 0 10 10"
+    refX="1.7"
+    refY="5"
+    markerWidth="1.35"
+    markerHeight="5"
+    orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" />
+</marker>
+<marker id="dot"
+    viewBox="0 0 10 10"
+    refX="5"
+    refY="5"
+    markerWidth="2"
+    markerHeight="2">
+    <circle cx="5" cy="5" r="5" />
+</marker>
+
+</defs>
+
+<g id="outer-scale" transform="scale(1.0)" >
+    <g id="outer-translate" transform="translate(67 67)">
+        <image id="svg-bg-grid"
+               x="-50" y="-50"
+               height="1400" width="1000"
+               xlink:href="/svg/grid-3.svg" />
+        <g transform="translate(125,125)">
+            <circle id="number-background"
+                    cx="0" cy="0" r="158"/>
+            <line id="crosshair-h-l" class="crosshairs"
+                    x1="-140" y1="0"
+                    x2="-75" y2="0" />
+            <line id="crosshair-h-r" class="crosshairs"
+                    x1="75" y1="0"
+                    x2="140" y2="0" />
+            <line id="crosshair-v-b" class="crosshairs"
+                    x1="0" y1="75"
+                    x2="0" y2="140" />
+            <line id="crosshair-v-t" class="crosshairs"
+                    x1="0" y1="-140"
+                    x2="0" y2="-75" />
+        </g>
+        <g transform="translate(125,125)">
+            <g transform="" id="hour-hand">
+                <line id="hour-hand-line"
+                      x1="0" y1="0"
+                      x2="0" y2="-72" />
+                <circle id="hour-hand-circle"
+                        cx="0" cy="0" r="75"  />
+            </g>
+        </g>
+        <g transform="translate(125 125)">
+            <g transform="" id="minute-hand">
+                <line id="minute-hand-line"
+                      x1="0" y1="0"
+                      x2="0" y2="-98" />
+                <circle id="minute-hand-circle"
+                        cx="0" cy="0" r="100" />
+                <use id="hour-minute-donut"
+                     xlink:href="#donut2"
+                     x="0" y="0" />
+            </g>
+        </g>
+
+        <g transform="translate(125 125)">
+            <g transform="" id="second-hand">
+                <circle id="second-hand-circle"
+                        cx="0" cy="0" r="125" />
+
+                <use id="minute-second-donut"
+                     xlink:href="#donut3" />
+                <line id="second-hand-line"
+                      x1="0" y1="0"
+                      x2="0" y2="-123" />
+            </g>
+        </g>
+        <g transform="translate(1 147)"> <!-- Clock Face Numbers -->
+            <use xlink:href="#t5" transform="rotate(-100)" id='num2' />
+        </g>
+    </g>
+</g>
+<g transform="translate(155 155)" >
+</g>
+<g id="set-timezone-svg">
+
+</g>
+</svg>
+<div id="controls">
+<h3 id="showTimezone">Set Timezone:</h3>
+<input id="timezone" name="timezone" type="number" min="-24.00" max="24.00" value="-5">
+<input type="button" id="update" name="update" value="Update">
+</div>
+<pre id="stats"></pre>
+
+<script >
+// This code is developed at https://home.semitasker.com/js/queue-function.js //
+
+class Queue {
+    #items = [];
+    #priority = [];
+
+    constructor() {
+        this.numItems = 0;
+        this.numProcessed = 0;
+        this.numQueued = 0;
+        this.intervalId = null;
+        this.running = false;
+    }
+    add (item) {
+        this.numItems++;
+        return this.#items.push(item)
+    }
+    addPriority (item) {
+        this.numItems++;
+        return this.#priority.push(item)
+    }
+    start (me, interval) {
+        if (me === this) {
+            this.intervalId = setInterval(() => {me.run()},interval)
+            this.running = true;
+        }
+        return this.intervalId;
+    }
+    stop () {
+        clearInterval(this.intervalId)
+        this.intervalId = null;
+        this.running = false;
+    }
+    run () {
+        let len = this.#priority.length;
+        let item;
+        if (len) {
+            for (let i = 0;i<len;i++) {
+                item = this.#priority[i]
+                setTimeout(item.func,0,item.data)
+                this.numProcessed++
+            }
+        }
+        this.#priority = [];
+        len = this.#items.length;
+        if (len) {
+            for (let i=0;i<len;i++) {
+                item = this.#items[i];
+                setTimeout(item.func,item.timeout,item.data)
+                this.numProcessed++
+            }
+        }
+        this.#items = [];
+        this.numItems = 0;
+    }
+    getItemCount () {
+        return (this.#items.length + this.#priority.length)
+    }
+    flush () {
+        this.#items = [];
+    }
+    flushPriority () {
+        this.#priority = [];
+    }
+    flushAll () {
+        this.flush();
+        this.flushPriority();
+    }
+}
+
+class QueueItem {
+
+    constructor(queue,func,timeout,data,priorityP) {
+        this.queue = queue;
+        this.func = func;
+        this.timeout = timeout;
+        this.data = data;
+        this.data.queue = queue;
+
+        if (priorityP) {
+            this.priorityP = true;
+            queue.addPriority(this)
+        }
+        else {
+            this.priorityP = false;
+            queue.add(this)
+        }
+    }
+}
+
+</script>
+<script>
+// This code is developed at https://home.semitasker.com/js/clock-nr.js //
+// Clock Hands Movement
+class Clock {
+
+    #queue;
+    #timezoneOffset = -8; // PST
+    #stats = [{h:0,m:0,s:0,ms:0,diff:0}];
+    #days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    #daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
+    constructor (queue,hourId,minuteId, secondId, subSecondOneId,subSecondTwoId) {
+        this.#queue = (queue?queue:new Queue());
+        this.hourId = (hourId?hourId:"hour-hand");
+        this.minuteId = (minuteId?minuteId:"minute-hand");
+        this.secondId = (secondId?secondId:"second-hand");
+        this.subSecondOneId = (subSecondOneId?subSecondOneId:"sub-second-hand-1");
+        this.subSecondTwoId = (subSecondTwoId?subSecondTwoId:"sub-second-hand-2");
+        this.continueAnimation = false;
+        this.runFunction = this.run;
+
+        this.data = {
+            obj:this,
+            hourId:this.hourId,
+            minuteId:this.minuteId,
+            secondId:this.secondId,
+            subSecondOneId:this.subSecondOneId,
+            subSecondTwoId:this.subSecondTwoId,
+            timezoneOffset:this.#timezoneOffset,
+            queue:this.#queue,
+        }
+        return this
+    }
+    start (animationFunction, timeout, data) {
+        let da = (data?data:this.data)
+        let obj = da.obj;
+        let af = (animationFunction?animationFunction:this.runFunction);
+        let to = (timeout?timeout:1000)
+        obj.continueAnimation = true;
+        this.continueAnimation = true;
+        da.af = af;
+        da.timeout = to;
+        // Initial queue uses priority scheduling
+        new QueueItem(obj.#queue,af,to,da,true)
+    }
+    set (dateObj,dataObj) {
+        let date = (dateObj?dateObj:new Date())
+        let data = (dataObj?dataObj:this.data)
+        let obj  = data.obj
+        let d    = document;
+        let millisecond = date.getMilliseconds();
+        let second = date.getUTCSeconds();
+        let minute = date.getUTCMinutes();
+        let hour = (date.getUTCHours() % 12);
+        let day = date.getUTCDate();
+        let month = date.getUTCMonth() + 1;
+        let year = date.getUTCFullYear();
+        // Adjust for Timezone Difference, if any
+        let tzo = date.getTimezoneOffset();
+        if (tzo < -24 || tzo > 24) {
+            tzo = 0;
+        }
+        let timezoneOffset = obj.getTimezoneOffset()
+        let origHour = hour;
+        if (tzo == 0) {
+            hour = date.getUTCHours() + timezoneOffset;
+            if (hour < 0) {
+                let i = 0
+                while (hour < 0) {
+                    hour += 12
+                    i++
+                }
+                // quick timezone fix, do better with constructed date
+                hour = hour % 12
+                day -= 1
+            }
+            if (day < 1) {
+                month--
+                if (month < 1) {
+                    year--
+                    month = 12
+                }
+                // back to day
+                day = this.#daysInMonth[month-1]
+            }
+        }
+
+        //this.pushStat(hour,minute,second,millisecond);
+        let sAngle = second * 6;
+        let mAngle = minute * 6 + (sAngle/60);
+        let hAngle = hour  * 30 + (mAngle/12);
+        let secondElement = d.getElementById(data.secondId)
+        secondElement.setAttribute('transform','rotate(' + sAngle + ')')
+        let minuteElement = d.getElementById(data.minuteId)
+        minuteElement.setAttribute('transform','rotate(' + mAngle + ')')
+        let hourElement = d.getElementById(data.hourId)
+        hourElement.setAttribute('transform','rotate(' + hAngle + ')')
+        let timeString = this.format(hour) + ":" + this.format(minute) + ":" + this.format(second);
+        document.querySelector("title").textContent = "SVG Clock: " + timeString;
+    }
+    format (number,digits) {
+        digits = digits?digits:2;
+        let fmt = "" + number;
+        fmt = "0".repeat(digits - fmt.length) + fmt;
+        return fmt;
+    }
+    pushStat(hour,minute,second,millisecond) {
+        let prev = this.#stats[this.#stats.length-1]
+        let diff  = (second - prev.s)
+        if (diff < 1) {
+            if (minute == prev.m) {
+                this.print('stats')
+            }
+        }
+        if (this.#stats.length > 70) {
+            //this.print('stats');
+            this.resetStats();
+        }
+        this.#stats.push({h:hour,m:minute,s:second,ms:millisecond,diff:diff});
+    }
+    run (data) {
+        let date = new Date();
+        let millisecond = date.getMilliseconds();
+        let obj  = data.obj;
+        obj.set(date,data);
+        data.continueAnimation = obj.continueAnimation
+        data.timeout = 1000-millisecond
+        return new QueueItem(obj.#queue,data.af,data.timeout,data,false);
+    }
+    stop () {
+        this.continueAnimation = false;
+    }
+    setTimezoneOffset(tz) {
+        this.#timezoneOffset = tz;
+        this.data.timezoneOffset = tz;
+    }
+    getTimezoneOffset() {
+        return this.#timezoneOffset;
+
+    }
+    resetStats() {
+        this.#stats = [{h:0,m:0,s:0,ms:0,diff:0}];
+    }
+    getStats() {
+        return this.#stats;
+    }
+    print(preId) {
+        let pre = document.getElementById(preId)
+        let html = ""
+        for (let i = 0;i<this.#stats.length;i++ ) {
+            html += "h:" + this.#stats[i].h 
+            + ", m:" + this.#stats[i].m
+            + ", s:" + this.#stats[i].s 
+            + " ms: " +  this.#stats[i].ms 
+            + ", diff:" + this.#stats[i].diff
+            + " <br />";
+        }
+        pre.innerHTML = html
+    }
+}
+
+</script>
+
+<script>
+
+var myQueue = new Queue();
+var myClock = new Clock(myQueue);
+var myTimezone;
+
+window.addEventListener('DOMContentLoaded', () => {
+    //myTimezone = getTimezone();
+    getTimezone();
+    //myClock.setTimezoneOffset(myTimezone);
+    //myClock.start();
+    //myQueue.start(myQueue,10);
+});
+
+</script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.5.2/firebase-analytics.js"></script>
+
+<script>
+// Your web app's Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyD9Jx7sI8YBwop0KlSNSqzWEsyyXYx3KW8",
+    authDomain: "semitasker-1.firebaseapp.com",
+    databaseURL: "https://semitasker-1.firebaseio.com",
+    projectId: "semitasker-1",
+    storageBucket: "semitasker-1.appspot.com",
+    messagingSenderId: "891468210357",
+    appId: "1:891468210357:web:a15ecd16c71180f0b69efc",
+    measurementId: "G-Z82D422NBN"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+firebase.analytics();
+
+var db = firebase.firestore();
+
+db.enablePersistence()
+  .catch(function(err) {
+      if (err.code == 'failed-precondition') {
+          // Multiple tabs open, persistence can only be enabled
+          // in one tab at a a time.
+          // ...
+      } else if (err.code == 'unimplemented') {
+          // The current browser does not support all of the
+          // features required to enable persistence
+          // ...
+      }
+});
+// Subsequent queries will use persistence, if it was enabled successfully
+
+</script>
+<script>
+const timezoneField = document.querySelector("#timezone");
+const updateButton  = document.querySelector("#update");
+const timezoneHeader = document.querySelector("#showTimezone");
+const tzoField = document.querySelector("#tzo");
+
+const docRef = db.doc("/samples/timezoneData");
+
+var getTimezone = function() {
+    myTimezone = -5; // East Coast
+    docRef.onSnapshot(function (doc) {
+        if (doc && doc.exists) {
+            const myData = doc.data();
+            myTimezone = myData.timezone;
+            timezoneHeader.innerText = "Current Timezone: " + myTimezone;
+        }
+        timezoneField.value = myTimezone;
+        myClock.setTimezoneOffset(parseInt(myTimezone));
+        myClock.start();
+        myQueue.start(myQueue,10);
+    });
+}
+
+update.addEventListener("click",function (evt) {
+    myTimezone = parseInt(timezoneField.value);
+    timezoneHeader.innerText = "Current Timezone: " + myTimezone;
+    myClock.setTimezoneOffset(myTimezone);
+    docRef.set({
+        timezone: myTimezone
+    }).then(function() {
+        console.log("New Timezone =" + myTimezone);
+    }).catch (function (error) {
+        console.log("Error updating timezone: " + error);
+    });
+});
+</script>
+</body>
+</html>
