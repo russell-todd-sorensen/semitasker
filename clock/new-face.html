@@ -108,6 +108,14 @@ navigator.serviceWorker.getRegistrations().then(
 #svg-clock {
     border: 1px dashed tan;
     background-color: rgba(0,0,0,.2);
+    border-width: 0;
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    font-weight: normal;
+    position: relative;
+    background-size: cover;
+    background-image: url("/images/mset-opt/mset-6076.png");
 }
 
 #svg-clock text {
@@ -137,8 +145,6 @@ navigator.serviceWorker.getRegistrations().then(
     fill:transparent;
 }
 
-
-
 #svg-clock #hour-tick-marks {
     stroke: rgba(0,0,0,.5);
     stroke-width:230;
@@ -146,7 +152,7 @@ navigator.serviceWorker.getRegistrations().then(
     fill:transparent;
 }
 #svg-clock #minutes {
-    stroke: rgba(0,0,0,.3);
+    stroke: rgba(154,154,154,1.0); /*rgba(0,0,0,.3) */
     stroke-width:235;
     fill:rgba(255,255,255,.85);
 }
@@ -255,12 +261,14 @@ navigator.serviceWorker.getRegistrations().then(
 #update {
     display: inline-block;
 }
-
+#svg-clock #euclidian-transform-xy-plane {
+    display: none;
+}
 </style>
 <circle id="hour-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
 <circle id="second-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
 <circle id="c1" x="0" y="0" cx="0" cy="0" r="696"/>
-<circle id="minutes" x="0" y="0" cx="0" cy="0" r="480"/>
+<circle id="minutes" x="0" y="0" cx="0" cy="0" r="484"/>
 <circle id="hours" x="0" y="0" cx="0" cy="0" r="420"/>
 <g id="g0">
     <g transform="matrix(0.5 -0.8660254037844386 0.8660254037844386 0.5 320 -554.2562584220407)">
@@ -323,17 +331,25 @@ navigator.serviceWorker.getRegistrations().then(
 
 <!-- NOTE: transform x and y = ((circle radius) * scale) -->
 <path id='circ5'
-      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 z'
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 Z'
       transform="translate(126 126) scale(25.2)" />
 
 <path id='donut2'
       d='M  75 0 A  75  75 0 1 1  75 -0.5
-         M 100 0 A 100 100 0 1 1 100 -0.5'/>
+         M 100 0 A 100 100 0 1 1 100 -0.5 Z'/>
 
+<path id='donut2.2'
+        d='M  75 0 A  75  75 0 1 1  75 0
+           M 100 0 A 100 100 0 1 1 100 0 Z'/>
+   
 <path id='donut3'
       d='M 100 0 A 100 100 0 1 1 100 -0.5
-         M 125 0 A 125 125 0 1 1 125 -0.5'/>
+         M 125 0 A 125 125 0 1 1 125 -0.5 Z'/>
 
+<path id='donut3.3'
+         d='M 100 0 A 100 100 0 1 1 100 0
+            M 125 0 A 125 125 0 1 1 125 0 Z'/>
+   
 </defs>
 
 <g id="euclidian-transform-xy-plane">
@@ -342,11 +358,11 @@ navigator.serviceWorker.getRegistrations().then(
 </g>
 
 <g id="composition-table">
-    <use id="hour-ticks" href="#hour-tick-marks" />
     <use id="second-ticks" href="#second-tick-marks" />
-    <use id="outer-face" href="#c1" />
     <use id="minute-face" href="#minutes" />
+    <use id="hour-ticks" href="#hour-tick-marks" />
     <use id="hour-face" href="#hours" />
+    <use id="outer-face" href="#c1" />
     <use id="show" href="#g0" transform="scale(1.0)"/>
     
     <g transform="scale(4)">
@@ -362,9 +378,9 @@ navigator.serviceWorker.getRegistrations().then(
         <g transform="" id="minute-hand">
             <line id="minute-hand-line"
                 x1="0" y1="0"
-                x2="0" y2="-148" />
+                x2="0" y2="-149" />
             <use id="hour-minute-donut"
-                xlink:href="#donut2"
+                xlink:href="#donut2.2"
                 x="0" y="0"  transform="scale(1.5)"/>
         </g>
 
