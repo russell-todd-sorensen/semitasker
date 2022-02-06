@@ -114,8 +114,6 @@ navigator.serviceWorker.getRegistrations().then(
     font-size: 100%;
     font-weight: normal;
     position: relative;
-    background-size: cover;
-    background-image: url("/images/mset-opt/mset-6076.png");
 }
 
 #svg-clock text {
@@ -135,8 +133,10 @@ navigator.serviceWorker.getRegistrations().then(
 }
 #svg-clock #c1 {
     fill: rgba(0,0,0,0);/*rgba(0,0,0,.2) */
+    fill: transparent;
     stroke: white;
     stroke-width:120;
+    filter: url("#image-3");
 }
 #svg-clock #second-tick-marks {
     stroke: rgba(0,0,0,.5);
@@ -145,6 +145,11 @@ navigator.serviceWorker.getRegistrations().then(
     fill:transparent;
 }
 
+#svg-clock #second-tick-marks-backing {
+    stroke: rgba(118,107,117,1.0);
+    stroke-width:40;
+    fill:transparent;
+}
 #svg-clock #hour-tick-marks {
     stroke: rgba(0,0,0,.5);
     stroke-width:230;
@@ -152,12 +157,13 @@ navigator.serviceWorker.getRegistrations().then(
     fill:transparent;
 }
 #svg-clock #minutes {
-    stroke: rgba(154,154,154,1.0); /*rgba(0,0,0,.3) */
+    stroke:  rgba(78,87,78,1.0)  ;/* rgba(154,154,154,1.0); rgba(0,0,0,.3) */
     stroke-width:235;
     fill:rgba(255,255,255,.85);
 }
 #svg-clock #hours {
-    fill:white;
+    fill:rgba(78,87,78,.8);
+    filter: url("#image-3");
 }
 
 #hour-hand-circle {
@@ -209,6 +215,7 @@ navigator.serviceWorker.getRegistrations().then(
     fill: rgba(255,255,255,1.0);
     stroke: rgba(0,0,0,0.1);
     stroke-width: 1;
+    filter: url(#image-2);
 }
 
 .crosshairs {
@@ -266,6 +273,7 @@ navigator.serviceWorker.getRegistrations().then(
 }
 </style>
 <circle id="hour-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
+<circle id="second-tick-marks-backing" x="0" y="0" cx="0" cy="0" r="616"/>
 <circle id="second-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
 <circle id="c1" x="0" y="0" cx="0" cy="0" r="696"/>
 <circle id="minutes" x="0" y="0" cx="0" cy="0" r="484"/>
@@ -349,7 +357,22 @@ navigator.serviceWorker.getRegistrations().then(
 <path id='donut3.3'
          d='M 100 0 A 100 100 0 1 1 100 0
             M 125 0 A 125 125 0 1 1 125 0 Z'/>
-   
+
+
+<filter id="image-2">
+    <feImage href="/images/mset-opt/mset-5661.png" result="image" />
+    <feComposite in="image" in2="SourceGraphic" operator="in"  result="cut-image" />
+    <!-- make offset drop shadow based upon blurred image mset-5661.png mset-6076.png
+    <feGaussianBlur in="cut-image" result="blur" stdDeviation="3" />
+    <feOffset dx="5" dy="5" in="blur" result="off-blur" />
+    <feComposite in="cut-image" in2="off-blur" operator="over" /> -->
+</filter>
+
+<filter id="image-3" filterUnits="objectBoundingBox" height="150%" width="150%" >
+    <feImage xlink:href="/images/mset-opt/mset-5866.png" result="image" height="1594" width="2345"/><!--mset-6076.png height="871" width="1250"   2345x1594-->
+    <feTile in="image" out="image-2" height="110%" width="110%" />
+    <feComposite in="image-2" in2="SourceGraphic" operator="in" result="cut-image" />
+</filter>
 </defs>
 
 <g id="euclidian-transform-xy-plane">
@@ -358,6 +381,7 @@ navigator.serviceWorker.getRegistrations().then(
 </g>
 
 <g id="composition-table">
+    <use id="second-ticks" href="#second-tick-marks-backing" />
     <use id="second-ticks" href="#second-tick-marks" />
     <use id="minute-face" href="#minutes" />
     <use id="hour-ticks" href="#hour-tick-marks" />
