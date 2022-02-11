@@ -373,6 +373,15 @@ navigator.serviceWorker.getRegistrations().then(
     <feTile in="image" out="image-2" height="110%" width="110%" />
     <feComposite in="image-2" in2="SourceGraphic" operator="in" result="cut-image" />
 </filter>
+
+<filter id="hueRotate-3" >
+<feColorMatrix id="hr1" type="hueRotate" values="0" >
+ <!--   <animate attributeName="values"
+        start="0s" from="0" to="360"
+        dur="20s" repeatCount="indefinite" />-->
+
+</feColorMatrix>
+</filter>
 </defs>
 
 <g id="euclidian-transform-xy-plane">
@@ -380,7 +389,7 @@ navigator.serviceWorker.getRegistrations().then(
     <line x1="0" y1="-100%" y2="100%" x2="0" stroke="black" stroke-width="1"></line>
 </g>
 
-<g id="composition-table">
+<g id="composition-table" filter="url(#hueRotate-3)">
     <use id="second-ticks" href="#second-tick-marks-backing" />
     <use id="second-ticks" href="#second-tick-marks" />
     <use id="minute-face" href="#minutes" />
@@ -463,13 +472,13 @@ class Queue {
         this.running = false;
     }
     run () {
-        let len = this.#priority.length;
-        let item;
+        let len = this.#priority.length,
+            item;
         if (len) {
             for (let i = 0;i<len;i++) {
-                item = this.#priority[i]
-                setTimeout(item.func,0,item.data)
-                this.numProcessed++
+                item = this.#priority[i];
+                setTimeout(item.func,0,item.data);
+                this.numProcessed++;
             }
         }
         this.#priority = [];
@@ -477,7 +486,7 @@ class Queue {
         if (len) {
             for (let i=0;i<len;i++) {
                 item = this.#items[i];
-                setTimeout(item.func,item.timeout,item.data)
+                setTimeout(item.func,item.timeout,item.data);
                 this.numProcessed++
             }
         }
@@ -485,7 +494,7 @@ class Queue {
         this.numItems = 0;
     }
     getItemCount () {
-        return (this.#items.length + this.#priority.length)
+        return (this.#items.length + this.#priority.length);
     }
     flush () {
         this.#items = [];
@@ -496,6 +505,95 @@ class Queue {
     flushAll () {
         this.flush();
         this.flushPriority();
+    }
+}
+
+class svgAnimation {
+    #queue;
+    type;
+    data;
+    from;
+    to;
+    delay;
+    dur;
+    repeat;
+    interval;
+    selector;
+    attr;
+    continueAnimation = false;
+    runFunction;
+    static #idCounter = 0;
+    id;
+    constructor(queue,type,data) {
+        this.#queue = queue?queue:new Queue();
+        this.type = type;
+        this.data = data;
+        this.id = this.getNextId();
+        this.init();
+    }
+    getNextId() {
+        return svgAnimation.#idCounter++;
+    }
+    init() {
+        this.data.obj = this;
+        this.data.queue = this.#queue;
+        let data = this.data;
+        this.from = data.from?data.from:0;
+        this.to   = data.to?data.to:0;
+        this.delay = data.delay?data.delay:0;
+        this.repeat = data.repeat?data.repeat:1;
+        this.dur  = data.dur?data.dur:10000;
+        this.interval = data.interval?data.interval:1000;
+        this.selector = data.selector;
+        this.attr = data.attr;
+        this.at = 0;
+        this.prevAt = 0;
+        this.steps = Math.ceil(this.dur/this.interval);
+        this.step = 0;
+        this.runFunction = data.func?data.func:this.run;
+        switch (this.type) {
+        case "numeric": 
+            break;
+        default: 
+            break;
+        }
+    }
+    set(data) {
+        let obj = data.obj,
+            value = (obj.to-obj.from) * ((obj.step)/obj.steps);
+        obj.step++;
+        document.querySelector(obj.selector).setAttribute(obj.attr,value)
+    }
+    start(data) {
+        let da = data?data:this.data,
+            obj = da.obj;
+        obj.continueAnimation = true;
+        if (obj.step === 0 && obj.delay === 0) {
+            obj.set(da);
+            obj.at = 0;
+        }
+
+        obj.runFunction(data);
+    }
+    run(data) {
+        let obj = data.obj, 
+            diff =  obj.interval;
+
+        obj.prevAt = obj.at;
+        obj.at = obj.step * obj.interval;
+        if (obj.at > obj.dur) {
+            data.continueAnimation = false;
+            obj.continueAnimation = false;
+            obj.at = obj.dur;
+            diff = obj.at - obj.prevAt;
+        }
+
+        obj.set(data);
+
+        if (obj.continueAnimation) {
+            new QueueItem(obj.#queue,obj.runFunction,diff,data);
+            console.log(`step=${obj.step} diff=${diff} at=${obj.at}`);
+        }
     }
 }
 
@@ -554,10 +652,10 @@ class Clock {
         return this
     }
     start (animationFunction, timeout, data) {
-        let da = (data?data:this.data)
-        let obj = da.obj;
-        let af = (animationFunction?animationFunction:this.runFunction);
-        let to = (timeout?timeout:1000)
+        let da = (data?data:this.data),
+            obj = da.obj,
+            af = (animationFunction?animationFunction:this.runFunction),
+            to = (timeout?timeout:1000);
         obj.continueAnimation = true;
         this.continueAnimation = true;
         da.af = af;
@@ -566,24 +664,24 @@ class Clock {
         new QueueItem(obj.#queue,af,to,da,true)
     }
     set (dateObj,dataObj) {
-        let date = (dateObj?dateObj:new Date())
-        let data = (dataObj?dataObj:this.data)
-        let obj  = data.obj
-        let d    = document;
-        let millisecond = date.getMilliseconds();
-        let second = date.getUTCSeconds();
-        let minute = date.getUTCMinutes();
-        let hour = (date.getUTCHours() % 12);
-        let day = date.getUTCDate();
-        let month = date.getUTCMonth() + 1;
-        let year = date.getUTCFullYear();
-        // Adjust for Timezone Difference, if any
-        let tzo = date.getTimezoneOffset();
+        let date = (dateObj?dateObj:new Date()),
+            data = (dataObj?dataObj:this.data),
+            obj  = data.obj,
+            d    = document,
+            millisecond = date.getMilliseconds(),
+            second = date.getUTCSeconds(),
+            minute = date.getUTCMinutes(),
+            hour = (date.getUTCHours() % 12),
+            day = date.getUTCDate(),
+            month = date.getUTCMonth() + 1,
+            year = date.getUTCFullYear(),
+            // Adjust for Timezone Difference, if any
+            tzo = date.getTimezoneOffset();
         if (tzo < -24 || tzo > 24) {
             tzo = 0;
         }
-        let timezoneOffset = obj.getTimezoneOffset()
-        let origHour = hour;
+        let timezoneOffset = obj.getTimezoneOffset(),
+            origHour = hour;
         if (tzo == 0) {
             hour = date.getUTCHours() + timezoneOffset;
             if (hour < 0) {
@@ -608,16 +706,17 @@ class Clock {
         }
 
         //this.pushStat(hour,minute,second,millisecond);
-        let sAngle = second * 6;
-        let mAngle = minute * 6 + (sAngle/60);
-        let hAngle = hour  * 30 + (mAngle/12);
-        let secondElement = d.getElementById(data.secondId)
-        secondElement.setAttribute('transform','rotate(' + sAngle + ')')
-        let minuteElement = d.getElementById(data.minuteId)
-        minuteElement.setAttribute('transform','rotate(' + mAngle + ')')
-        let hourElement = d.getElementById(data.hourId)
-        hourElement.setAttribute('transform','rotate(' + hAngle + ')')
-        let timeString = this.format(hour) + ":" + this.format(minute) + ":" + this.format(second);
+        let sAngle = second * 6,
+            mAngle = minute * 6 + (sAngle/60),
+            hAngle = hour  * 30 + (mAngle/12),
+            secondElement = d.getElementById(data.secondId),
+            minuteElement = d.getElementById(data.minuteId),
+            hourElement = d.getElementById(data.hourId),
+            timeString = this.format(hour) + ":" + this.format(minute) + ":" + this.format(second);
+
+        secondElement.setAttribute('transform','rotate(' + sAngle + ')');
+        minuteElement.setAttribute('transform','rotate(' + mAngle + ')');
+        hourElement.setAttribute('transform','rotate(' + hAngle + ')');
         document.querySelector("title").textContent = "SVG Clock: " + timeString;
     }
     format (number,digits) {
@@ -627,8 +726,8 @@ class Clock {
         return fmt;
     }
     pushStat(hour,minute,second,millisecond) {
-        let prev = this.#stats[this.#stats.length-1]
-        let diff  = (second - prev.s)
+        let prev = this.#stats[this.#stats.length-1],
+            diff  = (second - prev.s);
         if (diff < 1) {
             if (minute == prev.m) {
                 this.print('stats')
@@ -641,9 +740,9 @@ class Clock {
         this.#stats.push({h:hour,m:minute,s:second,ms:millisecond,diff:diff});
     }
     run (data) {
-        let date = new Date();
-        let millisecond = date.getMilliseconds();
-        let obj  = data.obj;
+        let date = new Date(),
+            millisecond = date.getMilliseconds(),
+            obj  = data.obj;
         obj.set(date,data);
         data.continueAnimation = obj.continueAnimation
         data.timeout = 1000-millisecond
@@ -667,8 +766,8 @@ class Clock {
         return this.#stats;
     }
     print(preId) {
-        let pre = document.getElementById(preId)
-        let html = ""
+        let pre = document.getElementById(preId),
+            html = "";
         for (let i = 0;i<this.#stats.length;i++ ) {
             html += "h:" + this.#stats[i].h 
             + ", m:" + this.#stats[i].m
@@ -689,6 +788,8 @@ var myQueue = new Queue();
 var myClock = new Clock(myQueue);
 var myTimezone;
 
+var sanim;
+
 const timezoneId = "timezone"
 const timezoneField = document.querySelector(["#",timezoneId].join(""));
 const updateButton  = document.querySelector("#update");
@@ -698,6 +799,16 @@ window.addEventListener('DOMContentLoaded', () => {
     Data.restoreInput('timezone');
 
     setTimezone(timezoneId);
+    sanim = new svgAnimation(myQueue,"number",{
+        from:0,
+        to:360,
+        start:0,
+        repeat:1,
+        dur:1000000,
+        interval:1000,
+        selector: "#hr1",
+        attr:"values",
+    });
 });
 
 </script>
@@ -739,6 +850,16 @@ var updateTimezone = function(inputId) {
         });
     });
 */
+
+var testScript = function(obj) {
+    nnn = new svgAnimation(myQueue,"number",{})
+    sanim = new svgAnimation(myqueue,"numeric")
+    sanim = new svgAnimation(myQueue,"numeric",{})
+    sanim.run({})
+}
+
+
+
 </script>
 </body>
 </html>
