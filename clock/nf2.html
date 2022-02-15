@@ -24,247 +24,6 @@ body {
     margin: 0;
 }
 
-</style>
-<script>
-var Log = {};
-Log.msg = function(msg) {};
-Log.Notice = Log.Error = Log.Warning = Log.Debug = Log.Hide = Log.Show = Log.Remove = Log.msg;
-
-const compatUrl = "/clock/clock-compat.html";
-
-</script>
-<script>
-try {
-  class CanUsePrivateFields {
-      #privateField = false;
-      constructor() {
-          this.#privateField = true;
-      }
-      getPrivateField() {
-          return this.#privateField;
-      }
-  }
-  var myPrivateFieldInstance = new CanUsePrivateFields()
-  if (!myPrivateFieldInstance.getPrivateField()) {
-      window.location.replace(compatUrl);
-  }
-} catch (error) {
-    window.location.replace(compatUrl);
-    console.error(error);
-}
-</script>
-<script>
-try {
-    if (!myPrivateFieldInstance.getPrivateField()) {
-        window.location.replace(compatUrl);
-    }
-} catch (error) {
-    window.location.replace(compatUrl);
-}
-</script>
-
-<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-<script src="/js/form-save-restore.js"></script>
-
-<script>
-if ('serviceWorker' in navigator) {
-    // Use the window load event to keep the page load performant
-    //window.addEventListener('load', () => {
-        //navigator.serviceWorker.register('/clock/clock-sw.js');
-    //});
-}
-
-if ('serviceWorker' in navigator) {
-
-navigator.serviceWorker.getRegistrations().then(
-    function(registrations) {
-
-        for(let registration of registrations) {
-            registration.unregister()
-        }
-    }).catch(function(err) {
-        console.log('Service Worker registration failed: ', err);
-    });
-}
-</script>
-
-</head>
-<body>
-<svg 
-    id="svg-clock" 
-    x="-768" 
-    y="-768" 
-    height="1536" 
-    width="1536" 
-    viewBox="-768 -768 1536 1536">
-<defs>
-<circle id="hour-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
-<circle id="second-tick-marks-backing" x="0" y="0" cx="0" cy="0" r="616"/>
-<circle id="second-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
-<circle id="c1" x="0" y="0" cx="0" cy="0" r="696"/>
-<circle id="minutes" x="0" y="0" cx="0" cy="0" r="484"/>
-<circle id="hours" x="0" y="0" cx="0" cy="0" r="420"/>
-<g id="g0">
-    <g transform="matrix(0.5 -0.8660254037844386 0.8660254037844386 0.5 320 -554.2562584220407)">
-        <text id="clock-num-1" class="clock-text num-1">1</text>
-    </g>
-    <g transform="matrix(0.8660254037844387 -0.5 0.5 0.8660254037844387 554.2562584220408 -320)">
-        <text id="clock-num-2" class="clock-text num-2">2</text>
-    </g>
-    <g transform="matrix(1 0 0 1 640 0)">
-        <text id="clock-num-3" class="clock-text num-3">3</text>
-    </g>
-    <g transform="matrix(0.8660254037844387 0.5 -0.5 0.8660254037844387 554.2562584220408 320)">
-        <text id="clock-num-4" class="clock-text num-4">4</text>
-    </g>
-    <g transform="matrix(0.5 0.8660254037844386 -0.8660254037844386 0.5 320 554.2562584220407)">
-        <text id="clock-num-5" class="clock-text num-5">5</text>
-    </g>
-    <g transform="matrix(0 1 -1 0 0 640)">
-        <text id="clock-num-6" class="clock-text num-6">6</text>
-    </g>
-    <g transform="matrix(-0.5 0.8660254037844387 -0.8660254037844387 -0.5 -320 554.2562584220408)">
-        <text id="clock-num-7" class="clock-text num-7">7</text>
-    </g>
-    <g transform="matrix(-0.8660254037844387 0.5 -0.5 -0.8660254037844387 -554.2562584220408 320)">
-        <text id="clock-num-8" class="clock-text num-8">8</text>
-    </g>
-    <g transform="matrix(-1 0 0 -1 -640 0)">
-        <text id="clock-num-9" class="clock-text num-9">9</text>
-    </g>
-    <g transform="matrix(-0.8660254037844387 -0.5 0.5 -0.8660254037844387 -554.2562584220408 -320)">
-        <text id="clock-num-10" class="clock-text num-10">10</text>
-    </g>
-    <g transform="matrix(-0.5 -0.8660254037844387 0.8660254037844387 -0.5 -320 -554.2562584220408)">
-        <text id="clock-num-11" class="clock-text num-11">11</text>
-    </g>
-    <g transform="matrix(0 -1 1 0 0 -640)">
-        <text id="clock-num-12" class="clock-text num-12">12</text>
-    </g>
-</g>
-
-<!-- MARKER OPTIONS FOR END OF CLOCK HANDS -->
-<marker id="arrow-1"
-    viewBox="0 0 10 10"
-    refX="1.7"
-    refY="5"
-    markerWidth="1.35"
-    markerHeight="5"
-    orient="auto-start-reverse">
-    <path d="M 0 0 L 10 5 L 0 10 z" />
-</marker>
-<marker id="dot"
-    viewBox="0 0 10 10"
-    refX="5"
-    refY="5"
-    markerWidth="2"
-    markerHeight="2">
-    <circle cx="5" cy="5" r="5" />
-</marker>
-
-
-<!-- NOTE: transform x and y = ((circle radius) * scale) -->
-<path id='circ5'
-      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 Z'
-      transform="translate(126 126) scale(25.2)" />
-
-<path id='donut2'
-      d='M  75 0 A  75  75 0 1 1  75 -0.5
-         M 100 0 A 100 100 0 1 1 100 -0.5 Z'/>
-
-<path id='donut2.2'
-        d='M  75 0 A  75  75 0 1 1  75 0
-           M 100 0 A 100 100 0 1 1 100 0 Z'/>
-   
-<path id='donut3'
-      d='M 100 0 A 100 100 0 1 1 100 -0.5
-         M 125 0 A 125 125 0 1 1 125 -0.5 Z'/>
-
-<path id='donut3.3'
-         d='M 100 0 A 100 100 0 1 1 100 0
-            M 125 0 A 125 125 0 1 1 125 0 Z'/>
-
-
-<filter id="image-2">
-    <feImage href="/images/mset-opt/mset-5661.png" result="image" />
-    <feComposite in="image" in2="SourceGraphic" operator="in"  result="cut-image" />
-    <!-- make offset drop shadow based upon blurred image mset-5661.png mset-6076.png
-    <feGaussianBlur in="cut-image" result="blur" stdDeviation="3" />
-    <feOffset dx="5" dy="5" in="blur" result="off-blur" />
-    <feComposite in="cut-image" in2="off-blur" operator="over" /> -->
-</filter>
-
-<filter id="image-3" filterUnits="objectBoundingBox" height="150%" width="150%" >
-    <feImage href="/images/mset-opt/mset-5866.png" result="image" height="1594" width="2345"/><!--mset-6076.png height="871" width="1250"   2345x1594-->
-    <feTile in="image" out="image-2" height="110%" width="110%" />
-    <feComposite in="image-2" in2="SourceGraphic" operator="in" result="cut-image" />
-</filter>
-
-<filter id="hueRotate-3" >
-<feColorMatrix id="hr1" type="hueRotate" values="0" >
- <!--   <animate attributeName="values"
-        start="0s" from="0" to="360"
-        dur="20s" repeatCount="indefinite" />-->
-
-</feColorMatrix>
-</filter>
-</defs>
-
-<g id="euclidian-transform-xy-plane">
-    <line y1="0" x1="-100%" x2="100%" y2="0" stroke="black" stroke-width="1"></line>
-    <line x1="0" y1="-100%" y2="100%" x2="0" stroke="black" stroke-width="1"></line>
-</g>
-
-<g id="composition-table" filter="url(#hueRotate-3)">
-    <use id="second-ticks" href="#second-tick-marks-backing" />
-    <use id="second-ticks" href="#second-tick-marks" />
-    <use id="minute-face" href="#minutes" />
-    <use id="hour-ticks" href="#hour-tick-marks" />
-    <use id="hour-face" href="#hours" />
-    <use id="outer-face" href="#c1" />
-    <use id="show" href="#g0" transform="scale(1.0)"/>
-    
-    <g transform="scale(4)">
-
-        <g transform="" id="second-hand">
-            <use id="minute-second-donut"
-                href="#donut3" />
-            <line id="second-hand-line"
-                x1="0" y1="0"
-                x2="0" y2="-157" />
-        </g>
-
-        <g transform="" id="minute-hand">
-            <line id="minute-hand-line"
-                x1="0" y1="0"
-                x2="0" y2="-149" />
-            <use id="hour-minute-donut"
-                href="#donut2.2"
-                x="0" y="0"  transform="scale(1.5)"/>
-        </g>
-
-        <g transform="" id="hour-hand">
-            <line id="hour-hand-line"
-                x1="0" y1="0"
-                x2="0" y2="-120" />
-        </g>
-    </g>
-</g>
-</svg>
-
-<div id="container">
-<div id="controls">
-<h3 id="showTimezone">Set Timezone:</h3>
-<div id="tz-input">
-<input id="timezone" name="timezone" type="number" min="-24.00" max="24.00" value="-5">
-<input type="button" id="update" name="update" value="Update" onClick="updateTimezone('timezone');">
-</div>
-</div>
-</div>
-<pre id="stats"></pre>
-
-<style>
 #svg-clock {
     border: 1px dashed tan;
     background-color: rgba(0,0,0,.2);
@@ -432,6 +191,273 @@ navigator.serviceWorker.getRegistrations().then(
     display: none;
 }
 </style>
+<script>
+var Log = {};
+Log.msg = function(msg) {};
+Log.Notice = Log.Error = Log.Warning = Log.Debug = Log.Hide = Log.Show = Log.Remove = Log.msg;
+
+const compatUrl = "/clock/clock-compat.html";
+
+</script>
+<script>
+try {
+  class CanUsePrivateFields {
+      #privateField = false;
+      constructor() {
+          this.#privateField = true;
+      }
+      getPrivateField() {
+          return this.#privateField;
+      }
+  }
+  var myPrivateFieldInstance = new CanUsePrivateFields()
+  if (!myPrivateFieldInstance.getPrivateField()) {
+      window.location.replace(compatUrl);
+  }
+} catch (error) {
+    window.location.replace(compatUrl);
+    console.error(error);
+}
+</script>
+<script>
+try {
+    if (!myPrivateFieldInstance.getPrivateField()) {
+        window.location.replace(compatUrl);
+    }
+} catch (error) {
+    window.location.replace(compatUrl);
+}
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/form-save-restore.js"></script>
+
+<script>
+if ('serviceWorker' in navigator) {
+    // Use the window load event to keep the page load performant
+    //window.addEventListener('load', () => {
+        //navigator.serviceWorker.register('/clock/clock-sw.js');
+    //});
+}
+
+if ('serviceWorker' in navigator) {
+
+navigator.serviceWorker.getRegistrations().then(
+    function(registrations) {
+
+        for(let registration of registrations) {
+            registration.unregister()
+        }
+    }).catch(function(err) {
+        console.log('Service Worker registration failed: ', err);
+    });
+}
+</script>
+
+</head>
+<body>
+<svg
+    id="svg-clock"
+    x="-768"
+    y="-768"
+    height="1536"
+    width="1536"
+    viewBox="-768 -768 1536 1536">
+<defs>
+<circle id="hour-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
+<circle id="second-tick-marks-backing" x="0" y="0" cx="0" cy="0" r="616"/>
+<circle id="second-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
+<circle id="c1" x="0" y="0" cx="0" cy="0" r="696"/>
+<circle id="minutes" x="0" y="0" cx="0" cy="0" r="484"/>
+<circle id="hours" x="0" y="0" cx="0" cy="0" r="420"/>
+<g id="g0">
+    <g transform="matrix(0.5 -0.8660254037844386 0.8660254037844386 0.5 320 -554.2562584220407)">
+        <text id="clock-num-1" class="clock-text num-1">1</text>
+    </g>
+    <g transform="matrix(0.8660254037844387 -0.5 0.5 0.8660254037844387 554.2562584220408 -320)">
+        <text id="clock-num-2" class="clock-text num-2">2</text>
+    </g>
+    <g transform="matrix(1 0 0 1 640 0)">
+        <text id="clock-num-3" class="clock-text num-3">3</text>
+    </g>
+    <g transform="matrix(0.8660254037844387 0.5 -0.5 0.8660254037844387 554.2562584220408 320)">
+        <text id="clock-num-4" class="clock-text num-4">4</text>
+    </g>
+    <g transform="matrix(0.5 0.8660254037844386 -0.8660254037844386 0.5 320 554.2562584220407)">
+        <text id="clock-num-5" class="clock-text num-5">5</text>
+    </g>
+    <g transform="matrix(0 1 -1 0 0 640)">
+        <text id="clock-num-6" class="clock-text num-6">6</text>
+    </g>
+    <g transform="matrix(-0.5 0.8660254037844387 -0.8660254037844387 -0.5 -320 554.2562584220408)">
+        <text id="clock-num-7" class="clock-text num-7">7</text>
+    </g>
+    <g transform="matrix(-0.8660254037844387 0.5 -0.5 -0.8660254037844387 -554.2562584220408 320)">
+        <text id="clock-num-8" class="clock-text num-8">8</text>
+    </g>
+    <g transform="matrix(-1 0 0 -1 -640 0)">
+        <text id="clock-num-9" class="clock-text num-9">9</text>
+    </g>
+    <g transform="matrix(-0.8660254037844387 -0.5 0.5 -0.8660254037844387 -554.2562584220408 -320)">
+        <text id="clock-num-10" class="clock-text num-10">10</text>
+    </g>
+    <g transform="matrix(-0.5 -0.8660254037844387 0.8660254037844387 -0.5 -320 -554.2562584220408)">
+        <text id="clock-num-11" class="clock-text num-11">11</text>
+    </g>
+    <g transform="matrix(0 -1 1 0 0 -640)">
+        <text id="clock-num-12" class="clock-text num-12">12</text>
+    </g>
+</g>
+
+<!-- MARKER OPTIONS FOR END OF CLOCK HANDS -->
+<marker id="arrow-1"
+    viewBox="0 0 10 10"
+    refX="1.7"
+    refY="5"
+    markerWidth="1.35"
+    markerHeight="5"
+    orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" />
+</marker>
+<marker id="dot"
+    viewBox="0 0 10 10"
+    refX="5"
+    refY="5"
+    markerWidth="2"
+    markerHeight="2">
+    <circle cx="5" cy="5" r="5" />
+</marker>
+
+
+<!-- NOTE: transform x and y = ((circle radius) * scale) -->
+<path id='circ5'
+      d='M0 0 A5 5 0 0 1 -5 5 A5 5 0 0 1 -10 0 A5 5 0 0 1 0 0 Z'
+      transform="translate(126 126) scale(25.2)" />
+
+<path id='donut2'
+      d='M  75 0 A  75  75 0 1 1  75 -0.5
+         M 100 0 A 100 100 0 1 1 100 -0.5 Z'/>
+
+<path id='donut2.2'
+        d='M  75 0 A  75  75 0 1 1  75 0
+           M 100 0 A 100 100 0 1 1 100 0 Z'/>
+   
+<path id='donut3'
+      d='M 100 0 A 100 100 0 1 1 100 -0.5
+         M 125 0 A 125 125 0 1 1 125 -0.5 Z'/>
+
+<path id='donut3.3'
+         d='M 100 0 A 100 100 0 1 1 100 0
+            M 125 0 A 125 125 0 1 1 125 0 Z'/>
+
+
+<filter id="image-2">
+    <feImage href="/images/mset-opt/mset-5661.png" result="image" />
+    <feComposite in="image" in2="SourceGraphic" operator="in"  result="cut-image" />
+</filter>
+
+<filter id="image-3" filterUnits="objectBoundingBox" height="150%" width="150%" >
+    <feImage href="/images/mset-opt/mset-5866.png" result="image" height="1594" width="2345"/>
+    <feTile in="image" out="image-2" height="110%" width="110%" />
+    <feComposite in="image-2" in2="SourceGraphic" operator="in" result="cut-image" />
+</filter>
+
+<filter id="hueRotate-3" >
+<feColorMatrix id="hr1" type="hueRotate" values="0" >
+</feColorMatrix>
+</filter>
+</defs>
+
+<g id="euclidian-transform-xy-plane">
+    <line y1="0" x1="-100%" x2="100%" y2="0" stroke="black" stroke-width="1"></line>
+    <line x1="0" y1="-100%" y2="100%" x2="0" stroke="black" stroke-width="1"></line>
+</g>
+
+<g id="composition-table" filter="url(#hueRotate-3)">
+    <circle id="second-tick-marks-backing" x="0" y="0" cx="0" cy="0" r="616"/>
+    <circle id="second-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
+    <circle id="minutes" x="0" y="0" cx="0" cy="0" r="484"/>
+    <circle id="hour-tick-marks" x="0" y="0" cx="0" cy="0" r="616"/>
+    <circle id="hours" x="0" y="0" cx="0" cy="0" r="420"/>
+    <circle id="c1" x="0" y="0" cx="0" cy="0" r="696"/>
+    <g id="g0">
+        <g transform="matrix(0.5 -0.8660254037844386 0.8660254037844386 0.5 320 -554.2562584220407)">
+            <text id="clock-num-1" class="clock-text num-1">1</text>
+        </g>
+        <g transform="matrix(0.8660254037844387 -0.5 0.5 0.8660254037844387 554.2562584220408 -320)">
+            <text id="clock-num-2" class="clock-text num-2">2</text>
+        </g>
+        <g transform="matrix(1 0 0 1 640 0)">
+            <text id="clock-num-3" class="clock-text num-3">3</text>
+        </g>
+        <g transform="matrix(0.8660254037844387 0.5 -0.5 0.8660254037844387 554.2562584220408 320)">
+            <text id="clock-num-4" class="clock-text num-4">4</text>
+        </g>
+        <g transform="matrix(0.5 0.8660254037844386 -0.8660254037844386 0.5 320 554.2562584220407)">
+            <text id="clock-num-5" class="clock-text num-5">5</text>
+        </g>
+        <g transform="matrix(0 1 -1 0 0 640)">
+            <text id="clock-num-6" class="clock-text num-6">6</text>
+        </g>
+        <g transform="matrix(-0.5 0.8660254037844387 -0.8660254037844387 -0.5 -320 554.2562584220408)">
+            <text id="clock-num-7" class="clock-text num-7">7</text>
+        </g>
+        <g transform="matrix(-0.8660254037844387 0.5 -0.5 -0.8660254037844387 -554.2562584220408 320)">
+            <text id="clock-num-8" class="clock-text num-8">8</text>
+        </g>
+        <g transform="matrix(-1 0 0 -1 -640 0)">
+            <text id="clock-num-9" class="clock-text num-9">9</text>
+        </g>
+        <g transform="matrix(-0.8660254037844387 -0.5 0.5 -0.8660254037844387 -554.2562584220408 -320)">
+            <text id="clock-num-10" class="clock-text num-10">10</text>
+        </g>
+        <g transform="matrix(-0.5 -0.8660254037844387 0.8660254037844387 -0.5 -320 -554.2562584220408)">
+            <text id="clock-num-11" class="clock-text num-11">11</text>
+        </g>
+        <g transform="matrix(0 -1 1 0 0 -640)">
+            <text id="clock-num-12" class="clock-text num-12">12</text>
+        </g>
+    </g>
+    <g transform="scale(4)">
+
+        <g transform="" id="second-hand">
+            <use id="minute-second-donut"
+                href="#donut3" />
+            <line id="second-hand-line"
+                x1="0" y1="0"
+                x2="0" y2="-157" />
+        </g>
+
+        <g transform="" id="minute-hand">
+            <line id="minute-hand-line"
+                x1="0" y1="0"
+                x2="0" y2="-149" />
+            <use id="hour-minute-donut"
+                href="#donut2.2"
+                x="0" y="0"  transform="scale(1.5)"/>
+        </g>
+
+        <g transform="" id="hour-hand">
+            <line id="hour-hand-line"
+                x1="0" y1="0"
+                x2="0" y2="-120" />
+        </g>
+    </g>
+</g>
+</svg>
+
+<div id="container">
+<div id="controls">
+<h3 id="showTimezone">Set Timezone:</h3>
+<div id="tz-input">
+<input id="timezone" name="timezone" type="number" min="-24.00" max="24.00" value="-5">
+<input type="button" id="update" name="update" value="Update" onClick="updateTimezone('timezone');">
+</div>
+</div>
+</div>
+<pre id="stats"></pre>
+
 <script >
 // This code is developed at https://home.semitasker.com/js/queue-function.js //
 
