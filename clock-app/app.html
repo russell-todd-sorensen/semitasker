@@ -6,15 +6,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="theme-color" content="orange" />
 
-<meta name="description" content="Semitasker Clock: Code by Russell Sorensen.
+<meta name="description" content="SVG Clock: Code by Russell Sorensen.
     Analog Clock in SVG with Unique Animation Functions keeping the time 
-    correct within 1 sec." />
+    correct within a few milliseconds." />
 
 <title>SVG Clock</title>
 
-<link rel="manifest" href="/clock/clock-manifest.json">
+<!--<link rel="manifest" href="/clock/clock-manifest.json">
 <link rel="icon" sizes="512x512" href="/clock/images/icons/icon-512x512.png">
-<link rel="apple-touch-icon" href="/clock/images/icons/icon-192x192.png">
+<link rel="apple-touch-icon" href="/clock/images/icons/icon-192x192.png">-->
 
 <style>
 html,
@@ -197,7 +197,7 @@ Log.msg = function(msg) {};
 Log.Notice = Log.Error = Log.Warning = Log.Debug = Log.Hide = Log.Show = Log.Remove = Log.msg;
 
 const compatUrl = "/clock/clock-compat.html";
-
+var num;
 </script>
 <script>
 try {
@@ -235,23 +235,16 @@ try {
 <script>
 // Check that service workers are supported
 if ('serviceWorker' in navigator) {
-  // Use the window load event to keep the page load performant
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/clock-app/service-worker.js');
-  });
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/clock-app/service-worker.js');
+    });
 }
 </script>
 
 
 </head>
 <body>
-    <!--
-    40%:
-    x="0"
-    y="0"
-    height="614.4"
-    width="614.4"
-    -->
 <svg
     id="svg-clock"
     x="0"
