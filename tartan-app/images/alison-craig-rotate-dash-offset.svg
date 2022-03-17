@@ -1,74 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-<svg 
-    version="1.1" 
-    id="svg1" 
-    xmlns="http://www.w3.org/2000/svg" 
-    x="0" 
-    y="0" 
-    height="1040" 
-    width="1040" 
-    viewBox="0 0 1040 1040">
-<style>
-#svg1 {
-    background-color: black;
-}
-#horizontal-rows line,
-#vertical-cols line {
-    fill: none;
-    stroke-dasharray: 3.9, 4.1;
-    stroke-width: 1.85;
-}
+<svg version="1.1" id="svg1" xmlns="http://www.w3.org/2000/svg" x="0" y="0" height="1040" width="1040" viewBox="0 0 1040 1040"><style>
 .c0 {
-    stroke: #C80000;
+fill: none;
+stroke: #C80000;
+stroke-dasharray: 4, 4;
+stroke-width: 2;
 }
 
 .c1 {
-    stroke: #F8F8F8;
+fill: none;
+stroke: #F8F8F8;
+stroke-dasharray: 4, 4;
+stroke-width: 2;
 }
 
 .c2 {
-    stroke: #888888;
+fill: none;
+stroke: #888888;
+stroke-dasharray: 4, 4;
+stroke-width: 2;
 }
 
 .c3 {
-    stroke: #E8C000;
+fill: none;
+stroke: #E8C000;
+stroke-dasharray: 4, 4;
+stroke-width: 2;
 }
 
 .c4 {
-    stroke: #101010;
+fill: none;
+stroke: #101010;
+stroke-dasharray: 4, 4;
+stroke-width: 2;
 }
 
 .hor-0 {
-    stroke-dashoffset: 8; /* was 0 */
+stroke-dashoffset: 0;
 }
+
 
 .vert-0 {
-    stroke-dashoffset: 6; /* was 4 */
+stroke-dashoffset: 4;
 }
+
 
 .hor-1 {
-    stroke-dashoffset: 6; /* was 2 */
+stroke-dashoffset: 2;
 }
+
 
 .vert-1 {
-    stroke-dashoffset: 4; /* was 6 */
+stroke-dashoffset: 6;
 }
+
 
 .hor-2 {
-    stroke-dashoffset: 4; /* was 4 */
+stroke-dashoffset: 4;
 }
+
 
 .vert-2 {
-    stroke-dashoffset: 2; /* was 8 */
+stroke-dashoffset: 8;
 }
+
 
 .hor-3 {
-    stroke-dashoffset: 2; /* was 6 */
+stroke-dashoffset: 6;
 }
 
+
 .vert-3 {
-    stroke-dashoffset: 0; /* was 10 then 8 */
+stroke-dashoffset: 10;
 }
 
 </style>

@@ -46,7 +46,7 @@ class Tartan {
                 this.reverseData[this.reverseData.length] = threadSchedule[i];
             }
             this.init(this.reverseData, this.datasetExp, this.dsStyleArray, this.threadCount, tartanOptions );
-            generateThreadSchedule2(reverseData);
+            generateThreadSchedule2(this.reverseData);
         } else {
             this.init(threadSchedule, this.datasetExp, this.dsStyleArray, this.threadCount, tartanOptions );
             generateThreadSchedule2(this.data);
