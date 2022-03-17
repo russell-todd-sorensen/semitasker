@@ -582,6 +582,9 @@ Data.restoreInput = function (inputId) {
         if (call) {
             setTimeout(call, 10);
         }
+        return true;
+    } else {
+        return false;
     }
 };
 
