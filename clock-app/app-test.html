@@ -9,12 +9,12 @@
     Analog Clock in SVG with Unique Animation Functions keeping the time 
     correct within a few milliseconds." />
 
-<title>SVG Clock</title>
-
+<title>SVG Clock TESTING ONLY!</title>
+<!--
 <link rel="manifest" href="clock-manifest.json">
 <link rel="icon" sizes="512x512" href="images/android/android-launchericon-512-512.png">
 <link rel="apple-touch-icon" href="images/ios/192.png">
-
+-->
 <style>
 html,
 body {
@@ -204,19 +204,19 @@ var num;
 </script>
 <script>
 try {
-  class CanUsePrivateFields {
-      #privateField = false;
-      constructor() {
-          this.#privateField = true;
-      }
-      getPrivateField() {
-          return this.#privateField;
-      }
-  }
-  var myPrivateFieldInstance = new CanUsePrivateFields()
-  if (!myPrivateFieldInstance.getPrivateField()) {
-      window.location.replace(compatUrl);
-  }
+    class CanUsePrivateFields {
+        #privateField = false;
+        constructor() {
+            this.#privateField = true;
+        }
+        getPrivateField() {
+            return this.#privateField;
+        }
+    }
+    var myPrivateFieldInstance = new CanUsePrivateFields()
+    if (!myPrivateFieldInstance.getPrivateField()) {
+        window.location.replace(compatUrl);
+    }
 } catch (error) {
     window.location.replace(compatUrl);
     console.error(error);
@@ -234,17 +234,20 @@ try {
 
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@2.3.1/build/global/luxon.min.js"></script>
 <script src="./js/form-save-restore.js"></script>
+<script src="./js/form-v2.js"></script>
 <script>
+
+var DateTime = luxon.DateTime;
 // Check that service workers are supported
 if ('serviceWorker' in navigator) {
     // Use the window load event to keep the page load performant
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js');
+       // navigator.serviceWorker.register('sw.js');
     });
 }
 </script>
-
 
 </head>
 <body>
@@ -442,7 +445,7 @@ if ('serviceWorker' in navigator) {
 <div id="controls">
 <h3 id="showTimezone">Set Timezone:</h3>
 <div id="tz-input">
-<input id="timezone" name="timezone" type="number" min="-24.00" max="24.00" value="-5"  >
+<input id="timezone" name="timezone" type="number" min="-840" max="840" value="-300" step="60" >
 <input type="button" id="update" name="update" value="Update" onClick="updateTimezone('timezone');">
 </div>
 </div>
@@ -636,7 +639,7 @@ class QueueItem {
 class Clock {
 
     #queue;
-    #timezoneOffset = -8; // PST
+    #timezoneOffset = -480; // PST
     #stats = [{h:0,m:0,s:0,ms:0,diff:0}];
     #days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     #daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -676,20 +679,20 @@ class Clock {
         new QueueItem(obj.#queue,af,to,da,true)
     }
     set (dateObj,dataObj) {
-        let date = (dateObj?dateObj:new Date()),
-            data = (dataObj?dataObj:this.data),
+        const date = (dateObj?dateObj:new DateTime.now());
+        let data = (dataObj?dataObj:this.data),
             obj  = data.obj,
             d    = document,
-            millisecond = date.getMilliseconds(),
-            second = date.getUTCSeconds(),
-            minute = date.getUTCMinutes(),
-            hour = (date.getUTCHours() % 12),
-            day = date.getUTCDate(),
-            month = date.getUTCMonth() + 1,
-            year = date.getUTCFullYear(),
+            millisecond = date.c.millisecond,
+            second = date.c.second,
+            minute = date.c.minute,
+            hour = (date.c.hour),
+            day = date.day,
+            month = date.month,// + 1,
+            year = date.year,
             // Adjust for Timezone Difference, if any
-            tzo = date.getTimezoneOffset();
-        if (tzo < -24 || tzo > 24) {
+            tzo = date.offset;
+        if (tzo < -14*60 || tzo > 14*60) {
             tzo = 0;
         }
         let timezoneOffset = obj.getTimezoneOffset(),
@@ -752,8 +755,8 @@ class Clock {
         this.#stats.push({h:hour,m:minute,s:second,ms:millisecond,diff:diff});
     }
     run (data) {
-        let date = new Date(),
-            millisecond = date.getMilliseconds(),
+        const date = new DateTime.now();
+        let millisecond = date.c.millisecond,
             obj  = data.obj;
         obj.set(date,data);
         data.continueAnimation = obj.continueAnimation
@@ -803,7 +806,7 @@ var myTimezone;
 var sanim;
 
 const timezoneId = "timezone"
-const timezoneField = document.querySelector(["#",timezoneId].join(""));
+const timezoneField = document.querySelector(`#${timezoneId}`);
 const updateButton  = document.querySelector("#update");
 const timezoneHeader = document.querySelector("#showTimezone");
 

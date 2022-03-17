@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title></title>
+<style>
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/luxon@2.3.1/build/global/luxon.min.js"></script>
+<script src="./js/form-save-restore.js"></script>
+<script src="./js/form-v2.js"></script>
+<!--
+    JSON definition, BNF, and content-type: 
+    https://www.ietf.org/rfc/rfc4627.txt
+-->
+<script id="svg-clock-config" type="application/json">
+{
+    "zoneName":"America/Los_Angeles",
+    "preferredZone":null,
+}
+</script>
+
+
+
+<script>
+
+var DateTime = luxon.DateTime;
+var configObjects = new Map();
+var clockConfig = "clockConfig";
+
+var Log = {};
+Log.msg = function(msg) {};
+Log.Notice = Log.Error = Log.Warning = Log.Debug = Log.Hide = Log.Show = Log.Remove = Log.msg;
+
+class ClockConfig {
+    systemZone = "America/Los_Angeles";
+    preferredZone = this.systemZone;
+    displayOffset = 0;
+    constructor(options) {
+        Object.assign(this,options);
+    }
+    save() {
+        console.log("save")
+    }
+}
+
+// Check that service workers are supported
+if ('serviceWorker' in navigator) {
+    // Use the window load event to keep the page load performant
+    window.addEventListener('load', () => {
+        configObjects.set(clockConfig, JSON.parse(Data.restoreJSON("clock-config")));
+
+        if (!configObjects.get(clockConfig)) {
+            let dt = DateTime.now();
+            configObjects.set(clockConfig,{
+                zoneName:dt.zoneName,
+                preferredZone:dt.zoneName,
+                locale:dt.locale,
+            });
+
+            Data.saveJSON("clock-config",JSON.stringify(configObjects.get(clockConfig)));
+        }
+    });
+}
+
+</script>
+</head>
+<body>
+<form id="hidden-form" >
+    <input type="hidden" id="clock-config" name="clock-config" value="">
+</form>
+<pre>
+</pre>
+</body>
+</html>
