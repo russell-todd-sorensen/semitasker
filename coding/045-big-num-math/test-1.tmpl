@@ -1,0 +1,35 @@
+[comment {Testing usage of ttt for tcl files} /]
+[set title "Try out a Templating Tool for Tcl" /]
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>$title</title>
+<style>
+.red {
+    color: red;
+}
+td {
+    text-align: right;
+    font-family:'Lucida Sans Unicode', monospace;
+}
+td.al {
+    text-align: left;
+}
+tr.hl {
+    background-color: rgb(255,200,200);
+}
+td.er {
+    background-color: rgb(255,100,255);
+}
+tr.ec2 {
+    background-color: rgba(255,0,0,0.5);
+}
+</style>
+</head>
+<body>
+<pre>
+[join $page "\n" ]
+</pre>
+</body>
+</html>

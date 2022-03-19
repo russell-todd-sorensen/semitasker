@@ -1,0 +1,65 @@
+[comment {Creates new list named out1 with 5 cols} ]
+[set cols1 5 ]
+IN=$IN
+[xr matrix1 out1 $cols1 /]
+out1=[get out1 ]
+cols1=$cols1
+[set i 1 ]
+[foreach cell $out1 /]
+    [expr-to ws {$i%$cols1?" ":"\n"} /]
+    [expr {$cell eq ""?"-":$cell} /] $ws[ws/]
+    [incr i /]
+[/foreach/]
+
+[comment {Creates new list named out2 with 4 columns} /]
+[set cols2 4 ]
+IN=$IN
+[xr matrix1 out2 $cols2 /]
+out2=[get out2]
+cols2= $cols2
+[set i 1 ]
+[foreach cell $out2 /]
+    [expr-to ws {$i%$cols2?" ":"\n"} /]
+    [expr {$cell eq ""?"-":$cell} /] $ws[ws/]
+    [incr i /]
+[/foreach/]
+
+[comment {Creates new list named out3 with 1 columns} /]
+[set cols3 1 ]
+IN=$IN
+[xr matrix1 out3 $cols3 /]
+out3=[get out3]
+cols3=$cols3
+[set i 1]
+[foreach cell $out3 /]
+    [expr-to ws {$i%$cols3?" ":"\n"} /]
+    [expr {$cell eq ""?"-":$cell} /] $ws[ws/]
+    [incr i /]
+[/foreach/]
+
+[comment {Creates new list named out$series with $series columns} /]
+[set series 6]
+IN=$IN
+series=[get series]
+[set os "out$series" ]
+[xr matrix1 $os $series /]
+$os=[get $os]
+[set i 1 ]
+[foreach cell $out6 /]
+    [expr-to ws {$i%$series?" ":"\n"} /]
+    [expr {$cell eq ""?"-":$cell} /] $ws[ws/]
+    [incr i /]
+[/foreach/]
+
+[comment {Creates new list named out4 with 2 columns} /]
+[set cols4 2 ]
+IN=$IN
+[xr matrix1 out4 $cols4 /]
+out4=[get out4]
+cols4=$cols4
+[set i 1 ]
+[foreach cell $out4 /]
+    [expr-to ws {$i%$cols4?" ":"\n"} /]
+    [expr {$cell eq ""?"-":$cell} /] $ws[ws/]
+    [incr i /]
+[/foreach/]
