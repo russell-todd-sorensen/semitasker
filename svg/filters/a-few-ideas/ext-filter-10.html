@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="#587c00" >
+<meta name="description" content="Event trickle and bubble." >
+
+<title>Use external SVG Filter for image</title>
+
+<script>
+
+</script>
+<style>
+html,
+body {
+    margin:0;
+    padding:0;
+    border:0;
+}
+#filter-group {
+    filter: url(#discrete-map);
+}
+#img1 {
+    filter: blur(1.0px);
+}
+</style>
+</head>
+<body>
+<svg>
+<defs>
+<filter id="discrete-map"> <!--External blur, Conver to grayscale, then apply color map -->
+    <feColorMatrix type="saturate" values="0.0" />
+    <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0.000000 0.000000  1.000000 0.000000 1.0 1.000000 0.000000 1.0 1.000000  0.000000 1.000000 1.00" />
+        <feFuncG type="discrete" tableValues="0.000000 0.341176  0.843137 0.341176 1.0 0.843137 0.341176 1.0 0.843137  0.341176 0.843137 1.00" />
+        <feFuncB type="discrete" tableValues="0.000000 0.717647  0.000000 0.717647 1.0 0.000000 0.717647 1.0 0.000000  0.717647 0.000000 1.00" />
+    </feComponentTransfer>
+</filter>
+</defs>
+<g id="filter-group" transform="scale(2)">
+    <image id="img1" href="/images/mset-opt/mset-6140.png" x="-100" y="-100" height="300" width="500" />
+</g>
+</svg>
+<style>
+</style>
+</body>
+</html>

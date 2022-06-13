@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="#587c00" >
+<meta name="description" content="Pre-Configured Dynamic Filter Examples" >
+
+<title>Pre-Configured Dynamic Filter Examples</title>
+
+<script>
+// avoid need to load logging widget
+var Log = {}
+Log.Notice = function() {}
+Log.Hide = function() {}
+Log.Remove = function() {}
+Log.Debug = function() {}
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="filter-examples-data.js"></script>
+<script>
+function writeText(linkObj,targetId) {
+    let container = document.getElementById(targetId),
+        len = linkObj.getLen();
+
+    for (let i=0;i<len;i++) {
+        let obj = Link.getLink(i);
+        container.append(`<li><a id="${obj.id}" alt="${obj.name} ${obj.descr}" href="${obj.url}" >${obj.url}</a></li>\n`)
+    }
+}
+
+function writeList(linkObj,targetId) {
+    let container = d3.select(`#${targetId}`),
+        ol = container.append("ol"),
+        len = linkObj.getLen();
+
+    for (let i=0;i<len;i++) {
+        let obj = Link.getLink(i),
+            li = ol.append("li"),
+            anchor = li.append("a")
+                .attr("id",obj.id)
+                .attr("alt",`${obj.name} ${obj.descr}`)
+                .attr("href",obj.url)
+                .text(obj.url);
+        //container.append(`<li><a id="${obj.id}" alt="${obj.name} ${obj.descr}" href="${obj.url}" >${obj.url}</a></li>\n`)
+    }
+}
+window.addEventListener('DOMContentLoaded', () => {
+    Link.addLinks(linkList);
+    twoMoreLinks();
+    writeList(Link,"linkContainer");
+});
+
+</script>
+<style>
+html,
+body {
+    margin:0;
+    padding:0;
+    border:0;
+}
+svg {
+    display: block;
+    cursor: pointer;
+}
+button {
+    margin-left: 10px;
+}
+#svg-container {
+    display: none;
+}
+</style>
+</head>
+<body>
+
+
+<div id="svg-container">
+<svg
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="1500"
+    height="2000"
+    viewBox="0 0 1500 2000"
+    >
+
+<g  id="clickMe" filter="url(https://home.highfivediet.com/svg/filters/ext-filter.svg#posterize-000-5)" 
+    transform="translate(10,10)">
+<image id="image2" href="/images/mset-opt/mandelbrot-252.png" height="100%" x="0" y="0" width="100%"/>
+</g>
+</svg>
+</div>
+<div id="linkContainer" ></div>
+
+</body>
+</html>

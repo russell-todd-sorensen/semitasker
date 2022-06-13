@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--<title>Title is removed so that the full url will appear! </title>-->
+<link rel="stylesheet" href="/css/fira-code/fira_code.css" media="all">
+<style>
+html,
+head,
+body {
+    font-size: 16px;
+    font-family: 'Fira Code VF';
+    line-height: 1.0em;
+}
+.display-none {
+    display:none;
+}
+label.method {
+    display:block;
+}
+#form1 input[type="text"],
+#form1 input[type="url"] {
+    display: inline-block;
+    width: 550px;
+    font-size: 1.2em;
+    line-height: 1.3em;
+}
+#form1 label {
+  display: inline-block;
+  width: 150px;
+}
+#form1 li {
+    padding-bottom: 2px;
+    list-style: none;
+    margin-left: -25px;
+}
+</style>
+</head>
+<body>
+<!--  method='POST' enctype='multipart/form-data'  -->
+<form autocomplete='off' spellcheck='false' name='form1' id='form1'>
+<ul>
+ <li id='methods'>
+  <label for='return-what'>Document Type</label>
+  <label for='t1' class='method'>
+    <input type='radio' name='t' id='t1' value='0' $tChecked0 >HTML</label>
+  <label for='t2' class='method'>
+    <input type='radio' name='t' id='t2' value='1' $tChecked1 >SVG</label>
+ </li>
+ <li>
+ <label for='p'>Photo URL</label>
+ <input id='p' name='p' type='url' value='$p' >
+ </li>
+ <li>
+ <label for='h'>Hex Color List</label>
+ <input type='text' id='h' class='' name='h' value='$h' placeholder='0:000000FF,end:FFFFFFFF' >
+ </li>
+ <li>
+ <label for='s'>Color Schedule</label>
+ <input type='text' id='s' class='' name='s' value='$s' >
+ </li>
+ <li>
+ <label for='b'>Blur Animation</label>
+ <input type='text' id='b' class='' name='b' value='$b' placeholder='0px:4px:30s:Infinite, or 0:::' >
+ </li>
+ <li>
+ <label for='v'>SVG viewBox</label>
+ <input type='text' id='v' class='' name='v' value='$v' placeholder='0:0:2000:1500 (x:y:w:h)' >
+ </li>
+ <li>
+  <input type='submit' value='Generate Document'>
+ </li>
+ </ul>
+</form>
+<pre>
+p = '$p'
+h = '$h'
+t = '$t'
+[array-to colorIndexMap get colorIndex]
+colorIndexMap = [foreach {name value} $colorIndexMap ] $name=>$value [/foreach]
+
+[foreach idx $colorSched][/foreach/]
+[foreach chan {r g b a} /]
+  [foreach idx $colorSched /]
+  [set aName "C$idx" /]
+  [dict-to float get $colorDict $aName "${chan}f" /]
+  [format "%0.6f" $float] [ws/]
+  [/foreach]
+[/foreach]
+</pre>
+<div id="svg-content">
+$svg_content
+</div>
+</body>
+</html>

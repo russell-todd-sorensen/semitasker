@@ -1,0 +1,22 @@
+[comment {
+ Impliment testDec in ttt
+} /]
+
+[foreach mode $modes /]
+    [llength-to len $values /]
+[ws] --------------- Mode: $mode ----------------
+[format " %12s  %9s  %2s %3s %3s %3s %3s" "____Given___" "___Used__" CV Red Grn Blu Opa /]
+    [set i 0 /]
+    [while {$i<$len} /]
+        [lindex-to hexColor $values $i /]
+        [xr to-decimal-color H $hexColor $mode /]
+        [string-to hexColorUsed range $H(hash) 0 8 /]
+        [incr i /]
+        [if { $H(conv) != 4 } ]
+[format " %12s  %9s  %2d Invalid hex color value" $hexColor $hexColorUsed $H(conv) /]
+        [else] 
+[format " %12s  %9s  %2d %3d %3d %3d %3d" $hexColor $hexColorUsed $H(conv) $H(rd) $H(gd) $H(bd) $H(ad) /]
+        [/if/]
+    [/while]
+
+[/foreach]

@@ -1,0 +1,24 @@
+if {false} {
+    dict create C0   {*}{rd 0   gd 0   bd 0   ad 255}
+    dict create C1   {*}{rd 0   gd 87  bd 183 ad 255}
+    dict create C2   {*}{rd 255 gd 215 bd 0   ad 255}
+    dict create Cend {*}{rd 255 gd 255 bd 255 ad 255}
+}
+
+set C0   [dict create {*}{rd 0   gd 0   bd 0   ad 255}]
+set C1   [dict create {*}{rd 0   gd 87  bd 183 ad 255}]
+set C2   [dict create {*}{rd 255 gd 215 bd 0   ad 255}]
+set Cend [dict create {*}{rd 255 gd 255 bd 255 ad 255}]
+
+
+set colors [dict create C0 $C0 C1 $C1 C2 $C2 Cend $Cend]
+
+set colors2 [dict create \
+    C0 {rd 0   gd 0   bd 0   ad 255} \
+    C1 {rd 0   gd 87  bd 183 ad 255} \
+    C2 {rd 255 gd 215 bd 0   ad 255} \
+    Cend {rd 255 gd 255 bd 255 ad 255}]
+
+
+global errorInfo 
+

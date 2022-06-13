@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="#587c00" >
+<meta name="description" content="Event trickle and bubble." >
+
+<title>CSS &amp; Web Animations</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+
+</script>
+<style>
+html,
+body {
+    margin:0;
+    padding:0;
+    border:0;
+}
+svg {
+    display: block;
+    cursor: pointer;
+}
+button {
+    margin-left: 10px;
+}
+</style>
+</head>
+<body>
+
+<svg
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="1500"
+    height="2000"
+    viewBox="0 0 1500 2000"
+    >
+<defs>
+<style>
+#blurGroup {
+    filter: blur(0px);
+    animation: blurToFrom 30s 2;
+}
+@keyframes blurImage {
+    from {
+        filter: blur(0);
+    }
+    to {
+        filter: blur(4px);
+    }
+}
+@keyframes blurToFrom {
+    from {
+        filter: blur(0);
+    }
+    50% {
+        filter: blur(4px);
+    }
+    to {
+        filter: blur(0);
+    }
+}
+</style>
+
+<radialGradient id="rad-grad-one" color-interpolation="sRGB" spreadMethod="reflect" cx="50%" cy="50%">
+    <animate 
+      attributeName="cx"
+      values="50%;20%;100%;80%;50%"
+      begin="0s"
+      dur="15s"
+      end="test.click"
+      fill="freeze"
+      repeatCount="indefinite"/>
+    <animate
+      attributeName="cy"
+      values="50%;100%;70%;20%;50%"
+      begin="0s"
+      dur="15s"
+      end="test.click"
+      fill="freeze"
+      repeatCount="indefinite" />
+    <stop stop-color="black" offset="0%" />
+    <stop stop-color="white" offset="25%"/>
+    <stop stop-color="black" offset="50%"/>
+    <stop stop-color="white" offset="100%" />
+    <!--<stop stop-color="black" offset="100%" />-->
+</radialGradient>
+</defs>
+<g id="clickMe" 
+    filter="url(https://home.highfivediet.com/svg/filters/ext-filter.svg#posterize-000-5)" 
+    transform="translate(10,10)">
+   <g id="blurGroup">
+     <image id="image1" href="https://home.highfivediet.com/images/mset-opt/mandelbrot-252.png" height="100%" x="0" y="-600" width="100%"/>
+     <image id="image2" x="0" y="0" href="https://home.highfivediet.com/svg/filters/filter-test-simple-image-no-anim-1.svg" height="100%" width="100%"/>
+  </g>
+</g>
+</svg>
+<!--
+ -->
+</body>
+</html>

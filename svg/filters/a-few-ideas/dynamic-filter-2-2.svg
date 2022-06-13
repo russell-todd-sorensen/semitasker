@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg 
+    id="mysvg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="2000"
+    height="1500"
+    viewBox="0 0 2000 1500"
+    >
+<defs>
+<style>
+svg#mysvg {
+    font-size: 16px;
+    font-family: 'Fira Code VF';
+    line-height: 1.0em;
+}
+#blurGroup,
+#image22 {
+    filter: blur(0px);
+    animation: blurToFrom 30s Infinite;
+}
+@keyframes blurImage {
+    from {
+        filter: blur(0);
+    }
+    to {
+        filter: blur(4px);
+    }
+}
+@keyframes blurToFrom {
+    from {
+        filter: blur(0);
+    }
+    50% {
+        filter: blur(4px);
+    }
+    to {
+        filter: blur(0);
+    }
+}
+#clickMe {
+    filter: url(#ukraine-flag-colors);
+}
+</style>
+<filter id="ukraine-flag-colors">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation="2.75" >
+  <animate attributeName="stdDeviation"
+     values="1.0;2.0;1.0"
+     by="0.25"
+     dur="15s"
+     begin="0s"
+     repeatCount="indefinite" />
+  </feGaussianBlur>
+ <feComponentTransfer>
+<feFuncr type="discrete" tableValues="0.000000 1.000000 " />
+<feFuncg type="discrete" tableValues="0.000000 1.000000 " />
+<feFuncb type="discrete" tableValues="0.000000 1.000000 " />
+<feFunca type="discrete" tableValues="1.000000 1.000000 " />
+ 
+ </feComponentTransfer>
+ </filter>
+ 
+</defs>
+
+<g id="clickMe" transform="translate(10,10) scale(0.5)" >
+    <image id="image2" xlink:href="https://home.highfivediet.com/images/mset-opt/mset-6131.png" height="100%" x="0" y="0" width="100%"/>
+</g>
+</svg>

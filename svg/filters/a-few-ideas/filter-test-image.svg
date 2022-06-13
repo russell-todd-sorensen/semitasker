@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg
+   id="external-svg-filter-source"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   x="0"
+   y="0"
+   width="2000"
+   height="3000"
+   viewBox="0 0 2000 3000"
+  >
+
+<defs>
+
+ <!-- Ukrainian Flag https://en.wikipedia.org/wiki/Flag_of_Ukraine -->
+<filter id="posterize-000-5"> <!-- Conver to grayscale, then blur, then apply color map -->
+
+ <feGaussianBlur stdDeviation="0.0" edgemode="duplicate" >
+  <animate attributeName="stdDeviation"
+     values="0.0;5.0;5.0;20.0;20.0;5.0;5.0;0.0;0.0"
+     begin="0s"
+     dur="25s"
+     end="test.click"
+     fill="freeze"
+     repeatCount="indefinite" />
+  </feGaussianBlur>
+ <feColorMatrix type="saturate" values="0.0" />
+ <feComponentTransfer>
+     <!--  Changing the color starting with rbg decimal (0-255 per channel)    -->
+     <!-- 
+      Color 1: 'Strong azure' (blueish)
+        Red 0, % = 0/255      = 0.000000,
+        Green 87, % = 87/255  = 0.341176,
+        Blue 183, % = 183/255 = 0.717647;
+        
+      Color 2: 'Yellow'
+        Red: 255, % = 255/255   = 1.000000,
+        Green: 215, % = 215/255 = 0.843137,
+        Blue: 0, % = 0/255      = 0.000000;
+     -->
+     <!--                     Yellow- - - - - - - - - - - -v
+                        Strong Azure- - - - - - -v         v
+                               White - -v        v         v
+                                        v        v         v                                                             Black- - -v     -->
+  <feFuncR type="discrete" tableValues="1.000000 0.000000  1.000000 0.000000 1.0 1.000000 0.000000 1.0 1.000000  0.000000 1.000000 0.00" />
+  <feFuncG type="discrete" tableValues="1.000000 0.341176  0.843137 0.341176 1.0 0.843137 0.341176 1.0 0.843137  0.341176 0.843137 0.00" />
+  <feFuncB type="discrete" tableValues="1.000000 0.717647  0.000000 0.717647 1.0 0.000000 0.717647 1.0 0.000000  0.717647 0.000000 0.00" />
+  </feComponentTransfer>
+</filter>
+
+<filter id="blur-000-5">
+ <feGaussianBlur stdDeviation="0.0" edgemode="duplicate">
+  <animate attributeName="stdDeviation"
+     values="0.0;5.0;5.0;20.0;20.0;5.0;5.0;0.0;0.0"
+     begin="0s"
+     dur="25s"
+     end="test.click"
+     fill="freeze"
+     repeatCount="indefinite" />
+  </feGaussianBlur>
+</filter>
+
+
+<linearGradient id="red-grad" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#FFFFFF" offset="0%" />
+ <stop stop-color="#FF0000" offset="100%" />
+</linearGradient>
+
+<linearGradient id="red-grad-alpha" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#FF0000" stop-opacity="100%" offset="0%" />
+ <stop stop-color="#FF0000" stop-opacity="0%" offset="100%" />
+</linearGradient>
+
+<linearGradient id="green-grad" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#FFFFFF" offset="0%" />
+ <stop stop-color="#00FF00" offset="100%" />
+</linearGradient>
+
+<linearGradient id="green-grad-alpha" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#00FF00" stop-opacity="100%" offset="0%" />
+ <stop stop-color="#00FF00" stop-opacity="0%" offset="100%" />
+</linearGradient>
+
+<linearGradient id="blue-grad" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#FFFFFF" offset="0%" />
+ <stop stop-color="#0000FF" offset="100%" />
+</linearGradient>
+
+<linearGradient id="blue-grad-alpha" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#0000FF" stop-opacity="100%" offset="0%" />
+ <stop stop-color="#0000FF" stop-opacity="0%" offset="100%" />
+</linearGradient>
+
+<radialGradient id="rad-grad-one" color-interpolation="sRGB" spreadMethod="reflect" cx="50%" cy="50%">
+    <animate 
+      attributeName="cx"
+      values="50%;20%;100%;80%;50%"
+      begin="0s"
+      dur="15s"
+      end="test.click"
+      fill="freeze"
+      repeatCount="indefinite"/>
+    <animate
+      attributeName="cy"
+      values="50%;100%;70%;20%;50%"
+      begin="0s"
+      dur="15s"
+      end="test.click"
+      fill="freeze"
+      repeatCount="indefinite" />
+    <stop stop-color="black" offset="0%" />
+    <stop stop-color="white" offset="25%"/>
+    <stop stop-color="black" offset="50%"/>
+    <stop stop-color="white" offset="100%" />
+    <!--<stop stop-color="black" offset="100%" />-->
+</radialGradient>
+
+<rect id="rgb-grad-rect-1" x="0" y="0" height="25" width="250" stroke="#444" stroke-width=".5" />
+
+<style>
+#test-container {
+   cursor: pointer;
+}
+svg text.t1 {
+    font-size: 120;
+    fill: #aabbcc;
+    stroke:none;
+}
+</style>
+ <image id="image2" xlink:href="/images/mset-opt/mandelbrot-252.png" height="100%" x="0" y="0" width="100%"/>
+
+<g x="0" y="0" id="image-container" transform="" filter="url(#posterize-000-5)">
+    <image id="image2" xlink:href="/images/mset-opt/mandelbrot-252.png" height="100%" x="0" y="0" width="100%"/>
+</g>
+</defs>
+
+<g id="test" x="0" y="0" transform="translate(75,0)">
+
+ <g id="graphics-1" x="0" y="0" transform="scale(3) translate(0,20)" filter="url(#posterize-000-5)" >
+    <image id="image2" xlink:href="/images/mset-opt/mandelbrot-252.png" x="0" y="0"  height="500" width="500"/>
+
+  <text class="t1" x="0" y="25">This is some text</text>
+  <use xlink:href="#rgb-grad-rect-1" x="0" y="50" fill="url(#red-grad)"/>
+  <use xlink:href="#rgb-grad-rect-1" x="0" y="100" fill="url(#green-grad)"/>
+  <use xlink:href="#rgb-grad-rect-1" x="0" y="150" fill="url(#blue-grad)"/>
+  <circle cx="500" cy="62.5" r="20" fill="url(#rad-grad-one)" />
+  <circle cx="400" cy="112.5" r="50" fill="url(#rad-grad-one)" />
+  <circle cx="500" cy="172.5" r="20" fill="url(#rad-grad-one)" />
+ </g>
+
+ <g id="graphics-2" x="0" y="0" transform="scale(3) translate(0,250)" filter="url(#blur-000-5)">
+    <text class="t1" x="0" y="25">This is some text</text>
+    <use xlink:href="#rgb-grad-rect-1" x="0" y="50" fill="url(#red-grad)"/>
+    <use xlink:href="#rgb-grad-rect-1" x="0" y="150" fill="url(#blue-grad)"/>
+    <use xlink:href="#rgb-grad-rect-1" x="0" y="100" fill="url(#green-grad)"/>
+
+  <circle cx="500" cy="62.5" r="20" fill="url(#rad-grad-one)" />
+  <circle cx="400" cy="112.5" r="50" fill="url(#rad-grad-one)" />
+  <circle cx="500" cy="172.5" r="20" fill="url(#rad-grad-one)" />
+ </g>
+
+ <g id="graphics-3" x="0" y="0" transform="scale(3) translate(0,500)" filter="">
+    <text class="t1" x="0" y="25">This is some text</text>
+    <use xlink:href="#rgb-grad-rect-1" x="0" y="50" fill="url(#red-grad)"/>
+    <use xlink:href="#rgb-grad-rect-1" x="0" y="150" fill="url(#blue-grad)"/>
+    <use xlink:href="#rgb-grad-rect-1" x="0" y="100" fill="url(#green-grad)"/>
+
+  <circle cx="500" cy="62.5" r="20" fill="url(#rad-grad-one)" />
+  <circle cx="400" cy="112.5" r="50" fill="url(#rad-grad-one)" />
+  <circle cx="500" cy="172.5" r="20" fill="url(#rad-grad-one)" />
+ </g>
+</g><!-- close test container -->
+
+</svg>

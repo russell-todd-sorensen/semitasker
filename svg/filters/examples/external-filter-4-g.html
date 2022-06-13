@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<meta name="viewport" content="width=device-width, initial-scale=1" >
+<meta name="theme-color" content="#587c00" >
+<meta name="description" content="Ukraine Colors Applied to Images" >
+
+<title>CSS &amp; Web Animations</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/4.13.0/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+
+</script>
+<style>
+html,
+body {
+    margin:0;
+    padding:0;
+    border:0;
+}
+svg {
+    display: block;
+    cursor: pointer;
+}
+button {
+    margin-left: 10px;
+}
+</style>
+</head>
+<body>
+<svg
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="2000"
+    height="2000"
+    viewBox="0 0 2000 2000"
+    >
+<defs>
+<style>
+#blurGroup,
+#blurGroup1,
+#blurGroup2 {
+    filter: blur(0.1px);
+    animation: blurImage 30s infinite;
+}
+@keyframes blurImage {
+    from {
+        filter: blur(0);
+    }
+    5% {
+        filter: blur(0);
+    }
+    10% {
+        filter: blur(0.1px);
+    }
+    25% {
+        filter: blur(1px);
+    }
+    45% {
+        filter: blur(3.5px);
+    }
+    50% {
+        filter: blur(7px);
+    }
+    55% {
+        filter: blur(3.5px);
+    }
+    75% {
+        filter: blur(1px);
+    }
+    85% {
+        filter: blur(0.3px);
+    }
+    90% {
+        filter: blur(0.1px)
+    }
+    to {
+        filter: blur(0);
+    }
+}
+@keyframes blurToFrom {
+    from {
+        filter: blur(0.1px);
+    }
+    50% {
+        filter: blur(4px);
+    }
+    to {
+        filter: blur(0.1px);
+    }
+}
+#box,
+#test-box {
+    height: 200px;
+    width: 300px;
+    fill:url(#green-grad-alpha);
+    fill:url(#grad-for-css);
+    background-image: radial-gradient(cyan 0%, transparent 20%, salmon 40%);
+    background-image:url(bg-image.svg);
+}
+#cir1,
+#rect1 {
+    stroke: green;
+    stroke-width: 5px;
+    background-image: radial-gradient(cyan 0%, transparent 20%, salmon 40%);
+   /*  animation: gradientAnim 100s infinite;*/
+}
+@keyframes gradientAnim {
+    from {
+        cx: 50%;
+        cy: 50%;
+    }
+    50% {
+        cx: 100%;
+        cy: 0%;
+    }
+    to {
+        cx: 50%;
+        cy: 50%;
+    }
+}
+</style>
+
+
+<filter id="posterize-000-5"> <!--External blur, Conver to grayscale, then apply color map -->
+
+    <feColorMatrix type="saturate" values="0.0" />
+    <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0.000000 0.000000  1.000000 0.000000 1.0 1.000000 0.000000 1.0 1.000000  0.000000 1.000000 1.00" />
+     <!--    <feFuncG type="discrete" tableValues="0.000000 0.341176  0.843137 0.341176 1.0 0.843137 0.341176 1.0 0.843137  0.341176 0.843137 1.00" />
+       <feFuncB type="discrete" tableValues="0.000000 0.717647  0.000000 0.717647 1.0 0.000000 0.717647 1.0 0.000000  0.717647 0.000000 1.00" />-->
+    </feComponentTransfer>
+</filter>
+
+<linearGradient id="red-grad" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#FFFFFF" offset="0%" />
+ <stop stop-color="#FF0000" offset="100%" />
+</linearGradient>
+
+<linearGradient id="red-grad-alpha" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#FF0000" stop-opacity="100%" offset="0%" />
+ <stop stop-color="#FF0000" stop-opacity="0%" offset="100%" />
+</linearGradient>
+
+<linearGradient id="green-grad" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#FFFFFF" offset="0%" />
+ <stop stop-color="#00FF00" offset="100%" />
+</linearGradient>
+
+<linearGradient id="green-grad-alpha" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#00FF00" stop-opacity="100%" offset="0%" />
+ <stop stop-color="#00FF00" stop-opacity="0%" offset="100%" />
+</linearGradient>
+
+<linearGradient id="blue-grad" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#FFFFFF" offset="0%" />
+ <stop stop-color="#0000FF" offset="100%" />
+</linearGradient>
+
+<linearGradient id="blue-grad-alpha" color-interpolation="sRGB" spreadMethod="reflect" >
+ <stop stop-color="#0000FF" stop-opacity="100%" offset="0%" />
+ <stop stop-color="#0000FF" stop-opacity="0%" offset="100%" />
+</linearGradient>
+
+<radialGradient id="grad-for-css" color-interpolation="sRGB" spreadMethod="reflect">
+    <stop stop-color="cyan" offset="0%" />
+    <stop stop-color="transparent" offset="20%" />
+    <stop stop-color="salmon" offset="40%" stop-opacity="100%"/>
+</radialGradient>
+
+<radialGradient id="rad-grad-one" color-interpolation="sRGB" spreadMethod="reflect"><!-- cx="50%" cy="50%"-->
+    <animate 
+      attributeName="cx"
+      values="50%;20%;100%;80%;50%"
+      begin="0s"
+      dur="15s"
+      end="test.click"
+      fill="freeze"
+      repeatCount="indefinite"/>
+    <animate
+      attributeName="cy"
+      values="50%;100%;70%;20%;50%"
+      begin="0s"
+      dur="15s"
+      end="test.click"
+      fill="freeze"
+      repeatCount="indefinite" />
+    <stop stop-color="#222222" offset="0%" stop-opacity="45%"/>
+    <stop stop-color="#CCCCCC" offset="25%" stop-opacity="70%"/>
+    <stop stop-color="#111111" offset="50%" stop-opacity="45%"/>
+    <stop stop-color="#CCCCCC" offset="75%" stop-opacity="90%" />
+    <stop stop-color="#333333" offset="110%" stop-opacity="15%" />
+    <!--<stop stop-color="black" offset="100%" />-->
+</radialGradient>
+
+<rect id="rgb-grad-rect-1" x="0" y="0" height="25" width="250" stroke="#444" stroke-width="0" />
+
+<style>
+#test-container {
+   cursor: pointer;
+}
+svg text.t1 {
+    font-size: 120;
+    fill: #aabbcc;
+    stroke:none;
+}
+</style>
+<g id="clickMe" 
+    filter="url(https://home.highfivediet.com/svg/filters/ext-filter.svg#posterize-000-5)" 
+    transform="translate(10,10)">
+   <g id="blurGroup">
+     <image id="image1" href="https://home.highfivediet.com/images/mset-opt/mandelbrot-232.png" height="100%" x="0" y="-600" width="100%"/>
+     <image id="image2" x="0" y="0" href="https://home.highfivediet.com/svg/filters/filter-test-simple-image-no-anim-1.svg" height="100%" width="100%"/>
+  </g>
+</g>
+</defs>
+
+<g id="test" x="0" y="0" transform="translate(75,0)">
+
+    <g id="graphics-1" x="0" y="0" transform="scale(3) translate(0,20)" filter="url(#posterize-000-5)" >
+        <g id="blurGroup1">
+            <image id="image2" xlink:href="/images/mset-opt/mandelbrot-271.png" x="-500" y="-1000"  height="3000" width="2000"/>
+
+            <text class="t1" x="0" y="25">This is some text</text>
+            <circle cx="500" cy="62.5" r="20" fill="url(#rad-grad-one)" />
+            <circle cx="400" cy="112.5" r="50" fill="url(#rad-grad-one)" />
+            <circle cx="500" cy="172.5" r="20" fill="url(#rad-grad-one)" />
+        </g>
+    </g>
+    <g id="graphics-2" x="0" y="0" transform="scale(3) translate(0,250)" filter="">
+        <g id="blurGroup2">
+            <text class="t1" x="0" y="25">This is some text</text>
+
+            <circle cx="500" cy="62.5" r="20" fill="url(#rad-grad-one)" />
+            <circle cx="400" cy="112.5" r="50" fill="url(#rad-grad-one)" />
+            <circle cx="500" cy="172.5" r="20" fill="url(#rad-grad-one)" />
+        </g>
+    </g>
+
+</g><!-- close test container -->
+</svg>
+</body>
+</html>

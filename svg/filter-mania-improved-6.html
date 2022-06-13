@@ -1332,13 +1332,6 @@ $(document).ready(function () {
 </feMorphology>
 </filter>
 
-<filter id="MorphErodeAlpha-1">
-  <feMorphology operator="erode" radius="1" in="SourceAlpha">
-      <animate attributeName="radius" from=".1" to="2"
-      dur="20s" begin="0s" repeatCount="indefinite" />
-  </feMorphology>
-</filter>
-
 <filter id="MorphDilate-1">
 <feMorphology operator="dilate" radius="1">
     <animate attributeName="radius" from="0.1" to="2"
@@ -1346,13 +1339,6 @@ $(document).ready(function () {
 </feMorphology>
 </filter>
 
-<filter id="MorphDilateAlpha-1">
-  <feMorphology operator="dilate" radius="1" in="SourceAlpha">
-      <animate attributeName="radius" from="0.1" to="2"
-      dur="20s" begin="0s" repeatCount="indefinite" />
-  </feMorphology>
-</filter>
-  
 <!-- NOTE: Matrix values and space separated arrays MUST NOT START with WHITESPACE -->
 
 <filter id="posterize-0">
@@ -1458,7 +1444,7 @@ $(document).ready(function () {
  <animate attributeName="stdDeviation"
     values="1.0;2.0;1.0"
     by="0.1"
-    dur="15s"
+    dur="20s"
     begin="0s"
     repeatCount="indefinite" />
  </feGaussianBlur>
@@ -1490,6 +1476,330 @@ $(document).ready(function () {
 </feComponentTransfer>
 </filter>
 
+<filter id="blur-000-5">
+  <feGaussianBlur stdDeviation="0.0" edgemode="duplicate">
+   <animate attributeName="stdDeviation"
+      values="0.0;5.0;5.0;20.0;20.0;5.0;5.0;0.0;0.0"
+      begin="0s"
+      dur="60s"
+      end="test.click"
+      fill="freeze"
+      repeatCount="indefinite" />
+   </feGaussianBlur>
+</filter>
+<filter id="blur-000-5-20">
+  <feGaussianBlur stdDeviation="20.0" edgemode="duplicate" />
+</filter>
+<filter id="blur-000-5-10">
+  <feGaussianBlur stdDeviation="10.0" edgemode="duplicate" />
+</filter>
+<filter id="blur-000-5-05">
+  <feGaussianBlur stdDeviation="5.0" edgemode="duplicate" />
+</filter>
+<filter id="blur-000-5-01">
+  <feGaussianBlur stdDeviation="1.0" edgemode="duplicate" />
+</filter>
+<filter id="blur-000-5-001">
+  <feGaussianBlur stdDeviation="0.1" edgemode="duplicate" />
+</filter>
+<radialGradient id="rad-grad-one" color-interpolation="sRGB" spreadMethod="reflect"><!-- cx="50%" cy="50%"-->
+  <animate 
+    attributeName="cx"
+    values="50%;20%;100%;80%;50%"
+    begin="0s"
+    dur="15s"
+    end="test.click"
+    fill="freeze"
+    repeatCount="indefinite"/>
+  <animate
+    attributeName="cy"
+    values="50%;100%;70%;20%;50%"
+    begin="0s"
+    dur="15s"
+    end="test.click"
+    fill="freeze"
+    repeatCount="indefinite" />
+  <stop stop-color="#222222" offset="0%" stop-opacity="45%"/>
+  <stop stop-color="#CCCCCC" offset="25%" stop-opacity="70%"/>
+  <stop stop-color="#111111" offset="50%" stop-opacity="45%"/>
+  <stop stop-color="#CCCCCC" offset="75%" stop-opacity="90%" />
+  <stop stop-color="#333333" offset="110%" stop-opacity="0%" />
+  <!--<stop stop-color="black" offset="100%" />-->
+</radialGradient>
+
+<filter id="posterize-000-4.9"> <!--External blur, Convert to grayscale, then apply color map -->
+  <feColorMatrix type="saturate" values="0.0" />
+  <feComponentTransfer>
+      <feFuncR type="discrete" tableValues="0.000000  1.00" />
+      <feFuncG type="discrete" tableValues="0.000000  1.00" />
+      <feFuncB type="discrete" tableValues="0.000000  1.00" />
+  </feComponentTransfer>
+</filter>
+
+<filter id="posterize-000-5.0"> <!--External blur, Conver to grayscale, then apply color map -->
+  <feColorMatrix type="saturate" values="0.0" />
+  <feComponentTransfer>
+      <feFuncR type="discrete" tableValues="0.000000 0.000000  1.000000 0.000000 1.0 1.000000 0.000000 1.0 1.000000  0.000000 1.000000 1.00" />
+      <feFuncG type="discrete" tableValues="0.000000 0.341176  0.843137 0.341176 1.0 0.843137 0.341176 1.0 0.843137  0.341176 0.843137 1.00" />
+      <feFuncB type="discrete" tableValues="0.000000 0.717647  0.000000 0.717647 1.0 0.000000 0.717647 1.0 0.000000  0.717647 0.000000 1.00" />
+  </feComponentTransfer>
+</filter>
+
+<filter id="posterize-ur-0"> <!--External blur, Conver to grayscale, then apply color map -->
+  <feColorMatrix type="saturate" values="0.0" />
+  <feComponentTransfer>
+      <feFuncR type="discrete" tableValues="0.000000 1.0 1.000000 0.000000 1.0 1.000000  0.000000 1.000" />
+      <feFuncG type="discrete" tableValues="0.341176 1.0 0.843137 0.341176 1.0 0.843137  0.341176 1.000" />
+      <feFuncB type="discrete" tableValues="0.717647 1.0 0.000000 0.717647 1.0 0.000000  0.717647 1.000" />
+  </feComponentTransfer>
+</filter>
+
+<filter id="posterize-ur-1"> <!--External blur, Conver to grayscale, then apply color map -->
+  <feColorMatrix type="saturate" values="0.0" />
+  <feComponentTransfer>
+      <feFuncR type="discrete" tableValues="0.000000 1.0 1.000000 0.000000 1.0 1.000000  0.000000 1.000000" />
+      <feFuncG type="discrete" tableValues="0.341176 1.0 0.843137 0.341176 1.0 0.843137  0.341176 0.843137" />
+      <feFuncB type="discrete" tableValues="0.717647 1.0 0.000000 0.717647 1.0 0.000000  0.717647 0.000000" />
+  </feComponentTransfer>
+</filter>
+
+<filter id="posterize-ur-2"> <!--External blur, Conver to grayscale, then apply color map -->
+  <feColorMatrix type="saturate" values="0.0" />
+  <feComponentTransfer>
+      <feFuncR type="discrete" tableValues="0.000000 1.000000 0.000000 1.0 1.000000 0.000000 1.0 1.000000  0.000000 1.000000" />
+      <feFuncG type="discrete" tableValues="0.341176 0.843137 0.341176 1.0 0.843137 0.341176 1.0 0.843137  0.341176 0.843137" />
+      <feFuncB type="discrete" tableValues="0.717647 0.000000 0.717647 1.0 0.000000 0.717647 1.0 0.000000  0.717647 0.000000" />
+  </feComponentTransfer>
+</filter>
+
+<filter id="posterize-000-5">
+ <feColorMatrix type="saturate" values="0.0" /> <!-- Ukrainian Flag https://en.wikipedia.org/wiki/Flag_of_Ukraine -->
+ <feGaussianBlur stdDeviation=".75" >
+  <animate attributeName="stdDeviation"
+     values="1.0;2.0;5.0;2.0;1.0"
+     dur="25s"
+     begin="0s"
+     repeatCount="indefinite" />
+  </feGaussianBlur>
+ <feComponentTransfer>
+     <!--  Changing the color starting with rbg decimal (0-255 per channel)    -->
+     <!-- 
+      Color 1: 'Strong azure' (blueish)
+        Red 0, % = 0/255      = 0.000000,
+        Green 87, % = 87/255  = 0.341176,
+        Blue 183, % = 183/255 = 0.717647;
+        
+      Color 2: 'Yellow'
+        Red: 255, % = 255/255   = 1.000000,
+        Green: 215, % = 215/255 = 0.843137,
+        Blue: 0, % = 0/255      = 0.000000;
+     -->
+     <!--                         White -------------------v
+                                 Yellow----------v         v
+                           Strong Azure-v        v         v              -->
+  <feFuncR type="discrete" tableValues="0.000000 1 1.000000  1 0.000000 1 1.000000  1 0.000000 1 1.000000  1 0.000000 1.000000" />
+  <feFuncG type="discrete" tableValues="0.341176 1 0.843137  1 0.341176 1 0.843137  1 0.341176 1 0.843137  1 0.341176 0.843137" />
+  <feFuncB type="discrete" tableValues="0.717647 1 0.000000  1 0.717647 1 0.000000  1 0.717647 1 0.000000  1 0.717647 0.000000" />
+ </feComponentTransfer>
+ </filter>
+
+ <filter id="posterize-000-6"> <!-- Conver to grayscale, then blur, then apply color map -->
+
+  <feColorMatrix type="saturate" values="0.0" />
+  <feGaussianBlur stdDeviation=".75" >
+   <animate attributeName="stdDeviation"
+      values="1.0;2.0;1.0"
+      dur="25s"
+      begin="0s"
+      repeatCount="indefinite" />
+   </feGaussianBlur>
+  <feComponentTransfer>
+      <!--  Changing the color starting with rbg decimal (0-255 per channel)    -->
+      <!-- 
+       Color 1: 'Strong azure' (blueish)
+         Red 0, % = 0/255      = 0.000000,
+         Green 87, % = 87/255  = 0.341176,
+         Blue 183, % = 183/255 = 0.717647;
+         
+       Color 2: 'Yellow'
+         Red: 255, % = 255/255   = 1.000000,
+         Green: 215, % = 215/255 = 0.843137,
+         Blue: 0, % = 0/255      = 0.000000;
+      -->
+      <!--                        Yellow - - - - - - - - -v
+                                   White - - - - - - -v   v
+                            Strong Azure- - -v        v   v
+                                   Black-v            v   v           -->
+   <feFuncR type="discrete" tableValues="0   0.000000 1   1.000000  1 0.000000 1 1.000000  1 0.000000 1 1.000000  1 0.000000 1.000000 1" />
+   <feFuncG type="discrete" tableValues="0   0.341176 1   0.843137  1 0.341176 1 0.843137  1 0.341176 1 0.843137  1 0.341176 0.843137 1" />
+   <feFuncB type="discrete" tableValues="0   0.717647 1   0.000000  1 0.717647 1 0.000000  1 0.717647 1 0.000000  1 0.717647 0.000000 1" />
+  </feComponentTransfer>
+  </filter>
+
+<filter id="posterize-000-7"> <!-- Conver to grayscale, then blur, then apply color map -->
+
+<feColorMatrix type="saturate" values="0.0" />
+<feGaussianBlur stdDeviation=".75" >
+  <animate attributeName="stdDeviation"
+    values="1.0;2.0;5.0;7.5;10.0;10.0;15.0;15.0;7.5;5.0;2.0;1.0"
+    dur="25s"
+    begin="0s"
+    repeatCount="indefinite" />
+  </feGaussianBlur>
+<feComponentTransfer>
+    <!--  Changing the color starting with rbg decimal (0-255 per channel)    -->
+    <!-- 
+      Color 1: 'Strong azure' (blueish)
+        Red 0, % = 0/255      = 0.000000,
+        Green 87, % = 87/255  = 0.341176,
+        Blue 183, % = 183/255 = 0.717647;
+        
+      Color 2: 'Yellow'
+        Red: 255, % = 255/255   = 1.000000,
+        Green: 215, % = 215/255 = 0.843137,
+        Blue: 0, % = 0/255      = 0.000000;
+    -->
+    <!--                        Yellow - - - - - - - - -v
+                                  White - - - - - - -v   v
+                          Strong Azure- - -v        v   v
+                                  Black-v            v   v           -->
+  <feFuncR type="discrete" tableValues="0   0.000000 1   1.000000  1 0.000000 1 1.000000  1 0.000000 1 1.000000  1 0.000000 1.000000 1" />
+  <feFuncG type="discrete" tableValues="0   0.341176 1   0.843137  1 0.341176 1 0.843137  1 0.341176 1 0.843137  1 0.341176 0.843137 1" />
+  <feFuncB type="discrete" tableValues="0   0.717647 1   0.000000  1 0.717647 1 0.000000  1 0.717647 1 0.000000  1 0.717647 0.000000 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-000-8"> <!-- Conver to grayscale, then blur, then apply color map -->
+
+<feColorMatrix type="saturate" values="0.0" />
+<feGaussianBlur stdDeviation=".75" >
+  <animate attributeName="stdDeviation"
+    values="4.0;5.0;7.5;10.0;10.0;15.0;15.0;7.5;5.0;5.0;4.0"
+    dur="45s"
+    begin="0s"
+    repeatCount="indefinite" />
+  </feGaussianBlur>
+<feComponentTransfer>
+    <!--  Changing the color starting with rbg decimal (0-255 per channel)    -->
+    <!-- 
+      Color 1: 'Strong azure' (blueish)
+        Red 0, % = 0/255      = 0.000000,
+        Green 87, % = 87/255  = 0.341176,
+        Blue 183, % = 183/255 = 0.717647;
+        
+      Color 2: 'Yellow'
+        Red: 255, % = 255/255   = 1.000000,
+        Green: 215, % = 215/255 = 0.843137,
+        Blue: 0, % = 0/255      = 0.000000;
+    -->
+    <!--                        Yellow - - - - - - - - -v
+                                  White - - - - - - -v   v
+                          Strong Azure- - -v        v   v
+                                  Black-v            v   v           -->
+  <feFuncR type="discrete" tableValues="0   0.000000 1   1.000000  1 0.000000 1 1.000000  1 0.000000 1 1.000000  1 0.000000 1.000000 1" />
+  <feFuncG type="discrete" tableValues="0   0.341176 1   0.843137  1 0.341176 1 0.843137  1 0.341176 1 0.843137  1 0.341176 0.843137 1" />
+  <feFuncB type="discrete" tableValues="0   0.717647 1   0.000000  1 0.717647 1 0.000000  1 0.717647 1 0.000000  1 0.717647 0.000000 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-000-9"> <!-- Conver to grayscale, then blur, then apply color map -->
+
+<feColorMatrix type="saturate" values="0.0" />
+<feGaussianBlur stdDeviation=".75" >
+  <animate attributeName="stdDeviation"
+    values="7.5;5.0;10.0;15.0;20.0;15.0;10.0;5.0;7.5"
+    dur="25s"
+    begin="0s"
+    repeatCount="indefinite" />
+  </feGaussianBlur>
+<feComponentTransfer>
+    <!--  Changing the color starting with rbg decimal (0-255 per channel)    -->
+    <!-- 
+      Color 1: 'Strong azure' (blueish)
+        Red 0, % = 0/255      = 0.000000,
+        Green 87, % = 87/255  = 0.341176,
+        Blue 183, % = 183/255 = 0.717647;
+        
+      Color 2: 'Yellow'
+        Red: 255, % = 255/255   = 1.000000,
+        Green: 215, % = 215/255 = 0.843137,
+        Blue: 0, % = 0/255      = 0.000000;
+    -->
+    <!--                        Yellow - - - - - - - - -v
+                                  White - - - - - - -v   v
+                          Strong Azure- - -v        v   v
+                                  Black-v            v   v           -->
+  <feFuncR type="discrete" tableValues="0   0.000000 1   1.000000  1 0.000000 1 1.000000  1 0.000000 1 1.000000  1 0.000000 1.000000 1" />
+  <feFuncG type="discrete" tableValues="0   0.341176 1   0.843137  1 0.341176 1 0.843137  1 0.341176 1 0.843137  1 0.341176 0.843137 1" />
+  <feFuncB type="discrete" tableValues="0   0.717647 1   0.000000  1 0.717647 1 0.000000  1 0.717647 1 0.000000  1 0.717647 0.000000 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-000-10"> <!-- Conver to grayscale, then blur, then apply color map -->
+
+<feColorMatrix type="saturate" values="0.0" />
+<feGaussianBlur stdDeviation=".75" >
+  <animate attributeName="stdDeviation"
+    values="5.0;10.0;5.0;15.0;5.0;20.0;5.0;15.0;5.0;10.0;5.0"
+    dur="60s"
+    begin="0s"
+    repeatCount="indefinite" /><!--by="0.05"-->
+  </feGaussianBlur>
+<feComponentTransfer>
+    <!--  Changing the color starting with rbg decimal (0-255 per channel)    -->
+    <!-- 
+      Color 1: 'Strong azure' (blueish)
+        Red 0, % = 0/255      = 0.000000,
+        Green 87, % = 87/255  = 0.341176,
+        Blue 183, % = 183/255 = 0.717647;
+        
+      Color 2: 'Yellow'
+        Red: 255, % = 255/255   = 1.000000,
+        Green: 215, % = 215/255 = 0.843137,
+        Blue: 0, % = 0/255      = 0.000000;
+    -->
+    <!--                        Yellow - - - - - - - - -v
+                                  White - - - - - - -v   v
+                          Strong Azure- - -v        v   v
+                                  Black-v            v   v           -->
+  <feFuncR type="discrete" tableValues="0   0.000000 1   1.000000  1 0.000000 1 1.000000  1 0.000000 1 1.000000  1 0.000000 1.000000 1" />
+  <feFuncG type="discrete" tableValues="0   0.341176 1   0.843137  1 0.341176 1 0.843137  1 0.341176 1 0.843137  1 0.341176 0.843137 1" />
+  <feFuncB type="discrete" tableValues="0   0.717647 1   0.000000  1 0.717647 1 0.000000  1 0.717647 1 0.000000  1 0.717647 0.000000 1" />
+</feComponentTransfer>
+</filter>
+
+<filter id="posterize-000-11"> <!-- Conver to grayscale, then blur, then apply color map -->
+
+<feColorMatrix type="saturate" values="0.0" />
+<feGaussianBlur stdDeviation=".75" >
+  <animate attributeName="stdDeviation"
+    values="5.0;10.0;5.0;15.0;5.0;20.0;5.0;15.0;5.0;10.0;5.0"
+    dur="600s"
+    begin="0s"
+    repeatCount="indefinite" /><!--by="0.05"-->
+  </feGaussianBlur>
+<feComponentTransfer>
+    <!--  Changing the color starting with rbg decimal (0-255 per channel)    -->
+    <!-- 
+      Color 1: 'Strong azure' (blueish)
+        Red 0, % = 0/255      = 0.000000,
+        Green 87, % = 87/255  = 0.341176,
+        Blue 183, % = 183/255 = 0.717647;
+        
+      Color 2: 'Yellow'
+        Red: 255, % = 255/255   = 1.000000,
+        Green: 215, % = 215/255 = 0.843137,
+        Blue: 0, % = 0/255      = 0.000000;
+    -->
+    <!--                        Yellow - - - - - - - - -v
+                                  White - - - - - - -v   v
+                          Strong Azure- - -v        v   v
+                                  Black-v            v   v           -->
+  <feFuncR type="discrete" tableValues="0   0.000000 1   1.000000  1 0.000000 1 1.000000  1 0.000000 1 1.000000  1 0.000000 1.000000 1" />
+  <feFuncG type="discrete" tableValues="0   0.341176 1   0.843137  1 0.341176 1 0.843137  1 0.341176 1 0.843137  1 0.341176 0.843137 1" />
+  <feFuncB type="discrete" tableValues="0   0.717647 1   0.000000  1 0.717647 1 0.000000  1 0.717647 1 0.000000  1 0.717647 0.000000 1" />
+</feComponentTransfer>
+</filter>
 
 <filter id="posterize-0000">
  <feColorMatrix type="saturate" values="0.0" />
@@ -2388,7 +2698,7 @@ setComponentTransfer("#dm1FuncB", 1, 0.2);
 </defs>
 
 
-<g id="clickMe" transform="translate(10,10)" filter="" >
+<g id="clickMe" transform="translate(10,10)" filter="" ><!--10,10-->
   <image id="image2" xlink:href="/images/Butterfly 6.jpg" height="100%" x="0" y="0" width="100%"/>
 </g>
 

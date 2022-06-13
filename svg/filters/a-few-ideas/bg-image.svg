@@ -1,0 +1,19 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg id="bgImage"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0">
+<defs>
+<radialGradient id="gf" color-interpolation="sRGB" spreadMethod="reflect">
+    <set id="rgSet" attributeName="cx" to="2" begin="bgImage.click" dur="indefinite" />
+    <stop stop-color="cyan" offset="0%" />
+    <stop stop-color="transparent" offset="20%" />
+    <stop stop-color="salmon" offset="40%" stop-opacity="100%"/>
+</radialGradient>
+</defs>
+<rect id="all" x="0" y="0" 
+    width="100%" height="100%" 
+    fill="url(#gf)" 
+    filter="url(dynamic-filter.svg#ukraine-flag-colors)" />
+</svg>

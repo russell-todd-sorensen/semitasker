@@ -1,0 +1,242 @@
+
+proc getHexParts {result {hexColor #000000} } {
+    upvar $result h 
+    if {[array exists h]} {
+        array unset h
+    }
+    set h(color) [string trim $hexColor]
+    set h(len) [string length $h(color)]
+    set h(hexCount) [regexp -all {([a-fA-F0-9]{1})} $h(color)]
+
+    switch -exact -- $h(len) {
+        3 {
+            set h(reg) {([a-fA-F0-9]{1})([a-fA-F0-9]{1})([a-fA-F0-9]{1})}
+            set h(hash) "#"
+            set h(matchP) [regexp $h(reg) $h(color) h(full) h(r) h(g) h(b)]
+            if {$h(matchP)} {
+                set h(cannon) "#$h(r)$h(r)$h(g)$h(g)$h(b)$h(b)"
+            }
+        }
+        4 {
+            set h(reg) {(#){0,1}(?:([a-fA-F0-9]{1})([a-fA-F0-9]{1})([a-fA-F0-9]{1})([a-fA-F0-9]{0,1}))}
+            set h(matchP) [regexp $h(reg) $h(color) h(full) h(hash) h(r) h(g) h(b) h(a)]
+            if {$h(matchP)} {
+                if {$h(a) ne ""} {
+                    set h(hash) "#"
+                    set h(cannon) "#$h(r)$h(r)$h(g)$h(g)$h(b)$h(b)$h(a)$h(a)"
+                } else {
+                    set h(cannon) "#$h(r)$h(r)$h(g)$h(g)$h(b)$h(b)" 
+                }
+            }
+        }
+        5 {
+            set h(reg) {(#){1}([a-fA-F0-9]{1})([a-fA-F0-9]{1})([a-fA-F0-9]{1})([a-fA-F0-9]{1})}
+            set h(matchP) [regexp $h(reg) $h(color) h(full) h(hash) h(r) h(g) h(b) h(a)]
+            if {$h(matchP)} {
+                set h(cannon) "#$h(r)$h(r)$h(g)$h(g)$h(b)$h(b)$h(a)$h(a)"
+            }
+        }
+        6 {
+            set h(reg) {([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})}
+            set h(hash) "#"
+            set h(matchP) [regexp $h(reg) $h(color) h(full) h(r) h(g) h(b)]
+            if {$h(matchP)} {
+                set h(cannon) "#$h(r)$h(g)$h(b)"
+            }
+        }
+        7 {
+            set h(reg) {(#){1}([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})}
+            set h(matchP) [regexp $h(reg) $h(color) h(full) h(hash) h(r) h(g) h(b)]
+            if {$h(matchP)} {
+                set h(cannon) "#$h(r)$h(g)$h(b)"
+            }
+        }
+        8 {
+            set h(reg) {([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})}
+            set h(hash) "#"
+            set h(matchP) [regexp $h(reg) $h(color) h(full) h(r) h(g) h(b) h(a)]
+            if {$h(matchP)} {
+                set h(cannon) "#$h(r)$h(g)$h(b)$h(a)"
+            }
+        }
+        9 {
+            set h(reg) {(#){1}([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})([a-fA-F0-9]{2})}
+            set h(matchP) [regexp $h(reg) $h(color) h(full) h(hash) h(r) h(g) h(b) h(a)]
+            if {$h(matchP)} {
+                set h(cannon) "#$h(r)$h(g)$h(b)$h(a)"
+            }
+        }
+        default {
+            set h(matchP) 0
+            return 0
+        }
+    }
+    if {$h(matchP)} {
+        foreach part {r g b} {
+            set len [string length $h($part)] 
+            switch -exact -- $len {
+                1 {
+                    set h($part) [string toupper [string repeat $h($part) 2]] 
+                }
+                2 {
+                    set h($part) [string toupper $h($part)]
+                }
+            }
+            set h(${part}d) [hexToDecimal $h($part)]
+        }
+    }
+    return $h(matchP)
+}
+
+proc testall {values} {
+    set len [llength $values]
+    set results [list]
+    for {set i 0} {$i<$len} {incr i} {
+        set hex [lindex $values $i]
+        catch {
+            set pass [getHexParts H $hex]
+        }
+        if {[info exists H(matchP)] && $H(matchP)} {
+            lappend results [list $hex pass [array get H]]
+        } else {
+            lappend results [list $hex fail]
+        }
+    }
+    return $results
+}
+
+proc testall2 {values} {
+    set testCount [llength $values]
+    set results [list]
+    for {set i 0} {$i<$testCount} {incr i} {
+        set hexColor [lindex $values $i]
+        try {
+            set pass [getHexParts H $hexColor]
+        } on error {descr optDict} {
+            lappend result [list fail $i $hexColor [list [array get H]]]
+            continue
+        }
+        if {[info exists H(matchP)] && $H(matchP)} {
+            lappend results [list pass $i $hexColor [list [array get H]]]
+        } else {
+            lappend results [list fail $i $hexColor [list [array get H]]]
+        }
+    }
+    return [join $results \n]
+}
+
+proc toDec {arr hexColor {mode asis}} {
+    upvar $arr D 
+    if {[array exists D]} {
+        array unset D
+    }
+    set hexColor [string trim $hexColor " #"]
+    set len [string length $hexColor]
+    if {$mode eq "css"} {
+        while {true} {
+            switch -exact -- $len {
+                6 - 8 {
+                    break;
+                }
+                3 - 4 {
+                    set tmpVal $hexColor
+                    set hexColor ""
+                    set len 0
+                    foreach char [split $tmpVal ""] {
+                        append hexColor $char $char
+                        incr len 2
+                    }
+                }
+                default {
+                    if {$len > 6} {
+                        break;
+                    }
+                    set hexColor ""
+                    set len 0
+                }
+            }
+            break;
+        }
+    }
+    if {$mode eq "repeat"} {
+        if {$len == 0} {
+            set hexColor ""
+        } else {
+            set repeatCount [expr {$len<8?(8/$len):1}]
+            set hexColor [string repeat $hexColor $repeatCount]
+        }
+    }
+
+    set hexColor "#${hexColor}FFFFFFFFFF"
+    set D(hash) $hexColor
+    set D(mode) $mode
+    set D(conv) [scan $hexColor "#%2x%2x%2x%2x" D(rd) D(gd) D(bd) D(ad)]
+}
+
+proc testDec {values {modeList {asis css repeat}}} {
+    set allTables [list]
+    foreach mode $modeList {
+        set len [llength $values]
+        set table [list " --------------- Mode: $mode ----------------" [format " %12s  %9s  %2s %3s %3s %3s %3s" "____Given___" "___Used__" CV Red Grn Blu Opa]]
+        for {set i 0} {$i<$len} {incr i} {
+            set hexColor [lindex $values $i]
+            set arrName a$i 
+            toDec $arrName $hexColor $mode
+            set conv ${arrName}(conv)
+            set usedHexColor [string range [set ${arrName}(hash)] 0 8]
+            if {$conv != 4} {
+                lappend table [format " %12s  %9s  %2d Invalid hex color value" $hexColor $usedHexColor $conv]
+            } else {
+                lappend table [format " %12s  %9s  %2d %3d %3d %3d %3d" \
+                    $hexColor \
+                    $usedHexColor \
+                    $conv \
+                    [set ${arrName}(rd)] \
+                    [set ${arrName}(gd)] \
+                    [set ${arrName}(bd)] \
+                    [set ${arrName}(ad)] ]
+            }
+            #puts stderr [lindex $table end]
+            array unset a$i
+        }
+        lappend allTables [join $table "\n"]
+    }
+    return [join $allTables "\n\n"]
+}
+
+set values {
+    ""
+    "#"
+    "##"
+    "   "
+    "abcdef"
+    "abcdef0"
+    "abcdef01"
+    "abcdef012"
+    "abcdef0123"
+    "abcdef01234"
+    "abcdef012345"
+    "#abcdef01"
+    "#abcdef012"
+    "#abcdef0123"
+    "#abcdef01234"
+    "#abc"
+    "#efa"
+    "#aabbcc"
+    "#aabbcc00"
+    "abc"
+    "abcd"
+    "#abcd"
+    "aa33ff"
+    "aa33ff44"
+    "##aabbcc"
+    "#"
+    "a"
+    "ab"
+    "#rrggbb"
+    "##abc"
+    "\#334455AA"
+}
+
+array unset H 
+

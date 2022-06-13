@@ -1,0 +1,96 @@
+[comment {
+    SVG Filter to apply to HTML elements.
+} /]
+[if {$type eq "svg"} /]
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+[/if/]
+<svg 
+    id="mysvg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="2000"
+    height="1500"
+    viewBox="$viewBox"
+    >
+<defs>
+<style>
+svg#mysvg {
+    background-color: #FFFFFF;
+    fill: #FFFFFF;
+    font-size: 16px;
+    font-family: 'Fira Code VF';
+    line-height: 1.0em;
+}
+#blurGroup,
+#image2 {
+    filter: blur($blurMinPx);
+    animation: blurToFrom $animDur $animRepeat;
+}
+@keyframes blurImage {
+    from {
+        filter: blur($blurMinPx);
+    }
+    to {
+        filter: blur($blurMaxPx);
+    }
+}
+@keyframes blurToFrom {
+    from {
+        filter: blur($blurMinPx);
+    }
+    50% {
+        filter: blur($blurMaxPx);
+    }
+    to {
+        filter: blur($blurMinPx);
+    }
+}
+#link-text {
+    font-size: .5em;
+    stroke: white;
+    fill: #888888FF;
+    stroke-width: 0.2;
+}
+</style>
+<filter id="ukraine-flag-colors">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation="2.75" >
+  <animate attributeName="stdDeviation"
+     values="1.0;2.0;1.0"
+     by="0.25"
+     dur="15s"
+     begin="100000s"
+     repeatCount="indefinite" />
+  </feGaussianBlur>
+ <feComponentTransfer>
+[foreach chan {r g b a} /]
+<feFunc[string toupper $chan] type="discrete" tableValues="[ws/]
+    [foreach idx $colorSched /]
+    [set aName "C$idx" /]
+    [dict-to float get $colorDict $aName "${chan}f" /]
+    [format "%0.6f" $float] [ws/]
+    [/foreach]" />
+[/foreach] 
+ </feComponentTransfer>
+ </filter>
+ 
+</defs>
+<g id="clickMe" transform="translate(10,10) scale(0.5)" filter="url(#ukraine-flag-colors)">
+[if {$media_type eq "image"} /]
+[ws]    <image id="image2" xlink:href="$p" x="0" y="0" width="100%"/>
+[elseif {$media_type eq "video"}]    [ws /]
+<foreignObject width="2000" height="1500" id="image2" >
+    <video width="2000" height="1500" autoplay="true" type="$media_full_type">
+        <source src="$p" />
+    </video>
+    </foreignObject>
+[/if/]
+</g>
+<a href="$url"><text id="link-text" x="10" y="10" >$url</text></a>
+</svg>

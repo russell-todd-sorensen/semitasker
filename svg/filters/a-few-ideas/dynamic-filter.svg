@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg
+   id="external-svg-filter-source"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   version="1.0"
+   x="0"
+   y="0"
+   width="1500"
+   height="2000"
+   viewBox="0 0 1500 2000"
+   style="cursor: pointer;">
+
+<defs>
+
+ <!-- Ukrainian Flag https://en.wikipedia.org/wiki/Flag_of_Ukraine -->
+<filter id="ukraine-flag-colors"> <!-- Conver to grayscale, then blur, then apply color map -->
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation=".75" >
+  <animate attributeName="stdDeviation"
+     values="1.0;2.0;1.0"
+     by="0.25"
+     dur="15s"
+     begin="0s"
+     repeatCount="indefinite" />
+  </feGaussianBlur>
+ <feComponentTransfer>
+     <!--  Changing the color starting with rbg decimal (0-255 per channel)    -->
+     <!-- 
+      Color 1: 'Strong azure' (blueish)
+        Red 0, % = 0/255      = 0.000000,
+        Green 87, % = 87/255  = 0.341176,
+        Blue 183, % = 183/255 = 0.717647;
+        
+      Color 2: 'Yellow'
+        Red: 255, % = 255/255   = 1.000000,
+        Green: 215, % = 215/255 = 0.843137,
+        Blue: 0, % = 0/255      = 0.000000;
+     -->
+     <!--                        Yellow - - - - - - - - - -v 
+                                  White - - - - -v         v
+                           Strong Azure-v        v         v              -->
+  <feFuncR type="discrete" tableValues="0.000000 1 1.000000  1 0.000000 1 1.000000  1 0.000000 1 1.000000  1 0.000000 1.000000" />
+  <feFuncG type="discrete" tableValues="0.341176 1 0.843137  1 0.341176 1 0.843137  1 0.341176 1 0.843137  1 0.341176 0.843137" />
+  <feFuncB type="discrete" tableValues="0.717647 1 0.000000  1 0.717647 1 0.000000  1 0.717647 1 0.000000  1 0.717647 0.000000" />
+ </feComponentTransfer>
+ </filter>
+ 
+</defs>
+<g id="clickMe" transform="translate(10,10)" filter="url(#ukraine-flag-colors)">
+    <image id="image2" xlink:href="/images/mset-opt/mandelbrot-252.png" height="100%" x="0" y="0" width="100%"/>
+</g>
+</svg>
