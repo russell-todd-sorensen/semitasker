@@ -203,7 +203,7 @@ set result [illuminatingProcName $a $b]
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>
-<title>Fill In Something Useful</title>
+<title>Google 25 Horses</title>
 </head>
 <body>
 <!--  method='POST' encoding='multi-part/formdata' -->
