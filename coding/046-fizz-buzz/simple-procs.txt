@@ -1,0 +1,23 @@
+source tal.txt
+
+proc simpleProc1 {y} {     
+    set x [expr {$y>0?[return 1]:[return 0]}]
+}
+
+proc simpleProc2 {y} {     
+    expr {$y>0?[return 1]:[return 0]}
+}
+
+proc withLogging {y} {
+    puts stdout [expr {$y>0?[return 1]:[return 0]}]
+}
+
+proc ::disassembleProc {name} {
+    ::tcl::unsupported::disassemble proc $name
+}
+
+proc ::iff {expr {?} ifTrue {:} ifNot } {
+    uplevel [list if $expr $ifTrue else $ifNot]
+}
+
+proc 

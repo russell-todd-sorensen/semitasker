@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<!-- saved from url=(0034)https://wiki.tcl-lang.org/page/TAL -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Tclers wiki">
+<meta name="author" content="">
+<link rel="icon" href="https://wiki.tcl-lang.org/img/favicon.ico">
+<title>TAL</title>
+
+<link rel="stylesheet" href="./TAL_files/bootstrap.min.css">
+<link rel="stylesheet" href="./TAL_files/nikit.css" type="text/css">
+<link rel="stylesheet" href="./TAL_files/sh_style.css" type="text/css">
+<link rel="stylesheet" href="./TAL_files/theme.bootstrap_3.min.css" type="text/css">
+<script src="./TAL_files/clipboard.min.js"></script>
+<style>body.tablesorter-disableSelection { -ms-user-select: none; -moz-user-select: -moz-none;-khtml-user-select: none; -webkit-user-select: none; user-select: none; }.tablesorter-resizable-container { position: relative; height: 1px; }.tablesorter-resizable-handle { position: absolute; display: inline-block; width: 8px;top: 1px; cursor: ew-resize; z-index: 3; user-select: none; -moz-user-select: none; }</style></head>
+<body onload="sh_highlightDocument(); nikitUser();">
+<nav class="navbar navbar-fixed-top navbar-inverse">
+<div class="container">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<ul class="nav navbar-nav">
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="https://wiki.tcl-lang.org/page/TAL#">&nbsp;Tcler's Wiki<span class="caret"></span></a>
+<ul class="dropdown-menu scrollable-menu" role="menu"><li><a href="https://wiki.tcl-lang.org/welcome">Home</a></li>
+<li><a rel="nofollow" href="https://wiki.tcl-lang.org/recent">Changes</a></li>
+<li><a rel="nofollow" href="https://wiki.tcl-lang.org/_random">Random page</a></li>
+<li><a rel="nofollow" href="https://wiki.tcl-lang.org/_new">New page</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="collapse navbar-collapse" id="myNavbar">
+<ul class="nav navbar-nav">
+<li class="dropdown" id="li_idPageEdit" style="display:none">
+<a class="dropdown-toggle" data-toggle="dropdown" href="https://wiki.tcl-lang.org/page/TAL#"><span id="name_idPageEdit">Page</span><span class="caret"></span></a>
+<ul class="dropdown-menu scrollable-menu" role="menu"><li><a rel="nofollow" href="https://wiki.tcl-lang.org/_edit/TAL?A=1">Comment</a></li>
+<li><a rel="nofollow" hidden="true" href="https://wiki.tcl-lang.org/_edit/TAL">Edit</a></li>
+<li><a rel="nofollow" href="https://wiki.tcl-lang.org/_upload/TAL">Upload</a></li>
+<li><a rel="nofollow" href="https://wiki.tcl-lang.org/ref/TAL">References</a></li>
+<li><a rel="nofollow" href="https://wiki.tcl-lang.org/history/TAL">History</a></li>
+<li><hr></li>
+<li><a href="https://wiki.tcl-lang.org/page/TAL#8a7583448005a20dbc9ffa2cf18c9f1625193a3d96398eafd18610156d98f8ba"> See Also </a>
+</li>
+<li><a href="https://wiki.tcl-lang.org/page/TAL#47742718299e82699bc374b81e6ab6b22c2b19c674703379e03143e714e9e3c1"> Description </a>
+</li>
+<li><a href="https://wiki.tcl-lang.org/page/TAL#d7321abfaef52e711e1db8430ecc39629740c5f1e6b44991297291fa2422042d"> Examples </a>
+</li>
+<li><a href="https://wiki.tcl-lang.org/page/TAL#f0d0837119d2e68a0faac82afcb4df3df16c9b91e1f5f13351601d6cf748612c"> Discussion </a>
+</li>
+</ul>
+</li>
+<li class="dropdown" id="li_idPageNoEdit" style="display: block;">
+<a class="dropdown-toggle" data-toggle="dropdown" href="https://wiki.tcl-lang.org/page/TAL#"><span id="name_idPageNoEdit">Page</span><span class="caret"></span></a>
+<ul class="dropdown-menu scrollable-menu" role="menu"><li><a rel="nofollow" href="https://wiki.tcl-lang.org/ref/TAL">References</a></li>
+<li><a rel="nofollow" href="https://wiki.tcl-lang.org/history/TAL">History</a></li>
+<li><hr></li>
+<li><a href="https://wiki.tcl-lang.org/page/TAL#8a7583448005a20dbc9ffa2cf18c9f1625193a3d96398eafd18610156d98f8ba"> See Also </a>
+</li>
+<li><a href="https://wiki.tcl-lang.org/page/TAL#47742718299e82699bc374b81e6ab6b22c2b19c674703379e03143e714e9e3c1"> Description </a>
+</li>
+<li><a href="https://wiki.tcl-lang.org/page/TAL#d7321abfaef52e711e1db8430ecc39629740c5f1e6b44991297291fa2422042d"> Examples </a>
+</li>
+<li><a href="https://wiki.tcl-lang.org/page/TAL#f0d0837119d2e68a0faac82afcb4df3df16c9b91e1f5f13351601d6cf748612c"> Discussion </a>
+</li>
+</ul>
+</li>
+<li><a href="https://wiki.tcl-lang.org/page/Tcl+Tutorial+Lesson+0">Tutorial</a></li>
+<li><a href="https://wiki.tcl-lang.org/page/Articles">Articles</a></li>
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="https://wiki.tcl-lang.org/page/TAL#">&nbsp;Help<span class="caret"></span></a>
+<ul class="dropdown-menu scrollable-menu" role="menu"><li><a rel="nofollow" href="https://wiki.tcl-lang.org/page/Help">Page Markup</a></li>
+<li><a rel="nofollow" href="https://wiki.tcl-lang.org/page/How+do+Wiki+Categories+work">Wiki Categories</a></li>
+<li><a rel="nofollow" href="https://wiki.tcl-lang.org/page/Contents">Topics</a></li>
+<li><a rel="nofollow" target="_blank" href="https://chiselapp.com/user/stevel/repository/nikit/ticket">Report Problems</a></li>
+<li><a rel="nofollow" href="https://wiki.tcl-lang.org/privacy">Privacy</a></li>
+<li><a rel="nofollow" href="https://wiki.tcl-lang.org/license">License</a></li>
+</ul>
+</li>
+</ul>
+<ul class="nav navbar-nav navbar-right">
+<li class="dropdown">
+<a class="dropdown-toggle" data-toggle="dropdown" href="https://wiki.tcl-lang.org/page/TAL#"><span id="name_SMenu">User</span><span class="caret"></span></a>
+<ul class="dropdown-menu" id="ul_SMenu"><li><a rel="nofollow" href="https://wiki.tcl-lang.org/_login?U=https://wiki.tcl-lang.org/page/TAL">Sign in</a></li></ul>
+</li>
+</ul>
+<form class="navbar-form navbar-right" method="post" action="https://wiki.tcl-lang.org/search" id="searchform">
+<input name="Q" type="text" class="form-control" placeholder="Search...">
+<input type="hidden" name="sites" value="wiki.tcl-lang.org">
+</form>
+</div>
+</div>
+</nav>
+<div class="container">
+<div class="row">
+<div class="col-xs-12">
+<h2>TAL</h2>
+</div>
+</div>
+<div class="row">
+<div class="col-xs-12">
+<p class="mkup_p"><b class="mkup_b">Tcl <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/assembly+language">Assembly Language</a></b>. Assembles into stack-based CISC <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/bytecode">bytecode</a> as used by Tcl's bytecode compiler.</p><h2 id="8a7583448005a20dbc9ffa2cf18c9f1625193a3d96398eafd18610156d98f8ba" class="mkup_h1"> See Also </h2><dl class="mkup_dl"><dt class="mkup_dt"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/bytecode">bytecode</a></dt><dd class="mkup_dd"></dd></dl><dl class="mkup_dl"><dt class="mkup_dt"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/MS%27s+bytecode+engine+ideas">MS's bytecode engine ideas</a></dt><dd class="mkup_dd"></dd></dl><dl class="mkup_dl"><dt class="mkup_dt"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/The+anatomy+of+a+bytecoded+command">The anatomy of a bytecoded command</a></dt><dd class="mkup_dd"></dd></dl><dl class="mkup_dl"><dt class="mkup_dt"><a rel="nofollow" class="mkup_a" href="http://kbk.is-a-geek.net/Tcl/20121121-numeric.txt">Kevin's Tcl Optimization Note #1 <span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a> ,<a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/KBK">KBK</a> ,2012-11-21</dt><dd class="mkup_dd">explores the sorts of analyses that a hypothetical Tcl optimizer could apply to Tcl programs in order to improve them</dd></dl><p class="mkup_p"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/Parsing%2C+Bytecodes+and+Execution">Parsing, Bytecodes and Execution</a>: </p><p class="mkup_p"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/dis2asm">dis2asm</a>: convert disassembled bytecode to <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/TAL">TAL</a> that can be assembled </p><p class="mkup_p"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/Visual+TAL">Visual TAL</a></p><h2 id="47742718299e82699bc374b81e6ab6b22c2b19c674703379e03143e714e9e3c1" class="mkup_h1"> Description </h2><p class="mkup_p">The toplevel commands available are</p><ul class="mkup_UL"><li class="mkup_li">tcl::unsupported::<a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/disassemble">disassemble</a> (since 8.5)</li><li class="mkup_li">tcl::unsupported::<a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/assemble">assemble</a> (since 8.6)</li></ul><p class="mkup_p">Their instruction names sometimes differ slightly: <b class="mkup_b">disassemble</b> indicates the length of the argument in bytes (I suppose), while <b class="mkup_b">assemble</b> figures that out itself from the data.Examples:</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_0" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_0" class="mkup_pre sh_sourceCode">push1 0     - disassemble: push the first local literal, 1-byte pointer/index 0
+push  hello - assemble:    push the literal "hello": put it in the literal list, use its index</pre></div><p class="mkup_p">What disassembles as</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_1" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_1" class="mkup_pre sh_sourceCode">(0) loadScalar1 %v0         # var "x"</pre></div><p class="mkup_p">shall be assembled as</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_2" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_2" class="mkup_pre sh_sourceCode">load x</pre></div><p class="mkup_p">Also, <i class="mkup_i">done</i> that appears at the end of disassemblies is a "bad instruction" (or, expressed friendlier, a pseudo-instruction like END in the old days) for <i class="mkup_i">assemble</i>. What worries me more is <i class="mkup_i">done</i> in the middle of an disassembly... it seems to imply a <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/return">return</a>, but it can't be used in assembly.</p><p class="mkup_p">For an initial (and provably incomplete) converter from disassembly output to assembly input, see <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/dis2asm">dis2asm</a>.</p><p class="mkup_p">As usual, Tcl's <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/Introspection">introspection</a> helps in learning about TAL:</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_3" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_3" class="mkup_pre sh_sourceCode">% tcl::unsupported::assemble help</pre></div><p class="mkup_p">bad instruction "help": must be push, add, append, appendArray, appendArrayStk, appendStk, arrayExistsImm, arrayExistsStk, arrayMakeImm, arrayMakeStk, beginCatch, bitand, bitnot, bitor, bitxor, concat, coroName, currentNamespace, dictAppend, dictExists, dictExpand, dictGet, dictIncrImm, dictLappend, dictRecombineStk, dictRecombineImm, dictSet, dictUnset, div, dup, endCatch, eq, eval, evalStk, exist, existArray, existArrayStk, existStk, expon, expr, exprStk, ge, gt, incr, incrArray, incrArrayImm, incrArrayStk, incrArrayStkImm, incrImm, incrStk, incrStkImm, infoLevelArgs, infoLevelNumber, invokeStk, jump, jump4, jumpFalse, jumpFalse4, jumpTable, jumpTrue, jumpTrue4, label, land, lappend, lappendArray, lappendArrayStk, lappendStk, le, lindexMulti, list, listConcat, listIn, listIndex, listIndexImm, listLength, listNotIn, load, loadArray, loadArrayStk, loadStk, lor, lsetFlat, lsetList, lshift, lt, mod, mult, neq, nop, not, nsupvar, over, pop, pushReturnCode, pushReturnOpts, pushResult, regexp, resolveCmd, reverse, rshift, store, storeArray, storeArrayStk, storeStk, strcmp, streq, strfind, strindex, strlen, strmap, strmatch, strneq, strrange, strrfind, sub, tclooClass, tclooIsObject, tclooNamespace, tclooSelf, tryCvtToNumeric, uminus, unset, unsetArray, unsetArrayStk, unsetStk, uplus, upvar, variable, verifyDict, or yield</p><p class="mkup_p">Lots of help for the enquiring mind... - 130 instructions so far ;^)</p><p class="mkup_p">To extract the instruction set into a list, you can do</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_4" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_4" class="sh_tcl sh_sourceCode">  <a href="https://wiki.tcl-lang.org/page/catch" class="sh_keyword">catch</a> <span class="sh_cbracket">{</span>asm <span class="sh_symbol">.</span><span class="sh_cbracket">}</span> res
+  <a href="https://wiki.tcl-lang.org/page/set" class="sh_keyword">set</a> is <span class="sh_symbol">[</span><a href="https://wiki.tcl-lang.org/page/join" class="sh_keyword">join</a> <span class="sh_symbol">[</span><a href="https://wiki.tcl-lang.org/page/split" class="sh_keyword">split</a> <span class="sh_string">"[string range $res 28 end-10] yield"</span> <span class="sh_symbol">,]]</span></pre></div><p class="mkup_p">push add append appendArray appendArrayStk appendStk arrayExistsImm arrayExistsStk arrayMakeImm arrayMakeStk beginCatch bitand bitnot bitor bitxor concat coroName currentNamespace dictAppend dictExists dictExpand dictGet dictIncrImm dictLappend dictRecombineStk dictRecombineImm dictSet dictUnset div dup endCatch eq eval evalStk exist existArray existArrayStk existStk expon expr exprStk ge gt incr incrArray incrArrayImm incrArrayStk incrArrayStkImm incrImm incrStk incrStkImm infoLevelArgs infoLevelNumber invokeStk jump jump4 jumpFalse jumpFalse4 jumpTable jumpTrue jumpTrue4 label land lappend lappendArray lappendArrayStk lappendStk le lindexMulti list listConcat listIn listIndex listIndexImm listLength listNotIn load loadArray loadArrayStk loadStk lor lsetFlat lsetList lshift lt mod mult neq nop not nsupvar over pop pushReturnCode pushReturnOpts pushResult regexp resolveCmd reverse rshift store storeArray storeArrayStk storeStk strcmp streq strfind strindex strlen strmap strmatch strneq strrange strrfind sub tclooClass tclooIsObject tclooNamespace tclooSelf tryCvtToNumeric uminus unset unsetArray unsetArrayStk unsetStk uplus upvar variable verifyDict yield</p>
+<p class="mkup_p">For experimenting, here are some little helpers:</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_5" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_5" class="sh_tcl sh_sourceCode"><a href="https://wiki.tcl-lang.org/page/interp" class="sh_keyword">interp</a> alias <span class="sh_cbracket">{}</span> asm    <span class="sh_cbracket">{}</span> <span class="sh_symbol">::</span>tcl<span class="sh_symbol">::</span>unsupported<span class="sh_symbol">::</span>assemble
+<a href="https://wiki.tcl-lang.org/page/interp" class="sh_keyword">interp</a> alias <span class="sh_cbracket">{}</span> disasm <span class="sh_cbracket">{}</span> <span class="sh_symbol">::</span>tcl<span class="sh_symbol">::</span>unsupported<span class="sh_symbol">::</span>disassemble
+
+<span class="sh_comment">#-- Code a proc in Tcl, see how its bytecode disassembles:</span>
+<a href="https://wiki.tcl-lang.org/page/proc" class="sh_keyword">proc</a> aproc <span class="sh_cbracket">{</span>name argl body<span class="sh_cbracket">}</span> <span class="sh_cbracket">{</span>
+    <a href="https://wiki.tcl-lang.org/page/proc" class="sh_keyword">proc</a> <span class="sh_variable">$name</span> <span class="sh_variable">$argl</span> <span class="sh_variable">$body</span>
+    disasm <a href="https://wiki.tcl-lang.org/page/proc" class="sh_keyword">proc</a> <span class="sh_variable">$name</span>
+<span class="sh_cbracket">}</span></pre></div><p class="mkup_p">Execution happens immediately, if the asm command is not in a proc body:</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_6" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_6" class="sh_tcl sh_sourceCode"><span class="sh_symbol">%</span> <a href="https://wiki.tcl-lang.org/page/set" class="sh_keyword">set</a> x hello
+hello
+<span class="sh_symbol">%</span> asm <span class="sh_string">"push $x;strlen"</span>
+<span class="sh_number">5</span></pre></div><p class="mkup_p">Some more examples how to experiment with TAL instructions (error messages are good teachers ;^):</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_7" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_7" class="sh_tcl sh_sourceCode"><span class="sh_symbol">%</span> asm <span class="sh_cbracket">{</span>push <span class="sh_number">1</span><span class="sh_symbol">;</span>expon<span class="sh_cbracket">}</span>
+stack underflow
+<span class="sh_symbol">%</span> asm <span class="sh_cbracket">{</span>push <span class="sh_number">2</span><span class="sh_symbol">;</span>push <span class="sh_number">3</span><span class="sh_symbol">;</span>expon<span class="sh_cbracket">}</span>
+<span class="sh_number">8</span>
+<span class="sh_symbol">%</span> asm <span class="sh_cbracket">{</span>push <span class="sh_number">2</span><span class="sh_symbol">;</span>push <span class="sh_number">3</span><span class="sh_symbol">;</span>over <span class="sh_number">1</span><span class="sh_symbol">;</span>expon<span class="sh_cbracket">}</span>
+stack is unbalanced <a href="https://wiki.tcl-lang.org/page/on" class="sh_keyword">on</a> <a href="https://wiki.tcl-lang.org/page/exit" class="sh_keyword">exit</a> from the code <span class="sh_symbol">(</span>depth<span class="sh_symbol">=</span><span class="sh_number">2</span><span class="sh_symbol">)</span>
+<span class="sh_symbol">%</span> asm <span class="sh_cbracket">{</span>push <span class="sh_number">2</span><span class="sh_symbol">;</span>push <span class="sh_number">3</span><span class="sh_symbol">;</span>reverse <span class="sh_number">2</span><span class="sh_symbol">;</span>expon<span class="sh_cbracket">}</span>
+<span class="sh_number">9</span></pre></div><p class="mkup_p">This one failed my expectation (I wanted a test for lists of length 0):</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_8" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_8" class="sh_tcl sh_sourceCode"><span class="sh_symbol">%</span> <a href="https://wiki.tcl-lang.org/page/proc" class="sh_keyword">proc</a> lempty lst <span class="sh_cbracket">{</span>asm <span class="sh_cbracket">{</span>push lst<span class="sh_symbol">;</span>listLength<span class="sh_symbol">;</span>push <span class="sh_number">0</span><span class="sh_symbol">;</span>eq<span class="sh_cbracket">}}</span>
+<span class="sh_symbol">%</span> lempty a
+<span class="sh_number">0</span>
+<span class="sh_symbol">%</span> lempty <span class="sh_cbracket">{}</span>
+<span class="sh_number">0</span>
+<span class="sh_symbol">%</span> <a href="https://wiki.tcl-lang.org/page/proc" class="sh_keyword">proc</a> lempty lst <span class="sh_cbracket">{</span>asm <span class="sh_cbracket">{</span>push lst<span class="sh_symbol">;</span>listLength<span class="sh_cbracket">}}</span>
+<span class="sh_symbol">%</span> lempty <span class="sh_cbracket">{}</span>
+<span class="sh_number">1</span>
+<span class="sh_symbol">%</span> lempty a
+<span class="sh_number">1</span></pre></div><p class="mkup_p">Lesson learned: "push" takes a constant as argument. To dereference a (proc-local) variable, use "load":</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_9" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_9" class="sh_tcl sh_sourceCode"><span class="sh_symbol">%</span> <a href="https://wiki.tcl-lang.org/page/proc" class="sh_keyword">proc</a> lempty lst <span class="sh_cbracket">{</span>asm <span class="sh_cbracket">{</span><a href="https://wiki.tcl-lang.org/page/load" class="sh_keyword">load</a> lst<span class="sh_symbol">;</span>listLength<span class="sh_symbol">;</span>push <span class="sh_number">0</span><span class="sh_symbol">;</span>eq<span class="sh_cbracket">}}</span>
+<span class="sh_symbol">%</span> lempty <span class="sh_cbracket">{}</span>
+<span class="sh_number">1</span>
+<span class="sh_symbol">%</span> lempty a
+<span class="sh_number">0</span></pre></div><p class="mkup_p">Or start writing the smallest macro assembler in the world - <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/masm">masm</a> :^)</p><p class="mkup_p">I could have learned that by disassembling the equivalent Tcl proc:</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_10" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_10" class="sh_tcl sh_sourceCode"><span class="sh_symbol">%</span> aproc f x <span class="sh_cbracket">{</span><a href="https://wiki.tcl-lang.org/page/expr" class="sh_keyword">expr</a> <span class="sh_cbracket">{</span><span class="sh_symbol">[</span><a href="https://wiki.tcl-lang.org/page/llength" class="sh_keyword">llength</a> <span class="sh_variable">$x</span><span class="sh_symbol">]</span> <span class="sh_symbol">==</span> <span class="sh_number">0</span><span class="sh_cbracket">}}</span>
+ByteCode 0x0x88b7640<span class="sh_symbol">,</span> refCt <span class="sh_number">1</span><span class="sh_symbol">,</span> epoch <span class="sh_number">15</span><span class="sh_symbol">,</span> <a href="https://wiki.tcl-lang.org/page/interp" class="sh_keyword">interp</a> 0x0x88af7a0 <span class="sh_symbol">(</span>epoch <span class="sh_number">15</span><span class="sh_symbol">)</span>
+  Source <span class="sh_string">"expr {[llength $x] == 0}"</span>
+  Cmds <span class="sh_number">2</span><span class="sh_symbol">,</span> src <span class="sh_number">24</span><span class="sh_symbol">,</span> inst <span class="sh_number">7</span><span class="sh_symbol">,</span> litObjs <span class="sh_number">1</span><span class="sh_symbol">,</span> aux <span class="sh_number">0</span><span class="sh_symbol">,</span> stkDepth <span class="sh_number">2</span><span class="sh_symbol">,</span> code<span class="sh_symbol">/</span>src <span class="sh_number">0.00</span>
+  Proc 0x0x8965c60<span class="sh_symbol">,</span> refCt <span class="sh_number">1</span><span class="sh_symbol">,</span> args <span class="sh_number">1</span><span class="sh_symbol">,</span> compiled locals <span class="sh_number">1</span>
+      slot <span class="sh_number">0</span><span class="sh_symbol">,</span> scalar<span class="sh_symbol">,</span> arg<span class="sh_symbol">,</span> <span class="sh_string">"x"</span>
+  Commands <span class="sh_number">2</span><span class="sh_symbol">:</span>
+      <span class="sh_number">1</span><span class="sh_symbol">:</span> pc <span class="sh_number">0-5</span><span class="sh_symbol">,</span> src <span class="sh_number">0-23</span>        <span class="sh_number">2</span><span class="sh_symbol">:</span> pc <span class="sh_number">0-2</span><span class="sh_symbol">,</span> src <span class="sh_number">7-16</span>
+  Command <span class="sh_number">1</span><span class="sh_symbol">:</span> <span class="sh_string">"expr {[llength $x] == 0}"</span>
+  Command <span class="sh_number">2</span><span class="sh_symbol">:</span> <span class="sh_string">"llength $x"</span>
+    <span class="sh_symbol">(</span><span class="sh_number">0</span><span class="sh_symbol">)</span> loadScalar1 <span class="sh_symbol">%</span>v0         # var <span class="sh_string">"x"</span>
+    <span class="sh_symbol">(</span><span class="sh_number">2</span><span class="sh_symbol">)</span> listLength 
+    <span class="sh_symbol">(</span><span class="sh_number">3</span><span class="sh_symbol">)</span> push1 <span class="sh_number">0</span>         # <span class="sh_string">"0"</span>
+    <span class="sh_symbol">(</span><span class="sh_number">5</span><span class="sh_symbol">)</span> eq 
+    <span class="sh_symbol">(</span><span class="sh_number">6</span><span class="sh_symbol">)</span> done </pre></div><p class="mkup_p">which as input to <b class="mkup_b">assemble</b> would have to be converted to</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_11" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_11" class="mkup_pre sh_sourceCode">load x
+listLength
+push 0
+eq</pre></div><p class="mkup_p">The classic <i class="mkup_i">sign</i> (of a number) example in TAL, corresponding to <i class="mkup_i">expr {$x&gt;0 - $x&lt;0}</i>:</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_12" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_12" class="sh_tcl sh_sourceCode"><span class="sh_symbol">%</span> <a href="https://wiki.tcl-lang.org/page/proc" class="sh_keyword">proc</a> sign x <span class="sh_cbracket">{</span>asm <span class="sh_cbracket">{</span><a href="https://wiki.tcl-lang.org/page/load" class="sh_keyword">load</a> x<span class="sh_symbol">;</span> push <span class="sh_number">0</span><span class="sh_symbol">;</span> gt<span class="sh_symbol">;</span> <a href="https://wiki.tcl-lang.org/page/load" class="sh_keyword">load</a> x<span class="sh_symbol">;</span> push <span class="sh_number">0</span><span class="sh_symbol">;</span> lt<span class="sh_symbol">;</span> sub<span class="sh_cbracket">}}</span>
+<span class="sh_symbol">%</span> sign <span class="sh_number">42</span>
+<span class="sh_number">1</span>
+<span class="sh_symbol">%</span> sign <span class="sh_symbol">-</span><span class="sh_number">42</span>
+<span class="sh_symbol">-</span><span class="sh_number">1</span>
+<span class="sh_symbol">%</span> sign <span class="sh_number">0</span>
+<span class="sh_number">0</span></pre></div><p class="mkup_p">This illustrates how braced vs. non-braced <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/expr">expr</a>essions are byte-compiled differently:</p><div class="sh_sourceCode"><button class="copybtn btn pull-right" data-clipboard-target="#mkup_code_13" title="Click to copy code snippet to clipboard"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span></button><pre id="mkup_code_13" class="sh_tcl sh_sourceCode"><span class="sh_symbol">%</span> aproc f x <span class="sh_cbracket">{</span><a href="https://wiki.tcl-lang.org/page/expr" class="sh_keyword">expr</a> <span class="sh_cbracket">{</span><span class="sh_variable">$x</span><span class="sh_number">+1</span><span class="sh_cbracket">}}</span>
+ByteCode 0x0x93492f0<span class="sh_symbol">,</span> refCt <span class="sh_number">1</span><span class="sh_symbol">,</span> epoch <span class="sh_number">15</span><span class="sh_symbol">,</span> <a href="https://wiki.tcl-lang.org/page/interp" class="sh_keyword">interp</a> 0x0x92c07a0 <span class="sh_symbol">(</span>epoch <span class="sh_number">15</span><span class="sh_symbol">)</span>
+  Source <span class="sh_string">"expr {$x+1}"</span>
+  Cmds <span class="sh_number">1</span><span class="sh_symbol">,</span> src <span class="sh_number">11</span><span class="sh_symbol">,</span> inst <span class="sh_number">6</span><span class="sh_symbol">,</span> litObjs <span class="sh_number">1</span><span class="sh_symbol">,</span> aux <span class="sh_number">0</span><span class="sh_symbol">,</span> stkDepth <span class="sh_number">2</span><span class="sh_symbol">,</span> code<span class="sh_symbol">/</span>src <span class="sh_number">0.00</span>
+  Proc 0x0x935b298<span class="sh_symbol">,</span> refCt <span class="sh_number">1</span><span class="sh_symbol">,</span> args <span class="sh_number">1</span><span class="sh_symbol">,</span> compiled locals <span class="sh_number">1</span>
+      slot <span class="sh_number">0</span><span class="sh_symbol">,</span> scalar<span class="sh_symbol">,</span> arg<span class="sh_symbol">,</span> <span class="sh_string">"x"</span>
+  Commands <span class="sh_number">1</span><span class="sh_symbol">:</span>
+      <span class="sh_number">1</span><span class="sh_symbol">:</span> pc <span class="sh_number">0-4</span><span class="sh_symbol">,</span> src <span class="sh_number">0-10</span>
+  Command <span class="sh_number">1</span><span class="sh_symbol">:</span> <span class="sh_string">"expr {$x+1}"</span>
+    <span class="sh_symbol">(</span><span class="sh_number">0</span><span class="sh_symbol">)</span> loadScalar1 <span class="sh_symbol">%</span>v0         # var <span class="sh_string">"x"</span>
+    <span class="sh_symbol">(</span><span class="sh_number">2</span><span class="sh_symbol">)</span> push1 <span class="sh_number">0</span>         # <span class="sh_string">"1"</span>
+    <span class="sh_symbol">(</span><span class="sh_number">4</span><span class="sh_symbol">)</span> add 
+    <span class="sh_symbol">(</span><span class="sh_number">5</span><span class="sh_symbol">)</span> done 
+
+<span class="sh_symbol">%</span> aproc f x <span class="sh_cbracket">{</span><a href="https://wiki.tcl-lang.org/page/expr" class="sh_keyword">expr</a> <span class="sh_variable">$x</span><span class="sh_number">+1</span><span class="sh_cbracket">}</span>
+ByteCode 0x0x93492f0<span class="sh_symbol">,</span> refCt <span class="sh_number">1</span><span class="sh_symbol">,</span> epoch <span class="sh_number">15</span><span class="sh_symbol">,</span> <a href="https://wiki.tcl-lang.org/page/interp" class="sh_keyword">interp</a> 0x0x92c07a0 <span class="sh_symbol">(</span>epoch <span class="sh_number">15</span><span class="sh_symbol">)</span>
+  Source <span class="sh_string">"expr $x+1"</span>
+  Cmds <span class="sh_number">1</span><span class="sh_symbol">,</span> src <span class="sh_number">9</span><span class="sh_symbol">,</span> inst <span class="sh_number">8</span><span class="sh_symbol">,</span> litObjs <span class="sh_number">1</span><span class="sh_symbol">,</span> aux <span class="sh_number">0</span><span class="sh_symbol">,</span> stkDepth <span class="sh_number">2</span><span class="sh_symbol">,</span> code<span class="sh_symbol">/</span>src <span class="sh_number">0.00</span>
+  Proc 0x0x937b8f0<span class="sh_symbol">,</span> refCt <span class="sh_number">1</span><span class="sh_symbol">,</span> args <span class="sh_number">1</span><span class="sh_symbol">,</span> compiled locals <span class="sh_number">1</span>
+      slot <span class="sh_number">0</span><span class="sh_symbol">,</span> scalar<span class="sh_symbol">,</span> arg<span class="sh_symbol">,</span> <span class="sh_string">"x"</span>
+  Commands <span class="sh_number">1</span><span class="sh_symbol">:</span>
+      <span class="sh_number">1</span><span class="sh_symbol">:</span> pc <span class="sh_number">0-6</span><span class="sh_symbol">,</span> src <span class="sh_number">0-8</span>
+  Command <span class="sh_number">1</span><span class="sh_symbol">:</span> <span class="sh_string">"expr $x+1"</span>
+    <span class="sh_symbol">(</span><span class="sh_number">0</span><span class="sh_symbol">)</span> loadScalar1 <span class="sh_symbol">%</span>v0         # var <span class="sh_string">"x"</span>
+    <span class="sh_symbol">(</span><span class="sh_number">2</span><span class="sh_symbol">)</span> push1 <span class="sh_number">0</span>         # <span class="sh_string">"+1"</span>
+    <span class="sh_symbol">(</span><span class="sh_number">4</span><span class="sh_symbol">)</span> concat1 <span class="sh_number">2</span> 
+    <span class="sh_symbol">(</span><span class="sh_number">6</span><span class="sh_symbol">)</span> exprStk 
+    <span class="sh_symbol">(</span><span class="sh_number">7</span><span class="sh_symbol">)</span> done 
+</pre></div><p class="mkup_p">See more discussion on this at <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/Brace+your+expr-essions">Brace your Expr-essions</a>.</p>
+<h2 id="d7321abfaef52e711e1db8430ecc39629740c5f1e6b44991297291fa2422042d" class="mkup_h1"> Examples </h2><dl class="mkup_dl"><dt class="mkup_dt"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/Fib+in+TAL">Fib in TAL</a>, by <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/KBK">kbk</a>, 2012-08-21</dt><dd class="mkup_dd"></dd></dl><dl class="mkup_dl"><dt class="mkup_dt"><span class="mkup_tt"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/expr">expr</a></span></dt><dd class="mkup_dd">Presents some disassembly and nice explanation by <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/AMG">AMG</a>.</dd></dl>
+<h2 id="f0d0837119d2e68a0faac82afcb4df3df16c9b91e1f5f13351601d6cf748612c" class="mkup_h1"> Discussion </h2><p class="mkup_p"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/CMcC">CMcC</a>: I've put some incomplete work on tcl script generation of bytecodes here: <a rel="nofollow" class="mkup_a" href="https://wiki.tcl-lang.org/_repo/bytecode/">https://wiki.tcl-lang.org/_repo/bytecode/ <span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a></p><p class="mkup_p">It dates from Apr03, and may not even compile - it's certainly incomplete.</p><hr class="mkup_hr"><p class="mkup_p"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/Zarutian">Zarutian</a> 2006-10-28: hmm... specifying the grammar of TAL shouldn't be hard.</p><p class="mkup_p">Backus Naur Forms:</p><pre class="mkup_pre">  &lt;statement&gt; ::= [&lt;label&gt;] &lt;instruction&gt; "\n"
+  &lt;label&gt;   ::= &lt;alpanumeric string&gt; ":"
+  &lt;instruction&gt; ::= &lt;mnemonic name&gt; [&lt;parameter&gt;]*</pre><p class="mkup_p"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/AMG">AMG</a>: This is not the final BNF of TAL, if the example on the <a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/assemble">assemble</a> page is any indicator. It seems the grammar is even simpler than you envision, since <span class="mkup_tt">label</span> is itself a mnemonic. Another difference is the existence of comments, which seem to go from # to end of line, and semicolons as statement separators. I'm guessing semicolons and newlines are interchangeable, and semicolons are only strictly needed when multiple statements appear on a line or when a comment appears on the same line as a statement. I'd like to see a formal definition...</p><p class="mkup_p"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/Zarutian">Zarutian</a> 28. oktober 2006: Type of instructions needed:</p><ul class="mkup_UL"><li class="mkup_li">Arithmetic and logic operations</li><li class="mkup_li">Input/Output</li><li class="mkup_li">Memory fetching and storage</li><li class="mkup_li">Branching</li></ul><p class="mkup_p">But the question is: what architecture does TAL target? Tcl bytecodes?</p><p class="mkup_p"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/AK">AK</a> 2007-01-10: AFAIK it would target Tcl bytecodes. As for the grammar, I would say it should be a list representation in general, and anything more formatted can be derived from that, i.e., for display, maybe editing, etc.</p><p class="mkup_p"><a class="mkup_a mkup_known" href="https://wiki.tcl-lang.org/page/DKF">DKF</a> (same day): It should be noted that currently it is obscenely difficult to manage branching properly, especially when they are forward jumps. It should also be noted that there are some instructions that it is probably difficult to issue outside the main BCC anyway, as they use complex blocks of metadata (especially those relating to foreach loops and switch jump-tables).</p><hr><div class="mkup_centered"><table class="mkup_categories"><tbody><tr><td class="mkup_td"><a class="mkup_a" href="https://wiki.tcl-lang.org/page/Category+Glossary">Category Glossary</a></td></tr></tbody></table></div>
+</div>
+</div>
+<div class="row">
+<div class="col-xs-12">
+<div class="Footer">Updated 2021-02-20 16:40:13</div>
+</div>
+</div>
+</div>
+
+<script src="./TAL_files/jquery.min.js"></script>
+<script src="./TAL_files/jquery.tablesorter.combined.js"></script>
+
+<script src="./TAL_files/bootstrap.min.js"></script>
+<script type="text/javascript" src="./TAL_files/nikit.js"></script>
+<script type="text/javascript" src="./TAL_files/sh_main.js"></script>
+<script type="text/javascript" src="./TAL_files/sh_tcl.js"></script>
+<script type="text/javascript" src="./TAL_files/sh_c.js"></script>
+<script type="text/javascript" src="./TAL_files/sh_cpp.js"></script>
+
+<script src="./TAL_files/api.js"></script>
+<script>var clipboard = new ClipboardJS('.copybtn', {
+  text: function(trigger) {
+    return document.querySelector(trigger.getAttribute('data-clipboard-target')).textContent + '\n';
+  }
+});
+sort_tables();
+</script>
+
+
+</body></html>

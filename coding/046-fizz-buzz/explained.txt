@@ -1,0 +1,107 @@
+ Describe solution here:
+
+When watching: https://www.youtube.com/watch?v=FyCYva9DhsI&t=339s
+I was forced to immediately try a solution to Fizz Buzz before watching
+further. 
+
+####################### Solution 1 and 2 #######################
+isFizzBuzz1 val=31
+
+Solution One/Two:
+ 1. Used variable 'tmp' set to empty string,
+    and 'result' set to empty list 
+ 
+ set tmp ""
+ set result [list]
+
+ 2. Used variable 'tmp' initialized to the 
+    empty string, result not yet defined.
+
+ set tmp ""
+
+Compare #1:
+ Both: Checked if input div by 3
+  if 
+    set tmp=$val, (result still="" or [list])
+  if not 
+    set result=Fizz,or [Fizz], (tmp still="")
+
+Compare #2:
+ Both: Checked if input div by 5
+  if
+   append or lappend Buzz to result  
+  if not
+   append or lappend $tmp to result
+
+Sol1: Join result list to string and return.
+Sol2: Directly use result string.
+
+################ Solution 3 ################
+
+Realize that there are four possible solutions:
+(Bin|Dec)
+(00|0): passed in value $val 
+(01|1): Fizz 
+(10|2): Buzz 
+(11|3): FizzBuzz 
+
+Each compare adds to the total value or leaves unchanged
+
+Two compares produces the index into the list/array:
+
+[list $val Fizz Buzz FizzBuzz]
+
+Return the string in the nth slot:
+return [lindex [list] $sum]
+
+################ Solution (N and M) #################
+
+Realize the generic application is even easier, but
+with 3+ output words the number of compares==n or
+the number of binary digits in the number of passed in
+{factor word} pairs. Thinking of this in binary terms
+makes sense at this point because the number of possible
+solutions is 2^3=8, but we only need the {factor word} list
+to directly produce the solution.
+
+Note: the result is initialized as an empty list of length 0,
+but this is converted to a string if any of these factors divide
+the input. The empty result is determined by checking the
+length of the list.
+
+############## Solution N ###########################
+
+First alternative uses the $len of the list in an if statement,
+and then executes the correct branch. 
+
+############### Solution M ########################
+
+The last alternative solution uses an expr to evaluate
+which value to return. This results in the shortest
+assembly code, but ends with tryCvtToNumeric before done,
+but othewise uses the same assembly instructions to get 
+the result. 
+
+######################################################
+############### code-3.tcl timing code ###############
+
+code-3.tcl adds timing code derived from:
+<https://wiki.tcl-lang.org/page/Time> DKF: measure.
+
+I added additional constraints besides 2M micro-sec.
+The timing input is a list of three items {maxIter maxTime ramp}
+
+Both maxIter and maxTime are enforced. 'ramp' is the factor
+to multiply to get the max number of iterations for the next
+step. The number of iterations starts at 1, so a ramp of 5
+would lead to the series 1,5,25,125... A value of 0 for number
+of iterations leads to zero executions for timing purposes, 
+but one additional execution is performed directly. 
+
+The return of measure3 is a list of 
+{
+   round iterations, 
+   usec/iter, 
+   total usec time 
+} of each stage, 
+plus a cumulative number of iterations. 

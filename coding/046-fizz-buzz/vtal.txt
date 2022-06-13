@@ -1,0 +1,274 @@
+#!/usr/bin/env tclkit
+# vtal.tcl -- Visual TAL
+
+set thisdir [file dirname [info script]]
+source $thisdir/tal.tcl
+package require Tk
+image create photo stop -file $thisdir/stop.gif
+
+proc vtal {{w ""}} {
+    wm title . "Visual TAL"
+    global g
+    set g(stack) ---bottom---
+    set g(bp) 0
+    if {$w ne ""} {pack [frame $w] -fill both -expand 1}
+    pack [frame $w.top] -side top
+    button $w.top.1 -text "Step" -command vtal.step
+    set g(run) $w.top.2
+    button $w.top.2 -text Run -command vtal.run
+    button $w.top.2a -text Reset -command vtal.reset
+    label $w.top.3 -text "proc f " -background white
+    entry $w.top.4 -width 80 -textvar g(entry)
+    bind  $w.top.4 <Return> vtal.refresh
+    eval pack [winfo children $w.top] -side left -fill y
+    pack [label $w.info -textvariable g(Info)] -side bottom
+    set g(Info) "Welcome to Visual TAL"
+    pack [frame $w.right] -side right -fill both -expand 1
+    pack [label $w.right.1 -text "Local variables" -relief raised] -fill x
+    set g(vars) $w.right.vars
+    pack [frame $g(vars)] -fill x
+    pack [label $w.right.2 -text Stack -relief raised] -fill x
+    pack [text $w.right.stack -width 32] -fill both -expand 1
+    set g(stk) $w.right.stack
+    pack [scrollbar $w.y -command "$w.t yview"] -side right -fill y
+    pack [text $w.t -wrap word \
+              -width 72 -yscrollcommand "$w.y set"] -fill both -expand 1
+    $w.t tag configure hilite -background yellow
+    set g(txt) $w.t
+    bind $w.t <3> {breakpoint %W %x %y}
+    foreach i {red blue} {$w.t tag configure $i -foreground $i}
+    bind all <Down> vtal.step
+    vtal.showstack
+    bind all <F9> {console show}
+}
+proc breakpoint {w x y} {
+    set pos [expr int([$w index @$x,$y])]
+    $w image create $pos.0 -image stop
+}
+proc vtal.reset {} {
+    global g slot
+    vtal.hilite $g(txt) 2
+    set g(stack) ---bottom---
+    vtal.showstack
+    set g(Info) Ready.
+    foreach {num descr} [array get slot] {
+        if ![string match *arg,* $descr] {
+            if [string match *temp* $descr] {
+                set name $num
+            } else {set name [lindex $descr end]}
+            set g(var,$name) ""
+        }
+    }
+}
+proc vtal.refresh {{function ""}} {
+    global g slot
+    if {$function ne ""} {set g(entry) $function}
+    array unset g var,*
+    vtal.reset
+    if [catch [list eval [linsert $g(entry) 0 proc f]] msg] {error $msg}
+    foreach {argl} $g(entry) break
+    array unset slot
+    set asm [dis2asm [disasm proc f]]
+    set res [list proc f $argl [list asm $asm]]
+    set rc [catch $res msg]
+    vtal.show $g(txt) $res
+    if {$rc != 0} {error $msg}
+}
+proc vtal.run {} {
+    global g
+    $g(run) configure -text Stop -command vtal.stop
+    every $g(delay) vtal.step
+}
+set g(delay) 200
+proc every {ms body} {uplevel #0 $body; after $ms [namespace code [info level 0]]}
+proc vtal.stop {} {
+    global g
+    foreach id [after info] {after cancel $id}
+    $g(run) configure -text Run -command vtal.run
+}
+proc vtal.show {w str} {
+    $w delete 1.0 end
+    foreach line [split $str \n] {
+        if {[regexp {^(proc|\})} $line]} {
+            $w insert end $line\n blue
+        } else {
+            foreach {code cmt rest} [split $line #] break
+            set code [string trimright $code ";"]
+            if {$cmt ne ""}  {set cmt ";#$cmt"}
+            if {$rest ne ""} {set rest #$rest}
+            $w insert end $code "" $cmt red $rest\n red 
+        }
+    }
+    $w tag add hilite 2.0 2.end
+    vtal.vars
+}
+proc vtal.vars {} {
+    global g slot
+    set w $g(vars)
+    eval destroy [winfo children $w]
+    set i 0
+    foreach num [lsort -dict [array names slot]] {
+        set lvar $slot($num)
+        set varname [lindex $lvar end]
+        if {$varname eq "temp"} {set varname $num}
+        grid [label $w.[incr i] -text "%v$num: $lvar"] \
+            [entry $w.[incr i] -textvariable g(var,$varname)] -sticky w
+    }
+}
+proc vtal.step {} {
+    global g
+    set w $g(txt)
+    foreach {from to} [$w tag ranges hilite] break
+    if ![info exists from] return
+    set lineno [lindex [split $from .] 0]
+    set cmd [$w get $from $to]
+    if {[string match \}* $cmd] || $g(bp)==0 && [scan [$w get $lineno.0] %c] eq ""} {
+        set g(bp) 1
+        after 1 vtal.stop
+        return
+    }
+    incr lineno
+    set g(Info) $cmd
+    set lineno [vtal.eval $cmd $lineno]
+    set g(bp) 0
+    vtal.hilite $w $lineno
+}
+proc vtal.eval {cmd line} {
+    global g
+    foreach part [split $cmd ";"] {
+        if [string match #* [string trim $part]] {return $line}
+        foreach {instr arg1 arg2} $part break
+        if ![info exists instr] {return $line}
+        set tos [lindex $g(stack) 0] ;# top of stack
+        switch $instr {
+            add              {push [expr {[pop] + [pop]}]}
+            append           {append g(var,$arg1) $tos}
+            bitand           {push [expr {[pop] & [pop]}]}
+            bitnot           {push [expr {~ [pop]}]}
+            bitor            {push [expr {[pop] | [pop]}]}
+            bitxor           {push [expr {[pop] ^ [pop]}]}
+            concat           {push [vtal.concat $arg1]}
+            currentNamespace {push [namespace current]}
+            div              {pop x; push [expr {[pop] / $x}]}
+            dup              {push $tos}
+            eq               {push [expr {[pop] == [pop]}]}
+            existArrayStk    {pop x; push [info exists [set x]([pop])]}
+            exist            {push [info exists $arg1]}
+            expon            {pop x; push [expr {[pop]**$x}]}
+            ge               {pop x; push [expr {[pop] >= $x}]}
+            gt               {pop x; push [expr {[pop] > $x}]}
+            incr             {push [expr {[pop] + $arg1}]}
+            incrImm {push [vtal.store $arg1 [expr {[vtal.load $arg1] + $arg2}]]}
+            invokeStk  {push [vtal.invoke $arg1]}
+            jump       {set line [vtal.jump $arg1]}
+            jumpTrue   {if {[pop] != 0} {set line [vtal.jump $arg1]}}
+            jumpFalse  {if {[pop] == 0} {set line [vtal.jump $arg1]}}
+            label      {}
+            lappend    {lappend g(var,$arg1) $tos}
+            land       {pop x; push [expr {[pop] && $x}]}
+            list       {push [vtal.list $arg1]}
+            listIn     {pop x; push [expr {[pop] in $x}]}
+            listIndex  {pop x; push [lindex [pop] $x]}
+            listLength {push [llength [pop]]}
+            listNotIn  {pop x; push [expr {[pop] ni $x}]}
+            load       {push [vtal.load $arg1]}
+            lor        {pop x; push [expr {[pop] || $x}]}
+            lshift     {pop x; push [expr {[pop] << $x}]}
+            le         {pop x; push [expr {[pop] <= $x}]}
+            lt         {pop x; push [expr {[pop] < $x}]}
+            mod        {pop x; push [expr {[pop] % $x}]}
+            mult       {push [expr {[pop] * [pop]}]}
+            neq        {push [expr {[pop] != [pop]}]}
+            nop        {}
+            not        {push [expr {! [pop]}]}
+            pop         pop
+            push       {push $arg1}
+            rshift     {pop x; push [expr {[pop] >> $x}]}
+            store      {vtal.store $arg1 $tos}
+            strcmp     {pop x; push [string compare [pop] $x]}
+            streq      {push [string equal [pop] [pop]]}
+            strfind    {pop x; push [string first [pop] $x]}
+            strindex   {pop x; push [string index [pop] $x]}
+            strlen     {push [string length [pop]]}
+            strmap     {pop x; push [string map [pop] $x]}
+            strmatch   {pop x; push [string match [pop] $x]}
+            strneq     {push [expr ![string equal [pop] [pop]]]}
+            strrange   {push [string range [pop] $arg1 $arg2]}
+            strrfind   {pop x; push [string last [pop] $x]}
+            sub        {pop x; push [expr {[pop] - $x}]}
+            tryCvtToNumeric {}
+            uminus     {push [expr {-[pop]}]}
+            unset      {unset $arg1}
+            ""         {}
+            default   {vtal.stop; error "instruction $part not yet implemented"}
+        }
+    }
+    return $line
+}
+proc vtal.concat num {
+    set res {}
+    while {$num > 0} {
+        set res [pop]$res
+        incr num -1
+    }
+    return $res
+}
+proc vtal.list num {
+    set res {}
+    while {$num > 0} {
+        set res [linsert $res 0 [pop]]
+        incr num -1
+    }
+    return $res
+}
+proc vtal.invoke num {
+    set cmd {}
+    while {$num > 0} {
+        set cmd [linsert $cmd 0 [pop]]
+        incr num -1
+    }
+    catch $cmd res
+    return $res
+}
+proc vtal.jump label {
+    global g
+    set pos [$g(txt) search "label $label" 1.0]
+    if {$pos eq ""} {error "label $label not found"}
+    set line [lindex [split $pos .] 0]
+}
+proc vtal.load   name        {return $::g(var,$name)}
+proc vtal.store {name value} {
+    if ![info exists ::g(var,$name)] {error "no local variable $name"}
+    set ::g(var,$name) $value
+}
+proc pop {{_v ""}} {
+    global g
+    set res [lindex $g(stack) 0]
+    if {$res eq "---bottom---"} {error "stack underflow"}
+    set g(stack) [lrange $g(stack) 1 end]
+    vtal.showstack
+    if {$_v ne ""} {upvar 1 $_v var; set var $res}
+    return $res
+}
+proc push what {
+    global g
+    set g(stack) [linsert $g(stack) 0 $what]
+    vtal.showstack
+}
+proc vtal.showstack {} {
+    global g
+    $g(stk) delete 1.0 end
+    $g(stk) insert 1.0 [join $g(stack) \n]
+}
+proc vtal.hilite {w line} {
+    $w tag remove hilite 1.0 end
+    $w tag add hilite $line.0 $line.end+1c
+    $w see $line.0
+}
+
+vtal
+#-- demo function for starters
+#vtal.refresh {{x y} {expr {$x%2? acos(-1) : sqrt(2)}}}
+#vtal.refresh {x {foreach i $x {puts ($i)}}}
+vtal.refresh {x {set res {};foreach i $x {if {$i>0} {lappend res $i}};set res}}
+

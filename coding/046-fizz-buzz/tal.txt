@@ -1,0 +1,214 @@
+#!/usr/bin/env tclkit
+package require Tcl 8.6
+# tal.tcl -- experiments with the Tcl Assembly Language
+
+#
+
+namespace path ::tcl::mathop
+#interp alias {} asm    {} ::tcl::unsupported::assemble ;# worksn't
+if {[info commands asm] eq ""} {
+    namespace eval tcl::unsupported {namespace export assemble}
+    namespace import tcl::unsupported::assemble
+    rename assemble asm
+    interp alias {} disasm {} ::tcl::unsupported::disassemble
+    interp alias {} repr   {} ::tcl::unsupported::representation ;# unrelated, useful
+}
+proc aproc {name argl body args} {
+    proc $name $argl $body
+    set res [disasm proc $name]
+    puts stderr "res=$res"
+    set dis [dis2asm $body]
+    puts stderr "dis='$dis'"
+    set as [asm $dis]
+    puts stderr "as='$as'"
+    puts stderr 
+    if {"-x" in $args} {
+        set res [list proc $name $argl [list asm [dis2asm $res]]]
+        if {"-o" in $args} {set res [optimize $res]}
+        eval $res
+    }
+    return $res
+}
+proc dis2asm body {
+    global slot
+    array unset slot
+    set fstart " push -1\n   store @p\n   pop"
+    set fstep  "incrImm @p +1\n   load @l\n   load @p
+   listIndex\n   store @i\n   pop
+   load @l\n   listLength\n   lt    "
+    set res  ""
+    set wait ""
+    set jumptargets {}
+    set lines [split $body \n]
+    foreach line $lines { ;#-- pass 1: collect jump targets
+        if [regexp {\# pc (\d+)} $line -> pc] {lappend jumptargets $pc}
+    }
+    set lineno 0
+    set needDone 0
+    foreach line $lines { ;#-- pass 2: do the rest
+        incr lineno
+        set line [string trim $line]
+        if {$line eq ""} continue
+        
+        set code ""
+        if {[regexp {slot (\d+), (.+)} $line -> number descr]} {
+            set slot($number) $descr
+        } elseif {[regexp {data=.+loop=%v(\d+)} $line -> ptr]} {
+            #got ptr, carry on
+        } elseif {[regexp {it%v(\d+).+\[%v(\d+)\]} $line -> copy number]} {
+            set loopvar [lindex $slot($number) end]
+            if {$wait ne ""} {
+                set map [list @p $ptr @i $loopvar @l $copy]
+                set code [string map $map $fstart]
+                append res "\n  $code ;# $wait"
+                set wait ""
+            }
+        } elseif {[regexp {^ *\((\d+)\) (.+)} $line -> pc instr]} {
+            if {$pc in $jumptargets} {append res "\n label L$pc;"}
+            if {[regexp {(.+)#(.+)} $instr -> instr comment]} {
+                set arg [list [lindex $comment end]]
+                if [string match jump* $instr] {set arg L$arg}
+            } else {set arg ""}
+            set instr0 [normalize [lindex $instr 0]]
+            switch -- $instr0 {
+                concat - invokeStk - listIndexImm - reverse {
+                    set arg [lindex $instr end]
+                }
+                incrImm   {set arg [list $arg [lindex $instr end]]}
+            }
+            set code "$instr0 $arg"
+            switch -- $instr0 {
+                beginCatch {
+                    set catchend [findCatchEnd $lines $lineno]
+                    lappend code L$catchend
+                    lappend jumptargets $catchend
+                }
+                done          {
+                    if {$lineno < [llength $lines]-2} {
+                        set code "jump Done"
+                        incr needDone
+                    } else {set code ""}
+                }
+                startCommand  {set code ""}
+                foreach_start {set wait $line; continue}
+                foreach_step  {set code [string map $map $fstep]}
+            }
+            append res "\n   [format %-24s $code] ;# $line"
+        }
+    }
+    if $needDone {append res "\n label Done;"}
+    return $res\n
+}
+proc normalize instr {
+    regsub {\d+$} $instr "" instr ;# strip off trailing length indicator
+    set instr [string map {
+        existScalar    exist
+        #incr1Imm       incrImm  
+        incrScalar1Imm incrImm
+        incrScalar     incr
+        lappendScalar  lappend
+        loadScalar     load   
+        nop            ""  
+        storeScalar    store
+        unsetScalar    unset
+    } $instr]
+    return $instr
+}
+proc optimize tal {
+    set last  ""
+    set last2 ""
+    set lines [split $tal \n]
+    for {set i 0} {$i < [llength $lines]} {incr i} {
+        set instr [regexp -inline {[A-Za-z0-9_]+} [lindex $lines $i]]
+        if {"$last $instr" eq "push pop"} {
+            lset lines $i-1 #o[lindex $lines $i-1] ;# mark for deletion
+            lset lines $i   #o[lindex $lines $i]
+        } elseif {"$last $instr" eq "jump jump"} { ;# unreachable jump
+            lset lines $i   #o[lindex $lines $i]
+        }
+        set last $instr
+    }
+    while 1 {
+        set tmp {} ;# remove marked lines
+        foreach line $lines {if ![string match #o* $line] {lappend tmp $line}}
+        set lines $tmp
+        set found 0
+        for {set i 0} {$i < [llength $lines]} {incr i} {
+            set instr [regexp -inline {[A-Za-z0-9_]+} [lindex $lines $i]]
+            if {"$last2 $last $instr" eq "jump label jump"} {
+                set oldTrg [string trimright [lindex $lines $i-1 1] ";"]
+                set newTrg [lindex $lines $i   1]
+                lset lines $i-1 #o[lindex $lines $i-1] ;# mark for deletion
+                lset lines $i   #o[lindex $lines $i]
+                set found 1
+                break
+            }
+            set last2 $last
+            set last  $instr
+        }
+        if $found {
+            set tmp {} ;# remove marked lines
+            foreach line $lines {
+                if [regexp "jump.* $oldTrg " $line] {
+                    set line [string map [list " $oldTrg " " $newTrg "] $line]
+                }
+                if ![string match #o* $line] {lappend tmp $line}
+            }
+            set lines $tmp
+        } else break
+    }
+    return [join $lines \n]
+}
+proc findCatchEnd {lines lineno} {
+    set pc ""
+    for {set i $lineno} {$i < [llength $lines]} {incr i} {
+        if {[regexp {\((\d+)\) endCatch} [lindex $lines $i] -> pc]} break
+    }
+    if {$pc eq ""} {error "could not find end of catch for line $lineno"}
+    for {set i $lineno} {$i < [llength $lines]} {incr i} {
+        if {[string match "*jump*pc $pc*" [lindex $lines $i]]} {
+            if {[regexp {\((\d+)\)} [lindex $lines $i+1] -> pc2]} {
+                return $pc2
+            }
+        }
+    }
+    error "could not find jump source for $pc"
+}
+set  masm_subs {"push $" "load " jumpgt "gt;jumpTrue"} ;#------------------------------------ small experiments with meta-assembly
+proc masm code {uplevel 1 [list asm [string map $::masm_subs $code]]}
+proc mgt {x y} {masm {
+    load x;load y;jumpgt GT;push no;jump Done;
+    label GT; push yes
+    label Done
+}}
+#--------------------------------------------------------------------------------------------- TEST SUITE
+foreach i {total failed} {set $i 0}
+proc test {cmd -> expected} {
+    incr ::total
+    catch {uplevel 1 $cmd} res
+    if {$res ne $expected} {
+        puts "***** $cmd -> $res, expected $expected"
+        incr ::failed
+    }
+}
+
+test {aproc f x {incr x}; f 41} -> 42
+test {aproc f x {incr x} -x; f 22} -> 23
+test {aproc f x {incr x} -x -o; f 522} -> 523
+test {aproc f x {incr x -1} -x -o; f 522} -> 521
+test {aproc f x {set a($x) 1; array get a}; f foo} -> {foo 1}
+test {aproc f x {set a(1) $x; array get a}; f foo} -> {1 foo}
+test {aproc sum x {expr [join $x +]} -x; sum {3 4 5}} -> 12
+
+test {asm {expr sqrt(9)}} -> 3.0
+
+proc lempty lst {masm {push $lst;listLength;push 0;eq}}
+test {lempty {}} -> 1
+test {lempty a}  -> 0
+
+test {mgt 1 2} -> no
+test {mgt 4 3} -> yes
+
+
+puts "total $total tests, failed $failed"
+
