@@ -239,6 +239,39 @@ f 157.60722917393187 {{g 204.7007262728646 {}}}
 {f 157.60722917393187 {{g 204.7007262728646 {}}}} {c 24.408271361332513 {{d 129.81676991554758 {{e 230.4519706081841 {}}}} {a 137.51334116678376 {{b 186.72499013446503 {}}}}}}
 % 
 
+russell@boron10:/web/servers/ns/semitasker$ git commit
+[gh-pages 4eb2fe0] Impliment 25 Horses in tcl
+ 6 files changed, 496 insertions(+)
+ create mode 100644 coding/045-big-num-math/gl2.tcl
+ create mode 100644 coding/045-big-num-math/gl3-notes.tcl
+ create mode 100644 coding/045-big-num-math/graph-loop.tcl
+ create mode 100644 coding/045-big-num-math/last.txt
+ create mode 100644 coding/045-big-num-math/lset-lpop.tcl
+ create mode 100644 coding/045-big-num-math/script.sed
+russell@boron10:/web/servers/ns/semitasker$ git push
+Enumerating objects: 13, done.
+Counting objects: 100% (13/13), done.
+Delta compression using up to 12 threads
+Compressing objects: 100% (10/10), done.
+Writing objects: 100% (10/10), 4.36 KiB | 495.00 KiB/s, done.
+Total 10 (delta 3), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+To github.com:russell-todd-sorensen/semitasker.git
+   5abeaf7..4eb2fe0  gh-pages -> gh-pages
+russell@boron10:/web/servers/ns/semitasker$ 
+russell@boron10:/web/servers/ns/semitasker$ tclsh
+% tcl::unsupported::Y
+invalid command name "tcl::unsupported::Y"
+% info procs tcl::unsupported::*
+% 
+% info proc ::tcl::unsupported
+% info proc ::tcl::unsupported
+% info proc ::tcl::unsupported::*
+% info command ::tcl::unsupported::*
+::tcl::unsupported::assemble ::tcl::unsupported::disassemble ::tcl::unsupported::corotype ::tcl::unsupported::inject ::tcl::unsupported::representation ::tcl::unsupported::getbytecode
+% info procs ::tcl::unsupported::*
+% info procs
+auto_load_index unknown auto_import auto_execok auto_qualify auto_load history 
 
 
 

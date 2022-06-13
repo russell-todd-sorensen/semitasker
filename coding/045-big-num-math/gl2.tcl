@@ -1,6 +1,11 @@
 set list {r t c d e f g h}
 
+global numCompared
+
+
 proc compareHorses {a b} {
+    global numCompared
+    incr numCompared
     set timeA [lindex $a 1]
     set timeB [lindex $b 1]
     set val [expr {
@@ -23,7 +28,7 @@ proc makeHeat {listName {max 3}} {
         set heat $list
         set list []
     }
- 
+
     return $heat
 }
 
@@ -51,8 +56,15 @@ proc linkHeatOLD {sName} {
     }
 }
 
-proc linkHeat {sName} {
+proc linkHeat {sName {pruneToIdx -1}} {
     upvar $sName s
+    if {
+        ($pruneToIdx > -1)
+        && (([llength $s] - $pruneToIdx) >= 1)
+    } {
+        puts "Pruning to [expr {1+$pruneToIdx}] from [llength $s]"
+        set s [lrange $s 0 $pruneToIdx]
+    }
     while {[llength $s] > 1} {
         lset s {end end end+1} [lpop s]
     }
@@ -75,32 +87,55 @@ proc linkHeat2OLD {sName} {
 set horses25 [list a b c d e f g h i j k l m n o p q r s t u v w x y]
 
 
-proc runMeet {horseListIn {maxHeat 3} {numPlaces 0}} {
+proc runMeet {horseListIn {maxHeat 3} {numPlaces 0} {prune true}} {
+    global numCompared
+    set numCompared 0
     if {!$numPlaces} {
         set numPlaces [llength $horseListIn]
     }
     set horses [assignRunTimes $horseListIn]
     set winners [list]
+    set remainingPlaces $numPlaces
     set bigloop 0
     set Queue $horses
     set heatCount 0
+    set finalHeat false
 
     while {[llength $winners] < $numPlaces} {
         while {[llength $Queue]} {
             set heat [makeHeat Queue $maxHeat]
             set res  [runHeat $heat]
-            linkHeat res
             puts "Ran heat [incr heatCount]"
+            puts "Result of Heat $heatCount='$res'"
+            if {$finalHeat} {
+                set index 0
+                puts "Finishing final Heat"
+                while {$index < $remainingPlaces} {
+                    lappend winners [lrange [lindex $res $index] 0 1]
+                    incr index
+                }
+                break 
+            }
+            if {$prune} {
+                linkHeat res [expr {$numPlaces - [llength $winners] - 1}]
+            } else {
+                linkHeat res
+            }
+            puts "Linked Heat $heatCount='$res'"
             if {[llength $Queue]} {
                 puts "adding '[lindex $res 0]' to Queue"
                 set Queue [linsert $Queue 0 [lindex $res 0]]
             } else {
                 lappend winners [lrange [lindex $res 0] 0 1]
+                incr remainingPlaces -1
                 puts "winners [incr bigloop] = '$winners'"
                 if {[llength $winners] >= $numPlaces} {
                     break;
                 }
                 set followers [lindex $res 0 2]
+                if {[llength $followers] >= $remainingPlaces} {
+                    set finalHeat true
+                }
                 if {[llength $followers]} {
                     set Queue [linsert $Queue 0 {*}$followers]
                     puts "Queue len [llength $Queue] now '$Queue'"
@@ -113,6 +148,7 @@ proc runMeet {horseListIn {maxHeat 3} {numPlaces 0}} {
     return $winners
 }
 
-set result [runMeet $list 3 3]
-
-puts "\nresult=$result"
+#set result [runMeet $list 3 3]
+puts "Rull like this %runMeet \$list maxHeat winners"
+#puts "\n numCompared = $numCompared"
+#puts "\nresult=$result"

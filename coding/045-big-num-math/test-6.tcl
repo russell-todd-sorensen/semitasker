@@ -4,4 +4,4 @@ namespace eval :ext::resource {
     init
 }
 
-::ext::resource::add header 
+::ext::resource::add header ::ext::resource::includeNS [file join $scriptRoot header.tmpl]
