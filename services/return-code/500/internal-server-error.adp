@@ -16,6 +16,8 @@ set title "Internal Server Error"
 set hostHeader [ns_quotehtml [ns_set iget [ns_conn headers] host]]
 set referer [ns_urlencode [ns_set iget [ns_conn headers]  referer "None Sent"] ]
 
+ns_log Notice "Running error page handler internal-server-error.adp"
+
 # Gather error trace
 if {![info exists ::errorInfo]} {
     global ::errorInfo
