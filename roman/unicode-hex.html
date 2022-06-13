@@ -5,16 +5,8 @@
 <title>Display a Range of Unicode Characters Hexidecimal Numbering</title>
 
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
-
+<link rel="stylesheet" type="text/css" href="/css/fira-code/fira_code.css" media="all">
 <style>
-
-@font-face {
-  font-family: "Bravura";
-  src: 
-      url("/css/fonts/svg/Bravura.svg") format("svg"),
-      url("/css/fonts/woff/Bravura.woff2") format("woff2"),
-      url("/css/fonts/woff/Bravura.woff") format("woff");
-}
 
 #chars td,
 #chars th {
@@ -22,6 +14,7 @@
     height: 2em;
     font-family: "consolas sans unicode";
     font-family: Bravura;
+    font-family: "Fira Code VF";
     font-size: 1.5em;
     text-align: center;
     border: .5px solid black;
@@ -46,10 +39,6 @@
 }
 .detail:hover {
     background-color: silver;
-}
-
-fieldset {
-    display: inline-block;
 }
 
 #top {
@@ -142,13 +131,16 @@ var toHex2 = function(decimalNumber) {
     return (result == "" ? "0" : result)
 }
 
-var showUnicodeChars = function(startId, endId, baseId) {
+var showUnicodeChars = function(baseName, startId, endId) {
 
-    var base = parseInt($('#' + baseId + ':checked').val());
-    var startCode, endCode, tmpCode,char;
+    let base = document.querySelector(`[name='${baseName}']:checked`).value,
+        startCode = document.getElementById(startId).value,
+        endCode =  document.getElementById(endId).value,
+        tmpCode,
+        char;
 
-    startCode = $('#' + startId).val();
-    endCode   = $('#' + endId).val();
+    //startCode = $('#' + startId).val();
+    //endCode   = $('#' + endId).val();
 
     if (base == 16) {
         startCode = toDecimal(startCode);
@@ -235,7 +227,7 @@ var loadWebPage = function (evt) {
     var data = evt.currentTarget.dataset.unicode;
     var url = 'https://www.compart.com/en/unicode/U+' + data;
     Log.Notice('data=' + data + ' url=' + url);
-    //$('#uni-lookup').attr('src',url);
+    
     subWindow = window.open(
         url,  // url to open
         "unicode", // window name
@@ -243,11 +235,44 @@ var loadWebPage = function (evt) {
         "true" // replace (removes current document)
    );
 }
+var queryVars = [{type:"radio",name:"base",values:[10,16]},"start","end"];
+
+var updateForm = function(params) {
+    let len = params?params.length:0,
+        paramMap = new URLSearchParams(window.location.search),
+        type;
+
+    for (let i=0,param,val,type;i<len;i++) {
+        param = params[i];
+        if (typeof param == "string") {
+            type = "string";
+        } else {
+            type = param.type;
+        }
+        switch (type) {
+        case "string": 
+            if (paramMap.has(param)) {
+                val = paramMap.get(param);
+                document.getElementById(param).value = val;
+            }
+            break;
+        case "radio": 
+            let paramName = param.name;
+            if (paramMap.has(paramName)) {
+                val = paramMap.get(paramName);
+                document.querySelector(`[name='${paramName}'][value='${val}']`).checked = true;
+            }
+            break;
+        }
+    }
+}
 
 $(document).ready(function() {
-  Log.Notice('Document Ready');
-  //Log.Remove();
-  setupHexData();
+    Log.Notice('Document Ready');
+    //Log.Remove();
+    setupHexData(queryVars);
+    updateForm(queryVars);
+    showUnicodeChars("base","start","end");
  });
 
 </script>
@@ -257,14 +282,81 @@ $(document).ready(function() {
 <body>
 <div id="top">
 <div id="left">
-<form id="form1" onSubmit="return false;">
-    Start: <input type="text" value="20" pattern="[0-9A-Fa-f]*" id="start" name="start" size="10" placeholder="Enter starting unicode number">
-    End: <input type="text" value="512" pattern="[0-9A-Fa-f]*"  id="end" name="end" size="10" placeholder="Enter ending unicode number">
-    <fieldset>
-    Hex: <input type="radio" value="16" name="base" id="base" checked="checked">
-    Decimal: <input type="radio" value="10" name="base" id="base" >
-    </fieldset><br>
-    <button id="doit" name="doit" onClick="showUnicodeChars('start','end','base')">Show Unicode Chars</button>
+<form id="form1" method="GET">
+<style>
+#form1 fieldset {
+    display: block;
+    width: 350px;
+    margin-bottom: 5px;
+    background-color: #CCCCCC99;
+}
+#form1 legend {
+    background-color: #CCCCCC99;
+    padding: 2px;
+    border: 1px solid #88888888;
+}
+#form1 li {
+    line-height: 1.6em;
+}
+#form1 label::after {
+    content: ": ";
+}
+#form1 li {
+  list-style-type: none;
+  width: 250px;
+}
+#form1 li li {
+  list-style-type: none;
+  width: 150px;
+}
+#form1 li label {
+    display: inline-block;
+    width: 100px;
+}
+#form1 li.note {
+    width: 300px;
+}
+</style>
+<fieldset>
+    <legend>Unicode Character Range Options</legend>
+<ul>
+<li><label for="start">Start</label>
+    <input type="text" value="2170"
+        pattern="[0-9A-Fa-f]*" id="start"
+        name="start" size="10"
+        placeholder="Enter starting unicode number">
+</li>    
+<li><label for="end">End</label>
+    <input type="text" value="2188"
+        pattern="[0-9A-Fa-f]*"  id="end"
+        name="end" size="10"
+        placeholder="Enter ending unicode number">
+</li>
+<li><label >Base</label>
+    <ul>
+        <li><label for="base-16">Hex</label> 
+            <input type="radio" value="16" name="base" id="base-16" checked>
+        </li>
+        <li><label for="base-10">Decimal</label> 
+            <input type="radio" value="10" name="base" id="base-10" >
+        </li>
+    </ul>
+</li>
+<li>
+    <label for="submit-form">Apply</label>
+    <input type="submit" id="submit-form" name="submit-form" value="Update Table">
+</li>
+<li></li>
+</ul>
+</fieldset>
+<fieldset>
+    <legend>Note</legend>
+<ul>
+<li class="note">
+Click on symbols for more info.
+</li>
+</ul>
+</fieldset>
 </form>
 <table id="chars">
 <thead id="thead">

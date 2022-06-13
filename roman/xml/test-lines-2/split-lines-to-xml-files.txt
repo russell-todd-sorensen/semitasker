@@ -1,0 +1,60 @@
+# script to read data in binary mode and count
+# chars on each "line".
+try {
+    set dir [file dirname [info script]]
+    set in "UTF-8-test.txt"
+    set filename [file join $dir $in]
+    if {![file exists $filename]} {
+        puts stdout "file '$filename' does not exist, exiting."
+        return -code error
+    }
+
+    set lineNumber 0
+
+    set inFd  [open $filename [list RDONLY]]
+
+    # different configs
+    set configId 1 
+    # print starting config:
+    puts stdout "[chan configure $inFd]";
+
+    switch -exact -- $configId {
+        0 - default {
+            # no config, print config
+            puts stdout "[chan configure $inFd]";
+        }
+        1 {
+            set options [list -translation binary]
+            set outFileTemplate "%0.4d-utf-test-line.xml"
+            set xmlStartTemplate {<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<test id="line-number-%0.4d" xml:space="preserve" xmlns="https://home.highfivediet.com/roman">}
+            set xmlEnd {</test>}
+        }
+    }
+    while {![eof $inFd]  && [set len [gets $inFd lineValue]] > -1} {
+        set charLength [string length "$lineValue"]
+        set byteLength [string bytelength "$lineValue"]
+        set diff [expr {$byteLength - $charLength}]
+        set outFd [open [format $outFileTemplate $lineNumber] [list WRONLY APPEND CREAT TRUNC]]
+        chan configure $outFd {*}$options
+        puts $outFd [format $xmlStartTemplate $lineNumber]
+        puts $outFd "<stats>"
+        puts $outFd [format "%4s %5s %5s %4s" Line Bytes Chars Diff]
+        puts $outFd [format "L%3d %5d %5d %4d" $lineNumber $byteLength $charLength $diff]
+        puts $outFd "</stats>"
+        puts $outFd "<line>[string repeat "-" 78]|</line>"
+        puts $outFd "<line>$lineValue</line>"
+        puts $outFd $xmlEnd
+        close $outFd
+        incr lineNumber
+        break
+    }
+
+    close $inFd
+} on error {msg dict} {
+    global errorInfo
+    puts stdout "Error $errorInfo"
+    puts stdout "Error $msg [dict get $dict]"
+    close $inFd
+    close $outFd
+}

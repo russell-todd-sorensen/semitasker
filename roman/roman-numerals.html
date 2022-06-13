@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang='en-US'>
+<head>
+<meta charset="utf-8">
+<title>PunyCode Test Strings</title>
+<script src="//use.edgefonts.net/unlock.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/d3.v4.js"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script>
+var idString = '\u0051\u0072\u006F\u010D\u0070\u0072\u006F\u0073\u0074\u011B\u006E\u0065\u006D\u006C\u0075\u0076\u00ED\u010D\u0065\u0073\u006B\u0079';
+var ids = idString.split("");
+
+var example_b = '\u4ed6\u4eec\u4e3a\u4ec0\u4e48\u4e0d\u8bf4\u4e2d\u6587';
+var example_b_link = 'http://' + example_b + '.ws';
+var example_l = '\u0033\u5e74\u0042\u7d44\u91d1\u516b\u5148\u751f';
+var example_l_link = 'http://' + example_l + '.ws';
+
+function loadGliphs() {
+	$('#s1').text('');
+	for (var g in ids) {
+		console.log('g=' + g + ' gliph=' + ids[g]);
+		//$('#g' + g + '.s::before').css({'content': ids[g]});
+		//document.querySelector('#g' + g + ':before').style.content = ids[g];
+
+		$('#s1').append("\n#g" + g + "::before {content: '" + ids[g] + "'}");
+	}
+}
+
+function punycode_encode (input ) {
+
+}
+
+function encode_digit(d, flag) {
+    return d + 22 + 75 * (d < 26) - ((flag != 0) << 5);
+}
+
+var base = 36
+var tmin = 1
+var tmax = 26
+var skew = 38
+var damp = 700
+var initial_bias = 72
+var initial_n = 128
+
+function adapt (delta, numpoints, firsttime) {
+    var k
+    delta = firsttime ? parseInt(Math.floor(delta / damp)) : parseInt(Math.floor(delta >> 1));
+
+    delta += parseInt(Math.floor(delta / numpoints));
+
+    for (k = 0; delta > parseInt(Math.floor(((base - tmin) * tmax) / 2)); k += base) {
+        delta = parseInt(Math.floor(delta/(base - tmin)));
+    }
+    return delta;
+}
+
+</script>
+<style id="s1">
+
+</style>
+<style>
+.correct {
+    background-color: green;
+    color: white;
+}
+.incorrect {
+    background-color:burlywood;
+    color: brown;
+}
+</style>
+</head>
+<body>
+<div>
+    <li><a href="https://home.ↈↀↁↇ.ws/">This website</a></li>
+    <li><a href="https://home.xn--n5gcsb.ws/roman/unicode-hex.html?start=2170&end=2188&base=16">Unicode Table</a></li>
+    <li><a href="https://home.ↈↀↁↇ.ws/roman/">Unicode Symbols for Large Roman Numerals</a></li>
+</div>
+<div>
+A few years back I was looking at some unicode tables an out popped something 
+really new to me: Roman numerals with larger values. Using these I got a 
+domain name to use in testing something called punycode to represent 
+International Domain Names with non-ascii characters. 
+So, okay the AKC didn't think ahead very far with their naming scheme, 
+but how 'bout those engineering the internet with only ASCII?
+So the larger Roman Numerals I found are these: 
+<ul>
+<li>ↀ = 1000 (C,D alt of M),</li>
+<li>ↁ = 5000,</li>
+<li>ↂ = 10,000,</li>
+<li>ↇ = 50,000 and</li>
+<li>ↈ = 100,000.</li>
+</ul>
+</div>
+<div>
+I used these to create a domain name for testing purposes: 
+<ul>
+<li> ↈↀↁↇ = 144000 = 100,000+(50,000-5000-1000).</li>
+<li> I also found the rules for constructing larger 
+numbers inconsistent, so I used the "shortest is best" rule,
+ alternatives are these: 
+</li>
+<li>ↀↈↁↇ = 100,000-1000+(50000-5000) and</li>
+<li> ↈↂↂↂↂↀↀↀↀ = 100,000+4*10,000+4*1000.</li>
+<li>
+More info on these code points is here: 
+</li>
+<li>
+<a href="https://home.ↈↀↁↇ.ws/roman/unicode-hex.html?start=2170&end=2188&base=16">Code Points</a>  and</li>
+<li>
+<a href="https://home.xn--n5gcsb.ws/roman/144000.html">Roman Numeral Table</a>
+</li>
+</ul>
+</div>
+</body>
+</html>

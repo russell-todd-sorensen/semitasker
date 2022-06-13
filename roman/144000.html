@@ -3,51 +3,56 @@
 <head>
 <meta charset="utf-8">
 
-<title id='t-1'></title>
+<title id="t-1"></title>
 
-<script src="//use.edgefonts.net/unlock.js"></script>
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="/js/d3.v4.js"></script>
-<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<link rel="stylesheet" href="/css/fira-code/fira_code.css"/>
+<link rel="stylesheet" href="/css/meyerweb-reset/reset.css" ><!--/css/reset.css-->
+
 <script>
 
 var ids = ['ↀ','ↁ','ↂ','Ↄ','ↄ','ↅ','ↆ','ↇ','ↈ']; //these dont always work
-var OneHundredFourtyFourThousand = '\u2188\u2180\u2181\u2187';
-var idString = '\u2180\u2181\u2182\u2183\u2184\u2185\u2186\u2187\u2188\u2189';
+var One44k = "\u2188\u2180\u2181\u2187";
+var idString = "\u2180\u2181\u2182\u2183\u2184\u2185\u2186\u2187\u2188";
 var ids = idString.split("");
 
-function loadGliphs() {
-    $('#s1').text('');
-    for (var g in ids) {
-        console.log('g=' + g + ' gliph=' + ids[g]);
-        //$('#g' + g + '.s::before').css({'content': ids[g]});
-        //document.querySelector('#g' + g + ':before').style.content = ids[g];
+function loadGlyphs() {
+    let gArray = ids,
+        s1 = document.getElementById("s1"),
+        len = gArray.length;
 
-        $('#s1').append("\n#g" + g + "::before {content: '" + ids[g] + "'}");
+    console.log(`gArray=${gArray}`);
+    s1.textContent = "";
+
+    for (let i=0;i<len;i++) {
+        console.log(`g${i}, glyph="${gArray[i]}"`);
+
+        s1.append(`\n#g${i}::before {content: "${gArray[i]}";\n}`);
     }
 }
+window.addEventListener("DOMContentLoaded", () => {
 
-$(document).ready(function() {
-        document.getElementById('t-1').text = OneHundredFourtyFourThousand;
-        $('#r').html(OneHundredFourtyFourThousand);
-        $('#r2').html('\u2188\u2182\u2182\u2182\u2182\u2180\u2180\u2180\u2180');
-        //$('#r3').html('\u2180\u2188\u2181\u2187');
-        $('#link1').html("<a href='"+ OneHundredFourtyFourThousand + ".html'>"
-            + OneHundredFourtyFourThousand + ".html</a>")
-        $('#link2').html("<a href='"+OneHundredFourtyFourThousand + "/" + OneHundredFourtyFourThousand + ".html'>"
-            + OneHundredFourtyFourThousand + "/" + OneHundredFourtyFourThousand + ".html</a>")
-        console.log('\u2188');
-        console.log('\u8584');
-        console.log('\u2189');
-        console.log('\u2179');
-        console.log(OneHundredFourtyFourThousand+'.html')
+        document.getElementById("t-1").textContent = One44k;
+        document.getElementById("r").textContent   = One44k;
+        document.getElementById("r2").textContent  = "\u2188\u2182\u2182\u2182\u2182\u2180\u2180\u2180\u2180";
+        document.getElementById("link1").innerHTML=`<a href="${One44k}.html">${One44k}.html</a>`;
+        document.getElementById("link2").innerHTML=`<a href="${One44k}/${One44k}.html">${One44k}/${One44k}.html</a>`;
+        console.log(" u2180 =\u2180");
+        console.log(" u2181 =\u2181");
+        console.log(" u2182 =\u2182");
+        console.log(" u2183 =\u2183");
+        console.log(" u2184 =\u2184");
+        console.log(" u2185 =\u2185");
+        console.log(" u2186 =\u2186");
+        console.log(" u2187 =\u2187");
+        console.log(" u2188 =\u2188");
+
+        console.log(`${One44k}.html`)
 });
 </script>
-<link rel="stylesheet" href="/css/reset.css" >
 <style id="s0">
 
 body {
-    font-family: unlock, fantasy;
+    font-family: "Fira Code VF";
     margin: 10px;
 }
 
@@ -63,7 +68,7 @@ body {
 
 #titles {
     font-weight: 100;
-    font-family: 'fira code';
+    font-family: "Fira Code VF";
     font-size: 3em;
 }
 
@@ -161,9 +166,9 @@ td {
 <td class='s' id='g8'>    <td>2188    <td>ROMAN NUMERAL ONE HUNDRED THOUSAND
 <tr>
 </table>
-<button onclick="loadGliphs()" value="Load Glyphs">Load Glyphs If Broken</button><br>
+<button onclick="loadGlyphs()" value="Load Glyphs">Load Glyphs If Broken</button><br>
 <a href='ↈↀↁↇ.html'>ↈↀↁↇ.html</a><br>
-<span id='link1'></span>
-<br><span id='link2'></span>
+<span id="link1"></span>
+<br><span id="link2"></span>
 </body>
 </html>

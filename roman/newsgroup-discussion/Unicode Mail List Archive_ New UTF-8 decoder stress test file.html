@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!-- saved from url=(0074)https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0087.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>Unicode Mail List Archive: New UTF-8 decoder stress test file</title>
+<meta name="Author" content="Markus Kuhn (Markus.Kuhn@cl.cam.ac.uk)">
+<meta name="Subject" content="New UTF-8 decoder stress test file">
+</head>
+<body bgcolor="#FFFFFF" text="#000000">
+<h1>New UTF-8 decoder stress test file</h1>
+<!-- received="Sun Sep 26 09:22:20 1999" -->
+<!-- isoreceived="19990926132220" -->
+<!-- sent="Sun, 26 Sep 1999 17:22:15 +0100" -->
+<!-- isosent="19990926162215" -->
+<!-- name="Markus Kuhn" -->
+<!-- email="Markus.Kuhn@cl.cam.ac.uk" -->
+<!-- subject="New UTF-8 decoder stress test file" -->
+<!-- id="E11VH4A-0005th-00@heaton.cl.cam.ac.uk" -->
+<!-- charset="UTF-8 " -->
+<!-- expires="-1" -->
+<strong>From:</strong> Markus Kuhn (<a href="mailto:Markus.Kuhn@cl.cam.ac.uk?Subject=Re:%20New%20UTF-8%20decoder%20stress%20test%20file%2526In-Reply-To=%2526lt;E11VH4A-0005th-00@heaton.cl.cam.ac.uk%3E"><em>Markus.Kuhn@cl.cam.ac.uk</em></a>)<br>
+<strong>Date:</strong> Sun Sep 26 1999 - 12:22:15 EDT
+<p>
+<!-- next="start" -->
+</p><ul>
+<li><strong>Next message:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0088.html">Valeriy E. Ushakov: "Re: New UTF-8 decoder stress test file"</a>
+</li><li><strong>Previous message:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0086.html">Andrew Cunningham: "Re: African letters (Was: A basic question on encoding Latin"</a>
+<!-- nextthread="start" -->
+</li><li><strong>Next in thread:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0088.html">Valeriy E. Ushakov: "Re: New UTF-8 decoder stress test file"</a>
+</li><li><strong>Maybe reply:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0088.html">Valeriy E. Ushakov: "Re: New UTF-8 decoder stress test file"</a>
+</li><li><strong>Maybe reply:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0090.html">Glen Perkins: "Re: New UTF-8 decoder stress test file"</a>
+</li><li><strong>Maybe reply:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0097.html">Markus Kuhn: "Re: New UTF-8 decoder stress test file"</a>
+</li><li><strong>Maybe reply:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0103.html">John Cowan: "Re: New UTF-8 decoder stress test file"</a>
+<!-- reply="end" -->
+</li><li><strong>Messages sorted by:</strong> 
+<a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/index.html#87">[ date ]</a>
+<a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/thread.html#87">[ thread ]</a>
+<a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/subject.html#87">[ subject ]</a>
+<a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/author.html#87">[ author ]</a>
+<a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/attachment.html">[ attachment ]</a>
+</li><li><strong>Mail actions:</strong> <a href="mailto:unicode@unicode.org?Subject=Re:%20New%20UTF-8%20decoder%20stress%20test%20file%2526In-Reply-To=%2526lt;E11VH4A-0005th-00@heaton.cl.cam.ac.uk%3E">[ respond to this message ]</a> <a href="mailto:unicode@unicode.org">[ mail a new topic ]</a>
+</li></ul>
+<hr noshade=""><p>
+<!-- body="start" -->
+</p><p>
+I have updated the UTF-8 decoder stress test file to also cover
+<br>
+overlong sequences, which a good UTF-8 decoder should reject just
+<br>
+like malformed sequences for security reasons.
+<br>
+</p><p>One part of UTF-8's ASCII compatibility is the property:
+<br>
+</p><p>&nbsp;&nbsp;ASCII compatibility of the first kind:
+<br>
+</p><p>&nbsp;&nbsp;ASCII bytes (00-7f) will only represent ASCII characters and will not
+<br>
+&nbsp;&nbsp;show up in other contexts.
+<br>
+</p><p>Equally important is another property:
+<br>
+</p><p>&nbsp;&nbsp;ASCII compatibility of the second kind:
+<br>
+</p><p>&nbsp;&nbsp;ASCII characters can only be represented with a single ASCII
+<br>
+&nbsp;&nbsp;byte (00-7f) and cannot be decoded from other multi-byte sequences.
+<br>
+</p><p>Section 4 in the test file helps you to establish the robustness of your
+<br>
+decoder here. Testing for overlong UTF-8 sequences is very easy, once
+<br>
+you have fully understood that all overlong sequences fall into one of
+<br>
+the following patterns:
+<br>
+</p><p>&nbsp;&nbsp;1100000x 10xxxxxx
+<br>
+&nbsp;&nbsp;11100000 100xxxxx 10xxxxxx
+<br>
+&nbsp;&nbsp;11110000 1000xxxx 10xxxxxx 10xxxxxx
+<br>
+&nbsp;&nbsp;11111000 10000xxx 10xxxxxx 10xxxxxx 10xxxxxx 
+<br>
+&nbsp;&nbsp;11111100 100000xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 
+<br>
+</p><p>For instance, in xterm, all I had to add were the two lines
+<br>
+</p><p>&nbsp;/* continuation byte 10xxxxxx found */
+<br>
+&nbsp;if (screen-&gt;utf_char == 0 &amp;&amp; ((c &amp; 0x7f) &gt;&gt; (7 - screen-&gt;utf_count)) == 0) {
+<br>
+&nbsp;&nbsp;&nbsp;screen-&gt;utf_char = UCS_REPL;
+<br>
+&nbsp;}
+<br>
+</p><p>and
+<br>
+</p><p>&nbsp;/* start byte 110xxxxx found */
+<br>
+&nbsp;if ((c &amp; 0x1e) == 0)
+<br>
+&nbsp;&nbsp;&nbsp;screen-&gt;utf_char = UCS_REPL; /* overlong sequence */
+<br>
+</p><p>at the right place to catch all overlong UTF-8 sequences and replace
+<br>
+them with the REPLACEMENT CHARACTER. (The second "if" checks the start
+<br>
+character of a 2-byte sequence, the first "if" checks the first
+<br>
+continuation byte of any sequence, where c is the input byte, screen-&gt;
+<br>
+utf_char is the UCS-2 word accumulated so far and screen-&gt;utf_count is
+<br>
+the expected number of remaining continuation bytes incl. the current
+<br>
+one.)
+<br>
+</p><p>Summary: Adding a safety check to a UTF-8 decoder such that ASCII
+<br>
+compatibility of the second kind is ensured is really trivial, and the
+<br>
+example code on the Unicode ftp site should definitely be corrected
+<br>
+accordingly.
+<br>
+</p><p>Test your UTF-8 decoder with the attached file! It is very likely that
+<br>
+you will discover strange bugs this way. I haven't yet seen an UTF-8
+<br>
+decoder that was really correct the first time I tested it. Most I saw
+<br>
+treat malformed UTF-8 sequences very badly, xterm being a notable
+<br>
+exception. Netscape is one of the worst and does not even get past test
+<br>
+2.1.1.
+<br>
+</p><p>The test file is also available as
+<br>
+</p><p>&nbsp;&nbsp;<a href="http://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt">http://www.cl.cam.ac.uk/~mgk25/ucs/examples/UTF-8-test.txt</a>
+<br>
+</p><p>or in
+<br>
+</p><p>&nbsp;&nbsp;<a href="http://www.cl.cam.ac.uk/~mgk25/download/ucs-fonts.tar.gz">http://www.cl.cam.ac.uk/~mgk25/download/ucs-fonts.tar.gz</a>
+<br>
+</p><p>in the examples/ directory. Both directories contain many more
+<br>
+interesting UTF-8 test files, especially for font proof-reading.
+<br>
+</p><p>Happy decoder testing ...
+<br>
+</p><p>Markus
+<br>
+</p><p></p><pre>-- 
+Markus G. Kuhn, Computer Laboratory, University of Cambridge, UK
+Email: mkuhn at acm.org,  WWW: &lt;<a href="http://www.cl.cam.ac.uk/~mgk25/">http://www.cl.cam.ac.uk/~mgk25/</a>&gt;
+<p></p><p>
+</p></pre>
+<hr noshade="">
+<ul>
+<li>text/plain  attachment: <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/att-0087/01-UTF-8-test.txt">UTF-8-test.txt</a>
+</li></ul>
+<!-- attachment="01-UTF-8-test.txt" -->
+<p><!-- body="end" -->
+</p><hr noshade="">
+<ul>
+<!-- next="start" -->
+<li><strong>Next message:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0088.html">Valeriy E. Ushakov: "Re: New UTF-8 decoder stress test file"</a>
+</li><li><strong>Previous message:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0086.html">Andrew Cunningham: "Re: African letters (Was: A basic question on encoding Latin"</a>
+<!-- nextthread="start" -->
+</li><li><strong>Next in thread:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0088.html">Valeriy E. Ushakov: "Re: New UTF-8 decoder stress test file"</a>
+</li><li><strong>Maybe reply:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0088.html">Valeriy E. Ushakov: "Re: New UTF-8 decoder stress test file"</a>
+</li><li><strong>Maybe reply:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0090.html">Glen Perkins: "Re: New UTF-8 decoder stress test file"</a>
+</li><li><strong>Maybe reply:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0097.html">Markus Kuhn: "Re: New UTF-8 decoder stress test file"</a>
+</li><li><strong>Maybe reply:</strong> <a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/0103.html">John Cowan: "Re: New UTF-8 decoder stress test file"</a>
+<!-- reply="end" -->
+</li><li><strong>Messages sorted by:</strong> 
+<a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/index.html#87">[ date ]</a>
+<a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/thread.html#87">[ thread ]</a>
+<a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/subject.html#87">[ subject ]</a>
+<a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/author.html#87">[ author ]</a>
+<a href="https://www.unicode.org/mail-arch/unicode-ml/Archives-Old/UML019/attachment.html">[ attachment ]</a>
+</li><li><strong>Mail actions:</strong> <a href="mailto:unicode@unicode.org?Subject=Re:%20New%20UTF-8%20decoder%20stress%20test%20file%2526In-Reply-To=%2526lt;E11VH4A-0005th-00@heaton.cl.cam.ac.uk%3E">[ respond to this message ]</a> <a href="mailto:unicode@unicode.org">[ mail a new topic ]</a>
+</li></ul>
+<!-- trailer="footer" -->
+<hr noshade="">
+<p>
+<small>
+<em>
+This archive was generated by <a href="http://www.hypermail.org/">hypermail 2.1.2</a> 
+: <em>Tue Jul 10 2001 - 17:20:53 EDT</em>
+</em>
+</small>
+
+
+</p></body></html>

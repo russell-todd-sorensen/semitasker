@@ -1,0 +1,29 @@
+#!/web/servers/ns/bin/tclsh8.7
+
+chan configure stdin -translation binary -buffering none
+chan configure stdout -translation binary -buffering none
+
+puts stdout "starting"
+
+set charCount 0
+set max 1000
+try {
+	while {![eof stdin] && ($charCount < $max)} {
+		set char [read stdin 1]
+                puts stderr "read '$char'"
+		puts -nonewline stdout $char
+		incr charCount
+		puts stderr "wrote '$char' charCount='$charCount'"
+		after 5000
+        }
+} on error {res opt} {
+	puts stderr "res='res' opt='opt' charCount=$charCount"
+	return -options $opt $res
+}
+
+puts stderr "charCount = $charCount"
+
+close stdin
+close stdout
+
+

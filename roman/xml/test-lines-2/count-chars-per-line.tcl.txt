@@ -1,0 +1,45 @@
+# script to read data in binary mode and count
+# chars on each "line".
+try {
+    set dir [file dirname [info script]]
+    set in "UTF-8-test.txt" 
+    set filename [file join $dir $in]
+    if {![file exists $filename]} {
+        puts stdout "file '$filename' does not exist, exiting."
+        return -code error
+    }
+
+    set lineNumber 0
+
+    set inFd  [open $filename [list RDONLY]]
+    set outFd [open utf-test-result.txt [list WRONLY APPEND CREAT TRUNC]]
+
+    # different configs
+    set configId 0 
+    # print starting config:
+    puts stdout "[chan configure $inFd]";
+
+    switch -exact -- $configId {
+        0 - default {
+            # no config, print config
+            puts stdout "[chan configure $inFd]";
+        }
+    }
+    puts $outFd [format "%4s %5s %5s %4s %3s[string repeat "-" 79]" Line Bytes Chars Diff Sep]
+    while {![eof $inFd]  && [set len [gets $inFd lineValue]] > -1} {
+        set charLength [string length "$lineValue"]
+        set byteLength [string bytelength "$lineValue"]
+        set diff [expr {$byteLength - $charLength}]
+        puts $outFd [format "L%3d %5d %5d %4d %3s%s" $lineNumber $byteLength $charLength $diff "  |" $lineValue]
+        incr lineNumber
+    }
+
+    close $inFd
+    close $outFd
+} on error {msg dict} {
+    global errorInfo
+    puts stdout "Error $errorInfo"
+    puts stdout "Error $msg [dict get $dict]"
+    close $inFd
+    close $outFd
+}
