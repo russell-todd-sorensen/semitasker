@@ -1,4 +1,9 @@
+
 User-agent: *
 Disallow: /*/snapshot/*
+Disallow: /.git/
 Allow: /
 
+User-agent: dotbot
+Disallow: /
+Disallow: /.git/

@@ -5,7 +5,7 @@
 <title>HSL RGB Conversion Checker 5</title>
 <link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
 <link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
-
+<link rel="stylesheet" href="/css/fira-code/fira_code.css" media="all">
 
 <style>
 
@@ -21,6 +21,7 @@ html, body {
     font-family: "Consolas Bold";
     font-family: "Agency FB Bold";
     font-family: "Tw Cen MT Bold";
+    font-family: "Fira Code VF";
 }
 
 .pointer {
@@ -93,7 +94,7 @@ form, fieldset, label, select, option {
     padding: 10px;
     position: absolute;
     top: 5px;
-    left: 5px;
+    right: 5px;
 }
 
 
@@ -129,18 +130,18 @@ form, fieldset, label, select, option {
 }
 
 #bg .expand {
-    width: 260px;
+    width: 400px;
 }
 
 #bg .expand label {
-    width :100px;
+    width :200px;
     display: inline-block;
 }
 
 #bg .expand input {
     display: inline-block;
     vertical-align: bottom;
-    width: 150px;
+    width: 175px;
 }
 .min-max {
     display: inline-block;
@@ -186,52 +187,52 @@ form, fieldset, label, select, option {
 // <![CDATA[ 
 
 var Config = {
-	formId: 'bg',
-	pointFunction: generatePointsRGB,
-	xOffset: 40,
-	yOffset: 420,
-	yOffset2: 40,
-	yExpand: 400,
-	xExpand: 1,
-	/////////// RGB ///////////
-	rStart: 0,
-	gStart: 0,
-	bStart: 0,
-	rEnd: 255,
-	gEnd:255,
-	bEnd: 255,
-	rStep: 25,
-	gStep: 25,
-	bStep: 25,
-	
-	////////// HSB ////////////
-	hueStart: 0,
-	satStart: 0,
-	brtStart: 0,
-	hueEnd: 360,
-	satEnd:100,
-	brtEnd: 100,
-	hueStep: 1,
-	satStep: 5,
-	brtStep: 5,
-	
-	////////// HSL ////////////
-	hStart: 0,
-	sStart: 0,
-	lStart: 0,
-	hEnd: 360,
-	sEnd:100,
-	lEnd: 100,
-	hStep: 1,
-	sStep: 5,
-	lStep: 5,
+    formId: 'bg',
+    pointFunction: generatePointsRGB,
+    xOffset: 40,
+    yOffset: 420,
+    yOffset2: 40,
+    yExpand: 400,
+    xExpand: 1,
+    /////////// RGB ///////////
+    rStart: 0,
+    gStart: 0,
+    bStart: 0,
+    rEnd: 255,
+    gEnd:255,
+    bEnd: 255,
+    rStep: 25,
+    gStep: 25,
+    bStep: 25,
+    
+    ////////// HSB ////////////
+    hueStart: 0,
+    satStart: 0,
+    brtStart: 0,
+    hueEnd: 360,
+    satEnd:100,
+    brtEnd: 100,
+    hueStep: 1,
+    satStep: 5,
+    brtStep: 5,
+    
+    ////////// HSL ////////////
+    hStart: 0,
+    sStart: 0,
+    lStart: 0,
+    hEnd: 360,
+    sEnd:100,
+    lEnd: 100,
+    hStep: 1,
+    sStep: 5,
+    lStep: 5,
 
-	delay1: 5,
-	delay: 500,
-	graphType: 'diff-sum', // or 'sat-sum' or 'brt-sum'
-	animationType: 'h', // h,s or l
-	style: 'default',
-	modulus: 1000
+    delay1: 5,
+    delay: 500,
+    graphType: 'diff-sum', // or 'sat-sum' or 'brt-sum'
+    animationType: 'h', // h,s or l
+    style: 'default',
+    modulus: 1000
 }
 
 var modulus;
@@ -239,83 +240,83 @@ var modulus;
 var mismatchTable;
 
 function showColorMismatch() {
-	
-	mismatchDiv = d3.select('#mismatch');
-	mismatchDiv.text("");
-	mismatchTable = mismatchDiv
-		.append("table")
-		.attr({cellpadding:1,cellspacing:0,border:1});
-		
-	var headerRow = mismatchTable
-		.append("tr");
+    
+    mismatchDiv = d3.select('#mismatch');
+    mismatchDiv.text("");
+    mismatchTable = mismatchDiv
+        .append("table")
+        .attr({cellpadding:1,cellspacing:0,border:1});
+        
+    var headerRow = mismatchTable
+        .append("tr");
   headerRow
-		.append("th")
-		.text("Point");
-	headerRow
-		.append("th")
-		.text("Red");
-	headerRow
-		.append("th")
-		.text("Green");
-	headerRow
-		.append("th")
-		.text("Blue");
-	headerRow
-		.append("th")
-		.text("HSL");
+        .append("th")
+        .text("Point");
+    headerRow
+        .append("th")
+        .text("Red");
+    headerRow
+        .append("th")
+        .text("Green");
+    headerRow
+        .append("th")
+        .text("Blue");
+    headerRow
+        .append("th")
+        .text("HSL");
 
-		
-	var selection = d3.selectAll('#points .mismatch');
-	selection
-	.transition()
-	.ease('linear')
-	.duration(100)
-	.delay(function(d,i) {return 100*i;})
-	.style('opacity',1)
-	.each('end', function (d,i) {
-		  if (i == 0) return;
-			var tr = mismatchTable
-				.append("tr");
-			tr
-			  .attr('id','mismatch-'+ i);
-			var pointTd = tr.append("td");
-			var pointDiv = pointTd
-				.append("div");
-			pointDiv
-				.attr('style','background-color: ' + d.hsl + '; width: 20px;')
-				.text(i);
-			tr.append("td").text(d.r + " " + d.r2);
-			tr.append("td").text(d.g + " " + d.g2);
-			tr.append("td").text(d.b + " " + d.b2);
-			tr.append("td").text(d.hsl);
-	});
+        
+    var selection = d3.selectAll('#points .mismatch');
+    selection
+        .transition()
+        .ease('linear')
+        .duration(100)
+        .delay(function(d,i) {return 100*i;})
+        .style('opacity',1)
+        .each('end', function (d,i) {
+            if (i == 0) {
+                return;
+            }
+            var tr = mismatchTable
+                .append("tr")
+                .attr('id','mismatch-'+ i);
+            var pointTd = tr.append("td");
+            var pointDiv = pointTd
+                .append("div")
+                .attr('style','background-color: ' + d.hsl + '; width: 20px;')
+                .text(i);
+            tr.append("td").text(d.r + " " + d.r2);
+            tr.append("td").text(d.g + " " + d.g2);
+            tr.append("td").text(d.b + " " + d.b2);
+            tr.append("td").text(d.hsl);
+        });
 }
 
 function changeConfig(inputId, configProperty) {
-	
-	var propertyValue,localName,saveFunction;
-	
-	localName =  document.getElementById(inputId).localName;
-	
-	switch (localName) {
-	case "input":
-	  saveFunction = "Data.saveInput";
-	  propertyValue = document.getElementById(inputId).value;
-		break;
-	case "select":
-	  saveFunction = "Data.saveSelect";
-		propertyValue = $('#' + inputId + ' option::selected').attr('value');
-		break;
-	}
-	
-	var origValue = Config[configProperty];
-	Config[configProperty] = propertyValue;
-	
-	Log.Notice("changeConfig property=" + configProperty 
-	       + " changed from '" + origValue 
-				 + "' to '" + Config[configProperty] + "'");
-				 
-	var call = saveFunction + "('" + inputId + "','changeConfig'";
+    
+    var propertyValue,localName,saveFunction;
+    
+    localName =  document.getElementById(inputId).localName;
+    
+    switch (localName) {
+    case "input":
+      saveFunction = "Data.saveInput";
+      propertyValue = document.getElementById(inputId).value;
+        break;
+    case "select":
+      saveFunction = "Data.saveSelect";
+        propertyValue = $('#' + inputId + ' option::selected').attr('value');
+        break;
+    }
+    
+    var origValue = Config[configProperty];
+    Config[configProperty] = propertyValue;
+    
+    Log.Notice("changeConfig property=" + configProperty 
+           + " changed from '" + origValue 
+                 + "' to '" + Config[configProperty] + "'");
+                 
+    var call = saveFunction + "('" + inputId + "','changeConfig'";
   for (var i = 1; i< arguments.length; i++) {
     call = call + ",'" + arguments[i] + "'";
   }
@@ -323,178 +324,179 @@ function changeConfig(inputId, configProperty) {
   call += ");";
   setTimeout(call, 10);
   return false;
-	
+    
 }
 
 
 function doAnimation () {
-	animateIndex = 0;
-	animateClassIndex = 0;
-	points = [];
-	Log.Notice("doAnimation...starting");
-	Config.pointFunction(Config.rStart,Config.gStart,Config.bStart);
-	scheduleFunction(myGraph.drawLine,Config.delay1,true,false);
-	scheduleFunction(myGraph.drawPoint,Config.delay1,true,false);
+    animateIndex = 0;
+    animateClassIndex = 0;
+    points = [];
+    Log.Notice("doAnimation...starting");
+    Config.pointFunction(Config.rStart,Config.gStart,Config.bStart);
+    scheduleFunction(myGraph.drawLine,Config.delay1,true,false);
+    scheduleFunction(myGraph.drawPoint,Config.delay1,true,false);
 }
 
 function redoAnimationPre(inputId) {
   var delay = Config.delay;
-	var type = Config.animationType;
-	redoAnimation(delay, type);
+    var type = Config.animationType;
+    redoAnimation(delay, type);
 }
 
 
 function redoAnimation(timeout,type) {
-	animateIndex = 0;
-	animateClassIndex = 0;
-	enableCircleLabels();
-	if (arguments.length == 1) {
-		timeout = parseInt(timeout);
-		if (timeout <=0) {
-			timeout = 50
-		}
-	} else {
-		var timeout = Config.delay;
-	}
-	scheduleFunction(myGraph.animateColorsByClass2,timeout,true,true,type)
+    animateIndex = 0;
+    animateClassIndex = 0;
+    enableCircleLabels();
+    if (arguments.length == 1) {
+        timeout = parseInt(timeout);
+        if (timeout <=0) {
+            timeout = 50
+        }
+    } else {
+        var timeout = Config.delay;
+    }
+    scheduleFunction(myGraph.animateColorsByClass2,timeout,true,true,type)
 }
 
 function toggleFormInputType (evt) {
-	var id = '#' + $(this).attr('for');
-	Log.Notice("toggleFormInputType for id=" + id);
-	var parent = $(this).parent();
-	var input = d3.select(id);
-	var type = $(id).attr('type');
-	switch (type) {
-	case 'text':
-	case 'number':
-		// do animation here	
-	  var doOne = false;
-		var inputType = "text"
-	  if (id == "#animateIndex") {
-			doOne = true;
-		}
-		d3.select(id + '-min')
-			.html('');
-			
-		d3.select(id + '-max')
-			.html('');
-			
-	  input
-		  .attr('type','range');
-		if (doOne) {
-			input
-		  .attr({
-			 min: 0,
-			 max: allClassArray[Config.animationType].length
-		 });
-		}
-		
-		d3.select(id)
-		 .transition()
-		 .ease('linear')
-		 .delay(0)
-		 .duration(1000)
-		 .attr('style', "width: 150px;");
-		break;
-	case 'range':
-	  var doOne = false;
-		var inputType = "text"
-	  if (id == "#animateIndex") {
-			doOne = true;
-			inputType = "number";
-		}
-		var maximum = input.attr('max');
-		var minimum = input.attr('min');
-		
-	  input
-		  .attr('type',inputType)
-			.attr('style',"width: 150px;");
-		if (doOne) {
-			input
-		   .attr({
-			  min: 0,
-			  max: allClassArray[Config.animationType].length
-		  });
-		}
-		d3.select(id)
-		 .transition()
-		 .ease('linear')
-		 .delay(0)
-		 .duration(1000)
-		 .attr('style', "width: 50px;");
-		 
-		d3.select(id + '-min')
-		 .transition()
-		 .delay(1000)
-		 .duration(0)
-		 .each('end', function () {
-			 d3.select(this)
-		     .html(minimum);
-		 });
-		 
-		d3.select(id + '-max')
-		 .transition()
-		 .delay(1000)
-		 .duration(0)
-		 .each('end', function () {
-			 d3.select(this)
-		     .html(maximum);
-		 });
-		break;
-	}
+    var id = '#' + $(this).attr('for');
+    Log.Notice("toggleFormInputType for id=" + id);
+    var parent = $(this).parent();
+    var input = d3.select(id);
+    var type = $(id).attr('type');
+    switch (type) {
+    case 'text':
+    case 'number':
+        // do animation here    
+      var doOne = false;
+        var inputType = "text"
+      if (id == "#animateIndex") {
+            doOne = true;
+        }
+        d3.select(id + '-min')
+            .html('');
+            
+        d3.select(id + '-max')
+            .html('');
+            
+      input
+          .attr('type','range');
+        if (doOne) {
+            input
+          .attr({
+             min: 0,
+             max: allClassArray[Config.animationType].length
+         });
+        }
+        
+        d3.select(id)
+         .transition()
+         .ease('linear')
+         .delay(0)
+         .duration(1000)
+         .attr('style', "width: 150px;");
+        break;
+    case 'range':
+      var doOne = false;
+        var inputType = "text"
+      if (id == "#animateIndex") {
+            doOne = true;
+            inputType = "number";
+        }
+        var maximum = input.attr('max');
+        var minimum = input.attr('min');
+        
+      input
+          .attr('type',inputType)
+            .attr('style',"width: 150px;");
+        if (doOne) {
+            input
+           .attr({
+              min: 0,
+              max: allClassArray[Config.animationType].length
+          });
+        }
+        d3.select(id)
+         .transition()
+         .ease('linear')
+         .delay(0)
+         .duration(1000)
+         .attr('style', "width: 50px;");
+         
+        d3.select(id + '-min')
+         .transition()
+         .delay(1000)
+         .duration(0)
+         .each('end', function () {
+             d3.select(this)
+             .html(minimum);
+         });
+         
+        d3.select(id + '-max')
+         .transition()
+         .delay(1000)
+         .duration(0)
+         .each('end', function () {
+             d3.select(this)
+             .html(maximum);
+         });
+        break;
+    }
 }
 
 function animateOne(inputId) {
-	var index = parseInt(document.getElementById(inputId).value);
+    var index = parseInt(document.getElementById(inputId).value);
   var delay = Config.delay;
-	var type = Config.animationType;
-	animateIndex = index;
+    var type = Config.animationType;
+    animateIndex = index;
   animateClassIndex = index;
-	Log.Notice("animateOne index = " + index);
+    Log.Notice("animateOne index = " + index);
   myGraph.animateColorsByClass2(type);
 }
 
 var panelHidden = false;
 function togglePanel(ids) {
-	var id;
-	for (i in arguments) {
-		id = arguments[i];
-		if (panelHidden) {
-			$('#' + id).hide();
-		} else {
-			$('#' + id).show();
-		}
-	}
-	panelHidden = !panelHidden;
-	
+    var id;
+    for (i in arguments) {
+        id = arguments[i];
+        if (panelHidden) {
+            $('#' + id).hide();
+        } else {
+            $('#' + id).show();
+        }
+    }
+    panelHidden = !panelHidden;
 }
+
 $(document).ready(function(e) {
 
-	Log.Hide();
+    Log.Hide();
 
- // this must be run before doing the restoreInput code below
- $('#bg .expand label').click(null,toggleFormInputType);
+    // this must be run before doing the restoreInput code below
+    $('#bg .expand label').click(null,toggleFormInputType);
  
-  Data.restoreInput('circleOpacity');
-	Data.restoreInput('lineOpacity');
-	Data.restoreInput('lineWidth');
-	Data.restoreInput('backgroundColor');
-	Data.restoreInput('rGap');
-	Data.restoreInput('gGap');
-	Data.restoreInput('bGap');
-	Data.restoreInput('hGap');
-	Data.restoreInput('sGap');
-	Data.restoreInput('lGap');
-	Data.restoreInput('hueGap');
-	Data.restoreInput('satGap');
-	Data.restoreInput('brtGap');
-	Data.restoreInput('delay');
-	Data.restoreInput('delay1');
-	Data.restoreSelect('animationType');
-	Data.restoreSelect('animationStyle');
-	Data.restoreSelect('pointFunction');
-	Data.restoreSelect('graphType');
+    Data.restoreInput('circleOpacity');
+    Data.restoreInput('lineOpacity');
+    Data.restoreInput('lineWidth');
+    Data.restoreInput('backgroundColor');
+    Data.restoreInput('rGap');
+    Data.restoreInput('gGap');
+    Data.restoreInput('bGap');
+    Data.restoreInput('hGap');
+    Data.restoreInput('sGap');
+    Data.restoreInput('lGap');
+    Data.restoreInput('hueGap');
+    Data.restoreInput('satGap');
+    Data.restoreInput('brtGap');
+    Data.restoreInput('delay');
+    Data.restoreInput('delay1');
+    Data.restoreSelect('animationType');
+    Data.restoreSelect('animationStyle');
+    Data.restoreSelect('pointFunction');
+    Data.restoreSelect('graphType');
+
 });
 
 // ]]>
@@ -504,7 +506,7 @@ $(document).ready(function(e) {
 <body>
 
 <div id="app-0">
-<svg  id="svg" x="0" y="0" height="2500" width="2500" viewBox="0 0 2500 2500">
+<svg id="svg" x="0" y="0" height="2500" width="2500" viewBox="0 0 2500 2500">
 <defs>
 
 <circle id="circ" r="100" stroke="blue" stroke-width="10" >
@@ -631,7 +633,7 @@ $(document).ready(function(e) {
   <div class="min-max">
    <span id="hueGap-min"></span>
    <input id="hueGap" name="hueGap" type="range"
-       min="1" max="360" step="1" value="25" 
+       min=".5" max="360" step=".5" value="25" 
        onChange="changeRgbGap('hueGap','hueStep');" 
        onBlur="changeRgbGap('hueGap','hueStep');">
    <span id="hueGap-max"></span>
@@ -666,7 +668,7 @@ $(document).ready(function(e) {
   <div class="min-max">
    <span id="hGap-min"></span>
    <input id="hGap" name="hGap" type="range"
-       min="1" max="360" step="1" value="25" 
+       min=".5" max="360" step=".5" value="25" 
        onChange="changeRgbGap('hGap','hStep');" 
        onBlur="changeRgbGap('hGap','hStep');">
    <span id="hGap-max"></span>
