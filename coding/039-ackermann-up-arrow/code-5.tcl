@@ -19,6 +19,8 @@ set problem {
     # 
     # **  use interp results to develop coroutine to generate stack results
     #     Update: ??
+
+    #     See More History Here: https://www.mrob.com/pub/math/ln-2deep.html (2021-10-29)
 }
 
 set solution {
