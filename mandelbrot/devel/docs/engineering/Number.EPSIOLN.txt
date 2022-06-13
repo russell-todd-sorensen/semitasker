@@ -1,0 +1,15 @@
+Description
+The EPSILON property has a value of approximately 
+2.2204460492503130808472633361816E-16, or 2^-52.
+
+Examples
+Testing equality
+x = 0.2;
+y = 0.3;
+z = 0.1;
+equal = (Math.abs(x - y + z) < Number.EPSILON);
+Copy to Clipboard
+Polyfill
+if (Number.EPSILON === undefined) {
+    Number.EPSILON = Math.pow(2, -52);
+}

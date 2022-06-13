@@ -1,0 +1,119 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="rgb(102, 153, 255)" />
+
+<meta name="description" content="HighFiveDiet Home Page: Code by Russell Sorensen.
+    Code examples in HTML5, CSS3, JavaScript, SVG, HTML5 Canvas. 
+    Unique Animation Code for Discrete Step Applications, Front End Apps:
+    Sudoku, Mandelbrot Fractal Explorer, Color Theory: RGB to HSL to HSB to HSI.
+    Backend, Middleware Code: WSDL API, Query Writer: RESTful API to SQL Database" />
+
+<title>Displace Filter</title>
+
+<link rel="manifest" href="/manifest.json">
+<link rel="stylesheet" href="/css/fonts.css" media="all" >
+<link rel="stylesheet" href="/css/fira-code/fira_code.css" media="all">
+<link rel="stylesheet" href="/css/main-index.css" media="all">
+<link rel="stylesheet" href="/css/log.css" media="all" >
+
+<style>
+html,
+body {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.strip-dark {
+    stroke-width: 50px;
+    stroke: yellow;
+}
+.strip-light {
+    stroke-width: 50px;
+    stroke: white;
+}
+#tester {
+    fill:   url(https://home.highfivediet.com/tartan-app/codepen/dash-or-dot/dots-or-dashes-cpc-final.html#dot-hh-color);
+    fill: yellow;
+    height: 100px;
+    width:  300px;
+    stroke: black;
+    stroke-width: 5px;
+}
+
+#grid-5 line { /* grid is 5x5 */
+    stroke-dasharray:   .2 4.0;
+    stroke-dashoffset:   .5;
+    stroke-width:      250%;
+    stroke-linecap:   miter;
+    stroke:  rgba(0,0,0,.6);
+}
+
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="/js/log-2.js" charset="utf-8"></script>
+
+<script>
+$(document).ready(function() {
+    Log.Remove();
+});
+
+</script>
+</head>
+<body id="body">
+<svg
+    id="svg-bg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    image-rendering="optimizeQuality"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    x="0"
+    y="0"
+    width="1000"
+    height="1000"
+    viewBox="0 0 1000 1000"
+    preserveAspectRatio="xMinYMin"
+
+    ><!--
+    viewBox="-768 -768 1536 1536"-->
+<defs>
+
+<g id="grid-5">
+    <line x1="-100%" y1="0%" x2="120%" y2="0%"/>
+</g>
+  
+<g id="grid-5-v">
+    <use href="#grid-5" transform="rotate(90,0,0)"/> 
+</g>
+
+<g id="whole-grid-5" x="0" y="0">
+    <use href="#grid-5"/>
+    <use href="#grid-5-v"/>
+</g>
+
+
+<rect id="r1" x="0" y="0" width="100%" height="100%" />
+<g id="black">
+    <use id="bg-white" href="#tt" x="0" y="0" width="48.59" height="33.63" fill="white" />
+    <use id="tik-tok-black" href="#tt" x="0" y="0" width="48.59" height="33.63" />
+</g>
+<pattern id="alt-lines" x="0" y="0" patternUnits="userSpaceOnUse" height="100" width="300" >
+    <line id="line-1" class="strip-dark" x="0" y="25" x1="0" y1="0" x2="300" y2="0" />
+    <line id="line-2" class="strip-light" x="0" y="75" x1="0" y1="0" x2="300" y2="0" />
+</pattern>
+</defs>
+<use id="complete-grid" opacity=".5" href="#whole-grid-5" transform="scale(10)" />
+
+<rect id="tester" x="0" y="0" height="100" width="300" transform="scale(5)" />
+</svg>
+</body>
+</html>
