@@ -47,7 +47,7 @@ proc findAllPerms {Str Txt} {
     set sLen [string length $Str]
     set maxStart [expr {$len - $sLen}]
 
-    while {$t <= $maxStart && $t < 100} {
+    while {$t <= $maxStart && $t < 10000} {
         set begin $t
         set cLen 0
         array set h [array get Hash]

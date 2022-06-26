@@ -1,0 +1,22 @@
+set re {abcd|acdb|adbc|bcda|bdac|bacd|cabd|cbda|cdab|dabc|dbca|dcab}
+set str "abcdabcabcdefabcefgefgabcdfgacdefgaeabaradd"
+set indices [regexp -all -inline -indices $re $str]
+
+puts $indices
+
+set ranges [list]
+for {set i 0} {$i < [string length $str]} {incr i} {
+    set range [regexp -inline -indices -start $i $re $str]
+    if {$range eq ""} {
+        continue
+    } else {
+        set range [lindex $range 0]
+        lappend ranges [list $i $range]
+        set i [lindex $range 0] ;#which could be same as i now
+    }
+}
+
+
+foreach range $ranges {
+    puts $range
+}

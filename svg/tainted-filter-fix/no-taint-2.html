@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<base href="https://home.semitasker.com/" />
+<meta charset="utf-8" >
+
+<title>Simple Solution to feDisplacementMap using feImage</title>
+
+
+<style>
+#disclaimer {
+  font-family: mono;
+  padding: 10px;
+  width: 500px;
+}
+
+</style>
+
+</head>
+<body>
+  <div id="disclaimer">
+  <p>If you have found your SVG feDisplacementMap
+  filters failing when feImage is used as input
+  using the in2 attribute, you might be surprised
+  at the simple solution (at least on Chrome).
+  </p>
+    <div id="svg-container">
+<svg 
+ version='1.1' 
+ xmlns='http://www.w3.org/2000/svg' 
+ xmlns:xlink='http://www.w3.org/1999/xlink'
+ xmlns:ev='http://www.w3.org/2001/xml-events'
+ height="600"
+ width="1500"
+ viewBox="0 0 1500 600"
+ baseProfile='full'>
+<defs>
+<radialGradient id='YY' spreadMethod='reflect' cx='50%' cy='50%'>  
+<stop offset='0' stop-color='#f00'>
+ <animate attributeName='offset' values='0;0;0' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+<stop offset='.1' stop-color='#ff0'>
+ <animate attributeName='offset' values='0;.1;0' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+<stop offset='.2' stop-color='#f00'>
+ <animate attributeName='offset' values='0;.2;0' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+<stop offset='.3' stop-color='#ff0'>
+ <animate attributeName='offset' values='.1;.3;.1' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+<stop offset='.4' stop-color='#f00'>
+ <animate attributeName='offset' values='.2;.4;.2' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+<stop offset='.5' stop-color='#ff0'>
+ <animate attributeName='offset' values='.3;.5;.3' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+<stop offset='.6' stop-color='#f00'>
+ <animate attributeName='offset' values='.4;.6;.4' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+<stop offset='.7' stop-color='#ff0'>
+ <animate attributeName='offset' values='.5;.7;.5' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+<stop offset='.8' stop-color='#f00'>
+ <animate attributeName='offset' values='.6;.8;.6' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+<stop offset='.90' stop-color='#ff0'>
+ <animate attributeName='offset' values='.7;.9;.7' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+<stop offset='1.0' stop-color='#f00'>
+ <animate attributeName='offset' values='.8;1.0;.8' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+<stop offset='1.1' stop-color='#ff0'>
+ <animate attributeName='offset' values='.9;1.1;.9' dur='4s' begin='clickme.click;0s' repeatCount='indefinite' /></stop>
+</radialGradient>
+
+<rect id="YY-rect" fill="#YY" x="0" y="0" height="400" width="400" stroke="black" stroke-width="2" />
+
+<linearGradient id="btw-1" color-interpolation="sRGB" >
+ <stop offset="0%" stop-color="#000" stop-opacity="1.0" />
+ <stop offset="100%" stop-color="#FFF" stop-opacity="1" />
+</linearGradient>
+<filter id="gb-filter">
+<feGaussianBlur in="SourceGraphic"  stdDeviation="1" result="blur" /> 
+</filter>
+<filter id="gb-filter-2">
+<feGaussianBlur in="SourceGraphic"  stdDeviation="5" result="blur" /> 
+</filter>
+<filter id="dp-filter">
+ <feImage xlink:href="/images/Butterfly 6.jpg" result="img"/>
+ <feDisplacementMap
+    in="img"
+    in2="SourceGraphic"
+    scale="30"
+    xChannelSelector="R"
+    yChannelSelector="G"
+    result="displace"
+ >
+ <animate attributeName="scale" values="30;33;27;30" begin="0s" dur="25s" repeatCount="indefinite"/>
+ </feDisplacementMap>
+</filter>
+
+ <filter id="composite-filter-2">
+ <feComposite in2="BackgroundImage" in="SourceGraphic" operator="in"/>
+ </filter>
+
+ <filter id="dp-filter-3">
+ <feImage xlink:href="#YY-rect"  height="400" width="400" result="img"/>
+ <feDisplacementMap
+    in="SourceGraphic"
+    in2="img"
+    scale="30"
+    xChannelSelector="R"
+    yChannelSelector="G"
+    result="displace"
+ >
+ <animate attributeName="scale" values="30;33;27;30" begin="0s" dur="25s" repeatCount="indefinite"/>
+ </feDisplacementMap>
+
+ </filter>
+</defs>
+
+<g id="outer-group" filter="url(#dp-filter)" >
+    <g id="inner-group" filter="url(#gb-filter)" x="0" y="0" >
+        <rect id='rect0' width='400' height='400' style=' fill: url(#YY); stroke:none;' />
+    </g>
+</g>
+
+<g id="outer-group-2"  transform="translate(450,0)" >
+    <g id="inner-group-2" filter="url(#gb-filter)" x="0" y="0"  >
+        <rect id='rect0-2' width='400' height='400' style=' fill: url(#YY); stroke:none;' />
+    </g>
+</g>
+
+
+<g id="outer-group-3" transform="translate(900,0)" >
+    <!-- <rect id='rect0-3' width='50%' height='100%' style=' fill: url(#YY); stroke:none;' />-->
+    <rect id="border" x="0" y="0" height="400" width="400" fill="none" stroke="black" stroke-width="2" />
+    <g id="inner-group-3" filter="url(#dp-filter-3)" x="0" y="0" height="400" width="400"  >
+        <image xlink:href="/images/Butterfly 6.jpg" x="0" y="0" height="400" width="400" />
+    </g>
+</g>
+    
+
+</svg>
+</div>
+  <p>Any external reference in feImage taints the
+    output so it can't be used in in2, the solution
+    is to reference the image you want to displace
+    with feImage and pass it to the in attribute,
+    then create your displacement image or animation
+    in the container where you want to display
+    the result. 
+ </p>
+ <p>Applying the filter to the displacement animation
+    allows you to set in2 to SourceGraphic which is
+    not tainted.
+</p>
+  </div>
+
+</body>
+</html>
