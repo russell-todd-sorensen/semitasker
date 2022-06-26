@@ -1,0 +1,150 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="rgb(102, 153, 255)" />
+
+<meta name="description" content="Gaussian Blur Filters in SVG. Show rasterization." />
+
+<title>SVG Filters: Gaussian Blur</title>
+
+<link rel="stylesheet" href="/css/main-index.css" media="all">
+<link rel="stylesheet" href="/css/log.css" media="all" >
+
+<style>
+html,
+body {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.strip-dark {
+    stroke-width: 50px;
+    stroke: yellow;
+}
+.strip-light {
+    stroke-width: 50px;
+    stroke: white;
+}
+
+#grid-5 line { /* grid is 5x5 */
+    stroke-dasharray:   .2 4.0;
+    stroke-dashoffset:   .5;
+    stroke-width:      250%;
+    stroke-linecap:   miter;
+    stroke:  rgba(0,0,0,.6);
+}
+
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+window.addEventListener('DOMContentLoaded', () => {
+    
+});
+</script>
+</head>
+<body id="body">
+<svg
+    id="svg-title"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    image-rendering="optimizeQuality"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    x="0"
+    y="0"
+    width="100%"
+    height="100%"
+    >
+<!--
+    x="0"
+    y="0"
+    width="1000"
+    height="2000"
+    viewBox="0 0 1000 2000"
+    preserveAspectRatio="xMinYMin"
+-->
+<defs>
+<style>
+#svg-title-none {
+    background-color:transparent;
+    fill:transparent;
+}
+text {
+    font-size: 1em;
+    stroke:#FFFFFFFF;
+    stroke-width:4;
+    fill:#6699FFFF;
+    fill: rgba(0,87,157,255);
+    text-anchor: middle;
+    line-height: 2em;
+}
+text#top-text {
+    stroke: #FFFFFF00;
+}
+#flood-1 {
+    flood-color: white;
+}
+#main-title {
+    background-color: black;
+    background-color: transparent;
+}
+#background-rect {
+    fill: black;
+    stroke: yellow;
+    stroke-width: 3;
+}
+#svg-title {
+    fill: #00000099;
+    background-color:#00000099;
+}
+#rect1 {
+
+    filter:url(#blur-image-extern);
+    /*   
+     filter:url(/svg/american-st-andrews.svg);
+     filter:url(https://home.highfivediet.com/images/fish-in-coral.jpg);
+    */
+    stroke:blue;
+    stroke-width:3;
+}
+</style>
+<filter id="blur-shadow" color-interpolation-filters="sRGB" x="-25%" y="-25%" height="150%" width="150%">
+    <feFlood result="flood" id="flood-1"/>
+    <feComposite in="flood" in2="SourceGraphic" operator="in" result="flood-in"/>
+    <feGaussianBlur stdDeviation="5" result="white-shadow" in="flood-in"/>
+    <!--<feComposite in="SourceGraphic" in2="white-shadow" operator="over" />--> 
+</filter>
+<filter id="blur-image" color-interpolation-filters="sRGB" x="-25%" y="-25%" height="150%" width="150%">
+    <feImage href="#main-group" x="0" y="0" height="100%" width="100%" />
+</filter>
+<filter id="blur-image-extern" color-interpolation-filters="sRGB" >
+    <feImage xlink:href="./images/american-st-andrews.svg" x="0" y="0" height="100%" width="100%" />
+   <!--  <feImage xlink:href="/svg/american-st-andrews.svg" x="0" y="0" height="100%" width="100%" />
+    /images/fish-in-coral.jpg x="-25%" y="-25%" height="150%" width="150%"-->
+</filter>
+</defs>
+<g id="main-group" x="0" y="0">
+<rect id="background-rect" x="0" y="0" width="100%" height="2em" />
+<text x="50%" y="1.2em" id="shadow-text" filter="url(#blur-shadow)">HighFiveDiet!</text>
+<text x="50%" y="1.2em" id="top-text">HighFiveDiet!</text>
+</g>
+<!--<g id="zoom-group" x="0" y="0" transform="translate(0,50) scale(3)">
+    <use id="zoom" href="#main-group" />
+</g>-->
+<g id="zoom-image-group" x="-20" y="50%" transform="translate(0,20) scale(2)">
+    <!--<use href="#main-group"/> filter="url(#blur-image)"-->
+    <rect id="rect1" x="0" y="0" height="100%" width="100%"/>
+</g>
+</svg>
+</body>
+</html>

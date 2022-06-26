@@ -1,0 +1,116 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="rgb(102, 153, 255)" />
+
+<meta name="description" content="Gaussian Blur Filters in SVG. Show rasterization." />
+
+<title>SVG Filters: Gaussian Blur</title>
+
+<link rel="stylesheet" href="/css/main-index.css" media="all">
+<link rel="stylesheet" href="/css/log.css" media="all" >
+
+<style>
+html,
+body {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.strip-dark {
+    stroke-width: 50px;
+    stroke: yellow;
+}
+.strip-light {
+    stroke-width: 50px;
+    stroke: white;
+}
+
+#grid-5 line { /* grid is 5x5 */
+    stroke-dasharray:   .2 4.0;
+    stroke-dashoffset:   .5;
+    stroke-width:      250%;
+    stroke-linecap:   miter;
+    stroke:  rgba(0,0,0,.6);
+}
+
+</style>
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+window.addEventListener('DOMContentLoaded', () => {
+    
+});
+</script>
+</head>
+<body id="body">
+<svg
+    id="svg-title"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    image-rendering="optimizeQuality"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    x="0"
+    y="0"
+    width="100%"
+    height="100%"
+    preserveAspectRatio="xMinYMin"
+>
+<defs>
+<style>
+#svg-title {
+    background-color:000000FF;
+    fill:000000FF;
+}
+text {
+    font-size: 1em;
+    stroke:#FFFFFFFF;
+    stroke-width:4;
+    fill: rgba(0,87,157,255);
+    text-anchor: middle;
+    line-height: 2em;
+}
+text#top-text {
+    stroke: #FFFFFF00;
+}
+#flood-1 {
+    flood-color: white;
+}
+#main-title {
+    background-color: black;
+    background-color: transparent;
+}
+#svg-title {
+    fill: #000000FF;
+    background-color:#000000FF;
+}
+</style>
+<!-- keys to this minimum solution are as follows:
+    1. Generous filter coverage with 25% overlap or more on all sides.
+    2. Large stroke-width on blurred copy of the text element.
+    3. feFlood uses style flood-color.
+    4. Second identical dim text element, not blurred and no stroke
+-->
+<filter id="blur-shadow" color-interpolation-filters="sRGB" x="-40%" y="-40%" height="180%" width="180%">
+    <feFlood result="flood" id="flood-1"/>
+    <feComposite in="flood" in2="SourceGraphic" operator="in" result="flood-in"/>
+    <feGaussianBlur stdDeviation="5" result="white-shadow" in="flood-in"/>
+</filter>
+</defs>
+<g id="main-group" x="0" y="0" transform="scale(1)">
+<text x="50%" y="1.3em" id="shadow-text" filter="url(#blur-shadow)">HighFiveDiet!</text>
+<text x="50%" y="1.3em" id="top-text">HighFiveDiet!</text>
+</g>
+</svg>
+</body>
+</html>

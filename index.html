@@ -48,11 +48,12 @@ body {
 }
 
 header h1 {
-    text-align: center;
+   /* text-align: center; */
     padding: 15px;
     color: #69F;
     border: none;
     margin: 0;
+    font-size: 2.5em;
 }
 
 article,section {
@@ -71,6 +72,7 @@ section {
     display: inline-block;
     background-color: rgba(255,255,255,.90);
     color: #69F;
+    color: rgba(0,87,157);
     margin: 0;
     margin-left: -10px;
     border-style: solid;
@@ -110,12 +112,14 @@ nav a {
 nav a:link, 
 a:visited {
     color: #666;
+    color: #444;
     text-decoration: none;
 }
 
 nav a:hover, 
 a:active {
     color: #666;
+    color: #444;
 }
 
 footer {
@@ -154,7 +158,7 @@ footer {
 }
 
 .shadow {
-    width: 800px;
+   /* width: 800px;*/
     margin: auto;
 }
 
@@ -192,6 +196,7 @@ body {
     article, nav, section, header, variable, 
     form, fieldset, blockquote {
         font-size: 90%;
+        font-size: 100%;
     }
     body {
         width: 100%;
@@ -207,6 +212,7 @@ body {
     }
     #main .inner-shadow-x {
         font-size: 1.5em;
+        font-size: 1.0em;
         width: 95%;
         border: none;
     }
@@ -217,11 +223,11 @@ body {
         width: 95%;
     }
     header h1.shadow {
-        width: 95%;
+     /*   width: 95%;
         text-shadow: none;
         padding: 5px;
         margin-top: 5px;
-        font-size: 2em;
+        font-size: 2em; */
     }
 }
 </style>
@@ -257,8 +263,70 @@ navigator.serviceWorker.getRegistrations().then(
 
 <article>
  <header>
- <h1 class="shadow"><span 
-     class="inner-shadow">HighFiveDiet!</span></h1>
+ <h1 class="shadow" id="main-title"><span 
+     class="inner-shadow2"
+    ><svg
+    id="svg-title"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    shape-rendering="geometricPrecision"
+    text-rendering="geometricPrecision"
+    image-rendering="optimizeQuality"
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    x="0"
+    y="0"
+    width="100%"
+    height="100%"
+    preserveAspectRatio="xMinYMin"
+>
+<defs>
+<style>
+#svg-title {
+    background-color:00000000;
+    fill:00000000;
+}
+text {
+    font-size: 1em;
+    stroke:#FFFFFFFF;
+    stroke-width:4;
+    fill: rgba(0,87,157,255);
+    text-anchor: middle;
+    line-height: 2em;
+}
+text#top-text {
+    stroke: #FFFFFF00;
+}
+#flood-1 {
+    flood-color: white;
+}
+#main-title {
+    background-color: black;
+    background-color: transparent;
+}
+#svg-title {
+    fill: #00000000;
+    background-color:#00000000;
+}
+</style>
+<!-- keys to this minimum solution are as follows:
+    1. Generous filter coverage with 25% overlap or more on all sides.
+    2. Large stroke-width on blurred copy of the text element.
+    3. feFlood uses style flood-color.
+    4. Second identical dim text element, not blurred and no stroke
+-->
+<filter id="blur-shadow" color-interpolation-filters="sRGB" x="-40%" y="-40%" height="180%" width="180%">
+    <feFlood result="flood" id="flood-1"/>
+    <feComposite in="flood" in2="SourceGraphic" operator="in" result="flood-in"/>
+    <feGaussianBlur stdDeviation="5" result="white-shadow" in="flood-in"/>
+</filter>
+</defs>
+<g id="main-group" x="0" y="0" transform="scale(1)">
+<text x="50%" y="1.3em" id="shadow-text" filter="url(#blur-shadow)">HighFiveDiet!</text>
+<text x="50%" y="1.3em" id="top-text">HighFiveDiet!</text>
+</g>
+</svg></span></h1>
  </header>
 <section id="main">
 <nav class="inner-shadow-x">

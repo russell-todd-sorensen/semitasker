@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="theme-color" content="rgb(102, 153, 255)" />
+
+<meta name="description" content="Gaussian Blur Filters in SVG. Show rasterization." />
+
+<title>SVG Filters: Gaussian Blur</title>
+
+<link rel="stylesheet" href="/css/main-index.css" media="all">
+<link rel="stylesheet" href="/css/log.css" media="all" >
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<script>
+
+window.addEventListener('DOMContentLoaded', () => {
+
+
+});
+
+</script>
+</head>
+<body id="body">
+
+<svg
+    id="svg-title"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="110%"
+    height="110%"
+>
+<defs>
+<style>
+#svg-title {
+    background-color:transparent;
+    fill:transparent;
+}
+text {
+    font-size: 1em;
+    stroke:#FFFFFFFF;
+    stroke-width:4;
+    fill:#6699FFFF;
+    fill: rgba(0,87,157,255);
+    text-anchor:start;
+}
+text#top-text {
+    stroke: #FFFFFF00;
+}
+#flood-1 {
+    flood-color: white;
+}
+#main-title {
+    background-color: black;
+    background-color: transparent;
+}
+</style>
+<filter id="blur-shadow" color-interpolation-filters="sRGB" >
+    <feFlood result="flood" id="flood-1" />
+    <feComposite in="flood" in2="SourceGraphic" operator="in" result="flood-in"/>
+    <feGaussianBlur stdDeviation="5" result="white-shadow" in="flood-in"/>
+    <!--<feComposite in="SourceGraphic" in2="white-shadow" operator="over" />--> 
+</filter>
+</defs>
+<text x="50%" y="1.2em" id="shadow-text" filter="url(#blur-shadow)">HighFiveDiet!</text>
+<text x="50%" y="1.2em" id="top-text">HighFiveDiet!</text>
+
+</svg>
+</body>
+</html>
