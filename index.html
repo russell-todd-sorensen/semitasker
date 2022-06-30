@@ -38,18 +38,21 @@
 <meta name="msapplication-wide310x150logo" content="/images/icons/mstile-310x150.png" />
 <meta name="msapplication-square310x310logo" content="/images/icons/mstile-310x310.png" />
 
-<link rel="stylesheet" href="/css/reset.css" media="all">
+<link rel="stylesheet" href="/css/main-index.css" media="all">
 <link rel="stylesheet" href="/css/log.css" media="all" >
 <style type="text/css">
 
 body {
     position: relative;
+    font-family: "Fira Code VF", "Fira Code", "Black and White Picture";
   /*  filter: url(https://home.highfivediet.com/svg/filters/ext-filter.svg#ukraine-flag-colors); */
 }
 
 header h1 {
    /* text-align: center; */
     padding: 15px;
+    padding-left: 0;
+    padding-right: 0;
     color: #69F;
     border: none;
     margin: 0;
@@ -58,16 +61,13 @@ header h1 {
 
 article,section {
     margin: 0;
-    position: absolute;
-    position: relative;
-    top: 0;
-    left: 0;
-}
 
+}
+/*
 section {
     width: 100%;
 }
-
+*/
 #main nav {
     display: inline-block;
     background-color: rgba(255,255,255,.90);
@@ -86,13 +86,14 @@ nav h2 {
     margin-bottom: 5px;
     padding-left: 10px;
     font-weight: 600;
-    letter-spacing: -0.5px;
+    letter-spacing: -1px;
 }
 
 nav li {
     list-style: none;
     padding-left: 10px;
     margin-left: -25px;
+    margin-left:  10px;
     border: 1px solid transparent;
     vertical-align: text-bottom;
 }
@@ -169,16 +170,15 @@ footer {
     border-image-width: 15px;
     border-image-slice: 2 2 2 2;
     border-width: 15px;
-    border-left-width: 0;
+    letter-spacing: -1px;
     background-clip: padding-box;
-    border-left-style: none;
-    padding-left: 25px;
+    padding-left:0;
 }
-
+/*
 section {
     margin-left: -15px;
 }
-
+*/
 #ttsvg {
     display: inline-block;
     background-color: transparent;
@@ -190,7 +190,7 @@ body {
     background-size: cover;
 }
 
-@media (min-width: 0px) and (max-width: 700px) {
+@media (min-width: 250px) and (max-width:505px) {
     html, body, h1, h2, h3, h4, h5, h6, p, ol, ul, 
     li, pre, code, address,
     article, nav, section, header, variable, 
@@ -199,10 +199,13 @@ body {
         font-size: 100%;
     }
     body {
-        width: 100%;
+      /*  width: 100%; */
+        min-width: 250px;
     }
     #main {
-        width: 99%;
+    /*    width: 99%;
+     */
+        max-width: 350px;
         border:0;
         margin: auto;
         overflow-x:hidden;
@@ -213,22 +216,17 @@ body {
     #main .inner-shadow-x {
         font-size: 1.5em;
         font-size: 1.0em;
-        width: 95%;
+        width: 100%;
         border: none;
     }
+    /*
     nav a {
         width: 95%;
     }
     header h1 {
         width: 95%;
     }
-    header h1.shadow {
-     /*   width: 95%;
-        text-shadow: none;
-        padding: 5px;
-        margin-top: 5px;
-        font-size: 2em; */
-    }
+    */
 }
 </style>
 
@@ -262,7 +260,7 @@ navigator.serviceWorker.getRegistrations().then(
 <body id="body">
 
 <article>
- <header>
+ <header id="main-header">
  <h1 class="shadow" id="main-title"><span 
      class="inner-shadow2"
     ><svg
@@ -283,38 +281,51 @@ navigator.serviceWorker.getRegistrations().then(
 >
 <defs>
 <style>
-#svg-title {
-    background-color:00000000;
-    fill:00000000;
-}
 text {
     font-size: 1em;
-    stroke:#FFFFFFFF;
     stroke-width:4;
-    fill: rgba(0,87,157,255);
+    fill: rgb(0,87,157);
     text-anchor: middle;
     line-height: 2em;
-}
-text#top-text {
-    stroke: #FFFFFF00;
 }
 #flood-1 {
     flood-color: white;
 }
 #main-title {
-    background-color: black;
     background-color: transparent;
 }
-#svg-title {
-    fill: #00000000;
-    background-color:#00000000;
+
+use#use-text {
+    filter: url(#blur-shadow);
+    stroke: white;
+}
+
+#use-text text {
+    filter: inherit;
+    stroke: inherit;
 }
 </style>
-<!-- keys to this minimum solution are as follows:
+<!-- OPTION2 Improvements: 
+    keys to this minimum solution are as follows:
     1. Generous filter coverage with 25% overlap or more on all sides.
     2. Large stroke-width on blurred copy of the text element.
     3. feFlood uses style flood-color.
-    4. Second identical dim text element, not blurred and no stroke
+    Instead of two copies of the _text_, we use one text and a use:
+    4. Set style and element defaults on text element.
+        These are:
+            stroke-width: 4;
+            stroke defaults to "none",
+            fill: rgb(0,87,157);  or desired color.
+        Set inheritable attributes on "use":
+            fill:   defaults to black,
+            filter: url(#blur-shadow); use flood-color to set blur color,
+            stroke: white; but could be any opaque color.
+
+        Using inherit is the key here. It is hard or impossible to get
+        style/presentation attributes to the shadow-root so two steps:
+           1. Apply new styles/attributes to the use element,
+           2. Set text element inside shadow-root to inherit these values,
+
 -->
 <filter id="blur-shadow" color-interpolation-filters="sRGB" x="-40%" y="-40%" height="180%" width="180%">
     <feFlood result="flood" id="flood-1"/>
@@ -323,7 +334,7 @@ text#top-text {
 </filter>
 </defs>
 <g id="main-group" x="0" y="0" transform="scale(1)">
-<text x="50%" y="1.3em" id="shadow-text" filter="url(#blur-shadow)">HighFiveDiet!</text>
+<use id="use-text" href="#top-text" />
 <text x="50%" y="1.3em" id="top-text">HighFiveDiet!</text>
 </g>
 </svg></span></h1>
@@ -336,7 +347,7 @@ text#top-text {
         title="HighFiveDiet Home Page">Home</a></li>
 </ul>
 
-<h2>Learn Digits of &pi; in Mouthfuls</h2>
+<h2>Digits of &pi; in Mouthfuls</h2>
 <ul>
  <li><a href="/chemical-pi/" 
         title="Chemical &pi;: Memorizing the digits of &pi; in Mouthfuls"
