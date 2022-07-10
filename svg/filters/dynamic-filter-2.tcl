@@ -182,6 +182,8 @@ ns_log Notice "dynamic-filter-2.tcl t='$t',type='$type'"
 set media_filename [file extension $p]
 set media_full_type [ns_guesstype $media_filename]
 
+ns_log Notice "media: '$p' media_full_type='$media_full_type'"
+
 switch -glob -- $media_full_type {
     "image/*" {
         set media_type "image"
