@@ -233,7 +233,7 @@ var viewPuzzle = function(id) {
 
     if (
         (puzzleId > -1) &&
-        (puzzleId < (sudokuData.length-1))
+        (puzzleId < (sudokuData.length))
        )
     {
         puzzle = sudokuData[puzzleId];

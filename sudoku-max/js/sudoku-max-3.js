@@ -5,9 +5,10 @@ var on = true;
 var off = false;
 var count = 0;
 var solutions = 0;
+var solutionsList = [];
 var MAX_COUNT = 500000000;
-var MAX_SOLUTIONS = 2;
-var defaultSymbolsProto = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+var MAX_SOLUTIONS = 10;
+var defaultSymbolsProto = "123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 var defaultSymbols      = "" + defaultSymbolsProto;
 //var symbolIndexValues = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
@@ -273,7 +274,7 @@ function solveSudokuX () {
 
     if (!setupComplete) {
         if (boxMapString.length > 0) {
-              setupSudoku(boxCols,boxRows,boxMapString);
+            setupSudoku(boxCols,boxRows,boxMapString);
         } else {
             setupSudoku(boxCols,boxRows);
         }
@@ -499,13 +500,15 @@ var boxDimensionsOld = function(cssSelector) {
     $(cssSelector).append("\}")
 }
 
-var solveSudoku = function() {
+var solveSudoku = function(numSolutions,solutionsListFormat) {
+    numSolutions = numSolutions?numSolutions:MAX_SOLUTIONS;
+    solutionsListFormat = solutionsListFormat?solutionsListFormat:0;
 
     Log.Notice( "Starting solveSudoku...");
 
     if (!setupComplete) {
         if (boxMapString.length > 0) {
-              setupSudoku(boxCols,boxRows,boxMapString);
+            setupSudoku(boxCols,boxRows,boxMapString);
         } else {
             setupSudoku(boxCols,boxRows);
         }
@@ -520,7 +523,7 @@ var solveSudoku = function() {
     printPuzzleFormatted(6);
 
     bigLoop:
-    while (AC > 0 && count < MAX_COUNT && solutions < MAX_SOLUTIONS) {
+    while (AC > 0 && count < MAX_COUNT && solutions < numSolutions) {
 
         count++;
 
@@ -532,6 +535,7 @@ var solveSudoku = function() {
             Log.Notice( puzzle.toString());
             solutions++;
             printPuzzleFormatted(3);
+            solutionsList.push(printPuzzleFormatted(solutionsListFormat))
             Dir = -1;
             AC += Dir;
             continue;
@@ -619,13 +623,13 @@ function makeFormatProfile(
     this.endBlock = endBlock        || "";
 }
 
-var formatProfiles = new Array(9);
+var formatProfiles = new Array(20);
 
 formatProfiles[0] = new makeFormatProfile();
-formatProfiles[1] = new makeFormatProfile("","","","",""," "," ","\n","\n","");
+formatProfiles[1] = new makeFormatProfile("","-","","","","","",".","-","");
 formatProfiles[2] = new makeFormatProfile("<xmp><table border='0'>","<tr><td><table border='1'>\n","\n <tr>","<td> </td>","<td><span class='data'>","</span></td>","<td> </td>","</tr>","\n</table></td></tr>","</table></xmp>");
 formatProfiles[3] = new makeFormatProfile("<xmp>",".\n"," -","[","<",">","]","-\n",".\n","</xmp>");
-
+formatProfiles[9] = new makeFormatProfile();
 // Current HTML format:
 formatProfiles[4] = new makeFormatProfile("<div class='top'>\n"," <div class='boxrow'>\n","  <div class='row'>\n","    <div class='leftbox'> </div>\n","    <div class='cell'","</span></span></div>\n","    <div class='rightbox'> </div>\n","  </div>\n"," </div><!-- ? -->\n","</div>\n");
 
@@ -681,6 +685,8 @@ function printPuzzleFormatted(formatId) {
             } else {
                 TMP += BEGIN_CELL + cellBox[i] + "' id='C" + i + "' onClick=''>" + cellValue + END_CELL;
             }
+        } else if (formatId==9) {
+
         } else {
             TMP += BEGIN_CELL + puzzle[i] + END_CELL;
         }

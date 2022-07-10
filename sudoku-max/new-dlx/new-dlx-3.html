@@ -442,6 +442,7 @@ class SudokuRegionValueType {
 class SudokuCellType {
     values = [];
     value = null;
+    index = null;
     len = 0;
     visited = 0;
     col = 0;
@@ -640,7 +641,7 @@ var genHeapBasic = function(compareId) {
     cellHeap.init();
 }
 
-var selectCellHeuristic = function(index) {
+var selectCellHeuristic2 = function(index) {
     let min = Infinity,
         cellList = null,
         result = null,
@@ -657,7 +658,7 @@ var selectCellHeuristic = function(index) {
             }
         }
     }
-    for (let c=1;c=puzzleDimension;c++) {
+    for (let c=1;c<=puzzleDimension;c++) {
         for (let n=1;n<=puzzleDimension;n++) {
             if (colMinimums[c][n] && colMinimums[c][n].length < min) {
                 cellList = colMinimums[c][n];
@@ -669,7 +670,7 @@ var selectCellHeuristic = function(index) {
             }
         }
     }
-    for (let b=1;b=puzzleDimension;b++) {
+    for (let b=1;b<=puzzleDimension;b++) {
         for (let n=1;n<=puzzleDimension;n++) {
             if (boxMinimums[b][n] && boxMinimums[b][n].length < min) {
                 cellList = boxMinimums[b][n];
@@ -685,7 +686,7 @@ var selectCellHeuristic = function(index) {
 
 }
 
-selectCellHeuristic = function() {
+var selectCellHeuristic = function() {
     let min = Infinity,
         tmp = null,
         index = null,
@@ -706,7 +707,7 @@ selectCellHeuristic = function() {
             }
         }
     }
-    for (let c=1;c=puzzleDimension;c++) {
+    for (let c=1;c<=puzzleDimension;c++) {
         tmp = colMinimums[c].peek(1);
         len = tmp.getLen();
         if (len < min) {
@@ -718,7 +719,7 @@ selectCellHeuristic = function() {
             }
         }
     }
-    for (let b=1;b=puzzleDimension;b++) {
+    for (let b=1;b<=puzzleDimension;b++) {
         tmp = colMinimums[b].peek(1);
         len = tmp.getLen();
         if (len < min) {
@@ -770,28 +771,34 @@ var solveSudokuWithHeap = function(compareId) {
     //    exitCell = start-1,
     //    Dir = 1, // direction -1 or 1
     let start = solutionArray.length,
-        loopIndex = start+1,
         exitCell = start,
+        loopIndex = exitCell+1,
         Dir = 1,
         AC,
-        cells;
+        cell;
 
     bigLoop:
     while (loopIndex > exitCell && count < MAX_COUNT && solutions < MAX_SOLUTIONS) {
         //AC = cellArray[loopIndex].index;
-        cells = selectCellHeuristic(loopIndex);
-        solutionArray[loopIndex].visited++;
+        cell = selectCellHeuristic(loopIndex);
+        //solutionArray[loopIndex].visited++;
         count++;
 
-        if (cells == null) {
+        if (cell == null) {
             solutions++;
-            foundSolutions.push({sol:puzzle.join(""),count:count,id:solutions})
+            foundSolutions.push({sol:puzzle.join(""),count:count,id:solutions});
             console.log("solution " + solutions + ", val: " + puzzle.join(""));
-
             Dir = -1;
             loopIndex += Dir;
             continue;
+        } else {
+            cell = cell[0];
+            cell.visited++;
+            solutionArray[loopIndex] = cell;
+
         }
+        AC = cell.index
+
         if (cellType[AC] != "A") {
             Log.Error("Unexpected cellType = " + cellType[AC].toString());
             break bigLoop;
@@ -1025,10 +1032,10 @@ var parseSudokuPuzzlesCSV = function (csv) {
 
     solveAll(sudokuData,"#my-results");
 };
-
+var url = "../data/sample-puzzles.csv"
 $(document).ready(function() {
 
-    loadXHRFile("../data-2/number-sub-2.txt",getSudokuPuzzlesCSV);
+    //loadXHRFile(url,getSudokuPuzzlesCSV);
     Log.Notice('Document Ready');
 });
 </script>
