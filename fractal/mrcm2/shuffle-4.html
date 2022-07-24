@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>100 Prisoners&apos; Strategy</title>
+<link rel="stylesheet" href="/css/main.css" media="all">
+<style>
+html,
+head {
+    background-color: #aaa;
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+form {
+    display: inline;
+}
+button {
+    margin-left: 2px;
+}
+ul,
+li {
+    display: inline-block;
+}
+fieldset {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+legend {
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    display: inline-block;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 130px;
+}
+input {
+    width: 130px;
+}
+label.check {
+    width: 50px;
+}
+label.check.wide {
+    width: 130px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
+
+</style><!--
+<s crip t src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js" defer async></sc rip t>
+<s crip t src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer async></sc ri pt>
+-->
+<script src="js/probability-and-stats.js" defer async></script>
+<script src="js/shuffle-4.js" defer async></script>
+<script src=""></script>
+
+</head>
+<body>
+<div id="controls">
+<form id="form1"
+    action=""
+    method="GET"
+    oninput="rows.value=Math.ceil(parseInt(gSize.value)/parseInt(cols.value))"
+    onSubmit="() => {return false;}">
+<fieldset id="fs1">
+<ul id="ul1">
+<li>
+    <label for="gSize">Prisoners</label>
+    <input id="gSize" name="gSize" value="10" type="number" min="1" step="1" >
+</li>
+<li>
+    <label for="cols">Columns</label>
+    <input id="cols" name="cols" value="5" type="number" min="1" step="1" >
+</li>
+<li>
+    <label>Rows</label><output id="rows" name="rows" form="form1" ></output>
+</li>
+</ul>
+<ul id="ul2">
+<li>
+    <input type="button" value="Setup File Boxes" onClick="myPrisonerSearch.setupGrid('file-box-room');">
+</li>
+<li>
+    <input type="button" value="Run Strategy" onClick="initFollowNumbers('form1');">
+</li>
+</ul>
+</fieldset>
+</form>
+</div>
+<div id="file-box-room">
+    <p>ooo</p>
+</div>
+<div id="ideasAndCommentary" >
+<li>
+    intro first show how to sort 100 items in only 100 operations.
+</li>
+</div>
+<style id="form-grid-style">
+#ul1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, auto);
+    padding-inline-start: 0;
+}
+#ul2 {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    padding-inline-start: 0;
+}
+#ul1 > li,
+#ul2 > li {
+    display: grid;
+    grid-template-columns: auto;
+}
+#ul1 input,
+#ul1 output,
+#ul2 input {
+    font-size: inherit;
+    text-align: right;
+    width: 9ch;
+}
+
+#ul1 output {
+    background-color: #eee;
+    padding-right: .5ch;
+    border: 1px inset #222;
+    border-radius: .05em;
+    font-size: 1.05em;
+}
+
+#ul2 input[type="button"] {
+    width: auto;
+    display: inline;
+    margin: auto;
+}
+</style>
+<style id="file-box-style">
+#controls,
+#file-box-room {
+    display:grid;
+    font-size: 3em;
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    grid-auto-columns: 100px;
+}
+#file-box-room div {
+    height: 100px;
+    width: 100px;
+    border: 1px solid rgba(0,0,0,.5);
+    text-align:center;
+    vertical-align:middle;
+    border-radius: 10px; 
+    line-height: 2em;
+}
+</style>
+<style id="dynamic-box-style">
+</style>
+<style id="dynamic-grid-style">
+
+</style>
+
+<script>
+
+class PageState {
+    params;
+    url;
+    forms;
+    formIdMap = new Map();
+    constructor(state={}) {
+        if (state.url) {
+            this.url = state.url;
+        } else {
+            this.url = new URL(window.location.href);
+        }
+        if (state.params) {
+            this.params = state.params;
+        } else {
+            this.params = new URLSearchParams(this.url.search);
+        }
+        if (state.forms) {
+            this.forms = state.forms;
+        } else {
+            this.forms = document.forms;
+        }
+        this.mapIds(this.formIdMap,this.forms);
+        if (state.sync) {
+            this.sync(state.sync)
+        }
+        if (state.events) {
+            for (let i=0,data;i<state.events.length;i++) {
+                data = state.events[i];
+                const evt = new Event(...data.desc);
+                document.getElementById(data.target).dispatchEvent(evt);
+            }
+        }
+    }
+    get search() {
+        return this.url.search;
+    }
+    mapIds(map,iterable) {
+        for (let i=0;i<iterable.length;i++) {
+            map.set(iterable[i].id,i);
+        }
+    }
+    param(which) {
+        let value;
+        if (this.params.has(which)) {
+            value = this.params.get(which);
+        } 
+        return value;
+    }
+    formCount() {
+        return this.forms.length;
+    }
+    getForm(index) {
+        if (this.forms.length > index) {
+            return this.forms[index]
+        } 
+    }
+    sync(config) {
+        let map = config.map,
+            len = map.length;
+
+        switch (config.mode) {
+        case "form2url":
+            break;
+        case "url2form": 
+        default:
+            for (let i=0;i<len;i++) {
+                let mapping = map[i],
+                    form = this.forms[this.formIdMap.get(mapping.form)],
+                    val = this.param(mapping.urlvar);
+                form.elements[mapping.formvar].value = val?val:mapping.default;
+            }
+            break;
+        }
+    }
+}
+
+var pState,
+    myVis,
+    myPrisSearch;
+
+class Visualization {
+    static #idCounter = 0;
+    name;
+    state;
+    constructor(conf={
+        tmpl:"vis",
+        state:null,
+    }) {
+        this.setName(conf.tmpl);
+        this.state = conf.state;
+    }
+    setName(tmpl="vis") {
+        this.name = `${tmpl}-${Visualization.#idCounter++}`;
+        return this.name;
+    }
+}
+
+class PrisonerSearch extends Visualization {
+    numPrisoners;
+    numColumns;
+    constructor(state) {
+        super({
+            tmpl:"PrisonerSearch",
+            state:state,
+        });
+        this.numPrisoners = this.state.param("gs");
+        this.numColumns = this.state.param("cols");
+    }
+    setupGrid(parentId) {
+        let parent = document.getElementById(parentId),
+            cols = this.numColumns,
+            rows = Math.ceil(this.numPrisoners/cols);
+        parent.innerHTML="";
+        for (let row=0,index=0;row<rows;row++) {
+            for (let col=0;col<cols&&index<this.numPrisoners;col++,index++) {
+                const fileBox = document.createElement("div");
+                const content = document.createTextNode(`${index+1}`);
+                fileBox.setAttribute("id",`pris${index}`);
+                fileBox.setAttribute("class",`col${col} row${row}`);
+                fileBox.setAttribute("style",`grid-column: ${col+1} / ${cols};grid-row: ${row+1} / ${rows};`);
+                fileBox.appendChild(content);
+                parent.appendChild(fileBox);
+            }
+        }
+
+    }
+}
+
+var configSync = {
+    type: "url2form",
+    map: [
+        {
+            urlvar:"gs",
+            default:10,
+            form:"form1",
+            formvar:"gSize",
+        },
+        {
+            urlvar:"cols",
+            default:5,
+            form:"form1",
+            formvar:"cols",
+        },
+    ],
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    // The current state of url and form is gathered here:
+    pState = new PageState({
+        sync:configSync,
+        events: [{target:"form1",desc:["input",{"bubbles":true, "cancelable":false}]}]
+    });
+    
+    myPrisonerSearch = new PrisonerSearch(pState);
+
+}); 
+</script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>100 Prisoners&apos; Strategy</title>
+<link rel="stylesheet" href="/css/main.css" media="all">
+<style>
+html,
+head {
+    background-color: #aaa;
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+
+svg {
+    font-family: inherit;
+    display: block;
+    margin: 15px;
+}
+
+form {
+    display: inline;
+}
+
+button {
+    margin-left: 2px;
+}
+
+ul {
+    display: inline-block;
+}
+
+li {
+    display: inline-block;
+    width: 270px;
+}
+
+fieldset {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+
+legend {
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    display: inline-block;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 130px;
+}
+input {
+    width: 130px;
+}
+label.check {
+    width: 50px;
+}
+label.check.wide {
+    width: 130px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
+
+text.horse-time,
+text.horse-name {
+    fill: black;
+    font-family: 'Fira Code';
+    /*font-size: 12px; */
+    text-anchor: middle;
+}
+
+rect.horse {
+    stroke-width: 2px;
+    stroke: black;
+    fill:white;
+}
+.horse.place-1 {
+    fill: gold;
+}
+.horse.place-2 {
+    fill: silver;
+}
+.horse.place-3 {
+    fill: lightpink;
+}
+.horse.place-4 {
+    fill: lightblue;
+}
+.horse.place-5 {
+    fill: yellowgreen;
+}
+#top-form fieldset {
+    vertical-align: top;
+}
+#top-form ul {
+    padding-top: 10px;
+}
+#timesIn {
+    width: 200px;
+}
+
+ul#timescheck,
+ul#statscheck {
+    display: block;
+    padding-top: 20px;
+    min-height: 35px;
+}
+#top-form label {
+    min-width: 85px;
+    text-align:right;
+    white-space: nowrap;
+    vertical-align: text-bottom;
+}
+#top-form label.wide {
+    min-width: 95px;
+}
+#top-form label.very-wide {
+    min-width: 95px;
+    padding-left: 26px;
+}
+#top-form label::after {
+    content: ":";
+    vertical-align: baseline;
+}
+#top-form input {
+    width:  75px;
+    padding-left: 3px;
+    vertical-align: text-bottom;
+}
+#top-form input[type="checkbox"] {
+    width: 15px;
+    padding-left: 2px;
+    vertical-align: text-bottom;
+    margin: 0;
+}
+
+#top-form input[type="button"] {
+    width: initial;
+    display: inline;
+}
+#top-form output {
+    display: inline-block;
+    margin-left: 11px;
+    padding: 1px;
+    padding-left: 0px;
+    padding-right: 12px;
+    border: 2px solid #eef; 
+    width: 67px;
+    height: 23px;
+    text-align: right;
+    vertical-align: text-bottom;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    background-color: #eee;
+}
+#top-form li {
+    width: 320px;
+}
+#top-form select,
+#top-form textarea {
+    vertical-align: text-bottom;
+}
+
+#top-form select {
+    width: 210px;
+    padding-left: 10px;
+    margin-left: 8px;
+}
+#top-form button {
+    vertical-align: text-bottom;
+    margin-left:0;
+}
+#top-form button#run-meet {
+    margin-left:10px;
+}
+#top-form #step-controls {
+    display: inline-flex;
+}
+#graph-container svg {
+    vertical-align: top;
+    display: inline-block;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js" defer async></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer async></script>
+<script src="js/probability-and-stats.js" defer async></script>
+<script src="js/shuffle-3.js" defer async></script>
+<script src=""></script>
+
+</head>
+<body>
+<div id="top-form">
+<form id="form1" action="" 
+    method="GET" 
+    oninput="rows.value=Math.ceil(parseInt(gSize.value)/parseInt(cols.value))"
+    onSubmit="() => {return false;}">
+<fieldset id="fs1">
+<ul>
+<li>
+    <label for="gSize">Prisoners</label>
+    <input id="gSize" name="gSize" value="10" type="number" min="1" step="1" >
+</li>
+<li>
+    <label for="cols">File Columns</label>
+    <input id="cols" name="cols" value="5" type="number" min="1" step="1" >
+</li>
+<li>
+    <label>Rows</label><output id="rows" name="rows" form="form1" ></output>
+</li>
+<li>
+    <input type="button" value="Setup File Boxes" onClick="initFollowNumbers('form1');">
+    <input type="button" value="Run Search" onClick="initFollowNumbers('form1');">
+</li>
+</ul>
+</fieldset>
+</form>
+</div>
+<div class="wrapper">
+</div>
+<style id="form-grid-style">
+#fs1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, auto);
+}
+</style>
+<style>
+#file-cabinet-room > div {
+    border: 2px solid rgb(233 171 88);
+    border-radius: 5px;
+    background-color: rgba(233 171 88 / .5);
+    padding: 1em;
+    color: #d9480f;
+}
+
+#file-cabinet-room {
+  display: grid;
+}
+.one {
+  grid-column: 1 / 3;
+  grid-row: 1;
+}
+.two {
+  grid-column: 2 / 4;
+  grid-row: 1 / 3;
+}
+.three {
+  grid-column: 1;
+  grid-row: 2 / 5;
+}
+.four {
+  grid-column: 3;
+  grid-row: 3;
+}
+.five {
+  grid-column: 2;
+  grid-row: 4;
+}
+.six {
+  grid-column: 3;
+  grid-row: 4;
+}
+</style>
+<style id="dynamic-box-style">
+#file-cabinet-room {
+    font-size: 3em;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+}
+</style>
+<style id="dynamic-grid-style">
+
+</style>
+
+<script>
+class PageState {
+    params;
+    url;
+    forms;
+    formIdMap = new Map();
+    constructor(state={}) {
+        if (state.url) {
+            this.url = state.url;
+        } else {
+            this.url = new URL(window.location.href);
+        }
+        if (state.params) {
+            this.params = state.params;
+        } else {
+            this.params = new URLSearchParams(this.url.search);
+        }
+        if (state.forms) {
+            this.forms = state.forms;
+        } else {
+            this.forms = document.forms;
+        }
+        this.mapIds(this.formIdMap,this.forms);
+    }
+    get search() {
+        return this.url.search;
+    }
+    mapIds(map,iterable) {
+        for (let i=0;i<iterable.length;i++) {
+            map.set(iterable[i].id,i);
+        }
+    }
+    param(which) {
+        let value;
+        if (this.params.has(which)) {
+            value = this.params.get(which);
+        } 
+        return value;
+    }
+    formCount() {
+        return this.forms.length;
+    }
+    getForm(index) {
+        if (this.forms.length > index) {
+            return this.forms[index]
+        } 
+    }
+}
+var pState;
+
+window.addEventListener('DOMContentLoaded', () => {
+    // The current state of url and form is gathered here:
+    pState = new PageState({});
+
+    //urlObj = new URL(window.location.href)
+    //urlParams = new URLSearchParams(urlObj.search);
+    //gs = urlParams.get("gs");
+    //cols = 
+
+    console.log(`search=${pState.search}`);
+    console.log(`gs=${pState.param("gs")} cols=${pState.param("cols")}`);
+    console.log(`forms=${pState.forms}`);
+}); 
+
+</script>
+</body>
+</html>

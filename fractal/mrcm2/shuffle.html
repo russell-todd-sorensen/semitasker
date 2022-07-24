@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>Shuffle Array Items</title>
+
+<style>
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="js/probability-and-stats.js"></script>
+<script src=""></script>
+<script src=""></script>
+
+<script>
+var shuffle = function(numItems,useItems) {
+    let len,
+        items,
+        index;
+
+    if (useItems) {
+        len = useItems.length;
+        items = useItems;
+    } else {
+        len = numItems;
+        items = [];
+        for (index=0;index<len;index++) {
+            items[index] = index;
+        }
+    }
+    for (let i=1,swapLow,swapHigh;i<len;i++) {
+        index = getEqualWeightIndex(0,{min:0,max:i})
+        if (items[index] == items[i]) {
+            continue
+        }
+        swapLow = items[index];
+        swapHigh = items[i];
+        items[index] = swapHigh;
+        items[i] = swapLow;
+    }
+    return items;
+}
+var sortIntegers = function (a,b) {
+    let aInt = parseInt(a),
+        bInt = parseInt(b);
+    return (a<b?-1:(b<a?1:0))
+}
+
+//aa.sort((a,b) => { return (parseInt(a)<parseInt(b))?-1:(parseInt(b)<parseInt(a))?1:0 })
+
+var followNumbers = function(groupSize) {
+    let groupShuffle = shuffle(groupSize),
+        groupPaths = new Array(groupSize).fill(0),
+        groupStats = new Array(groupSize).fill(0),
+        maxLooks = Math.floor(groupSize/2.0);
+
+    for (let id=0;id<groupSize;id++) {
+        let foundIds = new Array(groupSize).fill(0),
+            currentId = id,
+            loopStartId = currentId,
+            looks = 0,
+            path = `${id}`,
+            found;
+
+        while (looks < maxLooks) {
+            found = groupShuffle[currentId];
+            foundIds[found] = 1;
+            path = `${path}->${found}`;
+            looks++;
+            if (found == id) {
+                groupStats[id] = looks;
+                groupPaths[id] = path;
+                break;
+            } else 
+            if (looks == maxLooks) {
+                //out of looks
+                groupStats[id] = (0-looks);
+                groupPaths[id] = path;
+                break;
+            } else 
+            if (found == loopStartId) {
+                let notfound = true;
+                currentId = found; // but this we have already seen
+                // we need to find the next unused id as the new
+                // loopStartId,
+                // so look between currentId and groupSize-1,
+                // then look at 0 up to currentId
+                for (let i=found+1;i<groupSize;i++) {
+                    if (foundIds[i] == 0) {
+                        currentId=i;
+                        loopStartId = groupShuffle[currentId];
+                        notfound = false;
+                        break;
+                    }
+                }
+                if (notfound == false) {
+                    continue;
+                }
+                for (let i=0;i<found;i++) {
+                    if (foundIds[i] == 0) {
+                        currentId=i;
+                        loopStartId = currentId;
+                        notfound = false;
+                        break;
+                    }
+                }
+            } else {
+                currentId = found;
+            }
+
+
+        }
+
+    }
+    return {gs:groupShuffle,stats:groupStats,gp:groupPaths}
+
+}
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
