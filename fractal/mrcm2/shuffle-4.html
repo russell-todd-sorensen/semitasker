@@ -176,6 +176,7 @@ input[type="checkbox"] {
 <script>
 
 class PageState {
+    config;
     params;
     url;
     forms;
@@ -197,8 +198,9 @@ class PageState {
             this.forms = document.forms;
         }
         this.mapIds(this.formIdMap,this.forms);
-        if (state.sync) {
-            this.sync(state.sync)
+        if (state.config) {
+            this.config = state.config;
+            this.sync(this.config,"url2form")
         }
         if (state.events) {
             for (let i=0,data;i<state.events.length;i++) {
@@ -223,6 +225,13 @@ class PageState {
         } 
         return value;
     }
+    setParam(which,value) {
+        if (!this.params.has(which)) {
+            console.log(`setParam adding ${which} with value ${value}`);
+        }
+        this.params.set(which,value);
+        return value;
+    }
     formCount() {
         return this.forms.length;
     }
@@ -231,14 +240,20 @@ class PageState {
             return this.forms[index]
         } 
     }
-    sync(config) {
+    sync(config,mode="url2form") {
         let map = config.map,
             len = map.length;
+        mode = mode?mode:config.mode;
 
-        switch (config.mode) {
+        switch (mode) {
         case "form2url":
+            for (let i=0;i<len;i++) {
+                let mapping = map[i],
+                    form = this.forms[this.formIdMap.get(mapping.form)];
+                this.setParam(mapping.urlvar,form.elements[mapping.formvar].value);
+            }
             break;
-        case "url2form": 
+        case "url2form":
         default:
             for (let i=0;i<len;i++) {
                 let mapping = map[i],
@@ -253,7 +268,7 @@ class PageState {
 
 var pState,
     myVis,
-    myPrisSearch;
+    myPrisonerSearch;
 
 class Visualization {
     static #idCounter = 0;
@@ -280,10 +295,18 @@ class PrisonerSearch extends Visualization {
             tmpl:"PrisonerSearch",
             state:state,
         });
+        this.updateState();
+    }
+    updateState() {
         this.numPrisoners = this.state.param("gs");
-        this.numColumns = this.state.param("cols");
+        this.numColumns   = this.state.param("cols");
+    }
+    sync(mode="form2url") {
+        this.state.sync(this.state.config,mode);
+        this.updateState();
     }
     setupGrid(parentId) {
+        this.sync();
         let parent = document.getElementById(parentId),
             cols = this.numColumns,
             rows = Math.ceil(this.numPrisoners/cols);
@@ -299,24 +322,32 @@ class PrisonerSearch extends Visualization {
                 parent.appendChild(fileBox);
             }
         }
+    }
+    saveState(mode="form2url") {
+        this.state.sync(this.state,mode);
+        this.updateState();
+    }
+    setupGridSVG(parentId) {
 
     }
 }
 
-var configSync = {
-    type: "url2form",
+var config = {
+    mode: "url2form",
     map: [
         {
             urlvar:"gs",
             default:10,
             form:"form1",
             formvar:"gSize",
+            param:"numPrisoners",
         },
         {
             urlvar:"cols",
             default:5,
             form:"form1",
             formvar:"cols",
+            param:"numColumns",
         },
     ],
 }
@@ -324,7 +355,7 @@ var configSync = {
 window.addEventListener('DOMContentLoaded', () => {
     // The current state of url and form is gathered here:
     pState = new PageState({
-        sync:configSync,
+        config: config,
         events: [{target:"form1",desc:["input",{"bubbles":true, "cancelable":false}]}]
     });
     
