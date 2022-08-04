@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title></title>
+<style>
+</style>
+<script src=""></script>
+
+<script>
+function longText(text, n) {
+  const len = text.length;
+  let result = "";
+  for (let i = 0, letter; i < len; i++) {
+    letter = text[i];
+    switch (letter) {
+      case "a":
+      case "e":
+      case "i":
+      case "o":
+      case "u":
+        //uppercase
+      case "A":
+      case "E":
+      case "I":
+      case "O":
+      case "U":
+        result += letter.repeat(n);
+        break;
+        // what about internationalization?
+      default:
+        result += letter;
+        break;
+    }
+  }
+  return result;
+}
+
+var testStrings = function(
+    strings=[{
+        text:"Hello, world.",
+        n:3,
+        expected:"Heeellooo, wooorld."
+    }]) 
+{
+
+    let results = [],
+        pass,
+        passed = 0,
+        details = [],
+        len = strings.length;
+
+    for (let i=0,input,result;i<len;i++) {
+        input = strings[i];
+        result = longText(input.text,input.n);
+        if (result===input.expected) {
+            pass = true;
+            passed++;
+        } else {
+            pass = false;
+        }
+        input.pass = pass;
+        input.result = result;
+        details.push(input)
+    }
+    return details;
+
+}
+
+var allTestStrings=[
+    {
+        text:"Hello, world.",
+        n:3,
+        expected:"Heeellooo, wooorld."
+    },
+    {
+        text:"CodePen is cool!",
+        n:4,
+        expected:"CoooodeeeePeeeen iiiis cooooooool!",
+    },
+    {
+        text:"Challenges",
+        n:10,
+        expected:"Chaaaaaaaaaalleeeeeeeeeengeeeeeeeeees",
+    },
+    {
+        text:"Wild, Wild, West",
+        n:2,
+        expected:"Wiild, Wiild, Weest",
+    },
+    {
+        text:"Raccoon Nookkeeper",
+        n:5,
+        expected:"Raaaaaccoooooooooon Nooooooooookkeeeeeeeeeepeeeeer",
+    },
+    {
+        text:"aeiouwyAeIoU",
+        n:2,
+        expected:"aaeeiioouuwyAAeeIIooUU",
+    },
+    {
+        text: "aeiouwyAeIoU",
+        text: "\u0061\u0065\u0069\u006F\u0075wy\u0041\u0065\u0049\u006F\u0055",
+        n:2,
+        expected:"\u0061\u0061\u0065\u0065\u0069\u0069\u006F\u006F\u0075\u0075wy\u0041\u0041\u0065\u0065\u0049\u0049\u006F\u006F\u0055\u0055",
+    },
+];
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>
