@@ -65,7 +65,7 @@ input[type="checkbox"] {
 <s crip t src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer async></sc ri pt>
 -->
 <script src="js/probability-and-stats.js" defer async></script>
-<script src="js/shuffle-4.js" defer async></script>
+<script src="js/shuffle-5.js" defer async></script>
 <script>
 
 var getBoundingBoxPair = function(from,to) {
@@ -250,6 +250,13 @@ if (false) {
     border-radius: 10px;
     line-height: 2em;
     font-size: 3em;
+}
+#file-box-room #data-grid div.row-col {
+    border: 1px solid rgba(0,0,0,0.01);
+    color: rgba(0,0,0,0.01);
+    font-size: 2px;
+    text-align: center;
+    vertical-align: middle;
 }
 </style>
 <style id="dynamic-box-style">
@@ -448,7 +455,7 @@ class PrisonerSearch extends Visualization {
             child.innerHTML = ""
             let svgTemplate = this.getPageTemplate("#svg-starter-doc");
             if (svgTemplate) {
-                svgTemplate.setAttribute("style",`grid-column: 1 / ${cols+1};grid-row: 1 / ${rows+1};z-index: -1;`);
+                svgTemplate.setAttribute("style",`grid-column: 1 / ${cols+1};grid-row: 1 / ${rows+1};z-index: -2;`);
                 svgTemplate.setAttribute("height",dataHeight);
                 svgTemplate.setAttribute("width",dataWidth);
                 child.appendChild(svgTemplate);
@@ -467,29 +474,6 @@ class PrisonerSearch extends Visualization {
             clone = firstElementChild.cloneNode(true);
         } 
         return clone;
-    }
-    setupGrid2(parentId,sgConfig=null) {
-        this.sync();
-        sgConfig  = sgConfig?sgConfig:this.superGrid;
-        if (sgConfig) {
-            sgConfig = this.setupSuperGrid(parentId,sgConfig);
-            parentId = sgConfig.dataGrid.id;
-        }
-        let parent = document.getElementById(parentId),
-            cols = this.numColumns,
-            rows = Math.ceil(this.numPrisoners/cols);
-        parent.innerHTML="";
-        for (let row=0,index=0;row<rows;row++) {
-            for (let col=0;col<cols&&index<this.numPrisoners;col++,index++) {
-                const fileBox = document.createElement("div");
-                const content = document.createTextNode(`${index+1}`);
-                fileBox.setAttribute("id",`pris${index}`);
-                fileBox.setAttribute("class",`data col${col} row${row}`);
-                fileBox.setAttribute("style",`grid-column: ${col+1} / ${col+1};grid-row: ${row+1} / ${row+1};`);
-                fileBox.appendChild(content);
-                parent.appendChild(fileBox);
-            }
-        }
     }
     setupGrid(parentId,sgConfig=null) {
         this.sync();
@@ -532,13 +516,25 @@ class PrisonerSearch extends Visualization {
                     colHead.appendChild(content);
                     cHead.appendChild(colHead);
                 }
+                // first div holds fixed position/coords: (x,y) = (2,3)
                 const fileBox = document.createElement("div");
-                const content = document.createTextNode(`${index+1}`);
-                fileBox.setAttribute("id",`pris${index}`);
-                fileBox.setAttribute("class",`data col${col} row${row}`);
-                fileBox.setAttribute("style",`grid-column: ${col+1} / ${col+1};grid-row: ${row+1} / ${row+1};`);
+                const content = document.createTextNode(`(${col},${row})`);
+                fileBox.setAttribute("id",`c${col}r${row}`);
+                fileBox.setAttribute("class",`row-col col${col} row${row}`);
+                fileBox.setAttribute("style",`z-index:-1; grid-column: ${col+1} / ${col+1};grid-row: ${row+1} / ${row+1};`);
                 fileBox.appendChild(content);
                 parent.appendChild(fileBox);
+                {
+                    // visible and moveable content div
+                    const fileBox = document.createElement("div");
+                    const content = document.createTextNode(`${index+1}`);
+                    fileBox.setAttribute("id",`pris${index}`);
+                    fileBox.setAttribute("class",`data col${col} row${row}`);
+                    fileBox.setAttribute("style",`grid-column: ${col+1} / ${col+1};grid-row: ${row+1} / ${row+1};`);
+                    fileBox.appendChild(content);
+                    parent.appendChild(fileBox);
+                }
+
             }
         }
     }
@@ -548,24 +544,6 @@ class PrisonerSearch extends Visualization {
     saveState(mode="form2url") {
         this.state.sync(this.state,mode);
         this.updateState();
-    }
-    setupGridSVG(parentId) {
-        this.sync();
-        let parent = document.getElementById(parentId),
-            cols = this.numColumns,
-            rows = Math.ceil(this.numPrisoners/cols);
-        parent.innerHTML="";
-        for (let row=0,index=0;row<rows;row++) {
-            for (let col=0;col<cols&&index<this.numPrisoners;col++,index++) {
-                const fileBox = document.createElement("div");
-                const content = document.createTextNode(`${index+1}`);
-                fileBox.setAttribute("id",`pris${index}`);
-                fileBox.setAttribute("class",`col${col} row${row}`);
-                fileBox.setAttribute("style",`grid-column: ${col+1} / ${col+1};grid-row: ${row+1} / ${row+1};`);
-                fileBox.appendChild(content);
-                parent.appendChild(fileBox);
-            }
-        }
     }
 }
 
