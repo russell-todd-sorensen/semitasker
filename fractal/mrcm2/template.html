@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>100 Prisoners&apos; Strategy</title>
+<link rel="stylesheet" href="/css/main.css" media="all">
+<style>
+html,
+head {
+    background-color: #aaa;
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+form {
+    display: inline;
+}
+button {
+    margin-left: 2px;
+}
+ul,
+li {
+    display: inline-block;
+}
+fieldset {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+legend {
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    display: inline-block;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 130px;
+}
+input {
+    width: 130px;
+}
+label.check {
+    width: 50px;
+}
+label.check.wide {
+    width: 130px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js" defer async></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer async></script>
+<script src="js/svg-draw.js" defer async></script>
+<script src="js/probability-and-stats.js" defer async></script>
+<script src="js/shuffle-6-svg.js"></script>
+<script src="js/shuffle-6-svg-strategy.js" defer async></script>
+</head>
+<body>
+
+<div id="controls">
+<form id="form1"
+    action=""
+    method="GET"
+    oninput="rows.value=Math.ceil(parseInt(gSize.value)/parseInt(cols.value))"
+    onSubmit="() => {return false;}">
+<fieldset id="fs1">
+<ul id="ul1">
+<li>
+    <label for="gSize">Prisoners</label>
+    <input id="gSize" name="gSize" value="10" type="number" min="1" step="1" >
+</li>
+<li>
+    <label for="cols">Columns</label>
+    <input id="cols" name="cols" value="5" type="number" min="1" step="1" >
+</li>
+<li>
+    <label>Rows</label><output id="rows" name="rows" form="form1" ></output>
+</li>
+</ul>
+<ul id="ul2">
+<li>
+    <input type="button" value="Setup File Boxes" onClick="myPrisonerSearch.setupGrid('svg-container');">
+</li>
+<li>
+    <input type="button" value="Run Strategy" onClick="initFollowNumbers('form1');">
+</li>
+</ul>
+</fieldset>
+</form>
+</div>
+<div id="file-box-room">
+    <p>ooo</p>
+</div>
+<div id="ideasAndCommentary" >
+<li>
+    intro first show how to sort 100 items in only 100 operations.
+</li>
+</div>
+<style id="form-grid-style">
+#controls {
+    display:grid;
+    font-size: 3em;
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    grid-auto-columns: 100px;
+}
+#ul1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, auto);
+    padding-inline-start: 0;
+}
+#ul2 {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    padding-inline-start: 0;
+}
+#ul1 > li,
+#ul2 > li {
+    display: grid;
+    grid-template-columns: auto;
+}
+#ul1 input,
+#ul1 output,
+#ul2 input {
+    font-size: inherit;
+    text-align: right;
+    width: 9ch;
+}
+
+#ul1 output {
+    background-color: #eee;
+    padding-right: .5ch;
+    border: 1px inset #222;
+    border-radius: .05em;
+    font-size: 1.05em;
+}
+
+#ul2 input[type="button"] {
+    width: auto;
+    display: inline;
+    margin: auto;
+}
+</style>
+<style id="file-box-style">
+
+#file-box-room #anchor,
+#file-box-room #row-heads,
+#file-box-room #col-heads,
+#file-box-room #data-grid  {
+    border: 0.5px solid rgba(255,0,0,.5);
+    gap: 10px;
+}
+#file-box-room div.data {
+    height: 100px;
+    width: 100px;
+    border: 1px solid rgba(0,0,0,.5);
+    text-align:center;
+    vertical-align:middle;
+    border-radius: 10px; 
+    line-height: 2em;
+}
+</style>
+<style id="dynamic-grid-style">
+#file-box-room {
+    fill: transparent;
+    background-color:transparent;
+}
+
+#file-box-room #anchor rect,
+#file-box-room #col-heads rect,
+#file-box-room #row-heads rect,
+#file-box-room #data-grid rect {
+    height: 100px;
+    width: 100px;
+    fill:transparent;
+    background-color:transparent;
+    border: 1px solid rgba(0,0,0,.5);
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 10px;
+    line-height: 2em;
+    font-size: 3em;
+}
+#file-box-room #data-grid div.row-col {
+    border: 1px solid rgba(0,0,0,0.01);
+    color: rgba(0,0,0,0.01);
+    font-size: 2px;
+    text-align: center;
+    vertical-align: middle;
+}
+</style>
+<style id="dynamic-box-style">
+
+</style>
+<!-- reuseable template for svg doc-->
+<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template -->
+
+<template id="svg-template" type="image/svg+xml"><svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="100%"
+    height="100%"
+    >
+<style id="svg-styles">
+svg#svgvis {
+    fill:transparent;
+    background-color:transparent;
+    stroke:white;
+    stroke-width:2;
+}
+svg g#main rect#bg,
+svg g#main ellipse#ellipse1 {
+    fill: transparent;
+    background-color: transparent;
+    stroke: white;
+    stroke-width: 2;
+}
+#path3 {
+    stroke: yellow;
+    stroke-width:2;
+}
+#path4 {
+    stroke: cyan;
+    stroke-width:2;
+}
+#path1 {
+    stroke: purple;
+    stroke-width:2;
+}
+#item {
+    stroke: black;
+    stroke-width: 1;
+    fill: transparent;
+    text-anchor:middle;
+    font-size:3em;
+}
+#item text,
+#item-rect {
+    stroke: inherit;
+    stroke-width: inherit;
+    font-size: inherit;
+    fill: inherit;
+    text-anchor: inherit;
+}
+#file-box-room #atext text,
+#file-box-room #col-heads text,
+#file-box-room #row-heads text,
+#file-box-room #data-grid text {
+    stroke:none;
+    font-size: 3em;
+    text-anchor:middle;
+    transform: translate(1em,1.3em);
+    fill:black;
+}
+</style>
+<defs id="defs">
+    <!-- examples of path defs -->
+<path id="path1" transform="translate(244,0)" d="M51.000, 51.000 C173.500 51.000 51.000 51.000 173.500 51.000"/>
+<path id="path2" transform="translate(0,122.5)" d="M51.000, 51.000 C173.500 51.000 51.000 295.000 173.500 295.000"/>
+<path id="path3" d="M51.000, 51.000 C418.500 51.000 51.000 295.000 418.500 295.000"/>
+<path id="path4" transform="translate(0,488)" d="M51.000, 51.000 C418.500 51.000 51.000 -71.000 418.500 -71.000"/>
+<ellipse transform="translate(50%,50%)" id="ellipse1" cx="50%" cy="50%" rx="50%" ry="50%"/>
+<g id="item">
+    <rect id="item-rect" x="0" y="0" height="100" width="100" rx="10" ry="10" />
+</g>
+</defs>
+<rect id="bg" x="0" y="0" height="100%" width="100%" />
+<!--
+<g id="file-box-room" x="0" y="0" transform="translate(0,0)">
+<g id="anchor" class="anchor-grid" x="0" y="0" >
+
+</g>
+<g id="col-heads" class="col-grid" x="0" y="0" transform="translate(120,0)">
+
+</g>
+<g id="row-heads" class="row-grid" x="0" y="0" transform="translate(0,120)">
+
+</g>
+<g id="data-grid" class="data-grid" x="0" y="0" transform="translate(120,120)">
+
+</g>
+</g>-->
+</svg></template>
+<script>
+
+var pState,
+    myVis,
+    myPrisonerSearch;
+
+var config = {
+    mode: "url2form",
+    map: [
+        {
+            urlvar:"gs",
+            default:10,
+            form:"form1",
+            formvar:"gSize",
+            param:"numPrisoners",
+        },
+        {
+            urlvar:"cols",
+            default:5,
+            form:"form1",
+            formvar:"cols",
+            param:"numColumns",
+        },
+    ],
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    // The current state of url and form is gathered here:
+    pState = new PageState({
+        config: config,
+        events: [{target:"form1",desc:["input",{"bubbles":true, "cancelable":false}]}]
+    });
+    
+    myPrisonerSearch = new PrisonerSearch(pState);
+
+});
+</script>
+<div id="svg-container"></div>
+</body>
+</html>

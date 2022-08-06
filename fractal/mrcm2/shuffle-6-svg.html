@@ -114,6 +114,16 @@ var getBoundingBoxPair = function(from,to) {
         };
 }
 
+if (false) {
+    item=document.getElementById("pris0");
+    itemlast = document.getElementById("pris9");
+    first = itemlast.getBoundingClientRect();
+    last = item.getBoundingClientRect();
+    delta = {x:-1*(last.left - first.left), y:-1*(last.top-first.top),}
+    itemlast.style.transform=`translate(-${delta.x}px,-${delta.y}px)`;
+    item.style.transform=`translate(${delta.x}px,${delta.y}px)`
+}
+
 </script>
 
 </head>
@@ -661,39 +671,7 @@ window.addEventListener('DOMContentLoaded', () => {
 </style>
 <!-- reuseable template for svg doc-->
 <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template -->
-<script id="svg-template" type="image/svg+xml">
-<svg
-    id="svgtmp"
-    xmlns:svg="http://www.w3.org/2000/svg"
-    xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink"
-    x="0"
-    y="0"
-    width="100%"
-    height="100%"
-    >
-<style>
-svg#svgtmp {
-    fill:transparent;
-    background-color:transparent;
-    stroke:white;
-    stroke-width:2;
-}
-svg g#main rect#bg {
-    fill: transparent;
-    background-color: transparent;
-    stroke: white;
-    stroke-width: 2;
-}
-</style>
-<defs id="defs">
-</defs>
-<g id="main" transform="translate(0,0)">
-    <rect id="bg" x="0" y="0" height="100%" width="100%" />
-</g>
-</svg>
-</script>
-<template id="svg-starter-doc"><svg
+<template id="svg-template" type="image/svg+xml"><svg
     id="svgtmp"
     xmlns:svg="http://www.w3.org/2000/svg"
     xmlns="http://www.w3.org/2000/svg"
@@ -729,18 +707,41 @@ svg g#main ellipse#ellipse1 {
     stroke: purple;
     stroke-width:2;
 }
+#item {
+    width: 100;
+    height: 100;
+    stroke: black;
+    stroke-width: 1;
+    fill: transparent;
+}
 </style>
 <defs id="defs">
-</defs>
-<g id="main" transform="translate(0,0)">
-    <rect id="bg" x="0" y="0" height="100%" width="100%" />
-    <path id="path1" transform="translate(244,0)" d="M51.000, 51.000 C173.500 51.000 51.000 51.000 173.500 51.000"/>
-    <path id="path2" transform="translate(0,122.5)" d="M51.000, 51.000 C173.500 51.000 51.000 295.000 173.500 295.000"/>
-    <path id="path3" d="M51.000, 51.000 C418.500 51.000 51.000 295.000 418.500 295.000"/>
-    <path id="path4" transform="translate(0,488)" d="M51.000, 51.000 C418.500 51.000 51.000 -71.000 418.500 -71.000"/>
+    <!-- examples of path defs -->
+<path id="path1" transform="translate(244,0)" d="M51.000, 51.000 C173.500 51.000 51.000 51.000 173.500 51.000"/>
+<path id="path2" transform="translate(0,122.5)" d="M51.000, 51.000 C173.500 51.000 51.000 295.000 173.500 295.000"/>
+<path id="path3" d="M51.000, 51.000 C418.500 51.000 51.000 295.000 418.500 295.000"/>
+<path id="path4" transform="translate(0,488)" d="M51.000, 51.000 C418.500 51.000 51.000 -71.000 418.500 -71.000"/>
+<ellipse transform="translate(50%,50%)" id="ellipse1" cx="50%" cy="50%" rx="50%" ry="50%"/>
 
-    <!--<ellipse transform="translate(50%,50%)" id="ellipse1" cx="50%" cy="50%" rx="50%" ry="50%"/>-->
+<rect id="item" x="0" y="0" height="100" width="100" />
+
+</defs>
+<rect id="bg" x="0" y="0" height="100%" width="100%" />
+<g id="file-box-room" x="0" y="0" transform="translate(0,0)">
+<g id="anchor" class="anchor-grid" x="0" y="0" >
+
+</g>
+<g id="col-heads" class="col-grid" x="0" y="0" transform="translate(120,0)">
+
+</g>
+<g id="row-heads" class="row-grid" x="0" y="0" transform="translate(0,120)">
+
+</g>
+<g id="data-grid" class="data-grid"  x="0" y="0" transform="translate(120,120)">
+
+</g>
 </g>
 </svg></template>
+
 </body>
 </html>

@@ -1,0 +1,41 @@
+replacing inline styles:
+
+https://home.highfivediet.com/dsvg/devel/maze/js/style.js
+
+triggering synthetic events to simulate user interaction:
+
+https://home.highfivediet.com/dsvg/devel/maze/js/cpc-scroll-mouse-wheel.js
+
+initialize scroller and with synthetic events skip 'focus' lag event:
+
+https://home.highfivediet.com/dsvg/devel/maze/scroll-cpc.html
+
+(Note to above): When pointer moves over element listening for scroll
+events, the first scroll event just shifts focus to the element.
+Code above does this as soon as scroller enters element, skipping
+the one event lag.
+
+Animation code of Maze Demo:
+
+https://home.highfivediet.com/dsvg/devel/miss-in-form-at-ion/in-form-3.html
+
+Also from above: using script tag with type set to something not javascript
+creates a template storage. Shows how to use this.
+
+QueueFunction:
+
+https://home.highfivediet.com/js/queue-function.js
+
+Configs for Maze:
+
+https://home.highfivediet.com/dsvg/devel/miss-in-form-at-ion/js/configs-3.js
+
+Animate maze build;
+
+https://home.highfivediet.com/dsvg/devel/miss-in-form-at-ion/js/in-form-3.js
+
+In above see animateTo method.
+
+Example use of using svg template from d3:
+
+https://home.highfivediet.com/dsvg/devel/buggle/js/events.js
