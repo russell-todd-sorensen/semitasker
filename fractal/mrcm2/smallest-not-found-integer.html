@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+
+<title></title>
+<style>
+</style>
+<script src="js/probability-and-stats.js"></script>
+<script src="js/shuffle-5.js"></script>
+
+<script>
+var shuffleTestArray = function(n=10,range=[0,15]) {
+    let longArrayLen = range[1]-range[0],
+        unshuffled = [],
+        shuffled;
+    for (let i=range[0];i<=range[1];unshuffled.push(i++)) {
+    }
+
+    shuffled = shuffle(null,unshuffled).slice(0,n)
+    //unshift on a null:
+    shuffled.unshift(null);
+    return shuffled;
+}
+var smallestNotFoundPositiveInteger = function(array) {
+    let len      = array.length,
+        notFound = 1,
+        max      = len,
+        finished = false,
+        tmp,
+        cell     = null,
+        maxItr   = 2*max,
+        itr      = 0,
+        idx      = 1;
+
+        while (!finished && itr<maxItr) {
+            switch (cell) {
+            case null: 
+                idx++;
+                cell = array[idx]
+                while(cell == notFound) {
+                    idx++;
+                    notFound++;
+                    cell=array[idx];
+                    itr++;
+                }
+                array[idx] = null;
+                idx = cell;
+                break;
+            default: 
+                if (cell<1||cell>max) { 
+                    max--;
+                    tmp = array[max]
+                    array[max] = cell;
+                    idx = tmp;
+                } else {
+                    idx = cell;
+                }
+                break;
+            }
+            cell = array[idx];
+            itr++;
+        }
+}
+
+</script>
+</head>
+<body>
+<pre>
+
+</pre>
+</body>
+</html>

@@ -62,7 +62,6 @@ input[type="checkbox"] {
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js" defer="" async=""></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer="" async=""></script>
-<script src="js/svg-draw.js" defer="" async=""></script>
 <script src="js/probability-and-stats.js" defer="" async=""></script>
 <script src="js/shuffle-6-svg.js"></script>
 <script src="js/shuffle-6-svg-strategy.js" defer="" async=""></script>
@@ -373,6 +372,14 @@ svg g#main ellipse#ellipse1 {
     transform: translate(1em,1.3em);
     fill:black;
 }
+#myCircle {
+    stroke:purple;
+    stroke-width:2;
+}
+#myLine {
+    stroke:orange;
+    stroke-width:2;
+}
 </style>
 <defs id="defs">
     <!-- examples of path defs -->
@@ -387,6 +394,15 @@ svg g#main ellipse#ellipse1 {
     <rect id="item-rect" x="0" y="0" height="100" width="100" rx="10" ry="10"/>
 </g>
 
+<circle id="myCircle" r="60" cx="60" cy="0" />
+<line id="myLine" x1="0" y1="0" x2="120" y2="0"/>
+<path id="myCirclePath" d="M0,0a60,60 0 1,0 120,0a60,60 0 1,0 -120,0" />
+<path id="myHorizontalEllipsePath" d="M0,0a120,60 0 1,0 240,0a120,60 0 1,0 -240,0" />
+<path id="myVerticalEllipsePath" d="M0,0a60,120 0 1,0 120,0a60,120 0 1,0 -120,0" />
+<path id="myHalfVerticalEllipsePathPlus" d="M0,0a60,120 0 1,0 120,0" />
+<path id="myHalfVerticalEllipsePathMinus" d="M0,0a-60,-120 0 1,0 -120,0" />
+<path id="myHalfVerticalEllipsePathPlusReverse" d="M0,0a60,120 0 1,1 120,0" />
+<path id="myHalfVerticalEllipsePathMinusReverse" d="M0,0a-60,-120 0 1,1 -120,0" />
 </defs>
 <rect id="bg" x="0" y="0" height="100%" width="100%"></rect>
 
@@ -439,30 +455,39 @@ svg g#main ellipse#ellipse1 {
     </g>
 </g>
 <g id="data-grid" class="data-grid" transform="translate(120,120)">
-    <g id="path-usage">
-        <use href="#path1"/>
-        <use href="#path2"/>
-        <use href="#path32"/>
-        <use href="#path4"/>
-    </g>
+
     <g id="pris0" class="data col0 row0" transform="translate(0,0)">
         <use href="#item"/>
         <text>1</text>
         <animateMotion
             begin="pris0.click"
-            dur="10s"
+            dur="1.5s"
             calcMode="spline"
             rotate="0"
-            repeatCount="2"
-            values="0; .25; .75; 1.0; .5; 0"
+            repeatCount="1"
+            fill="freeze"
+            values="0; .25; .35; .5; .35; .15; 0"
             keyTimes="0; 0.25; 0.5; 0.75; 1"
             keySplines="0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1">
-            <mpath href="#path32"/>
+
+           <mpath href="#myHalfVerticalEllipsePathPlusReverse" />
         </animateMotion>
     </g>
     <g id="pris1" class="data col1 row0" transform="translate(120,0)">
         <use href="#item"/>
         <text>2</text>
+        <animateMotion
+            begin="pris0.click"
+            dur="1.5s"
+            calcMode="spline"
+            rotate="0"
+            repeatCount="1"
+            fill="freeze"
+            values="0; .25; .35; .5; .35; .15; 0"
+            keyTimes="0; 0.25; 0.5; 0.75; 1"
+            keySplines="0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1">
+           <mpath href="#myHalfVerticalEllipsePathMinusReverse" />
+        </animateMotion>
     </g>
     <g id="pris2" class="data col2 row0" transform="translate(240,0)">
         <use href="#item"/>
@@ -475,6 +500,17 @@ svg g#main ellipse#ellipse1 {
     <g id="pris4" class="data col0 row1" transform="translate(0,120)">
         <use href="#item"/>
         <text>11</text>
+        <animateMotion
+            begin="pris4.click"
+            dur="10s"
+            calcMode="spline"
+            rotate="0"
+            repeatCount="2"
+            values="0; .25; .75; 1.0; .5; 0"
+            keyTimes="0; 0.25; 0.5; 0.75; 1"
+            keySplines="0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1">
+            <mpath href="#path32"/>
+        </animateMotion>
     </g>
     <g id="pris5" class="data col1 row1" transform="translate(120,120)">
         <use href="#item"/>
@@ -536,9 +572,45 @@ svg g#main ellipse#ellipse1 {
         <use href="#item"/>
         <text>44</text>
     </g>
+     <!--<use href="#path32"/>
+   <g id="path-usage">
+        <use href="#path1"/>
+        <use href="#path2"/>
+        <use href="#path4"/>
+    </g> 
+    <use href="#myCircle"/>-->
+    <use href="#myHalfVerticalEllipsePathPlusReverse" />
+    <use href="#myHalfVerticalEllipsePathMinusReverse" transform="translate(120,0)" />
 </g>
 </g>
 </svg></div>
+<script>
+var cx = 55,
+    cy = 88,
+    rx = 65,
+    ry = 130;
 
+// M-10,88a65,130 0 1,0 130,0a65,130 0 1,0 -130,0
+//         cx=55
+//
+//
+var calcSVGPathFromTo = function (
+    from=0,
+    to=1,
+    options={
+        x1:0,
+        y1:0,
+        x2:120,
+        y2:0,
+        dir:1, // or 0
+        xdim:120,
+        ydim:120
+    }
+) {
+    // the starting point is always going to be (0,0)
+
+}
+
+</script>
 </body>
 </html>
