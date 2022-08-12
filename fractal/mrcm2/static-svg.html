@@ -376,10 +376,14 @@ svg g#main ellipse#ellipse1 {
     stroke:purple;
     stroke-width:2;
 }
+#test1,
+#test2,
+#test3,
 #myLine {
     stroke:orange;
     stroke-width:2;
 }
+
 </style>
 <defs id="defs">
     <!-- examples of path defs -->
@@ -403,6 +407,10 @@ svg g#main ellipse#ellipse1 {
 <path id="myHalfVerticalEllipsePathMinus" d="M0,0a-60,-120 0 1,0 -120,0" />
 <path id="myHalfVerticalEllipsePathPlusReverse" d="M0,0a60,120 0 1,1 120,0" />
 <path id="myHalfVerticalEllipsePathMinusReverse" d="M0,0a-60,-120 0 1,1 -120,0" />
+<path id="for-pris0" d="" />
+<path id="test1" d="M0,0a60,120 0 1,0 120,0a60,120 0 1,0 -120,0" />
+<path id="test2" d="M120,0a60,120 0 1,0 -120,0" />
+<path id="test3" d="M0,0 a120,150 0 1,0 240,0" />
 </defs>
 <rect id="bg" x="0" y="0" height="100%" width="100%"></rect>
 
@@ -469,8 +477,8 @@ svg g#main ellipse#ellipse1 {
             values="0; .25; .35; .5; .35; .15; 0"
             keyTimes="0; 0.25; 0.5; 0.75; 1"
             keySplines="0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1">
-
-           <mpath href="#myHalfVerticalEllipsePathPlusReverse" />
+<!-- keyPoints=".5; .75; 1.0"  #test1  #myHalfVerticalEllipsePathPlusReverse  -->
+           <mpath id="mpath-pris0" href="#test3" />
         </animateMotion>
     </g>
     <g id="pris1" class="data col1 row0" transform="translate(120,0)">
@@ -581,8 +589,10 @@ svg g#main ellipse#ellipse1 {
     <use href="#myCircle"/>-->
     <use href="#myHalfVerticalEllipsePathPlusReverse" />
     <use href="#myHalfVerticalEllipsePathMinusReverse" transform="translate(120,0)" />
+    <use href="#test3" />
 </g>
 </g>
+<line x1="0" y1="0" x2="148" y2="439" stroke="yellow" stroke-width="2"/>
 </svg></div>
 <script>
 var cx = 55,
