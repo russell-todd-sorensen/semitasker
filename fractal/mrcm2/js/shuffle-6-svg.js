@@ -203,6 +203,7 @@ class Visualization {
 class PrisonerSearch extends Visualization {
     numPrisoners;
     numColumns;
+    dataPositions = new Map();
     superGrid={
         svg:{id:"svgvis",class:""},
         groupwrapper:{id:"file-box-room",class:"file-box-wrapper",x:20,y:20},
@@ -321,6 +322,18 @@ class PrisonerSearch extends Visualization {
         } 
         return clone;
     }
+    getAnimationTemplate(selector) {
+        let docFragment = null,
+            firstElementChild = null,
+            clone = "";
+        if ('content' in document.createElement('template')) {
+            docFragment = document.querySelector(selector);
+            //firstElementChild = docFragment.content.firstElementChild;
+            //clone = firstElementChild.cloneNode(true);
+            clone = docFragment.cloneNode(true);
+        } 
+        return clone;
+    }
     setupGrid(parentId,sgConfig=null) {
         this.sync();
 
@@ -384,15 +397,45 @@ class PrisonerSearch extends Visualization {
                 const fileBox  = document.createElementNS(xmlns,"g"),
                       fileRect = document.createElementNS(xmlns,"use"),
                       dContent = document.createElementNS(xmlns,"text"),
-                       content = document.createTextNode(`${sgConfig.dataVals(col+1,row)}`);
-                fileBox.setAttribute("id",`pris${index}`);
+                       content = document.createTextNode(`${sgConfig.dataVals(col+1,row)}`),
+                       gid     = `pris${index}`,
+                       gx      = (col)*ifw,
+                       gy      = (row)*ifh;
+                fileBox.setAttribute("id",gid);
                 fileBox.setAttribute("class",`data col${col} row${row}`);
-                fileBox.setAttribute("transform",`translate(${(col)*ifw},${(row)*ifh})`);
+                fileBox.setAttribute("transform",`translate(${gx},${gy})`);
                 fileRect.setAttribute("href",`#item`);
                 fileBox.appendChild(fileRect);
                 dContent.appendChild(content);
                 fileBox.appendChild(dContent);
+
+                let animId = null,
+                    mpathId= null,
+                    animTemplate = this.getAnimationTemplate("#animation-template");
+
+                if (animTemplate) {
+                    animId = `data-anim-${index}`;
+                    animTemplate.setAttribute("id",animId);
+                    animTemplate.setAttribute("begin",`${gid}.click;${gid}.move`)
+                    let mpathSel = animTemplate.querySelector("mpath");
+                    if (mpathSel) {
+                        mpathId=`mpath-anim-${index}`;
+                        mpathSel.setAttribute("id",mpathId);
+                    }
+                }
+                fileBox.appendChild(animTemplate);
                 parent.appendChild(fileBox);
+
+                this.dataPositions.set(index,{
+                    gid:gid,
+                    col:col,
+                    row:row,
+                    gx:gx,
+                    gy:gy,
+                    content:content,
+                    animId:animId,
+                    mpathId:mpathId
+                });
             }
         }
     }

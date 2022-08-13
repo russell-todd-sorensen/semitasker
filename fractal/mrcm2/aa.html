@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>Any Dups?</title>
+<link rel="stylesheet" href="https://www.highfivediet.com/css/fira-code/fira_code.css" media="all">
+<style>
+</style>
+<script src="https://www.highfivediet.com/js/d3.js"></script>
+<script>
+function testUniqueChars(text) {
+  if (text.test) {
+    return text.test();
+  } // else
+  let pass = true,
+      myMap = new Map(),
+      len = text.length;
+  for (let i=0,char;i<len;i++) {
+    char = text[i];
+    if (myMap.has(char)) {
+      pass = false;
+      break;
+    } else {
+      myMap.set(char,1);
+    }
+  }
+  return pass; 
+}
+
+var testStrings = [];
+testStrings.push(["This isatest",false]);
+testStrings.push(["abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890",false]);
+testStrings.push(["abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789",true]);
+testStrings.push(["",true]);
+testStrings.push(["-*@!#$^&()~.,<>/?\"{}[]:\\;|",true]);
+
+class Test {
+    text;
+    len;
+    expect;
+    passed;
+    stats;
+    found = null;
+    charMap = new Map();
+    failedAt = -1; // meaning no duplicates
+    failedChar = "";
+    constructor(text,expect=true,stats=true) {
+        this.text = text;
+        this.len = this.text.length;
+        this.expect = expect;
+        this.stats = stats;
+    }
+    test() {
+        if (this.found != null) {
+            return this.found;
+        }
+        this.found = true;
+        for (let i=0,char;i<this.len;i++) {
+            char =this.text[i];
+            if (this.charMap.has(char)) {
+                this.found = false;
+                // but we can chug away anyway...
+                if (this.stats) {
+                    this.charMap.set(char,this.charMap.get(char)+1);
+                    continue;
+                }
+                this.failedAt = i;
+                this.failedChar = char;
+                break;
+            } else {
+                this.charMap.set(char,1);
+            }
+        }
+        if (this.found === this.expect) {
+            this.passed = true;
+        } else {
+            this.passed = false;
+        }
+        return this.found; 
+    }
+    toString() {
+        let result = "";
+        if (!this.stats) {
+            result += `Unique?=${this.found},failedAt:${this.failedAt},failedChar:"${this.failedChar}"\n`;
+        }
+        this.charMap.forEach((value,key) => {
+            result += `\t"${key}" => ${value}${value>1?"*":""}\n`
+        });
+        return result;
+    }
+}
+
+
+function runTests(dataArray,stats=true) {
+    let len = dataArray.length,
+        pass = 0,
+        fail = 0,
+        tests = [];
+
+    for (let i=0;i<len;i++) {
+        tests[i] = new Test(...dataArray[i],stats);
+        if (tests[i].test()) {
+          pass++;
+        } else {
+          fail++;
+        }
+    }
+    return {pass:pass,fail:fail,tests:tests}
+}
+
+function showResults(printId,tests) {
+    let len = tests.length,
+        test,
+        print = d3.select(`#${printId}`),
+        output = "";
+    
+    for (let i=0;i<len;i++) {
+        test = tests[i];
+        output = output + `test id = ${i},
+text = ${test.text},
+expected to return '${test.expect}',
+actual result='${test.found}'
+map:'${test.charMap?(test.toString()):""}'\n`;
+
+    }
+    print.html(escapeHTML(output));
+}
+
+function escapeHTML (html) {
+    regUnLT = /</g;
+    regUnGT = />/g;
+    regUnAmp = /&/g;
+    regTrue = /true/g;
+    regFalse=/false/g;
+
+    if (html == undefined || html == null) {
+        html = "";
+        return html;
+    }
+
+    return html
+        .replace(regUnAmp, "&amp;")
+        .replace(regUnGT, "&gt;")
+        .replace(regUnLT, "&lt;")
+        .replace(regTrue, "<span class='true'>true</span>")
+        .replace(regFalse, "<span class='false'>false</span>")
+}
+function prettify (json) {
+    let reg2osb = /\[\[/g,
+        regbcb = /\],\[/g,
+        reg2csb = /\]\]/g;
+
+        return json
+            .replace(reg2osb,"[\n[")
+            .replace(regbcb,"],\n\t[")
+            .replace(reg2csb,"]\n]"); 
+}
+</script>
+<style>
+html,
+head,
+body,
+pre,
+span {
+    margin:5px;
+    font-family:"Fira Code VF",monospace;
+}
+
+.true {
+    color:green;
+    font-weight:bold;
+    font-family:"Fira Code VF",monospace;
+}
+.false {
+    color: red;
+    font-weight:bold;
+    font-family:"Fira Code VF",monospace;
+}
+#outputContainer {
+    padding:4px;
+    background-color:#CCC;
+}
+#test-strings {
+    display: inline-block;
+    white-space:pre-line;
+}
+#test-strings[contenteditable="false"] {
+    background-color:rgba(200,0,0,.1);
+}
+#test-strings[contenteditable="true"] {
+    background-color:rgba(0,200,0,.1);
+}
+#test-strings[warning="invalid"] {
+    background-color:rgba(200,200,0,.6);
+}
+#rest-of-form,
+#rest-of-form button {
+    padding: 3px;
+    font-size: 1.2em;
+}
+</style>
+</head>
+<body>
+<form 
+    name="myform" 
+    onsubmit="return false" 
+    oninput="recalcTestStrings('test-strings')"
+    >
+<div id="outputContainer">
+  <output 
+    type="output" 
+    id="test-strings" 
+    name="test-strings" 
+    contenteditable="false"
+    warning="unknown"></output>
+</div>
+<div id="rest-of-form"> 
+  <button name="toggleEditMode" id="toggleEditMode" onClick="toggleEdit('test-strings')">Edit Test Strings</button>
+  Then
+  <button name="show" id="show" onClick="handleFormRequest('showStats')">Run Tests: Dups ? Or No</button>
+  Show Stats:<input type="checkbox" value="1" name="showStats" id="showStats" checked />
+</div>
+</form>
+
+<pre id="print">
+
+</pre>
+<script>
+var toggleEdit = function(elementId) {
+    let ele = document.getElementById(elementId),
+        cs = ele.getAttribute("contenteditable");
+    ele.setAttribute("contenteditable",(cs=="true"?"false":"true"));
+}
+var recalcTestStrings = function(elementId) {
+    let ele = document.getElementById(elementId),
+        currentState = ele.getAttribute("warning"),
+        possibleValidJSON = ele.value,
+        testParse;
+    try {
+        testParse = JSON.parse(possibleValidJSON);
+        currentState = "valid";
+    } catch (error) {
+        currentState = "invalid";
+        console.log(`!Test cases are currently invalid! error='${error}'`);
+    } finally {
+        ele.setAttribute("warning",currentState);
+    }
+    return {
+        currentState:currentState,
+        validValue:((currentState=="valid")
+            ? testParse
+            : testStrings)
+    }
+}
+function handleFormRequest(showStatsId) {
+    let showStats = document.getElementById(showStatsId).checked,
+        testStrings = recalcTestStrings("test-strings").validValue,
+        res = runTests(testStrings,showStats);
+    showResults("print",res.tests);
+}
+var formOutput;
+window.addEventListener('DOMContentLoaded', () => {
+    formOutput = document.getElementById("test-strings");
+    formOutput.value=prettify(JSON.stringify(testStrings));
+    handleFormRequest('showStats');
+});
+</script>
+</body>
+</html>

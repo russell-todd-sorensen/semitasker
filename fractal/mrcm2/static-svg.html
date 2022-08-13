@@ -468,7 +468,7 @@ svg g#main ellipse#ellipse1 {
         <use href="#item"/>
         <text>1</text>
         <animateMotion
-            begin="pris0.click"
+            begin="pris0.move"
             dur="1.5s"
             calcMode="spline"
             rotate="0"
@@ -478,7 +478,7 @@ svg g#main ellipse#ellipse1 {
             keyTimes="0; 0.25; 0.5; 0.75; 1"
             keySplines="0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1">
 <!-- keyPoints=".5; .75; 1.0"  #test1  #myHalfVerticalEllipsePathPlusReverse  -->
-           <mpath id="mpath-pris0" href="#test3" />
+           <mpath id="mpath-pris0" href="#path32" />
         </animateMotion>
     </g>
     <g id="pris1" class="data col1 row0" transform="translate(120,0)">
@@ -494,7 +494,7 @@ svg g#main ellipse#ellipse1 {
             values="0; .25; .35; .5; .35; .15; 0"
             keyTimes="0; 0.25; 0.5; 0.75; 1"
             keySplines="0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1">
-           <mpath href="#myHalfVerticalEllipsePathMinusReverse" />
+           <mpath href="#myHalfVerticalEllipsePathPlusReverse" />
         </animateMotion>
     </g>
     <g id="pris2" class="data col2 row0" transform="translate(240,0)">
@@ -580,19 +580,26 @@ svg g#main ellipse#ellipse1 {
         <use href="#item"/>
         <text>44</text>
     </g>
-     <!--<use href="#path32"/>
-   <g id="path-usage">
+</g>
+<g id="path-grid" class="path-grid" transform="translate(120,120)">
+    <!-- This group is used to hold paths which will overflow the data
+         area. This ensures that the data-grid bounding box remains 
+         unchanged so it can be used to locate data boxes as they are
+         moved around.
+     -->
+    <!-- <use href="#path32"/>
+    <g id="path-usage">
         <use href="#path1"/>
         <use href="#path2"/>
         <use href="#path4"/>
     </g> 
-    <use href="#myCircle"/>-->
+    <use href="#myCircle"/> -->
     <use href="#myHalfVerticalEllipsePathPlusReverse" />
     <use href="#myHalfVerticalEllipsePathMinusReverse" transform="translate(120,0)" />
+    <use href="#path32" />
     <use href="#test3" />
 </g>
 </g>
-<line x1="0" y1="0" x2="148" y2="439" stroke="yellow" stroke-width="2"/>
 </svg></div>
 <script>
 var cx = 55,
