@@ -434,7 +434,8 @@ class PrisonerSearch extends Visualization {
                     gy:gy,
                     content:content,
                     animId:animId,
-                    mpathId:mpathId
+                    mpathId:mpathId,
+                    currentLoc:index,
                 });
             }
         }
@@ -445,6 +446,9 @@ class PrisonerSearch extends Visualization {
     saveState(mode="form2url") {
         this.state.sync(this.state,mode);
         this.updateState();
+    }
+    moveDataItem(fromId,dataMapKey) {
+
     }
 }
 
