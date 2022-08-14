@@ -204,6 +204,7 @@ class PrisonerSearch extends Visualization {
     numPrisoners;
     numColumns;
     dataPositions = new Map();
+    currentLoc = new Map();
     superGrid={
         svg:{id:"svgvis",class:""},
         groupwrapper:{id:"file-box-room",class:"file-box-wrapper",x:20,y:20},
@@ -310,6 +311,16 @@ class PrisonerSearch extends Visualization {
         }
         this.superGrid = sgConfig;
         return this.superGrid;
+    }
+    getCurrentLoc(index) {
+        return this.currentLoc.get(index);
+    }
+    swapLocations(aIndex,bIndex) {
+        let aTmp = this.getCurrentLoc(aIndex),
+            bTmp = this.getCurrentLoc(bIndex);
+        this.currentLoc.set(aIndex,bTmp);
+        this.currentLoc.set(bIndex,aTmp);
+
     }
     getPageTemplate(selector) {
         let docFragment = null,
@@ -425,7 +436,7 @@ class PrisonerSearch extends Visualization {
                 }
                 fileBox.appendChild(animTemplate);
                 parent.appendChild(fileBox);
-
+                this.currentLoc.set(index,index);
                 this.dataPositions.set(index,{
                     gid:gid,
                     col:col,
@@ -435,7 +446,6 @@ class PrisonerSearch extends Visualization {
                     content:content,
                     animId:animId,
                     mpathId:mpathId,
-                    currentLoc:index,
                 });
             }
         }
