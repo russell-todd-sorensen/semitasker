@@ -203,8 +203,9 @@ class Visualization {
 class PrisonerSearch extends Visualization {
     numPrisoners;
     numColumns;
-    dataPositions = new Map();
-    currentLoc = new Map();
+    dataGeometry = new Map();
+    dataAnimMap  = new Map();
+    gidMap       = new Map();
     superGrid={
         svg:{id:"svgvis",class:""},
         groupwrapper:{id:"file-box-room",class:"file-box-wrapper",x:20,y:20},
@@ -217,6 +218,7 @@ class PrisonerSearch extends Visualization {
         colLabel:(col => col),
         rowLabel:(row => row),
         dataVals:((col,row) => {return row*10+col}),
+        dataId:((index) => {return index;})
     };
     constructor(state) {
         super({
@@ -312,15 +314,8 @@ class PrisonerSearch extends Visualization {
         this.superGrid = sgConfig;
         return this.superGrid;
     }
-    getCurrentLoc(index) {
-        return this.currentLoc.get(index);
-    }
-    swapLocations(aIndex,bIndex) {
-        let aTmp = this.getCurrentLoc(aIndex),
-            bTmp = this.getCurrentLoc(bIndex);
-        this.currentLoc.set(aIndex,bTmp);
-        this.currentLoc.set(bIndex,aTmp);
-
+    getGid(index) {
+        return this.gidMap.get(index);
     }
     getPageTemplate(selector) {
         let docFragment = null,
@@ -334,16 +329,8 @@ class PrisonerSearch extends Visualization {
         return clone;
     }
     getAnimationTemplate(selector) {
-        let docFragment = null,
-            firstElementChild = null,
-            clone = "";
-        if ('content' in document.createElement('template')) {
-            docFragment = document.querySelector(selector);
-            //firstElementChild = docFragment.content.firstElementChild;
-            //clone = firstElementChild.cloneNode(true);
-            clone = docFragment.cloneNode(true);
-        } 
-        return clone;
+        let docFragment = document.querySelector(selector);
+        return docFragment.cloneNode(true);
     }
     setupGrid(parentId,sgConfig=null) {
         this.sync();
@@ -436,16 +423,17 @@ class PrisonerSearch extends Visualization {
                 }
                 fileBox.appendChild(animTemplate);
                 parent.appendChild(fileBox);
-                this.currentLoc.set(index,index);
-                this.dataPositions.set(index,{
-                    gid:gid,
+                this.gidMap.set(index,gid);
+                this.dataAnimMap.set(gid,{
+                    content:content,
+                    animId:animId,
+                    mpathId:mpathId,
+                });
+                this.dataGeometry.set(index,{
                     col:col,
                     row:row,
                     gx:gx,
                     gy:gy,
-                    content:content,
-                    animId:animId,
-                    mpathId:mpathId,
                 });
             }
         }
@@ -457,8 +445,23 @@ class PrisonerSearch extends Visualization {
         this.state.sync(this.state,mode);
         this.updateState();
     }
-    moveDataItem(fromId,dataMapKey) {
-
+    swapData(aIndex,bIndex) {
+        let aGid = this.getGid(aIndex),
+            bGid = this.getGid(bIndex);
+        this.gidMap.set(bIndex,aGid);
+        this.gidMap.set(aIndex,bGid);
+    }
+    animateDataSwap(aIndex,bIndex) {
+        let didSwap = false;
+        if (aIndex === bIndex) {
+            return didSwap;
+        }
+        let aGid  = this.getGid(aIndex),
+            bGid  = this.getGid(bIndex),
+            aGeo  = this.dataGeometry.get(aIndex),
+            bGeo  = this.dataGeometry.get(bIndex),
+            aAnim = this.dataAnimMap.get(aGid),
+            bAnim = this.dataAnimMap.get(bGid);
     }
 }
 
