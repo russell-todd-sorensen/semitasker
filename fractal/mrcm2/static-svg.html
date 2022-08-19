@@ -383,7 +383,26 @@ svg g#main ellipse#ellipse1 {
     stroke:orange;
     stroke-width:2;
 }
-
+#test4 {
+    stroke:red;
+    stroke-width:2;
+}
+#test5 {
+    stroke:blue;
+    stroke-width:2;
+}
+#test6 {
+    stroke:green;
+    stroke-width:2;
+}
+#test7 {
+    stroke:purple;
+    stroke-width:2;
+}
+#test8 {
+    stroke:tan;
+    stroke-width:2;
+}
 </style>
 <defs id="defs">
     <!-- examples of path defs -->
@@ -411,6 +430,11 @@ svg g#main ellipse#ellipse1 {
 <path id="test1" d="M0,0a60,120 0 1,0 120,0a60,120 0 1,0 -120,0" />
 <path id="test2" d="M120,0a60,120 0 1,0 -120,0" />
 <path id="test3" d="M0,0 a120,150 0 1,0 240,0" />
+<path id="test4" d="M0,0 a120,120 45.000 1,0 120,120" />
+<path id="test5" d="M0,0 a120,120 45.000 1,1 120,120" />
+<path id="test6" d="M0,0 a120,120 45.000 0,1 120,120" />
+<path id="test7" d="M0,0 a120,120 45.000 0,0 120,120" />
+<path id="test8" d="M0,0 a60,60 45.000 1,0 120,120" />
 </defs>
 <rect id="bg" x="0" y="0" height="100%" width="100%"></rect>
 
@@ -598,9 +622,19 @@ svg g#main ellipse#ellipse1 {
     <use href="#myHalfVerticalEllipsePathMinusReverse" transform="translate(120,0)" />
     <use href="#path32" />
     <use href="#test3" />
+    <g transform="translate(0,360)">
+        <use href="#test4" />
+        <use href="#test5" />
+        <use href="#test6" />
+        <use href="#test7" />
+    </g>
+    <g transform="translate(360,360)">
+        <use href="#test8"/>
+    </g>
 </g>
 </g>
 </svg></div>
+
 <script>
 var cx = 55,
     cy = 88,
@@ -625,7 +659,22 @@ var calcSVGPathFromTo = function (
     }
 ) {
     // the starting point is always going to be (0,0)
-
+	
+	function temp(form){
+	var cx = parseFloat(form.cx.value, 10); 		
+	var cy = parseFloat(form.cy.value, 10); 		
+	var rx = parseFloat(form.rx.value, 10); 		
+	var ry = parseFloat(form.ry.value, 10); 		
+	var r = parseFloat(form.r.value, 10); 		
+	if (r>0){
+			rx = r;
+			ry = r;
+		}
+		var output = "M" + (cx-rx).toString() + "," + cy.toString();
+		output += "a" + rx.toString() + "," + ry.toString() + " 0 1,0 " + (2 * rx).toString() + ",0";
+		output += "a" + rx.toString() + "," + ry.toString() + " 0 1,0 " + (-2 * rx).toString() + ",0";
+		form.output.value = output;
+	}
 }
 
 </script>

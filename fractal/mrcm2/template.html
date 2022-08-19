@@ -350,6 +350,60 @@ window.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+<script>
+var cx = 55,
+    cy = 88,
+    rx = 65,
+    ry = 130;
+
+// M-10,88a65,130 0 1,0 130,0a65,130 0 1,0 -130,0
+//         cx=55
+//
+//
+var calcSVGPathFromTo = function (
+    options={
+        x1:0,
+        y1:0,
+        x2:120,
+        y2:120,
+        dir:1, // or 0
+        sweep:0,
+        xdim:120,
+        ydim:120
+    }
+) {
+    let dx = (options.x2 - options.x1),
+        dy = (options.y2 - options.y1),
+        h  = Math.sqrt(dx**2+dy**2),
+        sin = dy/h,
+        deg = (Math.asin(sin)*(180/Math.PI)).toFixed(3),
+        r  = h/2;
+
+    let p1 = `M${options.x1},${options.y1} a${dx},${dy} ${deg} 1,0 ${options.x2},${options.y2}`;
+    let p2 = `M${options.x1},${options.y1} a${dx/2},${dy/2} ${deg} 1,0 ${options.x2},${options.y2}`;
+
+
+    return {dx:dx,dy:dy,h:h,sin:sin,deg:deg,r:r,p1:p1,p2:p2}
+}
+// http://complexdan.com/svg-circleellipse-to-path-converter/
+function temp(form) {
+    var cx = parseFloat(form.cx.value, 10);
+    var cy = parseFloat(form.cy.value, 10);
+    var rx = parseFloat(form.rx.value, 10);
+    var ry = parseFloat(form.ry.value, 10);
+    var r = parseFloat(form.r.value, 10);
+    if (r>0){
+            rx = r;
+            ry = r;
+    }
+    var output = "M" + (cx-rx).toString() + "," + cy.toString();
+    output += "a" + rx.toString() + "," + ry.toString() + " 0 1,0 " + (2 * rx).toString() + ",0";
+    output += "a" + rx.toString() + "," + ry.toString() + " 0 1,0 " + (-2 * rx).toString() + ",0";
+    form.output.value = output;
+}
+
+
+</script>
 <div id="svg-container"></div>
 </body>
 </html>
