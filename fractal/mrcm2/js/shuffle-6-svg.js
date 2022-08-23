@@ -77,6 +77,8 @@ var getBoundingBoxPairSVG = function(from,to) {
         y2 = (toMid.y).toFixed(3),
         path=`M${x1}, ${y1} C${x2} ${y1} ${x1} ${y2} ${x2} ${y2}`;
     return {
+        fromItem:fromItem,
+        toItem:toItem,
         fromData:fromData,
         toData:toData,
         delta:delta,
@@ -206,6 +208,7 @@ class PrisonerSearch extends Visualization {
     dataGeometry = new Map();
     dataAnimMap  = new Map();
     gidMap       = new Map();
+    dataBbox = {};
     superGrid={
         svg:{id:"svgvis",class:""},
         groupwrapper:{id:"file-box-room",class:"file-box-wrapper",x:20,y:20},
@@ -332,6 +335,9 @@ class PrisonerSearch extends Visualization {
         let docFragment = document.querySelector(selector);
         return docFragment.cloneNode(true);
     }
+    getDataBbox() {
+        return this.dataBbox;
+    }
     setupGrid(parentId,sgConfig=null) {
         this.sync();
 
@@ -403,6 +409,7 @@ class PrisonerSearch extends Visualization {
                 fileBox.setAttribute("class",`data col${col} row${row}`);
                 fileBox.setAttribute("transform",`translate(${gx},${gy})`);
                 fileRect.setAttribute("href",`#item`);
+                fileRect.setAttribute("id",`bbox${index}`);
                 fileBox.appendChild(fileRect);
                 dContent.appendChild(content);
                 fileBox.appendChild(dContent);
@@ -437,6 +444,7 @@ class PrisonerSearch extends Visualization {
                 });
             }
         }
+        this.dataBbox = parent.getBoundingClientRect();
     }
     setupRowColLabels(parentId,labels={}) {
 
@@ -458,10 +466,69 @@ class PrisonerSearch extends Visualization {
         }
         let aGid  = this.getGid(aIndex),
             bGid  = this.getGid(bIndex),
+            //bbInf = getBoundingBoxPairSVG(aGid,bGid),
+            bbInf = getBoundingBoxPairSVG(`bbox${aIndex}`,`bbox${bIndex}`),
+            dataBbox = this.getDataBbox(),
+            relLocA = {
+                x:(bbInf.fromData.left - dataBbox.left),
+                y:(bbInf.fromData.top - dataBbox.top),
+            },
+            relLocB = {
+                x:(bbInf.toData.left - dataBbox.left),
+                y:(bbInf.toData.top - dataBbox.top),
+            },
             aGeo  = this.dataGeometry.get(aIndex),
             bGeo  = this.dataGeometry.get(bIndex),
             aAnim = this.dataAnimMap.get(aGid),
-            bAnim = this.dataAnimMap.get(bGid);
+            bAnim = this.dataAnimMap.get(bGid),
+            optionsA = {
+                x1:aGeo.gx,
+                x2:bGeo.gx,
+                y1:aGeo.gy,
+                y2:bGeo.gy,
+                sweep:0,
+                dir:1,
+                agx:aGeo.gx,
+                agy:aGeo.gy,
+                bgx:bGeo.gx,
+                bgy:bGeo.gy,
+                acx:relLocA.x,
+                acy:relLocA.y,
+                bcx:relLocB.x,
+                bcy:relLocB.y,
+            },
+            pathA = calcSVGPathFromTo(optionsA),
+            a2b   = pathA.a2b,
+            b2a   = pathA.b2a,
+            animA = document.getElementById(aAnim.animId),
+            animB = document.getElementById(bAnim.animId),
+            aGroup = document.getElementById(aGid),
+            bGroup = document.getElementById(bGid),
+            eventA = new Event("move"),
+            eventB = new Event('move');
+
+        animA.setAttribute("path",a2b);
+        animB.setAttribute("path",b2a);
+
+        // Draw path info. Note a=>x1,y1 and b=>x2,y2
+        let a2bPath = document.getElementById("a2bPath"),
+            b2aPath = document.getElementById("b2aPath"),
+            a2bLine = document.getElementById("a2bLine");
+
+        a2bPath.setAttribute("d",a2b);
+        a2bPath.setAttribute("transform",`translate(${aGeo.gx},${aGeo.gy})`);
+        b2aPath.setAttribute("d",b2a);
+        b2aPath.setAttribute("transform",`translate(${bGeo.gx},${bGeo.gy})`);
+        a2bLine.setAttribute("x1",aGeo.gx);
+        a2bLine.setAttribute("y1",aGeo.gy);
+        a2bLine.setAttribute("x2",bGeo.gx);
+        a2bLine.setAttribute("y2",bGeo.gy);
+
+        aGroup.setAttribute("transform",`translate(${aGeo.gx},${aGeo.gy})`);
+        bGroup.setAttribute("transform",`translate(${bGeo.gx},${bGeo.gy})`);
+        aGroup.dispatchEvent(eventA);
+        bGroup.dispatchEvent(eventB);
+        this.swapData(aIndex,bIndex);
     }
 }
 

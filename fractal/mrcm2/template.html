@@ -268,6 +268,20 @@ svg g#main ellipse#ellipse1 {
     transform: translate(1em,1.3em);
     fill:black;
 }
+#a2bPath {
+    fill:none;
+    stroke:yellowgreen;
+    stroke-width:2;
+}
+#b2aPath {
+    fill:none;
+    stroke:red;
+    stroke-width:2;
+}
+#a2bLine {
+    stroke:white;
+    stroke-width:2;
+}
 </style>
 <defs id="defs">
     <!-- examples of path defs -->
@@ -297,9 +311,8 @@ svg g#main ellipse#ellipse1 {
 <animateMotion
     id="animation-template"
     begin="pris0.click"
-    dur="1.5s"
+    dur="6s"
     calcMode="spline"
-    rotate="0"
     path=""
     repeatCount="1"
     fill="freeze"
@@ -311,7 +324,11 @@ svg g#main ellipse#ellipse1 {
 </filter>
 </defs>
 <rect id="bg" x="0" y="0" height="100%" width="100%" />
-
+<g id="path-display" transform="translate(140,140)">
+    <path id="a2bPath" transform="translate(0,0)" d="" />
+    <path id="b2aPath" transform="translate(0,0)" d="" />
+    <line id="a2bLine" x1="0" y1="0" x2="0" y2="0" />
+</g>
 </svg></template>
 <script>
 
@@ -361,30 +378,95 @@ var cx = 55,
 //
 //
 var calcSVGPathFromTo = function (
+    optionsUpdate
+) {
+    let options = Object.assign({
+            x1:0,
+            y1:0,
+            x2:120,
+            y2:120,
+            dir:1, // or 0
+            sweep:0,
+            xdim:120,
+            ydim:120,
+            minimizeArea:true,
+        }, optionsUpdate),
+        dx  = (options.x2 - options.x1),
+        dy  = (options.y2 - options.y1),
+        h   = Math.sqrt(dx**2+dy**2),
+        sin = dy/h,
+        deg = (Math.asin(sin)*(180/Math.PI)),
+         r  = h/2,
+        cx  = Math.abs(dx/2),
+        cy  = Math.abs(dy/2);
+        if (cx <= Number.EPSILON) {
+            dx = 0;
+            cx = r;
+        }
+        if (cy <= Number.EPSILON) {
+            dy = 0;
+            cy = r;
+        }
+        if (options.minimizeArea) {
+            if (deg >= 0) {
+                if (cy > 60 ) { //&& cy <= cx
+                    cy = 60;
+                }
+            } else if (deg < 0) {
+               // if (cx > 60 ) {//&& cx <= cy
+                //    cx = 60;
+                //}
+                cy = cx;
+            }
+        }
+
+    let a2b = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+        b2a = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`;
+
+
+    return {dx:dx,dy:dy,h:h,sin:sin,deg:deg,r:r,cx:cx,cy:cy,a2b:a2b,b2a:b2a};
+}
+var calcSVGPathsFromTo = function (
     options={
-        x1:0,
-        y1:0,
-        x2:120,
-        y2:120,
+        agx:0,
+        agy:0,
+        bgx:120,
+        bgy:120,
+        acx:0,
+        acy:0,
+        bcx:120,
+        bcy:0,
         dir:1, // or 0
         sweep:0,
         xdim:120,
-        ydim:120
+        ydim:120,
     }
 ) {
-    let dx = (options.x2 - options.x1),
-        dy = (options.y2 - options.y1),
+    return error;
+    let dx = (options.bcx - options.acx),
+        dy = (options.bcy - options.acy),
         h  = Math.sqrt(dx**2+dy**2),
         sin = dy/h,
-        deg = (Math.asin(sin)*(180/Math.PI)).toFixed(3),
-        r  = h/2;
+        deg = (Math.asin(sin)*(180/Math.PI)),
+         r = h/2,
+        cx = Math.abs(dx/2),
+        cy = Math.abs(dy/2);
+        if (cx <= Number.EPSILON) {
+            dx = 0;
+            cx = r;
+        }
+        if (cy <= Number.EPSILON) {
+            dy = 0;
+            cy = r;
+        }
 
-    let p1 = `M${options.x1},${options.y1} a${dx},${dy} ${deg} 1,0 ${options.x2},${options.y2}`;
-    let p2 = `M${options.x1},${options.y1} a${dx/2},${dy/2} ${deg} 1,0 ${options.x2},${options.y2}`;
+    let a2b = `M${options.acx.toFixed(3)},${options.acy.toFixed(3)} a${cx},${cy} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${(options.acx+dx).toFixed(3)},${(options.acy+dy).toFixed(3)}`,
+        b2a = `M${options.bcx.toFixed(3)},${options.bcy.toFixed(3)} a${cx},${cy} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${(options.bcx-dx).toFixed(3)},${(options.bcy-dy).toFixed(3)}`;
 
 
-    return {dx:dx,dy:dy,h:h,sin:sin,deg:deg,r:r,p1:p1,p2:p2}
+    return {dx:dx,dy:dy,h:h,sin:sin,deg:deg,r:r,cx:cx,cy:cy,a2b:a2b,b2a:b2a};
 }
+
 // http://complexdan.com/svg-circleellipse-to-path-converter/
 function temp(form) {
     var cx = parseFloat(form.cx.value, 10);
