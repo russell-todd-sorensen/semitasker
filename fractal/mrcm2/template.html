@@ -363,14 +363,6 @@ svg g#main ellipse#ellipse1 {
     <line id="a2bLine" x1="0" y1="0" x2="0" y2="0" />
     <circle id="centroid" cx="-500" cy="-500" r="3" />
 </g>
-<!--
-<g id="test-area" transform="translate(0,1000) scale(.25)">
-<path id="ellipseA" d="M0,0 a120,150 0 1,0 240,0" />
-<path id="ellipseB" transform="translate(500,0)" d="M0,0 a120,150 0 1,0 240,0" />
-<path id="ellipseC" transform="translate(0,500)" d="M0,0 a120,150 0 1,0 240,0" />
-<path id="ellipseD" transform="translate(500,500)" d="M0,0 a120,150 0 1,0 240,0" />
-</g>
--->
 </svg></template>
 <script>
 
@@ -441,7 +433,13 @@ var calcSVGPathFromTo = function (
         minx = options.x1<options.x2?options.x1:options.x2,
         miny = options.y1<options.y2?options.y1:options.y2,
         midx = minx+cx,
-        midy = miny+cy;
+        midy = miny+cy
+        pathData = {
+            pathDataA:"",
+            pathDataB:"",
+            pathDataC:"",
+            pathDataD:"",
+        };
 
         if (cx <= Number.EPSILON) {
             dx = 0;
@@ -460,7 +458,7 @@ var calcSVGPathFromTo = function (
                     pathDataC = `m0,0 a${halfXDim.toFixed(3)},${cy.toFixed(3)} 0 ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
                     pathDataD = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} 0 ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
                     ellipseA = document.getElementById(options.testEllipse[0]),
-                    ellipseB = document.getElementById(options.testEllipse[1])
+                    ellipseB = document.getElementById(options.testEllipse[1]),
                     ellipseC = document.getElementById(options.testEllipse[2]),
                     ellipseD = document.getElementById(options.testEllipse[3]);
                 ellipseA.setAttribute("d",pathDataA);
@@ -469,8 +467,26 @@ var calcSVGPathFromTo = function (
                 ellipseD.setAttribute("d",pathDataD);
                 let rectA = ellipseA.getBoundingClientRect(),
                     rectB = ellipseB.getBoundingClientRect(),
+                    rectC = ellipseC.getBoundingClientRect(),
+                    rectD = ellipseD.getBoundingClientRect(),
                     areaA = rectA.width*rectA.height,
-                    areaB = rectB.width*rectB.height;
+                    areaB = rectB.width*rectB.height,
+                    areaC = rectC.width*rectC.height,
+                    areaD = rectD.width*rectD.height;
+                pathData = {
+                    pathDataA:pathDataA,
+                    pathDataB:pathDataB,
+                    pathDataC:pathDataC,
+                    pathDataD:pathDataD,
+                    rectA:rectA,
+                    rectB:rectB,
+                    rectC:rectC,
+                    rectD:rectD,
+                    areaA:areaA,
+                    areaB:areaB,
+                    areaC:areaC,
+                    areaD:areaD,
+                }
                 if (areaA < areaB) {
                     cx = halfXDim;
                 } else {
@@ -499,7 +515,8 @@ var calcSVGPathFromTo = function (
         cx:cx,cy:cy,
         minx:minx,miny:miny,
         midx:midx,midy:midy,
-        a2b:a2b,b2a:b2a
+        a2b:a2b,b2a:b2a,
+        pathData:pathData,
     };
 }
 
