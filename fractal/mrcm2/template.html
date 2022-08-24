@@ -270,17 +270,49 @@ svg g#main ellipse#ellipse1 {
 }
 #a2bPath {
     fill:none;
-    stroke:yellowgreen;
-    stroke-width:2;
+    stroke:rgba(154, 205, 50,1);
+    stroke-width:3;
+    stroke-opacity: 1;
+    stroke-linecap:calc(stroke-width*2) round;
 }
 #b2aPath {
     fill:none;
-    stroke:red;
-    stroke-width:2;
+    stroke:rgba(210,0,0,1);
+    stroke-width:3;
+    stroke-opacity: 1;
+    stroke-linecap:round;
 }
 #a2bLine {
     stroke:white;
+    stroke-width:3;
+    stroke-opacity: 1;
+    stroke-linecap:round;
+}
+#centroid {
+    stroke:#800080;
+    stroke-opacity: .8;
     stroke-width:2;
+    fill:white;
+}
+#ellipseA{
+    stroke:#008080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseB {
+    stroke:#800080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseC {
+    stroke:#808000;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseD {
+    stroke:#808080;
+    stroke-width:3;
+    fill:none;
 }
 </style>
 <defs id="defs">
@@ -307,6 +339,7 @@ svg g#main ellipse#ellipse1 {
 <path id="test1" d="M0,0a60,120 0 1,0 120,0a60,120 0 1,0 -120,0" />
 <path id="test2" d="M120,0a60,120 0 1,0 -120,0" />
 <path id="test3" d="M0,0 a120,150 0 1,0 240,0" />
+<path id="find-least-area-ellipse" d="M0,0 a120,150 0 1,0 240,0" />
 <filter>
 <animateMotion
     id="animation-template"
@@ -328,7 +361,16 @@ svg g#main ellipse#ellipse1 {
     <path id="a2bPath" transform="translate(0,0)" d="" />
     <path id="b2aPath" transform="translate(0,0)" d="" />
     <line id="a2bLine" x1="0" y1="0" x2="0" y2="0" />
+    <circle id="centroid" cx="-500" cy="-500" r="3" />
 </g>
+<!--
+<g id="test-area" transform="translate(0,1000) scale(.25)">
+<path id="ellipseA" d="M0,0 a120,150 0 1,0 240,0" />
+<path id="ellipseB" transform="translate(500,0)" d="M0,0 a120,150 0 1,0 240,0" />
+<path id="ellipseC" transform="translate(0,500)" d="M0,0 a120,150 0 1,0 240,0" />
+<path id="ellipseD" transform="translate(500,500)" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
+-->
 </svg></template>
 <script>
 
@@ -373,10 +415,6 @@ var cx = 55,
     rx = 65,
     ry = 130;
 
-// M-10,88a65,130 0 1,0 130,0a65,130 0 1,0 -130,0
-//         cx=55
-//
-//
 var calcSVGPathFromTo = function (
     optionsUpdate
 ) {
@@ -385,11 +423,12 @@ var calcSVGPathFromTo = function (
             y1:0,
             x2:120,
             y2:120,
-            dir:1, // or 0
+            dir:1,
             sweep:0,
             xdim:120,
             ydim:120,
             minimizeArea:true,
+            testEllipse:[],
         }, optionsUpdate),
         dx  = (options.x2 - options.x1),
         dy  = (options.y2 - options.y1),
@@ -398,7 +437,12 @@ var calcSVGPathFromTo = function (
         deg = (Math.asin(sin)*(180/Math.PI)),
          r  = h/2,
         cx  = Math.abs(dx/2),
-        cy  = Math.abs(dy/2);
+        cy  = Math.abs(dy/2),
+        minx = options.x1<options.x2?options.x1:options.x2,
+        miny = options.y1<options.y2?options.y1:options.y2,
+        midx = minx+cx,
+        midy = miny+cy;
+
         if (cx <= Number.EPSILON) {
             dx = 0;
             cx = r;
@@ -408,84 +452,162 @@ var calcSVGPathFromTo = function (
             cy = r;
         }
         if (options.minimizeArea) {
-            if (deg >= 0) {
-                if (cy > 60 ) { //&& cy <= cx
-                    cy = 60;
+            if (options.testEllipse.length) {
+                let halfYDim  = options.ydim/2,
+                    halfXDim  = options.xdim/2,
+                    pathDataA = `m0,0 a${halfXDim.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+                    pathDataB = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
+                    pathDataC = `m0,0 a${halfXDim.toFixed(3)},${cy.toFixed(3)} 0 ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+                    pathDataD = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} 0 ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
+                    ellipseA = document.getElementById(options.testEllipse[0]),
+                    ellipseB = document.getElementById(options.testEllipse[1])
+                    ellipseC = document.getElementById(options.testEllipse[2]),
+                    ellipseD = document.getElementById(options.testEllipse[3]);
+                ellipseA.setAttribute("d",pathDataA);
+                ellipseB.setAttribute("d",pathDataB);
+                ellipseC.setAttribute("d",pathDataC);
+                ellipseD.setAttribute("d",pathDataD);
+                let rectA = ellipseA.getBoundingClientRect(),
+                    rectB = ellipseB.getBoundingClientRect(),
+                    areaA = rectA.width*rectA.height,
+                    areaB = rectB.width*rectB.height;
+                if (areaA < areaB) {
+                    cx = halfXDim;
+                } else {
+                    cy = halfYDim;
                 }
-            } else if (deg < 0) {
-               // if (cx > 60 ) {//&& cx <= cy
-                //    cx = 60;
-                //}
-                cy = cx;
+            } else {
+                if (deg >= 0) {
+                    if (cy > 60 ) {
+                        cy = 60;
+                    }
+                } else if (deg < 0) {
+                    cy = cx;
+                }
             }
         }
 
     let a2b = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
         b2a = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`;
 
-
-    return {dx:dx,dy:dy,h:h,sin:sin,deg:deg,r:r,cx:cx,cy:cy,a2b:a2b,b2a:b2a};
-}
-var calcSVGPathsFromTo = function (
-    options={
-        agx:0,
-        agy:0,
-        bgx:120,
-        bgy:120,
-        acx:0,
-        acy:0,
-        bcx:120,
-        bcy:0,
-        dir:1, // or 0
-        sweep:0,
-        xdim:120,
-        ydim:120,
-    }
-) {
-    return error;
-    let dx = (options.bcx - options.acx),
-        dy = (options.bcy - options.acy),
-        h  = Math.sqrt(dx**2+dy**2),
-        sin = dy/h,
-        deg = (Math.asin(sin)*(180/Math.PI)),
-         r = h/2,
-        cx = Math.abs(dx/2),
-        cy = Math.abs(dy/2);
-        if (cx <= Number.EPSILON) {
-            dx = 0;
-            cx = r;
-        }
-        if (cy <= Number.EPSILON) {
-            dy = 0;
-            cy = r;
-        }
-
-    let a2b = `M${options.acx.toFixed(3)},${options.acy.toFixed(3)} a${cx},${cy} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${(options.acx+dx).toFixed(3)},${(options.acy+dy).toFixed(3)}`,
-        b2a = `M${options.bcx.toFixed(3)},${options.bcy.toFixed(3)} a${cx},${cy} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${(options.bcx-dx).toFixed(3)},${(options.bcy-dy).toFixed(3)}`;
-
-
-    return {dx:dx,dy:dy,h:h,sin:sin,deg:deg,r:r,cx:cx,cy:cy,a2b:a2b,b2a:b2a};
+    return {
+        dx:dx,dy:dy,
+        h:h,
+        sin:sin,
+        deg:deg,
+        r:r,
+        cx:cx,cy:cy,
+        minx:minx,miny:miny,
+        midx:midx,midy:midy,
+        a2b:a2b,b2a:b2a
+    };
 }
 
-// http://complexdan.com/svg-circleellipse-to-path-converter/
-function temp(form) {
-    var cx = parseFloat(form.cx.value, 10);
-    var cy = parseFloat(form.cy.value, 10);
-    var rx = parseFloat(form.rx.value, 10);
-    var ry = parseFloat(form.ry.value, 10);
-    var r = parseFloat(form.r.value, 10);
-    if (r>0){
-            rx = r;
-            ry = r;
+var testCalcPath = function(dataUpdate) {
+
+    let data = Object.assign({
+            minX:0,
+            minY:0,
+            maxX:480,
+            maxY:480,
+            stepX:120,
+            stepY:120,
+            sweep:0,
+            dir:1,
+            xdim:120, // width of box + spacing
+            ydim:120, // height of box + spacing
+            minimizeArea:true,
+            maxPoints:5,
+            startPoint:1,
+        }, dataUpdate),
+        maxPoints = data.maxPoints,
+        startPoint = data.startPoint,
+        endPoint = startPoint+maxPoints-1,
+        point = 0,
+        results = [];
+
+    bigloop:
+    for (let y1 = data.minY;y1<=data.maxY;y1+=data.stepY) {
+        for (let x1 = data.minX;x1<=data.maxX;x1+=data.stepX) {
+            for (let y2 = data.minY;y2<=data.maxY;y2+=data.stepY) {
+                for (let x2 = data.minX;x2<=data.maxX;x2+=data.stepX) {
+                    point++;
+                    if (point < startPoint) {
+                        continue;
+                    }
+                    let input = {
+                        x1:x1,
+                        y1:y1,
+                        x2:x2,
+                        y2:y2,
+                        dir:data.dir,
+                        sweep:data.sweep,
+                        xdim:data.xdim,
+                        ydim:data.ydim,
+                    },
+                    result = Object.assign(input,
+                        calcSVGPathFromTo(input));
+                    results.push(result);
+                    if (point >= endPoint) {
+                        break bigloop;
+                    }
+                }
+            }
+        }
     }
-    var output = "M" + (cx-rx).toString() + "," + cy.toString();
-    output += "a" + rx.toString() + "," + ry.toString() + " 0 1,0 " + (2 * rx).toString() + ",0";
-    output += "a" + rx.toString() + "," + ry.toString() + " 0 1,0 " + (-2 * rx).toString() + ",0";
-    form.output.value = output;
+    return results;
 }
 
 
 </script>
 <div id="svg-container"></div>
+<div id="svg-test-container">
+<svg
+    id="svg-test"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="2000"
+    height="2000"
+    >
+<defs>
+<style>
+#ellipseA {
+    stroke:#008080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseB {
+    stroke:#800080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseC {
+    stroke:#808000;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseD {
+    stroke:#808080;
+    stroke-width:3;
+    fill:none;
+}
+</style>
+<path id="ellipseA" d="M0,0 a120,150 0 1,0 240,0" />
+<path id="ellipseB" transform="translate(700,0)" d="M0,0 a120,150 0 1,0 240,0" />
+<path id="ellipseC" transform="translate(0,700)" d="M0,0 a120,150 0 1,0 240,0" />
+<path id="ellipseD" transform="translate(700,700)" d="M0,0 a120,150 0 1,0 240,0" />
+</defs>
+
+<g id="test-area" transform="translate(150,500) scale(.5)">
+    <use href="#ellipseA" />
+    <use href="#ellipseB" />
+    <use href="#ellipseC" />
+    <use href="#ellipseD" />
+</g>
+</svg>
+</div>
 </body>
 </html>

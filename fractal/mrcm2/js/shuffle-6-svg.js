@@ -496,6 +496,7 @@ class PrisonerSearch extends Visualization {
                 acy:relLocA.y,
                 bcx:relLocB.x,
                 bcy:relLocB.y,
+                testEllipse:["ellipseA","ellipseB","ellipseC","ellipseD"],
             },
             pathA = calcSVGPathFromTo(optionsA),
             a2b   = pathA.a2b,
@@ -513,7 +514,8 @@ class PrisonerSearch extends Visualization {
         // Draw path info. Note a=>x1,y1 and b=>x2,y2
         let a2bPath = document.getElementById("a2bPath"),
             b2aPath = document.getElementById("b2aPath"),
-            a2bLine = document.getElementById("a2bLine");
+            a2bLine = document.getElementById("a2bLine"),
+            centroid = document.getElementById("centroid");
 
         a2bPath.setAttribute("d",a2b);
         a2bPath.setAttribute("transform",`translate(${aGeo.gx},${aGeo.gy})`);
@@ -523,7 +525,9 @@ class PrisonerSearch extends Visualization {
         a2bLine.setAttribute("y1",aGeo.gy);
         a2bLine.setAttribute("x2",bGeo.gx);
         a2bLine.setAttribute("y2",bGeo.gy);
-
+        centroid.setAttribute("cx",pathA.midx);
+        centroid.setAttribute("cy",pathA.midy);
+        console.log(`r=${pathA.r},a2b=${a2b},b2a=${b2a}`)
         aGroup.setAttribute("transform",`translate(${aGeo.gx},${aGeo.gy})`);
         bGroup.setAttribute("transform",`translate(${bGeo.gx},${bGeo.gy})`);
         aGroup.dispatchEvent(eventA);
