@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>100 Prisoners&apos; Strategy</title>
+<link rel="stylesheet" href="/css/main.css" media="all">
+<style>
+html,
+head {
+    background-color: #aaa;
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+form {
+    display: inline;
+}
+button {
+    margin-left: 2px;
+}
+ul,
+li {
+    display: inline-block;
+}
+fieldset {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+legend {
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    display: inline-block;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 130px;
+}
+input {
+    width: 130px;
+}
+label.check {
+    width: 50px;
+}
+label.check.wide {
+    width: 130px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js" defer async></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer async></script>
+<script src="js/probability-and-stats.js" defer async></script>
+<script src="js/shuffle-6-svg.js"></script>
+<script src="js/shuffle-6-svg-strategy.js" defer async></script>
+</head>
+<body>
+
+<div id="controls">
+<form id="form1"
+    action=""
+    method="GET"
+    oninput="rows.value=Math.ceil(parseInt(gSize.value)/parseInt(cols.value))"
+    onSubmit="() => {return false;}">
+<fieldset id="fs1">
+<ul id="ul1">
+<li>
+    <label for="gSize">Prisoners</label>
+    <input id="gSize" name="gSize" value="10" type="number" min="1" step="1" >
+</li>
+<li>
+    <label for="cols">Columns</label>
+    <input id="cols" name="cols" value="5" type="number" min="1" step="1" >
+</li>
+<li>
+    <label>Rows</label><output id="rows" name="rows" form="form1" ></output>
+</li>
+</ul>
+<ul id="ul2">
+<li>
+    <input type="button" value="Setup File Boxes" onClick="myPrisonerSearch.setupGrid('svg-container');">
+</li>
+<li>
+    <input type="button" value="Run Strategy" onClick="initFollowNumbers('form1');">
+</li>
+</ul>
+</fieldset>
+</form>
+</div>
+<div id="file-box-room">
+    <p>ooo</p>
+</div>
+<div id="ideasAndCommentary" >
+<li>
+    intro first show how to sort 100 items in only 100 operations.
+</li>
+</div>
+<style id="form-grid-style">
+#controls {
+    display:grid;
+    font-size: 3em;
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    grid-auto-columns: 100px;
+}
+#ul1 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, auto);
+    padding-inline-start: 0;
+}
+#ul2 {
+    display: grid;
+    grid-template-columns: repeat(2, auto);
+    padding-inline-start: 0;
+}
+#ul1 > li,
+#ul2 > li {
+    display: grid;
+    grid-template-columns: auto;
+}
+#ul1 input,
+#ul1 output,
+#ul2 input {
+    font-size: inherit;
+    text-align: right;
+    width: 9ch;
+}
+
+#ul1 output {
+    background-color: #eee;
+    padding-right: .5ch;
+    border: 1px inset #222;
+    border-radius: .05em;
+    font-size: 1.05em;
+}
+
+#ul2 input[type="button"] {
+    width: auto;
+    display: inline;
+    margin: auto;
+}
+</style>
+<style id="file-box-style">
+
+#file-box-room #anchor,
+#file-box-room #row-heads,
+#file-box-room #col-heads,
+#file-box-room #data-grid  {
+    border: 0.5px solid rgba(255,0,0,.5);
+    gap: 10px;
+}
+#file-box-room div.data {
+    height: 100px;
+    width: 100px;
+    border: 1px solid rgba(0,0,0,.5);
+    text-align:center;
+    vertical-align:middle;
+    border-radius: 10px; 
+    line-height: 2em;
+}
+</style>
+<style id="dynamic-grid-style">
+#file-box-room {
+    fill: transparent;
+    background-color:transparent;
+}
+
+#file-box-room #anchor rect,
+#file-box-room #col-heads rect,
+#file-box-room #row-heads rect,
+#file-box-room #data-grid rect {
+    height: 100px;
+    width: 100px;
+    fill:transparent;
+    background-color:transparent;
+    border: 1px solid rgba(0,0,0,.5);
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 10px;
+    line-height: 2em;
+    font-size: 3em;
+}
+#file-box-room #data-grid div.row-col {
+    border: 1px solid rgba(0,0,0,0.01);
+    color: rgba(0,0,0,0.01);
+    font-size: 2px;
+    text-align: center;
+    vertical-align: middle;
+}
+</style>
+<style id="dynamic-box-style">
+
+</style>
+<!-- reuseable template for svg doc-->
+<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template -->
+
+<template id="svg-template" type="image/svg+xml"><svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="100%"
+    height="100%"
+    >
+<style id="svg-styles">
+svg#svgvis {
+    fill:transparent;
+    background-color:transparent;
+    stroke:white;
+    stroke-width:2;
+}
+svg g#main rect#bg,
+svg g#main ellipse#ellipse1 {
+    fill: transparent;
+    background-color: transparent;
+    stroke: white;
+    stroke-width: 2;
+}
+#path3 {
+    stroke: yellow;
+    stroke-width:2;
+}
+#path4 {
+    stroke: cyan;
+    stroke-width:2;
+}
+#path1 {
+    stroke: purple;
+    stroke-width:2;
+}
+#item {
+    stroke: black;
+    stroke-width: 1;
+    fill: transparent;
+    text-anchor:middle;
+    font-size:3em;
+}
+#item text,
+#item-rect {
+    stroke: inherit;
+    stroke-width: inherit;
+    font-size: inherit;
+    fill: inherit;
+    text-anchor: inherit;
+}
+#file-box-room #atext text,
+#file-box-room #col-heads text,
+#file-box-room #row-heads text,
+#file-box-room #data-grid text {
+    stroke:none;
+    font-size: 3em;
+    text-anchor:middle;
+    transform: translate(1em,1.3em);
+    fill:black;
+}
+#a2bPath {
+    fill:none;
+    stroke:rgba(154, 205, 50,1);
+    stroke-width:3;
+    stroke-opacity: 1;
+    stroke-linecap:calc(stroke-width*2) round;
+}
+#b2aPath {
+    fill:none;
+    stroke:rgba(210,0,0,1);
+    stroke-width:3;
+    stroke-opacity: 1;
+    stroke-linecap:round;
+}
+#a2bLine {
+    stroke:white;
+    stroke-width:3;
+    stroke-opacity: 1;
+    stroke-linecap:round;
+}
+#centroid {
+    stroke:#800080;
+    stroke-opacity: .8;
+    stroke-width:2;
+    fill:white;
+}
+#ellipseA{
+    stroke:#008080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseB {
+    stroke:#800080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseC {
+    stroke:#808000;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseD {
+    stroke:#808080;
+    stroke-width:3;
+    fill:none;
+}
+</style>
+<defs id="defs">
+    <!-- examples of path defs -->
+<path id="path1" transform="translate(244,0)" d="M51.000, 51.000 C173.500 51.000 51.000 51.000 173.500 51.000"/>
+<path id="path2" transform="translate(0,122.5)" d="M51.000, 51.000 C173.500 51.000 51.000 295.000 173.500 295.000"/>
+<path id="path3" d="M51.000, 51.000 C418.500 51.000 51.000 295.000 418.500 295.000"/>
+<path id="path4" transform="translate(0,488)" d="M51.000, 51.000 C418.500 51.000 51.000 -71.000 418.500 -71.000"/>
+<ellipse transform="translate(50%,50%)" id="ellipse1" cx="50%" cy="50%" rx="50%" ry="50%"/>
+<g id="item">
+    <rect id="item-rect" x="0" y="0" height="100" width="100" rx="10" ry="10" />
+</g>
+
+<circle id="myCircle" r="60" cx="60" cy="0" />
+<line id="myLine" x1="0" y1="0" x2="120" y2="0"/>
+<path id="myCirclePath" d="M0,0a60,60 0 1,0 120,0a60,60 0 1,0 -120,0" />
+<path id="myHorizontalEllipsePath" d="M0,0a120,60 0 1,0 240,0a120,60 0 1,0 -240,0" />
+<path id="myVerticalEllipsePath" d="M0,0a60,120 0 1,0 120,0a60,120 0 1,0 -120,0" />
+<path id="myHalfVerticalEllipsePathPlus" d="M0,0a60,120 0 1,0 120,0" />
+<path id="myHalfVerticalEllipsePathMinus" d="M0,0a-60,-120 0 1,0 -120,0" />
+<path id="myHalfVerticalEllipsePathPlusReverse" d="M0,0a60,120 0 1,1 120,0" />
+<path id="myHalfVerticalEllipsePathMinusReverse" d="M0,0a-60,-120 0 1,1 -120,0" />
+<path id="for-pris0" d="" />
+<path id="test1" d="M0,0a60,120 0 1,0 120,0a60,120 0 1,0 -120,0" />
+<path id="test2" d="M120,0a60,120 0 1,0 -120,0" />
+<path id="test3" d="M0,0 a120,150 0 1,0 240,0" />
+<path id="find-least-area-ellipse" d="M0,0 a120,150 0 1,0 240,0" />
+<filter>
+<animateMotion
+    id="animation-template"
+    begin="pris0.click"
+    dur="6s"
+    calcMode="spline"
+    path=""
+    repeatCount="1"
+    fill="freeze"
+    values="0; .25; .35; .5; .35; .15; 0"
+    keyTimes="0; 0.25; 0.5; 0.75; 1"
+    keySplines="0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1">
+    <mpath id="mp0" href="" />
+</animateMotion>
+</filter>
+</defs>
+<rect id="bg" x="0" y="0" height="100%" width="100%" />
+<g id="path-display" transform="translate(140,140)">
+    <path id="a2bPath" transform="translate(0,0)" d="" />
+    <path id="b2aPath" transform="translate(0,0)" d="" />
+    <line id="a2bLine" x1="0" y1="0" x2="0" y2="0" />
+    <circle id="centroid" cx="-500" cy="-500" r="3" />
+</g>
+</svg></template>
+<script>
+
+var pState,
+    myVis,
+    myPrisonerSearch;
+
+var config = {
+    mode: "url2form",
+    map: [
+        {
+            urlvar:"gs",
+            default:10,
+            form:"form1",
+            formvar:"gSize",
+            param:"numPrisoners",
+        },
+        {
+            urlvar:"cols",
+            default:5,
+            form:"form1",
+            formvar:"cols",
+            param:"numColumns",
+        },
+    ],
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    // The current state of url and form is gathered here:
+    pState = new PageState({
+        config: config,
+        events: [{target:"form1",desc:["input",{"bubbles":true, "cancelable":false}]}]
+    });
+    
+    myPrisonerSearch = new PrisonerSearch(pState);
+
+});
+</script>
+<script>
+var cx = 55,
+    cy = 88,
+    rx = 65,
+    ry = 130;
+
+var calcSVGPathFromTo = function (
+    optionsUpdate
+) {
+    let options = Object.assign({
+            x1:0,
+            y1:0,
+            x2:120,
+            y2:120,
+            dir:1,
+            sweep:0,
+            xdim:120,
+            ydim:120,
+            minimizeArea:true,
+            testEllipse:[],
+        }, optionsUpdate),
+        dx  = (options.x2 - options.x1),
+        dy  = (options.y2 - options.y1),
+        h   = Math.sqrt(dx**2+dy**2),
+        sin = dy/h,
+        deg = (Math.asin(sin)*(180/Math.PI)),
+         r  = h/2,
+        cx  = Math.abs(dx/2),
+        cy  = Math.abs(dy/2),
+        minx = options.x1<options.x2?options.x1:options.x2,
+        miny = options.y1<options.y2?options.y1:options.y2,
+        midx = minx+cx,
+        midy = miny+cy
+        pathData = {
+            pathDataA:"",
+            pathDataB:"",
+            pathDataC:"",
+            pathDataD:"",
+        };
+
+        if (cx <= Number.EPSILON) {
+            dx = 0;
+            cx = r;
+        }
+        if (cy <= Number.EPSILON) {
+            dy = 0;
+            cy = r;
+        }
+        if (options.minimizeArea) {
+            if (options.testEllipse.length) {
+                let halfYDim  = options.ydim/2,
+                    halfXDim  = options.xdim/2,
+                    pathDataA = `m0,0 a${halfXDim.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+                    pathDataB = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
+                    pathDataC = `m0,0 a${halfXDim.toFixed(3)},${cy.toFixed(3)} 0 ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+                    pathDataD = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} 0 ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
+                    ellipseA = document.getElementById(options.testEllipse[0]),
+                    ellipseB = document.getElementById(options.testEllipse[1]),
+                    ellipseC = document.getElementById(options.testEllipse[2]),
+                    ellipseD = document.getElementById(options.testEllipse[3]);
+                ellipseA.setAttribute("d",pathDataA);
+                ellipseB.setAttribute("d",pathDataB);
+                ellipseC.setAttribute("d",pathDataA);
+                ellipseC.setAttribute("transform",`rotate(${((-1)*deg).toFixed(3)})`);
+                ellipseD.setAttribute("d",pathDataB);
+                ellipseD.setAttribute("transform",`rotate(${((-1)*deg).toFixed(3)})`);
+                //ellipseC.setAttribute("d",pathDataC);
+                //ellipseD.setAttribute("d",pathDataD);
+                let rectA = ellipseA.getBoundingClientRect(),
+                    rectB = ellipseB.getBoundingClientRect(),
+                    rectC = ellipseC.getBoundingClientRect(),
+                    rectD = ellipseD.getBoundingClientRect(),
+                    areaA = rectA.width*rectA.height,
+                    areaB = rectB.width*rectB.height,
+                    areaC = rectC.width*rectC.height,
+                    areaD = rectD.width*rectD.height;
+                pathData = {
+                    pathDataA:pathDataA,
+                    pathDataB:pathDataB,
+                    pathDataC:pathDataC,
+                    pathDataD:pathDataD,
+                    pathDataC:pathDataA,
+                    pathDataD:pathDataB,
+                    rectA:rectA,
+                    rectB:rectB,
+                    rectC:rectC,
+                    rectD:rectD,
+                    areaA:areaA,
+                    areaB:areaB,
+                    areaC:areaC,
+                    areaD:areaD,
+                }
+                if (areaA < areaB) {
+                    //options.ydim/2
+                    cx = halfXDim;
+                    //cy = h;
+                } else {
+                    cy = halfYDim;
+                    //cx = h;
+                }
+            } else {
+                if (cx > cy) {
+                    cx = h;
+                    cy = options.ydim/2;
+                } else {
+                    cy = h;
+                    cx = options.xdim/2;
+                }
+                if (false) {
+                    if (deg >= 0) {
+                        if (cy > 60 ) {
+                            cy = 60;
+                        }
+                    } else if (deg < 0) {
+                        cy = cx;
+                    }
+                }
+            }
+        }
+
+    let a2b = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+        b2a = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`;
+
+    return {
+        dx:dx,dy:dy,
+        h:h,
+        sin:sin,
+        deg:deg,
+        r:r,
+        cx:cx,cy:cy,
+        minx:minx,miny:miny,
+        midx:midx,midy:midy,
+        a2b:a2b,b2a:b2a,
+        pathData:pathData,
+    };
+}
+
+var testCalcPath = function(dataUpdate) {
+
+    let data = Object.assign({
+            minX:0,
+            minY:0,
+            maxX:480,
+            maxY:480,
+            stepX:120,
+            stepY:120,
+            sweep:0,
+            dir:1,
+            xdim:120, // width of box + spacing
+            ydim:120, // height of box + spacing
+            minimizeArea:true,
+            maxPoints:5,
+            startPoint:1,
+        }, dataUpdate),
+        maxPoints = data.maxPoints,
+        startPoint = data.startPoint,
+        endPoint = startPoint+maxPoints-1,
+        point = 0,
+        results = [];
+
+    bigloop:
+    for (let y1 = data.minY;y1<=data.maxY;y1+=data.stepY) {
+        for (let x1 = data.minX;x1<=data.maxX;x1+=data.stepX) {
+            for (let y2 = data.minY;y2<=data.maxY;y2+=data.stepY) {
+                for (let x2 = data.minX;x2<=data.maxX;x2+=data.stepX) {
+                    point++;
+                    if (point < startPoint) {
+                        continue;
+                    }
+                    let input = {
+                        x1:x1,
+                        y1:y1,
+                        x2:x2,
+                        y2:y2,
+                        dir:data.dir,
+                        sweep:data.sweep,
+                        xdim:data.xdim,
+                        ydim:data.ydim,
+                    },
+                    result = Object.assign(input,
+                        calcSVGPathFromTo(input));
+                    results.push(result);
+                    if (point >= endPoint) {
+                        break bigloop;
+                    }
+                }
+            }
+        }
+    }
+    return results;
+}
+
+
+</script>
+<div id="svg-container"></div>
+<div id="svg-test-container">
+<svg
+    id="svg-test"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="2000"
+    height="2000"
+    >
+<defs>
+<style>
+#ellipseA {
+    stroke:#008080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseB {
+    stroke:#800080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseC {
+    stroke:#808000;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseD {
+    stroke:#808080;
+    stroke-width:3;
+    fill:none;
+}
+#xyCoords {
+    stroke:white;
+    stroke-width:2;
+    stroke-dasharray: 4,1;
+    fill:none;
+}
+</style>
+<path id="xyCoords" d="M-500,0 L-500,0 500,0 M0,-500 L0,-500 0,500" />
+<g id="ellipseGroupA">
+    <use href="#xyCoords" />
+    <path id="ellipseA" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
+
+<g id="ellipseGroupB" transform="translate(1050,0)">
+    <use href="#xyCoords" />
+    <path id="ellipseB" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
+<g id="ellipseGroupC" transform="translate(0,1050)">
+    <use href="#xyCoords" />
+    <path id="ellipseC" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
+<g id="ellipseGroupD" transform="translate(1050,1050)">
+    <use href="#xyCoords" />
+    <path id="ellipseD" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
+</defs>
+
+<g id="test-area" transform="translate(250,250) scale(.5)">
+    <use href="#ellipseGroupA" />
+    <use href="#ellipseGroupB" />
+    <use href="#ellipseGroupC" />
+    <use href="#ellipseGroupD" />
+</g>
+</svg>
+</div>
+</body>
+</html>
