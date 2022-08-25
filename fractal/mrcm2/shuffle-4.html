@@ -605,7 +605,7 @@ window.addEventListener('DOMContentLoaded', () => {
     offset-path: path("M51.000, 51.000 C173.500 51.000 51.000 295.000 173.500 295.000");
     offset-path: path("M51.000, 51.000 C418.500 51.000 51.000 539.000 418.500 539.000");
     offset-path: path("M51.000, 51.000 C418.500 51.000 51.000 295.000 418.500 295.000");
-    animation: move 3000ms 4 ease-in-out; 
+    animation: move 3000ms 3 ease-in-out; 
     animation-fill-mode:forwards;
     animation-direction:alternate
 }
@@ -667,10 +667,10 @@ window.addEventListener('DOMContentLoaded', () => {
 #pris11 {
     offset-path: path("M51.000, 51.000 C-316.500 51.000 51.000 295.000 -316.500 295.000");
     offset-path: path("M51.000, 51.000 C-316.500 51.000 51.000 -193.000 -316.500 -193.000");
-    animation: move 3000ms 3 ease-in-out;
+    animation: move 3000ms 1 ease-in-out;
     animation: move-and-rotate 3000ms 4 alternate forwards ease-in-out;
     animation-fill-mode: forwards;
-    animation-direction: alternate;
+    /*animation-direction: alternate;*/
 }
 
 @keyframes move {
@@ -678,7 +678,7 @@ window.addEventListener('DOMContentLoaded', () => {
     offset-distance: 0%;
   }
   100% {
-    offset-distance: 100%;
+    offset-distance: 50%;
   }
 }
 @keyframes move-and-rotate {

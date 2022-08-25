@@ -463,8 +463,12 @@ var calcSVGPathFromTo = function (
                     ellipseD = document.getElementById(options.testEllipse[3]);
                 ellipseA.setAttribute("d",pathDataA);
                 ellipseB.setAttribute("d",pathDataB);
-                ellipseC.setAttribute("d",pathDataC);
-                ellipseD.setAttribute("d",pathDataD);
+                ellipseC.setAttribute("d",pathDataA);
+                ellipseC.setAttribute("transform",`rotate(${((-1)*deg).toFixed(3)})`);
+                ellipseD.setAttribute("d",pathDataB);
+                ellipseD.setAttribute("transform",`rotate(${((-1)*deg).toFixed(3)})`);
+                //ellipseC.setAttribute("d",pathDataC);
+                //ellipseD.setAttribute("d",pathDataD);
                 let rectA = ellipseA.getBoundingClientRect(),
                     rectB = ellipseB.getBoundingClientRect(),
                     rectC = ellipseC.getBoundingClientRect(),
@@ -478,6 +482,8 @@ var calcSVGPathFromTo = function (
                     pathDataB:pathDataB,
                     pathDataC:pathDataC,
                     pathDataD:pathDataD,
+                    pathDataC:pathDataA,
+                    pathDataD:pathDataB,
                     rectA:rectA,
                     rectB:rectB,
                     rectC:rectC,
@@ -488,17 +494,29 @@ var calcSVGPathFromTo = function (
                     areaD:areaD,
                 }
                 if (areaA < areaB) {
+                    //options.ydim/2
                     cx = halfXDim;
+                    //cy = h;
                 } else {
                     cy = halfYDim;
+                    //cx = h;
                 }
             } else {
-                if (deg >= 0) {
-                    if (cy > 60 ) {
-                        cy = 60;
+                if (cx > cy) {
+                    cx = h;
+                    cy = options.ydim/2;
+                } else {
+                    cy = h;
+                    cx = options.xdim/2;
+                }
+                if (false) {
+                    if (deg >= 0) {
+                        if (cy > 60 ) {
+                            cy = 60;
+                        }
+                    } else if (deg < 0) {
+                        cy = cx;
                     }
-                } else if (deg < 0) {
-                    cy = cx;
                 }
             }
         }
@@ -623,16 +641,26 @@ var testCalcPath = function(dataUpdate) {
     <use href="#xyCoords" />
     <path id="ellipseA" d="M0,0 a120,150 0 1,0 240,0" />
 </g>
-<path id="ellipseB" transform="translate(700,0)" d="M0,0 a120,150 0 1,0 240,0" />
-<path id="ellipseC" transform="translate(0,700)" d="M0,0 a120,150 0 1,0 240,0" />
-<path id="ellipseD" transform="translate(700,700)" d="M0,0 a120,150 0 1,0 240,0" />
+
+<g id="ellipseGroupB" transform="translate(1050,0)">
+    <use href="#xyCoords" />
+    <path id="ellipseB" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
+<g id="ellipseGroupC" transform="translate(0,1050)">
+    <use href="#xyCoords" />
+    <path id="ellipseC" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
+<g id="ellipseGroupD" transform="translate(1050,1050)">
+    <use href="#xyCoords" />
+    <path id="ellipseD" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
 </defs>
 
-<g id="test-area" transform="translate(150,500) scale(.5)">
+<g id="test-area" transform="translate(250,250) scale(.5)">
     <use href="#ellipseGroupA" />
-    <use href="#ellipseB" />
-    <use href="#ellipseC" />
-    <use href="#ellipseD" />
+    <use href="#ellipseGroupB" />
+    <use href="#ellipseGroupC" />
+    <use href="#ellipseGroupD" />
 </g>
 </svg>
 </div>

@@ -464,6 +464,11 @@ class PrisonerSearch extends Visualization {
         if (aIndex === bIndex) {
             return didSwap;
         }
+        if (false && (aIndex > bIndex)) {
+            let tmp = aIndex;
+            aIndex = 0+bIndex;
+            bIndex = tmp;
+        }
         let aGid  = this.getGid(aIndex),
             bGid  = this.getGid(bIndex),
             //bbInf = getBoundingBoxPairSVG(aGid,bGid),
