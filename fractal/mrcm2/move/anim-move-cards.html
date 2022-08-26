@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>Shuffle Cards</title>
+<link rel="stylesheet" href="/css/main.css" >
+<link rel="stylesheet" href="css/anim-move-form.css">
+<link rel="stylesheet" href="css/anim-move-grid.css" >
+<link rel="stylesheet" href="css/anim-move-svg.css" >
+
+<script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js" defer ></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer ></script>
+<script src="js/probability-and-stats.js" defer ></script>
+<script src="js/anim-move-svg.js" defer ></script>
+<script src="js/page-state.js" defer ></script>
+<script src="js/visualization.js" defer ></script>
+<script src="js/card-shuffle.js" defer ></script>
+<script src="js/anim-move-strategy.js" defer ></script>
+<script src="js/anim-move-path.js" defer ></script>
+</head>
+<body>
+
+<div id="controls">
+<form id="form1"
+    action=""
+    method="GET"
+    oninput="rows.value=Math.ceil(parseInt(gSize.value)/parseInt(cols.value))"
+    onSubmit="() => {return false;}">
+<fieldset id="fs1">
+<ul id="ul1">
+<li>
+    <label for="gSize">Cards</label>
+    <input id="gSize" name="gSize" value="13" type="number" min="1" step="1" >
+</li>
+<li>
+    <label for="cols"><nobr>Per Suit</nobr></label>
+    <input id="cols" name="cols" value="5" type="number" min="1" step="1" >
+</li>
+<li>
+    <label>Suits</label><output id="rows" name="rows" form="form1" ></output>
+</li>
+</ul>
+<ul id="ul2">
+<li>
+    <input type="button" value="Layout Cards" onClick="myCardShuffle.setupGrid('svg-container');">
+</li>
+<li>
+    <input type="button" value="Shuffle" onClick="initFollowNumbers('form1');">
+</li>
+</ul>
+</fieldset>
+</form>
+</div>
+<div id="file-box-room">
+    <p>ooo</p>
+</div>
+<div id="ideasAndCommentary" >
+<li>
+
+</li>
+</div>
+<!-- reuseable template for svg doc-->
+<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template -->
+<template id="svg-template" type="image/svg+xml"><svg
+    id="svgtmp"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="100%"
+    height="100%"
+    >
+<style id="svg-styles">
+svg#svgvis {
+    fill:transparent;
+    background-color:transparent;
+    stroke:white;
+    stroke-width:2;
+}
+svg#svgvis text {
+    fill:black;
+}
+svg g#main rect#bg,
+svg g#main ellipse#ellipse1 {
+    fill: transparent;
+    background-color: transparent;
+    stroke: white;
+    stroke-width: 2;
+}
+#path3 {
+    stroke: yellow;
+    stroke-width:2;
+}
+#path4 {
+    stroke: cyan;
+    stroke-width:2;
+}
+#path1 {
+    stroke: purple;
+    stroke-width:2;
+}
+#item {
+    stroke: black;
+    stroke-width: 1;
+    fill: transparent;
+    text-anchor:middle;
+    font-size:3em;
+}
+#item text,
+#item-rect {
+    stroke: inherit;
+    stroke-width: inherit;
+    font-size: inherit;
+    fill: inherit;
+    text-anchor: inherit;
+}
+#file-box-room #atext text,
+#file-box-room #col-heads text,
+#file-box-room #row-heads text,
+#file-box-room #data-grid text {
+    stroke:none;
+    font-size: 3em;
+    text-anchor:middle;
+    transform: translate(1em,1.3em);
+}
+#a2bPath {
+    fill:none;
+    stroke:rgba(154, 205, 50,1);
+    stroke-width:3;
+    stroke-opacity: 1;
+    stroke-linecap:calc(stroke-width*2) round;
+}
+#b2aPath {
+    fill:none;
+    stroke:rgba(210,0,0,1);
+    stroke-width:3;
+    stroke-opacity: 1;
+    stroke-linecap:round;
+}
+#a2bLine {
+    stroke:white;
+    stroke-width:3;
+    stroke-opacity: 1;
+    stroke-linecap:round;
+}
+#centroid {
+    stroke:#800080;
+    stroke-opacity: .8;
+    stroke-width:2;
+    fill:white;
+}
+#ellipseA{
+    stroke:#008080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseB {
+    stroke:#800080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseC {
+    stroke:#808000;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseD {
+    stroke:#808080;
+    stroke-width:3;
+    fill:none;
+}
+#row-heads.row-grid .♣ text,
+#row-heads.row-grid .♠ text,
+#data-grid .data.♣ text,
+#data-grid .data.♠ text {
+    fill:black;
+}
+#row-heads.row-grid .♦ text,
+#row-heads.row-grid .♥ text,
+#data-grid .data.♦ text,
+#data-grid .data.♥ text {
+    fill:red;
+}
+</style>
+<defs id="defs">
+<g id="item">
+    <rect id="item-rect" x="0" y="0" height="100" width="100" rx="10" ry="10" />
+</g>
+
+<filter>
+<animateMotion
+    id="animation-template"
+    begin="pris0.click"
+    dur="6s"
+    calcMode="spline"
+    path=""
+    repeatCount="1"
+    fill="freeze"
+    values="0; .25; .35; .5; .35; .15; 0"
+    keyTimes="0; 0.25; 0.5; 0.75; 1"
+    keySplines="0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1; 0.5 0 0.5 1">
+    <mpath id="mp0" href="" />
+</animateMotion>
+</filter>
+</defs>
+<rect id="bg" x="0" y="0" height="100%" width="100%" />
+<g id="path-display" transform="translate(140,140)">
+    <path id="a2bPath" transform="translate(0,0)" d="" />
+    <path id="b2aPath" transform="translate(0,0)" d="" />
+    <line id="a2bLine" x1="0" y1="0" x2="0" y2="0" />
+    <circle id="centroid" cx="-500" cy="-500" r="3" />
+</g>
+</svg></template>
+<script>
+
+var pState,
+    myVis,
+    myCardShuffle;
+
+var config = {
+    mode: "url2form",
+    map: [
+        {
+            urlvar:"gs",
+            default:52,
+            form:"form1",
+            formvar:"gSize",
+            param:"numPrisoners",
+        },
+        {
+            urlvar:"cols",
+            default:13,
+            form:"form1",
+            formvar:"cols",
+            param:"numColumns",
+        },
+    ],
+}
+
+window.addEventListener('DOMContentLoaded', () => {
+    // The current state of url and form is gathered here:
+    pState = new PageState({
+        config: config,
+        events: [{target:"form1",desc:["input",{"bubbles":true, "cancelable":false}]}]
+    });
+    
+    myCardShuffle = new CardShuffle(pState);
+
+});
+</script>
+<script>
+
+</script>
+<div id="svg-container"></div>
+<div id="svg-test-container">
+<svg
+    id="svg-test"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    x="0"
+    y="0"
+    width="2000"
+    height="2000"
+    >
+<defs>
+<style>
+#ellipseA {
+    stroke:#008080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseB {
+    stroke:#800080;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseC {
+    stroke:#808000;
+    stroke-width:3;
+    fill:none;
+}
+#ellipseD {
+    stroke:#808080;
+    stroke-width:3;
+    fill:none;
+}
+#xyCoords {
+    stroke:white;
+    stroke-width:2;
+    stroke-dasharray: 4,1;
+    fill:none;
+}
+</style>
+<path id="xyCoords" d="M-500,0 L-500,0 500,0 M0,-500 L0,-500 0,500" />
+<g id="ellipseGroupA">
+    <use href="#xyCoords" />
+    <path id="ellipseA" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
+
+<g id="ellipseGroupB" transform="translate(1050,0)">
+    <use href="#xyCoords" />
+    <path id="ellipseB" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
+<g id="ellipseGroupC" transform="translate(0,1050)">
+    <use href="#xyCoords" />
+    <path id="ellipseC" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
+<g id="ellipseGroupD" transform="translate(1050,1050)">
+    <use href="#xyCoords" />
+    <path id="ellipseD" d="M0,0 a120,150 0 1,0 240,0" />
+</g>
+</defs>
+
+<g id="test-area" transform="translate(250,250) scale(.5)">
+    <use href="#ellipseGroupA" />
+    <use href="#ellipseGroupB" />
+    <use href="#ellipseGroupC" />
+    <use href="#ellipseGroupD" />
+</g>
+</svg>
+</div>
+</body>
+</html>
