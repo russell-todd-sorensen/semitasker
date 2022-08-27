@@ -25,6 +25,30 @@ var shuffle = function(numItems,useItems) {
     }
     return items;
 }
+var shuffleSteps = function(numItems) {
+    let len = numItems,
+        items= [],
+        index,
+        steps = [];
+
+    for (index=0;index<len;index++) {
+        items[index] = index;
+    }
+
+    for (let i=1,swapLow,swapHigh;i<len;i++) {
+        index = getEqualWeightIndex(0,{min:0,max:i});
+        steps.push([i,index]);
+        if (items[index] == items[i]) {
+            continue
+        }
+        swapLow = items[index];
+        swapHigh = items[i];
+        items[index] = swapHigh;
+        items[i] = swapLow;
+    }
+    return {final:items,steps:steps};
+}
+
 var sortIntegers = function (a,b) {
     let aInt = parseInt(a),
         bInt = parseInt(b);

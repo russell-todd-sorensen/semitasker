@@ -10,6 +10,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/d3js/3.5.17/d3.min.js" defer ></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js" defer ></script>
+<script src="/js/queue-function.js"></script>
 <script src="js/probability-and-stats.js" defer ></script>
 <script src="js/anim-move-svg.js" defer ></script>
 <script src="js/page-state.js" defer ></script>
@@ -42,10 +43,17 @@
 </ul>
 <ul id="ul2">
 <li>
-    <input type="button" value="Layout Cards" onClick="myCardShuffle.setupGrid('svg-container');">
+    <input type="button" value="Layout Cards" onClick="myAnimControl.init('svg-container');">
 </li>
 <li>
     <input type="button" value="Shuffle" onClick="initFollowNumbers('form1');">
+</li>
+<li>
+<div id="prev-curr-next">
+    <input type="button" value="&lt;" onClick="currentStep.value=myAnimControl.prev();">
+    <output id="currentStep" name="currentStep" form="form1" ></output>
+    <input type="button" value="&gt;" onClick="currentStep.value=myAnimControl.next();">
+</div>
 </li>
 </ul>
 </fieldset>
@@ -216,7 +224,9 @@ svg g#main ellipse#ellipse1 {
 
 var pState,
     myVis,
-    myCardShuffle;
+    myCardShuffle,
+    shuffleSwaps,
+    myAnimControl;
 
 var config = {
     mode: "url2form",
@@ -238,6 +248,74 @@ var config = {
     ],
 }
 
+class AnimControl {
+    vis;
+    current;
+    steps;
+    stepCount;
+    minStep;
+    maxStep;
+    lastDirection = "N";
+    directionValues = new Map();
+    constructor(vis) {
+        this.vis=vis;
+    }
+    next() {
+        let stepToExec,
+            dirValue;
+        switch (this.lastDirection) {
+        case "B": 
+        case "-": 
+            dirValue = 0;
+            break; 
+        case "F": 
+            dirValue = 1;
+            break;
+        }
+        stepToExec = this.current += dirValue;
+        if (stepToExec<this.maxStep) {
+            this.vis.animateDataSwap(...this.steps[stepToExec]);
+        }
+        this.current = stepToExec;
+        this.lastDirection = "F"
+        return this.current;
+    }
+    prev() {
+        let stepToExec,
+            dirValue;
+        switch (this.lastDirection) {
+        case "F": 
+        case "-": 
+            dirValue = 0;
+            break; 
+        case "B": 
+            dirValue = -1;
+            break;
+        }
+        stepToExec = this.current += dirValue;
+        if (stepToExec<this.maxStep) {
+            this.vis.animateDataSwap(...this.steps[stepToExec]);
+        }
+        return this.current;
+    }
+    init(containerId) {
+        this.vis.setupGrid(containerId);
+        this.createSwaps();
+        this.directionValues.set("B",-1);
+        this.directionValues.set("N",0);
+        this.directionValues.set("F",1);
+    }
+    createSwaps() {
+        let shuffleInfo = shuffleSteps(this.vis.getItemCount());
+        this.steps = shuffleInfo.steps;
+        this.stepCount = this.steps.length;
+        this.final = shuffleInfo.final;
+        this.current = 0;
+        this.maxStep = this.stepCount-1;
+        this.minStep = 0;
+    }
+}
+
 window.addEventListener('DOMContentLoaded', () => {
     // The current state of url and form is gathered here:
     pState = new PageState({
@@ -246,6 +324,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     
     myCardShuffle = new CardShuffle(pState);
+    myAnimControl = new AnimControl(myCardShuffle);
 
 });
 </script>
@@ -321,5 +400,8 @@ window.addEventListener('DOMContentLoaded', () => {
 </g>
 </svg>
 </div>
+<script>
+
+</script>
 </body>
 </html>

@@ -13,7 +13,7 @@
 }
 #ul2 {
     display: grid;
-    grid-template-columns: repeat(2, auto);
+    grid-template-columns: repeat(3, auto);
     padding-inline-start: 0;
 }
 #ul1 > li,
@@ -32,6 +32,17 @@
 #ul1 output {
     background-color: #eee;
     padding-right: .5ch;
+    border: 1px inset #222;
+    border-radius: .05em;
+    font-size: 1.05em;
+}
+
+#ul2 output {
+    display: inline-block;
+    font-size: inherit;
+    text-align: center;
+    width: 3ch;
+    background-color: #eee;
     border: 1px inset #222;
     border-radius: .05em;
     font-size: 1.05em;

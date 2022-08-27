@@ -33,6 +33,9 @@ class CardShuffle extends Visualization {
         this.numPrisoners = this.state.param("gs");
         this.numColumns   = this.state.param("cols");
     }
+    getItemCount() {
+        return this.numPrisoners;
+    }
     sync(mode="form2url") {
         this.state.sync(this.state.config,mode);
         this.updateState();
