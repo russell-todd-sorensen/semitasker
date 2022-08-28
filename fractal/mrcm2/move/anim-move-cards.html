@@ -43,18 +43,15 @@
 </ul>
 <ul id="ul2">
 <li>
-    <input type="button" value="Layout Cards" onClick="myAnimControl.init('svg-container');">
+    <input type="button" value="Layout Cards" onClick="myAnimControl.init('svg-container');currentStep.value='-,0'">
 </li>
 <li>
     <input type="button" value="Shuffle" onClick="initFollowNumbers('form1');">
 </li>
-<li>
-<div id="prev-curr-next">
-    <input type="button" value="&lt;" onClick="currentStep.value=myAnimControl.prev();">
-    <output id="currentStep" name="currentStep" form="form1" ></output>
-    <input type="button" value="&gt;" onClick="currentStep.value=myAnimControl.next();">
-</div>
-</li>
+<li><div id="prev-curr-next"><nobr><input type="button" value="&lt;" onClick="currentStep.value=myAnimControl.prev();"><output
+        id="currentStep" name="currentStep" form="form1" >-,0</output><input
+        type="button" value="&gt;"
+        onClick="currentStep.value=myAnimControl.next();"></div></li>
 </ul>
 </fieldset>
 </form>
@@ -178,16 +175,25 @@ svg g#main ellipse#ellipse1 {
     stroke-width:3;
     fill:none;
 }
+
 #row-heads.row-grid .♣ text,
 #row-heads.row-grid .♠ text,
+#row-heads.row-grid .♧ text,
+#row-heads.row-grid .♤ text,
 #data-grid .data.♣ text,
-#data-grid .data.♠ text {
+#data-grid .data.♠ text,
+#data-grid .data.♧ text,
+#data-grid .data.♤ text {
     fill:black;
 }
 #row-heads.row-grid .♦ text,
 #row-heads.row-grid .♥ text,
+#row-heads.row-grid .♢ text,
+#row-heads.row-grid .♡ text,
 #data-grid .data.♦ text,
-#data-grid .data.♥ text {
+#data-grid .data.♥ text,
+#data-grid .data.♢ text,
+#data-grid .data.♡ text {
     fill:red;
 }
 </style>
@@ -200,7 +206,7 @@ svg g#main ellipse#ellipse1 {
 <animateMotion
     id="animation-template"
     begin="pris0.click"
-    dur="6s"
+    dur="2s"
     calcMode="spline"
     path=""
     repeatCount="1"
@@ -250,69 +256,60 @@ var config = {
 
 class AnimControl {
     vis;
-    current;
     steps;
-    stepCount;
-    minStep;
-    maxStep;
-    lastDirection = "N";
-    directionValues = new Map();
+    firstStep;
+    lastStep;
+    current = {next:0,prev:null}
     constructor(vis) {
         this.vis=vis;
     }
     next() {
-        let stepToExec,
-            dirValue;
-        switch (this.lastDirection) {
-        case "B": 
-        case "-": 
-            dirValue = 0;
-            break; 
-        case "F": 
-            dirValue = 1;
-            break;
+        let stepToExec = this.current.next,
+            nextText;
+        if (stepToExec === null) {
+            return `${this.current.prev},+`;
         }
-        stepToExec = this.current += dirValue;
-        if (stepToExec<this.maxStep) {
-            this.vis.animateDataSwap(...this.steps[stepToExec]);
+        this.vis.animateDataSwap(...this.steps[stepToExec]);
+        this.current.prev = stepToExec;
+        if (stepToExec < this.lastStep) {
+            this.current.next++;
+            nextText = this.current.next;
+        } else {
+            this.current.next=null
+            nextText = "+"
         }
-        this.current = stepToExec;
-        this.lastDirection = "F"
-        return this.current;
+        return `${this.current.prev},${nextText}`;
     }
     prev() {
-        let stepToExec,
-            dirValue;
-        switch (this.lastDirection) {
-        case "F": 
-        case "-": 
-            dirValue = 0;
-            break; 
-        case "B": 
-            dirValue = -1;
-            break;
+        let stepToExec = this.current.prev,
+            prevText;
+        if (stepToExec === null) {
+            return `-,${this.current.next}`;
         }
-        stepToExec = this.current += dirValue;
-        if (stepToExec<this.maxStep) {
-            this.vis.animateDataSwap(...this.steps[stepToExec]);
+        this.vis.animateDataSwap(...this.steps[stepToExec]);
+        this.current.next = stepToExec;
+        if (stepToExec > this.firstStep) {
+            this.current.prev--;
+            prevText = this.current.prev;
+        } else {
+            this.current.prev=null
+            prevText = "-"
         }
-        return this.current;
+        //return this.current.prev;
+        return `${prevText},${this.current.next}`
     }
     init(containerId) {
         this.vis.setupGrid(containerId);
         this.createSwaps();
-        this.directionValues.set("B",-1);
-        this.directionValues.set("N",0);
-        this.directionValues.set("F",1);
     }
     createSwaps() {
         let shuffleInfo = shuffleSteps(this.vis.getItemCount());
         this.steps = shuffleInfo.steps;
         this.stepCount = this.steps.length;
         this.final = shuffleInfo.final;
-        this.current = 0;
-        this.maxStep = this.stepCount-1;
-        this.minStep = 0;
+        this.firstStep = 0;
+        this.lastStep = this.stepCount-1;
+        this.current = {next:0,prev:null};
     }
 }
 

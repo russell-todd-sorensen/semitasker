@@ -41,7 +41,7 @@
     display: inline-block;
     font-size: inherit;
     text-align: center;
-    width: 3ch;
+    /*width: 3ch; */
     background-color: #eee;
     border: 1px inset #222;
     border-radius: .05em;
