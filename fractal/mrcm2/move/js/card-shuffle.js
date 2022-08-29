@@ -15,12 +15,20 @@ class CardShuffle extends Visualization {
         rowHeads:{id:"row-heads",class:"row-grid"},
         colHeads:{id:"col-heads",class:"col-grid"},
         dataGrid:{id:"data-grid",class:"data-grid"},
+        dataClassTypes:{active:'active',inactive:'inactive'},
         itemDims:{height:100,width:100,gap:20},
         anchorLabel:(text => text),
         colLabel:(col => this.cardValues[col]),
         rowLabel:(row => this.cardSuits[row]),
         dataVals:((col,row) => {return ("" + this.cardValues[col] + this.cardSuits[row])}),
-        dataId:((index) => {return index;})
+        dataId:((index) => {return index;}),
+        getDataClass:(type => {
+            return (this.superGrid.dataClassTypes[type]
+                ?
+                this.superGrid.dataClassTypes[type]
+                :
+                "")}
+        ),
     };
     constructor(state) {
         super({
@@ -208,9 +216,10 @@ class CardShuffle extends Visualization {
                        content = document.createTextNode(`${sgConfig.dataVals(col+1,row+1)}`),
                        gid     = `pris${index}`,
                        gx      = (col)*ifw,
-                       gy      = (row)*ifh;
+                       gy      = (row)*ifh,
+                       inactiveClass = sgConfig.getDataClass("inactive");
                 fileBox.setAttribute("id",gid);
-                fileBox.setAttribute("class",`data col${col} row${row} ${rowLabel}`);
+                fileBox.setAttribute("class",`data col${col} row${row} ${rowLabel} ${inactiveClass}`);
                 fileBox.setAttribute("transform",`translate(${gx},${gy})`);
                 fileRect.setAttribute("href",`#item`);
                 fileRect.setAttribute("id",`bbox${index}`);
@@ -336,7 +345,9 @@ class CardShuffle extends Visualization {
         a2bLine.setAttribute("y2",bGeo.gy);
         centroid.setAttribute("cx",pathA.midx);
         centroid.setAttribute("cy",pathA.midy);
-        console.log(`r=${pathA.r},a2b=${a2b},b2a=${b2a}`)
+        console.log(`r=${pathA.r},a2b=${a2b},b2a=${b2a}`);
+        aGroup.classList.remove(this.superGrid.getDataClass("inactive"));
+        bGroup.classList.remove(this.superGrid.getDataClass("inactive"));
         aGroup.setAttribute("transform",`translate(${aGeo.gx},${aGeo.gy})`);
         bGroup.setAttribute("transform",`translate(${bGeo.gx},${bGeo.gy})`);
         aGroup.dispatchEvent(eventA);
