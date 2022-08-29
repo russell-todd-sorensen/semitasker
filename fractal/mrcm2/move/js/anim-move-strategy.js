@@ -35,7 +35,7 @@ var shuffleSteps = function(numItems) {
         items[index] = index;
     }
 
-    for (let i=1,swapLow,swapHigh;i<len;i++) {
+    for (let i=0,swapLow,swapHigh;i<len;i++) { // i was 1
         index = getEqualWeightIndex(0,{min:0,max:i});
         steps.push([i,index]);
         if (items[index] == items[i]) {

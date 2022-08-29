@@ -273,10 +273,10 @@ class CardShuffle extends Visualization {
         this.gidMap.set(aIndex,bGid);
     }
     animateDataSwap(aIndex,bIndex) {
-        let didSwap = false;
-        if (aIndex === bIndex) {
-            return didSwap;
-        }
+        //let didSwap = false;
+        //if (aIndex === bIndex) {
+        //    return didSwap;
+        //}
         if (false && (aIndex > bIndex)) {
             let tmp = aIndex;
             aIndex = 0+bIndex;
