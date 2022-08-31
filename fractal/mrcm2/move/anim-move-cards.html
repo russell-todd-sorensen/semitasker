@@ -231,11 +231,16 @@ svg g#main ellipse#ellipse1 {
 </svg></template>
 <script>
 
+var Log = {};
+Log.msg = function(msg) {};
+Log.Notice = Log.Error = Log.Warning = Log.Debug = Log.Hide = Log.Show = Log.Remove = Log.msg;
+
 var pState,
     myVis,
     myCardShuffle,
     shuffleSwaps,
-    myAnimControl;
+    myAnimControl,
+    animQueue;
 
 var config = {
     mode: "url2form",
@@ -259,6 +264,7 @@ var config = {
 
 class AnimControl {
     vis;
+    #queue;
     steps;
     firstStep;
     lastStep;
@@ -305,6 +311,18 @@ class AnimControl {
         this.vis.setupGrid(containerId);
         this.createSwaps();
     }
+    initQueue(containerId,animData=null) {
+        this.init();
+        if (animData === null) {
+            return;
+        }
+        this.animData = Object.assign(
+            {
+                prev:this.prev,
+                next:this.next,
+                timeout:2300,
+            },animData);
+    }
     createSwaps() {
         let shuffleInfo = shuffleSteps(this.vis.getItemCount());
         this.steps = shuffleInfo.steps;
@@ -325,7 +343,7 @@ window.addEventListener('DOMContentLoaded', () => {
     
     myCardShuffle = new CardShuffle(pState);
     myAnimControl = new AnimControl(myCardShuffle);
-
+    myAnimQueue   = new Queue();
 });
 </script>
 <script>
