@@ -16,7 +16,7 @@ var calcSVGPathFromTo = function (
             xdim:120,
             ydim:120,
             minimizeArea:true,
-            testEllipse:["ellipseGroupA","ellipseGroupB","ellipseGroupC","ellipseGroupD"],
+            testEllipse:["ellipseA","ellipseB","ellipseC","ellipseD"],
         }, optionsUpdate),
         dx  = (options.x2 - options.x1),
         dy  = (options.y2 - options.y1),
@@ -99,6 +99,14 @@ var calcSVGPathFromTo = function (
                     cy = halfYDim;
                     //cx = h;
                 }
+                // test
+                if (Math.abs(dx) > Math.abs(dy)) {
+                    cx = 2;
+                    cy = 1;
+                } else {
+                    cy = 2;
+                    cx = 1;
+                }
             } else {
                 if (cx > cy) {
                     cx = h;
@@ -106,6 +114,14 @@ var calcSVGPathFromTo = function (
                 } else {
                     cy = h;
                     cx = options.xdim/2;
+                }
+                // test
+                if (Math.abs(dx) > Math.abs(dy)) {
+                    cx = 2;
+                    cy = 1;
+                } else {
+                    cy = 2;
+                    cx = 1;
                 }
                 if (false) {
                     if (deg >= 0) {
@@ -168,7 +184,7 @@ var testCalcPath = function(dataUpdate) {
                     if (point < startPoint) {
                         continue;
                     }
-                    let input = {
+                    let input = Object.assign({},{
                         x1:x1,
                         y1:y1,
                         x2:x2,
@@ -177,7 +193,7 @@ var testCalcPath = function(dataUpdate) {
                         sweep:data.sweep,
                         xdim:data.xdim,
                         ydim:data.ydim,
-                    },
+                    },data),
                     result = Object.assign(input,
                         calcSVGPathFromTo(input));
                     results.push(result);

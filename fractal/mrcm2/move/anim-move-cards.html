@@ -358,8 +358,8 @@ window.addEventListener('DOMContentLoaded', () => {
     xmlns:xlink="http://www.w3.org/1999/xlink"
     x="0"
     y="0"
-    width="2000"
-    height="2000"
+    width="2500"
+    height="3000"
     >
 <defs>
 <style>
@@ -391,26 +391,25 @@ window.addEventListener('DOMContentLoaded', () => {
 }
 </style>
 <path id="xyCoords" d="M-500,0 L-500,0 500,0 M0,-500 L0,-500 0,500" />
-<g id="ellipseGroupA">
+<g id="ellipseGroupA" transform="translate(750,0)">
     <use href="#xyCoords" />
     <path id="ellipseA" d="M0,0 a120,150 0 1,0 240,0" />
 </g>
-
-<g id="ellipseGroupB" transform="translate(1050,0)">
+<g id="ellipseGroupB" transform="translate(750,0)">
     <use href="#xyCoords" />
     <path id="ellipseB" d="M0,0 a120,150 0 1,0 240,0" />
 </g>
-<g id="ellipseGroupC" transform="translate(0,1050)">
+<g id="ellipseGroupC" transform="translate(750,1050)">
     <use href="#xyCoords" />
     <path id="ellipseC" d="M0,0 a120,150 0 1,0 240,0" />
 </g>
-<g id="ellipseGroupD" transform="translate(1050,1050)">
+<g id="ellipseGroupD" transform="translate(750,1050)">
     <use href="#xyCoords" />
     <path id="ellipseD" d="M0,0 a120,150 0 1,0 240,0" />
 </g>
 </defs>
 
-<g id="test-area" transform="translate(250,250) scale(.5)">
+<g id="test-area" transform="translate(150,150) scale(.5)">
     <use href="#ellipseGroupA" />
     <use href="#ellipseGroupB" />
     <use href="#ellipseGroupC" />
