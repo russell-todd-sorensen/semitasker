@@ -1,8 +1,6 @@
-var cx = 55,
-    cy = 88,
-    rx = 65,
-    ry = 130;
-
+var drawDxDyH = function(dx,dy) {
+    return `M0,0 L${dx},0 ${dx},${dy} Z`
+} 
 var calcSVGPathFromTo = function (
     optionsUpdate
 ) {
@@ -55,18 +53,30 @@ var calcSVGPathFromTo = function (
                     pathDataB = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
                     pathDataC = `m0,0 a${halfXDim.toFixed(3)},${cy.toFixed(3)} 0 ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
                     pathDataD = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} 0 ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
+                    pathDataTriangleA = drawDxDyH(dx,dy),
+                    pathDataTriangleB = drawDxDyH(`${dx*-1}`,`${dy*-1}`),
+                    pathDataTriangleC = drawDxDyH(dx,dy),
+                    pathDataTriangleD = drawDxDyH(`${dx*-1}`,`${dy*-1}`),
                     ellipseA = document.getElementById(options.testEllipse[0]),
                     ellipseB = document.getElementById(options.testEllipse[1]),
                     ellipseC = document.getElementById(options.testEllipse[2]),
-                    ellipseD = document.getElementById(options.testEllipse[3]);
+                    ellipseD = document.getElementById(options.testEllipse[3]),
+                    triangleA = document.getElementById(`${options.testEllipse[0]}dxdyh`),
+                    triangleB = document.getElementById(`${options.testEllipse[1]}dxdyh`),
+                    triangleC = document.getElementById(`${options.testEllipse[2]}dxdyh`),
+                    triangleD = document.getElementById(`${options.testEllipse[3]}dxdyh`),
+                    ellipseCrotate = document.getElementById(`${options.testEllipse[2]}rotate`),
+                    ellipseDrotate = document.getElementById(`${options.testEllipse[3]}rotate`);
                 ellipseA.setAttribute("d",pathDataA);
                 ellipseB.setAttribute("d",pathDataB);
                 ellipseC.setAttribute("d",pathDataA);
-                ellipseC.setAttribute("transform",`rotate(${((-1)*deg).toFixed(3)})`);
+                ellipseCrotate.setAttribute("transform",`rotate(${((-1)*deg).toFixed(3)})`);
                 ellipseD.setAttribute("d",pathDataB);
-                ellipseD.setAttribute("transform",`rotate(${((-1)*deg).toFixed(3)})`);
-                //ellipseC.setAttribute("d",pathDataC);
-                //ellipseD.setAttribute("d",pathDataD);
+                ellipseDrotate.setAttribute("transform",`rotate(${((-1)*deg).toFixed(3)})`);
+                triangleA.setAttribute("d",pathDataTriangleA);
+                triangleB.setAttribute("d",pathDataTriangleB);
+                triangleC.setAttribute("d",pathDataTriangleC);
+                triangleD.setAttribute("d",pathDataTriangleD);
                 let rectA = ellipseA.getBoundingClientRect(),
                     rectB = ellipseB.getBoundingClientRect(),
                     rectC = ellipseC.getBoundingClientRect(),
@@ -82,6 +92,10 @@ var calcSVGPathFromTo = function (
                     pathDataD:pathDataD,
                     pathDataC:pathDataA,
                     pathDataD:pathDataB,
+                    pathDataTriangleA:pathDataTriangleA,
+                    pathDataTriangleB:pathDataTriangleB,
+                    pathDataTriangleC:pathDataTriangleC,
+                    pathDataTriangleD:pathDataTriangleD,
                     rectA:rectA,
                     rectB:rectB,
                     rectC:rectC,
@@ -92,20 +106,9 @@ var calcSVGPathFromTo = function (
                     areaD:areaD,
                 }
                 if (areaA < areaB) {
-                    //options.ydim/2
                     cx = halfXDim;
-                    //cy = h;
                 } else {
                     cy = halfYDim;
-                    //cx = h;
-                }
-                // test
-                if (Math.abs(dx) > Math.abs(dy)) {
-                    cx = 2;
-                    cy = 1;
-                } else {
-                    cy = 2;
-                    cx = 1;
                 }
             } else {
                 if (cx > cy) {
@@ -114,23 +117,6 @@ var calcSVGPathFromTo = function (
                 } else {
                     cy = h;
                     cx = options.xdim/2;
-                }
-                // test
-                if (Math.abs(dx) > Math.abs(dy)) {
-                    cx = 2;
-                    cy = 1;
-                } else {
-                    cy = 2;
-                    cx = 1;
-                }
-                if (false) {
-                    if (deg >= 0) {
-                        if (cy > 60 ) {
-                            cy = 60;
-                        }
-                    } else if (deg < 0) {
-                        cy = cx;
-                    }
                 }
             }
         }
