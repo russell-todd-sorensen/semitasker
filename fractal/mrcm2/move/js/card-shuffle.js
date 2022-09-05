@@ -345,7 +345,7 @@ class CardShuffle extends Visualization {
         a2bLine.setAttribute("y2",bGeo.gy);
         centroid.setAttribute("cx",pathA.midx);
         centroid.setAttribute("cy",pathA.midy);
-        console.log(`r=${pathA.r},a2b=${a2b},b2a=${b2a}`);
+        //console.log(`r=${pathA.r},a2b=${a2b},b2a=${b2a}`);
         aGroup.classList.remove(this.superGrid.getDataClass("inactive"));
         bGroup.classList.remove(this.superGrid.getDataClass("inactive"));
         aGroup.setAttribute("transform",`translate(${aGeo.gx},${aGeo.gy})`);

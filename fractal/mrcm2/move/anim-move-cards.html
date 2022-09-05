@@ -50,9 +50,9 @@
 <li>
     <input type="button" value="Shuffle" onClick="initFollowNumbers('form1');">
 </li>
-<li><div id="prev-curr-next"><nobr><input type="button" value="&lt;&nbsp;" onClick="currentStep.value=myAnimControl.prev();"><output
+<li><div id="prev-curr-next"><nobr><input id="prevButton" name="prevButton" type="button" value="&lt;&nbsp;" onClick="currentStep.value=myAnimControl.prev();"><output
         id="currentStep" name="currentStep" form="form1" >-,0</output><input
-        type="button" value="&nbsp;&gt;"
+        id="nextButton" name="nextButton" type="button" value="&nbsp;&gt;"
         onClick="currentStep.value=myAnimControl.next();"></div></li>
 </ul>
 </fieldset>
@@ -196,7 +196,7 @@ svg g#main ellipse#ellipse1 {
 <animateMotion
     id="animation-template"
     begin="pris0.click"
-    dur="2s"
+    dur="1.2s"
     calcMode="spline"
     path=""
     repeatCount="1"
@@ -252,10 +252,12 @@ var config = {
 class AnimControl {
     vis;
     #queue;
+    #queueInterval;
     steps;
     firstStep;
     lastStep;
-    current = {next:0,prev:null}
+    animMap = new Map();
+    current = {next:0,prev:null};
     constructor(vis) {
         this.vis=vis;
     }
@@ -299,16 +301,53 @@ class AnimControl {
         this.createSwaps();
     }
     initQueue(containerId,animData=null) {
-        this.init();
+        this.init(containerId);
         if (animData === null) {
             return;
         }
         this.animData = Object.assign(
             {
-                prev:this.prev,
-                next:this.next,
-                timeout:2300,
+                events:[
+                    {
+                        name:"prev",eventTargetId:"prevButton",eventName:"click",timeout:250,target:null,
+                    },
+                    {
+                        name:"next",eventTargetId:"nextButton",eventName:"click",timeout:250,target:null,
+                    }
+                ],
+                timeout:100,
             },animData);
+        let len = this.animData.events.length;
+        for (let i=0;i<len;i++) {
+            let evtData = this.animData.events[i];
+            evtData.target = document.getElementById(evtData.eventTargetId);
+            this.animMap.set(evtData.name,evtData);
+        }
+        this.#queue = new Queue();
+    }
+    runStep(itemData) {
+        let data = itemData.data,
+            evtData = data.animMap.get(itemData.eventName),
+            evt = new Event(evtData.eventName);
+        evtData.target.dispatchEvent(evt);
+        if (data.current[itemData.eventName] == null) {
+            data.#queue.stop();
+        } else {
+            data.makeQueueItem(itemData.eventName,evtData.timeout);
+        }
+    }
+    makeQueueItem(eventName,timeout) {
+        let queueItem = new QueueItem(
+            this.#queue,
+            this.runStep,
+            timeout,
+            {eventName:eventName,data:this},
+            false
+        );
+    }
+    startQueue() {
+        let queueItem = this.makeQueueItem("next",this.animData.timeout);
+        this.#queueInterval = this.#queue.start(this.#queue,this.animData.timeout);
     }
     createSwaps() {
         let shuffleInfo = shuffleSteps(this.vis.getItemCount());
