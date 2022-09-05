@@ -2,6 +2,7 @@
 class CardShuffle extends Visualization {
     numPrisoners;
     numColumns;
+    timeout;
     dataGeometry = new Map();
     dataAnimMap  = new Map();
     gidMap       = new Map();
@@ -38,8 +39,9 @@ class CardShuffle extends Visualization {
         this.updateState();
     }
     updateState() {
-        this.numPrisoners = this.state.param("gs");
-        this.numColumns   = this.state.param("cols");
+        this.numPrisoners = this.state.param("n");
+        this.numColumns   = this.state.param("c");
+        this.timeout      = this.state.param("t");
     }
     getItemCount() {
         return this.numPrisoners;
@@ -234,7 +236,8 @@ class CardShuffle extends Visualization {
                 if (animTemplate) {
                     animId = `data-anim-${index}`;
                     animTemplate.setAttribute("id",animId);
-                    animTemplate.setAttribute("begin",`${gid}.click;${gid}.move`)
+                    animTemplate.setAttribute("begin",`${gid}.click;${gid}.move`);
+                    animTemplate.setAttribute("dur",`${(this.timeout/1000).toFixed(3)}s`);
                     let mpathSel = animTemplate.querySelector("mpath");
                     if (mpathSel) {
                         mpathId=`mpath-anim-${index}`;
