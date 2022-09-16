@@ -1,6 +1,6 @@
 
 class CardShuffle extends Visualization {
-    numPrisoners;
+    numItems;
     numColumns;
     timeout;
     dataGeometry = new Map();
@@ -39,12 +39,12 @@ class CardShuffle extends Visualization {
         this.updateState();
     }
     updateState() {
-        this.numPrisoners = this.state.param("n");
+        this.numItems = this.state.param("n");
         this.numColumns   = this.state.param("c");
         this.timeout      = this.state.param("t");
     }
     getItemCount() {
-        return this.numPrisoners;
+        return this.numItems;
     }
     sync(mode="form2url") {
         this.state.sync(this.state.config,mode);
@@ -55,7 +55,7 @@ class CardShuffle extends Visualization {
         let parent = document.getElementById(parentId),
             xmlns = "http://www.w3.org/2000/svg",
             cols = parseInt(this.numColumns),
-            rows = parseInt(Math.ceil(this.numPrisoners/cols)),
+            rows = parseInt(Math.ceil(this.numItems/cols)),
             itemFullWidth=sgConfig.itemDims.width+sgConfig.itemDims.gap,
             itemFullHeight=sgConfig.itemDims.height+sgConfig.itemDims.gap,
             groupWrapX = sgConfig.groupwrapper.x,
@@ -166,7 +166,7 @@ class CardShuffle extends Visualization {
             cHead         = document.getElementById(colGridId),
             rHead         = document.getElementById(rowGridId),
             cols          = this.numColumns,
-            rows          = Math.ceil(this.numPrisoners/cols),
+            rows          = Math.ceil(this.numItems/cols),
             xmlns         = "http://www.w3.org/2000/svg",
             anchorHead    = document.createElementNS(xmlns,"g"),
             anchorRect    = document.createElementNS(xmlns,"use"),
@@ -196,7 +196,7 @@ class CardShuffle extends Visualization {
             rowHead.appendChild(rContent);
             rHead.appendChild(rowHead);
 
-            for (let col=0;col<cols&&index<this.numPrisoners;col++,index++) {
+            for (let col=0;col<cols&&index<this.numItems;col++,index++) {
                 if (row==0) {
                     let colHead = document.createElementNS(xmlns,"g"),
                         colRect = document.createElementNS(xmlns,"use"),
@@ -336,8 +336,11 @@ class CardShuffle extends Visualization {
         let a2bPath = document.getElementById("a2bPath"),
             b2aPath = document.getElementById("b2aPath"),
             a2bLine = document.getElementById("a2bLine"),
-            centroid = document.getElementById("centroid");
+            centroid = document.getElementById("centroid"),
+            degreeLine = document.getElementById("degreeLine"),
+            bias = pathA.bias;
 
+        console.log(`bias=${bias},pathA.dx=${pathA.dx},pathA.dy=${pathA.dy}`);
         a2bPath.setAttribute("d",a2b);
         a2bPath.setAttribute("transform",`translate(${aGeo.gx},${aGeo.gy})`);
         b2aPath.setAttribute("d",b2a);
@@ -348,6 +351,8 @@ class CardShuffle extends Visualization {
         a2bLine.setAttribute("y2",bGeo.gy);
         centroid.setAttribute("cx",pathA.midx);
         centroid.setAttribute("cy",pathA.midy);
+        degreeLine.setAttribute("d",`M${pathA.midx},${pathA.midy} v-120`);
+        degreeLine.setAttribute("transform",`rotate(${(pathA.deg*bias).toFixed(3)},${pathA.midx},${pathA.midy})`);
         //console.log(`r=${pathA.r},a2b=${a2b},b2a=${b2a}`);
         aGroup.classList.remove(this.superGrid.getDataClass("inactive"));
         bGroup.classList.remove(this.superGrid.getDataClass("inactive"));

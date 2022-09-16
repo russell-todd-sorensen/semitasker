@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<!-- saved from url=(0044)https://www.schneier.com/academic/solitaire/ -->
+<html lang="en-US" style="zoom: 1; transform-origin: left top;"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<title>Schneier on Security: The Solitaire Encryption Algorithm</title>
+	<meta name="robots" content="max-image-preview:large">
+<link rel="dns-prefetch" href="https://s.w.org/">
+<link rel="dns-prefetch" href="https://c0.wp.com/">
+<link rel="alternate" type="application/rss+xml" title="Schneier on Security » Feed" href="https://www.schneier.com/feed/">
+<link rel="alternate" type="application/rss+xml" title="Schneier on Security » Comments Feed" href="https://www.schneier.com/comments/feed/">
+<link rel="stylesheet" id="wp-block-library-css" href="./Schneier on Security_ The Solitaire Encryption Algorithm_files/style.min.css" type="text/css" media="all">
+<style id="wp-block-library-inline-css" type="text/css">
+.has-text-align-justify{text-align:justify;}
+</style>
+<link rel="stylesheet" id="mediaelement-css" href="./Schneier on Security_ The Solitaire Encryption Algorithm_files/mediaelementplayer-legacy.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-mediaelement-css" href="./Schneier on Security_ The Solitaire Encryption Algorithm_files/wp-mediaelement.min.css" type="text/css" media="all">
+<link rel="stylesheet" id="wc-blocks-vendors-style-css" href="./Schneier on Security_ The Solitaire Encryption Algorithm_files/wc-blocks-vendors-style.css" type="text/css" media="all">
+<link rel="stylesheet" id="wc-blocks-style-css" href="./Schneier on Security_ The Solitaire Encryption Algorithm_files/wc-blocks-style.css" type="text/css" media="all">
+<style id="global-styles-inline-css" type="text/css">
+body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--duotone--dark-grayscale: url('#wp-duotone-dark-grayscale');--wp--preset--duotone--grayscale: url('#wp-duotone-grayscale');--wp--preset--duotone--purple-yellow: url('#wp-duotone-purple-yellow');--wp--preset--duotone--blue-red: url('#wp-duotone-blue-red');--wp--preset--duotone--midnight: url('#wp-duotone-midnight');--wp--preset--duotone--magenta-yellow: url('#wp-duotone-magenta-yellow');--wp--preset--duotone--purple-green: url('#wp-duotone-purple-green');--wp--preset--duotone--blue-orange: url('#wp-duotone-blue-orange');--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+</style>
+<style id="woocommerce-inline-inline-css" type="text/css">
+.woocommerce form .form-row .required { visibility: visible; }
+</style>
+<link rel="stylesheet" id="schneier-css" href="./Schneier on Security_ The Solitaire Encryption Algorithm_files/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="schneier-main-css" href="./Schneier on Security_ The Solitaire Encryption Algorithm_files/style(1).css" type="text/css" media="all">
+<link rel="stylesheet" id="jetpack_css-css" href="./Schneier on Security_ The Solitaire Encryption Algorithm_files/jetpack.css" type="text/css" media="all">
+<script type="text/javascript" src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/jquery.min.js" id="jquery-js"></script>
+<link rel="https://api.w.org/" href="https://www.schneier.com/wp-json/"><link rel="alternate" type="application/json" href="https://www.schneier.com/wp-json/wp/v2/pages/7439"><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.schneier.com/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.schneier.com/wp-includes/wlwmanifest.xml"> 
+
+<link rel="canonical" href="https://www.schneier.com/academic/solitaire/">
+<link rel="shortlink" href="https://www.schneier.com/?p=7439">
+<link rel="alternate" type="application/json+oembed" href="https://www.schneier.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.schneier.com%2Facademic%2Fsolitaire%2F">
+<link rel="alternate" type="text/xml+oembed" href="https://www.schneier.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.schneier.com%2Facademic%2Fsolitaire%2F&amp;format=xml">
+	<noscript><style>.woocommerce-product-gallery{ opacity: 1 !important; }</style></noscript>
+	<link rel="icon" href="https://149400697.v2.pressablecdn.com/wp-content/uploads/2020/06/cropped-favicon-1-32x32.png" sizes="32x32">
+<link rel="icon" href="https://149400697.v2.pressablecdn.com/wp-content/uploads/2020/06/cropped-favicon-1-192x192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="https://149400697.v2.pressablecdn.com/wp-content/uploads/2020/06/cropped-favicon-1-180x180.png">
+<meta name="msapplication-TileImage" content="https://149400697.v2.pressablecdn.com/wp-content/uploads/2020/06/cropped-favicon-1-270x270.png">
+		<style type="text/css" id="wp-custom-css">
+			#schneier_promotion-2 img {
+    max-width: 180px;
+}		</style>
+		</head>
+
+<body class="page-template-default page page-id-7439 page-parent page-child parent-pageid-50111 theme-schneier woocommerce-js">
+
+	<div id="wrapper">
+		<div id="main">
+
+			<header>
+				<div id="header">
+					<h1>
+						<a href="https://www.schneier.com/" rel="home">
+							Schneier on Security						</a>
+					</h1>
+				</div>
+			</header>
+
+			<nav>
+				<div class="nav" id="header-nav">
+
+					<a class="mobile-menu-toggle" href="https://www.schneier.com/academic/solitaire/#">
+						Menu						<span class="mobile-menu-toggle__icon"></span>
+					</a>
+
+					<div class="menu-main-menu-container"><ul id="menu-main-menu" class="menu"><li id="menu-item-50175" class="menu1 menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-50175"><a href="https://www.schneier.com/">Blog</a></li>
+<li id="menu-item-50916" class="menu2 menu-item menu-item-type-post_type menu-item-object-page menu-item-50916"><a href="https://www.schneier.com/crypto-gram/">Newsletter</a></li>
+<li id="menu-item-50166" class="menu3 menu-item menu-item-type-post_type menu-item-object-page menu-item-50166"><a href="https://www.schneier.com/books/">Books</a></li>
+<li id="menu-item-50169" class="menu4 menu-item menu-item-type-custom menu-item-object-custom menu-item-50169"><a href="https://www.schneier.com/essays/">Essays</a></li>
+<li id="menu-item-50170" class="menu5 menu-item menu-item-type-custom menu-item-object-custom menu-item-50170"><a href="https://www.schneier.com/news/">News</a></li>
+<li id="menu-item-50171" class="menu6 menu-item menu-item-type-custom menu-item-object-custom menu-item-50171"><a href="https://www.schneier.com/talks/">Talks</a></li>
+<li id="menu-item-50167" class="menu7 menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-50167 current-menu-item"><a href="https://www.schneier.com/academic/">Academic</a></li>
+<li id="menu-item-50174" class="menu8 menu-item menu-item-type-post_type menu-item-object-page menu-item-50174"><a href="https://www.schneier.com/blog/about/">About Me</a></li>
+</ul></div>				</div>
+			</nav>
+
+			
+<aside>
+	<div class="sidebar" id="sidebar-one">
+		<section><div class="sidesection widget widget_schneier_search" id="schneier_search-3"><h3>Search</h3>
+<p class="small">
+	<em>Powered by <a href="https://duckduckgo.com/">DuckDuckGo</a></em></p>
+
+<form method="get" action="https://duckduckgo.com/">
+
+	<input type="hidden" name="kh" value="1"><!-- use https -->
+
+	<input id="search" name="q" size="15" maxlength="255">
+
+	<input type="submit" value="Go"><br>
+
+	<input type="radio" name="sites" id="searchblog" value="www.schneier.com/blog">
+	<label for="searchblog">Blog</label>
+
+	<input type="radio" name="sites" id="searchessays" value="www.schneier.com/essays">
+	<label for="searchessays">Essays</label>
+
+	<input type="radio" name="sites" id="searchall" value="www.schneier.com" checked="">
+	<label for="searchall">Whole site</label>
+
+</form>
+</div></section><section><div class="sidesection widget widget_schneier_social" id="schneier_social-2"><h3>Subscribe</h3>
+<div id="subscription-buttons">
+
+	<a href="https://www.schneier.com/feed/atom"><img src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/rss-32px.png" alt="Atom Feed"></a><a href="https://www.facebook.com/bruce.schneier"><img src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/facebook-32px.png" alt="Facebook"></a><a href="https://twitter.com/schneierblog/"><img src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/twitter-32px.png" alt="Twitter"></a><a href="https://www.amazon.com/Schneier-on-Security/dp/B0053HDDWW/"><img src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/kindle-32px.png" alt="Kindle"></a><a href="https://www.schneier.com/crypto-gram"><img src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/email-32px.png" alt="E-Mail Newsletter (Crypto-Gram)"></a>
+</div>
+</div></section>	</div>
+</aside>
+
+			<div id="content">
+
+				
+		<p id="breadcrumbs">
+
+			<a href="https://www.schneier.com/">Home</a><a href="https://www.schneier.com/academic/">Academic</a>		</p>
+
+		
+	<h2>The Solitaire Encryption Algorithm</h2>
+
+	<p><em>version 1.2, 5/26/99</em></p>
+<h3>Designed by Bruce Schneier<br>
+Featured in Neal Stephenson’s <cite>Cryptonomicon</cite></h3>
+<p><em>This page has been translated into <a href="http://www.nplaumann.de/solitaire.html">German</a> by Nils Plaumann, into <a href="https://www.schneier.com/cryptography/solitaire/fr.html">French</a> by Fernandes Gilbert, into <a href="http://www.jcea.es/artic/solitaire.htm">Spanish</a> by Jesús Cea Avión, into <a href="https://www.schneier.com/wp-content/uploads/2015/12/solitaire-it.pdf">Italian</a> by Silvio Coccaro, and into <a href="https://www.altair.blog/2019/08/solitaire">Czech</a> by Michal Altair Valášek.</em></p>
+<p>In Neal Stephenson’s novel <cite>Cryptonomicon</cite>, the character Enoch Root describes a cryptosystem code-named “Pontifex” to another character named Randy Waterhouse, and later reveals that the steps of the algorithm are intended to be carried out using a deck of playing cards. These two characters go on to exchange several encrypted messages using this system. The system is called “Solitaire” (in the novel, “Pontifex” is a code name intended to temporarily conceal the fact that it employs a deck of cards) and I designed it to allow field agents to communicate securely without having to rely on electronics or having to carry incriminating tools. An agent might be in a situation where he just does not have access to a computer, or may be prosecuted if he has tools for secret communication. But a deck of cards…what harm is that?</p>
+<p>Solitaire gets its security from the inherent randomness in a shuffled deck of cards. By manipulating this deck, a communicant can create a string of “random” letters that he then combines with his message. Of course Solitaire can be simulated on a computer, but it is designed to be implemented by hand.</p>
+<p>Solitaire may be low-tech, but its security is intended to be high-tech. I designed Solitaire to be secure even against the most well-funded military adversaries with the biggest computers and the smartest cryptanalysts. Of course, there is no guarantee that someone won’t find a clever attack against Solitaire (watch this space for updates), but the algorithm is certainly better than any other pencil-and-paper cipher I’ve ever seen.</p>
+<p>It’s not fast, though. It can take an evening to encrypt or decrypt a reasonably long message. In David Kahn’s book <cite>Kahn on Codes, </cite>he describes a real pencil-and-paper cipher used by a Soviet spy. Both the Soviet algorithm and Solitaire take about the same amount of time to encrypt a message: most of an evening.</p>
+<h3>Encrypting with Solitaire</h3>
+<p>Solitaire is an output-feedback mode stream cipher. Sometimes this is called key-generator (KG in U.S. military speak). The basic idea is that Solitaire generates a stream, often called a “keystream,” of numbers between 1 and 26. To encrypt, generate the same number of keystream letters as plaintext letters. Then add them modulo 26 to plaintext letters, one at a time, to create the ciphertext. To decrypt, generate the same keystream and subtract, modulo 26 from the ciphertext to recover the plaintext. (Don’t worry, I’ll explain “modulo” in a minute.)</p>
+<p>For example, to encrypt the first Solitaire message mentioned in Stephenson’s novel, “DO NOT USE PC”:</p>
+<ol>
+<li>Split the plaintext message into five-character groups. (There is nothing magical about five-character groups; it’s just tradition.) Use X’s to fill in the last group. So if the message is “DO NOT USE PC” then the plaintext is:</li>
+</ol>
+<pre>   DONOT  USEPC</pre>
+<ol>
+<li>Use Solitaire to generate ten keystream letters. (Details are below.) Assume they are:</li>
+</ol>
+<pre>   KDWUP  ONOWT</pre>
+<ol>
+<li>Convert the plaintext message from letters into numbers, A=1, B=2, etc:</li>
+</ol>
+<pre>   4 15 14 15 20   21 19 5 16 3</pre>
+<ol>
+<li>Convert the keystream letters similarly:</li>
+</ol>
+<pre>   11 4 23 21 16   15 14 15 23 20</pre>
+<ol>
+<li>Add the plaintext number stream to the keystream numbers, modulo 26. (All this means is, if the sum is more than 26, subtract 26 from the result.) For example, 1+1=2, 26+1=27, and 27-26=1, so 26+1=1.</li>
+</ol>
+<pre>   15 19 11 10 10   10 7 20 13 23</pre>
+<ol>
+<li>Convert the numbers back to letters.</li>
+</ol>
+<pre>   OSKJJ  JGTMW</pre>
+<p>If you’re really good at this, you can learn to add letters in your head, and just add the letters from steps (1) and (2). It just takes practice. It’s easy to remember that A+A=B; remembering that T+Q=K is harder.</p>
+<p>Decrypting with Solitaire</p>
+<p>The basic idea is that the receiver generates the same keystream, and then subtracts the keystream letters from the ciphertext letters.</p>
+<ol>
+<li>Take the ciphertext message and put it in five-character groups. (It should already be in this form.)</li>
+</ol>
+<pre>   OSKJJ  JGTMW</pre>
+<ol>
+<li>Use Solitaire to generate ten keystream letters. If the receiver uses the same key as the sender, the keystream letters will be the same:</li>
+</ol>
+<pre>   KDWUP  ONOWT</pre>
+<ol>
+<li>Convert the ciphertext message from letters into numbers:</li>
+</ol>
+<pre>   15 19 11 10 10   10 7 20 13 23</pre>
+<ol>
+<li>Convert the keystream letters similarly:</li>
+</ol>
+<pre>   11 4 23 21 16   15 14 15 23 20</pre>
+<ol>
+<li>Subtract the keystream numbers from the ciphertext numbers, modulo 26. For example, 22-1=21, 1-22=5. (It’s easy. If the first number is less than or equal to the second number, add 26 to the first number before subtracting. So 1-22=? becomes 27-22=5.)</li>
+</ol>
+<pre>   4 15 14 15 20   21 19 5 16 3</pre>
+<ol>
+<li>Convert the numbers back to letters.</li>
+</ol>
+<pre>   DONOT  USEPC</pre>
+<p>As you can see, decryption is the same as encryption, except that you subtract the keystream from the ciphertext message.</p>
+<h3>Generating the Keystream Letters</h3>
+<p>This is the heart of Solitaire. The above descriptions of encryption and decryption work for any output-feedback mode stream cipher. It’s the way RC4 works. It’s the way OFB mode for DES works. This section is specific to Solitaire, and explains how Solitaire generates those keystream letters.</p>
+<p>Solitaire generates its keystream using a deck of cards. You can think of a 54-card deck (remember the two jokers) as a 54-element permutation. There are 54!, or about 2.31 * 10^71, possible different orderings of a deck. Even better, there are 52 cards in a deck (without the jokers), and 26 letters in the alphabet. That kind of coincidence is just too good to pass up.</p>
+<p>To be used for Solitaire, a deck needs a full set of 52 cards and two jokers. The jokers must be different in some way. (This is common. The deck I’m looking at as I write this has stars on its jokers: one has a little star and the other has a big star.) Call one joker A and the other B. Generally, there is a graphical element on the jokers that is the same, but different size. Make the “B” joker the one that is “bigger.” If it’s easier, you can write a big “A” and “B” on the two jokers, but remember that you will have to explain that to the secret police if you ever get caught.</p>
+<p>To initialize the deck, take the deck in your hand, face up. Then arrange the cards in the initial configuration that is the key. (I’ll talk about the key later, but it’s different than the keystream.) Now you’re ready to produce a string of keystream letters.</p>
+<p>Here’s how to produce a single output character. This is Solitaire:</p>
+<ol>
+<li>Find the A joker. Move it one card down. (That is, swap it with the card beneath it.) If the joker is the bottom card of the deck, move it just below the top card.<p></p>
+</li>
+<li>
+<p>Find the B joker. Move it two cards down. If the joker is the bottom card of the deck, move it just below the second card. If the joker is one up from the bottom card, move it just below the top card. (Basically, assume the deck is a loop…you get the idea.)</p>
+</li>
+</ol>
+<p>It’s important to do these two steps in order. It’s tempting to get lazy and just move the jokers as you find them. This is okay, unless they are very close to each other.</p>
+<p>So if the deck looks like this before step 1:</p>
+<pre>   A 7 2 B 9 4 1</pre>
+<p>at the end of step 2 it should look like:</p>
+<pre>   7 A 2 9 4 B 1</pre>
+<p>And if the deck looks like this before step 1:</p>
+<pre>   3 A B 8 9 6</pre>
+<p>at the end of step 2 it should look like:</p>
+<pre>   3 A 8 B 9 6</pre>
+<p>If you have any doubt, remember to move the A joker before the B joker. And be careful when the jokers are at the bottom of the deck. If the joker is the last card, think of it as the first card before you start counting.</p>
+<ol>
+<li>Perform a triple cut. That is, swap the cards above the first joker with the cards below the second joker. If the deck used to look like:</li>
+</ol>
+<pre>   2 4 6 B 5 8 7 1 A 3 9</pre>
+<p>then after the triple cut operation it will look like:</p>
+<pre>   3 9 B 5 8 7 1 A 2 4 6</pre>
+<p>“First” and “second” jokers refer to whatever joker is nearest to, and furthest from, the top of the deck. Ignore the “A” and “B” designations for this step.</p>
+<p>Remember that the jokers and the cards between them don’t move; the other cards move around them. This is easy to do in your hands. If there are no cards in one of the three sections (either the jokers are adjacent, or one is on top or the bottom), just treat that section as empty and move it anyway. If the deck used to look like:</p>
+<pre>   B 5 8 7 1 A 3 9</pre>
+<p>then after the triple cut operation it will look like:</p>
+<pre>   3 9 B 5 8 7 1 A</pre>
+<p>A deck that looks like:</p>
+<pre>   B 5 8 7 1 A</pre>
+<p>will remain unchanged by this step.</p>
+<ol>
+<li>Perform a count cut. Look at the bottom card. Convert it into a number from 1 through 53. (Use the bridge order of suits: clubs, diamonds, hearts, and spades. If the card is a club, it is the value shown. If the card is a diamond, it is the value plus 13. If it is a heart, it is the value plus 26. If it is a spade, it is the value plus 39. Either joker is a 53.) Count down from the top card that number. (I generally count 1 through 13 again and again if I have to; it’s easier than counting to high numbers sequentially.) Cut after the card that you counted down to, leaving the bottom card on the bottom. If the deck used to look like:</li>
+</ol>
+<pre>   7 ... cards .. 4 5 
+    ... cards ... 8 9</pre>
+<p>and the ninth card was the 4, the cut would result in:</p>
+<pre>   5 ... cards ... 8 7
+    ... cards ... 4 9</pre>
+<p>The reason the last card is left in place is to make the step reversible. This is important for mathematical analysis of its security.</p>
+<p>A deck with a joker as the bottom card will remain unchanged by this step.</p>
+<p>Be sure not to reverse the order when counting cards off the top. The correct way to count is to pass the cards, one at a time, from one hand to another. Don’t make piles on the table.</p>
+<ol>
+<li>Find the output card. To do this, look at the top card. Convert it into a number from 1 through 53 in the same manner as step 4. Count down that many cards. (Count the top card as number one.) Write the card after the one you counted to on a piece of paper; don’t remove it from the deck. (If you hit a joker, don’t write anything down and start over again with step 1.) This is the first output card. Note that this step does not modify the state of the deck.<p></p>
+</li>
+<li>
+<p>Convert the output card to a number. As before, use the bridge suits to order them. From lowest to highest, we have clubs, diamonds, hearts, and spades. Hence, A-clubs through K-clubs is 1 through 13, A-diamonds through K-diamonds is 14 though 26, A-hearts through K-hearts is 1 through 13, and A-spades through K-spades is 14 through 26. (We need 1 through 26, and not 1 through 52, so we can get to letters.)</p>
+</li>
+</ol>
+<p>That’s how to use Solitaire to encrypt a single character. You can use it to create as many keystream numbers as you need; just go through the same six steps once for each output character. (Don’t rekey the deck). And remember, you’ll need one per message character.</p>
+<p>I know that there are regional differences in decks of cards, depending on the country. In general, it does not matter what suit ordering you use, or how you convert cards to numbers. What matters is that the sender and the receiver agree on the rules. If you’re not consistent you won’t be able to communicate.</p>
+<h3>Keying the Deck</h3>
+<p>Before you start producing output cards, you have to key the deck. This is probably the most important part of the whole operation, and the one that the entire security of the system hinges upon. Solitaire is only as secure as the key. That is, the easiest way to break Solitaire is to figure out what key the communicants are using. If you don’t have a good key, none of the rest of this matters. Here are some suggestions for exchanging a key.</p>
+<ol>
+<li>Use identically shuffled decks. A random key is the best. One of the communicants can shuffle up a random deck and then create another, identical deck. One goes to the sender and the other to the receiver. Most people are not good shufflers, so shuffle the deck at least six times. And both parties should keep an additional spare deck in the same keyed order, otherwise if you make a mistake you’ll never be able to decrypt the message. Also remember that the key is at risk as long as it exists; the secret police could find the deck and copy down its order.<p></p>
+</li>
+<li>
+<p>Use a bridge ordering. A description of a set of bridge hands that you might see in a newspaper or a bridge book is about a 95-bit key. Agree on a way to take the bridge-hand diagram and convert it into an ordering of the deck. Then agree on a way to put the two jokers into the deck. (One obvious one is to put the A joker after the first card mentioned in the text, and the B joker after the second card mentioned in the text.)</p>
+</li>
+</ol>
+<p>Be warned, though: the secret police can find your bridge column and copy down the order. You can try setting up some repeatable convention for which bridge column to use; for example, “use the bridge column in your hometown newspaper for the day on which you encrypt the message,” or something like that. Or use a list of keywords to the <cite>New York Times</cite> website, and use the bridge column for the day of the article that comes up when you search on those words. If the keywords are found or intercepted, they look like a passphrase. And pick your own convention for converting bridge columns into deck orderings; remember that the secret police read Neal Stephenson’s books, too.</p>
+<ol>
+<li>Use a passphrase to order the deck. This method uses the Solitaire algorithm to create an initial deck ordering. Both the sender and receiver share a passphrase. (For example, “SECRET KEY.”) Start with the deck in a fixed order; lowest card to highest card, in bridge suits, followed by the A and then the B joker. Perform the Solitaire operation, but instead of Step 5, do another count cut based on the first character of the passphrase (19, in this example). In other words, do step 4 a second time, using 19 as the cut number instead of the last card. Remember to put the top cards just above the bottom card in the deck, as before.</li>
+</ol>
+<p>Repeat the five steps of the Solitaire algorithm once for each character of the key. That is, the second time through the Solitaire steps use the second character of the key, the third time through use the third character, etc.</p>
+<p>Optional step: (This is NOT used in the examples below.) Use the final two characters to set the positions of the jokers. If the second to last character is a G (a 7), put the A joker after the seventh card. If the last character is a T (a 20), put the B joker after the twentieth card.</p>
+<p>Remember, though, that there are only about 1.4 bits of randomness per character in standard English. You’re going to want at least an 64-character passphrase to make this secure; I recommend at least 80 characters, just in case. Sorry; you just can’t get good security with a shorter key.</p>
+<h3>Sample Output</h3>
+<p>Here’s some sample data to practice your Solitaire skills with:</p>
+<p>Sample 1: Start with an unkeyed deck: A-clubs to K-clubs, A-diamonds to K-diamonds, A-hearts to K-hearts, A-spades to K-spades, A joker, B joker. (You can think of this as 1 … 52, A, B.)</p>
+<p>Here’s how to generate the first two outputs. The initial deck is:</p>
+<pre>   1 2 3 4 ... 52 A B</pre>
+<p>After the first step (moving the A joker):</p>
+<pre>   1 2 3 4 ... 52 B A</pre>
+<p>After the second step (moving the B joker):</p>
+<pre>   1 B 2 3 4 ... 52 A</pre>
+<p>After the third step (the triple cut):</p>
+<pre>   B 2 3 4 ... 52 A 1</pre>
+<p>After the fourth step (the count cut):</p>
+<pre>   2 3 4 ... 52 A B 1</pre>
+<p>The last card is a 1, which means cut one card. Remember that the 1 stays where it is, so the one card (the B, moves to the bottom of the deck just above the 1.</p>
+<p>The fifth step does not change the deck, but produces an output card. The top card is a 2, so count down two cards to the 4. The first Solitaire output is 4. (Of course, you’re not supposed to remove this card from the deck. Keep the 4 where it is; just write it down somewhere.)</p>
+<p>To produce the second Solitaire output, go through the five steps again.</p>
+<p>Step 1:</p>
+<pre>   2 3 4 ... 49 50 51 52 B A 1</pre>
+<p>Step 2:</p>
+<pre>   2 3 4 ... 49 50 51 52 A 1 B</pre>
+<p>Step 3:</p>
+<pre>   A 1 B 2 3 4 ... 49 50 51 52</pre>
+<p>Step 4:</p>
+<pre>   51 A 1 B 2 3 4 ... 49 50 52</pre>
+<p>The last card is a 52, so count 52 cards down to the 51. Cut the single card, the 51 with the rest of the deck. Remember that the 52 remains unmoved.</p>
+<p>Step 5 produces the output card. The first card is a 51. Counting down fifty-one cards gets to the 49, which is the second output card. (Again, don’t remove the 49 from the deck.)</p>
+<p>The first ten outputs are:</p>
+<pre>   4 49 10 (53) 24 8 51 44 6 4 33</pre>
+<p>The 53 is skipped, of course. I just put it there for demonstration.</p>
+<p>If the plaintext is</p>
+<pre>   AAAAA  AAAAA</pre>
+<p>then the ciphertext is:</p>
+<pre>   EXKYI  ZSGEH</pre>
+<p>Sample 2: Using keying method 3 and the key “FOO,” (remember that the optional keying step is not used in these examples) the first fifteen outputs are:</p>
+<pre>   8 19 7 25 20 (53) 9 8 22 
+    32 43 5 26 17 (53) 38 48</pre>
+<p>If the plaintext is all As, then the ciphertext is:</p>
+<pre>   ITHZU  JIWGR  FARMW</pre>
+<p>Sample 3: Using keying method 3 and the key “CRYPTONOMICON,” the message “SOLITAIRE” encrypts to:</p>
+<pre>   KIRAK SFJAN</pre>
+<p>Remember that Xs are used to fill out the last five-character group.</p>
+<p>Of course you should use a longer key. These samples are for test purposes only. There are more samples on the website, and you can use the PERL script to create your own.</p>
+<h3>Real Security, Not Security Through Obscurity</h3>
+<p>Solitaire is designed to be secure even if the enemy knows how the algorithm works. I have assumed that “Cryptonomicon” will be a best seller, and that copies will be available everywhere. I assume that the NSA and everyone else will study the algorithm and will watch for it. I assume that the only secret is the key.</p>
+<p>That’s why keeping the key secret is so important. If you have a deck of cards in a safe place, you should assume the enemy will at least entertain the thought that you are using Solitaire. If you have a bridge column in your safe deposit box, you should expect to raise a few eyebrows. If any group is known to be using the algorithm, expect the secret police to maintain a database of bridge columns to use in cracking attempts. Solitaire is strong even if the enemy knows you are using it, and a simple deck of playing cards is still much less incriminating than a software encryption program running on your laptop, but the algorithm is no substitute for street smarts.</p>
+<h3>Operational Notes</h3>
+<ol>
+<li>The first rule of an output-feedback mode stream cipher, any of them, is that you should never use the same key to encrypt two different messages. Repeat after me: NEVER USE THE SAME KEY TO ENCRYPT TWO DIFFERENT MESSAGES. If you do, you completely break the security of the system. Here’s why: if you have two ciphertext streams, A+K and B+K, and you subtract one from the other, you get (A+K)-(B+K) = A+K-B-K = A-B. That’s two plaintext streams combined with each other with no key involved, and is very easy to break. Trust me on this one: you might not be able to recover A and B from A-B, but a professional cryptanalyst can. This is vitally important: never use the same key to encrypt two different messages.<p></p>
+</li>
+<li>
+<p>Keep your messages short. This algorithm is designed to be used with small messages: a couple of thousand characters at most. Use shorthand, abbreviations, and slang in your messages. Don’t be chatty. If you have to encrypt a 100,000-word novel, use a computer algorithm.</p>
+</li>
+<li>
+<p>Like all output-feedback stream ciphers, this system has the unfortunate feature of never recovering from a mistake. If you’re encrypting a message, and you make a mistake in one of the operations, every letter afterwards will be encrypted wrong. You won’t be able to decrypt it, even with the key. And you’ll never know. So if you’re encrypting a message, go through the encryption process twice to make sure they agree. If you’re decrypting, check to make sure the message makes sense as you decrypt it. And if you’re keying from a random deck, keep a spare copy of the ordered deck for this reason.</p>
+</li>
+<li>
+<p>Solitaire is reversible. This means that if you leave the deck lying around after you’ve encrypted your message, the secret police can find it and work the algorithm backwards using the deck. This process can recover all of the output cards and decrypt a message. It is important that you shuffle the deck completely, six times, after you finish encrypting a message.</p>
+</li>
+<li>
+<p>For maximum security, try to do everything in your hands and head. If the secret police starts breaking down your door, just calmly shuffle the deck. (Don’t throw it up in the air; you’d be surprised how much of the deck ordering is maintained during a game of 52-Pickup.) Remember to shuffle the backup deck, if you have one.</p>
+</li>
+<li>
+<p>Be careful about worksheets, if you have to write things down. They will have sensitive information on them.</p>
+</li>
+</ol>
+<p>Burning is probably the best method of data destruction available, but think about the paper. Ungummed, rice cigarette papers seem ideally suited to this role. A colleague did some tests with Club Cabaret Width papers, and they burn completely.</p>
+<p>It’s not as difficult to write on cigarette papers as you might think. Using a No. 2 pencil with a fine but blunt tip works well. A No. 3 pencil works better, but it is a bit weirder to be carrying. Pens have a number of problems. First the extremely hard tip of the pen is more likely to leave impressions in the surface below the paper. Also, anything with ink has the possibility to bleed through to the surface below.</p>
+<p>And good cigarette papers are made to burn cleanly and completely. The Club papers burned best when allowed to burn in the free air. That is, lit and released at about chest level. These papers also have the advantage of having very low volume and could be easily eaten if required.</p>
+<p>They are also extremely thin. These three-inch square papers can be folded six times into a 1 cm square which is about 1 mm thick. One paper can comfortably hold 80 characters in 8 rows of two five letter blocks each. It seems quite possible a reasonably careful writer could fit 120 characters.</p>
+<ol>
+<li>Solitaire can work on computers. Often only one end of the communications has to use the deck of cards; the other is safe enough to use a computer. Use a computer when you can: it’s faster and the computer never makes mistakes.<p></p>
+</li>
+<li>
+<p>Most card games do not include jokers, so carrying a deck around with them may be suspicious. Be prepared with a story.</p>
+</li>
+<li>
+<p>The security of Solitaire does not depend on the secrecy of the method. I assume that the secret police know that you’re using it.</p>
+</li>
+</ol>
+<h3>Security Analysis</h3>
+<ul>
+<li><a href="http://www.ciphergoth.org/crypto/solitaire/">Problems with Bruce Schneier’s “Solitaire”</a> (Paul Crowley, 1999)</li>
+<li><a href="http://eprint.iacr.org/2003/169">Properties of the Transformation Semigroup of the Solitaire Stream Cipher</a> (B. Pogorelov and M. Pudovkina, 2003)</li>
+<li><a href="http://ieeexplore.ieee.org/xpls/abs_all.jsp?arnumber=6901648">Probabilistic Cycle Detection for Schneier’s Solitaire Keystream Algorithm</a> (W. Tounsi, B. Justus, N.C. Boulahia, F. Cuppen, and J.G. Alfaro, 2014)</li>
+<li><a href="https://arxiv.org/abs/1909.06300">Analysis of Solitaire</a> (D. Shiu, 2019)</li>
+</ul>
+<h4>Learning More</h4>
+<p>I recommend my own book, <cite>Applied Cryptography</cite> (John Wiley &amp; Sons, 1996), as a good place to start. Then read <cite>The Codebreakers</cite>, by David Kahn (Scribner, 1996). After that, there are several books on computer cryptography, and a few others on manual cryptography. It’s a fun field; good luck.</p>
+<h3>Downloads</h3>
+<p><a href="https://www.schneier.com/wp-content/uploads/2015/12/sol-test.txt">test vectors</a> – <a href="https://www.schneier.com/wp-content/uploads/2015/12/sol.pl_.zip">Perl</a> – <a href="https://github.com/doug16rogers/solitaire">Ada</a> – <a href="https://github.com/sachinra/Solitaire">AutoIt (with “dynamic decks”)</a> – <a href="https://github.com/ncarusso/Solitaire_bash/">Bash</a> – <a href="https://www.schneier.com/wp-content/uploads/2015/12/sol-c.tar.gz">C (#1)</a> – <a href="https://www.schneier.com/code/solitaire.c">C (#2)</a> – <a href="http://www.ciphergoth.org/crypto/solitaire/c-sol.c">C (#3)</a> – <a href="http://www2.rmcil.edu/dross/solitaire.htm">C++</a> – <a href="http://www.u.arizona.edu/~ssmith4/programs/">C++ GUI</a> <!--- <a href="http://amt.wckp.lodz.pl/sq7obj/solitaire/">C# (#1)</a>--> – <a href="http://www.erobillard.com/Content/solitaire/">C#</a> – <a href="https://github.com/tmciver/solitaire">Clojure</a> – <a href="https://www.schneier.com/wp-content/uploads/2015/12/sol-delphi.zip">Delphi (#1)</a> – <a href="http://www.torry.net/samples/samples/soft/solitaire.zip">Delphi (#2)</a> – <a href="https://www.schneier.com/code/solitaire.erl">Erlang</a> – <a href="http://www.wilbaden.com/neil_bawd/solitair.txt">Forth (#1)</a> – <a href="http://web.archive.org/web/20060305103128/http://pet.dhs.org/~ecl/src/soli.seq">Forth (#2)</a> – <a href="https://www.schneier.com/wp-content/uploads/2015/12/soljava.zip">Java</a> – <a href="http://www.phys.uconn.edu/~aldridge/solitaire/solitaire.htm">Javascript</a> – <a href="https://www.schneier.com/code/sol.k">K</a> – <a href="http://www.biff.org.uk/dave/software/solitaire/index.html">Palm OS</a> – <a href="https://www.schneier.com/code/solitaire.pas">Pascal</a> – <a href="http://www.ciphergoth.org/crypto/solitaire/perl-sol">Perl</a> – <a href="http://www.carumba.org/hacks/pontifex/">Perl CGI</a> <!--<a href="https://github.com/Robert-Kosten/de.robertkosten.solitaire">PHP</a>--> – <a href="https://www.schneier.com/wp-content/uploads/2015/12/pysol.zip">Python (#1)</a> – <a href="https://www.schneier.com/wp-content/uploads/2015/12/sol.py_.zip">Python (#2)</a> – <a href="http://www.rubyquiz.com/quiz1.html">Ruby</a> – <a href="https://www.schneier.com/code/sol.tcl">TCL</a></p>
+<p><strong>Note:</strong> only the <a href="https://www.schneier.com/code/sol.pl">Perl implementation</a> has been tested by Counterpane.</p>
+<p class="bottomnav"><a href="https://www.schneier.com/academic/">up</a> to Academic</p>
+<p id="powered">Sidebar photo of Bruce Schneier by Joe MacInnis.</p>
+		</div>
+
+		
+<aside>
+	<div class="sidebar" id="sidebar-two">
+		<section><div class="sidesection widget widget_schneier_about" id="schneier_about-2"><h3>About Bruce Schneier</h3><img src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/Bruce-Schneier.jpg"><p></p><p class="small">I am a <a href="https://public-interest-tech.com/">public-interest technologist</a>, working at the intersection of security, technology, and people. I've been writing about security issues on my <a href="https://www.schneier.com/">blog</a> since 2004, and in my monthly <a href="https://www.schneier.com/crypto-gram/">newsletter</a> since 1998. I'm a fellow and lecturer at Harvard's <a href="https://www.hks.harvard.edu/faculty/bruce-schneier">Kennedy School</a>, a board member of <a href="https://www.eff.org/">EFF</a>, and the Chief of Security Architecture at <a href="https://inrupt.com/">Inrupt, Inc.</a> This personal website expresses the opinions of none of those organizations.</p>
+<p></p></div></section><section><div class="sidesection widget widget_schneier_featured_essays" id="schneier_featured_essays-2"><h3>Featured Essays</h3>
+	<ul>
+		<li><a href="https://www.schneier.com/essays/archives/2016/04/the_value_of_encrypt.html">The Value of Encryption</a></li><li><a href="https://www.schneier.com/essays/archives/2016/03/data_is_a_toxic_asse.html">Data Is a Toxic Asset, So Why Not Throw It Out?</a></li><li><a href="https://www.schneier.com/essays/archives/2014/01/how_the_nsa_threaten.html">How the NSA Threatens National Security</a></li><li><a href="https://www.schneier.com/essays/archives/2009/01/terrorists_may_use_g.html">Terrorists May Use Google Earth, But Fear Is No Reason to Ban It</a></li><li><a href="https://www.schneier.com/essays/archives/2007/01/in_praise_of_securit.html">In Praise of Security Theater</a></li><li><a href="https://www.schneier.com/essays/archives/2006/08/refuse_to_be_terrori.html">Refuse to be Terrorized</a></li><li><a href="https://www.schneier.com/essays/archives/2006/05/the_eternal_value_of.html">The Eternal Value of Privacy</a></li><li><a href="https://www.schneier.com/essays/archives/2005/09/terrorists_dont_do_m.html">Terrorists Don't Do Movie Plots</a></li>	</ul>
+
+	<p><a href="https://www.schneier.com/essays/">More Essays</a></p></div></section><section><div class="sidesection widget widget_schneier_archives" id="schneier_archives-2"><h3>Academic Archives</h3>
+<ul>
+
+	<li><a href="https://www.schneier.com/academic/archive/">Archive by Date</a></li></ul>
+
+<h4>Academic Categories</h4><ul class="categorylist"><li><a href="https://www.schneier.com/academic/algorithm_analyses/">Algorithm Analyses</a></li><li><a href="https://www.schneier.com/academic/cipher_design/">Cipher Design</a></li><li><a href="https://www.schneier.com/academic/miscellaneous_papers/">Miscellaneous Papers</a></li><li><a href="https://www.schneier.com/academic/new_algorithms/">New Algorithms</a></li><li><a href="https://www.schneier.com/academic/protocol_analyses/">Protocol Analyses</a></li><li><a href="https://www.schneier.com/academic/protocol_designs/">Protocol Designs</a></li><li><a href="https://www.schneier.com/academic/pseudorandom_number/">Pseudorandom Number Generators</a></li><li><a href="https://www.schneier.com/academic/smart_cards/">Smart Cards</a></li></ul></div></section><section><div class="sidesection widget widget_schneier_latest_book" id="schneier_latest_book-3"><h3>Latest Book</h3><a href="https://www.schneier.com/books/root/"><img class="sidepic" alt="We Have Root" src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/book-root-200w.png"></a><p><a href="https://www.schneier.com/books/">More Books</a></p></div></section><section><div class="sidesection widget widget_schneier_promotion" id="schneier_promotion-2">
+<a href="https://www.eff.org/issues/bloggers/legal/join">
+	<img src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/join-eff@2x.png" id="effbutton" alt="Support Bloggers&#39; Rights!" title="Support Bloggers&#39; Rights!"></a>
+
+<a href="https://npo.networkforgood.org/Donate/Donate.aspx?npoSubscriptionId=8252">
+	<img src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/support-epic@2x.png" alt="Defend Privacy--Support Epic" title="Defend Privacy--Support Epic"></a>
+</div></section>	</div>
+</aside>
+
+		<footer>
+			<nav>
+				<div class="nav" id="footer-nav">
+					<div class="menu-main-menu-container"><ul id="menu-main-menu-1" class="menu"><li class="menu1 menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-50175"><a href="https://www.schneier.com/">Blog</a></li>
+<li class="menu2 menu-item menu-item-type-post_type menu-item-object-page menu-item-50916"><a href="https://www.schneier.com/crypto-gram/">Newsletter</a></li>
+<li class="menu3 menu-item menu-item-type-post_type menu-item-object-page menu-item-50166"><a href="https://www.schneier.com/books/">Books</a></li>
+<li class="menu4 menu-item menu-item-type-custom menu-item-object-custom menu-item-50169"><a href="https://www.schneier.com/essays/">Essays</a></li>
+<li class="menu5 menu-item menu-item-type-custom menu-item-object-custom menu-item-50170"><a href="https://www.schneier.com/news/">News</a></li>
+<li class="menu6 menu-item menu-item-type-custom menu-item-object-custom menu-item-50171"><a href="https://www.schneier.com/talks/">Talks</a></li>
+<li class="menu7 menu-item menu-item-type-post_type menu-item-object-page current-page-ancestor menu-item-50167 current-menu-item"><a href="https://www.schneier.com/academic/">Academic</a></li>
+<li class="menu8 menu-item menu-item-type-post_type menu-item-object-page menu-item-50174"><a href="https://www.schneier.com/blog/about/">About Me</a></li>
+</ul></div>				</div>
+			</nav>
+		</footer>
+
+		</div><!--#main-->
+	</div><!--#wrapper-->
+
+		<script type="text/javascript">
+		(function () {
+			var c = document.body.className;
+			c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
+			document.body.className = c;
+		})();
+	</script>
+	<script type="text/javascript" src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/main.js" id="schneier-main-js"></script>
+<script type="text/javascript" src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/jquery.cookie.min.js" id="jquery-cookie-js"></script>
+<script type="text/javascript" src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/socialshareprivacy.js" id="social-share-privacy-js"></script>
+<script type="text/javascript" id="social-share-privacy-icons-js-extra">
+/* <![CDATA[ */
+var schneierSocial = {"path":"https:\/\/www.schneier.com\/wp-content\/themes\/schneier\/assets\/vendor\/socialshareprivacy\/"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="./Schneier on Security_ The Solitaire Encryption Algorithm_files/icons.js" id="social-share-privacy-icons-js"></script>
+
+
+
+
+<!--
+	generated in 0.311 seconds
+	52703 bytes batcached for 300 seconds
+-->
+</body></html>

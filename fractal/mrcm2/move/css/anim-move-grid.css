@@ -7,8 +7,8 @@
 }
 #ul1 {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, auto);
     padding-inline-start: 0;
 }
 #ul2 {
@@ -26,7 +26,7 @@
 #ul2 input {
     font-size: inherit;
     text-align: right;
-    width: 9ch;
+    width: 7.25ch;
 }
 
 #ul1 output {

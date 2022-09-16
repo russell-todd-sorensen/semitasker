@@ -35,11 +35,16 @@
     <input id="gSize" name="gSize" value="13" type="number" min="1" step="1" >
 </li>
 <li>
-    <label for="cols"><nobr>Per Suit</nobr></label>
+    <label for="cols"><nobr>/ Suit</nobr></label>
     <input id="cols" name="cols" value="5" type="number" min="1" step="1" >
 </li>
 <li>
     <label>Suits</label><output id="rows" name="rows" form="form1" ></output>
+</li>
+
+<li>
+    <label for="animTimeout"><nobr>Time</nobr></label>
+    <input id="animTimeout" name="animTimeout" value="1000" type="number" min="1" step="1" >
 </li>
 </ul>
 <ul id="ul2">
@@ -47,7 +52,7 @@
     <input type="button" value="Layout Cards"
         onClick="myAnimControl.init('svg-container');currentStep.value='-,0'">
 </li>
-<li><input type="hidden" id="animTimeout" name="animTimeout" value="1500" />
+<li><!--<input type="hidden" id="animTimeout" name="animTimeout" value="1500" />-->
     <input type="button" id="runStrategy" name="runStrategy" value="Shuffle" 
         onClick="myAnimControl.initQueue('svg-container',{});myAnimControl.startQueue();">
 </li>
@@ -165,6 +170,13 @@ svg g#main ellipse#ellipse1 {
     stroke-width:2;
     fill:white;
 }
+#degreeLine {
+    stroke:#2000CC;
+    stroke-width:3;
+    stroke-opacity:1;
+    stroke-linecap:round;
+    fill:none;
+}
 
 #row-heads.row-grid .♣ text,
 #row-heads.row-grid .♠ text,
@@ -216,6 +228,7 @@ svg g#main ellipse#ellipse1 {
     <path id="a2bPath" transform="translate(0,0)" d="" />
     <path id="b2aPath" transform="translate(0,0)" d="" />
     <line id="a2bLine" x1="0" y1="0" x2="0" y2="0" />
+    <path id="degreeLine" d="m0,0 v-60" transform="rotate(0,0,0)" />
     <circle id="centroid" cx="-500" cy="-500" r="3" />
 </g>
 </svg></template>
@@ -240,7 +253,7 @@ var config = {
             default:52,
             form:"form1",
             formvar:"gSize",
-            param:"numPrisoners",
+            param:"numItems",
         },
         {
             urlvar:"c",

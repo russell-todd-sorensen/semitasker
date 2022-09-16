@@ -1,6 +1,53 @@
 var drawDxDyH = function(dx,dy) {
     return `M0,0 L${dx},0 ${dx},${dy} Z`
-} 
+}
+var chooseEllipseDims = function (cx,cy,minDim=60,mult=3) {
+    cx = Math.abs(cx);
+    cy = Math.abs(cy);
+    let div=cx/cy;
+    let max=cx>cy?cx:cy;
+
+    if (max<minDim) {
+        cx=minDim*mult;
+        cy=minDim;
+    }
+
+}
+var drawAtoBpaths = function(pathData) {
+    let p = Object.assign({
+        x1:0,
+        y1:0,
+        x2:120,
+        y2:120,
+        dir:1,
+        sweep:0,
+    },pathData);
+
+    p.dx  = (p.x2 - p.x1);
+    p.dy  = (p.y2 - p.y1);
+    p.bias = (p.dx*p.dy<0?1:-1);
+    p.dbias = -p.bias;
+    p.h=Math.sqrt(p.dx**2+p.dy**2);
+    p.sin=p.h==0?1:p.dy/p.h;
+    p.deg=(Math.asin(p.sin)*(180/Math.PI));
+
+    p.r  = p.h/2;
+    p.cx  = Math.abs(p.dx/2);
+    p.cy  = Math.abs(p.dy/2);
+
+    if (p.cx <= Number.EPSILON) {
+        p.dx = 0;
+        p.cx = r;
+    }
+    if (p.cy <= Number.EPSILON) {
+        p.dy = 0;
+        p.cy = r;
+    }
+    return {
+        a2b:`m0,0 a${p.cx.toFixed(3)},${p.cy.toFixed(3)} ${p.deg.toFixed(3)} ${p.dir},${p.sweep} ${p.dx.toFixed(3)},${p.dy.toFixed(3)}`,
+        b2a:`m0,0 a${p.cx.toFixed(3)},${p.cy.toFixed(3)} ${p.deg.toFixed(3)} ${p.dir},${p.sweep} ${((-1)*p.dx).toFixed(3)},${((-1)*p.dy).toFixed(3)}`,
+    }
+}
 var calcSVGPathFromTo = function (
     optionsUpdate
 ) {
@@ -18,6 +65,8 @@ var calcSVGPathFromTo = function (
         }, optionsUpdate),
         dx  = (options.x2 - options.x1),
         dy  = (options.y2 - options.y1),
+        bias = (dx*dy<0?1:-1),
+        dbias = bias*-1,
         h   = Math.sqrt(dx**2+dy**2),
         sin = h==0?1:dy/h,
         deg = (Math.asin(sin)*(180/Math.PI)),
@@ -29,7 +78,7 @@ var calcSVGPathFromTo = function (
         minx = options.x1<options.x2?options.x1:options.x2,
         miny = options.y1<options.y2?options.y1:options.y2,
         midx = minx+cx,
-        midy = miny+cy
+        midy = miny+cy,
         pathData = {
             pathDataA:"",
             pathDataB:"",
@@ -49,8 +98,12 @@ var calcSVGPathFromTo = function (
             if (options.testEllipse.length) {
                 let halfYDim  = options.ydim/2,
                     halfXDim  = options.xdim/2,
-                    pathDataA = `m0,0 a${halfXDim.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
-                    pathDataB = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
+                    //pathDataA = `m0,0 a${halfXDim.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+                    pathDataA = `m0,0 a${cx.toFixed(3)},60 ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+                    //pathDataA = `m0,0 a${180},${60} ${(dbias*deg).toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+                    //pathDataB = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} ${(dbias*deg).toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
+                    pathDataB = `m0,0 a${cx.toFixed(3)},60 ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
+                    //pathDataB = `m0,0 a${180},${60} ${(dbias*deg).toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
                     pathDataC = `m0,0 a${halfXDim.toFixed(3)},${cy.toFixed(3)} 0 ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
                     pathDataD = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} 0 ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
                     pathDataTriangleA = drawDxDyH(dx,dy),
@@ -121,8 +174,10 @@ var calcSVGPathFromTo = function (
             }
         }
 
-    let a2b = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
-        b2a = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`;
+    //let a2b = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${(deg).toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+    //    b2a = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`;
+    let a2b = `m0,0 a${(((cx/cy)>3)?3:(cx/cy)).toFixed(3)},1.000 ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+        b2a = `m0,0 a${(((cx/cy)>3)?3:(cx/cy)).toFixed(3)},1.000 ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`;
 
     return {
         dx:dx,dy:dy,
@@ -135,6 +190,7 @@ var calcSVGPathFromTo = function (
         midx:midx,midy:midy,
         a2b:a2b,b2a:b2a,
         pathData:pathData,
+        bias:bias,
     };
 }
 
@@ -154,6 +210,7 @@ var testCalcPath = function(dataUpdate) {
             minimizeArea:true,
             maxPoints:5,
             startPoint:1,
+            bias:1,
         }, dataUpdate),
         maxPoints = data.maxPoints,
         startPoint = data.startPoint,

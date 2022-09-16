@@ -1,6 +1,6 @@
 
-class PrisonerSearch extends Visualization {
-    numPrisoners;
+class ItemSearch extends Visualization {
+    numItems;
     numColumns;
     dataGeometry = new Map();
     dataAnimMap  = new Map();
@@ -22,13 +22,13 @@ class PrisonerSearch extends Visualization {
     };
     constructor(state) {
         super({
-            tmpl:"PrisonerSearch",
+            tmpl:"ItemSearch",
             state:state,
         });
         this.updateState();
     }
     updateState() {
-        this.numPrisoners = this.state.param("gs");
+        this.numItems = this.state.param("gs");
         this.numColumns   = this.state.param("cols");
     }
     sync(mode="form2url") {
@@ -40,7 +40,7 @@ class PrisonerSearch extends Visualization {
         let parent = document.getElementById(parentId),
             xmlns = "http://www.w3.org/2000/svg",
             cols = parseInt(this.numColumns),
-            rows = parseInt(Math.ceil(this.numPrisoners/cols)),
+            rows = parseInt(Math.ceil(this.numItems/cols)),
             itemFullWidth=sgConfig.itemDims.width+sgConfig.itemDims.gap,
             itemFullHeight=sgConfig.itemDims.height+sgConfig.itemDims.gap,
             groupWrapX = sgConfig.groupwrapper.x,
@@ -151,7 +151,7 @@ class PrisonerSearch extends Visualization {
             cHead         = document.getElementById(colGridId),
             rHead         = document.getElementById(rowGridId),
             cols          = this.numColumns,
-            rows          = Math.ceil(this.numPrisoners/cols),
+            rows          = Math.ceil(this.numItems/cols),
             xmlns         = "http://www.w3.org/2000/svg",
             anchorHead    = document.createElementNS(xmlns,"g"),
             anchorRect    = document.createElementNS(xmlns,"use"),
@@ -179,7 +179,7 @@ class PrisonerSearch extends Visualization {
             rowHead.appendChild(rContent);
             rHead.appendChild(rowHead);
 
-            for (let col=0;col<cols&&index<this.numPrisoners;col++,index++) {
+            for (let col=0;col<cols&&index<this.numItems;col++,index++) {
                 if (row==0) {
                     let colHead = document.createElementNS(xmlns,"g"),
                         colRect = document.createElementNS(xmlns,"use"),
