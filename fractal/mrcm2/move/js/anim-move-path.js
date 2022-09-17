@@ -1,17 +1,17 @@
 var drawDxDyH = function(dx,dy) {
     return `M0,0 L${dx},0 ${dx},${dy} Z`
 }
-var chooseEllipseDims = function (cx,cy,minDim=60,mult=3) {
-    cx = Math.abs(cx);
-    cy = Math.abs(cy);
-    let div=cx/cy;
-    let max=cx>cy?cx:cy;
+var chooseEllipseDims = function (cx,cy,minDim=90,mult=3) {
+    cx = Math.abs(parseFloat(cx));
+    cy = Math.abs(parseFloat(cy));
+    // note cx and cy minimums are r
 
-    if (max<minDim) {
-        cx=minDim*mult;
-        cy=minDim;
-    }
-
+    let halfH = Math.sqrt(cx**2+cy**2);
+    if (cy > minDim) {
+        cy = minDim
+    } 
+    cx = halfH;
+    return {cx:cx,cy:cy,halfH:halfH,minDim:minDim,mult:mult}
 }
 var drawAtoBpaths = function(pathData) {
     let p = Object.assign({
@@ -54,12 +54,12 @@ var calcSVGPathFromTo = function (
     let options = Object.assign({
             x1:0,
             y1:0,
-            x2:120,
-            y2:120,
+            x2:180,
+            y2:180,
             dir:1,
             sweep:0,
-            xdim:120,
-            ydim:120,
+            xdim:180,
+            ydim:180,
             minimizeArea:true,
             testEllipse:["ellipseA","ellipseB","ellipseC","ellipseD"],
         }, optionsUpdate),
@@ -99,10 +99,10 @@ var calcSVGPathFromTo = function (
                 let halfYDim  = options.ydim/2,
                     halfXDim  = options.xdim/2,
                     //pathDataA = `m0,0 a${halfXDim.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
-                    pathDataA = `m0,0 a${cx.toFixed(3)},60 ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+                    pathDataA = `m0,0 a${r.toFixed(3)},${(r>halfYDim?halfYDim:r).toFixed(3)} ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
                     //pathDataA = `m0,0 a${180},${60} ${(dbias*deg).toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
                     //pathDataB = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} ${(dbias*deg).toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
-                    pathDataB = `m0,0 a${cx.toFixed(3)},60 ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
+                    pathDataB = `m0,0 a${r.toFixed(3)},${(r>halfYDim?halfYDim:r).toFixed(3)} ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
                     //pathDataB = `m0,0 a${180},${60} ${(dbias*deg).toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
                     pathDataC = `m0,0 a${halfXDim.toFixed(3)},${cy.toFixed(3)} 0 ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
                     pathDataD = `m0,0 a${cx.toFixed(3)},${halfYDim.toFixed(3)} 0 ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`,
@@ -176,8 +176,10 @@ var calcSVGPathFromTo = function (
 
     //let a2b = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${(deg).toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
     //    b2a = `m0,0 a${cx.toFixed(3)},${cy.toFixed(3)} ${deg.toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`;
-    let a2b = `m0,0 a${(((cx/cy)>3)?3:(cx/cy)).toFixed(3)},1.000 ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
-        b2a = `m0,0 a${(((cx/cy)>3)?3:(cx/cy)).toFixed(3)},1.000 ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`;
+        let a2b = pathData.pathDataA,
+            b2a = pathData.pathDataB;
+        pathData.pathDataA = `m0,0 a${(((cx/cy)>3)?3:(cx/cy)).toFixed(3)},1.000 ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${dx.toFixed(3)},${dy.toFixed(3)}`,
+        pathData.pathDataB = `m0,0 a${(((cx/cy)>3)?3:(cx/cy)).toFixed(3)},1.000 ${(bias*deg).toFixed(3)} ${options.dir},${options.sweep} ${((-1)*dx).toFixed(3)},${((-1)*dy).toFixed(3)}`;
 
     return {
         dx:dx,dy:dy,

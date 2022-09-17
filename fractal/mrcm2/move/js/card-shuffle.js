@@ -338,7 +338,8 @@ class CardShuffle extends Visualization {
             a2bLine = document.getElementById("a2bLine"),
             centroid = document.getElementById("centroid"),
             degreeLine = document.getElementById("degreeLine"),
-            bias = pathA.bias;
+            bias = pathA.bias,
+            calcCY = ((pathA.r >0 && pathA.r<90)?pathA.r:90).toFixed(3);
 
         console.log(`bias=${bias},pathA.dx=${pathA.dx},pathA.dy=${pathA.dy}`);
         a2bPath.setAttribute("d",a2b);
@@ -351,7 +352,7 @@ class CardShuffle extends Visualization {
         a2bLine.setAttribute("y2",bGeo.gy);
         centroid.setAttribute("cx",pathA.midx);
         centroid.setAttribute("cy",pathA.midy);
-        degreeLine.setAttribute("d",`M${pathA.midx},${pathA.midy} v-120`);
+        degreeLine.setAttribute("d",`M${pathA.midx},${pathA.midy} v-${calcCY}`);
         degreeLine.setAttribute("transform",`rotate(${(pathA.deg*bias).toFixed(3)},${pathA.midx},${pathA.midy})`);
         //console.log(`r=${pathA.r},a2b=${a2b},b2a=${b2a}`);
         aGroup.classList.remove(this.superGrid.getDataClass("inactive"));
