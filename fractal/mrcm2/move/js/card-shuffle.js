@@ -8,7 +8,7 @@ class CardShuffle extends Visualization {
     gidMap       = new Map();
     dataBbox = {};
     cardValues={1:"A",2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,11:"J",12:"Q",13:"K"};
-    cardSuits={1:"♣",2:"♦",3:"♠",4:"♥",5:"♧",6:"♢",7:"♤",8:"♡"};
+    cardSuits={1:"♣",2:"♦",3:"♥",4:"♠",5:"♧",6:"♢",7:"♡",8:"♤"};
     superGrid={
         svg:{id:"svgvis",class:""},
         groupwrapper:{id:"file-box-room",class:"file-box-wrapper",x:20,y:20},

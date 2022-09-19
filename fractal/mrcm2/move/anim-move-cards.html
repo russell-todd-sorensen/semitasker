@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="css/anim-move-grid.css" >
 <link rel="stylesheet" href="css/anim-move-svg.css" >
 
-<script src="/js/queue-function.js"></script>
+<script src="/js/queue-function.js" defer></script>
 <script src="js/probability-and-stats.js" defer ></script>
 <script src="js/anim-move-svg.js" defer ></script>
 <script src="js/page-state.js" defer ></script>
@@ -146,21 +146,21 @@ svg g#main ellipse#ellipse1 {
 }
 #a2bPath {
     fill:none;
-    stroke:rgba(154, 205, 50,1);
+    stroke:rgba(128, 128, 0,1);
     stroke-width:3;
     stroke-opacity: 1;
     stroke-linecap:calc(stroke-width*2) round;
 }
 #b2aPath {
     fill:none;
-    stroke:rgba(210,0,0,1);
+    stroke:rgba(0,128,128,1);
     stroke-width:3;
     stroke-opacity: 1;
     stroke-linecap:round;
 }
 #a2bLine {
-    stroke:white;
-    stroke-width:3;
+    stroke: #404040;
+    stroke-width:2;
     stroke-opacity: 1;
     stroke-linecap:round;
 }
@@ -171,7 +171,7 @@ svg g#main ellipse#ellipse1 {
     fill:white;
 }
 #degreeLine {
-    stroke:#2000CC;
+    stroke:#808080;
     stroke-width:3;
     stroke-opacity:1;
     stroke-linecap:round;
@@ -186,7 +186,7 @@ svg g#main ellipse#ellipse1 {
 #data-grid .data.♠ text,
 #data-grid .data.♧ text,
 #data-grid .data.♤ text {
-    fill:black;
+    fill: #000080;
 }
 #row-heads.row-grid .♦ text,
 #row-heads.row-grid .♥ text,
@@ -196,7 +196,7 @@ svg g#main ellipse#ellipse1 {
 #data-grid .data.♥ text,
 #data-grid .data.♢ text,
 #data-grid .data.♡ text {
-    fill:red;
+    fill:#800000;
 }
 #data-grid g.data.inactive {
     opacity: 0.05;
@@ -297,9 +297,10 @@ window.addEventListener('DOMContentLoaded', () => {
     xmlns="http://www.w3.org/2000/svg"
     xmlns:xlink="http://www.w3.org/1999/xlink"
     x="0"
-    y="0"
-    width="2500"
-    height="3000"
+    y="625"
+    width="1700"
+    height="1000"
+    viewBox="0 325 1700 1000"
     >
 <defs>
 <style>
@@ -386,7 +387,7 @@ window.addEventListener('DOMContentLoaded', () => {
 </g>
 </defs>
 
-<g id="test-area" transform="translate(150,750) scale(.5)">
+<g id="test-area" transform="translate(335,750) scale(.5)">
     <use href="#ellipseGroupB" />
     <use href="#ellipseGroupC" />
     <use href="#ellipseGroupD" />
@@ -395,5 +396,14 @@ window.addEventListener('DOMContentLoaded', () => {
 </svg>
 </div>
 </div><!-- end all -->
+
+<style>
+    /* final style tweaks which might change often */
+#form1 fieldset#fs1,
+#svg-container,
+#svg-test-container {
+    background-color: #EEEEEE;
+}
+</style>
 </body>
 </html>
