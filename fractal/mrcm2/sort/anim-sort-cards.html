@@ -5,9 +5,9 @@
 <meta name="description" content="Animate Card Shuffle and Other Sort and Search Algorithms." >
 <title>Shuffle Cards</title>
 <link rel="stylesheet" href="/css/main.css" >
-<link rel="stylesheet" href="css/anim-move-form.css">
-<link rel="stylesheet" href="css/anim-move-grid.css" >
-<link rel="stylesheet" href="css/anim-move-svg.css" >
+<link rel="stylesheet" href="css/anim-sort-form.css">
+<link rel="stylesheet" href="css/anim-sort-grid.css" >
+<link rel="stylesheet" href="css/anim-sort-svg.css" >
 <link rel="canonical"  href="https://home.highfivediet.com/" id="canonical" >
 <script>
 var linkRef = document.getElementById("canonical");
@@ -16,18 +16,17 @@ linkRef.setAttribute("href",`https://home.highfivediet.com${document.location.pa
 
 <script src="/js/queue-function.js" defer></script>
 <script src="js/probability-and-stats.js" defer ></script>
-<script src="js/anim-move-svg.js" defer ></script>
+<script src="js/anim-sort-svg.js" defer ></script>
 <script src="js/page-state.js" defer ></script>
 <script src="js/visualization.js" defer ></script>
 <script src="js/card-shuffle.js" defer ></script>
-<script src="js/anim-move-strategy.js" defer ></script>
-<script src="js/anim-move-path.js" defer ></script>
+<script src="js/anim-sort-strategy.js" defer ></script>
+<script src="js/anim-sort-path.js" defer ></script>
 <script src="js/anim-control.js" defer ></script>
 </head>
 <body>
 
 <div id="all">
-<div id="main">
 <div id="controls">
 <form id="form1"
     action=""
@@ -72,14 +71,8 @@ linkRef.setAttribute("href",`https://home.highfivediet.com${document.location.pa
 </fieldset>
 </form>
 </div>
-<div id="file-box-room">
-    <p>ooo</p>
-</div>
-<div id="ideasAndCommentary" >
-<li>
+<div id="main">
 
-</li>
-</div>
 <!-- reuseable template for svg doc-->
 <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template -->
 <template id="svg-template" type="image/svg+xml"><svg
@@ -290,12 +283,8 @@ window.addEventListener('DOMContentLoaded', () => {
     myAnimQueue   = new Queue();
 });
 </script>
-<script>
-
-</script>
 
 <div id="svg-container"></div>
-</div> <!-- end main -->
 <div id="svg-test-container">
 <svg
     id="svg-test"
@@ -320,20 +309,6 @@ window.addEventListener('DOMContentLoaded', () => {
 #ellipseB,
 #ellipseBdxdyh {
     stroke:#800080;
-    stroke-width:3;
-    stroke-opacity:0.5;
-    fill:rgba(0,0,0,.1);
-}
-#ellipseC,
-#ellipseCdxdyh {
-    stroke:#808000;
-    stroke-width:3;
-    stroke-opacity:0.5;
-    fill:rgba(0,0,0,.1);
-}
-#ellipseD,
-#ellipseDdxdyh {
-    stroke:#808080;
     stroke-width:3;
     stroke-opacity:0.5;
     fill:rgba(0,0,0,.1);
@@ -376,31 +351,17 @@ window.addEventListener('DOMContentLoaded', () => {
         <text id="graphB" class="graph-text" transform="translate(-250,-250)">B,</text>
     </g>
 </g>
-<g id="ellipseGroupC" transform="translate(1000,1550)">
-    <g id="ellipseCrotate" transform="">
-        <path id="ellipseC" d="M0,0 a120,150 0 1,0 240,0" />
-        <path id="ellipseCdxdyh" d="M0,0 l240,0 0,0 Z"/>
-        <text id="graphC" class="graph-text" transform="translate(250,-250)">C,</text>
-    </g>
-</g>
-<g id="ellipseGroupD" transform="translate(1000,1550)">
-    <g id="ellipseDrotate" transform="">
-        <path id="ellipseD" d="M0,0 a120,150 0 1,0 240,0" />
-        <path id="ellipseDdxdyh" d="M0,0 l240,0 0,0 Z"/>
-        <text id="graphD" class="graph-text" transform="translate(-250,-250)">D,</text>
-    </g>
-    <use href="#xCoords" />
-</g>
 </defs>
 
 <g id="test-area" transform="translate(335,750) scale(.5)">
     <use href="#ellipseGroupB" />
-    <use href="#ellipseGroupC" />
-    <use href="#ellipseGroupD" />
     <use href="#ellipseGroupA" />
 </g>
 </svg>
 </div>
+</div> <!-- end main -->
+<div id="ideasAndCommentary" ></div>
+
 </div><!-- end all -->
 
 <style>
@@ -408,7 +369,11 @@ window.addEventListener('DOMContentLoaded', () => {
 #form1 fieldset#fs1,
 #svg-container,
 #svg-test-container {
+    display: inline-block;
     background-color: #EEEEEE;
+}
+#svg-test-container {
+    display: none;
 }
 </style>
 </body>

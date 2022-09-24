@@ -1,0 +1,55 @@
+#controls {
+    display:grid;
+    font-size: 3em;
+    gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    grid-auto-columns: 100px;
+}
+#ul1 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, auto);
+    padding-inline-start: 0;
+}
+#ul2 {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    padding-inline-start: 0;
+}
+#ul1 > li,
+#ul2 > li {
+    display: grid;
+    grid-template-columns: auto;
+}
+#ul1 input,
+#ul1 output,
+#ul2 input {
+    font-size: inherit;
+    text-align: right;
+    width: 7.25ch;
+}
+
+#ul1 output {
+    background-color: #eee;
+    padding-right: .5ch;
+    border: 1px inset #222;
+    border-radius: .05em;
+    font-size: 1.05em;
+}
+
+#ul2 output {
+    display: inline-block;
+    font-size: inherit;
+    text-align: center;
+    /*width: 3ch; */
+    background-color: #eee;
+    border: 1px inset #222;
+    border-radius: .05em;
+    font-size: 1.05em;
+}
+
+#ul2 input[type="button"] {
+    width: auto;
+    display: inline;
+    margin: auto;
+}
