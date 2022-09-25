@@ -10,4 +10,4 @@ if {$fileNum == "" || ![string is integer -strict $fileNum]} {
 lappend urlList $file
 set urlToCode /[join $urlList / ]
 
-ns_returnfile 200 text/plain [ns_url2file $urlToCode]
+ns_returnfile 200 "text/plain;charset=utf-8" [ns_url2file $urlToCode]

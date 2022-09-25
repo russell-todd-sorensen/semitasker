@@ -1,10 +1,14 @@
 set problem {
-    # Enter problem description, exactly started
+    # More useful logging controls with per-namespace config
+    # When monitoring new or problematic code, turning on debugging
+    # works globally.
 }
 
 set solution {
-    # Enter thoughts on an approach to the solution
-    # and a final explaination of the actual solution.
+    # New debugging configuration to allow logging to be controlled
+    # not just per namespace, but also just per proc execution:
+    # turn on logging, call proc which will log info, turn off when
+    # proc returns.
 }
 
 ns_log Notice "nvBitMap = '$LogLevels'"

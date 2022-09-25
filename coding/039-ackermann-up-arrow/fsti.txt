@@ -1,0 +1,21 @@
+proc fromSimpleToInt {nList} {
+    lassign $nList base exp m 
+    if {[string is integer -strict $exp] && $exp < 17} {
+        set val [expr {2**$exp + $m}]
+        rec log "fromSimpleToInt '$base $exp $m' val='$val'"
+        return $val
+    } else {
+        rec log "Probably about to crash...$base $exp $m"
+        return $nList
+    }
+}
+
+proc rec {name val} {
+    global $name
+    lappend $name $val
+}
+proc printRec {name {joiner \n}} {
+    global $name
+    join [set $name] $joiner
+}
+

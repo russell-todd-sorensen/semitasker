@@ -94,7 +94,8 @@ proc ::ackermann::fn {m n} {
         incr hits(2,$n)
         append cacheHits "+"
     } elseif {$m == 3} {
-        set cache(3,$n) [expr {int(pow(2,$n+$m))-3}]
+        #set cache(3,$n) [expr {int(pow(2,$n+$m))-3}]
+        set cache(3,$n) [expr {(2**($n+$m))-3}]
         incr hits(3,$n)
         append cacheHits "+"
     } elseif {$n == 0} {

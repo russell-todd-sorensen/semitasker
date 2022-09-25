@@ -146,7 +146,7 @@ interp eval $myInterp {
                 rec log "fromSimpleToInt '$base $exp $m' val='$val'"
                 return $val
             } else {
-                #rec log "Probably about to crash...$base $exp $m"
+                rec log "Probably about to crash...$base $exp $m"
                 return $nList
             }
         }
@@ -219,14 +219,19 @@ interp eval $myInterp {
                 set hits($m,$n) 0
             } else {
                 if {![string is integer -strict $m]} {
+                    rec log ">>m = '$m' should be int!"
                     set m [fromSimpleToInt $m]
                 }
+                rec log ">>m now= '$m'"
                 set mt [expr {$m-1}]
+                rec log ">>mt = '$mt'"
                 if {![string is integer -strict $n]} {
+                    rec log ">>n = '$n' should be int!"
                     set n [fromSimpleToInt $n]
                 }
-                # rec log ">>n = '$n'"
+                rec log ">>n = '$n' should be int!!"
                 set nt [expr {$n-1}]
+                rec log ">>nt='$nt'"
                 if {[info exists cache($m,$nt)]}  {
                     set vt $cache($m,$nt)
                     incr hits($m,$nt)
@@ -330,6 +335,9 @@ ns_return 200 text/html "<!DOCTYPE html>
 #form1 li {
     height: 1.5em;
 }
+pre.line {
+    white-space: pre-line;
+}
 </style>
 </head>
 <body>
@@ -359,15 +367,15 @@ ns_return 200 text/html "<!DOCTYPE html>
 </form>
 <a href='source.tcl?3'>Source Code</a><br>
 <a href='explained.txt'>Solution Explained</a>
-<pre>
+<pre class='line'>
 m = '$m'
 n = '$n'
 max Recursions = '[interp recursionlimit $myInterp]'
 Total Iterations = '[interp eval $myInterp set ::ak::COUNTER]'
 ::ak::$sym(phi)($m,$n) = $result
-logs = 
-\[interp eval $myInterp ::ak::printLog log {\n} 0 {0 500} {end-500 end} \] 
-[interp eval $myInterp {::ak::printLog log \n 0 {0 100} {end-100 end}} ] 
+logs =
+\[interp eval $myInterp \{::ak::printLog log \\n 0 \{0 end\}\} \]
+[interp eval $myInterp {::ak::printLog log \n 0 {0 end}} ]
 cache size = $len
 ----- CACHE -------
 $hits
