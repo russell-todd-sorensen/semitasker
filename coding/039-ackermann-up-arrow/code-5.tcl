@@ -279,6 +279,7 @@ set m 0
 set n 0
 set c 500000
 set r 2000 ;# stack depth (recursions)
+set l 100  ;# snip $l log lines from begin and end
 set COUNTER 0
 
 set form [ns_conn form]
@@ -286,13 +287,14 @@ set m [ns_set get $form m $m]
 set n [ns_set get $form n $n]
 set c [ns_set get $form c $c]
 set r [ns_set get $form r $r]
+set l [ns_set get $form l $l]
 
 if {$c > 500000} {
     set c 500000
 }
 
 global sym
-        
+
 set sym(phi) φ
 set sym(alpha) α
 set sym(ua) ↑
@@ -311,7 +313,18 @@ try {
         set result $begin
     }
 }
-
+set logLines [interp eval $myInterp {llength $::ak::log}]
+if {$logLines < [expr {$l * 2}]} {
+    set logRanges [list [list 0 end]]
+} else {
+    set lMinus1 [expr {$l -1}]
+    if {$lMinus1 == 0} {
+        set endMinusL end
+    } else {
+        set endMinusL "end-$lMinus1"
+    }
+    set logRanges [list [list 0 $lMinus1] [list $endMinusL end]]
+}
 set hits ""
 set sortedHits [list] ;# [lsort -stride 2 [interp eval $myInterp array get ::ak::hits]] ;#
 
@@ -320,12 +333,6 @@ foreach {def count} $sortedHits {
 }
 
 set len [expr {[llength $sortedHits]/2}]
-
-set ackermannURLs [list]
-# calculate links to other Ackermann Implimentations:
-proc createLink {m n c {r c}} {
-
-}
 
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
@@ -341,27 +348,36 @@ ns_return 200 text/html "<!DOCTYPE html>
 #form1 li {
     height: 1.5em;
 }
+#form1 #r,
+#form1 #l {
+    width: 5em;
+}
 </style>
 </head>
 <body>
 <!--  method='POST' encoding='multi-part/formdata' -->
-<form id='form1' autocomplete='off' spellcheck='false'>
+<form id='form1' autocomplete='off' spellcheck='false'  oninput='l2.value=(l.value * 2);' >
 <ul>
  <li>
-  <label for='m'>M (small int)</label>
-  <input name='m' id='m'  value='$m'>
+  <label for='m'>M</label>
+  <input name='m' id='m' type='number' min='0' max='100' step='1' value='$m'>
  </li>
  <li>
-  <label for='n'>N (small int)</label>
-  <input name='n' id='n' value='$n'>
+  <label for='n'>N</label>
+  <input name='n' id='n' type='number' min='0' max='100' step='1' value='$n'>
  </li>
  <li>
-  <label for='c'>Max Iterations (small int)</label>
+  <label for='c'>Max Iterations</label>
   <input name='c' id='c' value='$c'>
  </li>
  <li>
-  <label for='r'>Max Recusive Depth</label>
+  <label for='r'>Max Depth</label>
   <input name='r' id='r' value='$r'>
+ </li>
+ 
+ <li>
+  <label for='r'>Log Lines</label>
+  <input name='l' id='l' value='$l'> x 2 = <output id='l2' name='l2' form='form1'>[expr {$l * 2}]</output>
  </li>
  <li>
   <input type='submit' value='Try it'/>
@@ -374,13 +390,15 @@ ns_return 200 text/html "<!DOCTYPE html>
 m = '$m'
 n = '$n'
 max Recursive Depth = '[interp recursionlimit $myInterp]'
-Total Iterations = '[interp eval $myInterp set ::ak::COUNTER]'
+Actual Iterations = '[interp eval $myInterp set ::ak::COUNTER]'
 ::ak::$sym(phi)($m,$n) = $result
-logs = 
-[interp eval $myInterp {::ak::printLog log \n 0 {0 100} {end-100 end}} ] 
+logs =
+[interp eval $myInterp [list ::ak::printLog log "\n" 0 {*}$logRanges ] ]
 cache size = $len
 ----- CACHE -------
 $hits
+----- CALC -------
+logLines = '$logLines'
 </pre>
 </body>
 </html>"

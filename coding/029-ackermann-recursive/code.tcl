@@ -74,16 +74,24 @@ proc ackermannFn {m n} {
 
 set m 0
 set n 0
-set c 50000
+set c 500000
 set COUNTER 0
+set z 0
 
 set form [ns_conn form]
 set m [ns_set get $form m $m]
 set n [ns_set get $form n $n]
 set c [ns_set get $form c $c]
+set z [ns_set get $form z $z]
 
 if {$c > 1000000} {
     set c 1000000
+}
+
+if {$z} {
+    if {$c > 100000} {
+        set c 100000
+    }
 }
 
 try {
@@ -116,7 +124,7 @@ ns_return 200 text/html "<!DOCTYPE html>
   <input name='n' id='n' value='$n'>
  </li>
  <li>
-  <label for='c'>ITERATIONS (small int)</label>
+  <label for='c'>Max Iterations</label>
   <input name='c' id='c' value='$c'>
  </li>
  <li>
@@ -129,8 +137,8 @@ ns_return 200 text/html "<!DOCTYPE html>
 <pre>
 m = '$m'
 n = '$n'
-c = '$c'
-COUNTER = '$COUNTER'
+Max Iterations = '$c'
+Actual Iterations = '$COUNTER'
 ackermannFn($m,$n) = $result
 logs = 
 [printLog log "\n"]

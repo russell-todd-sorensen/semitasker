@@ -50,13 +50,13 @@ namespace eval ::ackermann {
     variable cache
     variable hits
     variable maxEntries 1000
-    variable maxRecursions
+    variable maxIterations
     variable COUNTER 0
 }
 
 proc ::ackermann::fn {m n} {
     variable COUNTER
-    variable maxRecursions
+    variable maxIterations
     variable cache
     variable hits
     variable maxEntries
@@ -74,8 +74,8 @@ proc ::ackermann::fn {m n} {
 
     rec log "B=[format %0.7d $COUNTER] ack($m,$n)"
 
-    if {$COUNTER > $maxRecursions} {
-        rec log "maxRecursions $maxRecursions reached m=$m, n=$n ans='not determined'"
+    if {$COUNTER > $maxIterations} {
+        rec log "maxIterations $maxIterations reached m=$m, n=$n ans='not determined'"
         return 0
     }
     if {$m == 0} {
@@ -156,7 +156,7 @@ proc ::ackermann::fn {m n} {
 
 proc ::ackermann::init {{c 10000} } {
     variable COUNTER 0
-    variable maxRecursions $c
+    variable maxIterations $c
     variable cache
     variable hits
     variable maxEntries $c
@@ -199,13 +199,6 @@ foreach {def count} $sortedHits {
 
 set len [expr {[llength $sortedHits]/2}]
 
-set ackermannURLs [list ]
-# calculate links to other Ackermann Implimentations:
-proc createLink {m n c {r c}} {
-
-}
-
-
 ns_return 200 text/html "<!DOCTYPE html>
 <html>
 <head>
@@ -229,7 +222,7 @@ body {
   <input name='n' id='n' value='$n'>
  </li>
  <li>
-  <label for='c'>ITERATIONS (small int)</label>
+  <label for='c'>Max Iterations</label>
   <input name='c' id='c' value='$c'>
  </li>
  <li>
@@ -242,7 +235,7 @@ body {
 <pre>
 m = '$m'
 n = '$n'
-maxRecursions = '$::ackermann::maxRecursions'
+maxIterations = '$::ackermann::maxIterations'
 COUNTER = '$::ackermann::COUNTER'
 ::ackermann::fn($m,$n) = $result
 logs = 

@@ -16,6 +16,7 @@
 iframe {
     width: 500px;
     min-height: 500px;
+    margin-left: 30px;
 }
 #if-list li {
     display: inline-block;
@@ -23,6 +24,9 @@ iframe {
 #if-list h3 {
     background-color:#CCCCCC;
     padding:3px;
+    font-size: .7em;
+    margin-left:10px;
+    margin-right:10px;
 }
 </style>
 </head>
@@ -60,9 +64,9 @@ max Recursive Depth = '$r'
 <ul id='if-list'>
 [set id 1]
 [foreach url $urls]
-   [set full_url "$url?m=$m&n=$n&c=$c&r=$r" /]
+   [set full_url "$url?m=$m&n=$n&c=$c&r=$r&z=$z" /]
 <li>
-<h3>$url</h3>
+<h3 class='link-header'><a href='$full_url'>$url</a></h3>
 <iframe id="if-$id" title="$full_url" src="$full_url"></iframe>
 </li>
 [incr id /]

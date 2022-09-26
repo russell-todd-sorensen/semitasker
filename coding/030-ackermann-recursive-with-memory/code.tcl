@@ -59,14 +59,14 @@ namespace eval ::ackermann {
     variable cache
     variable hits
     variable maxEntries 1000
-    variable maxRecursions
+    variable maxIterations
     variable COUNTER 0
 }
 
 
 proc ::ackermann::fn {m n} {
     variable COUNTER
-    variable maxRecursions
+    variable maxIterations
     variable cache
     variable hits
     variable maxEntries
@@ -83,8 +83,8 @@ proc ::ackermann::fn {m n} {
     }
 
     rec log "B=[format %0.7d $COUNTER] ack($m,$n)"
-    if {$COUNTER > $maxRecursions} {
-        rec log "maxRecursions $maxRecursions reached m=$m, n=$n ans='not determined'"
+    if {$COUNTER > $maxIterations} {
+        rec log "maxIterations: $maxIterations reached m=$m, n=$n answer='not determined'"
         return 0
     }
     if {$m == 0} {
@@ -126,28 +126,34 @@ proc ::ackermann::fn {m n} {
     return $cache($m,$n)
 }
 
-proc ::ackermann::init {{c 10000} } {
+proc ::ackermann::init {c} {
     variable COUNTER 0
-    variable maxRecursions $c
     variable cache
     variable hits
     variable maxEntries $c
+    variable maxIterations $c
 }
 
 set m 0
 set n 0
 set c 500000
 set COUNTER 0
+set z 0
 
 set form [ns_conn form]
 set m [ns_set get $form m $m]
 set n [ns_set get $form n $n]
 set c [ns_set get $form c $c]
+set z [ns_set get $form z $z]
 
 if {$c > 500000} {
     set c 500000
 }
-
+if {$z} {
+    if {$c > 100000} {
+        set c 100000
+    }
+}
 ::ackermann::init $c
 
 try {
@@ -168,6 +174,9 @@ try {
 
 
 set keyList [list]
+set hits ""
+set cachedResults ""
+
 
 foreach key [array names ::ackermann::cache] {
     set entry [split $key ","]
@@ -216,7 +225,7 @@ ns_return 200 text/html "<!DOCTYPE html>
   <input name='n' id='n' value='$n'>
  </li>
  <li>
-  <label for='c'>ITERATIONS (small int)</label>
+  <label for='c'>Max Iterations</label>
   <input name='c' id='c' value='$c'>
  </li>
  <li>
@@ -229,8 +238,8 @@ ns_return 200 text/html "<!DOCTYPE html>
 <pre>
 m = '$m'
 n = '$n'
-maxRecursions = '$::ackermann::maxRecursions'
-COUNTER = '$::ackermann::COUNTER'
+Max Iterations = '$c'
+Actual Iterations = '$::ackermann::COUNTER'
 ::ackermann::fn($m,$n) = $result
 logs = 
 [printLog log "\n"]
