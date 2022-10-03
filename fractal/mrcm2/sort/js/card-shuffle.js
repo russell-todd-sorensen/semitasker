@@ -3,6 +3,7 @@ class CardShuffle extends Visualization {
     numItems;
     numColumns;
     timeout;
+    browser;
     dataGeometry = new Map();
     dataAnimMap  = new Map();
     gidMap       = new Map();
@@ -24,6 +25,7 @@ class CardShuffle extends Visualization {
         rowLabel:(row => this.cardSuits[row]),
         dataVals:((col,row) => {return ("" + this.cardValues[col] + this.cardSuits[row])}),
         dataId:((index) => {return index;}),
+        index:((col,row) => {return (col+row*this.numColumns)}),
         getDataClass:(type => {
             return (this.superGrid.dataClassTypes[type]
                 ?
@@ -43,6 +45,7 @@ class CardShuffle extends Visualization {
         this.numItems = this.state.param("n");
         this.numColumns   = this.state.param("c");
         this.timeout      = this.state.param("t");
+        this.browser      = this.state.param("b");
     }
     getItemCount() {
         return this.numItems;
@@ -230,7 +233,7 @@ class CardShuffle extends Visualization {
 
                 let animId = null,
                     mpathId= null,
-                    animTemplate = this.getAnimationTemplate("#animation-template");
+                    animTemplate = this.getAnimationTemplate(`#animation-template-${this.browser}`);
 
                 if (animTemplate) {
                     animId = `data-anim-${index}`;
@@ -250,6 +253,7 @@ class CardShuffle extends Visualization {
                     content:content,
                     animId:animId,
                     mpathId:mpathId,
+                    sortIndex:index,
                 });
                 this.dataGeometry.set(index,{
                     col:col,
@@ -274,29 +278,82 @@ class CardShuffle extends Visualization {
         this.gidMap.set(bIndex,aGid);
         this.gidMap.set(aIndex,bGid);
     }
-    animateDataSwap(aIndex,bIndex) {
-        //let didSwap = false;
-        //if (aIndex === bIndex) {
-        //    return didSwap;
-        //}
-        if (false && (aIndex > bIndex)) {
-            let tmp = aIndex;
-            aIndex = 0+bIndex;
-            bIndex = tmp;
+    sort(i) {
+        let val = this.animateDataSort(i);
+    }
+    animateDataSort(startIndex) {
+        let aIndex = parseInt(startIndex),
+            aGeo   = this.dataGeometry.get(aIndex),
+            aGid   = this.getGid(aIndex),
+            aAnim  = this.dataAnimMap.get(aGid),
+            bIndex = parseInt(aAnim.sortIndex),
+            maxCount = this.numItems,
+            count = 0,
+            bGeo,
+            bGid,
+            bAnim,
+            optionsA,pathA,a2b,animA,aGroup,eventA;
+
+        while (count < maxCount && aIndex != bIndex) {
+            bGeo = this.dataGeometry.get(bIndex);
+            bGid = this.getGid(bIndex);
+            bAnim = this.dataAnimMap.get(bGid);
+            optionsA = {
+                x1:aGeo.gx,
+                x2:bGeo.gx,
+                y1:aGeo.gy,
+                y2:bGeo.gy,
+                sweep:0,
+                dir:1,
+                agx:aGeo.gx,
+                agy:aGeo.gy,
+                bgx:bGeo.gx,
+                bgy:bGeo.gy,
+                testEllipse:["ellipseA","ellipseB"],
+            };
+            pathA = calcSVGPathFromTo(optionsA);
+            a2b   = pathA.a2b;
+            animA = document.getElementById(aAnim.animId);
+            aGroup = document.getElementById(aGid);
+            eventA = new Event("move");
+            animA.setAttribute("path",a2b);
+
+            let a2bPath = document.getElementById("a2bPath"),
+                a2bLine = document.getElementById("a2bLine"),
+                centroid = document.getElementById("centroid"),
+                degreeLine = document.getElementById("degreeLine"),
+                bias = pathA.bias,
+                calcCY = ((pathA.r >0 && pathA.r<90)?pathA.r:90).toFixed(3);
+            //console.log(`bias=${bias},pathA.dx=${pathA.dx},pathA.dy=${pathA.dy}`);
+            a2bPath.setAttribute("d",a2b);
+            a2bPath.setAttribute("transform",`translate(${aGeo.gx},${aGeo.gy})`);
+            a2bLine.setAttribute("x1",aGeo.gx);
+            a2bLine.setAttribute("y1",aGeo.gy);
+            a2bLine.setAttribute("x2",bGeo.gx);
+            a2bLine.setAttribute("y2",bGeo.gy);
+            centroid.setAttribute("cx",pathA.midx);
+            centroid.setAttribute("cy",pathA.midy);
+            degreeLine.setAttribute("d",`M${pathA.midx},${pathA.midy} v-${calcCY}`);
+            degreeLine.setAttribute("transform",`rotate(${(pathA.deg*bias).toFixed(3)},${pathA.midx},${pathA.midy})`);
+
+            aGroup.setAttribute("transform",`translate(${aGeo.gx},${aGeo.gy})`);
+            console.log(`Move ${count} aIndex=${aIndex} to bIndex=${bIndex}`);
+            count++;
+            aGroup.dispatchEvent(eventA);
+            this.gidMap.set(bIndex,aGid);
+            aIndex = bIndex;
+            aGeo   = bGeo;
+            aGid   = bGid;
+            aAnim  = bAnim;
+            bIndex = parseInt(aAnim.sortIndex);
         }
+        console.log(`bIndex = ${bIndex} Gid=${aGid}`)
+        return bIndex;
+    }
+    animateDataSwap(aIndex,bIndex) {
         let aGid  = this.getGid(aIndex),
             bGid  = this.getGid(bIndex),
-            //bbInf = getBoundingBoxPairSVG(aGid,bGid),
-            bbInf = getBoundingBoxPairSVG(`bbox${aIndex}`,`bbox${bIndex}`),
             dataBbox = this.getDataBbox(),
-            relLocA = {
-                x:(bbInf.fromData.left - dataBbox.left),
-                y:(bbInf.fromData.top - dataBbox.top),
-            },
-            relLocB = {
-                x:(bbInf.toData.left - dataBbox.left),
-                y:(bbInf.toData.top - dataBbox.top),
-            },
             aGeo  = this.dataGeometry.get(aIndex),
             bGeo  = this.dataGeometry.get(bIndex),
             aAnim = this.dataAnimMap.get(aGid),
@@ -312,10 +369,6 @@ class CardShuffle extends Visualization {
                 agy:aGeo.gy,
                 bgx:bGeo.gx,
                 bgy:bGeo.gy,
-                acx:relLocA.x,
-                acy:relLocA.y,
-                bcx:relLocB.x,
-                bcy:relLocB.y,
                 testEllipse:["ellipseA","ellipseB"],
             },
             pathA = calcSVGPathFromTo(optionsA),
@@ -340,7 +393,7 @@ class CardShuffle extends Visualization {
             bias = pathA.bias,
             calcCY = ((pathA.r >0 && pathA.r<90)?pathA.r:90).toFixed(3);
 
-        console.log(`bias=${bias},pathA.dx=${pathA.dx},pathA.dy=${pathA.dy}`);
+        //console.log(`bias=${bias},pathA.dx=${pathA.dx},pathA.dy=${pathA.dy}`);
         a2bPath.setAttribute("d",a2b);
         a2bPath.setAttribute("transform",`translate(${aGeo.gx},${aGeo.gy})`);
         b2aPath.setAttribute("d",b2a);
@@ -353,7 +406,6 @@ class CardShuffle extends Visualization {
         centroid.setAttribute("cy",pathA.midy);
         degreeLine.setAttribute("d",`M${pathA.midx},${pathA.midy} v-${calcCY}`);
         degreeLine.setAttribute("transform",`rotate(${(pathA.deg*bias).toFixed(3)},${pathA.midx},${pathA.midy})`);
-        //console.log(`r=${pathA.r},a2b=${a2b},b2a=${b2a}`);
         aGroup.classList.remove(this.superGrid.getDataClass("inactive"));
         bGroup.classList.remove(this.superGrid.getDataClass("inactive"));
         aGroup.setAttribute("transform",`translate(${aGeo.gx},${aGeo.gy})`);

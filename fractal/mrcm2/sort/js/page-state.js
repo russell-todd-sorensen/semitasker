@@ -37,6 +37,9 @@ class PageState {
     get search() {
         return this.url.search;
     }
+    get options() {
+        return this.options;
+    }
     mapIds(map,iterable) {
         for (let i=0;i<iterable.length;i++) {
             map.set(iterable[i].id,i);

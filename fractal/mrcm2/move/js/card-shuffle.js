@@ -3,6 +3,7 @@ class CardShuffle extends Visualization {
     numItems;
     numColumns;
     timeout;
+    browser;
     dataGeometry = new Map();
     dataAnimMap  = new Map();
     gidMap       = new Map();
@@ -42,6 +43,7 @@ class CardShuffle extends Visualization {
         this.numItems = this.state.param("n");
         this.numColumns   = this.state.param("c");
         this.timeout      = this.state.param("t");
+        this.browser      = this.state.param("b");
     }
     getItemCount() {
         return this.numItems;
@@ -231,7 +233,7 @@ class CardShuffle extends Visualization {
 
                 let animId = null,
                     mpathId= null,
-                    animTemplate = this.getAnimationTemplate("#animation-template");
+                    animTemplate = this.getAnimationTemplate(`#animation-template-${this.browser}`);
 
                 if (animTemplate) {
                     animId = `data-anim-${index}`;
