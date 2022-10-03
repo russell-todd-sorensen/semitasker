@@ -15,9 +15,11 @@ set solution {
     φ(x,y,z) = φ(x,φ(x,y-1,z),z-1)
     φ(x,0,z) = α(x,z-1) (α is the Greek letter alpha, see below)
 
-             /0 if y = 0
-    α(x,y) = |1 if y = 1
-             \x otherwise
+    z'       = z-1
+
+              /0 if z' = 0
+    α(x,z') = |1 if z' = 1
+              \x otherwise
 
     # From WikiPedia: https://en.wikipedia.org/wiki/Ackermann_function    
 

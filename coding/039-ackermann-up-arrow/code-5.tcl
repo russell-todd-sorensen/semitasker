@@ -93,7 +93,7 @@ interp eval $myInterp {
         set sym(ra) →   ;# https://www.compart.com/en/unicode/U+2192
         set sym(uda) ⇑  ;# https://www.compart.com/en/unicode/U+21D1
         set sym(uda2) ⇧ ;# https://www.compart.com/en/unicode/U+21E7
-
+↑
 
         proc rec {logName what} {
             variable $logName
