@@ -272,14 +272,15 @@ class CardShuffle extends Visualization {
         this.state.sync(this.state,mode);
         this.updateState();
     }
-    swapData(aIndex,bIndex) {
-        let aGid = this.getGid(aIndex),
-            bGid = this.getGid(bIndex);
-        this.gidMap.set(bIndex,aGid);
-        this.gidMap.set(aIndex,bGid);
-    }
-    sort(i) {
-        let val = this.animateDataSort(i);
+    sort(timeout=0) {
+        if (timeout === 0) {
+            timeout = this.timeout;
+        }
+        let maxIndex = this.numItems;
+        for (let step=0;step<maxIndex;step++) {
+            this.animateDataSort(i,timeout);
+        }
+        //let val = this.animateDataSort(i);
     }
     animateDataSort(startIndex) {
         let aIndex = parseInt(startIndex),
@@ -294,7 +295,7 @@ class CardShuffle extends Visualization {
             bAnim,
             optionsA,pathA,a2b,animA,aGroup,eventA;
 
-        while (count < maxCount && aIndex != bIndex) {
+        while (count < maxCount && aIndex != bIndex ) {  //bIndex != startIndex
             bGeo = this.dataGeometry.get(bIndex);
             bGid = this.getGid(bIndex);
             bAnim = this.dataAnimMap.get(bGid);
@@ -305,10 +306,10 @@ class CardShuffle extends Visualization {
                 y2:bGeo.gy,
                 sweep:0,
                 dir:1,
-                agx:aGeo.gx,
-                agy:aGeo.gy,
-                bgx:bGeo.gx,
-                bgy:bGeo.gy,
+                //agx:aGeo.gx,
+                //agy:aGeo.gy,
+                //bgx:bGeo.gx,
+                //bgy:bGeo.gy,
                 testEllipse:["ellipseA","ellipseB"],
             };
             pathA = calcSVGPathFromTo(optionsA);
@@ -349,6 +350,12 @@ class CardShuffle extends Visualization {
         }
         console.log(`bIndex = ${bIndex} Gid=${aGid}`)
         return bIndex;
+    }
+    swapData(aIndex,bIndex) {
+        let aGid = this.getGid(aIndex),
+            bGid = this.getGid(bIndex);
+        this.gidMap.set(bIndex,aGid);
+        this.gidMap.set(aIndex,bGid);
     }
     animateDataSwap(aIndex,bIndex) {
         let aGid  = this.getGid(aIndex),

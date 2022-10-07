@@ -48,6 +48,8 @@ var drawAtoBpaths = function(pathData) {
         b2a:`m0,0 a${p.cx.toFixed(3)},${p.cy.toFixed(3)} ${p.deg.toFixed(3)} ${p.dir},${p.sweep} ${((-1)*p.dx).toFixed(3)},${((-1)*p.dy).toFixed(3)}`,
     }
 }
+
+
 var calcSVGPathFromTo = function (
     optionsUpdate
 ) {

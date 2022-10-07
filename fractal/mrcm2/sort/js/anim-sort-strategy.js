@@ -52,10 +52,106 @@ var shuffleSteps = function(numItems) {
 var sortIntegers = function (a,b) {
     let aInt = parseInt(a),
         bInt = parseInt(b);
-    return (a<b?-1:(b<a?1:0))
+    return (aInt<bInt?-1:(bInt<aInt?1:0));
 }
 
 //aa.sort((a,b) => { return (parseInt(a)<parseInt(b))?-1:(parseInt(b)<parseInt(a))?1:0 })
+
+// followSort sorts a set of items in O(N) time and space,
+// but requires items to contain the sorted index.
+// examples of sets includes a deck of cards with fixed suit order.
+class SortableItem {
+    value = null;
+    index = null;
+    constructor (value,index) {
+        this.value = value;
+        this.index = index;
+    }
+    get value() {
+        return this.value;
+    }
+    get index() {
+        return this.index;
+    }
+}
+class SortableSet {
+    #items = [];
+    #lambda;
+
+    constructor (items, lambda) {
+        this.#items = items;
+        this.#lambda = lambda;
+    }
+    get len() {
+        return this.#items.length;
+    }
+    compare(a,b) {
+        return this.#lambda(a,b);
+    }
+    itemIndex(a) {
+        return a.index;
+    }
+    itemValue(a) {
+        return a.value;
+    }
+    getItem(itemsIndex) {
+        return this.#items[itemsIndex];
+    }
+    getItemSortedIndex(itemsIndex) {
+        return this.#items[itemsIndex].index;
+    }
+    destructiveSort(ss) {
+        return ss.#items.sort(ss.#lambda);
+    }
+    
+}
+
+var followSort = function(shuffled) {
+    let len = shuffled.length,
+        chains = [],
+        chain = [],
+        moves = [],
+        found = 0,
+        done = false,
+        cId = null,
+        nId = null,
+        cVal = null,
+        nVal = null;
+
+    for (let i=0;i<len;i++) {
+        cId = i;
+        cVal = shuffled[cId];
+        nId = cVal;
+        nVal = shuffled[nId];
+        chain = [];
+        while(cId != cVal) {
+            moves.push([cId,nId]);
+            chain.push(cId);
+            shuffled[nId] = cVal;
+            cId = nId;
+            cVal = nVal;
+            nId = cVal;
+            nVal = shuffled[nId];
+        }
+        if (chain.length>0) {
+            moves.pop();
+        }
+        chains.push(chain);
+    }
+    return {shuffled:shuffled,moves:moves,chains:chains};
+}
+
+var items = [];
+items.push(new SortableItem(5,5));
+items.push(new SortableItem(4,4));
+items.push(new SortableItem(3,3));
+items.push(new SortableItem(2,2));
+items.push(new SortableItem(1,1));
+items.push(new SortableItem(0,0));
+
+var sortSet = new SortableSet(items,(a,b)=>((a.value<b.value)?-1:(b.value<a.value)?1:0));
+
+
 
 var followNumbers = function(groupSize,maxLongestPathPct=50) {
     let groupShuffle = shuffle(groupSize),
