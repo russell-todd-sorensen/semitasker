@@ -103,28 +103,29 @@ class SortableSet {
     destructiveSort(ss) {
         return ss.#items.sort(ss.#lambda);
     }
-    
 }
 
 var followSort = function(shuffled) {
-    let len = shuffled.length,
-        chains = [],
+    let singles = shuffled.filter(((x,i) => (x==i)?true:false)),
+        len = shuffled.length,
+        chains = singles.map((x) => ([x])),
         chain = [],
         moves = [],
-        found = 0,
-        done = false,
+        found = chains.length,
+        lastI = null,
         cId = null,
         nId = null,
         cVal = null,
         nVal = null;
 
     for (let i=0;i<len;i++) {
+        lastI = i;
         cId = i;
         cVal = shuffled[cId];
         nId = cVal;
         nVal = shuffled[nId];
         chain = [];
-        while(cId != cVal) {
+        while(cId != cVal && nId != nVal) {
             moves.push([cId,nId]);
             chain.push(cId);
             shuffled[nId] = cVal;
@@ -134,23 +135,28 @@ var followSort = function(shuffled) {
             nVal = shuffled[nId];
         }
         if (chain.length>0) {
-            moves.pop();
+            //moves.pop();
+            found += chain.length -1;
+            chains.push(chain);
+            if (found >= len) {
+                break;
+            }
         }
-        chains.push(chain);
     }
-    return {shuffled:shuffled,moves:moves,chains:chains};
+    return {shuffled:shuffled,singles:singles,moves:moves,chains:chains,lastI:lastI};
 }
 
-var items = [];
-items.push(new SortableItem(5,5));
-items.push(new SortableItem(4,4));
-items.push(new SortableItem(3,3));
-items.push(new SortableItem(2,2));
-items.push(new SortableItem(1,1));
-items.push(new SortableItem(0,0));
+function sortableSet1() {
+    let items = [];
+    items.push(new SortableItem(5,5));
+    items.push(new SortableItem(4,4));
+    items.push(new SortableItem(3,3));
+    items.push(new SortableItem(2,2));
+    items.push(new SortableItem(1,1));
+    items.push(new SortableItem(0,0));
 
-var sortSet = new SortableSet(items,(a,b)=>((a.value<b.value)?-1:(b.value<a.value)?1:0));
-
+    return new SortableSet(items,(a,b)=>((a.value<b.value)?-1:(b.value<a.value)?1:0));
+}
 
 
 var followNumbers = function(groupSize,maxLongestPathPct=50) {
@@ -164,7 +170,7 @@ var followNumbers = function(groupSize,maxLongestPathPct=50) {
 
     for (let id=0;id<groupSize;id++) {
         if (groupPathIds[id]) {
-            continue
+            continue;
         }
         let foundIds = [],
             currentId = id,
