@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="/css/fira-code/fira_code.css" media="all">
+<style>
+html,
+head,
+body {
+    font-size: 16px;
+    font-family: 'Fira Code VF';
+    line-height: 1.0em;
+}
+.display-none {
+    display:none;
+}
+label.method {
+    display:block;
+}
+#form1 input[type="text"],
+#form1 input[type="url"] {
+    display: inline-block;
+    width: 550px;
+    font-size: 1.2em;
+    line-height: 1.3em;
+}
+#form1 label {
+  display: inline-block;
+  width: 150px;
+}
+#form1 li {
+    padding-bottom: 2px;
+    list-style: none;
+    margin-left: -25px;
+}
+</style>
+</head>
+<body>
+<template>
+<!--  method='POST' enctype='multipart/form-data'  -->
+<form autocomplete="off" spellcheck="false" name="form1" id="form1">
+<ul>
+ <li id="methods">
+  <label for="return-what">Document Type</label>
+  <label for="t1" class="method">
+    <input type="radio" name="t" id="t1" value="0" checked="">HTML</label>
+  <label for="t2" class="method">
+    <input type="radio" name="t" id="t2" value="1">SVG</label>
+ </li>
+ <li>
+ <label for="p">Photo URL</label>
+ <input id="p" name="p" type="url" value="https://home.highfivediet.com/images/mset-opt/mset-8016.png">
+ </li>
+ <li>
+ <label for="h">Hex Color List</label>
+ <input type="text" id="h" class="" name="h" value="1:F09A11EE,2:009922EE,3:FF09AAAA" placeholder="0:000000FF,end:FFFFFFFF">
+ </li>
+ <li>
+ <label for="s">Color Schedule</label>
+ <input type="text" id="s" class="" name="s" value="0,1,3,2,0,3,1,2,end">
+ </li>
+ <li>
+ <label for="b">Blur Animation</label>
+ <input type="text" id="b" class="" name="b" value="15.0px:0:60.0s:3" placeholder="0px:4px:30s:Infinite, or 0:::">
+ </li>
+ <li>
+ <label for="v">SVG viewBox</label>
+ <input type="text" id="v" class="" name="v" value="0:0:2000:1500" placeholder="0:0:2000:1500 (x:y:w:h)">
+ </li>
+ <li>
+  <input type="submit" value="Generate Document">
+ </li>
+ </ul>
+</form>
+<pre>p = 'https://home.highfivediet.com/images/mset-opt/mset-8016.png'
+h = '1:F09A11EE,2:009922EE,3:FF09AAAA'
+t = '0'
+
+colorIndexMap =  0=&gt;000000FF  1=&gt;F09A11EE  2=&gt;009922EE  3=&gt;FF09AAAA  end=&gt;FFFFFFFF 
+
+0.000000 0.941176 1.000000 0.000000 0.000000 1.000000 0.941176 0.000000 1.000000 
+0.000000 0.603922 0.035294 0.600000 0.000000 0.035294 0.603922 0.600000 1.000000 
+0.000000 0.066667 0.666667 0.133333 0.000000 0.666667 0.066667 0.133333 1.000000 
+1.000000 0.933333 0.666667 0.933333 1.000000 0.666667 0.933333 0.933333 1.000000 
+
+</pre>
+</template>
+<div id="svg-content">
+<svg id="mysvg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="2000"
+    height="1500"
+    viewBox="0 0 2000 1500">
+<defs>
+<style>
+svg#mysvg {
+    background-color: #FFFFFF;
+    fill: #FFFFFF;
+    font-size: 16px;
+    font-family: 'Fira Code VF';
+    line-height: 1.0em;
+}
+#blur-group-1,
+#blur-group-2,
+#blur-group-3 {
+    filter: blur(15.0px);
+    animation: blurToFrom 60.0s 1;
+}
+@keyframes blurImage {
+    from {
+        filter: blur(15.0px);
+    }
+    to {
+        filter: blur(1px);
+    }
+}
+@keyframes blurToFrom {
+    from {
+        filter: blur(15.0px);
+    }
+    50% {
+        filter: blur(1px);
+    }
+    to {
+        filter: blur(15.0px);
+    }
+}
+#link-text {
+    font-size: .5em;
+    stroke: white;
+    fill: #888888FF;
+    stroke-width: 0.2;
+}
+</style>
+<filter id="blur-colors-1" color-interpolation-filters="sRGB">
+ <feColorMatrix type="saturate" values="0.0"/>
+ <feGaussianBlur stdDeviation="0.00" edgeMode="duplicate">
+  <animate attributeName="stdDeviation" values="10;3.0;3.0;0;0;1.0;1.0;2.0;2.0;1.5" dur="60s" begin="mysvg.click" repeatCount="1"/>
+ </feGaussianBlur>
+ <feComponentTransfer>
+    <feFuncR type="discrete" tableValues="0.000000 0.941176 1.000000 0.000000 0.000000 1.000000 0.941176 0.000000 1.000000 "/>
+    <feFuncG type="discrete" tableValues="0.000000 0.603922 0.035294 0.600000 0.000000 0.035294 0.603922 0.600000 1.000000 "/>
+    <feFuncB type="discrete" tableValues="0.000000 0.066667 0.666667 0.133333 0.000000 0.666667 0.066667 0.133333 1.000000 "/>
+    <feFuncA type="discrete" tableValues="1.000000 0.933333 0.666667 0.933333 1.000000 0.666667 0.933333 0.933333 1.000000 "/>
+ </feComponentTransfer>
+</filter>
+<!--  -->
+<filter id="blur-colors-2" color-interpolation-filters="sRGB" >
+  <feColorMatrix type="saturate" values="0.0"/>
+    <feGaussianBlur stdDeviation="0.00" edgeMode="duplicate">
+    <animate attributeName="stdDeviation" values="10;3.0;3.0;0;0;3.0;3.0;10" dur="60s" begin="2000s;mysvg.click" repeatCount="1"/>
+  </feGaussianBlur>
+ <feComponentTransfer>
+    <feFuncR type="discrete" tableValues="0.000000 0.941176 1.000000 0.000000 0.000000 1.000000 0.941176 0.000000 1.000000 "/>
+    <feFuncG type="discrete" tableValues="0.000000 0.603922 0.035294 0.600000 0.000000 0.035294 0.603922 0.600000 1.000000 "/>
+    <feFuncB type="discrete" tableValues="0.000000 0.066667 0.666667 0.133333 0.000000 0.666667 0.066667 0.133333 1.000000 "/>
+    <feFuncA type="discrete" tableValues="1.000000 0.933333 0.666667 0.933333 1.000000 0.666667 0.933333 0.933333 1.000000 "/>
+ </feComponentTransfer>
+</filter>
+<filter id="blur-colors-3" color-interpolation-filters="sRGB" >
+  <feColorMatrix type="saturate" values="0.0"/>
+  <!-- feGaussianBlur intentionally removed -->
+ <feComponentTransfer>
+    <feFuncR type="discrete" tableValues="0.000000 0.941176 1.000000 0.000000 0.000000 1.000000 0.941176 0.000000 1.000000 "/>
+    <feFuncG type="discrete" tableValues="0.000000 0.603922 0.035294 0.600000 0.000000 0.035294 0.603922 0.600000 1.000000 "/>
+    <feFuncB type="discrete" tableValues="0.000000 0.066667 0.666667 0.133333 0.000000 0.666667 0.066667 0.133333 1.000000 "/>
+    <feFuncA type="discrete" tableValues="1.000000 0.933333 0.666667 0.933333 1.000000 0.666667 0.933333 0.933333 1.000000 "/>
+ </feComponentTransfer>
+</filter>
+<g id="image-group-2" transform="translate(10,10) scale(0.5)" filter="url(#blur-colors-unused)">
+    <image id="image2" xlink:href="https://home.highfivediet.com/images/mset-opt/mset-8016.png" x="0" y="0" width="100%"/>
+</g>
+<style>
+#bgrect,
+#bgrect2 {
+    stroke:red;
+    stroke-width:3;
+    fill:white;
+}
+#blurrect,
+#blurrect2,
+#blurrect3 {
+    stroke-width: 0;
+    stroke:transparent;
+    fill:black;
+}
+#bgrect1,
+#bgrect2,
+#bgrect3 {
+    stroke:red;
+    stroke-width:3;
+    fill:white;
+}
+#mask1,
+#mask2,
+#mask3 {
+    stroke-width:30;
+    stroke:#000000FF;
+    fill:transparent;
+}
+
+#color-group-1 {
+    filter: url(#blur-colors-1);
+}
+#color-group-2 {
+    filter: url(#blur-colors-2);
+}
+#color-group-3 {
+    filter: url(#blur-colors-3);
+}
+#line1 {
+    stroke-width:10;
+    stroke:yellow;
+}
+#toggle-bg-1,
+#toggle-bg-2,
+#toggle-bg-3 {
+    fill:white;
+    stroke: black;
+    stroke-width: 0.5;
+}
+
+#toggle-group-1 text,
+#toggle-group-2 text,
+#toggle-group-3 text {
+    fill:black;
+    stroke:none;
+    stroke-width:0;
+    font-weight:bold;
+}
+#mask-toggle-1 text:hover,
+#mask-toggle-2 text:hover,
+#mask-toggle-3 text:hover,
+#blur-toggle-1 text:hover,
+#blur-toggle-2 text:hover,
+#blur-toggle-3 text:hover,
+#color-toggle-1 text:hover,
+#color-toggle-2 text:hover,
+#color-toggle-3 text:hover {
+    fill:blue;
+}
+#mask1.hideMask,
+#mask2.hideMask,
+#mask3.hideMask {
+    stroke:#FFFFFF22;
+}
+
+#color-group-1.colorFilter,
+#color-group-2.colorFilter,
+#color-group-3.colorFilter,
+#blur-group-1.blurFilter,
+#blur-group-2.blurFilter,
+#blur-group-3.blurFilter {
+    filter:initial;
+}
+</style>
+<script>
+function toggleClass(id,cssClass) {
+    let ele = document.getElementById(id),
+        evt = this.event,
+        txt = evt.target;
+
+    if (ele) {
+        let classList = ele.classList,
+            state = classList.toggle(cssClass);
+        console.log(`On ${id}, toggled css class ${cssClass}=${state?"on":"off"}`);
+        if (txt) {
+            let aTextList = txt.innerHTML.split("=");
+            txt.innerHTML = [aTextList[0],(state?"Off":"On")].join("=");
+            console.log(txt.innerHTML);
+        }
+    } else {
+        console.log(`Unable to toggle class ${cssClass} of ${id}`);
+    }
+    evt.cancelBubble = true;
+}
+var toggleList = [
+    {target:"mask1",cssClass:"hideMask"},
+]
+</script>
+</defs>
+<g id="gtest" transform="translate(100,50)">
+ <rect id="bgrect1" x="50" y="50" width="350" height="250"/>
+ <g id="color-group-1" >
+    <g id="blur-group-1">
+        <rect id="blurrect" x="80" y="72.5" width="289.5" height="205"/>
+        <image id="image1"
+            xlink:href="https://home.highfivediet.com/images/mset-opt/mset-8016.png"
+            x="100" y="100" width="250" height="150"/>
+    </g>
+ </g>
+ <rect id="mask1" x="85" y="70" width="280" height="210"/>
+ <g id="toggle-group-1" transform="translate(70,305)">
+  <rect id="toggle-bg-1" x="0" y="0" width="300" height="25" transform="translate(5,5)"/>
+  <a id="mask-toggle-1" onClick="toggleClass('mask1','hideMask')">
+    <text x="0" y="0" id="mask-text-1" transform="translate(12,24)">Mask=On</text>
+  </a>
+  <a id="blur-toggle-1" onClick="toggleClass('blur-group-1','blurFilter')">
+    <text x="0" y="0" id="blur-text-1" transform="translate(110,24)">Blur=On</text>
+  </a>
+  <a id="color-toggle-1" onClick="toggleClass('color-group-1','colorFilter')">
+    <text x="0" y="0" id="color-text-1" transform="translate(210,24)">Color=On</text>
+  </a>
+ </g>
+</g>
+<g id="gtest2" transform="translate(100,400)">
+ <rect id="bgrect2" x="50" y="50" width="350" height="250"/>
+ <g id="color-group-2">
+    <g id="blur-group-2">
+        <rect id="blurrect2" x="80" y="72.5" width="289.5" height="205"/>
+        <image id="image2"
+            xlink:href="https://home.highfivediet.com/images/mset-opt/mset-8016.png"
+            x="100" y="100" width="250" height="150"/>
+        <!-- <line id="line1" x1="100" y1="175" x2="350" y2="175"/> -->
+    </g>
+ </g>
+ <rect id="mask2" x="85" y="70" width="280" height="210"/>
+ <g id="toggle-group-2" transform="translate(70,305)">
+  <rect id="toggle-bg-2" x="0" y="0" width="300" height="25" transform="translate(5,5)"/>
+  <a id="mask-toggle-2" onClick="toggleClass('mask2','hideMask')">
+    <text x="0" y="0" id="mask-toggle-2" transform="translate(12,24)">Mask=On</text>
+  </a>
+  <a id="blur-toggle-2" onClick="toggleClass('blur-group-2','blurFilter')">
+    <text x="0" y="0" id="blur-text-2" transform="translate(110,24)">Blur=On</text>
+  </a>
+  <a id="color-toggle-2" onClick="toggleClass('color-group-2','colorFilter')">
+    <text x="0" y="0" id="color-text-2" transform="translate(210,24)">Color=On</text>
+  </a>
+ </g>
+</g>
+<g id="gtest3" transform="translate(100,750)">
+ <rect id="bgrect3" x="50" y="50" width="350" height="250"/>
+ <g id="color-group-3">
+    <g id="blur-group-3" >
+        <rect id="blurrect3" x="80" y="72.5" width="289.5" height="205"/>
+        <image id="image3"
+            xlink:href="https://home.highfivediet.com/images/mset-opt/mset-8018.png"
+            x="100" y="100" width="250" height="150"/>
+    </g>
+ </g>
+ <rect id="mask3" x="85" y="70" width="280" height="210"/>
+ <g id="toggle-group-3" transform="translate(70,305)">
+  <rect id="toggle-bg-3" x="0" y="0" width="300" height="25" transform="translate(5,5)"/>
+  <a id="mask-toggle-3" onClick="toggleClass('mask3','hideMask')">
+   <text x="0" y="0" id="mask-toggle-3" transform="translate(12,24)">Mask=On</text>
+  </a>
+  <a id="blur-toggle-3" onClick="toggleClass('blur-group-3','blurFilter')">
+    <text x="0" y="0" id="blur-text-3" transform="translate(110,24)">Blur=On</text>
+  </a>
+  <a id="color-toggle-3" onClick="toggleClass('color-group-3','colorFilter')">
+    <text x="0" y="0" id="color-text-3" transform="translate(210,24)">Color=On</text>
+  </a>
+ </g>
+</g>
+</svg>
+</div>
+</body>
+</html>

@@ -57,10 +57,10 @@ svg#mysvg {
     stroke-width: 0.2;
 }
 </style>
-<filter id="ukraine-flag-colors">
+<filter id="ukraine-flag-colors" color-interpolation-filters="sRGB" x="-40%" y="-40%" height="180%" width="180%">
 
  <feColorMatrix type="saturate" values="0.0" />
- <feGaussianBlur stdDeviation="2.75" >
+ <feGaussianBlur stdDeviation="0" >
   <animate attributeName="stdDeviation"
      values="1.0;2.0;1.0"
      by="0.25"

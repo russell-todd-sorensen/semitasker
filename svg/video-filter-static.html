@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!--<title>Title is removed so that the full url will appear! </title>-->
+<link rel="stylesheet" href="/css/fira-code/fira_code.css" media="all">
+<style>
+html,
+head,
+body {
+    font-size: 16px;
+    font-family: 'Fira Code VF';
+    line-height: 1.0em;
+}
+.display-none {
+    display:none;
+}
+label.method {
+    display:block;
+}
+#form1 input[type="text"],
+#form1 input[type="url"] {
+    display: inline-block;
+    width: 550px;
+    font-size: 1.2em;
+    line-height: 1.3em;
+}
+#form1 label {
+  display: inline-block;
+  width: 150px;
+}
+#form1 li {
+    padding-bottom: 2px;
+    list-style: none;
+    margin-left: -25px;
+}
+</style>
+</head>
+<body>
+<!--  method='POST' enctype='multipart/form-data'  -->
+<form autocomplete='off' spellcheck='false' name='form1' id='form1'>
+<ul>
+ <li id='methods'>
+  <label for='return-what'>Document Type</label>
+  <label for='t1' class='method'>
+    <input type='radio' name='t' id='t1' value='0' checked >HTML</label>
+  <label for='t2' class='method'>
+    <input type='radio' name='t' id='t2' value='1'  >SVG</label>
+ </li>
+ <li>
+ <label for='p'>Photo URL</label>
+ <input id='p' name='p' type='url' value='https://home.highfivediet.com/images/HSL2RGB/ukraine-war/Crimea-bridge-train-fire-3.mp4' >
+ </li>
+ <li>
+ <label for='h'>Hex Color List</label>
+ <input type='text' id='h' class='' name='h' value='1:0057B7FF,2:FFD700FF,3:FF2277FF' placeholder='0:000000FF,end:FFFFFFFF' >
+ </li>
+ <li>
+ <label for='s'>Color Schedule</label>
+ <input type='text' id='s' class='' name='s' value='0,2,1,3,1,3,0,2,end' >
+ </li>
+ <li>
+ <label for='b'>Blur Animation</label>
+ <input type='text' id='b' class='' name='b' value='0:0:0:0' placeholder='0px:4px:30s:Infinite, or 0:::' >
+ </li>
+ <li>
+ <label for='v'>SVG viewBox</label>
+ <input type='text' id='v' class='' name='v' value='0:0:2000:1500' placeholder='0:0:2000:1500 (x:y:w:h)' >
+ </li>
+ <li>
+  <input type='submit' value='Generate Document'>
+ </li>
+ </ul>
+</form>
+<div id="svg-content">
+<svg 
+    id="mysvg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="2000"
+    height="1500"
+    viewBox="0 0 2000 1500"
+    >
+<defs>
+<style>
+svg#mysvg {
+    background-color: #FFFFFF;
+    fill: #FFFFFF;
+    font-size: 16px;
+    font-family: 'Fira Code VF';
+    line-height: 1.0em;
+}
+#blurGroup,
+#image2 {
+    filter: blur(0);
+    animation: blurToFrom 0 0;
+}
+@keyframes blurImage {
+    from {
+        filter: blur(0);
+    }
+    to {
+        filter: blur(0);
+    }
+}
+@keyframes blurToFrom {
+    from {
+        filter: blur(0);
+    }
+    50% {
+        filter: blur(0);
+    }
+    to {
+        filter: blur(0);
+    }
+}
+#link-text {
+    font-size: .5em;
+    stroke: white;
+    fill: #888888FF;
+    stroke-width: 0.2;
+}
+</style>
+<filter id="ukraine-flag-colors">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation="2.75" >
+  <animate attributeName="stdDeviation"
+     values="1.0;2.0;1.0"
+     by="0.25"
+     dur="15s"
+     begin="100000s"
+     repeatCount="indefinite" />
+  </feGaussianBlur>
+ <feComponentTransfer>
+<feFuncR type="discrete" tableValues="0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 0.000000 1.000000 1.000000 " />
+<feFuncG type="discrete" tableValues="0.000000 0.843137 0.341176 0.133333 0.341176 0.133333 0.000000 0.843137 1.000000 " />
+<feFuncB type="discrete" tableValues="0.000000 0.000000 0.717647 0.466667 0.717647 0.466667 0.000000 0.000000 1.000000 " />
+<feFuncA type="discrete" tableValues="1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 1.000000 " />
+ 
+ </feComponentTransfer>
+ </filter>
+ 
+</defs>
+<g id="clickMe" transform="translate(10,10) scale(0.5)" filter="url(#ukraine-flag-colors)">
+    <foreignObject  width="2000" height="1500" id="image2">
+    <video width="2000" height="1500" autoplay="true" muted="false" controls type="video/*">
+        <source src="https://home.highfivediet.com/images/HSL2RGB/ukraine-war/Crimea-bridge-train-fire-3.mp4" />
+    </video>
+    </foreignObject>
+</g>
+</svg>
+</div>
+</body>
+</html>
