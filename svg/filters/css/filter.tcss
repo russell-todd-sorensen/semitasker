@@ -1,0 +1,8 @@
+#test-bgcolor {
+    display: inline-block;
+    height:50px;
+    width:300px;
+    color:white;
+    background-color:#0000FF;
+    border:1px solid yellow;
+}

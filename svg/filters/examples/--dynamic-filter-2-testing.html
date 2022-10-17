@@ -7,6 +7,7 @@
 html,
 head,
 body {
+    width: 100%;
     font-size: 16px;
     font-family: 'Fira Code VF';
     line-height: 1.0em;
@@ -34,6 +35,8 @@ label.method {
     margin-left: -25px;
 }
 </style>
+
+<link rel="stylesheet" href="/svg/filters/css/filter.tcss" media="all"/>
 </head>
 <body>
 <template>
@@ -99,12 +102,17 @@ colorIndexMap =  0=&gt;000000FF  1=&gt;F09A11EE  2=&gt;009922EE  3=&gt;FF09AAAA 
 <defs>
 <style>
 svg#mysvg {
-    background-color: #FFFFFF;
-    fill: #FFFFFF;
+ /*   background-color: #FFFFFF;
+    fill: #FFFFFF; */
     font-size: 16px;
     font-family: 'Fira Code VF';
     line-height: 1.0em;
 }
+
+#blur-group-0 {
+    filter: url(#blur-x-0);
+}
+
 #blur-group-1,
 #blur-group-2,
 #blur-group-3 {
@@ -137,11 +145,15 @@ svg#mysvg {
     stroke-width: 0.2;
 }
 </style>
-<filter id="blur-colors-1" color-interpolation-filters="sRGB">
- <feColorMatrix type="saturate" values="0.0"/>
- <feGaussianBlur stdDeviation="0.00" edgeMode="duplicate">
-  <animate attributeName="stdDeviation" values="10;3.0;3.0;0;0;1.0;1.0;2.0;2.0;1.5" dur="60s" begin="mysvg.click" repeatCount="1"/>
+<filter id="blur-x-0" >
+ <feGaussianBlur stdDeviation="0,0" edgeMode="wrap">
+  <animate attributeName="stdDeviation"
+    values="1.3,0;3,0;6.0,0;2.0,0;0.4,0;0.2,0;1.0,0;2.5,0;5.0,0;1.0,0;1.3,0"
+    dur="75s" begin="0;mysvg.click" repeatCount="1" fill="freeze"/>
  </feGaussianBlur>
+</filter>
+<filter id="blur-colors-0" color-interpolation-filters="sRGB">
+ <feColorMatrix type="saturate" values="0.0"/>
  <feComponentTransfer>
     <feFuncR type="discrete" tableValues="0.000000 0.941176 1.000000 0.000000 0.000000 1.000000 0.941176 0.000000 1.000000 "/>
     <feFuncG type="discrete" tableValues="0.000000 0.603922 0.035294 0.600000 0.000000 0.035294 0.603922 0.600000 1.000000 "/>
@@ -149,7 +161,22 @@ svg#mysvg {
     <feFuncA type="discrete" tableValues="1.000000 0.933333 0.666667 0.933333 1.000000 0.666667 0.933333 0.933333 1.000000 "/>
  </feComponentTransfer>
 </filter>
-<!--  -->
+<filter id="blur-colors-1" color-interpolation-filters="sRGB">
+ <feColorMatrix type="saturate" values="0.0"/>
+ <feGaussianBlur stdDeviation="0.00" edgeMode="duplicate" result="blurred">
+  <animate attributeName="stdDeviation"
+    values="3;6.0;2.0;0.4;0.2;1.0;2.5;5.0;1.0;1.3"
+    dur="75s" begin="mysvg.click" repeatCount="1" fill="freeze"/>
+ </feGaussianBlur>
+
+ <feComponentTransfer>
+    <feFuncR type="discrete" tableValues="0.000000 0.941176 1.000000 0.000000 0.000000 1.000000 0.941176 0.000000 1.000000 "/>
+    <feFuncG type="discrete" tableValues="0.000000 0.603922 0.035294 0.600000 0.000000 0.035294 0.603922 0.600000 1.000000 "/>
+    <feFuncB type="discrete" tableValues="0.000000 0.066667 0.666667 0.133333 0.000000 0.666667 0.066667 0.133333 1.000000 "/>
+    <feFuncA type="discrete" tableValues="1.000000 0.933333 0.666667 0.933333 1.000000 0.666667 0.933333 0.933333 1.000000 "/>
+ </feComponentTransfer>
+</filter>
+
 <filter id="blur-colors-2" color-interpolation-filters="sRGB" >
   <feColorMatrix type="saturate" values="0.0"/>
     <feGaussianBlur stdDeviation="0.00" edgeMode="duplicate">
@@ -165,36 +192,63 @@ svg#mysvg {
 <filter id="blur-colors-3" color-interpolation-filters="sRGB" >
   <feColorMatrix type="saturate" values="0.0"/>
   <!-- feGaussianBlur intentionally removed -->
- <feComponentTransfer>
+ <feComponentTransfer result="color-mapped">
     <feFuncR type="discrete" tableValues="0.000000 0.941176 1.000000 0.000000 0.000000 1.000000 0.941176 0.000000 1.000000 "/>
     <feFuncG type="discrete" tableValues="0.000000 0.603922 0.035294 0.600000 0.000000 0.035294 0.603922 0.600000 1.000000 "/>
     <feFuncB type="discrete" tableValues="0.000000 0.066667 0.666667 0.133333 0.000000 0.666667 0.066667 0.133333 1.000000 "/>
     <feFuncA type="discrete" tableValues="1.000000 0.933333 0.666667 0.933333 1.000000 0.666667 0.933333 0.933333 1.000000 "/>
  </feComponentTransfer>
+ <feComposite in="color-mapped" in2="SourceGraphic" operator="in" />
 </filter>
-<g id="image-group-2" transform="translate(10,10) scale(0.5)" filter="url(#blur-colors-unused)">
-    <image id="image2" xlink:href="https://home.highfivediet.com/images/mset-opt/mset-8016.png" x="0" y="0" width="100%"/>
-</g>
+
+<linearGradient id="red-black-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+    <stop stop-color="#FF0000" offset="0%" />
+    <stop stop-color="#000000" offset="100%" />
+</linearGradient>
+
+<linearGradient id="red-white-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+    <stop stop-color="#FF0000" offset="0%" />
+    <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<linearGradient id="green-black-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+    <stop stop-color="#00FF00" offset="0%" />
+    <stop stop-color="#000000" offset="100%" />
+</linearGradient>
+
+<linearGradient id="green-white-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+    <stop stop-color="#00FF00" offset="0%" />
+    <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<linearGradient id="blue-black-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+    <stop stop-color="#0000FF" offset="0%" />
+    <stop stop-color="#000000" offset="100%" />
+</linearGradient>
+
+<linearGradient id="blue-white-grad" color-interpolation="sRGB" spreadMethod="repeat" >
+    <stop stop-color="#0000FF" offset="0%" />
+    <stop stop-color="#FFFFFF" offset="100%" />
+</linearGradient>
+
+<rect id="rgb-grad-rect" height="25" width="250" stroke="#444" stroke-width=".5" />
+
+
 <style>
-#bgrect,
-#bgrect2 {
-    stroke:red;
-    stroke-width:3;
-    fill:white;
-}
-#blurrect,
+#blurrect1,
 #blurrect2,
 #blurrect3 {
     stroke-width: 0;
     stroke:transparent;
     fill:black;
 }
+
 #bgrect1,
 #bgrect2,
 #bgrect3 {
-    stroke:red;
+    fill:black;
     stroke-width:3;
-    fill:white;
+    stroke:red;
 }
 #mask1,
 #mask2,
@@ -203,7 +257,9 @@ svg#mysvg {
     stroke:#000000FF;
     fill:transparent;
 }
-
+#color-group-0 {
+    filter: url(#blur-colors-0);
+}
 #color-group-1 {
     filter: url(#blur-colors-1);
 }
@@ -217,6 +273,7 @@ svg#mysvg {
     stroke-width:10;
     stroke:yellow;
 }
+#toggle-bg-0,
 #toggle-bg-1,
 #toggle-bg-2,
 #toggle-bg-3 {
@@ -224,7 +281,7 @@ svg#mysvg {
     stroke: black;
     stroke-width: 0.5;
 }
-
+#toggle-group-0 text,
 #toggle-group-1 text,
 #toggle-group-2 text,
 #toggle-group-3 text {
@@ -236,9 +293,11 @@ svg#mysvg {
 #mask-toggle-1 text:hover,
 #mask-toggle-2 text:hover,
 #mask-toggle-3 text:hover,
+#blur-toggle-0 text:hover,
 #blur-toggle-1 text:hover,
 #blur-toggle-2 text:hover,
 #blur-toggle-3 text:hover,
+#color-toggle-0 text:hover,
 #color-toggle-1 text:hover,
 #color-toggle-2 text:hover,
 #color-toggle-3 text:hover {
@@ -249,10 +308,11 @@ svg#mysvg {
 #mask3.hideMask {
     stroke:#FFFFFF22;
 }
-
+#color-group-0.colorFilter,
 #color-group-1.colorFilter,
 #color-group-2.colorFilter,
 #color-group-3.colorFilter,
+#blur-group-0.blurFilter,
 #blur-group-1.blurFilter,
 #blur-group-2.blurFilter,
 #blur-group-3.blurFilter {
@@ -283,18 +343,31 @@ var toggleList = [
     {target:"mask1",cssClass:"hideMask"},
 ]
 </script>
+
+<g id="rgb-gradient-viewer" x="0" y="0">
+    <g id="color-group-0">
+        <g id="blur-group-0">
+            <use href="#rgb-grad-rect" x="0" y="0" fill="url(#red-black-grad)" />
+            <use href="#rgb-grad-rect" x="0" y="30" fill="url(#green-black-grad)" />
+            <use href="#rgb-grad-rect" x="0" y="60" fill="url(#blue-black-grad)"/>
+            <use href="#rgb-grad-rect" x="0" y="90" fill="url(#red-white-grad)" />
+            <use href="#rgb-grad-rect" x="0" y="120" fill="url(#green-white-grad)" />
+            <use href="#rgb-grad-rect" x="0" y="150" fill="url(#blue-white-grad)"/>
+        </g>
+    </g>
+</g>
 </defs>
-<g id="gtest" transform="translate(100,50)">
+<g id="gtest1" transform="translate(100,50)">
  <rect id="bgrect1" x="50" y="50" width="350" height="250"/>
  <g id="color-group-1" >
     <g id="blur-group-1">
-        <rect id="blurrect" x="80" y="72.5" width="289.5" height="205"/>
+        <rect id="blurrect1" x="80" y="72.5" width="289.5" height="205"/>
         <image id="image1"
-            xlink:href="https://home.highfivediet.com/images/mset-opt/mset-8016.png"
+            xlink:href="https://home.semitasker.com/images/mset-opt/mandelbrot-10.png"
             x="100" y="100" width="250" height="150"/>
     </g>
  </g>
- <rect id="mask1" x="85" y="70" width="280" height="210"/>
+ <rect id="mask1" rx="30" ry="30" x="75" y="67.5" width="300" height="215"/>
  <g id="toggle-group-1" transform="translate(70,305)">
   <rect id="toggle-bg-1" x="0" y="0" width="300" height="25" transform="translate(5,5)"/>
   <a id="mask-toggle-1" onClick="toggleClass('mask1','hideMask')">
@@ -314,12 +387,12 @@ var toggleList = [
     <g id="blur-group-2">
         <rect id="blurrect2" x="80" y="72.5" width="289.5" height="205"/>
         <image id="image2"
-            xlink:href="https://home.highfivediet.com/images/mset-opt/mset-8016.png"
+            xlink:href="https://home.highfivediet.com/images/mset-opt/mset-5133.png"
             x="100" y="100" width="250" height="150"/>
         <!-- <line id="line1" x1="100" y1="175" x2="350" y2="175"/> -->
     </g>
  </g>
- <rect id="mask2" x="85" y="70" width="280" height="210"/>
+ <rect id="mask2" rx="30" ry="30" x="75" y="67.5" width="300" height="215"/>
  <g id="toggle-group-2" transform="translate(70,305)">
   <rect id="toggle-bg-2" x="0" y="0" width="300" height="25" transform="translate(5,5)"/>
   <a id="mask-toggle-2" onClick="toggleClass('mask2','hideMask')">
@@ -339,11 +412,11 @@ var toggleList = [
     <g id="blur-group-3" >
         <rect id="blurrect3" x="80" y="72.5" width="289.5" height="205"/>
         <image id="image3"
-            xlink:href="https://home.highfivediet.com/images/mset-opt/mset-8018.png"
+            xlink:href="https://home.highfivediet.com/images/mset-opt/mset-8016.png"
             x="100" y="100" width="250" height="150"/>
     </g>
  </g>
- <rect id="mask3" x="85" y="70" width="280" height="210"/>
+ <rect id="mask3" x="75" y="67.5" rx="10" ry="10" width="300" height="215"/>
  <g id="toggle-group-3" transform="translate(70,305)">
   <rect id="toggle-bg-3" x="0" y="0" width="300" height="25" transform="translate(5,5)"/>
   <a id="mask-toggle-3" onClick="toggleClass('mask3','hideMask')">
@@ -357,7 +430,22 @@ var toggleList = [
   </a>
  </g>
 </g>
+<g id="gtest0" transform="translate(760,100)">
+    <use href="#rgb-gradient-viewer" transform="translate(100,50)" />
+    <use href="#rgb-gradient-viewer" transform="translate(100,400)" />
+    <use href="#rgb-gradient-viewer" transform="translate(100,750)" />
+    <g id="toggle-group-0" transform="translate(70,250)">
+     <rect id="toggle-bg-0" x="0" y="0" width="300" height="25" transform="translate(5,5)"/>
+     <a id="blur-toggle-0" onClick="toggleClass('blur-group-0','blurFilter')">
+       <text x="0" y="0" id="blur-text-0" transform="translate(110,24)">Blur=On</text>
+     </a>
+     <a id="color-toggle-0" onClick="toggleClass('color-group-0','colorFilter')">
+       <text x="0" y="0" id="color-text-0" transform="translate(210,24)">Color=On</text>
+     </a>
+    </g>
+</g>
 </svg>
 </div>
+<div id="test-bgcolor" >This is some text</div>
 </body>
 </html>
