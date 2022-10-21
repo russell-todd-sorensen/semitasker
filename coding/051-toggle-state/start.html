@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client/Vendor Login</title>
+    <!--
+        I have two buttons on a table I need to toggle between, written
+        in jquery and needs to be converted to javascript for a React page.
+        This table displays three input fields when it is originally loaded
+        onto the screen and when one button is clicked I need one of the
+        input fields to disappear. And when I click
+        the original button (what the table originally loads to) I need the
+        input field that disappears to be shown again.
+    -->
+    <!--
+        Created by russell sorensen 2022-10-20 <russell@highfivediet.com>
+    -->
+</head>
+<body>
+
+<script>
+var handleToggles = function (evt,config) {
+    for (let k=0;k<config.toggleClass.length;k++) {
+        let tc = config.toggleClass[k],
+            ele,
+            classList;
+        switch (tc.length) {
+        case 1:
+            ele = document.getElementById(config.target);
+            ele.classList.toggle(tc[0]);
+            break;
+        case 2:
+            ele = document.getElementById(tc[0]);
+            ele.classList.toggle(tc[1]);
+            break;
+        default:
+            continue;
+        }
+    }
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+
+let toggleList = [
+    {target:"cloginbtn",
+        initClass:["switchBtn","selectedBtn",],
+        toggleClass:[["selectedBtn"],["vloginbtn","selectedBtn"],["userNameRow","hide"]]
+    },
+    {target:"vloginbtn",
+        initClass:["switchBtn"],
+        toggleClass:[["selectedBtn"],["cloginbtn","selectedBtn"],["shortNameRow","hide"]]
+    },
+    {target:"shortNameRow",
+        initClass:[],
+        toggleClass:[],
+    },
+    {target:"userNameRow",
+        initClass:[],
+        toggleClass:[],
+    },],
+    len = toggleList.length;
+
+    for (let i=0;i<len;i++) {
+        let config = toggleList[i],
+            ele = document.getElementById(config.target),
+            cl  = ele.classList;
+        for (let j=0;j<config.initClass.length;j++) {
+            cl.toggle(config.initClass[j]);
+        }
+        ele.addEventListener("click", (evt) => {handleToggles(evt,config)} ,false);
+    }
+});
+
+</script>
+<style>
+.selectedBtn {
+    display: inline-block;
+}
+.hide {
+    visibility:hidden;
+}
+/*  if you want the table row to completely go away 
+    use the 'remove' class instead of 'hide': */
+.remove {
+    visibility:collapse;
+}
+</style>
+<form id="login" spellcheck="false" autocomplete="off" method="POST" encoding="multi-part/formdata">
+<div class="buttons">
+    <button id="cloginbtn" type="button">CLIENT LOGIN</button>
+    <button id="vloginbtn" type="button">VENDOR LOGIN</button>
+</div>
+<table>
+<tr id="shortNameRow">
+    <td>
+        <input name="client_shortname" type="text" class="stretch" placeholder="Short Company Name"/>
+    </td>
+</tr>
+<tr id="userNameRow">
+    <td>
+        <input name="user_name" type="text" class="stretch" placeholder="User ID"/>
+    </td>
+</tr>
+<tr>
+    <td>
+        <input name="user_pswd" type="password" class="stretch" placeholder="Password"/>
+    </td>
+</tr>
+
+</table>
+</form>
+</body>
+</html>
+

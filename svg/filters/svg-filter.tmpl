@@ -68,7 +68,7 @@ svg#mysvg {
      begin="100000s"
      repeatCount="indefinite" />
   </feGaussianBlur>
- <feComponentTransfer>
+ <feComponentTransfer result="color-mapped" >
 [foreach chan {r g b a} /]
 <feFunc[string toupper $chan] type="discrete" tableValues="[ws/]
     [foreach idx $colorSched /]
@@ -78,6 +78,7 @@ svg#mysvg {
     [/foreach]" />
 [/foreach] 
  </feComponentTransfer>
+ <feComposite in="color-mapped" in2="SourceGraphic" operator="in" />
  </filter>
  
 </defs>

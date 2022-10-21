@@ -1,0 +1,43 @@
+
+<script>
+const question = () => {
+
+    function clogin() {
+        document.querySelector("#vloginbtn").removeClass("selectedBtn");
+        document.querySelector("#cloginbtn").addClass("selectedBtn");
+        document.querySelector("#shortNameRow").show();
+    }
+    
+    function vlogin() {	
+        document.querySelector("#cloginbtn").removeClass("selectedBtn");
+        document.querySelector("#vloginbtn").addClass("selectedBtn");
+        document.querySelector("#shortNameRow").hide();
+    }
+}
+</script>
+
+
+var toggleClass = function (id,cssClass) {
+    let ele = document.getElementById(id),
+        evt = this.event,
+        txt = evt.target;
+
+    if (ele) {
+        let classList = ele.classList,
+            state = classList.toggle(cssClass);
+        console.log(`On ${id}, toggled css class ${cssClass}=${state?"on":"off"}`);
+        if (txt) {
+            let aTextList = txt.innerHTML.split("=");
+            txt.innerHTML = [aTextList[0],(state?"Off":"On")].join("=");
+            console.log(txt.innerHTML);
+        }
+    } else {
+        console.log(`Unable to toggle class ${cssClass} of ${id}`);
+    }
+    evt.cancelBubble = true;
+}
+var toggleListNOTUSED = [
+    {target:"cloginbtn",initClass:["switchBtn","selectedBtn",],toggleClass:["selectedBtn"]},
+    {target:"vloginbtn",initClass:["switchBtn"],toggleClass:["selectedBtn"]},
+    {target:"shortNameRow",initClass:[],toggleClass:["hide"],},
+];

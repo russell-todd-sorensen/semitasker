@@ -1,8 +1,27 @@
-#test-bgcolor {
-    display: inline-block;
-    height:50px;
-    width:300px;
-    color:white;
-    background-color:#0000FF;
-    border:1px solid yellow;
+if {false} {
+    #$s {
+        display: $d;
+        height: $h;
+        width: $w;
+        color: $c;
+        background-color: $bc;
+        border: $bdr;
+    }
 }
+
+
+set form [ns_conn form]
+
+set selector [ns_set get $form s "#my-rect"]
+set display  [ns_set get $form d "inline-block"]
+set height   [ns_set get $form h "50px"]
+set width    [ns_set get $form w "300px"]
+set color    [ns_set get $form c "white"]
+set bgcolor  [ns_set get $form bg "blue"]
+set border   [ns_set get $form bdr "1px solid blue"]
+
+ns_log Notice "selector='$selector'"
+
+set css [::wtk::ttt::applyTemplateNS]
+
+ns_return 200 "text/css ;charset=utf8" [lindex $css 2 ]
