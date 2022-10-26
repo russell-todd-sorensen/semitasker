@@ -23,6 +23,7 @@ let reSetup = function (dictId) {
   }
 
   let title = "Anagrams using " + dictData["label"] + " Dictionary"
+  console.log(`url=${url}`);
   fetch(
     url
   ).then(
