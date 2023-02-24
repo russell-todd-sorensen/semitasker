@@ -1,5 +1,5 @@
 
-class CardShuffle extends Visualization {
+class CardSort extends Visualization {
     numItems;
     numColumns;
     timeout;
@@ -36,7 +36,7 @@ class CardShuffle extends Visualization {
     };
     constructor(state) {
         super({
-            tmpl:"CardShuffle",
+            tmpl:"CardSort",
             state:state,
         });
         this.updateState();

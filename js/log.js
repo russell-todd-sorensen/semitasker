@@ -4,7 +4,7 @@ var Log = {
 	Logger: "log2",
 	logText: "",
 	LogIndex: 0,
-	DisplayLog: 100,
+	DisplayLog: 1000,
 	LogHistory: [],
 
 	logMsg: function () {

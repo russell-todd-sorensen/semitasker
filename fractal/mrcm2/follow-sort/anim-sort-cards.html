@@ -2,8 +2,8 @@
 <html lang="en-US">
 <head>
 <meta charset="utf-8" >
-<meta name="description" content="Animate Card Shuffle and Other Sort and Search Algorithms." >
-<title>Shuffle Cards</title>
+<meta name="description" content="Animate Card Sort and Search Algorithms." >
+<title>Follow Sort Cards</title>
 <link rel="stylesheet" href="/css/main.css" >
 <link rel="stylesheet" href="css/anim-sort-form.css">
 <link rel="stylesheet" href="css/anim-sort-grid.css" >
@@ -19,7 +19,7 @@ linkRef.setAttribute("href",`https://home.highfivediet.com${document.location.pa
 <script src="js/anim-sort-svg.js" defer ></script>
 <script src="js/page-state.js" defer ></script>
 <script src="js/visualization.js" defer ></script>
-<script src="js/card-shuffle.js" defer ></script>
+<script src="js/card-sort.js" defer ></script>
 <script src="js/anim-sort-strategy.js" defer ></script>
 <script src="js/anim-sort-path.js" defer ></script>
 <script src="js/anim-control.js" defer ></script>
@@ -254,7 +254,7 @@ Log.Notice = Log.Error = Log.Warning = Log.Debug = Log.Hide = Log.Show = Log.Rem
 
 var pState,
     myVis,
-    myCardShuffle,
+    myCardSort,
     shuffleSwaps,
     myAnimControl,
     animQueue;
@@ -300,8 +300,8 @@ window.addEventListener('DOMContentLoaded', () => {
         events: [{target:"form1",desc:["input",{"bubbles":true, "cancelable":false}]}]
     });
     
-    myCardShuffle = new CardShuffle(pState);
-    myAnimControl = new AnimControl(myCardShuffle);
+    myCardSort = new CardSort(pState);
+    myAnimControl = new AnimControl(myCardSort);
     myAnimQueue   = new Queue();
 });
 </script>

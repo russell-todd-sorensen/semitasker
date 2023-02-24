@@ -23,4 +23,4 @@ foreach image $imageFiles {
 }
 append javascript [join $imageList ",\n"]
 append javascript "\];"
-ns_return 200 "text/javascript; charset=utf-8" $javascript
+ns_return 200 "application/javascript; charset=utf-8" $javascript

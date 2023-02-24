@@ -1,0 +1,43 @@
+#file-box-room #anchor,
+#file-box-room #row-heads,
+#file-box-room #col-heads,
+#file-box-room #data-grid  {
+    border: 0.5px solid rgba(255,0,0,.5);
+    gap: 10px;
+}
+#file-box-room div.data {
+    height: 100px;
+    width: 100px;
+    border: 1px solid rgba(0,0,0,.5);
+    text-align:center;
+    vertical-align:middle;
+    border-radius: 10px; 
+    line-height: 2em;
+}
+#file-box-room {
+  /*  fill: transparent;
+    background-color:transparent; */
+}
+
+#file-box-room #anchor rect,
+#file-box-room #col-heads rect,
+#file-box-room #row-heads rect,
+#file-box-room #data-grid rect {
+    height: 100px;
+    width: 100px;
+    fill:transparent;
+    background-color:transparent;
+    border: 1px solid rgba(0,0,0,.5);
+    text-align: center;
+    vertical-align: middle;
+    border-radius: 10px;
+    line-height: 2em;
+    font-size: 3em;
+}
+#file-box-room #data-grid div.row-col {
+    border: 1px solid rgba(0,0,0,0.01);
+    color: rgba(0,0,0,0.01);
+    font-size: 2px;
+    text-align: center;
+    vertical-align: middle;
+}

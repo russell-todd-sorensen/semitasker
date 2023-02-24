@@ -6,7 +6,7 @@ var Log = {
     LogCloseTag: "log-close-button",
     logText: "",
     LogIndex: 0,
-    DisplayLog: 100,
+    DisplayLog: 1000000,
     LogHistory: [],
 
     logMsg: function () {

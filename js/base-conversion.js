@@ -324,11 +324,8 @@ var fractionToRecurringDecimal = function (numer,denom,doNotReduce) {
     numer /= reduc.rp;
     denom /= reduc.rp;
     
-    console.log(" numer=" + numer + ", denom=" + denom)
+    //console.log(" numer=" + numer + ", denom=" + denom)
 
-    if (denom == 3800) {
-        let ddddd = 1;
-    }
     let reducedDenom; // broken here
     if (reduc.df && reduc.df.length) {
         reducedDenom = reduc.df[reduc.df.length-1].f

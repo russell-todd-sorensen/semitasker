@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>SnowFlake CPC Challenge</title>
+<style>
+#no-hide {
+    display: inline-block;
+    vertical-align:top;
+}
+#control-container {
+    display: inline-block;
+    vertical-align:top;
+}
+</style>
+</head>
+<body>
+<div id="no-hide">
+ <svg id="svg" x="0" y="0" height="642" width="642" viewBox="0 0 642 642">
+<defs>
+<style>
+#dashed-pos-boundary {
+    stroke-width: 1;
+    stroke-dasharray: 5 2; 
+    stroke: tan;
+    fill: none;
+}
+#g0 use:nth-of-type(2n) {
+  /*  fill:lime;
+    fill: inherit;*/
+}
+#svg use[href="#c1"]:nth-of-type(2n-1) {
+    opacity: 0.7;
+}
+#svg use[href="#c1"]:nth-of-type(4) {
+    opacity: 0.3;
+}
+#svg g:nth-of-type(2n) {
+   /* fill: inherit; */
+}
+/*
+#svg use[href="#c1"]:nth-of-type(3n-1) {
+    fill:rgb(0,255, 89);
+}
+#svg use[href="#g1"]:nth-of-type(4n) {
+    fill:yellow;
+}
+#svg use[href="#g1"]:nth-of-type(3n) {
+    fill:rgb(255, 0, 89);
+}
+
+#svg use[href="#g1"] {
+    fill:orange;
+}
+#svg use[href="#g2"] {
+    fill:rgb(89,0,255);
+} */
+#svg use[href="#c1"]:nth-of-type(1) {
+    fill:#0000FF;
+}
+#svg use[href="#c1"]:nth-of-type(2) {
+    fill:orange;
+}
+#svg use[href="#c1"]:nth-of-type(3) {
+    fill:rgb(89,0,255);
+}
+#svg use[href="g4"]:nth-of-type(1) {
+    fill:red;
+}
+#svg use[href="g4"]:nth-of-type(2) {
+    fill:green;
+}
+#svg use[href="g4"]:nth-of-type(3) {
+    fill:rgb(165, 165, 218);
+}
+
+</style>
+<circle id="c1" class="primitive" x="0" y="0" cx="320" cy="320" r="300" />
+<g id="g0">
+    <use href="#c1" transform="matrix(0.255 0 0 0.255 238.464 429.696)"/>
+    <use href="#c1" transform="matrix(0.255 0 0 0.255 73.344 142.848)"/>
+    <use href="#c1" transform="matrix(0.255 0 0 0.255 403.5840 142.848)"/>
+    <use href="#c1" transform="matrix(0.37 0.642 -0.642 0.37 406.7840 -3.9040)"/>
+</g>
+<g id="g1">
+    <use href="#g0" transform="matrix(0.255 0 0 0.255 238.464 429.696)"/>
+    <use href="#g0" transform="matrix(0.255 0 0 0.255 73.344 142.848)"/>
+    <use href="#g0" transform="matrix(0.255 0 0 0.255 403.5840 142.848)"/>
+    <use href="#g0" transform="matrix(0.37 0.642 -0.642 0.37 406.7840 -3.9040)"/>
+</g>
+<g id="g2">
+    <use href="#g1" transform="matrix(0.255 0 0 0.255 238.464 429.696)"/>
+    <use href="#g1" transform="matrix(0.255 0 0 0.255 73.344 142.848)"/>
+    <use href="#g1" transform="matrix(0.255 0 0 0.255 403.5840 142.848)"/>
+    <use href="#g1" transform="matrix(0.37 0.642 -0.642 0.37 406.7840 -3.9040)"/>
+</g>
+<g id="g3">
+    <use href="#g2" transform="matrix(0.255 0 0 0.255 238.464 429.696)"/>
+    <use href="#g2" transform="matrix(0.255 0 0 0.255 73.344 142.848)"/>
+    <use href="#g2" transform="matrix(0.255 0 0 0.255 403.5840 142.848)"/>
+    <use href="#g2" transform="matrix(0.37 0.642 -0.642 0.37 406.7840 -3.9040)"/>
+</g>
+<g id="g4">
+    <use href="#g3" transform="matrix(0.255 0 0 0.255 238.464 429.696)"/>
+    <use href="#g3" transform="matrix(0.255 0 0 0.255 73.344 142.848)"/>
+    <use href="#g3" transform="matrix(0.255 0 0 0.255 403.5840 142.848)"/>
+    <use href="#g3" transform="matrix(0.37 0.642 -0.642 0.37 406.7840 -3.9040)"/>
+</g>
+<g id="g5">
+    <use href="#g4" transform="matrix(0.255 0 0 0.255 238.464 429.696)"/>
+    <use href="#g4" transform="matrix(0.255 0 0 0.255 73.344 142.848)"/>
+    <use href="#g4" transform="matrix(0.255 0 0 0.255 403.5840 142.848)"/>
+    <use href="#g4" transform="matrix(0.37 0.642 -0.642 0.37 406.7840 -3.9040)"/>
+</g>
+<g id="g6">
+    <use href="#g5" transform="matrix(0.255 0 0 0.255 238.464 429.696)"/>
+    <use href="#g5" transform="matrix(0.255 0 0 0.255 73.344 142.848)"/>
+    <use href="#g5" transform="matrix(0.255 0 0 0.255 403.5840 142.848)"/>
+    <use href="#g5" transform="matrix(0.37 0.642 -0.642 0.37 406.7840 -3.9040)"/>
+</g>
+<g id="euclidian-transform-xy-plane">
+    <path id="dashed-pos-boundary" d="M 0 640 h 640 v -640"/>
+    <line y1="0" x1="-100%" x2="100%" y2="0" stroke="black" stroke-width="1"/>
+    <line x1="0" y1="-100%" y2="100%" x2="0" stroke="black" stroke-width="1"/>
+</g>
+</defs>
+<use href="#euclidian-transform-xy-plane" />
+
+<g id="composition-table">
+    <use id="show" href="#g6" transform="scale(1.0)"/>
+</g>
+<style>
+#svg #test {
+    fill: #AA0A8888;
+}
+#svg #test2 {
+    fill:#0A88AA88;
+}
+</style>
+<g id="test" transform="scale(4)">
+    <g id="next">
+        <rect x="0" y="0" width="20" height="10" stroke-width="2" stroke="black" />
+    </g>
+</g>
+<g id="test2" transform="scale(4) translate(0,50)">
+    <use href="#next" x="0" y="0" />
+</g>
+</svg>
+</div>
+<div id="control-container">
+<form id="controls" onSubmit="() => {return false}" >
+<ul>
+<li><input type="radio" name="group" id="group-c1" value="c1" onClick="selectGroup('show','c1')">Primitive Circle 1</li>
+<li><input type="radio" name="group" id="group-g1" value="g0" onClick="selectGroup('show','g0')">Transform Group 0</li>
+<li><input type="radio" name="group" id="group-g1" value="g1" onClick="selectGroup('show','g1')">Transform Group 1</li>
+<li><input type="radio" name="group" id="group-g2" value="g2" onClick="selectGroup('show','g2')">Transform Group 2</li>
+<li><input type="radio" name="group" id="group-g3" value="g3" onClick="selectGroup('show','g3')">Transform Group 3</li>
+<li><input type="radio" name="group" id="group-g4" value="g4" onClick="selectGroup('show','g4')">Transform Group 4</li>
+<li><input type="radio" name="group" id="group-g5" value="g5" onClick="selectGroup('show','g5')">Transform Group 5</li>
+<li><input type="radio" name="group" id="group-g6" value="g6" checked  onClick="selectGroup('show','g6')">Transform Group 6</li>
+</ul>
+</form>
+<script>
+var selectGroup = function (useId,groupId) {
+    let useElement = document.getElementById(useId);
+    useElement.setAttribute("href",`#${groupId}`);
+}
+</script>
+</div>
+</body>
+</html>

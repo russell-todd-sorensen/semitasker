@@ -1,0 +1,54 @@
+html,
+head {
+    background-color: #000000;
+    font-size: 16px;
+    font-family: 'Fira Code', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+body {
+    font-size: 1em;
+    font-family: inherit;
+}
+form {
+    display: inline;
+}
+button {
+    margin-left: 2px;
+}
+ul,
+li {
+    display: inline-block;
+}
+fieldset {
+    display: inline-block;
+    border: 1px solid black;
+    padding: 3px;
+    margin: 5px;
+    width: 500px;
+}
+legend {
+    border: 1px solid black;
+    padding: 3px;
+}
+label,
+input {
+    font-family: inherit;
+    display: inline-block;
+}
+input {
+    text-align: right;
+}
+label {
+    width: 130px;
+}
+input {
+    width: 130px;
+}
+label.check {
+    width: 50px;
+}
+label.check.wide {
+    width: 130px;
+}
+input[type="checkbox"] {
+    width: 25px;
+}
