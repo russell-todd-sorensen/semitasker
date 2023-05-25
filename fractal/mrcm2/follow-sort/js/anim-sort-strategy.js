@@ -49,6 +49,30 @@ var shuffleSteps = function(numItems) {
     return {final:items,steps:steps};
 }
 
+var shuffleRange = function(numItems,start=0) {
+    let len = numItems,
+        items= [],
+        index,
+        steps = [];
+
+    for (index=start;index<len+start;index++) {
+        items[index] = index;
+    }
+
+    for (let i=start,swapLow,swapHigh;i<len+start;i++) { // i was 1
+        index = getEqualWeightIndex(0,{min:start,max:start+i});
+        steps.push([i,index]);
+        if (items[index] == items[i]) {
+            continue
+        }
+        swapLow = items[index];
+        swapHigh = items[i];
+        items[index] = swapHigh;
+        items[i] = swapLow;
+    }
+    return {final:items,steps:steps};
+}
+
 var sortIntegers = function (a,b) {
     let aInt = parseInt(a),
         bInt = parseInt(b);
@@ -139,11 +163,72 @@ var followSort = function(shuffled) {
             found += chain.length -1;
             chains.push(chain);
             if (found >= len) {
-                break;
+              //  break;
             }
         }
     }
     return {shuffled:shuffled,singles:singles,moves:moves,chains:chains,lastI:lastI};
+}
+
+var followSortSwaps = function(shuffled) {
+
+    let copy = shuffled.filter(((x) => (true))),
+        len = copy.unshift(0),
+        chains = [],
+        found = copy.map(((x,i) => ((x)==i)?(chains.push([i])/chains.length):0)),
+        chain = [],
+        moves = [],
+        lastI = null,
+        cId = null,
+        nId = null,
+        cVal = null,
+        nVal = null;
+        console.log(`copy = ${copy}`);
+        console.log(`cId=${cId}, cVal=${cVal}, nId=${nId}, nVal=${nVal}`);
+    for (let i=1;i<len;i++) {
+        if (found[i]>0) {
+            continue;
+        }
+        lastI = i;
+        cId = i;
+        cVal = copy[cId];
+        nId = 0;
+        nVal = 0;
+        chain = [];
+        moves.push([cId,nId]);
+        chain.push(cId);
+        copy[0] = cVal;
+        copy[cId] = 0;
+        cId = nId;
+        cVal = copy[cId];
+        nId = cVal;
+        nVal = copy[nId];
+        console.log(`cId=${cId},  cVal=${cVal}, nId=${nId}, nVal=${nVal}`);
+        while(cId != cVal && nId != nVal) {
+            moves.push([cId,nId]);
+            chain.push(cId);
+            copy[nId] = cVal;
+            cId = nId;
+            cVal = nVal;
+            nId = cVal;
+            nVal = copy[nId];
+
+            console.log(`cId=${cId},  cVal=${cVal}, nId=${nId}, nVal=${nVal}`);
+        }
+        if (chain.length>0) {
+            for (let i=0;i<chain.length;i++) {
+                found[chain[i]] = 1
+            }
+            //moves.pop();
+            //found += chain.length -1;
+            chains.push(chain);
+            if (found >= len) {
+               // break;
+               console.log(`Would break if working lastI=${lastI}`);
+            }
+        }
+    }
+    return {copy:copy,moves:moves,chains:chains,lastI:lastI};
 }
 
 function sortableSet1() {

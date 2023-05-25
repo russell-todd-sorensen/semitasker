@@ -8,8 +8,8 @@ class CardSort extends Visualization {
     dataAnimMap  = new Map();
     gidMap       = new Map();
     dataBbox = {};
-    cardValues={1:"A",2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,11:"J",12:"Q",13:"K"};
-    cardSuits={1:"♣",2:"♦",3:"♥",4:"♠",5:"♧",6:"♢",7:"♡",8:"♤"};
+    cardValues={0:"0",1:"A",2:2,3:3,4:4,5:5,6:6,7:7,8:8,9:9,10:10,11:"J",12:"Q",13:"K"};
+    cardSuits={0:"0",1:"♣",2:"♦",3:"♥",4:"♠",5:"♧",6:"♢",7:"♡",8:"♤"};
     superGrid={
         svg:{id:"svgvis",class:""},
         testsvg:{id:"svg-test",class:""},
@@ -20,6 +20,9 @@ class CardSort extends Visualization {
         dataGrid:{id:"data-grid",class:"data-grid"},
         dataClassTypes:{active:'active',inactive:'inactive'},
         itemDims:{height:100,width:100,gap:20},
+        sortBoxIdx:0,
+        sortBoxRow:0,
+        sortBoxCol:0,
         anchorLabel:(text => text),
         colLabel:(col => this.cardValues[col]),
         rowLabel:(row => this.cardSuits[row]),
@@ -42,7 +45,7 @@ class CardSort extends Visualization {
         this.updateState();
     }
     updateState() {
-        this.numItems = this.state.param("n");
+        this.numItems     = this.state.param("n");
         this.numColumns   = this.state.param("c");
         this.timeout      = this.state.param("t");
         this.browser      = this.state.param("b");
@@ -182,46 +185,51 @@ class CardSort extends Visualization {
         anchorHead.appendChild(aContent)
         anchor.appendChild(anchorHead);
 
-        for (let row=0,index=0;row<rows;row++) {
+        for (let row=1;row<=rows;row++) {
             let rowHead  = document.createElementNS(xmlns,"g"),
                 rowRect  = document.createElementNS(xmlns,"use"),
                 rContent = document.createElementNS(xmlns,"text"),
-                content  = document.createTextNode(this.superGrid.rowLabel(row+1)),
-                rowLabel = this.superGrid.rowLabel(row+1);
+                content  = document.createTextNode(this.superGrid.rowLabel(row)),
+                rowLabel = this.superGrid.rowLabel(row);
 
-            rowHead.setAttribute("id",`row-${row+1}`);
+            rowHead.setAttribute("id",`row-${row}`);
             rowHead.setAttribute("class",rowLabel)
             rowRect.setAttribute("href",`#item`);
-            rowHead.setAttribute("transform",`translate(0,${(row)*ifh})`);
+            rowHead.setAttribute("transform",`translate(0,${(row-1)*ifh})`);
             rowHead.appendChild(rowRect);
             rContent.appendChild(content);
             rowHead.appendChild(rContent);
             rHead.appendChild(rowHead);
+        }
+        for (let col=1;col<=cols;col++) {
+            let colHead = document.createElementNS(xmlns,"g"),
+                colRect = document.createElementNS(xmlns,"use"),
+                hContent = document.createElementNS(xmlns,"text"),
+                content = document.createTextNode(this.superGrid.colLabel(col));
 
-            for (let col=0;col<cols&&index<this.numItems;col++,index++) {
-                if (row==0) {
-                    let colHead = document.createElementNS(xmlns,"g"),
-                        colRect = document.createElementNS(xmlns,"use"),
-                        hContent = document.createElementNS(xmlns,"text"),
-                        content = document.createTextNode(this.superGrid.colLabel(col+1));
-
-                    colHead.setAttribute("id",`col-${col+1}`);
-                    colRect.setAttribute("href",`#item`);
-                    colHead.setAttribute("transform",`translate(${(col)*ifw},0)`);
-                    colHead.appendChild(colRect);
-                    hContent.appendChild(content);
-                    colHead.appendChild(hContent);
-                    cHead.appendChild(colHead);
-                }
+            colHead.setAttribute("id",`col-${col}`);
+            colRect.setAttribute("href",`#item`);
+            colHead.setAttribute("transform",`translate(${(col-1)*ifw},0)`);
+            colHead.appendChild(colRect);
+            hContent.appendChild(content);
+            colHead.appendChild(hContent);
+            cHead.appendChild(colHead);
+        }
+        mainloop:
+        for (let row=0,index=0;row<=rows;row++) {
+            let rowLabel = this.superGrid.rowLabel(row),
+                colStart = row?1:0;
+            for (let col=colStart;col<=cols;col++,index++) {
                 // visible and moveable content group
                 const fileBox  = document.createElementNS(xmlns,"g"),
-                      fileRect = document.createElementNS(xmlns,"use"),
-                      dContent = document.createElementNS(xmlns,"text"),
-                       content = document.createTextNode(`${sgConfig.dataVals(col+1,row+1)}`),
-                       gid     = `card${index}`,
-                       gx      = (col)*ifw,
-                       gy      = (row)*ifh,
-                       inactiveClass = sgConfig.getDataClass("inactive");
+                    fileRect = document.createElementNS(xmlns,"use"),
+                    dContent = document.createElementNS(xmlns,"text"),
+                    content = document.createTextNode(`${sgConfig.dataVals(col,row)}`),
+                    gid     = `card${index}`,
+                    gx      = (col-1)*ifw,
+                    gy      = (row-1)*ifh,
+                    inactiveClass = sgConfig.getDataClass("inactive");
+
                 fileBox.setAttribute("id",gid);
                 fileBox.setAttribute("class",`data col${col} row${row} ${rowLabel} ${inactiveClass}`);
                 fileBox.setAttribute("transform",`translate(${gx},${gy})`);
@@ -261,6 +269,10 @@ class CardSort extends Visualization {
                     gx:gx,
                     gy:gy,
                 });
+                if (row == 0) {
+                    index++;
+                    break;
+                }
             }
         }
         this.dataBbox = parent.getBoundingClientRect();
@@ -306,10 +318,6 @@ class CardSort extends Visualization {
                 y2:bGeo.gy,
                 sweep:0,
                 dir:1,
-                //agx:aGeo.gx,
-                //agy:aGeo.gy,
-                //bgx:bGeo.gx,
-                //bgy:bGeo.gy,
                 testEllipse:["ellipseA","ellipseB"],
             };
             pathA = calcSVGPathFromTo(optionsA);

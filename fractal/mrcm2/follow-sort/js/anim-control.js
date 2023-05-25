@@ -100,12 +100,16 @@ class AnimControl {
         this.#queue.start(this.#queue,this.animData.timeout);
     }
     createSwaps() {
-        let shuffleInfo = shuffleSteps(this.vis.getItemCount());
+        let shuffleInfo = shuffleRange(parseInt(this.vis.getItemCount()),1);
         this.steps = shuffleInfo.steps;
         this.stepCount = this.steps.length;
         this.final = shuffleInfo.final;
         this.firstStep = 0;
         this.lastStep = this.stepCount-1;
         this.current = {next:0,prev:null};
+    }
+    createSortSwaps() {
+        let currentMap = [];
+        let sortInfo = followSortSwaps(this.final);
     }
 }
