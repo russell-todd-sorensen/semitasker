@@ -12,7 +12,8 @@ td {
     text-align: right;
     font-family:'Lucida Sans Unicode', monospace;
 }
-td.al {
+td.al,
+th.al {
     text-align: left;
 }
 tr.hl {
@@ -60,10 +61,11 @@ var runTests2 = function (begin,end,nbegin,nend,maxMatch,maxOutput) {
     maxOutput = (maxOutput || 10000);
     output = `<table cellspacing='0' cellpadding='2' border='1px'>
     <tr><th>Numer</th><th>Denom</th><th>Head<th>preMatch</th><th>RepLen</th>
-    <th>MatchLen</th><th>Divide</th><th>Reduced</th><th>Factored</th><th>Result</th>
+    <th>MatchLen</th><th>Divide</th><th>Reduced</th><th>Factored</th><th>Guess Len</th><th>Result</th>
+    <th class='al'>Full Test Recurring Digits</th>
     </tr>`;
 
-    let bc,head,preMatch,matchLen,result,div,repLen,numer;
+    let bc,head,preMatch,matchLen,result,div,repLen,numer,fullRep;
     let doNotReduce = true;
     let failed = false;
     let rational;
@@ -86,6 +88,7 @@ var runTests2 = function (begin,end,nbegin,nend,maxMatch,maxOutput) {
             preMatch = bc.preMatch;
             repLen = bc.repLen;
             div = bc.div;
+            fullRep = bc.lp.div;
             if (bc.err != "" || bc.res == "") {
                 errorClass = "ec";
             }
@@ -104,7 +107,9 @@ var runTests2 = function (begin,end,nbegin,nend,maxMatch,maxOutput) {
             <td class='al${errorClass}'>${div}</td>
             <td >${rational.rationalValue}</td>
             <td >${rational.factoredValue}</td>
+            <td>--</td>
             <td class='al${errorClass}'>${result}</td>
+            <td class='al${errorClass}'>${fullRep}</td>
         </tr>\n`;
             maxCounter++;
         }
@@ -177,7 +182,7 @@ let normFloat = function(numer, denom) { // numer and denom both integers
 </ul>
 </form>
 </div>
-<div id="results"></div>
+<div id="results"></div><!--
 <pre>
 failing fractions:
  12953/50284 = 25759684989260997534006841142311669716013045899292 rf-calc = .25759684989261 actual = much longer...
@@ -290,7 +295,7 @@ failing fractions:
             <td>2<sup>3</sup>*3<sup>4</sup>*5/13*967</td>
             <td class="al">0.(257736059183835812584519926815686898416991488346193620237053535915997136266009068490971283111924270145573144539018375626441810516267600031819266565905655874632089730331715853949566462493039535438708137777424230371489937156948532336329647601622782594861188449606236576246917508551427889587145016307374115026648635748945986795004375149152812027682761912337920610929918065388592792936122822368944395831676079866359080423196245326545223132606793413411820857529233951157425821334818232439742263940816164187415480073184313101583008511653806379762946464084002863733990931509028716888075729854426855460981624373558189483732399968180733434094344125367910269668284146050433537506960464561291862222575769628510062843051467663670352398377217405138811550393763423753082491448572110412854983692625884973351364251054013204995624850847187972317238087662079389070081934611407207063877177631055604168323920133640919576803754673454776867393206586588179142470766048842574178665181767560)</td>
         </tr>
-</tbody></table></div>
+</tbody></table></div>-->
 
 <script>
 
