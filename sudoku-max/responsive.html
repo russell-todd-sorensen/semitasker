@@ -65,7 +65,7 @@ function loadXHRFile(url,callback) {
 
 $(document).ready(function() {
   Log.Notice('Document Ready');
-  Log.Remove();
+  //Log.Remove();
   loadXHRFile("./data/sudoku-puzzles.csv",getSudokuPuzzlesCSV);
   toggleOptionMode('toggle-button',off);
   toggleMarkMode('toggle-mark',off);
@@ -78,7 +78,7 @@ $(document).ready(function() {
 
 <body>
 <div id="puzzle">
- <div class="screen">
+ <div class="screen" style="float:none;">
  <div id="zoom">
  <div id="t">
   <!-- Puzzle Goes Here -->
@@ -166,6 +166,20 @@ $(document).ready(function() {
  </div>
 </div>
 </div>
-
+<style>
+#log-parent {
+    position: relative;
+    max-height: fit-content;
+    height: fit-content;
+}
+#log-2,
+#log2 {
+  width:85%;
+  overflow-x: visible;
+  overflow-y: visible;
+  max-height: fit-content;
+  height: fit-content;
+}
+</style>
 </body>
 </html>

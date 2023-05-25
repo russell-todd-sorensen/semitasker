@@ -641,6 +641,9 @@ formatProfiles[7] = new makeFormatProfile("<div class='top'>\n"," <div class='bo
 
 formatProfiles[8] = new makeFormatProfile("<div class='top2'>\n"," <div class='boxrow2'>\n","  <div class='row2'>\n","    <div class='leftbox2'> </div>\n","    <div class='cell2 boxP","</div>\n","    <div class='rightbox2'> </div>\n","  </div>\n"," </div>\n","</div>\n");
 
+formatProfiles[10] = new makeFormatProfile("","","","","",""," ","\n","\n","");
+formatProfiles[11] = new makeFormatProfile("\n","","","","","","",".","","\n");
+formatProfiles[12] = new makeFormatProfile("\n","","","","",""," ",".","","\n");
 function printPuzzleFormatted(formatId) {
 
     var fObj = formatProfiles[formatId];
@@ -667,7 +670,7 @@ function printPuzzleFormatted(formatId) {
 
         if ( (i%puzzleDimension) == 1 ) {
             if ( (puzzleDimension*(cellBox[i]-1)+1) == i) {
-                Log.Notice("cellBox[" + i + "] = " + cellBox[i]);
+                //Log.Notice("cellBox[" + i + "] = " + cellBox[i]);
                 TMP += BEGIN_BOXROW;
             }
             TMP += BEGIN_ROW;
