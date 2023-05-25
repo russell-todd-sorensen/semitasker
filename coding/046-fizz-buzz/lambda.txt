@@ -1,0 +1,19 @@
+proc λ3 args {
+    expr {*}$args
+}
+proc λ2 args {
+    expr $args
+}
+proc λ args {
+    uplevel 1 expr {*}$args
+}
+
+proc % args {}
+% source lambda.txt
+% set x 6
+#6
+% λ3 {$x?[incr x -1]*5:100}
+#25
+% set x
+#5
+% 

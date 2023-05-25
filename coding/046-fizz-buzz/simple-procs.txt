@@ -19,5 +19,3 @@ proc ::disassembleProc {name} {
 proc ::iff {expr {?} ifTrue {:} ifNot } {
     uplevel [list if $expr $ifTrue else $ifNot]
 }
-
-proc 
