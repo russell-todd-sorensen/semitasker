@@ -106,7 +106,7 @@ ns_return 200 text/html "<!DOCTYPE html>
     <option value='m%n' $selected(%)>M Modulo N</option>
     <option value='m%%n' $selected(%%)>N Modulo M</option>
     <option value='multiplied by' $selected(*)>Multiplied by</option>
-    <option value='raised to power' $selected(**)>Raised to Power of</option>
+    <option value='raised to power of' $selected(**)>Raised to Power of</option>
   </select>
  </li>
  <li>
