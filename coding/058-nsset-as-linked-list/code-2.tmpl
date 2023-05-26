@@ -1,0 +1,46 @@
+[comment {
+    Simple template to move view out of tcl code.
+} /]
+<!DOCTYPE html>
+<html>
+<head>
+<title>Creating and Using ns_sets in Linked Lists</title>
+</head>
+<body>
+<!--  method='POST' encoding='multi-part/formdata' -->
+<form autocomplete='off' spellcheck='false'>
+<ul>
+ <li>
+  <label for='r'>Rows:</label>
+  <input name='r' id='r'  value='$r'>
+ </li>
+ <li>
+  <label for='c'>Cols:</label>
+  <input name='c' id='c' value='$c'>
+ </li>
+ <li>
+  <input type='submit' value='Try it'/>
+ </li>
+ </ul>
+ <input type='hidden' value='1000' name='d' id='d' />
+</form>
+<a href='source.tcl?2'>Source Code</a><br>
+<a href='explained.txt'>Solution Explained</a>
+
+<pre>
+rows = '$r'
+cols = '$c'
+map = '$map'
+index = '$index'
+result = '$result'
+xr keys = '\[xr keys]$keys'
+xr echo = '\[xr echo a b c]'[ws/]
+
+[foreach key $keys ]
+ key $key = '\[xr getByKey $key]'[ws/]
+[/foreach]
+logs =
+$logs
+</pre>
+</body>
+</html>
