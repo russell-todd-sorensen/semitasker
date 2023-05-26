@@ -1,0 +1,48 @@
+[comment {
+    Simple template to move view out of tcl code.
+} /]
+<!DOCTYPE html>
+<html>
+<head>
+<title>Light Switch Problem</title>
+</head>
+<body>
+<!--  method='POST' encoding='multi-part/formdata' -->
+<a href='https://youtu.be/-UBDRX6bk-A'>See Numberphile Video on YouTube</a>
+<form autocomplete='off' spellcheck='false'>
+<ul>
+ <li>
+  <label for='n'>Number of Switches:</label>
+  <input name='n' id='n'  value='$n'>
+ </li>
+ <li>
+  <label for='c'>Max Switch Runs:</label>
+  <input name='c' id='c' value='$c'>
+ </li>
+ <li>
+  <label for='scale'>Start With:</label>
+  <input name='s' id='s' value='$sOriginal'>
+ </li>
+ <li>
+  <input type='submit' value='Try it'/>
+ </li>
+ </ul>
+</form>
+<a href='source.tcl'>Source Code</a><br>
+<a href='explained.txt'>Solution Explained</a>
+
+<pre>
+n = '$n'
+c = '$c'
+s = '$s'
+result = '\$result'
+Each line the result of toggling on/off for 0/1 when index%stride==0, stride=1,2...n
+[join $result "\n"]
+list:
+[foreach line $result /]
+[split $line "" ]
+[/foreach]
+
+</pre>
+</body>
+</html>
