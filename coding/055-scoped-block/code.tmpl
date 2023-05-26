@@ -1,0 +1,40 @@
+[comment {
+    Simple template to move view out of tcl code.
+} /]
+<!DOCTYPE html>
+<html>
+<head>
+<title>Generic Interp Template for Algorithm Testing</title>
+</head>
+<body>
+<!--  method='POST' encoding='multi-part/formdata' -->
+<form autocomplete='off' spellcheck='false'>
+<ul>
+ <li>
+  <label for='n'>Variable N:</label>
+  <input name='n' id='n'  value='$n'>
+ </li>
+ <li>
+  <label for='d'>Max Interp recursion:</label>
+  <input name='d' id='d' value='$d'>
+ </li>
+ <li>
+  <input type='submit' value='Try it'/>
+ </li>
+ </ul>
+</form>
+<a href='source.tcl'>Source Code</a><br>
+<a href='explained.txt'>Solution Explained</a>
+
+<pre>
+n = '$n'
+maxRecursions = '$d'
+result = '$result'
+result2 = '$result2'
+recursion limit = '$recursions'
+
+logs =
+$logs
+</pre>
+</body>
+</html>
