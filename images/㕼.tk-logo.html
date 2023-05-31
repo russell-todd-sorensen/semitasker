@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="utf-8" >
+<title>Animate SVG Logo with CSS Rotation</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+#t1 {
+    font-family: 'Noto Sans CJK JP';
+    font-family: 'ZCOOL KuaiLe';
+    font-weight:  normal;
+    font-size: 60px;
+    fill: #000;
+    stroke: none;
+}
+#t1 #u-357C {
+    font-size: 80px;
+}
+#t1 .zcool {
+    font-weight:300;
+}
+#r1 {
+    fill: #000;
+    stroke: none;
+}
+/* was #svg1 */
+#t1 {
+    transform-origin:  0% 0%;
+    transform: matrix(0,-1,1,0,0,0);
+    animation: rotateText 5s cubic-bezier(.47,1.64,.41,.8) .5;
+    animation: rotateText 5s cubic-bezier(0,.96,1,-0.78) .5;
+    animation: rotateText 5s cubic-bezier(0,.06,0,-1.44) .5;
+    animation: rotateText 5s cubic-bezier(.38,-0.93,.64,1.63) .5;
+    animation: rotateText 5s cubic-bezier(0,-1.68,.97,2.56) .5;
+    animation: rotateText 5s cubic-bezier(0,-1.68,1,3.08) .5;
+    animation: rotateText2 5s cubic-bezier(1,-0.7,.84,1.6) .5;
+    animation: rotateText2 5s cubic-bezier(1,-0.71,.93,1.57) 1 alternate;
+    animation: rotateText2 5s cubic-bezier(1,-0.71,.93,1.57) 1 alternate both;
+    animation: rotateText2 5s cubic-bezier(.22,-0.72,.06,1.53) 1 alternate both;
+;
+}
+@keyframes rotateText {
+    from {
+        transform: rotate(0);
+    }
+    50% {
+        transform: rotate(-90deg);
+       /* 100px,250px */
+    }
+    to {
+        transform: rotate(0);
+        animation-fill-mode:both;
+    }
+}
+@keyframes rotateText2 {
+    from {
+        transform: rotate(-90deg);
+    }
+    50% {
+        transform: rotate(0);
+    }
+    to {
+        transform: rotate(-90deg);
+    }
+}
+#rotateIt {
+    border: 1px solid black;
+    overflow:visible;
+}
+#rect1 {
+    fill:#bbbbbb88;
+}
+#xCoords,
+#yCoords,
+#xyCoords,
+#coords {
+    stroke:#444;
+    stroke:red;
+    stroke-width:2;
+    stroke-dashoffset:1;
+    stroke-dasharray: 6,2;
+    fill:none;
+}
+#xCoords {
+    stroke:inherit;
+    stroke-dashoffset:1;
+}
+#yCoords {
+    stroke:inherit;
+    stroke-dashoffset:-1;
+}
+#origin {
+    stroke:none;
+    fill:blue;
+}
+</style>
+</head>
+<body>
+<svg version="1.1" 
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    id="svg1"
+    x="-100"
+    y="-200"
+    width="300"
+    height="300"
+    viewBox="-100 -200 300 300"
+    >
+<defs>
+<g id="xyCoords" >
+    <line id="xCoords" x1="-70"  y1="0"    x2="200"  y2="0" />
+    <line id="yCoords" x1="0"    y1="-200" x2="0"    y2="70" />
+    <rect id="origin"  x="-1"    y="-1"    width="2" height="2" />
+</g>
+</defs>
+
+<use id="coords" href="#xyCoords" />
+<g id="t1">
+ <rect id="rect1" x="-70" y="-70" height="150" width="300" />
+ <text id="t2" x="0" y="0">
+    <tspan id="u-357C" dy="0">㕼</tspan>
+    <tspan dy="-30" dx="-10" class="zcool">.</tspan>
+    <tspan dy="15" dx="-10" class="zcool">tk</tspan></text>
+</g>
+</svg>
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!--Scalable Vector Graphic-->
+<svg version="1.1" 
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:ev="http://www.w3.org/2001/xml-events"
+    id="svg1">
+<style>
+@import url('https://fonts.googleapis.com/css?family=Aclonica|Alfa+Slab+One|Anton|Archivo+Black|Astloch|Audiowide|Bahianita|Baloo|Baumans|Berkshire+Swash|Big+Shoulders+Text|Bilbo+Swash+Caps|Black+And+White+Picture|Black+Ops+One|Bree+Serif|Bungee+Inline|Bungee+Shade|Cabin+Sketch|Caesar+Dressing|Ceviche+One|Chilanka|Cinzel+Decorative|Coiny|Concert+One|Cute+Font|Days+One|Erica+One|Fascinate|Faster+One|Fredericka+the+Great|Fredoka+One|Fugaz+One|Galindo|Geo|Geostar+Fill|Germania+One|Gochi+Hand|Gravitas+One|Gruppo|Gugi|Hanalei|IM+Fell+English|Iceberg|Iceland|Indie+Flower|Josefin+Sans|Keania+One|Kenia|Krub|Leckerli+One|Limelight|Luckiest+Guy|Major+Mono+Display|Megrim|Metamorphous|Milonga|Miltonian+Tattoo|Monofett|Monoton|Montserrat+Alternates|Nanum+Brush+Script|Nixie+One|Nova+Round|Orbitron|Original+Surfer|Pacifico|Patua+One|Permanent+Marker|Petit+Formal+Script|Plaster|Poller+One|Press+Start+2P|Rammetto+One|Rationale|Righteous|Roboto|Rubik|Rubik+Mono+One|Rum+Raisin|Ruslan+Display|Saira+Stencil+One|Shojumaru|Shrikhand|Sigmar+One|Sirin+Stencil|Skranji|Smokum|Snowburst+One|Squada+One|Stalinist+One|Turret+Road|UnifrakturCook:700|UnifrakturMaguntia|VT323|Viga|Wallpoet|Wire+One|ZCOOL+KuaiLe|ZCOOL+QingKe+HuangYou|Zilla+Slab+Highlight&amp;display=swap');
+</style>
+<style>
+#t1 {
+    font-family: 'ZCOOL KuaiLe';
+    font-size: 60px;
+    fill: #000;
+    stroke: none;
+}
+#t1 #u-357C {
+    font-size: 80px;
+}
+#t1 .zcool {
+    font-weight:100;
+}
+#r1 {
+    fill: #000;
+    stroke: none;
+}
+#rotate1 {
+    filter: rotate(-90);
+    animation: rotateText 10s 2;
+}
+@keyframes rotateText {
+    from {
+        filter: rotate(-90);
+    }
+    50% {
+        filter: rotate(0);
+       /* 100px,250px */
+    }
+    to {
+        filter: rotate(-90);
+    }
+}
+</style>
+
+<defs>
+
+<g id="t1" transform="translate(100,250)">
+ <text id="t2">
+    <tspan id="u-357C" dy="0">㕼</tspan>
+    <tspan dy="-30" dx="-10" class="zcool">.</tspan>
+    <tspan dy="15" dx="-10" class="zcool">tk</tspan></text>
+</g>
+</defs>
+
+<g id="rotate1">
+    <rect id="r1" x="0" y="0"  />
+    <use id="xn--tcl-tk" xlink:href="#t1" />
+</g>
+</svg>

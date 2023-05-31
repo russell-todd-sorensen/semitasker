@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg 
+    id="mysvg"
+    xmlns:svg="http://www.w3.org/2000/svg"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    version="1.0"
+    x="0"
+    y="0"
+    width="2000"
+    height="1500"
+    viewBox="0 0 2000 1500"
+    >
+<defs>
+<style>
+svg#mysvg {
+    background-color: #FFFFFF;
+    fill: #FFFFFF;
+    font-size: 16px;
+    font-family: 'Fira Code VF';
+    line-height: 1.0em;
+}
+#blurGroup,
+#image2 {
+    filter: blur(7.5px);
+    animation: blurToFrom 30.0s 4;
+}
+@keyframes blurImage {
+    from {
+        filter: blur(7.5px);
+    }
+    to {
+        filter: blur(9.5px);
+    }
+}
+@keyframes blurToFrom {
+    from {
+        filter: blur(7.5px);
+    }
+    50% {
+        filter: blur(9.5px);
+    }
+    to {
+        filter: blur(7.5px);
+    }
+}
+#link-text {
+    font-size: .5em;
+    stroke: white;
+    fill: #888888FF;
+    stroke-width: 0.2;
+}
+</style>
+<filter id="ukraine-flag-colors" color-interpolation-filters="sRGB" x="-40%" y="-40%" height="180%" width="180%">
+
+ <feColorMatrix type="saturate" values="0.0" />
+ <feGaussianBlur stdDeviation="0" >
+  <animate attributeName="stdDeviation"
+     values="1.0;2.0;1.0"
+     by="0.25"
+     dur="15s"
+     begin="100000s"
+     repeatCount="indefinite" />
+  </feGaussianBlur>
+ <feComponentTransfer result="color-mapped" >
+<feFuncR type="discrete" tableValues="0.000000 0.941176 1.000000 0.000000 0.000000 1.000000 0.941176 0.000000 1.000000 " />
+<feFuncG type="discrete" tableValues="0.000000 0.603922 0.035294 0.600000 0.000000 0.035294 0.603922 0.600000 1.000000 " />
+<feFuncB type="discrete" tableValues="0.000000 0.066667 0.666667 0.133333 0.000000 0.666667 0.066667 0.133333 1.000000 " />
+<feFuncA type="discrete" tableValues="1.000000 0.933333 0.666667 0.933333 1.000000 0.666667 0.933333 0.933333 1.000000 " />
+ 
+ </feComponentTransfer>
+ <feComposite in="color-mapped" in2="SourceGraphic" operator="in" />
+ </filter>
+ 
+</defs>
+<g id="clickMe" transform="translate(10,10) scale(0.5)" filter="url(#ukraine-flag-colors)">
+    <image id="image2" xlink:href="https://home.highfivediet.com/images/mset-opt/mset-5198.png" x="0" y="0" width="100%"/>
+</g>
+<a href="https://home.highfivediet.com/svg/filters/dynamic-filter-3.tcl?t=0&amp;p=https://home.highfivediet.com/images/mset-opt/mset-5198.png&amp;h=1:F09A11EE%2c2:009922EE%2c3:FF09AAAA&amp;s=0%2c1%2c3%2c2%2c0%2c3%2c1%2c2%2cend&amp;b=7.5px:9.5px:30.0s:4&amp;v=0:0:2000:1500"><text id="link-text" x="10" y="10" >https://home.highfivediet.com/svg/filters/dynamic-filter-3.tcl?t=0&amp;p=https://home.highfivediet.com/images/mset-opt/mset-5198.png&amp;h=1:F09A11EE%2c2:009922EE%2c3:FF09AAAA&amp;s=0%2c1%2c3%2c2%2c0%2c3%2c1%2c2%2cend&amp;b=7.5px:9.5px:30.0s:4&amp;v=0:0:2000:1500</text></a>
+</svg>
