@@ -1,0 +1,285 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+
+<title>Gradient Testing Underway</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<style>
+#controls input[type="number"] {
+    width: 50px;
+
+}
+
+#controls {
+    position: absolute;
+    left: -2000px;
+}
+</style>
+
+<script src="/js/d3.v3.js" type="application/javascript" language="javascript"></script>
+<script type="text/javascript" src="/js/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script type="text/javascript" src="/js/log-2.js"></script>
+
+<script src="/js/mouse-events-2.js"></script>
+<script src="/js/example-library.js"></script>
+
+<script>
+
+function logStartMove(evt) {
+    Log.Notice('logStartMove for ' + evt.data.name
+        + ' was called evt.offsetX='
+        + evt.offsetX
+        + ' evt.offsetY='
+        + evt.offsetY);
+}
+
+function logDragMove(evt) {
+    Log.Notice('logDragMove was called evt.offsetX='
+        + evt.offsetX
+        + ' evt.offsetY='
+        + evt.offsetY);
+}
+
+function logEndMove(evt) {
+    Log.Notice('logEndMove was called evt.offsetX='
+        + evt.offsetX
+        + ' evt.offsetY='
+        + evt.offsetY) ;
+}
+
+var setControl = function (pathId, controlId, controlIndex, newX, newY) {
+    var path = $('#' + pathId).attr('d');
+    //parse path into actions and points
+
+    Log.Notice('pathD =' + path);
+}
+
+
+var updateCurve = function (pathId, startId, control1Id, control2Id,
+  endId,control1LineId,control2LineId)
+{
+
+  var x1 = $('#' + startId).attr('cx');
+  var y1 = $('#' + startId).attr('cy');
+  var x2 = $('#' + endId).attr('cx');
+  var y2 = $('#' + endId).attr('cy');
+  var c1x = $('#' + control1Id).attr('cx');
+  var c1y = $('#' + control1Id).attr('cy');
+  var c2x = $('#' + control2Id).attr('cx');
+  var c2y = $('#' + control2Id).attr('cy');
+
+  var d = 'M '  + x1  + ' ' + y1
+        + ' C ' + c1x + ' ' + c1y
+        + ' '   + c2x + ' ' + c2y
+        + ' '   + x2  + ' ' + y2;
+
+  $('#' + pathId).attr('d',d);
+  $('#' + startId).attr('cx',x1).attr('cy',y1);
+  $('#' + control1Id).attr('cx',c1x).attr('cy',c1y);
+  $('#' + control2Id).attr('cx',c2x).attr('cy',c2y);
+  $('#' + endId).attr('cx',x2).attr('cy',y2);
+  $('#' + control1LineId).attr('x1',x1).attr('y1',y1).attr('x2',c1x).attr('y2',c1y);
+  $('#' + control2LineId).attr('x1',c2x).attr('y1',c2y).attr('x2',x2).attr('y2',y2);
+
+}
+
+function doUpdate() {
+    updateCurve('path1','circle1','circle2','circle3','circle4','control1','control2');
+}
+</script>
+</head>
+<body>
+<form id="controls" onsubmit="return false;">
+Start:
+X:<input id="x1" name="x1" value="0" type="number" step="1" />
+Y:<input id="y1" name="y1" value="0" type="number" step="1" />
+Control1:
+X:<input id="c1x" name="c1x" value="200" type="number" step="1" />
+Y:<input id="c1y" name="c1y" value="100" type="number" step="1" />
+Control2:
+X:<input id="c2x" name="c2x" value="20" type="number" step="1" />
+Y:<input id="c2y" name="c2y" value="80" type="number" step="1" />
+End:
+X:<input id="x2" name="x2" value="400" type="number" step="1" />
+Y:<input id="y2" name="y2" value="400" type="number" step="1" />
+<button form="controls" onclick="updateCurve('path1','circle1','circle2','circle3','circle4','control1','control2')" />Update</button>
+</form>
+<svg
+     id="svg1"
+     height="1000"
+     width="90%"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     >
+<defs>
+<style>
+svg {
+    background-color: tan;
+}
+
+#c1,
+#rect1 {
+    fill: url(#grad1);
+    stroke: silver;
+    stroke-width: 4;
+}
+
+#b1 {
+    fill: #abc;
+}
+
+.endpoints {
+  fill: rgba(255,255,255,1);
+  stroke: black;
+  stroke-width: 1;
+}
+
+.lines {
+  stroke: grey;
+  stroke-width: 1;
+}
+
+</style>
+
+<linearGradient id="grad1">
+ <stop offset="0%" stop-color="#ffcc00" stop-opacity="1.0" />
+ <stop offset="100%" stop-color="#0099cc" stop-opacity="1.0"  />
+</linearGradient>
+<linearGradient id="grad3" xlink:href="#grad1" x1="0%" y1="0%" x2="100%" y2="100%" />
+<use xlink:href="#grad1" id="grad2" x1="0%" y1="0%" x2="100%" y2="100%" />
+</defs>
+<g id="g1" transform="translate(100,100)">
+    <rect x="-50" y="0" height="300" width="800" id="b1" />
+    <rect x="0" y="50" height="200" width="700" id="rect1" />
+
+  <path d="M 0 50 C 700 50 0 250 700 250" fill="none" stroke="orange" id="path1" />
+  <circle cx="0" cy="50" r="5" class="endpoints" id="circle1" />
+  <circle cx="700" cy="50" r="5" class="endpoints" id="circle2" />
+  <line x1="0" y1="50" x2="700" y2="50" class="lines" id="control1" />
+
+  <circle cx="0" cy="250" r="5" class="endpoints" id="circle3" />
+  <circle cx="700" cy="250" r="5" class="endpoints" id="circle4" />
+  <line x1="0" y1="250" x2="700" y2="250" class="lines" id="control2" />
+
+</g>
+
+</svg>
+
+<table id="schedule" cellspacing="0" cellpadding="2" border="1">
+</table>
+<script>
+
+var updateParent = function (evt) {
+    Log.Notice ('Update Parent on ' + evt.data.name);
+};
+
+var setupControlPoint = function (evt) {
+    var obj = evt.data;
+    obj.target = evt.target;
+    obj.height = evt.currentTarget.height;
+    obj.width  = evt.currentTarget.width;
+    obj.offsetLeft = evt.clientX - evt.offsetX;
+    obj.offsetTop  = evt.clientY - evt.offsetY;
+};
+
+var moveControlPoint = function (evt) {
+    var obj = evt.data;
+    Log.Notice ('moveControlPoint on ' + obj.name);
+    var cpId = '#' + obj.boxId;
+    var radius = $(cpId).attr('r');
+    var cx = evt.clientX-100-radius;
+    var cy = evt.clientY-100-radius;
+    $(cpId).attr('cx',cx);
+    $(cpId).attr('cy',cy);
+    doUpdate();
+};
+
+var ControlPoints = [];
+
+var controlPoint = function (parentId,controlId,bindIds,height,width) {
+    this.id = parentId;
+    this.boxId = controlId;
+    this.name = parentId;
+    this.mouseBox = '#' + parentId;
+    this.bindMoveElements = bindIds;
+    this.height = height;
+    this.width = width;
+    this.dragStart = {
+        x: width,
+        y: height,
+    };
+    this.dragCurrent = {
+        x: width,
+        y: height,
+    };
+    this.dragEnd = {
+        x: width,
+        y: height,
+    };
+
+    this.callStartMove = [logStartMove,setupControlPoint,bindMouseUp];
+    this.callDragMove  = [moveControlPoint, logDragMove];
+    this.callEndMove   = [logEndMove,updateParent];
+    return this;
+};
+
+var cp1 = new controlPoint('circle1','circle1',['svg1'],0,0);
+var cp2 = new controlPoint('circle2','circle2',['svg1'],0,0);
+var cp3 = new controlPoint('circle3','circle3',['svg1'],0,0);
+var cp4 = new controlPoint('circle4','circle4',['svg1'],0,0);
+
+var writeTable = function (tableId, pathId,valueBoxId) {
+
+    var table = d3.select('#' + tableId);
+    table.html('');
+    var row = table.append('tr');
+    var cell = row.append('th');
+
+    cell.text('Percent');
+    cell = row.append('th');
+    cell.text('X%')
+    cell = row.append('th');
+    cell.text('Y%')
+
+    var path = document.getElementById(pathId);
+    var boxPath = document.getElementById(valueBoxId);
+    var pathLen = path.getTotalLength();
+    var startPoint = path.getPointAtLength(0);
+    var startX = startPoint.x;
+    var startY = startPoint.y;
+    var endPoint = path.getPointAtLength(pathLen);
+    var bbox = boxPath.getBBox();
+    var xLength = bbox.width;
+    var yLength = bbox.height;
+
+    var point;
+    for (var i = 0; i<101; i++) {
+        point = path.getPointAtLength(pathLen*i/100);
+        row = table.append('tr');
+        cell = row.append('td');
+        cell.text(i + '%')
+        cell = row.append('td');
+        cell.text(Math.round(Math.abs(point.x-startX)/xLength*10000)/100);
+        cell = row.append('td');
+        cell.text(Math.round(Math.abs(point.y-startY)/yLength*10000)/100);
+    }
+}
+
+$(document).ready(function() {
+
+    Log.Notice("jQuery Ready!");
+    //Log.Hide();
+    //Log.Remove();
+    $(cp1.mouseBox).bind('mousedown',cp1,startMove);
+    $(cp2.mouseBox).bind('mousedown',cp2,startMove);
+    $(cp3.mouseBox).bind('mousedown',cp3,startMove);
+    $(cp4.mouseBox).bind('mousedown',cp4,startMove);
+});
+
+</script>
+</body>
+</html>

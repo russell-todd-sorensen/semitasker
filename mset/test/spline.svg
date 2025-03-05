@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg
+     id="svg1"
+     height="100%"
+     width="100%"
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     >
+<style>
+svg {
+    background-color: white;
+    margin: 0;
+}
+
+#background {
+    fill: rgb(230,230,230);
+}
+
+#rect1 {
+    fill: url(#grad1);
+    stroke: silver;
+    stroke-width: 0;
+}
+
+#b1 {
+    fill: #abc;
+}
+
+.endpoints {
+    fill: rgba(255,255,255,1);
+    stroke: black;
+    stroke-width: 1;
+}
+
+.lines {
+    stroke: grey;
+    stroke-width: 1;
+}
+
+</style>
+<defs>
+
+<linearGradient id="grad1">
+    <stop offset="0%" stop-color="#ffcc00" stop-opacity="1.0" />
+    <stop offset="100%" stop-color="#0099cc" stop-opacity="1.0"  />
+</linearGradient>
+
+</defs>
+<rect id="background" x="1%" y="1%" width="98%" height="98%" />
+<g id="g1" transform="translate(100,100)">
+
+    <rect x="0" y="0" height="200" width="700" id="rect1" />
+    <!-- start -->
+    <circle cx="0" cy="0" r="5" class="endpoints" id="circle1" />
+    <circle cx="700" cy="0" r="5" class="endpoints" id="circle2" />
+    <line x1="0" y1="0" x2="700" y2="0" class="lines" id="control1" />
+    <!-- end -->
+    <circle cx="0" cy="200" r="5" class="endpoints" id="circle3" />
+    <circle cx="700" cy="200" r="5" class="endpoints" id="circle4" />
+    <line x1="0" y1="200" x2="700" y2="200" class="lines" id="control2" />
+
+    <path d="M 0 0 C 700 0 0 200 700 200" fill="none" stroke="orange" id="path1" />
+</g>
+
+</svg>

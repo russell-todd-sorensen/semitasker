@@ -146,6 +146,46 @@ var followSort = function(shuffled) {
     return {shuffled:shuffled,singles:singles,moves:moves,chains:chains,lastI:lastI};
 }
 
+var followSort2 = function(shuffled) {
+    let singles = shuffled.filter(((x,i) => (x==i)?true:false)),
+        len = shuffled.length,
+        chains = singles.map((x) => ([x])),
+        chain = [],
+        moves = [],
+        found = chains.length,
+        lastI = null,
+        cId = null,
+        nId = null,
+        cVal = null,
+        nVal = null;
+
+    for (let i=0;i<len;i++) {
+        cId = i;
+        cVal = shuffled[cId];
+        nId = cVal;
+        nVal = shuffled[nId];
+        chain = [];
+        chain.push(cId);
+        while(cId != cVal) {
+            chain.push(nId);
+            moves.push([nId,cId]);
+            shuffled[nId] = cVal;
+            shuffled[cId] = nVal;
+            cVal = shuffled[cId];
+            nId = cVal;
+            nVal = shuffled[nId];
+        }
+        if (chain.length>1) {
+            found += chain.length;
+            chains.push(chain);
+            if (found >= len) {
+                break;
+            }
+        }
+    }
+    return {shuffled:shuffled,singles:singles,moves:moves,chains:chains,lastI:lastI};
+}
+
 function sortableSet1() {
     let items = [];
     items.push(new SortableItem(5,5));

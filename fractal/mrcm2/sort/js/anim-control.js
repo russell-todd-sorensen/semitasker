@@ -108,4 +108,13 @@ class AnimControl {
         this.lastStep = this.stepCount-1;
         this.current = {next:0,prev:null};
     }
+    createSortSwaps() {
+        let sortInfo = followSort2(this.final.slice(0));
+        this.steps = sortInfo.moves;
+        this.stepCount = this.steps.length;
+        //this.final = sortInfo.shuffled;
+        this.firstStep = 0;
+        this.lastStep = this.stepCount-1;
+        this.current = {next:0,prev:null};
+    }
 }

@@ -1,0 +1,801 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+<meta charset="utf-8">
+<title>Mandelbrot Set Visualization</title>
+<link rel="stylesheet" href="main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+
+<style>
+
+body,html {
+  background-color: black;
+  margin:0;
+  padding:0;
+  border:0;
+}
+
+#main,
+#main2 {
+    position: relative;
+    display: inline-block;
+    border: 3px solid black;
+    vertical-align: top;
+}
+
+#myCanvas,
+#myCanvas2 {
+    border: none;
+    background-clip:padding-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#box,
+#box2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255,0,0,.1);
+    border: 1px solid black;
+}
+
+#controls {
+    color: white;
+    display: inline-block;
+    position: relative;
+    left: 0;
+    top: 0;
+    padding: 2px;
+}
+
+#colors {
+    border: 2px solid #555;
+    position: absolute;
+    right: 5px;
+    top: 3px;
+}
+
+#currentColors {
+
+
+}
+
+#controls ul {
+    list-style: none;
+    padding: 0;
+}
+
+#controls li label {
+  width: 90px;
+  display: inline-block;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  font-family: sans serif, "Tw Cen MT Bold";
+}
+
+#controls li input {
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 15px;
+    margin-left: 0px;
+}
+
+#controls li select option {
+    width: 75px;
+}
+
+#controls li input {
+    display: inline-block;
+    width: 75px;
+}
+
+#controls li input[type=range] {
+    width: 75px;
+}
+
+/* this is how you change the font of select options!!! */
+#animationFunctionId,
+#fractalImageId,
+#fractalTypeId,
+#pixelColorsId,
+#refColorId,
+#scaleCounterId,
+#hslOrHsb,
+#b1,
+#b2,
+#b3,
+#b4,
+#b5,
+#finiteMeasureFunction
+{ /* select id */
+    width: 78.75px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    margin-left: 0px;
+    font-size: 16px;
+}
+
+#b4 {
+    display: none;
+}
+
+#animationFunctionId option,
+#fractalImageId option,
+#fractalTypeId option,
+#pixelColorsId option,
+#refColorId option,
+#scaleCounterId option,
+#hslOrHsb option,
+#finiteMeasureFunction option {
+    padding-left: 10px;
+    width: 72px;
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 15px;
+}
+
+#mode-controls {
+    letter-spacing: 1px;
+}
+
+#timeout,
+#colorOffsetAmount,
+#fractalImageId {
+
+}
+
+#drawImage,
+#animateImage,
+#captureCanvas {
+  width: 75px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#buttonControl,
+#buttonControl2 {
+  vertical-align: top;
+}
+
+.min-max {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+#controls .expand .min-max > span {
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 15px;
+}
+
+#captureCanvas {
+    background-color: green;
+}
+
+#imageGallery {
+    padding: 3px;
+    position: absolute;
+    bottom: 3px;
+    left: 3px;
+    background-color: silver;
+}
+
+#pickContainer {
+    display: block;
+    width: 715px; /* 256*11/4 */
+    position: absolute;
+    bottom: 50px;
+}
+
+.cp {
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+    border: .5px solid black;
+}
+
+/* styles to beautify screen capture */
+#log-parent {
+  display: none;
+}
+
+#pickContainer {
+    display: block;
+    width: 715px;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+#colors {
+    border: 2px solid #555;
+    position: absolute;
+    right: 5px;
+    top: 3px;
+}
+</style>
+<style id="colorStyles"></style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="/js/schedule-function.js"></script>
+<script src="/js/mouse-events.js"></script>
+<script src="/js/panel-show-hide.js"></script>
+<script src="js/mset.js"></script>
+<script src="js/color-conversion.js"></script>
+<script src="js/scale-counters.js"></script>
+<script src="js/reference-colors.js"></script>
+<script src="js/pixel-colors.js"></script>
+<script src="js/pixel-functions.js"></script>
+<script src="js/add-text.js"></script>
+<script src="js/draw-colors.js"></script>
+<script language="javascript">
+
+var myCounters = [1,2,3,4,5,6,1,4,6,7,2,5,1,4,9];
+
+var exampleRect = {
+	start: {
+		x: 0.4529654240128,
+		y: 0.3506321791478193
+	},
+	end: {
+		x: 0.4529653461376,
+		y: 0.3506321445512928
+	}
+};
+
+var restartRect = JSON.parse('{"start":{"x":-1.749664111116288,"y":0.00006823670719752506},"end":{"x":-1.749623870963712,"y":0.00009963220122463928}}');
+var string_rMin_rMax_iMin_iMax = "-1.749623870963712 -1.749664111116288 0.00006823670719752506 0.00009963220122463928"
+panelHidden["controls"] = [{
+  id:'panel1',
+  visible:true,
+  css:{
+    true:{
+      position:'relative'
+    },
+    false:{
+      position:'absolute'
+    }
+  },
+  extra: [
+    {
+      id:'controls',
+      css:{
+        true: {
+          position:'relative',
+          zIndex:0,
+          "background-color":'transparent'
+        },
+        false: {
+          position:'absolute',
+          zIndex:100,
+          "background-color":'#444444'
+        }
+      }
+   },
+ ]}
+];
+
+var writeColorPicker = function(pickerContainerId, styleId) {
+
+    var formData = processForm();
+    var data = formData.data;
+    var objId = data.objId;
+    var fractal = myFractalImages[objId];
+    var myColors = fractal.colors;
+    //Log.Notice('writeColorPicker');
+    var container = d3.select('#pickContainer');
+    container.html("");
+
+    container.selectAll('.cp')
+        .data(myColors)
+        .enter()
+        .append('div')
+        .attr('class',function(d,i) {return 'cp n-' + i})
+        .attr('id',function(d,i) {
+          if (d.hex) {
+            var hex = d.hex;
+            hex = hex.substr(1);
+            return 'cp-' + hex;
+          } else {
+            return 'num-' + i
+          }
+        })
+        .style("background-color", function(d,i) {
+            if (d.hex) {
+              return  d.hex;
+            } else {
+              return '#123';
+            }
+        });
+    container.selectAll('.cp')
+        .on('click', LogStuff);
+
+}
+
+var LogStuff = function(d,i,e) {
+    Log.Notice('LogStuff color=' + d.hex)
+}
+
+var bindMouseBox = function () {
+
+    $(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',
+                   myFractalImages[myFractalImageId],startMove);
+
+}
+
+var bindClick = function () {
+    $(myFractalImages[myFractalImageId].mouseBox).unbind('mousedown').bind('click',
+                   myFractalImages[myFractalImageId],captureClick);
+}
+
+var unbindClick = function () {
+    $(myFractalImages[myFractalImageId].mouseBox).unbind('click');
+}
+
+function captureClick(evt) {
+    var myEvent = evt;
+    var fractal = CurrentData;
+    var offsetX = myEvent.offsetX;
+    var offsetY = myEvent.offsetY;
+    Log.Notice('click captured offsetX=' + offsetX + ' offsetY=' + offsetY);
+    actualWidth  = fractal.objectInfo.endX - fractal.objectInfo.startX;
+    actualHeight = fractal.objectInfo.endY - fractal.objectInfo.startY;
+    pixelWidth  = fractal.objectInfo.width;
+    pixelHeight = fractal.objectInfo.height;
+    // Pixels Offsets are measured:
+    //                    from left to right for X
+    //                    from top to bottom for Y
+    // However we need to access the pixel array which is one dimensional
+    // So Pixel 0 is at:
+    // offsetX = 0 and offsetY = 0
+
+    unbindClick()
+    bindMouseBox()
+}
+
+function doScale(horizontalId,verticalId) {
+  var hValue = $('#' + horizontalId).attr('checked') ? -1 : 1;
+  var vValue = $('#' + verticalId).attr('checked') ? -1 : 1;
+  var scale = 'transform: scale(' + hValue + ',' + vValue + ')';
+  $('#myCanvas').attr('style',scale);
+}
+
+$(document).ready(function() {
+
+  Log.Notice('Document Ready');
+
+  // this must be run before doing the restoreInput code below
+  $('#controls .expand label')
+    .click({rangeStyle:"width: 150px;",numberStyle:"width: 75px;"},
+           Data.toggleFormInputType);
+
+  // restore form values
+  Data.restoreSelect('animationFunctionId');
+  Data.restoreInput('fractalImageId');
+  Data.restoreInput('fractalTypeId');
+  Data.restoreInput('timeout');
+  Data.restoreInput('colorOffsetAmount');
+  Data.restoreInput('pixelJump');
+  Data.restoreSelect('pixelColorsId');
+  Data.restoreSelect('refColorId');
+  Data.restoreSelect('scaleCounterId');
+  Data.restoreInput('hueFactor');
+  Data.restoreInput('rampFactor');
+  Data.restoreSelect('hslOrHsb');
+  Data.restoreInput('minLevel');
+  Data.restoreInput('maxLevel');
+  Data.restoreInput('minSat');
+  Data.restoreInput('maxSat');
+  Data.restoreInput('minBrt');
+  Data.restoreInput('maxBrt');
+  Data.restoreInput('minInt');
+  Data.restoreInput('maxInt');
+  Data.restoreInput('finiteMeasure');
+  Data.restoreSelect('finiteMeasureFunction');
+  Data.restoreSelect('pickedColor');
+  Data.restoreInput('counterMax');
+
+  myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
+	            'box',1000,2000,{colorCanvasId:'currentColors'});
+  myFractalImages[myFractalImageId].initColorArray();
+
+  bindMouseBox();
+  //Log.Remove();
+});
+</script>
+
+
+</head>
+<body>
+<div id="controls" >
+<form onSubmit="return false;">
+<fieldset>
+<legend onClick="togglePanel('controls');">Options</legend>
+<ul id="panel1">
+<li>
+ <label for="b1" id="buttonControl">Image:</label>
+ <div id="drawImage">
+  <button id="b1" onClick="drawImagePre('b4','b1');"
+          value="Draw Image" >Draw</button>
+  <button id="b4" onClick="reDrawImage();"
+          value="ReDraw Image" >ReDraw</button>
+ </div>
+</li>
+<li>
+ <label for="fractalImageId">ImageId:</label>
+ <input type="number" value="0" min="0" max="1"
+        step="1" id="fractalImageId" name="fractalImageId"
+        onChange="Data.saveInput('fractalImageId','Log.Notice')" />
+</li>
+<li>
+  <label for="fractalTypeId">FractalType:</label>
+  <select id="fractalTypeId" name="fractalTypeId"
+          onChange="Data.saveInput('fractalTypeId','Log.Notice')" >
+    <option value="0" selected="selected">M-Set</option>
+    <option value="1" id="burning-ship" >Brn Ship</option>
+  </select>
+ </li>
+<li>
+ <label for="finiteMeasure">F Measure:</label>
+ <input type="number" value="256" min=".5" max="8192"
+        step=".1" id="finiteMeasure" name="finiteMeasure"
+        onChange="Data.saveInput('finiteMeasure','Log.Notice')" />
+</li>
+<li>
+ <label for="counterMax">Max Iter:</label>
+ <input type="number" value="256" min="2" max="8192"
+        step="1" id="counterMax" name="counterMax"
+        onChange="Data.saveInput('counterMax','Log.Notice')" />
+</li>
+<li>
+ <label for="finiteMeasureFunction">F Function:</label>
+ <select id="finiteMeasureFunction"
+         name="finiteMeasureFunction"
+         onChange="Data.saveSelect('finiteMeasureFunction','Log.Notice')">
+  <option value='1'>X^2 + Y^2</option>
+  <option value='2'>SQRT(X^2 + Y^2)</option>
+  <option value='3'>ABS(X*Y)</option>
+  <option value='4'>ABS(X) + ABS(Y)</option>
+  <option value='5'>ABS(X + Y)</option>
+  <option value='6'>POW(ABS(X*Y),.75)</option>
+  <option value='7'>Rect 1 (X || Y)</option>
+  <option value='8'>Rect 2 (X && Y)</option>
+  <option value='9'>Rect 3 (X && Y)</option>
+ </select>
+</li>
+<li>
+ <label for="b1">Animation:</label>
+ <select id="animationFunctionId"
+         name="animationFunctionId"
+         onChange="Data.saveSelect('animationFunctionId','Log.Notice')">
+  <option value="1">1</option>
+  <option value="2">2</option>
+  <option value="3">3</option>
+  <option value="4">4</option>
+  <option value="5">5</option>
+  <option value="6">6</option>
+  <option value="7">7</option>
+  <option value="8">8</option>
+  <option value="9">9</option>
+  <option value="10">10</option>
+  <option value="11">BW</option>
+  <option value="12">One</option>
+  <option value="13">13</option>
+  <option value="14">14</option>
+  <option value="15">15</option>
+  <option value="48">15.5</option>
+  <option value="16">16</option>
+  <option value="17">17</option>
+  <option value="18">18</option>
+  <option value="19">19</option>
+  <option value="20">20</option>
+  <option value="21">21</option>
+  <option value="22">22</option>
+  <option value="23">23: 3D 1</option>
+  <option value="24">24: 3D 2</option>
+  <option value="25" >25: 3D 3</option>
+  <option value="26" >26: 3D 4 polygons</option>
+  <option value="27">27: 3D 5 polygons by row 1</option>
+  <option value="28">28: 3D 6 polygons by row 2</option>
+  <option value="29">29: 3D 7 polygons by row 3</option>
+  <option value="30">30: 3D 8 polygons by row 4</option>
+  <option value="31">31: 3D 9 polygons by row 5</option>
+  <option value="32">32: 3D 9 polygons by row 5</option>
+
+  <option value="33">33</option>
+
+  <option value="34">34</option>
+  <option value="35">One Enhanced</option>
+  <option value="36">One Enhanced2</option>
+  <option value="37">37</option>
+  <option value="38">38 3D Rotation</option>
+  <option value="39">39</option>
+  <option value="40">40</option>
+  <option value="41">41</option>
+  <option value="42">42</option>
+  <option value="43">43</option>
+  <option value="44">44 binary divide</option>
+  <option value="45">45 binary divide 2</option>
+  <option value="46">Binary Divide with color</option>
+  <option value="47">43.5 (Alpha Adjust)</option>
+ </select>
+</li>
+
+<li class="expand">
+ <label for="timeout">Timer:</label>
+ <div class="min-max">
+ <span id="timeout-min"></span>
+ <input type="number" value="70" min="10" max="400"
+        step="10" id="timeout" name="timeout"
+        onChange="Data.saveInput('timeout','Log.Notice');" />
+ <span id="timeout-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="colorOffsetAmount">Step:</label>
+ <div class="min-max">
+ <span id="colorOffsetAmount-min"></span>
+ <input type="number" value="1" min="-20" max="20"
+        step="1" id="colorOffsetAmount" name="colorOffsetAmount"
+        onChange="Data.saveInput('colorOffsetAmount','Log.Notice');" />
+ <span id="colorOffsetAmount-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="pixelJump">Jump:</label>
+ <div class="min-max">
+ <span id="pixelJump-min"></span>
+ <input type="number" value="4" min="4" max="2000"
+        step="4" id="pixelJump" name="pixelJump"
+        onChange="Data.saveInput('pixelJump','Log.Notice');" />
+ <span id="pixelJump-max"></span>
+ </div>
+</li>
+<li>
+ <label for="pixelColorsId">Colors:</label>
+  <select id="pixelColorsId" name="pixelColorsId"
+          onChange="Data.saveSelect('pixelColorsId','Log.Notice');" >
+   <option value="0">0</option>
+   <option value="1">1</option>
+   <option value="2">2</option>
+   <option value="3">3</option>
+   <option value="4">4</option>
+   <option value="5">5</option>
+   <option value="6">6</option>
+   <option value="7">7</option>
+  </select>
+</li>
+<li>
+ <label for="refColorId">RefColorId:</label>
+  <select id="refColorId" name="refColorId"
+          onChange="Data.saveSelect('refColorId','Log.Notice');" >
+   <option value="0">0</option>
+   <option value="1">1</option>
+   <option value="2">2</option>
+   <option value="3">3</option>
+   <option value="4">4</option>
+   <option value="5">5</option>
+   <option value="6">6</option>
+   <option value="7">7</option>
+  </select>
+</li>
+<li>
+ <label for="scaleCounterId">Ht Scale:</label>
+  <select id="scaleCounterId" name="scaleCounterId"
+          onChange="Data.saveSelect('scaleCounterId','Log.Notice');" >
+   <option value="0">0</option>
+   <option value="1">1</option>
+   <option value="2">2</option>
+   <option value="3">3</option>
+   <option value="4">4</option>
+   <option value="5">5</option>
+   <option value="6">6</option>
+   <option value="7">7</option>
+   <option value="8">8</option>
+   <option value="9">9</option>
+   <option value="10">10</option>
+   <option value="11">11</option>
+   <option value="12">12</option>
+   <option value="13">13</option>
+   <option value="14">14</option>
+   <option value="15">15</option>
+   <option value="16">16</option>
+   <option value="17">17</option>
+   <option value="18">18</option>
+   <option value="19">19</option>
+   <option value="20">20</option>
+   <option value="21">21</option>
+   <option value="22">22</option>
+   <option value="23">23</option>
+   <option value="24">24</option>
+   <option value="25">25</option>
+   <option value="26">26</option>
+   <option value="27">27</option>
+   <option value="28">28</option>
+   <option value="29">29</option>>
+   <option value="30">30</option>
+   <option value="31">31</option>
+  </select>
+</li>
+<li class="expand">
+ <label for="hueFactor">HueFactor:</label>
+ <div class="min-max">
+ <span id="hueFactor-min"></span>
+ <input type="number" value="0.20" min="0.01" max="50.00"
+        step="0.01" id="hueFactor" name="hueFactor"
+        onChange="Data.saveInput('hueFactor','Log.Notice');" />
+ <span id="hueFactor-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="rampFactor">RampFact:</label>
+ <div class="min-max">
+ <span id="rampFactor-min"></span>
+ <input type="number" value="60" min="1" max="1500"
+        step="1" id="rampFactor" name="rampFactor"
+        onChange="Data.saveInput('rampFactor','Log.Notice');" />
+ <span id="rampFactor-max"></span>
+ </div>
+</li>
+<li>
+ <label for="hslOrHsb">HSL/B/I:</label>
+ <select id="hslOrHsb" name="hslOrHsb"
+         onChange="Data.saveSelect('hslOrHsb','Log.Notice');" >
+  <option value="hsl">HSL</option>
+  <option value="hsb" selected="selected">HSB</option>
+  <option value="hsi">HSI</option>
+ </select>
+</li>
+<li class="expand">
+ <label for="minLevel">MinLevel:</label>
+ <div class="min-max">
+ <span id="minLevel-min"></span>
+ <input type="number" value="0.50" min="0.05" max="1.00"
+        step="0.05" id="minLevel" name="minLevel"
+        onChange="Data.saveInput('minLevel','Log.Notice');" />
+ <span id="minLevel-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="maxLevel">MaxLevel:</label>
+ <div class="min-max">
+ <span id="maxLevel-min"></span>
+ <input type="number" value="0.50" min="0.05" max="1.00"
+        step="0.05" id="maxLevel" name="maxLevel"
+        onChange="Data.saveInput('maxLevel','Log.Notice');" />
+ <span id="maxLevel-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="minSat">MinSat:</label>
+ <div class="min-max">
+ <span id="minSat-min"></span>
+ <input type="number" value="0.75" min="0.05" max="1.00"
+        step="0.05" id="minSat" name="minSat"
+        onChange="Data.saveInput('minSat','Log.Notice');" />
+ <span id="minSat-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="maxSat">MaxSat:</label>
+ <div class="min-max">
+ <span id="maxSat-min"></span>
+ <input type="number" value="0.85" min="0.05" max="1.00"
+        step="0.05" id="maxSat" name="maxSat"
+        onChange="Data.saveInput('maxSat','Log.Notice');" />
+ <span id="maxSat-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="minBrt">MinBrt:</label>
+ <div class="min-max">
+ <span id="minBrt-min"></span>
+ <input type="number" value="0.85" min="0.05" max="1.00"
+        step="0.05" id="minBrt" name="minBrt"
+        onChange="Data.saveInput('minBrt','Log.Notice');" />
+ <span id="minBrt-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="maxBrt">MaxBrt:</label>
+ <div class="min-max">
+ <span id="maxBrt-min"></span>
+ <input type="number" value="0.95" min="0.05" max="1.00"
+        step="0.05" id="maxBrt" name="maxBrt"
+        onChange="Data.saveInput('maxBrt','Log.Notice');" />
+ <span id="maxBrt-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="minInt">MinInt:</label>
+ <div class="min-max">
+ <span id="minInt-min"></span>
+ <input type="number" value="0.85" min="0.05" max="1.00"
+        step="0.05" id="minInt" name="minInt"
+        onChange="Data.saveInput('minInt','Log.Notice');" />
+ <span id="minInt-max"></span>
+ </div>
+</li>
+<li class="expand">
+ <label for="maxInt">MaxInt:</label>
+ <div class="min-max">
+ <span id="maxInt-min"></span>
+ <input type="number" value="0.95" min="0.05" max="1.00"
+        step="0.05" id="maxInt" name="maxInt"
+        onChange="Data.saveInput('maxInt','Log.Notice');" />
+ <span id="maxInt-max"></span>
+ </div>
+</li>
+<li>
+  <label for="scaleH">ScaleH</label>
+  <input type="checkbox" name="scaleH"
+         id="scaleH" value="-1"
+         onChange="doScale('scaleH','scaleV')"/>
+</li>
+<li>
+  <label for="scaleV">ScaleV</label>
+  <input type="checkbox" name="scaleV"
+         id="scaleV" value="-1"
+         onChange="doScale('scaleH','scaleV')"/>
+</li>
+<li>
+ <label for="b2" id="buttonControl2">Animate:</label>
+ <div id="animateImage">
+  <button id="b2" onClick="startAnimationPre()"
+          value="Start Animation" >Start</button>
+  <button id="b3" onClick="stopAnimation();"
+         value="Stop Animation" >Stop</button>
+ </div>
+</li>
+<li>
+ <label for="pickedColor">Pick Color</label>
+ <select id="pickedColor" name="pickedColor"
+         onChange="Data.saveSelect('pickedColor','Log.Notice');" >
+
+ </select>
+</li>
+<li>
+ <label for="b5" id="buttonControl4">Capture:</label>
+ <div id="captureCanvas">
+ <button id="b5" name="b5" onClick="captureCanvas2('image/png')"
+        value="Canvas to PNG" >PNG</button>
+ </div>
+</li>
+
+</ul>
+</fieldset>
+</form>
+</div>
+
+<div id="main">
+ <canvas id="myCanvas"
+         height="50" width="100">Your browser doesn't support canvas</canvas>
+ <div id="box"></div>
+</div>
+<!-- you can add an additional canvas like this:
+<div id="main2">
+ <canvas id="myCanvas2"
+         height="0" width="0">Your browser doesn't support canvas</canvas>
+ <div id="box2"></div>
+</div>
+-->
+<div id="colors">
+ <canvas id="currentColors"
+         height="0" width="0">Your browser doesn't support canvas</canvas>
+</div>
+<div id="pickContainer"></div>
+<div id="imageGallery"></div>
+</body>
+</html>

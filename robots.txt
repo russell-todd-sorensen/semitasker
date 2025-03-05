@@ -2,8 +2,12 @@
 User-agent: *
 Disallow: /*/snapshot/*
 Disallow: /.git/
+Disallow: /cgit2/
 Allow: /
 
 User-agent: dotbot
 Disallow: /
 Disallow: /.git/
+
+User-agent: Amazonbot               # Amazon's user agent
+Disallow: /            # disallow this directory

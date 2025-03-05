@@ -45,7 +45,7 @@ linkRef.setAttribute("href",`https://home.highfivediet.com${document.location.pa
     <input id="cols" name="cols" value="5" type="number" min="1" step="1" >
 </li>
 <li>
-    <label>Suits</label><output id="rows" name="rows" form="form1" ></output>
+    <label for="rows">Suits</label><output id="rows" name="rows" form="form1" ></output>
 </li>
 
 <li>
@@ -55,12 +55,16 @@ linkRef.setAttribute("href",`https://home.highfivediet.com${document.location.pa
 </ul>
 <ul id="ul2">
 <li>
-    <input type="button" value="Layout Cards"
+    <input type="button" value="Layout"
         onClick="myAnimControl.init('svg-container');currentStep.value='-,0'">
 </li>
-<li><!--<input type="hidden" id="animTimeout" name="animTimeout" value="1500" />-->
+<li>
     <input type="button" id="runStrategy" name="runStrategy" value="Shuffle" 
         onClick="myAnimControl.initQueue('svg-container',{});myAnimControl.startQueue();">
+</li>
+<li>
+    <input type="button" id="runSortStrategy" name="runSortStrategy" value="Sort" 
+        onClick="myAnimControl.createSortSwaps();myAnimControl.startQueue();">
 </li>
 <li><div id="prev-curr-next"><nobr><input
         id="prevButton" name="prevButton" type="button" value="&lt;&nbsp;"

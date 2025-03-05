@@ -86,6 +86,7 @@ input {
     height: 18px;
     width: 18px;
     margin: -2.25px;
+    margin-left: -10.0px;
     text-shadow: #060;
     background-color: #996;
     border: 12px solid rgba(0,0,0,1);
@@ -290,7 +291,7 @@ input {
     padding-bottom: 0;
     cursor: pointer;
     font-size: 21px;
-    color: rgba(255,255,255,1.0);
+    color: rgba(0,0,0,.75);
 }
 
 .optionCell:hover {

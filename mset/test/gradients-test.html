@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>SVG Gradients</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+
+<style>
+#currentColors {
+  border: 1px solid red;
+  display: inline-block;
+  vertical-align: top;
+}
+#colors {
+  display: inline-block;
+  border: 3px solid blue;
+  vertical-align: top;
+}
+#myCanvas {
+  border: 3px solid black;
+}
+#main {
+  display: inline-block;
+  width: 1600px;
+  height: 800px;
+  padding: 5px;
+  border: 2px solid green;
+  vertical-align: top;
+}
+
+svg,
+#svgContainer {
+  display: inline-block;
+  vertical-align: top;
+}
+
+svg {
+  border: 1px solid orange;
+}
+
+#svgContainer {
+  width: 200px;
+}
+
+#form1 {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="/js/schedule-function.js"></script>
+<script src="/js/mouse-events.js"></script>
+<script src="../js/explore.js"></script>
+<script src="js/gradients-test.js"></script>
+
+<script>
+
+var myFractalImageId = 0;
+
+$(document).ready(function () {
+ 
+  Log.Notice('Document Ready');
+   
+  myFractalImages[myFractalImageId] = new fractalImage('myCanvas',
+	            'box',1000,1000,{colorCanvasId:'currentColors'});
+  myFractalImages[myFractalImageId].initColorArray();
+
+  $(myFractalImages[myFractalImageId].mouseBox).bind('mousedown',
+	             myFractalImages[myFractalImageId],startMove);
+	
+
+});
+
+</script>
+</head>
+<body>
+<form onsubmit="return false;" id='form1'>
+ <button onClick="reDrawImage(myData);addToPixels[18](myData)">Refresh</button>
+</form>
+<pre>
+	
+	data.referenceColors = [
+		{offset:0.0,hue:60.0,brt:1.0,sat:0.05},
+		{offset:0.25,hue:180.0,brt:0.5,sat:0.75},
+		{offset:0.35,hue:30.0,brt:0.95,sat:0.85},
+		{offset:0.5,hue:300,brt:0.45,sat:.95},
+		{offset:0.65,hue:205.0,brt:0.75,sat:0.45},
+		{offset:0.85,hue:90.0,brt:0.35,sat:0.75},
+	];
+</pre>
+<div id="svgContainer">
+<svg x="0" 
+		 y="0" 
+		 height="800" 
+		 width="155" 
+     xmlns:svg="http://www.w3.org/2000/svg"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+		 >
+<defs>
+
+ 
+<linearGradient id="two_hues">
+ <stop offset="0%" style="stop-color: #ffcc00;" />
+ <stop offset="100%" style="stop-color: #0099cc;" />
+</linearGradient>
+<linearGradient id="g2" x1="0" y1="0" x2="0" y2="100%" >
+ <stop offset="0%" style="stop-color:  #FFFFF3;" />
+ <stop offset="25%" style="stop-color: #208080;" />
+ <stop offset="35%" style="stop-color: #F38C25;" />
+ <stop offset="50%" style="stop-color: #730673;" />
+ <stop offset="65%" style="stop-color: #699CC0;" />
+ <stop offset="85%" style="stop-color: #385A17;" />
+ <stop offset="100%" style="stop-color:  #FFFFF3;" />
+</linearGradient>
+<rect id="rect3" height="768" width="150" style="fill: url(#g2);" />
+
+</defs>
+
+<g id="row-2" transform="translate(0,0)" >
+<use xlink:href="#rect3" x="5" y="1" />
+<rect x="4" y="0" height="770" width="150" stroke="yellow" stroke-width="2" fill="none" />
+</g>
+</svg>
+</div>
+
+<div id="colors">
+ <canvas id="currentColors"
+         height="0" width="0">Your browser doesn't support canvas</canvas>
+</div>
+
+<div id="main">
+ <canvas id="myCanvas"
+         height="50" width="100">Your browser doesn't support canvas</canvas>
+ <div id="box"></div>
+</div>
+
+</body>
+</html>

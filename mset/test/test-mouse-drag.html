@@ -1,0 +1,463 @@
+<!DOCTYPE HTML>
+<html lang="en_US">
+<head>
+<meta charset="utf-8">
+<title>Mandelbrot Set Visualization</title>
+<link rel="stylesheet" href="main.css" type="text/css">
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+<style>
+ 
+body,html {
+  background-color: black;
+  margin:0;
+  padding:0;
+  border:0;
+}
+
+#main,
+#main2 {
+    position: relative;
+    display: inline-block;
+    border: 3px solid black;
+    vertical-align: top;
+    width: 520px;
+    height: 520px;
+    background-color: white;
+}
+
+#myCanvas,
+#myCanvas2 {
+    border: none;
+    background-clip:padding-box;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: lightblue;
+    height: 257px;
+    width: 421px;
+}
+
+#box,
+#box2 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(255,0,0,.1);
+    border: 2px solid black;
+}
+
+#controls {
+    color: white;
+    display: inline-block;
+    position: relative;
+    left: 0;
+    top: 0;
+    padding: 2px;
+    width: 300px;
+}
+
+#colors {
+    border: 2px solid #555;
+    position: absolute;
+    right: 5px;
+    top: 3px;
+}
+
+#currentColors {
+
+    
+}
+
+#controls ul {
+    list-style: none;
+    padding: 0;
+}
+
+#controls li label {
+  width: 90px;
+  display: inline-block;
+  padding-bottom: 3px;
+  padding-top: 3px;
+  font-family: sans serif, "Tw Cen MT Bold";
+}
+
+#controls li input {
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 15px;
+    margin-left: 0px; 
+}
+
+#controls li select option {
+    width: 75px;
+}
+
+#controls li input {
+    display: inline-block;
+    width: 75px;
+}
+
+#controls li input[type=range] {
+    width: 75px;
+}
+
+/* this is how you change the font of select options!!! */
+#animationFunctionId,
+#fractalImageId,
+#pixelColorsId,
+#refColorId,
+#scaleCounterId,
+#hslOrHsb,
+#b1,
+#b2,
+#b3,
+#b4
+{ /* select id */
+    width: 78.75px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    margin-left: 0px;
+    font-size: 16px;
+}
+
+#animationFunctionId option,
+#fractalImageId option,
+#pixelColorsId option,
+#refColorId option,
+#scaleCounterId option,
+#hslOrHsb option {
+    padding-left: 10px;
+    width: 72px;
+    display: inline-block;
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 15px;
+}
+
+#mode-controls {
+    letter-spacing: 1px;
+}
+
+#timeout, 
+#colorOffsetAmount, 
+#fractalImageId {
+    
+}
+
+#drawImage,
+#animateImage {
+  width: 75px;
+  display: inline-block;
+}
+
+#buttonControl,
+#buttonControl2 {
+  vertical-align: top;
+  margin-top: 1em;
+}
+
+.min-max {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+#controls .expand .min-max > span {
+    font-family: sans serif, "Tw Cen MT Bold";
+    font-size: 15px;
+}
+  
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/mouse-events.js"></script>
+<script src="/js/panel-show-hide.js"></script>
+
+
+<script language="javascript">
+
+
+function logStartMove(evt) {
+  Log.Notice('logStartMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY) 
+}
+
+function captureMouseUp(evt) {
+  obj = evt.data;
+  $('#' + obj.boxId)
+    .bind('mouseup',obj,endMove);
+}
+
+function unbindMouseUp(evt) {
+  obj = evt.data;
+  $('#' + obj.boxId)
+    .unbind('mouseup');
+}
+
+function logDragMove(evt) {
+  Log.Notice('logDragMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY) 
+}
+
+function logEndMove(evt) {
+  Log.Notice('logEndMove was called evt.offsetX=' + evt.offsetX + ' evt.offsetY=' + evt.offsetY) 
+}
+
+var myObject = function(canvasId,boxId,height,width,startUpData) {
+  this.id = canvasId;
+  this.boxId = boxId;
+  this.name = canvasId;
+  this.mouseBox = '#' + canvasId;
+  this.height = height;
+  this.width = width;
+  this.factor = 1.25;
+  this.rect = {
+    start: {
+      x: -2.3,
+      y: -1.5
+    },
+    end: {
+      x: 1.7,
+      y: 1.5
+    }
+  };
+  this.rectTmp = {
+    start: {
+      x:-1.0,
+      y:-1.0
+    },
+    end:{
+      x:1.0,
+      y:1.0
+    }
+  };
+  this.dragStart = {
+    x: 0.0,
+    y: 0.0,
+  };
+  this.dragCurrent = {
+    x: width,
+    y: height,
+  };
+  this.dragEnd = {
+    x: width,
+    y: height,
+  };
+  this.dx = 2.0;
+  this.dy = 2.0;
+  
+  this.callStartMove = [logStartMove,captureMouseUp,setupRect];
+  this.callDragMove  = [drawBox];
+  this.callEndMove   = [logEndMove,unbindMouseUp,calculateRect];
+  
+   
+	if (arguments.length == 5) {
+		for (var prop in startUpData) {
+			this[prop] = startUpData[prop];
+		}
+	}
+	
+  this.drawImage = function (data) {
+    
+    this.canvas = document.getElementById(this.id);
+    this.canvas.setAttribute('height',this.height);
+    this.canvas.setAttribute('width',this.width);
+    
+    if (!this.canvas || !this.canvas.getContext) {
+      Log.Debug('doImageStuff: canvas or canvas.getContext not found');
+      return;
+    }
+    
+    this.context = this.canvas.getContext('2d');
+    
+    if (!this.context || !this.context.putImageData) {
+      Log.Debug('doImageStuff: context or context.putImageData not found');
+      return;
+    }
+    
+    if (!this.context.createImageData) {
+      Log.Debug('doImageStuff: context.createImage exists');
+      this.imageData = this.context.createImageData (this.height, this.width);
+    } else if (this.context.getImageData) {
+      this.imageData = this.context.getImageData(0, 0, this.width, this.height);
+      Log.Notice('doImageStuff: context.getImageData exists length=' 
+          + this.imageData.data.length);
+    } else {
+      Log.Debug('doImageStuff: using default image creation method');
+      this.imageData = {
+          'width': this.width,
+          'height': this.height, 
+          'data':new Array(this.width*this.height*4)
+      };
+    }
+    
+    for (var i=0, n=this.imageData.data.length; i<n; i++) {
+      if ((i-3)%4 == 0) {
+        this.imageData.data[i] = 255;
+      }
+      else {
+        this.imageData.data[i] = 221;
+      }
+    }
+    
+    this.pixels = this.imageData.data;
+    this.context.putImageData(this.imageData, 0, 0);
+  };
+	
+  return this;
+};
+
+
+var setupRect = function(evt) {
+  var obj = evt.data;
+  obj.target = evt.target;
+  obj.height = evt.currentTarget.clientHeight;
+  obj.width  = evt.currentTarget.clientWidth;
+  obj.offsetLeft = evt.clientX - evt.offsetX;
+  obj.offsetTop  = evt.clientY - evt.offsetY;
+}
+
+var drawBox = function(evt) {
+  var obj = evt.data;
+  
+  if (obj.dragCurrent.y-obj.dragStart.y > 0) {
+    obj.minY = obj.dragStart.y;
+    obj.maxY = obj.dragCurrent.y;
+  } else {
+    obj.minY = obj.dragCurrent.y;
+    obj.maxY = obj.dragStart.y;
+  }
+  
+  if (obj.dragCurrent.x-obj.dragStart.x > 0) {
+    obj.minX = obj.dragStart.x;
+    obj.maxX = obj.dragCurrent.x;
+  } else {
+    obj.minX = obj.dragCurrent.x;
+    obj.maxX = obj.dragStart.x;
+  }
+	
+  var msg = 'drawBox top=' + (obj.minY-obj.offsetTop) 
+		+ ' left = ' + (obj.minX-obj.offsetLeft) 
+		+ ' height=' + (obj.maxY-obj.minY) 
+		+ ' width=' + (obj.maxX-obj.minX);
+		
+  Log.Warning(msg);
+  
+
+  $('#' + obj.boxId).css({
+    top:obj.minY-obj.offsetTop,
+    left:obj.minX-obj.offsetLeft,
+    height:obj.maxY-obj.minY,
+    width:obj.maxX-obj.minX});
+ /*
+    var ect = evt.currentTarget;
+    var y1 = ect.offsetTop + ect.clientTop;
+    var x1 = ect.offsetLeft + ect.clientLeft;
+    var height = ect.height;
+    var width = ect.width;
+ */
+
+  Log.Debug('drawBox finished');
+};
+
+var calculateRect = function (evt)  {
+  
+  var obj = evt.data;
+  var ect = evt.currentTarget
+
+  var y1 = ect.offsetTop + ect.clientTop;
+  var x1 = ect.offsetLeft + ect.clientLeft;
+  var y2 = y1 + ect.clientHeight;
+  var x2 = x1 + ect.clientWidth;
+  var dxNew = ect.clientWidth;
+  var dyNew = ect.clientHeight;
+  
+  var heightToWidthRatio = dyNew/dxNew;
+  var height = obj.height*1.0;
+  var width =  obj.width*1.0;
+  var dxCurrent = (obj.maxX-obj.minX)/width*dxNew;
+  var dyCurrent = (obj.maxY-obj.minY)/height*dyNew;
+ 
+  /*
+  var dxNew = (obj.maxX-obj.minX)/width*dxCurrent;
+  var dyNew = (obj.maxY-obj.minY)/height*dyCurrent;
+ 
+  var rectMinX = obj.rect.start.x 
+	   + (obj.minX-obj.offsetLeft)*(obj.rect.end.x-obj.rect.start.x)/width;
+
+  var rectMinY = (obj.rect.start.y 
+	   + (height-(obj.maxY-obj.offsetTop))*(obj.rect.end.y-obj.rect.start.y)/height) ;
+  var rectMaxX = obj.rect.end.x 
+	   - (width-obj.maxX-obj.offsetLeft)*(obj.rect.end.x-obj.rect.start.x)/width;
+  var rectMaxY = obj.rect.end.y 
+	   - (obj.minY-obj.offsetTop)*(obj.rect.end.y-obj.rect.start.y)/height;
+	*/
+	
+	var rectMinX = obj.rect.start.x 
+	   + (obj.minX-obj.offsetLeft)*(obj.rect.end.x-obj.rect.start.x)/width;
+  var rectMinY = (obj.rect.start.y 
+	   + (height-(obj.maxY-obj.offsetTop))*(obj.rect.end.y-obj.rect.start.y)/height) ;
+  var rectMaxX = obj.rect.end.x 
+	   - (width-(obj.maxX-obj.offsetLeft))*(obj.rect.end.x-obj.rect.start.x)/width;
+  var rectMaxY = obj.rect.end.y 
+	   - (obj.minY-obj.offsetTop)*(obj.rect.end.y-obj.rect.start.y)/height;
+	
+  Log.Debug('calculateRect \nwidth=' + width 
+	  + '\nheight=' + height + '\nminX =' + obj.minX 
+    + '\nminY=' + obj.minY + '\nmaxX=' + obj.maxX 
+		+ '\nmaxY=' + obj.maxY 
+    + '\nrectMinX=' + rectMinX + '\nrectMinY=' + rectMinY 
+		+ '\nrectMaxX=' + rectMaxX + '\nrectMaxY=' + rectMaxY);
+		
+  //Log.Debug('calculateRect dxNew=' + dxNew + ' dyNew=' + dyNew);
+  Log.Debug('calculateRect dxNew=' + dxCurrent + ' dyNew=' + dyCurrent);
+
+  var rectTmp = obj.rectTmp;
+  
+  rectTmp.start.x = rectMinX;
+  rectTmp.start.y = rectMinY;
+  rectTmp.end.x = rectMaxX;
+  rectTmp.end.y = rectMaxY;
+  
+  var boxHeight = ect.height;
+  var boxWidth  = ect.width;
+  
+  $('#' + obj.boxId).css({
+     top:y1,
+     left:x1,
+     height:boxHeight,
+     width:boxWidth});
+  
+};
+
+var testObject = new myObject('myCanvas',
+	            'box',500,1000,{colorCanvasId:'currentColors'});
+
+$(document).ready(function() {
+  
+    
+  
+  Log.Notice('Document Ready');
+  $('#myCanvas').bind('mousedown',
+	             testObject,startMove);
+  //Log.Remove();
+});
+</script>
+ 
+
+</head>
+<body>
+
+<div id="controls" >
+</div>
+<div id="main">
+ <canvas id="myCanvas"
+        >Your browser doesn't support canvas</canvas>
+ <div id="box"></div>
+</div>
+</body>
+</html>

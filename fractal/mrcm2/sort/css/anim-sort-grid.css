@@ -13,8 +13,10 @@
 }
 #ul2 {
     display: grid;
-    grid-template-columns: repeat(3, auto);
+    grid-template-columns: repeat(4, auto);
     padding-inline-start: 0;
+    justify-content: space-between;
+
 }
 #ul1 > li,
 #ul2 > li {

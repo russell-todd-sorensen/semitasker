@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>SVG Gradients</title>
+
+<link rel="stylesheet" type="text/css" href="/css/log.css" media="all">
+<link rel="stylesheet" type="text/css" href="/js/jQuery.UI.Combined.1.8.20.1/Content/Content/themes/base/jquery.ui.all.css">
+
+
+
+<style>
+#currentColors {
+  border: 1px solid red;
+  display: inline-block;
+  vertical-align: top;
+}
+#colors {
+  display: inline-block;
+  border: 3px solid blue;
+  vertical-align: top;
+}
+#myCanvas {
+  border: 3px solid black;
+}
+#main {
+  display: inline-block;
+  width: 1600px;
+  height: 800px;
+  padding: 5px;
+  border: 2px solid green;
+  vertical-align: top;
+}
+
+svg,
+#svgContainer {
+  display: inline-block;
+  vertical-align: top;
+}
+
+svg {
+  border: 1px solid orange;
+}
+
+#svgContainer {
+  width: 200px;
+}
+
+#form1 {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+}
+</style>
+
+<script src="/js/jquery-1.7.1.js"></script>
+<script src="/js/jQuery.UI.Combined.1.8.20.1/Content/Scripts/jquery-ui-1.8.20.js"></script>
+<script src="/js/d3.v3.js"></script>
+<script src="/js/log-2.js"></script>
+<script src="/js/data.js"></script>
+<script src="/js/form-save-restore.js"></script>
+<script src="/js/binary-hex-conversions.js"></script>
+<script src="/js/example-library.js"></script>
+<script src="/js/svg-transform.js"></script>
+<script src="/js/schedule-function.js"></script>
+<script src="/js/mouse-events.js"></script>
+<script src="js/mset.js"></script>
+
+<script>
+
+var testCanvas = function (id,height,width) {
+    this.id = id;
+    this.selector = '#' + id;
+    this.canvas = null;
+    this.pixels = null;
+    this.context = null;
+    this.imageData = null;
+    this.counters = null;
+    this.height = height;
+    this.width = width;
+    
+    this.init = function () {
+        this.canvas = document.getElementById(this.id);
+        this.canvas.setAttribute('height',this.height);
+        this.canvas.setAttribute('width',this.width);
+        
+        if (!this.canvas || !this.canvas.getContext) {
+            Log.Debug('doImageStuff: canvas or canvas.getContext not found');
+            return;
+        }
+       
+        this.context = this.canvas.getContext('2d');
+       
+        if (!this.context || !this.context.putImageData) 
+        {
+            Log.Debug('doImageStuff: context or context.putImageData not found');
+            return;
+        }
+       
+        if (!this.context.createImageData) 
+        {
+            Log.Debug('doImageStuff: context.createImage exists');
+            this.imageData = this.context.createImageData (this.height, this.width);
+        } 
+        else if (this.context.getImageData) {
+            this.imageData = this.context.getImageData(0, 0, this.width, this.height);
+            Log.Notice('doImageStuff: context.getImageData exists length=' 
+                 + this.imageData.data.length);
+        } 
+        else {
+            Log.Debug('doImageStuff: using default image creation method');
+            this.imageData = {
+                'width': this.width,
+                'height': this.height, 
+                'data':new Array(this.width*this.height*4)
+            };
+        }
+       
+        this.pixels = this.imageData.data;
+    
+        for (var i=0, n=this.pixels.length; i<n; i++) 
+        {
+          this.pixels[i] = 255;
+        }
+    };
+    
+    this.config = {
+    	lineWidth: 1,
+    	strokeStyle:'#556699',
+    	x1: 100,
+    	y1: 100,
+    	x2: 200,
+    	y2: 200,
+    	rotate: 0.0,
+    	scaleX: 1.0,
+    	scaleY: 1.0,
+    	translateX: 0.0,
+    	translateY: 0.0,
+    	shadowOffsetX: 0,
+    	shadowOffsetY: 0,
+    	shadowColor: 'rgba(0,0,0,255)',
+    	shadowBlur: 0,
+    	lineDashArray: [],
+    	
+    };
+    
+    this.draw = function(lineConfig) {
+    	
+    	var config = new Object();
+    	
+    	for (var prop in this.config) {
+    		config[prop] = this.config[prop];
+    	}
+    	
+    	if (lineConfig) {
+    		for (var prop in lineConfig) {
+    			config[prop] = lineConfig[prop];
+    		}
+    	}
+    	
+    	var context = this.context;
+
+    	context.save();
+    	context.translate(config.translateX,config.translateY);
+    	context.rotate(config.rotate);
+    	context.scale(config.scaleX,config.scaleY);
+    	context.lineWidth = config.lineWidth;
+    	context.strokeStyle = config.strokeStyle;
+    	context.shadowOffsetX = config.shadowOffsetX;
+    	context.shadowOffsetY = config.shadowOffsetY;
+    	context.shadowColor = config.shadowColor;
+    	context.shadowBlur = config.shadowBlur;
+    	context.setLineDash(config.lineDashArray);
+    	context.beginPath();
+		context.moveTo(config.x1,config.y1);
+		context.lineTo(config.x2,config.y2);
+		context.closePath();
+		context.stroke();
+    	context.restore();
+    };
+    
+    return this;
+};
+
+var myCanvasObject;
+
+$(document).ready(function () {
+ 
+	Log.Notice('Document Ready');
+	myCanvasObject =  new testCanvas('myCanvas',500,750);
+	myCanvasObject.init();
+});
+
+</script>
+</head>
+<body>
+<form onsubmit="return false;" id='form1'>
+ <button onClick="">Refresh</button>
+</form>
+
+<div id="main">
+ <canvas id="myCanvas"
+         height="50" width="100">Your browser doesn't support canvas</canvas>
+</div>
+
+</body>
+</html>

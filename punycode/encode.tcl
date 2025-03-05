@@ -115,7 +115,8 @@ set solution {
 
 }
 
-set pagedir [ns_server -server ns pagedir]
+#set pagedir [ns_server -server ns pagedir]
+set pagedir "/web/servers/ns/semitasker"
 set path [string trimleft [file dirname [ns_conn url]] /]
 set fileDirectory [file join $pagedir $path]
 source [file join $fileDirectory punycode.tcl]
